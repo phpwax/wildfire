@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <?=stylesheet_link_tag('cms-stylesheet.css')?>
+  <title><?=$cms_title?></title>
+</head>
+
+<body>
+  <!-- HEAD SECTION, logo & tabs -->
+  <div id="heading">
+    <div id="logo">
+      <h6>WebXpress</h6>
+    </div>
+
+    <ul id="tabs">
+      <li class="activeTab"><a href="/admin/home">Administration Home</a></li>
+
+      <li><a href="/admin/home/support">Contact Technical Support</a></li>
+
+      <li><a href="/">View the main site</a></li>
+
+      <li><a href="/admin/home/logout">Logout</a></li>
+    </ul>
+  </div>
+
+  <div style="text-align:center; width:auto;">
+    <div class="clearfix"></div>
+    <?=info_messages()?>
+    <?=$content_for_layout?>
+    
+  </div>
+  
+  
+</body>
+</html>

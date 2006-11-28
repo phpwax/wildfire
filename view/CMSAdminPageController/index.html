@@ -1,0 +1,22 @@
+Items Per Page: <a href="?list_limit=1">1</a> | <a href="?list_limit=2">2</a> | <a href="?list_limit=3">3</a> | <a href="?list_limit=10">10</a><br />
+Page: <?= cms_pagination( $this->page_no, $total_items, $this->list_limit )?> - <?=$total_items?> Items
+<table>
+  <tr>
+    <?foreach($list_scaffold_columns as $heading => $human_heading):?>
+      <th><a href="?order=<?=$heading?>"><?=$human_heading?></a></th>
+    <?endforeach;?>
+      <th>Operations</th>
+  </tr>
+  <?foreach($all_rows as $row):?>
+  <tr>
+    <?foreach($list_scaffold_columns as $column => $human_column):?>
+      <td style="vertical-align:top;"><?=$row->$column?></td>
+    <?endforeach;?>
+    <td style="width:120px;">
+			<?=link_to("<img src='/images/cms-icon-view.png' alt='View Item' title='View Item' class='operation-icon' />", array("action" => "view", "id" => $row->id))?>
+			<?=link_to("<img src='/images/cms-icon-edit.png' alt='Edit Working Copy' title='Edit Working Copy' class='operation-icon' />", array("action" => "working_copy", "id" => $row->id))?>
+      <?=link_to("<img src='/images/cms-icon-trash.png' alt='Trash Item' title='Trash Item' class='operation-icon' />", array("action" => "trash", "id" => $row->id), array("confirm" => "Are you sure you want to Trash this item?", "name" => "trash"))?>
+    </td>
+  </tr>
+  <?endforeach;?>
+</table>

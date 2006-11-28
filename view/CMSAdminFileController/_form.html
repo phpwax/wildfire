@@ -1,0 +1,13 @@
+  <?=file_field($file_to_edit, "filename", array(),"Choose a file to upload")?><br />
+  <?if($existing_image):?>
+    <em>Choosing another file will replace it...
+      <?=link_to("click to view the existing one.", $existing_image, array("window"=>$existing_image))?>
+    </em>
+    <br />
+  <?endif;?>
+  
+  <?=text_area($file_to_edit, "description", array("rows"=>"4", "cols"=>"35"))?><br />
+  <?=submit_field($file_to_edit, "Save File")?> 
+  
+  <?=link_to_function("Cancel", "$('row-edit-".$file_to_edit->id."').update('')")?>
+  

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<?=stylesheet_link_tag('cms-stylesheet.css')?>
+	<title><?=$cms_title?></title>
+	<?=javascript_include_tag("defaults")?>
+</head>
+
+<body>
+<!-- TOP SEPARATING LINE -->
+<div id="topbar">
+	<h6><?=$cms_title?></h6>
+</div>
+
+<div id="heading">
+	<div id="tabs">
+		<ul>
+			<?if($tab_links):?>
+	      <?foreach($tab_links as $action=>$text):?>
+	  	    <li><?=link_to($text, array("action"=>$action))?></li>
+	  	  <?endforeach;?>
+	  	<?endif;?>
+		</ul>
+	</div>
+	<div id="logo">
+		<h5><?=$build_type?> Build: <?=$build_version_number?></h5>
+	</div>
+</div>
+
+<!-- END HEADER -->
+<!-- MENU -->
+<div id="mainnav">	
+	<ul>
+		<?php foreach( $menu_array as $menu_item ): ?>
+			<li <?= ( $menu_item['selected'] === true ) ? 'class="itemselected"':'';?>>
+				<a href="<?=$menu_item['url']?>"><?=$menu_item['name']?></a>
+			</li>
+		<?php endforeach?>
+		<li><?=$main_menu_title?></li>
+		<?=$main_sub_menu?>
+	</ul>
+</div>
+
+<!-- CONTENTS -->
+<div id="pagecontents">
+	<h1><?=$display_name?> :</h1>
+	<h2><?=$display_action_name?></h2>
+
+	<ul id="submenu">
+    <?if($sub_links):?>
+      <?foreach($sub_links as $action=>$text):?>
+  	    <li><?=link_to($text, array("action"=>$action))?></li>
+  	  <?endforeach;?>
+  	<?endif;?>
+	</ul>
+
+	<div id="content">
+  <?=info_messages()?>
+  <?=$content_for_layout?>
+	</div>
+</div>
+
+
+<div id="footer">
+	<p>footer</p>
+</div>
+
+</body>
+</html>

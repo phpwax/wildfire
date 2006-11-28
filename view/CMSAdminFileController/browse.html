@@ -1,0 +1,32 @@
+<?=stylesheet_link_tag("file-browser")?>
+<form id="filter_form" action="">
+  <strong>Filter files:</strong> <input type="text" id="file_filter" name="filter" />
+</form>
+<?=observe_field("file_filter", array(
+  "url" => array("action"=>"filter"),
+  "frequency" => "1",
+  "update"=>"all_files",
+  "with"=>"'filter='+value"
+))?>
+
+<div id="filesystem">
+  <div id="root_folder"><?=$root_folder?></div>
+  <div id="all_files">
+    <?=$files_partial?>
+  </div>
+</div>
+
+
+<div id="file_info" class="clearfix">
+  <h4>File Information</h4>
+  <div id="file_info_box">
+    <p>No file selected</p>
+  </div>
+  
+  <h4>Upload a new file</h4>
+  <div id="file_upload_box">
+    <form action="create" method="post" enctype="multipart/form-data">
+      <?=$form?>
+    </form>
+  </div>
+</div>
