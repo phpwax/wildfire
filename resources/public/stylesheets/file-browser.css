@@ -1,0 +1,52 @@
+#filesystem {
+	padding:20px;
+	float:left;
+	width:55%;
+}
+#file_info {
+	margin-top:20px;
+	float:left;
+	width:34%;
+	background:#E1E1E1;
+}
+#file_info h4 {
+	background:#333333;
+	color:white;
+	padding:2px 12px;
+}
+#file_upload_box {
+	padding:2px 12px;
+}
+#root_folder {
+	color:white;
+	padding:2px 18px;
+	font-weight:bold;
+	background:#333333 url('/images/filesystem/arrow_down_peppermint.png') no-repeat 4px center;
+}
+.file_row {
+	padding:2px 26px;
+	border-bottom:1px #444444 dotted;
+	background:#E1E1E1 url('/images/filesystem/page_peppermint.png') no-repeat 12px center;
+}
+#file_info_box {
+	padding:8px;
+}
+
+#file_info_box p {
+	margin:6px 0;
+}
+
+#file_info_box input {
+	background:#E2E2E2;
+	border:1px solid #666666;
+}
+.operations {
+	float:right;
+}
+.operations img {
+	border:0;
+}
+textarea {
+  width:100%;
+  height:auto;
+}
