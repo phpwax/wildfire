@@ -1,8 +1,0 @@
-<h2>Edit a file</h2>
-<?=error_messages_for("cms_resource")?>
-<form action="edit/<?=$file_to_edit->id?>" method="post" enctype="multipart/form-data">
-  <?=$form?>
-  <?=link_to("Cancel", array("action"=>"index"))?>
-  
-</form>
-
