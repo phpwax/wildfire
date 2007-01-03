@@ -1,0 +1,40 @@
+<?=error_messages_for_sessions()?>
+<div id="filter_block">
+  <form id="filter_form" action="">
+    <strong>Filter:</strong> <input type="text" id="filter_field" name="filter" />
+  </form>
+  <?=observe_field("filter_field", array(
+    "url" => array("action"=>"filter"),
+    "frequency" => "1",
+    "update"=>"list_rows",
+    "with"=>"'filter='+value"
+  ))?>
+</div>
+<div id="new-item">
+</div>
+<form action="email" method="post" enctype="multipart/form-data">
+	<table id="item_list_container" class="sortable">
+	 <thead>
+	   <tr id ="list_heading">
+	     <th class="column"> </th>
+	     <?foreach($scaffold_columns as $column=>$params):?>
+	       <th class="column"><?=humanize($column)?></th>
+	     <?endforeach?> 
+	     <th class="column">Operations</th>
+	   </tr>
+	 </thead>
+	 <tbody id="list_rows">
+	  <?=$list?> 
+	 </tbody> 
+	</table>
+	
+	<ul class="extra_options">
+		<li><?=template_drop_down("emailtemplate")?></li>
+		<li><input type="image" src="/images/cms/button_send.gif" name="submit" id="submit"/></li>
+		<li><input type="image" src="/images/cms/button_send_all.gif" name="submit_all" id="submit_all" /></li>
+		<li><a href="csv">export all as csv</a></li>
+		<li><a href="csv/active">export active as csv</a></li>			
+	</ul>
+</form>
+
+<?=pagination_links($model)?>

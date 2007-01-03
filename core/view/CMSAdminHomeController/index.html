@@ -1,0 +1,16 @@
+<h3>Welcome to the WebXpress CMS</h3>
+<p>This is the Home of the WebXpress CMS. To edit the content and configuration of your site please use the menu system on the left hand side.</p>
+<br />
+<h4>Latest 'Page' Activity</h4>
+<ul>
+	<?php foreach($page_rows as $row):?>
+	<li><?=$row->title?></li>
+	<?php endforeach?>
+</ul>
+<br />
+<h4>Latest 'Articles' Activity</h4>
+<ul>
+	<?php foreach($article_rows as $row):?>
+	<li><?=$row->title?></li>
+	<?php endforeach?>
+</ul>

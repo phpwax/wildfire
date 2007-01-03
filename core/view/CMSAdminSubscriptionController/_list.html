@@ -1,0 +1,30 @@
+<?$current_row = 1?>
+
+<?foreach($all_rows as $row):?>
+  <?$current_row = 1 - $current_row?>
+    <tr id="row-<?=$row->id?>" class="item_row<?=$current_row?> clearfix">
+      <td id="icon_row">
+        <?
+				if($row->status > 0) { 
+					$checked = true;
+				} else { 
+					$checked=false;
+				}
+				?>
+				<?=check_box_tag("sendto[]", $row->id, $checked, array(), false);?>
+      </td>
+      <?foreach($scaffold_columns as $column=>$params):?>
+        <td class="column">
+          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id), array("class" =>"lbOn"))?>
+          <?else:?>
+          <?=$row->$column?>
+          <?endif;?>
+        </td>
+      <?endforeach?>
+      <td class="column">
+        <?=link_to(image_tag("cms/button_edit.gif"), array("action"=>"edit", "id"=>$row->id), array("class" =>"lbOn"))?> 
+        <?=link_to(image_tag("cms/button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
+				
+      </td>
+    </tr>
+<?endforeach?>

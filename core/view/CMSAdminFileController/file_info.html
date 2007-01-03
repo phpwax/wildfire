@@ -1,0 +1,16 @@
+<p>
+  <strong>Filename: </strong><?=$show_file->filename?>
+</p>
+<p>
+  <strong>File Type: </strong><?=$show_file->type?>
+</p>
+<p>
+  <strong>File Size: </strong><?=$file_size?>
+</p>
+<p>
+  <img src="show_image/<?=$show_file->id?>" />
+</p>
+<hr />
+<p>
+  <?=button_to("Download", array("action"=>"download_file", "id"=>$show_file->id))?>
+</p>

@@ -1,0 +1,25 @@
+<fieldset>
+	<?=form_heading("Edit Page")?>
+  <?=medium(text_field($model, "title"))?>
+	<?=small(parent_tree_as_select($model,$model_class,'title'))?>
+	<?php
+		//echo small(sort_order_as_select($model,$model_class,'title'));
+	?>
+  <?if($is_allowed['url']==true):?>
+ 		<?=small(text_field($model, "url"))?>
+ 	<?endif;?>
+	<?if($is_allowed['published']==true):?>
+  	<?=small(select($model, "published", array("0"=>"Draft", "1"=>"Live")))?>
+	<?endif;?>
+	
+  <?=large(text_area($model, "excerpt", array("rows"=>"2")))?>
+  <?=large(simple_wysiwyg($model, "content"))?>
+	<?=form_divider()?>
+	<div class="related-tags">
+		<?=small("<h5>Related Tags</h5>".tags_as_checkbox('tags[]', $this->tags, $model->tags))?>
+	</div>
+	<div class="related-images">
+		<?=small("<h5>Related Images</h5>".files_as_checkbox('files[]', $this->images, $model->images))?>
+	</div>
+  <?=small(submit_field($model, "Save"))?>
+</fieldset>

@@ -1,0 +1,12 @@
+<?php
+//system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/* ".CONTROLLER_DIR);
+system("cp -R ".PLUGIN_DIR."cmscore/resources/public/images/* ".PUBLIC_DIR."images/");
+system("cp -R ".PLUGIN_DIR."cmscore/resources/public/stylesheets/* ".PUBLIC_DIR."stylesheets/");
+system("cp -R ".PLUGIN_DIR."cmscore/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
+
+//system("chmod 0777 -R ".PUBLIC_DIR);
+//system(WAX_ROOT."script/migrate directory ".PLUGIN_DIR."cmscore/migrate/");
+echo "All of the files have now been installed. To complete the installation:"."\n";
+echo "1... Add 'AutoLoader::include_plugin('cmscore');' to the bottom of your config/environment.php file."."\n";
+echo "2... Enjoy your lovely CMS!"."\n";
+?>

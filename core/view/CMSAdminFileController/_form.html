@@ -1,0 +1,9 @@
+<fieldset>
+  <?=large(file_field($model, "filename", array(),"Choose a file to upload"), "This replaces any existing file")?>
+  <?=form_divider()?>
+  <?=large(text_area($model, "caption", array("rows"=>"2")))?>
+	<div class="related-tags">
+		<?=small("<h5>Related Tags</h5>".tags_as_checkbox('tags[]', $this->tags, $model->tags))?>
+	</div>
+  <?=small(submit_field($model, "Save File"))?> 
+</fieldset>

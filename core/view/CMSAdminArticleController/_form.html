@@ -1,0 +1,15 @@
+<fieldset>
+	<legend>Editor</legend>
+  <?=medium(text_field($model, "title"))?>
+	<?=small(select($model, "article_type", $model->article_types))?>
+  <?=small(select($model, "published", $model->status_options))?>
+  <?=large(text_area($model, "excerpt", array("rows"=>"2")))?>
+  <?=large(simple_wysiwyg($model, "content"))?>
+	<div class="related-tags">
+		<?=small("<h5>Related Tags</h5>".tags_as_checkbox('tags[]', $this->tags, $model->tags))?>
+	</div>
+	<div class="related-images">
+		<?=small("<h5>Related Images</h5>".files_as_checkbox('files[]', $this->images, $model->images))?>
+	</div>
+  <?=small(submit_field($model, "Save"))?>
+</fieldset>
