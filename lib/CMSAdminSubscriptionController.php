@@ -40,6 +40,11 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
     $this->model = new $this->model_class($this->id);
 		$this->form = $this->render_partial("form");
 		if(!$this->save($this->model) && $this->model->is_posted() ){
+			$errors = $this->model->get_errors();
+					
+ 			foreach($errors as $error){
+				Session::add_error($error['field']." ".$error['message']);
+			}
 			$this->redirect_to($this->referrer);
 		}
 	}
