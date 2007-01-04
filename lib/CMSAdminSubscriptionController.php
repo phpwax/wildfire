@@ -17,9 +17,8 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 	
 	public function index(){
 		$this->cmssub = new CmsSubscription();
-		parent::index();
-		$sql = "SELECT * FROM `cms_subscription` GROUP BY email";
-		$this->all_rows = $this->cmssub->find_by_sql($sql);
+		$this->list_limit = 15;
+		parent::index();		
 		//hack to include the helper file
 		Autoloader::include_from_registry('EmailTemplateHelper');
 		Autoloader::register_helpers();
@@ -47,7 +46,8 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 		//if send all button is used
 		elseif(!empty($_POST['send_all_x']) || !empty($_POST['send_all_y']) ){
 			$all_emails = new CmsSubscription();
-			$all_emails = $all_emails->find_all();
+			$sql = "SELECT * FROM cms_subscription GROUP BY email";
+			$all_emails = $all_emails->find_by_sql($sql);
 			$this->send_all_emails($all_emails, $_POST['emailtemplate']);
 		}
 		//otherwise send the emails
@@ -98,13 +98,17 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 	}
 
 	private function send_email($info, $template){
-		
+
+		if(!$info->email_md5){
+			$info->email_md5 = md5($info->email);
+			$info->update();
+		}
 	
 		if(!$this->has_been_sent($info->email, $template) ){
 			$email = new WXEmail();
 			$email->from = $this->fromEmail;
-			$email->fromName = $template;
-			$email->subject	 = $template;
+			$email->fromName = str_ireplace("-", " ", $template);
+			$email->subject	 = str_ireplace("-", " ", $template);
 			$email->add_to_address($info->email);
 			$email->is_html(true);
 			$email->body = file_get_contents(VIEW_DIR . "emailtemplates/".$template.".html");
