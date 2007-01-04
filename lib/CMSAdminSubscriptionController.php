@@ -36,10 +36,10 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 	*/
 	public function edit() {
 	  $this->id = $this->param("id");
-	  $this->use_layout="lightbox";
+	  $this->use_layout= "lightbox";
     $this->model = new $this->model_class($this->id);
 		$this->form = $this->render_partial("form");
-		if(!$this->save($this->model)){
+		if(!$this->save($this->model) && $this->model->is_posted() ){
 			$this->redirect_to($this->referrer);
 		}
 	}
