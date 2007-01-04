@@ -31,6 +31,18 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 		header('Content-Disposition: attachment; filename="subs.csv"');
 	
 	}	
+	/**
+	* Edit model item in lightbox interface - has shared view cms/view/CONTROLLER/_form.html
+	*/
+	public function edit() {
+	  $this->id = $this->param("id");
+	  $this->use_layout="lightbox";
+    $this->model = new $this->model_class($this->id);
+		$this->form = $this->render_partial("form");
+		if(!$this->save($this->model)){
+			$this->redirect_to($this->referrer);
+		}
+	}
 	
 	public function email(){
 		$this->display_name = "Mailout Results";

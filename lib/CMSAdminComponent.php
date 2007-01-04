@@ -159,7 +159,8 @@ class CMSAdminComponent extends WXControllerBase {
       	Session::add_message($this->display_name." Successfully Saved");
       	$this->redirect_to('index');
 			}
-    } else return false;
+    }
+ 		return false;
 	}
 	
 	/**
