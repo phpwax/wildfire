@@ -124,7 +124,7 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 		if(!$this->has_been_sent($info->email, $template) ){
 			$email = new WXEmail();
 			$email->from = $this->fromEmail;
-			$email->fromName = str_ireplace("-", " ", $template);
+			$email->fromName = "Spirit Health Clubs"
 			$email->subject	 = str_ireplace("-", " ", $template);
 			$email->add_to_address($info->email);
 			$email->is_html(true);
