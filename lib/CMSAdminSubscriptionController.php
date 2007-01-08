@@ -175,7 +175,11 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 	private function do_replacements($string, $model){
 		
 		foreach($model as $field=>$value){			
-			$string = str_ireplace("%" . $field . "%", $value, $string);
+			if(!empty($value)){
+				$string = str_ireplace("%" . $field . "%", $value, $string);
+			} else {
+				$string = str_ireplace("%" . $field . "%", "member", $string);
+			}
 		}
 		return $string;
 	}
