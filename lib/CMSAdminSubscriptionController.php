@@ -124,12 +124,14 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 		if(!$this->has_been_sent($info->email, $template) ){
 			$email = new WXEmail();
 			$email->from = $this->fromEmail;
-			$email->fromName = "Spirit Health Clubs"
+			$email->fromName = str_ireplace("-", " ", $template);
 			$email->subject	 = str_ireplace("-", " ", $template);
 			$email->add_to_address($info->email);
 			$email->is_html(true);
 			$email->body = file_get_contents(VIEW_DIR . "emailtemplates/".$template.".html");
 			$email->body = $this->do_replacements($email->body, $info);
+			//replace the template string
+			$email->body = str_ireplace("%TEMPLATE%", $template, $email->body);
 			$email->send();
 			$this->mark_as_sent($info->id, $info->email, $template);	
 			return true;		
@@ -173,7 +175,7 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 	 * loop though the fields of the model & enter them into the email
 	 */
 	private function do_replacements($string, $model){
-		
+
 		foreach($model as $field=>$value){			
 			if(!empty($value)){
 				$string = str_ireplace("%" . $field . "%", $value, $string);
