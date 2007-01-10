@@ -107,7 +107,7 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 			if($this->send_email($email, $template)) {
 				Session::add_message('Successful -> ' .$email->email);
 			} else {
-			 	Session::add_error('Already Sent -> '.$email->email);
+			 	Session::add_error('Error Sending -> '.$email->email . " Name error (". $email->name.")? or Already Sent");
 			}
 			
 		}	
@@ -119,6 +119,9 @@ class CMSAdminSubscriptionController extends CMSAdminComponent {
 		if(!$info->email_md5){
 			$info->email_md5 = md5($info->email);
 			$info->update();
+		}
+		if(!$info->name){
+			return false;
 		}
 	
 		if(!$this->has_been_sent($info->email, $template) ){
