@@ -13,60 +13,41 @@
 </head>
 
 <body>
-<!-- TOP SEPARATING LINE -->
-<div id="topbar">
-	<h6>Webxpress Administration Console</h6>
-</div>
-
-<div id="heading">
-	<div id="logo">
-    <h6>WebXpress</h6>
-		<h5><?=$build_type?> Build: <?=$build_version_number?></h5>
-  </div>
-
-  <ul id="tabs">
-    <li class="activeTab"><a href="/admin/home">Administration Home</a></li>
-
-    <li><a href="/admin/home/support">Contact Technical Support</a></li>
-
-    <li><a href="/">View the main site</a></li>
-
-    <li><a href="/admin/home/logout">Logout</a></li>
-  </ul>
-</div>
-
-<!-- END HEADER -->
-<!-- MENU -->
-<div id="mainnav">	
-	<ul>
-		<li><a href="/admin/home/">Admin Console Home</a></li>
-		<li><a href="/admin/pages/">Manage Site Pages</a></li>
-		<li><a href="/admin/articles/">Manage Articles</a></li>
-		<li><a href="/admin/tags/">Manage Tags/Categories</a></li>
-		<li><a href="/admin/files/">Upload Images/Files</a></li>
-	</ul>
-</div>
-
-<!-- CONTENTS -->
-<div id="pagecontents">
-	<h1><?=$display_name?> :</h1>
-	<h2><?=$display_action_name?></h2>
-
-	<ul id="submenu">
-    <?if($sub_links):?>
-      <?foreach($sub_links as $action=>$text):?>
-  	    <li><?=link_to($text, array("action"=>$action))?></li>
-  	  <?endforeach;?>
-  	<?endif;?>
-	</ul>
-
-	<div id="content">
-  <?=info_messages()?>
-  <?=$content_for_layout?>
+	<div id="header-container">
+		<img id="webxpress-logo" src="/images/cms/cms_webxpress-logo.gif" alt="WebXpress Logo" />
+		<ul id="primary-navigation">
+	    <li><a href="/admin/home" id="home">CMS Home</a></li>
+	    <li><a href="/admin/home/support" id="support">Support</a></li>
+	    <li><a href="/" id="site">View site</a></li>
+	    <li><a href="/admin/home/logout" id="logout">Logout</a></li>
+	  </ul>
 	</div>
-</div>
-<div id="footer">
-	<p>WebXpress</p>
-</div>
+	<div id="main-navigation-container">	
+		<ul>
+			<li><a href="/admin/home/">Admin Console Home</a></li>
+			<li><a href="/admin/pages/">Manage Site Pages</a></li>
+			<li><a href="/admin/articles/">Manage Articles</a></li>
+			<li><a href="/admin/tags/">Manage Tags/Categories</a></li>
+			<li><a href="/admin/files/">Upload Images/Files</a></li>
+		</ul>
+	</div>
+	<div id="page-container">
+		<div id="page-title">
+			<h1><?=$display_name?> : <?=$display_action_name?></h1>
+		</div>
+		<div id="page-options">
+			<ul id="submenu">
+		    <?if($sub_links):?>
+		      <?foreach($sub_links as $action=>$text):?>
+		  	    <li><?=link_to($text, array("action"=>$action))?></li>
+		  	  <?endforeach;?>
+		  	<?endif;?>
+			</ul>
+		</div>
+		<div id="content">
+	  	<?=info_messages()?>
+	  	<?=$content_for_layout?>
+		</div>
+	</div>
 </body>
 </html>

@@ -198,7 +198,6 @@ ul {
 	padding:10px;
 	border:1px solid #ffecb0;
 	margin:auto;
-	margin-bottom:10px;
 }
 .user_confirmation {
 	color:#333333;
@@ -609,4 +608,37 @@ fieldset{
 	clear:both; 
 	text-align:center;
 	margin-top:30px;
+}
+
+/* Newsletter */
+#preview_newsletter{
+	width:90%;
+	margin-left:20px;
+	border:1px solid #000;
+	height:600px;
+}
+#newsletter-latest-added{
+	width:30%;
+	float:right;
+}
+#newsletter-latest-added .info-box{
+	border:1px solid #ccc;
+	margin-bottom:15px;
+	padding:10px;
+}
+h4{
+	margin-bottom:10px;
+}
+#newsletter-latest-mailouts{
+	width:66%;
+	float:left;
+	border:1px solid #ccc;
+	padding:10px;
+}
+#newsletter-latest-mailouts table{
+	width:100%;
+}
+#newsletter-history{
+	width:90%;
+	margin-left:15px;
 }
