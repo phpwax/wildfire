@@ -1,0 +1,13 @@
+IMPORTANT
+
+The files inside this folder are automatically installed here.
+If you make any modifications, or replace the images then you will
+very likely lose your work.
+
+If you need to make any changes, do it the right way.
+
+1: Create your own stylesheet and link to the images inside a different folder
+   than this one.
+   
+2: Create your own view, inside your /app/view/ folder to override the ones in the plugin.
+   See http://dev.php-wax.com for details of how to do this.
