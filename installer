@@ -1,4 +1,9 @@
 <?php
+echo "------------------------------------------------------------------------"."\n";
+echo "We're now going to copy some files into your application folder."."\n";
+echo "Be careful what you agree to!"."\n";
+echo "------------------------------------------------------------------------"."\n";
+
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/* ".CONTROLLER_DIR);
 system("cp -R ".PLUGIN_DIR."cmscore/resources/public/images/* ".PUBLIC_DIR."images/");
 system("cp -R ".PLUGIN_DIR."cmscore/resources/public/stylesheets/* ".PUBLIC_DIR."stylesheets/");
