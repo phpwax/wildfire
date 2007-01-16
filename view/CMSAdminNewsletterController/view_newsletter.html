@@ -1,0 +1,26 @@
+<h3>View Newsletter</h3>
+<p><b>Title:</b> <?=$title?></p>
+<p><b>Subject:</b> <?=$subject?></p>
+<p><b>History:</b></p>
+<table id="newsletter-history">
+	<tr>
+		<th>Group</th>
+		<th>Sent At</th>
+		<th>Attempted</th>
+		<th>Sent</th>
+		<th>Failed</th>
+		<th>Skipped</th>
+	</tr>
+	<?foreach($send_results as $result):?>
+	<tr>
+		<td><?=$result->group_name?></td>
+		<td><?=$result->date_created?></td>
+		<td><?=$result->attempted?></td>
+		<td><?=$result->sent?></td>
+		<td><?=$result->failed?></td>
+		<td><?=$result->skipped?></td>
+	</tr>
+	<?endforeach;?>
+</table>
+<p><b>Preview:</b></p>
+<iframe id='preview_newsletter' src="../../iframe_preview?id=<?=$id?>"></iframe>

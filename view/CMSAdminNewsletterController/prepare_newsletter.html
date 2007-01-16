@@ -1,0 +1,14 @@
+<h3>Send Newsletter - Stage 1 of 3</h3>
+<p><b>Title:</b> <?=$title?></p>
+<p><b>Subject:</b> <?=$subject?></p>
+<p><b>Preview:</b></p>
+<iframe id='preview_newsletter' src="../../iframe_preview?id=<?=$id?>"></iframe>
+<form action="../../confirm_newsletter" class="form_container" method="post" enctype="multipart/form-data">
+	<fieldset>
+		<?=form_heading("Send To")?>
+		<?=hidden_field_tag('id',$id)?>
+		<?=medium(select_tag("group", $groups))?>
+		<?=form_divider()?>
+  	<?=medium(submit_field($model, "Confirm and Continue"))?>
+	</fieldset>
+</form>

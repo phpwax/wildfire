@@ -1,0 +1,17 @@
+<h3>Manage Newsletters</h3>
+<table>
+	<tr>
+		<th>Title</th>
+		<th>Subject</th>
+		<th>Created</th>
+		<th></th>
+	</th>
+	<?foreach($newsletters as $newsletter):?>
+	<tr>
+		<td><?=$newsletter->title?></td>
+		<td><?=$newsletter->subject?></td>
+		<td><?=$newsletter->date_created?></td>
+		<td><?=link_to('View / History', array("action"=>"view_newsletter", "id"=>$newsletter->id))?> | <?=link_to('Send', array("action"=>"prepare_newsletter", "id"=>$newsletter->id))?> </td>
+	</tr>
+	<?endforeach;?>
+</table>

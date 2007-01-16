@@ -1,0 +1,10 @@
+<fieldset>
+	<?=form_heading("Edit Subscriber")?>
+  <?=medium(text_field($model, "firstname"))?>
+	<?=medium(text_field($model, "surname"))?>
+	<?=medium(text_field($model, "email"))?>
+	<div class="related-tags">
+		<?=small("<h5>Group Tags</h5>".tags_as_checkbox('tags[]', $this->tags, $model->tags))?>
+	</div>
+  <?=small(submit_field($model, "Save"))?>
+</fieldset>
