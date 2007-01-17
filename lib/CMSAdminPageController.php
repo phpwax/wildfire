@@ -12,6 +12,12 @@ class CMSAdminPageController extends CMSAdminComponent{
 	public $model_name = "cms_page";													
 	public $display_name = "Pages";
 	public $is_allowed = array('url'=>30,'published'=>30);
+	public $scaffold_columns = array(
+    "title"   =>array(),
+    "page_status" => array()
+  );
+  public $filter_columns = array("title");
+  
 	
 	public function create() {
 		$file_model = new CmsFile;
