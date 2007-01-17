@@ -5,7 +5,7 @@ echo "Be careful what you agree to!"."\n";
 echo "------------------------------------------------------------------------"."\n";
 
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/* ".CONTROLLER_DIR);
-system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms/ ".PUBLIC_DIR."images/");
+system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images/");
 system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/cms* ".PUBLIC_DIR."stylesheets/");
 system("cp ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
 
