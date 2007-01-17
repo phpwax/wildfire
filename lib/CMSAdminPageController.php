@@ -18,21 +18,5 @@ class CMSAdminPageController extends CMSAdminComponent{
   );
   public $filter_columns = array("title");
   
-	
-	public function create() {
-		$file_model = new CmsFile;
-		$this->images = $file_model->find_all(array('conditions'=>'type LIKE "image%"'));
-		$tag_model = new CmsTag;
-	  $this->tags = $tag_model->find_all();
-		parent::create();
-	}
-	
-	public function edit() {
-		$file_model = new CmsFile;
-		$this->images = $file_model->find_all(array('conditions'=>'type LIKE "image%"'));
-		$tag_model = new CmsTag;
-	  $this->tags = $tag_model->find_all();
-		parent::edit();
-	}
 }
 ?>

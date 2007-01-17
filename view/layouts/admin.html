@@ -11,7 +11,7 @@
 	<?=javascript_include_tag("editors/simple/widgEditor")?>
 </head>
 
-<body>
+<body id="<?=$model_name?>">
 	<div id="header-container">
 		<img id="webxpress-logo" src="/images/cms/cms_webxpress-logo.gif" alt="WebXpress Logo" />
 		<ul id="primary-navigation">
@@ -23,16 +23,15 @@
 	</div>
 	<div id="main-navigation-container">	
 		<ul>
-			<li><a href="/admin/home/">Admin Console Home</a></li>
-			<li><a href="/admin/pages/">Manage Site Pages</a></li>
-			<li><a href="/admin/articles/">Manage Articles</a></li>
-			<li><a href="/admin/tags/">Manage Tags/Categories</a></li>
-			<li><a href="/admin/files/">Upload Images/Files</a></li>
+			<li id="home"><a href="/admin/home/">Admin Console Home</a></li>
+			<li id="pages"><a href="/admin/pages/">Manage Site Pages</a></li>
+			<li id="articles"><a href="/admin/articles/">Manage Articles</a></li>
+			<li id="files"><a href="/admin/files/">Upload Images/Files</a></li>
 		</ul>
 	</div>
 	<div id="page-container">
 		<div id="page-title">
-			<h1><?=$display_name?> : <?=$display_action_name?></h1>
+			<h1><?=$display_name?></h1>
 		</div>
 		<div id="page-options">
 			<ul id="submenu">
