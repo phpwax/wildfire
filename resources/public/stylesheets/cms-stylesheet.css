@@ -146,12 +146,12 @@ p{
 	margin-left:18px;
 }
 #main-navigation-container ul li{
-	display:inline;
+	float:left;
 	line-height:36px;
 	padding-left:10px;
 	padding-right:10px;
 }
-#main-navigation-container a{
+#main-navigation-container ul li a{
 	color:#000;
 	text-decoration:none;
 	display:block;
