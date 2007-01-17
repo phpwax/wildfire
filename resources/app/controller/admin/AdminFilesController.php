@@ -7,7 +7,7 @@ class AdminFilesController extends CMSAdminFileController {
     "type" => array()
   );
   public $filter_columns = array("filename", "caption");
-  public $display_name = "Image";
+  public $display_name = "Images";
   
   
 }

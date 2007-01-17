@@ -138,34 +138,40 @@ p{
 	background-image: url(/images/cms/cms_header-icon-logout.gif);
 }
 #main-navigation-container{
-	height:36px;
+	height:3.5em;
 	border-bottom:1px solid #c2c2c2;
 	background-color:#dedede;
 }
 #main-navigation-container ul{
 	margin-left:18px;
+	padding-top:8px;
 }
 #main-navigation-container ul li{
 	float:left;
 	line-height:36px;
 	padding-left:10px;
-	padding-right:10px;
 }
 #main-navigation-container ul li a{
 	color:#000;
 	text-decoration:none;
 	display:block;
+	padding-right:10px;
 }
 
-#home #home_nav {
+#home #home_nav,
+#pages #pages_nav,
+#articles #articles_nav,
+#image #files_nav {
   background:#FFFFFF url(/images/cms/cms-navigation-left-tab.gif) no-repeat left top;
 }
-#home #home_nav a {
+#home #home_nav a,
+#pages #pages_nav a,
+#articles #articles_nav a,
+#image #files_nav a {
   background:#FFFFFF url(/images/cms/cms-navigation-right-tab.gif) no-repeat right top;
 }
-#pages #pages_nav {
-  
-}
+
+
 
 
 #page-container{
