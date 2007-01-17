@@ -7,7 +7,7 @@ echo "------------------------------------------------------------------------".
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/* ".CONTROLLER_DIR);
 system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images/");
 system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/cms* ".PUBLIC_DIR."stylesheets/");
-system("cp ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
+system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
 
 system("chmod 0777 -R ".PUBLIC_DIR);
 system(WAX_ROOT."script/migrate directory ".PLUGIN_DIR."cms/migrate/");
