@@ -12,7 +12,7 @@ class PageTableMigrate extends WXMigrate {
 		$this->create_column("date_modified", "TIMESTAMP");
     $this->create_column("published", "integer");
 		$this->create_column("parent_id", "integer");
-		$this->create_column("sort", "integer")
+		$this->create_column("sort", "integer");
     $this->create_table("cms_page");
   }
   
