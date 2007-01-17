@@ -161,13 +161,13 @@ p{
 #home #home_nav,
 #pages #pages_nav,
 #articles #articles_nav,
-#image #files_nav {
+#images #files_nav {
   background:#FFFFFF url(/images/cms/cms-navigation-left-tab.gif) no-repeat left top;
 }
 #home #home_nav a,
 #pages #pages_nav a,
 #articles #articles_nav a,
-#image #files_nav a {
+#images #files_nav a {
   background:#FFFFFF url(/images/cms/cms-navigation-right-tab.gif) no-repeat right top;
 }
 
@@ -179,30 +179,31 @@ p{
 	margin-top:12px;
 }
 #page-container #page-title{
-	margin-left:25px;
 	float:left;
+	margin:0 0 10px 25px;
+}
+#page-title h1 {
+  margin:0;
+  padding:0;
 }
 #page-container #page-options{
 	float:left;
+	margin:0 0 10px 10px;
 }
-#page-container #page-options #submenu{
-	line-height:36pt;
-	margin-left:30px;
-}
+
 #page-container #page-options #submenu li{
-	display:inline;
+	float:left;
 	border:1px solid #5f9002;
 	border-left:1px solid #649e02;
-	margin-right:30px;
-	padding:5px 8px;
 	background: url(/images/cms/cms_header-submenu-bg.gif) repeat-x;
 }
-#page-container #page-options #submenu li a{
+#page-container #page-options #submenu li a {
 	color:#fff;
 	text-decoration:none;
 	font-weight:bold;
 	display:block;
-	background:transparent url(/images/cms/cms-new-icon.gif);
+	background:transparent url(/images/cms/cms-icon-new.gif) no-repeat left 2px;
+	padding:4px 12px;
 	padding-left:20px;
 }
 #content{

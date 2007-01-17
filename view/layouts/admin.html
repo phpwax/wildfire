@@ -32,19 +32,17 @@
 	</div>
 	<div id="page-container">
 		<div id="page-title">
-			<h1><?=$display_name?>: 
-			  <div id="page-options">
-    			<ul id="submenu">
-    		    <?if($sub_links):?>
-    		      <?foreach($sub_links as $action=>$text):?>
-    		  	    <li><?=link_to($text, array("action"=>$action))?></li>
-    		  	  <?endforeach;?>
-    		  	<?endif;?>
-    			</ul>
-    		</div>
-			</h1>
+			<h1><?=$display_name?></h1>
 		</div>
-		
+		<div id="page-options">
+			<ul id="submenu">
+		    <?if($sub_links):?>
+		      <?foreach($sub_links as $action=>$text):?>
+		  	    <li><?=link_to($text, array("action"=>$action))?></li>
+		  	  <?endforeach;?>
+		  	<?endif;?>
+			</ul>
+		</div>
 		<div id="content">
 	  	<?=info_messages()?>
 	  	<?=$content_for_layout?>
