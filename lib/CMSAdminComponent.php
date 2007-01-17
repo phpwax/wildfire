@@ -49,7 +49,7 @@ class CMSAdminComponent extends WXControllerBase {
 			  $this->scaffold_columns = array_keys($this->model->column_info());
 		  }
 	  }
-		$this->sub_links["create"] = "Create new". $this->display_name;
+		$this->sub_links["create"] = "Create New ". $this->display_name;
 		if($this->param("page")) {
 		  $this->page_no = $this->param("page");
 	    $this->list_offset = ($this->page_no * $this->list_limit);

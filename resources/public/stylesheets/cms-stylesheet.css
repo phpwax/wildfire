@@ -194,17 +194,16 @@ p{
 	border:1px solid #5f9002;
 	border-left:1px solid #649e02;
 	margin-right:30px;
-	padding-right:8px;
-	padding-left:25px;
-	padding-top:4px;
-	padding-bottom:4px;
-	background-image: url(/images/cms/cms_header-submenu-bg.gif);
-	background-repeat:repeat-x;
+	padding:5px 8px;
+	background: url(/images/cms/cms_header-submenu-bg.gif) repeat-x;
 }
 #page-container #page-options #submenu li a{
 	color:#fff;
 	text-decoration:none;
 	font-weight:bold;
+	display:block;
+	background:transparent url(/images/cms/cms-new-icon.gif);
+	padding-left:20px;
 }
 #content{
 	clear:both;
