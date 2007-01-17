@@ -1,6 +1,6 @@
 <?php
 
-class CmsArticle extends CMSActiveRecord {
+class CmsArticle extends WXActiveRecord {
   
   public $status_options = array("0"=>"draft", "1"=>"published");
  	public $article_types = array('cms_article'=>'Article', "cms_blog"=>'Blog');

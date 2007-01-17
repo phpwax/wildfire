@@ -1,6 +1,6 @@
 <?php
 
-class CmsSubscriber extends CMSActiveRecord {
+class CmsSubscriber extends WXActiveRecord {
 	public function validations() {
  		$this->valid_required("email");
 		$this->valid_required("firstname");

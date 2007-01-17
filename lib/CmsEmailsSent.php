@@ -1,5 +1,5 @@
 <?
-class CmsEmailsSent extends CMSActiveRecord {
+class CmsEmailsSent extends WXActiveRecord {
   
 
   public function before_save(){
