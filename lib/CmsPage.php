@@ -1,6 +1,6 @@
 <?php
 
-class CmsPage extends CMSActiveRecord{
+class CmsPage extends WXActiveRecord{
   
   public $status_options = array("0"=>"draft", "1"=>"published");
   
