@@ -156,6 +156,18 @@ p{
 	text-decoration:none;
 	display:block;
 }
+
+#home #home_nav {
+  background:#FFFFFF url(/images/cms/cms-navigation-left-tab.gif) no-repeat left top;
+}
+#home #home_nav a {
+  background:#FFFFFF url(/images/cms/cms-navigation-right-tab.gif) no-repeat right top;
+}
+#pages #pages_nav {
+  
+}
+
+
 #page-container{
 	width:100%;
 	margin-top:12px;
