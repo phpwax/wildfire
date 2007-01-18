@@ -12,7 +12,7 @@ Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 
 class CMSAdminComponent extends WXControllerBase {
-	protected $model;	
+	public $model;	
 	protected $model_class;
 	public $model_name;													
 	protected $access = "0";
