@@ -1,8 +1,0 @@
-<h3>Send Newsletter - Stage 2 of 3</h3>
-<p>This email this be sent to <?=$subscribers?> subscribers</p>
-<form action="send_newsletter" class="form_container" method="post" enctype="multipart/form-data">
-	 <fieldset style="text-align:center;">
-		<?=hidden_field_tag('timestamp',$timestamp)?>
-		<?=submit_field($model, "Send Newsletter and View Results")?>
-	</fieldset>
-</form>
