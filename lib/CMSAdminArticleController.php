@@ -12,6 +12,12 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	public $model_name = "cms_article";													
 	public $display_name = "Articles";
 	
+	public $scaffold_columns = array(
+    "title"   =>array(),
+    "published" => array()
+  );
+  public $filter_columns = array("title");
+	
 	/**
 	* Create array of tags before executing parent method
 	*/
