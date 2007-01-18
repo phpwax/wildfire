@@ -114,7 +114,6 @@ class CMSAdminComponent extends WXControllerBase {
 	*/
 	public function edit() {
 	  $this->id = $this->param("id");
-	  $this->use_layout="lightbox";
     $this->model = new $this->model_class($this->id);
 		$this->form = $this->render_partial("form");
 		$this->save($this->model);
