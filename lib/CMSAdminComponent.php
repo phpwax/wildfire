@@ -75,7 +75,7 @@ class CMSAdminComponent extends WXControllerBase {
 				return true;
 			}
 		}
-		Session::add_message("You are not authorised to login");
+		Session::add_message("Please login to continue");
 		$this->redirect_to($this->unauthorised_redirect);
   }
 
