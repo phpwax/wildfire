@@ -14,7 +14,7 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	
 	public $scaffold_columns = array(
     "title"   =>array(),
-    "published" => array()
+    "page_status" => array()
   );
   public $filter_columns = array("title");
 	

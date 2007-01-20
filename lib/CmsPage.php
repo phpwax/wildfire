@@ -2,7 +2,7 @@
 
 class CmsPage extends WXActiveRecord{
   
-  public $status_options = array("0"=>"draft", "1"=>"published");
+  public $status_options = array("0"=>"Draft", "1"=>"Published");
   
   public function validations() {
  		$this->valid_unique("url");

@@ -2,7 +2,7 @@
 
 class CmsArticle extends WXActiveRecord {
   
-  public $status_options = array("0"=>"draft", "1"=>"published");
+  public $status_options = array("0"=>"Draft", "1"=>"Published");
  	public $article_types = array('cms_article'=>'Article', "cms_blog"=>'Blog');
 
  	public function page_status() {
