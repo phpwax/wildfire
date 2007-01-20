@@ -170,7 +170,6 @@ class CMSAdminComponent extends WXControllerBase {
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('../index');
 		}
-		$this->redirect_to("../index");
 	}
 	
 }
