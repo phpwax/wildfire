@@ -4,8 +4,8 @@ class CmsPage extends WXActiveRecord{
   
   public $status_options = array("0"=>"Draft", "1"=>"Published");
 
-	public function __construct() {
-		parent::__construct();
+	public function after_setup() {
+		$this->has_many("cms_file", "images");
 	}
   
   public function validations() {
