@@ -20,7 +20,6 @@ class CMSAdminPageController extends CMSAdminComponent{
 	public $allowed_images = 3;
 
 	public function controller_global() {
-		$this->attached_images = $this->model->images;
 		$this->image_partial = $this->render_partial("page_images");
 	}
 	
@@ -32,6 +31,17 @@ class CMSAdminPageController extends CMSAdminComponent{
 	public function remove_image() {
 		$page = new CmsPage($this->param("id"));
 		$page->delete_images($this->route_array[1]);
+	}
+	
+	public function edit() {
+		parent::edit();
+		$images = new CmsPage($this->param("id"));
+		$this->attached_images = $images->images;
+	}
+	
+	public function create() {
+		parent::create();
+		$this->attached_images = array();
 	}
   
 	
