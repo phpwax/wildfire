@@ -8,6 +8,11 @@
   }
 </script>
 <style>
+  #image_browser_container {
+    position:absolute;
+    top:180px;
+    left:0px;
+  }
   #image_browser {
     width:0px;
     border:1px solid #302D2D;
@@ -15,9 +20,6 @@
     overflow:hidden;
     height:550px;
     background:url(/images/cms/image-browse-bg.gif) repeat-y;
-    position:absolute;
-    top:180px;
-    left:0px;
   }
   #image_list {
     padding:10px;
@@ -42,20 +44,22 @@
     border:1px solid #333333;
   }
 </style>
-<div id="image_browser">
-  <?=$image_list?>
-  <div id="drop_zones">
-    <h4>Drop Images Here</h4>
-    <div id="droppables">
-      <?=$droppable_partial?>
+<div id="image_browser_container">
+
+  <div id="image_browser">
+    <?=$image_list?>
+    <div id="drop_zones">
+      <h4>Drop Images Here</h4>
+      <div id="droppables">
+        <?=$droppable_partial?>
+      </div>
     </div>
+    <div class="clearfix"></div>
   </div>
-  <div class="clearfix"></div>
-</div>
-<div id="image_browse_tab" class="clearfix">
-  <a href="#" onclick="toggle_browser();">
-    <img src="/images/cms/image-browse-tab.gif">
-  </a>
-</div>
+  <div id="image_browse_tab" class="clearfix">
+    <a href="#" onclick="toggle_browser();">
+      <img src="/images/cms/image-browse-tab.gif">
+    </a>
+  </div>
   
 </div>
