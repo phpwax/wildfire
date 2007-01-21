@@ -17,7 +17,7 @@ class CMSAdminPageController extends CMSAdminComponent{
     "page_status" => array()
   );
   public $filter_columns = array("title");
-	public $allowed_images = 5;
+	public $allowed_images = 4;
 
 	
 	public function add_image() {
