@@ -76,7 +76,7 @@
           <div id="dropzone_<?=$i?>" style="border:1px solid red;">drop something here</div>
           <?=drop_receiving_element("dropzone_".$i, array(
             "update" => "dropzone_".$i,
-            "url" => array("action" => "add_image", "id"=>$page_id, "order"=>$image_no),
+            "url" => array("action" => "add_image"),
             "hoverclass" => "dropzone_active"
           ))?>
         <?endfor?>
