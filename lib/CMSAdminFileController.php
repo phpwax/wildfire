@@ -28,6 +28,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 
     $source = $this->show_image->path.$this->show_image->filename;
     $file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
+echo "Writing to file $file";
     if(!is_readable($file)) {
       File::resize_image($source, $file, $size);
     }
