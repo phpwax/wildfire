@@ -172,5 +172,6 @@ class CMSAdminComponent extends WXControllerBase {
 		}
 	}
 	
+	
 }
 ?>

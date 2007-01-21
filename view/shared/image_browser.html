@@ -1,0 +1,10 @@
+<?foreach($images as $image):?>
+  <div class="browse_image" id="image_<?=$image->id?>">
+    <img src="/admin/images/show_image/<?=$image->id?>/90" title="<?=$image->description?>" /><br />
+    <?=$image->filename?>
+  </div>
+  <?=draggable_element("image_".$image->id, array("revert"=>"true", "ghosting"=>"true"))?>
+<?endforeach;?>
+<?if(empty($images)):?>
+  No images available.
+<?endif;?>
