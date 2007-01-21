@@ -37,13 +37,13 @@
             <?foreach($attached_images as $img):?>
               <?if($img->order==$i):?>
                 <img src="/admin/files/show_image/<?=$img->id?>">
+                <img src="/images/cms/indicator.gif/" style="display:none;" id="indicator" />
                 <?=link_to_remote(image_tag("/images/cms/trash.gif"), array(
                   "update"=> "dropzone_".$i,
                   "url"   => array("action"=>"remove_image", "id"=>$page->id, "image"=>$img->id),
                   "loading"=>"Element.Show('indicator')",
-                  "complet"=>"Element.Hide('indicator')"
+                  "complete"=>"Element.Hide('indicator')"
                 ))?>
-                <img src="/images/cms/indicator.gif/" style="display:none;" id="indicator" />
                 <?$displayed=true;?>
               <?endif?>
             <?endforeach?>
