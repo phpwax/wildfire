@@ -307,6 +307,9 @@ h4{
 .dropzone_active {
   background:#DDDDDD;
 }
+.dropzone_active img {
+	display:none;
+}
 .browse_image {
   float:left;
   text-align:center;
