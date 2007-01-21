@@ -18,11 +18,6 @@ class CMSAdminPageController extends CMSAdminComponent{
   );
   public $filter_columns = array("title");
   
-
-	public function image_browser() {
-		$this->use_layout="ajax";
-		$this->images = ($image = new CmsFile) ? $image->find_all_images() : array();
-	}
 	
 }
 ?>

@@ -43,7 +43,18 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->get_file = new $this->model_class($this->param("id"));
 	  File::stream_file($this->get_file->path.$this->get_file->filename);
 	}
-		
+	
+	public function browse_images() {
+  	$this->all_images = ($image = new Image) ? $image->find_all_images() : array();
+		$this->all_images_partial = $this->render_partial("list_all_images")
+	}
+	
+	public function image_filter() {
+    $this->use_layout=false;
+    $images = new Image;
+    $this->all_images = $images->find_filter_images($_POST['filter']);
+    $this->all_images_partial = $this->render_partial("list_all_images");  
+  }
 
 }
 ?>

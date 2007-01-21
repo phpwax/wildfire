@@ -1,0 +1,21 @@
+<div id="filter_block">
+  <form id="filter_form" action="">
+    <strong>Filter images: </strong>(type some text from the filename)<br /> 
+    <input type="text" id="image_filter" name="filter" size="50" />
+  </form>
+  <?=observe_field("image_filter", array(
+    "url" => array("action"=>"image_filter"),
+    "frequency" => "1",
+    "update"=>"image_browser",
+    "with"=>"'filter='+value"
+  ))?>
+</div>
+
+
+<div id="image_browser">
+  <?=$all_images_partial?>
+</div>
+
+
+
+<div class="clearfix"></div>
