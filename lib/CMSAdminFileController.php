@@ -21,7 +21,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function show_image() {
-  	$this->use_layout=false;  	
+  	$this->use_view=false;  	
   	if(!isset($this->route_array[1])) $size=110;
   	 else $size = $this->route_array[1];
   	$this->show_image = new CmsFile($this->route_array[0]);
