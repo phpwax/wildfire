@@ -82,7 +82,7 @@
           </div>
           <?=drop_receiving_element("dropzone_".$i, array(
             "update" => "dropzone_".$i,
-            "url" => array("action" => "add_image"),
+            "url" => array("action" => "add_image", "id"=>$page->id, "order"=>$i),
             "hoverclass" => "dropzone_active"
           ))?>
         <?endfor?>
