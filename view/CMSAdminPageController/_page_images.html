@@ -65,7 +65,7 @@
       ))?>
     </div>
     <div id="image_list">
-      <?=javascript_tag("Event.observe(window, 'load', function(e){ new Ajax.Updater('image_list', '/admin/files/browse_images') })")?>
+      <?=javascript_tag("new Ajax.Updater('image_list', '/admin/files/browse_images')")?>
     </div>
     
     
