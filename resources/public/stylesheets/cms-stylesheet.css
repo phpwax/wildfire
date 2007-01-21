@@ -306,6 +306,7 @@ h4{
 }
 .dropzone_active {
   background:#DDDDDD;
+  height:100px
 }
 .dropzone_active img {
 	display:none;
