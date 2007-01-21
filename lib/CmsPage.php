@@ -6,7 +6,7 @@ class CmsPage extends WXActiveRecord{
 
 	public function __construct() {
 		parent::__construct();
-		$this->has_many("cms_file", "images");
+		//$this->has_many("cms_file", "images");
 	}
   
   public function validations() {
