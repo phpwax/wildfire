@@ -1,16 +1,25 @@
+<script>
+  function toggle_browser() {
+    if($('image_browser').style.width == '450px') {
+      $('image_browser').style.width = '1px';
+    } else {
+      $('image_browser').style.width = '450px';
+    }
+  }
+</script>
 <style>
   #image_browser {
-    width:450px;
+    width:1px;
     border:1px solid #302D2D;
     float:left;
   }
   #image_list {
   }
   #image_browse_tab {
-    background:url(/images/cms/image-browse-tab.gif) no-repeat;
     float:left;
     width:34px;
     height:100px;
+    margin-top:15px;
   }
 </style>
 <div id="image_browser">
@@ -33,4 +42,8 @@
   </div>
   <div class="clearfix"></div>
 </div>
-<div id="image_browse_tab" class="clearfix"></div>
+<div id="image_browse_tab" class="clearfix">
+  <a href="#" onclick="toggle_browser();">
+    <img src="/images/cms/image-browse-tab.gif">
+  </a>
+</div>
