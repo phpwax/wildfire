@@ -36,7 +36,6 @@ class CMSAdminPageController extends CMSAdminComponent{
 	public function edit() {
 		$this->page = new CmsPage($this->param("id"));
 		$this->attached_images = $this->page->images;
-		print_r($this->attached_images); exit;
 		$this->image_partial = $this->render_partial("page_images");
 		parent::edit();
 	}
