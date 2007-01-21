@@ -20,7 +20,7 @@ class CMSAdminPageController extends CMSAdminComponent{
   
 
 	public function image_browser() {
-		$this->use_layout=false;
+		$this->use_layout="ajax";
 		$this->images = ($image = new CmsFile) ? $image->find_all_images() : array();
 	}
 	
