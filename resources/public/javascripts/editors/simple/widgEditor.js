@@ -107,7 +107,6 @@ widgToolbarItems.push("italic");
 widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
-widgToolbarItems.push("image");
 widgToolbarItems.push("htmlsource");
 widgToolbarItems.push("blockformat");
 
