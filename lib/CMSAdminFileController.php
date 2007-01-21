@@ -11,7 +11,10 @@ class CMSAdminFileController extends CMSAdminComponent {
   public $model;
 	public $model_class="CmsFile";
 	public $display_name = "Files and Images";
-	
+	public $scaffold_columns = array(
+    "filename"   =>array(),
+    "type" => array()
+  );
 	
 	public function file_info() {
 	  $this->use_layout=false;
