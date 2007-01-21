@@ -1,7 +1,7 @@
 <?$current_row = 1?>
 <?foreach($all_rows as $row):?>
   <?$current_row = 1 - $current_row?>
-    <tr id="row-<?=$row->id?>" class="item_row<?=$current_row?> clearfix">
+    <tr id="row-<?=$row->id?>" class="item_row<?=$current_row?>">
       <td id="icon_row">
         <?=link_to_function(image_tag("cms/icon_page.gif"), "$('row-edit-".$row->id."').update('')")?>
       </td>
