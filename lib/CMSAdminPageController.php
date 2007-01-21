@@ -28,6 +28,7 @@ class CMSAdminPageController extends CMSAdminComponent{
 	}
 	
 	public function remove_image() {
+		print_r($this->route_array); exit;
 		$this->use_view=false;
 		$page = new CmsPage($this->param("id"));
 		$page->delete_images($this->param("image"));
