@@ -81,7 +81,7 @@
           <div id="dropzone_<?=$i?>" class="attached_image">
             <?if($img = $attached_images[$i]):?>
               <img src="/admin/files/show_image/<?=$img->id?>">
-              <?link_to_remote(image_tag("/images/cms/trash.gif"), array(
+              <?=link_to_remote(image_tag("/images/cms/trash.gif"), array(
                 "update"=> "dropzone_".$i,
                 "url"   => array("action"=>"remove_image", "id"=>$page->id, "image"=>$img->id)
               ))?>
