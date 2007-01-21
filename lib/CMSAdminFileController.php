@@ -46,7 +46,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function browse_images() {
   	$this->all_images = ($image = new Image) ? $image->find_all_images() : array();
-		$this->all_images_partial = $this->render_partial("list_all_images")
+		$this->all_images_partial = $this->render_partial("list_all_images");
 	}
 	
 	public function image_filter() {
