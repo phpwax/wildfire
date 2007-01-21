@@ -15,6 +15,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     "filename"   =>array(),
     "type" => array()
   );
+	public $filter_columns = array("filename", "caption");
 	
 	public function file_info() {
 	  $this->use_layout=false;
@@ -51,8 +52,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->use_layout="ajax";
   	$this->all_images = ($image = new CmsFile) ? $image->find_all_images() : array();
 		$this->all_images_partial = $this->render_partial("list_all_images");
-		$this->droppables = array(array("id"=>"1", "controller"=>"files", "action"=>"test"));
-		$this->droppable_partial = $this->render_partial("droppable");
 	}
 	
 	public function image_filter() {
