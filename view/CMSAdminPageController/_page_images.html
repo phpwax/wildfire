@@ -72,8 +72,14 @@
     <div id="drop_zones">
       <h4>Drop Images Here</h4>
       <div id="droppables">
-        <?for($i=1; $i<=$attached_images; $i++):?>
-          <div id="dropzone_<?=$i?>" style="border:1px solid red;">drop something here</div>
+        <?for($i=0; $i<$allowed_images; $i++):?>
+          <div id="dropzone_<?=$i?>" style="border:1px solid red;">
+            <?if($img = $attached_images[$i]):?>
+              <img src="/admin/files/show_image/<?=$img->id?>">
+            <?else:?>
+              <img src="/images/cms/image-drop-zone.gif" />
+            <?endif?>
+          </div>
           <?=drop_receiving_element("dropzone_".$i, array(
             "update" => "dropzone_".$i,
             "url" => array("action" => "add_image"),
