@@ -1,21 +1,33 @@
-<div id="filter_block">
-  <form id="filter_form" action="">
-    <strong>Filter images: </strong>(type some text from the filename)<br /> 
-    <input type="text" id="image_filter" name="filter" size="50" />
-  </form>
-  <?=observe_field("image_filter", array(
-    "url" => array("action"=>"image_filter"),
-    "frequency" => "1",
-    "update"=>"image_browser",
-    "with"=>"'filter='+value"
-  ))?>
-</div>
-
-
+<style>
+  #image_browser {
+    width:300px;
+    border:1px solid #302D2D;
+  }
+  #image_browse_tab {
+    background:url(/images/cms/image-browse-tab.gif);
+    float:left;
+  }
+</style>
 <div id="image_browser">
-  <?=$all_images_partial?>
+  <div id="filter_block">
+    <form id="filter_form" action="">
+      <strong>Filter images: </strong>(type some text from the filename)<br /> 
+      <input type="text" id="image_filter" name="filter" size="50" />
+    </form>
+    <?=observe_field("image_filter", array(
+      "url" => array("action"=>"image_filter"),
+      "frequency" => "1",
+      "update"=>"image_browser",
+      "with"=>"'filter='+value"
+    ))?>
+  </div>
+
+
+  <div id="image_list">
+    <?=$all_images_partial?>
+  </div>
+
+  <div id="image_browse_tab"></div>
+
+  <div class="clearfix"></div>
 </div>
-
-
-
-<div class="clearfix"></div>
