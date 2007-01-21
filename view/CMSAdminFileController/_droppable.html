@@ -1,14 +1,14 @@
 <?foreach($droppables as $droppable):?>
-  <div class="dropzone" id="dropzone_<?=$droppable->id?>">
+  <div class="dropzone" id="dropzone_<?=$droppable['id']?>">
     <?if($droppable->image):?>
       <img src="<?=$droppable->image?>" />
     <?else:?>
       <img src="/images/cms/image-drop-zone.gif" />
     <?endif?>
   </div>
-  <?=drop_receiving_element("dropzone_".$droppable->id, array(
+  <?=drop_receiving_element("dropzone_<?=$droppable['id']?>", array(
     "update" => "dropzone",
-    "url" => array("controller"=>$droppable->controller, "action" => $droppable->action, "id"=>$droppable->id),
+    "url" => array("controller"=>$droppable['controller'], "action" => $droppable['action'], "id"=>$droppable['id']),
     "hoverclass" => "dropzone_active"
   ))?>
 <?endforeach?>
