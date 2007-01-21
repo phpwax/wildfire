@@ -1,19 +1,10 @@
-
-  <div id="filter_block">
-    <form id="filter_form" action="">
-      <strong>Filter images: </strong>(type some text from the filename)<br /> 
-      <input type="text" id="image_filter" name="filter" size="20" />
-    </form>
-    <?=observe_field("image_filter", array(
-      "url" => array("controller"=>"admin/files", "action"=>"image_filter"),
-      "frequency" => "1",
-      "update"=>"image_list",
-      "with"=>"'filter='+value"
-    ))?>
+<?foreach($all_images as $image):?>
+  <div class="browse_image" id="image_<?=$image->id?>">
+    <img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" /><br />
+    <?=$image->filename?>
   </div>
-
-
-  <div id="image_list">
-    <?=$all_images_partial?>
-  </div>
-  
+  <?=draggable_element("image_".$image->id, array("revert"=>"true", "ghosting"=>"true"))?>
+<?endforeach;?>
+<?if(empty($all_images)):?>
+  No images available.
+<?endif;?>
