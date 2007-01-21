@@ -19,16 +19,15 @@ class CMSAdminPageController extends CMSAdminComponent{
   public $filter_columns = array("title");
 	public $allowed_images = 3;
 
-	public function controller_global() {
-		$this->image_partial = $this->render_partial("page_images");
-	}
 	
 	public function add_image() {
+		$this->use_view=false;
 		$page = new CmsPage($this->param("id"));
 		$page->add_images($_POST['id'], $this->param("order"));
 	}
 	
 	public function remove_image() {
+		$this->use_view=false;
 		$page = new CmsPage($this->param("id"));
 		$page->delete_images($this->route_array[1]);
 	}
@@ -37,6 +36,7 @@ class CMSAdminPageController extends CMSAdminComponent{
 		parent::edit();
 		$this->page = new CmsPage($this->param("id"));
 		$this->attached_images = $this->page->images;
+		$this->image_partial = $this->render_partial("page_images");
 	}
 	
 	public function create() {
