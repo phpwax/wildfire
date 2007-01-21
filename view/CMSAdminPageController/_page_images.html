@@ -41,12 +41,16 @@
     width:100px;
   }
   .dropzone_active {
-    border:1px solid #333333;
+    background:#DDDDDD;
   }
   .browse_image {
     float:left;
     text-align:center;
     margin-right:5px;
+  }
+  .attached_image {
+    margin-bottom:10px;
+    padding:3px;
   }
 </style>
 <div id="image_browser_container">
@@ -73,8 +77,8 @@
       <h4>Drop Images Here</h4>
       <div id="droppables">
         <?for($i=0; $i<$allowed_images; $i++):?>
-          <p>Image <?=$i?></p>
-          <div id="dropzone_<?=$i?>">
+          <div id="dropzone_<?=$i?>" class="attached_image">
+            <p>Image <?=$i?></p>
             <?if($img = $attached_images[$i]):?>
               <img src="/admin/files/show_image/<?=$img->id?>">
             <?else:?>
