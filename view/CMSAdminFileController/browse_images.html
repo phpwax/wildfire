@@ -17,6 +17,9 @@
   }
   #image_list {
     padding:10px;
+    background-color:#f5f5f5;
+    float:left;
+    overflow:auto;
   }
   #image_browse_tab {
     float:left;
@@ -26,6 +29,10 @@
   }
   #filter_block {
     padding:4px 10px;
+  }
+  #drop_zones {
+    height:550px;
+    float:left;
   }
 </style>
 <div id="image_browser">
@@ -45,6 +52,9 @@
 
   <div id="image_list">
     <?=$all_images_partial?>
+  </div>
+  <div id="drop_zones">
+    
   </div>
   <div class="clearfix"></div>
 </div>
