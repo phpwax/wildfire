@@ -314,7 +314,7 @@ h4{
 .browse_image {
   float:left;
   text-align:center;
-  margin-right:5px;
+  margin:0 5px 10px 0;
 }
 .attached_image {
   margin-bottom:5px;
