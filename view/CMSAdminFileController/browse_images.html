@@ -1,9 +1,9 @@
 <script>
   function toggle_browser() {
     if($('image_browser').style.width == '450px') {
-      new Effect.Scale('image_browser', 0, {scaleMode: { originalHeight:550, originalWidth: 450 }});
+      new Effect.Scale('image_browser', 0, {scaleFrom:100, scaleMode: { originalHeight:550, originalWidth: 450 }});
     } else {
-      new Effect.Scale('image_browser', 4500, {scaleMode: { originalHeight:550, originalWidth: 1 }});
+      new Effect.Scale('image_browser', 4500, {scaleFrom:0, scaleMode: { originalHeight:550, originalWidth: 1 }});
     }
   }
 </script>
