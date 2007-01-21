@@ -21,6 +21,7 @@ class CMSAdminPageController extends CMSAdminComponent{
 
 	
 	public function add_image() {
+		$this->use_layout=false;
 		$this->use_view=false;
 		$page = new CmsPage($this->param("id"));
 		$page->add_images($_POST['id'], $this->param("order"));
