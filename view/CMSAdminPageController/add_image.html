@@ -1,7 +1,5 @@
 <img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" />
 <?=link_to_remote(image_tag("/images/cms/trash.gif"), array(
   "update"=> "dropzone_".$image->order,
-  "url"   => array("action"=>"remove_image", "id"=>$page->id, "image"=>$image->id),
-  "loading"=>"Element.Show('indicator')",
-  "complete"=>"Element.Hide('indicator')"
+  "url"   => array("action"=>"remove_image", "id"=>$page->id, "image"=>$image->id)
 ))?>
