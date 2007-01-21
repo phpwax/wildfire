@@ -17,9 +17,20 @@ class CMSAdminPageController extends CMSAdminComponent{
     "page_status" => array()
   );
   public $filter_columns = array("title");
+	public $attached_images = 3;
 
 	public function controller_global() {
 		$this->image_partial = $this->render_partial("page_images");
+	}
+	
+	public function add_image() {
+		$page = new CmsPage($this->param("id"));
+		$page->add_images($this->route_array[1], $this->route_array[2]);
+	}
+	
+	public function remove_image() {
+		$page = new CmsPage($this->param("id"));
+		$page->delete_images($this->route_array[1]);
 	}
   
 	
