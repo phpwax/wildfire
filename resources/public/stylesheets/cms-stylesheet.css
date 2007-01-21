@@ -288,7 +288,7 @@ h4{
 #image_list {
   padding:10px;
   float:left;
-  width:310px;
+  width:317px;
 }
 #image_browse_tab {
   float:left;
@@ -302,7 +302,7 @@ h4{
 #drop_zones {
   float:left;
   padding:4px;
-  width:105px;
+  width:100px;
 }
 .dropzone_active {
   background:#DDDDDD;
