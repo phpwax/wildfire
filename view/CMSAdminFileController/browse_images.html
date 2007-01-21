@@ -1,8 +1,7 @@
 <script>
   function toggle_browser() {
-    alert($('image_browser').style.width);
-    if($('image_browser').style.width == '450px') {
-      new Effect.Scale('image_browser', 0, {scaleFrom:100, scaleY:false, scaleContent:false});
+    if($('image_browser').style.width == '0px') {
+      new Effect.Scale('image_browser', 100, {scaleFrom:0, scaleY:false, scaleContent:false});
     } else {
       new Effect.Scale('image_browser', 0, {scaleFrom:100, scaleY:false, scaleContent:false});
     }
