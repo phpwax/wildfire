@@ -6,7 +6,7 @@
       <img src="/images/cms/image-drop-zone.gif" />
     <?endif?>
   </div>
-  <?=drop_receiving_element("dropzone".$droppable['id'], array(
+  <?=drop_receiving_element("dropzone_".$droppable['id'], array(
     "update" => "dropzone",
     "url" => array("controller"=>$droppable['controller'], "action" => $droppable['action'], "id"=>$droppable['id']),
     "hoverclass" => "dropzone_active"
