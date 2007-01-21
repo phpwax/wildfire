@@ -272,6 +272,53 @@ h4{
 }
 
 
+#image_browser_container {
+  position:absolute;
+  top:180px;
+  left:0px;
+}
+#image_browser {
+  width:0px;
+  border:1px solid #302D2D;
+  float:left;
+  overflow:hidden;
+  height:550px;
+  background:url(/images/cms/image-browse-bg.gif) repeat-y;
+}
+#image_list {
+  padding:10px;
+  float:left;
+  width:317px;
+}
+#image_browse_tab {
+  float:left;
+  width:34px;
+  height:100px;
+  margin-top:15px;
+}
+#filter_block {
+  padding:4px 10px;
+}
+#drop_zones {
+  float:left;
+  padding:4px;
+  width:100px;
+}
+.dropzone_active {
+  background:#DDDDDD;
+}
+.browse_image {
+  float:left;
+  text-align:center;
+  margin-right:5px;
+}
+.attached_image {
+  margin-bottom:5px;
+  padding:3px;
+  font-size:9px;
+}
+
+
 .clearfix:after {
 	content:".";
 	display:block;
