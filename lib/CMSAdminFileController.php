@@ -49,7 +49,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function browse_images() {
-		$this->use_layout="ajax";
+		$this->use_layout=false;
   	$this->all_images = ($image = new CmsFile) ? $image->find_all_images() : array();
 	}
 	
