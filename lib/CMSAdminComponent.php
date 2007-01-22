@@ -154,8 +154,8 @@ class CMSAdminComponent extends WXControllerBase {
 				if($permission == false) unset($_POST[$permission]);
 			}
 			if($model->update_attributes($_POST[$this->model_name]) ) {
-      	Session::add_message($this->display_name." Successfully Saved");
-      	$this->redirect_to('../index');
+      	Session::add_message($this->display_name." ".$success);
+      	$this->redirect_to($redirect);
 			}
     }
  		return false;
