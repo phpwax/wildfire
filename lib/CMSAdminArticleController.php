@@ -36,6 +36,9 @@ class CMSAdminArticleController extends CMSAdminComponent {
 		parent::edit();
 	}
 	
-	
+	public function create() {
+	  parent::create(false);
+		$this->save($this->model, true, "successfully saved. Now you can use the tabs on the left to add more content");
+	}
 }
 ?>
