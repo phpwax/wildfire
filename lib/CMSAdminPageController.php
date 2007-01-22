@@ -1,13 +1,11 @@
 <?php
 /**
-* CMSAdminPageController - version controlled
-* @package wxFramework
-* @subpackage CMSPlugin
-* @author WebXpress <john@webxpress.com>
+* CMSAdminPageController
+* @package PHP-WAX CMS
 * @version 1.0
 */
 
-class CMSAdminPageController extends CMSAdminComponent{
+class CMSAdminPageController extends CMSAdminComponent {
 	public $model_class = 'CmsPage';
 	public $model_name = "cms_page";													
 	public $display_name = "Pages";
