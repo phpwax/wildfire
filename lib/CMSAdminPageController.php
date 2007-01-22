@@ -39,6 +39,11 @@ class CMSAdminPageController extends CMSAdminComponent{
 		$this->image_partial = $this->render_partial("page_images");
 		parent::edit();
 	}
+	
+	public function create() {
+	  parent::create(false);
+		$this->save($this->model, "./", "successfully saved. Now you can use the tabs on the left to add more content");
+	}
   
 	
 }

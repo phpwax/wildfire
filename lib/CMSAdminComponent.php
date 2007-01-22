@@ -102,10 +102,10 @@ class CMSAdminComponent extends WXControllerBase {
 	/**
 	* Create model item - has shared view cms/view/CONTROLLER/_form.html
 	*/
-	public function create() {
+	public function create($save=true) {
 		$this->display_action_name = 'Create';
 		$this->model = new $this->model_class;		
-		$this->save($this->model);
+		if($save) $this->save($this->model);
 		$this->form = $this->render_partial("form");
 	}
 	
@@ -146,7 +146,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* @param string $model 
 	* @return boolean or redirect on success, sets message on success
 	*/
-	protected function save($model) {
+	protected function save($model, $redirect="../index", $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
 			$model->author_id = $this->current_user->id;
 			//remove post var when user has no permissions
