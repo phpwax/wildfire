@@ -146,14 +146,16 @@ class CMSAdminComponent extends WXControllerBase {
 	* @param string $model 
 	* @return boolean or redirect on success, sets message on success
 	*/
-	protected function save($model, $redirect="../index", $success = "Successfully Saved") {
+	protected function save($model, $redirect_to_edit=false, $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
 			$model->author_id = $this->current_user->id;
 			//remove post var when user has no permissions
 			foreach($this->is_allowed as $permission){
 				if($permission == false) unset($_POST[$permission]);
 			}
-			if($model->update_attributes($_POST[$this->model_name]) ) {
+			if($id = $model->update_attributes($_POST[$this->model_name]) ) {
+			  if($redirect_to_edit) $redirect = "../edit/".$id;
+			  else $redirect="../index";
       	Session::add_message($this->display_name." ".$success);
       	$this->redirect_to($redirect);
 			}
