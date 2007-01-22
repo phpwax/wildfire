@@ -9,6 +9,7 @@ class ArticleTableMigrate extends WXMigrate {
     $this->create_column("author_id", "integer");
     $this->create_column("status", "integer");
     $this->create_column("published", "DATETIME");
+		$this->create_column("date_modified", "TIMESTAMP");
     $this->create_column("article_type", "string");
     $this->create_table("cms_article");
   }
