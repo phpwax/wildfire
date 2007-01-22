@@ -3,7 +3,7 @@
   <?$current_row = 1 - $current_row?>
     <tr id="row-<?=$row->id?>" class="item_row<?=$current_row?>">
       <td id="icon_row">
-        <?=link_to_function(image_tag("cms/icon_page.gif"), "$('row-edit-".$row->id."').update('')")?>
+        <?=image_tag("cms/icon_page.gif")?>
       </td>
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
