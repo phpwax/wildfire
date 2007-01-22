@@ -6,10 +6,8 @@
 
 /* HTML TAGS */
 
-body
-{
-	font-family: Tahoma, Arial, Helvetica, sans-serif;
-	font-size: 80%;
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: #FFFFFF;
 	color: #000000;
 }
