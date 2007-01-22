@@ -36,11 +36,6 @@ class CMSAdminArticleController extends CMSAdminComponent {
 		parent::edit();
 	}
 	
-	public function create() {
-	  $this->page = new $this->model_class($this->param("id"));
-		$this->attached_images = array();
-		$this->image_partial = $this->render_partial("page_images");
-		parent::create();
-	}
+	
 }
 ?>
