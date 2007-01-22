@@ -4,7 +4,7 @@
 	<?=small(select($model, "article_type", $model->article_types))?>
   <?=small(select($model, "status", $model->status_options))?>
 
-  <?=large(simple_wysiwyg($model, "content"))?>
+  <?=large(text_area($model, "description"))?>
 	
   <?=small(submit_field($model, "Save"))?>
 </fieldset>

@@ -12,7 +12,7 @@
 	<?=javascript_include_tag("editors/simple/widgEditor")?>
 </head>
 
-<body id="<?=strtolower($display_name)?>">
+<body id="<?=strtolower(WXInflections::underscore($display_name))?>">
 	<div id="header-container">
 		<img id="webxpress-logo" src="/images/cms/cms_webxpress-logo.gif" alt="WebXpress Logo" />
 		<ul id="primary-navigation">
