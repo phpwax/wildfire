@@ -22,27 +22,29 @@ class CMSAdminPageController extends CMSAdminComponent{
 	
 	public function add_image() {
 		$this->use_layout=false;
-		$this->page = new CmsPage($this->param("id"));
+		$this->page = new $this->model_class($this->param("id"));
 		$this->page->add_images($_POST['id'], $this->param("order"));
 		$this->image = $this->page->find_images($_POST['id']);
 	}
 	
 	public function remove_image() {
 		$this->use_layout=false;
-		$page = new CmsPage($this->param("id"));
+		$page = new $this->model_class($this->param("id"));
 		$page->delete_images($this->param("image"));
 	}
 	
 	public function edit() {
-		$this->page = new CmsPage($this->param("id"));
+		$this->page = new $this->model_class($this->param("id"));
 		$this->attached_images = $this->page->images;
 		$this->image_partial = $this->render_partial("page_images");
 		parent::edit();
 	}
 	
 	public function create() {
-		parent::create();
+	  $this->page = new $this->model_class($this->param("id"));
 		$this->attached_images = array();
+		$this->image_partial = $this->render_partial("page_images");
+		parent::create();
 	}
   
 	

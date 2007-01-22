@@ -25,8 +25,22 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	
 	public function remove_image() {
 		$this->use_layout=false;
-		$article = new $this->model_class($this->param("id"));
-		$article->delete_images($this->param("image"));
+		$page = new $this->model_class($this->param("id"));
+		$page->delete_images($this->param("image"));
+	}
+	
+	public function edit() {
+		$this->page = new $this->model_class($this->param("id"));
+		$this->attached_images = $this->page->images;
+		$this->image_partial = $this->render_partial("page_images");
+		parent::edit();
+	}
+	
+	public function create() {
+	  $this->page = new $this->model_class($this->param("id"));
+		$this->attached_images = array();
+		$this->image_partial = $this->render_partial("page_images");
+		parent::create();
 	}
 }
 ?>
