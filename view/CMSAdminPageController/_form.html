@@ -7,4 +7,6 @@
   <?=small(submit_field($model, "Save"))?>
 </fieldset>
 
-<?=$image_partial?>
+<?if($allowed_images)?>
+  <?=$image_partial?>
+<?endif?>
