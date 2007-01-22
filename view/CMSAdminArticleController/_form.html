@@ -3,9 +3,11 @@
   <?=medium(text_field($model, "title"))?>
 	<?=small(select($model, "article_type", $model->article_types))?>
   <?=small(select($model, "status", $model->status_options))?>
-
+  <?=form_divider()?>
+	<?=medium(date_select($model, "published"))?>
+  <?=form_divider()?>
   <?=large(simple_wysiwyg($model, "content"))?>
-	
+	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
 </fieldset>
 
