@@ -10,7 +10,7 @@ class CmsArticle extends WXActiveRecord {
  	}
 
  	public function page_status() {
- 	  return $this->status_options[$this->published];
+ 	  return $this->status_options[$this->status];
  	}
  	
 	public function article_type_english(){
