@@ -116,7 +116,7 @@ class CMSAdminComponent extends WXControllerBase {
 	  $this->id = $this->param("id");
     $this->model = new $this->model_class($this->id);
 		$this->form = $this->render_partial("form");
-		$this->save($this->model);
+		$this->save($this->model, "../../index");
 	}
 	
 	/**
@@ -146,7 +146,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* @param string $model 
 	* @return boolean or redirect on success, sets message on success
 	*/
-	protected function save($model, $redirect_to_edit=false, $success = "Successfully Saved") {
+	protected function save($model, $redirect_to=false, $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
 			$model->author_id = $this->current_user->id;
 			//remove post var when user has no permissions
@@ -154,10 +154,10 @@ class CMSAdminComponent extends WXControllerBase {
 				if($permission == false) unset($_POST[$permission]);
 			}
 			if($id = $model->update_attributes($_POST[$this->model_name]) ) {
-			  if($redirect_to_edit) $redirect = "../edit/".$id;
-			  else $redirect="../index";
+			  if($redirect_to =="edit") $redirect_to = "../edit/".$id;
+			  elseif(!$redirect_to) $redirect_to="../index";
       	Session::add_message($this->display_name." ".$success);
-      	$this->redirect_to($redirect);
+      	$this->redirect_to($redirect_to);
 			}
     }
  		return false;
