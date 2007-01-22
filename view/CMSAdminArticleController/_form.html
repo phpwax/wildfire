@@ -3,8 +3,11 @@
   <?=medium(text_field($model, "title"))?>
 	<?=small(select($model, "article_type", $model->article_types))?>
   <?=small(select($model, "published", $model->status_options))?>
-  <?=large(text_area($model, "excerpt", array("rows"=>"2")))?>
+
   <?=large(simple_wysiwyg($model, "content"))?>
 	
   <?=small(submit_field($model, "Save"))?>
 </fieldset>
+
+
+<?=$image_partial?>

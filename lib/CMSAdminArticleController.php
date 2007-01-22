@@ -18,9 +18,9 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	
 	public function add_image() {
 		$this->use_layout=false;
-		$this->article = new $this->model_class($this->param("id"));
-		$this->article->add_images($_POST['id'], $this->param("order"));
-		$this->image = $this->article->find_images($_POST['id']);
+		$this->page = new $this->model_class($this->param("id"));
+		$this->page->add_images($_POST['id'], $this->param("order"));
+		$this->image = $this->page->find_images($_POST['id']);
 	}
 	
 	public function remove_image() {
