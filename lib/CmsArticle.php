@@ -3,7 +3,7 @@
 class CmsArticle extends WXActiveRecord {
   
   public $status_options = array("0"=>"Draft", "1"=>"Published");
- 	public $article_types = array('cms_article'=>'Article', "cms_blog"=>'Blog');
+ 	public $article_types = array('cms_article'=>'News', "cms_blog"=>'Press Release');
  	
  	public function after_setup() {
  	  $this->has_many("cms_file", "images");
