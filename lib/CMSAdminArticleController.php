@@ -2,10 +2,7 @@
 /**
 * Article Controller
 * Depends on CMSAuthorise.php to provide authentication
-* @package wxFramework
-* @subpackage CMSPlugin
-* @author WebXpress <john@webxpress.com>
-* @version 1.0
+* @package PHP-WAX CMS
 */
 class CMSAdminArticleController extends CMSAdminComponent {
 	public $model_class = 'CmsArticle';
@@ -18,6 +15,17 @@ class CMSAdminArticleController extends CMSAdminComponent {
   );
   public $filter_columns = array("title");
 	
+	public function add_image() {
+		$this->use_layout=false;
+		$this->article = new $this->model_class($this->param("id"));
+		$this->article->add_images($_POST['id'], $this->param("order"));
+		$this->image = $this->article->find_images($_POST['id']);
+	}
 	
+	public function remove_image() {
+		$this->use_layout=false;
+		$article = new $this->model_class($this->param("id"));
+		$article->delete_images($this->param("image"));
+	}
 }
 ?>
