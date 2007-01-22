@@ -116,7 +116,7 @@ class CMSAdminComponent extends WXControllerBase {
 	  $this->id = $this->param("id");
     $this->model = new $this->model_class($this->id);
 		$this->form = $this->render_partial("form");
-		$this->save($this->model, "../index");
+		$this->save($this->model, "../../index");
 	}
 	
 	/**
