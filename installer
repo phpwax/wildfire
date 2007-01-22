@@ -9,7 +9,7 @@ system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images
 system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/cms* ".PUBLIC_DIR."stylesheets/");
 system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
 
-system("chmod -R 0777 ".PUBLIC_DIR);
+system("chmod -Rf 0777 ".PUBLIC_DIR);
 system(WAX_ROOT."script/migrate directory ".PLUGIN_DIR."cms/migrate/");
 echo "All of the files have now been installed. To complete the installation:"."\n";
 echo "1... Add 'AutoLoader::include_plugin('cms');' to the bottom of your config/environment.php file."."\n";
