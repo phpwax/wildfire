@@ -2,7 +2,7 @@
 	<?=form_heading("Article Editor")?>
   <?=medium(text_field($model, "title"))?>
 	<?=small(select($model, "article_type", $model->article_types))?>
-  <?=small(select($model, "published", $model->status_options))?>
+  <?=small(select($model, "status", $model->status_options))?>
 
   <?=large(simple_wysiwyg($model, "content"))?>
 	
