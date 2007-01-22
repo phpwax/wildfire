@@ -13,7 +13,7 @@ class CmsPage extends WXActiveRecord{
  	}
  	
  	public function page_status() {
- 	  return $this->status_options[$this->published];
+ 	  return $this->status_options[$this->status];
  	}
  	
  	public function find_with_url($url) {
