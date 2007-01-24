@@ -60,6 +60,10 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter']): array();
     $this->all_images_partial = $this->render_partial("list_all_images");  
   }
+  
+  public function preview() {
+    $this->image = new $this->model_class($this->param('id'));
+  }
 
 }
 ?>
