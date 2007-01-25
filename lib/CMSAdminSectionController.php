@@ -27,6 +27,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	}
 	
 	public function reorder() {
+		$this->use_layout=false;
+		$this->use_view=false;
 		foreach($_POST['sortable_sections'] as $order=>$id) {
 			if(!is_numeric($order) && !is_numeric($id)) return false;
 			$section = new $this->model_class($id);
