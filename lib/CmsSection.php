@@ -31,7 +31,7 @@ class CmsSection extends WXTreeRecord {
 	
 	public function find_ordered_sections() {
 		$this->traverse_tree($this->find_roots());
-		return $this->tree_array();
+		return $this->tree_array;
 	}
 	
 	
