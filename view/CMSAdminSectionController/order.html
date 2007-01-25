@@ -1,7 +1,11 @@
+<p>
+  <strong>You'll find below a list of all your top-level sections.</strong>
+  All you have to do to change the order is drag the blocks into the order you want.
+</p>
 <ul id="sortable_sections">
   <?foreach($main_sections as $section):?>
     <li><?=$section->title?></li>
   <?endforeach?>
 </ul>
 
-<?=sortable_element("sortable_sections", array("url" => array(":action" => "reorder")))?>
+<?=sortable_element("sortable_sections", array("url" => array("action" => "reorder")))?>
