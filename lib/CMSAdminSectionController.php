@@ -18,7 +18,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	public function make_tree_array($level=0) {
 		$sections = new CmsSection;
 		foreach(new RecursiveIteratorIterator($sections) as $node) {
-			$tree_array[]=$node;
+			$this->tree_array[]=$node;
 		}
 	}
 
