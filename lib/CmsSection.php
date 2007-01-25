@@ -19,8 +19,9 @@ class CmsSection extends WXTreeRecord {
 		}
 	}
 	
-	public function sections_as_collection() {	
-		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
+	public function sections_as_collection($collection = null) {
+		if(!$collection) $collection = $this->find_roots();
+		if(!$this->tree_array) $this->traverse_tree($collection);
 		$collection["0"]="Default";
 		foreach($this->tree_array as $item) {
 	  	$value = str_pad($item->title, strlen($item->title) + $item->get_level(), "^", STR_PAD_LEFT);
