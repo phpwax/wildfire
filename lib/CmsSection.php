@@ -5,8 +5,8 @@ class CmsSection extends WXTreeRecord {
   public $type_options = array("0"=>"Page-Style Content", "1"=>"News Article-Style Content");
 	public $tree_array = array();
 
-	public function section_type() {
- 	  return $this->type_options[$this->type];
+	public function section_type_text() {
+ 	  return $this->type_options[$this->section_type];
  	}
 
 	
