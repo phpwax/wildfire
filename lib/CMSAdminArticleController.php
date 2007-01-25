@@ -28,6 +28,11 @@ class CMSAdminArticleController extends CMSAdminComponent {
 		$this->list = $this->render_partial("list");
 	}
 	
+	public function index() {
+		parent::index();
+		$this->filter_block_partial .= $this->render_partial("section_filter");
+		$this->list = $this->render_partial("list");
+	}
 	
 	
 	public function add_image() {
