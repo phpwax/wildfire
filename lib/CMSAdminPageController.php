@@ -12,7 +12,8 @@ class CMSAdminPageController extends CMSAdminComponent {
 	public $is_allowed = array('url'=>30,'published'=>30);
 	public $scaffold_columns = array(
     "title"   =>array(),
-    "page_status" => array()
+    "page_status" => array(), 
+		"section" => array()
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
@@ -22,6 +23,12 @@ class CMSAdminPageController extends CMSAdminComponent {
 	
 	public function section() {
 		die("hahaha");
+	}
+
+	public function index() {
+		parent::index();
+		$this->filter_block_partial .= $this->render_partial("section_filter");
+		$this->list = $this->render_partial("list");
 	}
 
 	
