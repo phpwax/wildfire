@@ -11,7 +11,8 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	
 	public $scaffold_columns = array(
     "title"   =>array(),
-    "page_status" => array()
+    "page_status" => array(),
+		"section" => array()
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
