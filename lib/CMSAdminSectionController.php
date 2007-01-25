@@ -23,7 +23,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	
 	public function order() {
 		$root_section = $this->model->find_by_parent_id(0);
-		$this->main_sections = $root_section->get_children();
+		$this->main_sections = $root_section->get_children("`order` ASC");
 	}
 	
 	public function reorder() {

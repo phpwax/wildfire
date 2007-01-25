@@ -26,7 +26,6 @@ class CmsSection extends WXTreeRecord {
 	public function sections_as_collection($input = null) {	
 		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
 		if(!$input) $input = $this->tree_array;
-		$collection["0"]="Default";
 		foreach($input as $item) {
 	  	$value = str_pad($item->title, strlen($item->title) + $item->get_level(), "^", STR_PAD_LEFT);
 			$value = str_replace("^", "&nbsp;", $value);
