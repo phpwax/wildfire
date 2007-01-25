@@ -26,6 +26,10 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->main_sections = $root_section->get_children();
 	}
 	
+	public function reorder() {
+		print_r($_POST);
+		exit;
+	}
 	
 	
 	
