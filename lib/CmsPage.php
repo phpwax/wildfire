@@ -36,7 +36,7 @@ class CmsPage extends WXActiveRecord{
 	
 	public function sections() {
 		$section = new CmsSection;
-		return $section->filtered_sections_collection(0);
+		return $section->filtered_sections(0);
 	}
  	
 }
