@@ -5,15 +5,17 @@ class CmsSection extends WXTreeRecord {
   public $type_options = array("0"=>"Page-Style Content", "1"=>"News Article-Style Content");
 	public $tree_array = array();
 
- 	public function section_type() {
+ 	public function __construct() {
+		parent::__construct();
+		$this->traverse_tree($this->find_roots());
+	}
+
+	public function section_type() {
  	  return $this->type_options[$this->type];
  	}
 
-	public function after_setup() {
-		$section = new __CLASS__;
-		$this->traverse_tree($section->find_roots());
-	}
-
+	
+	
 	protected function traverse_tree($object_array) {
 		foreach($object_array as $node) {
 			$this->tree_array[] = $node;
