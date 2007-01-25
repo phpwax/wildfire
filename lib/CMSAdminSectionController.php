@@ -26,6 +26,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	}
 	
 	protected function create_section_tree() {
+		$collection[0]="Default";
 		foreach($this->final_array as $item) {
 	  	$value = str_pad($item[1], strlen($item[1]) + $item[2], "^", STR_PAD_LEFT);
 	  	$value = str_replace("^", "&nbsp;&nbsp;", $value);
