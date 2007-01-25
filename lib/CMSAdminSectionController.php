@@ -6,7 +6,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	public $model_name = "cms_section";													
 	public $display_name = "Site Sections";
 	public $scaffold_columns = array(
-    "title"   =>array()
+    "title"   =>array(),
+		"section_type"=>array()
   );
   public $filter_columns = array("title");
 
