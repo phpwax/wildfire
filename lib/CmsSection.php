@@ -36,12 +36,12 @@ class CmsSection extends WXTreeRecord {
 	}
 	
 	public function filtered_sections($id) {
-		array_walk_recursive($this->tree_array, "unset_type", $id);
+		$array = $this->tree_array;
+		foreach($array as $key=>$node) {
+			if($node->section_type != $id) unset($array[$key]);
+		}
+		return $array;
 	} 	
-	
-	protected function unset_type($value, $key, $id) {
-		if($value !=$id) unset($this->tree_array[$key]);
-	}
 	
 }
 
