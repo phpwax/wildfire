@@ -11,6 +11,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
   public $filter_columns = array("title");
 
 	public function controller_global() {
+		$sections = $this->model->find_roots();
+		$this->traverse_tree($sections);
 		$this->tree_collection = $this->create_section_tree();
 	}
 	
