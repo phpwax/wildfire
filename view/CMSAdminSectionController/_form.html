@@ -2,7 +2,7 @@
 	<?=form_heading("Setting up a site section")?>
   <?=medium(text_field($model, "title"))?>
   <?=small(select($model, "parent_id", $tree_collection, array(), "Parent Category"))?>
-  <?=small(select($model, "section_type", $model->type_options))?>
+  <?=small(select($model, "section_type", $model->type_options()))?>
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
   <?=form_divider()?>
