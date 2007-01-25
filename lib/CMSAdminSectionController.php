@@ -10,6 +10,17 @@ class CMSAdminSectionController extends CMSAdminComponent {
     "page_status" => array()
   );
   public $filter_columns = array("title");
+	
+	public function controller_global() {
+		
+	}
+	
+	public function make_tree_array($level=0) {
+		$sections = new Section;
+		foreach(new RecursiveIteratorIterator($sections) as $node) {
+			$tree_array[]=$node;
+		}
+	}
 
 
 }
