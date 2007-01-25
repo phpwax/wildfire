@@ -20,6 +20,7 @@ class CmsSection extends WXTreeRecord {
 	}
 	
 	public function sections_as_collection() {	
+		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
 		$collection["0"]="Default";
 		foreach($this->tree_array as $item) {
 	  	$value = str_pad($item->title, strlen($item->title) + $item->get_level(), "^", STR_PAD_LEFT);
@@ -30,6 +31,7 @@ class CmsSection extends WXTreeRecord {
 	}
 	
 	public function find_ordered_sections() {
+		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
 		return $this->tree_array;
 	}
 	
