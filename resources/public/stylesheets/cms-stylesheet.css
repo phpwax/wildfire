@@ -331,6 +331,17 @@ h4{
   background-color:#ebebeb;
 }
 
+#sortable_sections {
+	width:30%;
+}
+#sortable_sections li {
+	margin:3px 0;
+	padding:3px 12px;
+	background-color:#F1DF86;
+	font-size:170%;
+	color:#555555;
+}
+
 
 .clearfix:after {
 	content:".";

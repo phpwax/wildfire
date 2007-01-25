@@ -4,7 +4,7 @@
 </p>
 <ul id="sortable_sections">
   <?foreach($main_sections as $section):?>
-    <li><?=$section->title?></li>
+    <li id="section_<?=$section->id?>"><?=$section->title?></li>
   <?endforeach?>
 </ul>
 
