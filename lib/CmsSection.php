@@ -5,7 +5,7 @@ class CmsSection extends WXTreeRecord {
   public $type_options = array("0"=>"Page Template", "1"=>"News Template");
 	public $tree_array = array();
 	
-	public function before_insert() {
+	public function before_save() {
 		$this->url = WXInflections::dasherize($this->title);
 	}
 
