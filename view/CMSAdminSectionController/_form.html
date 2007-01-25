@@ -1,8 +1,9 @@
 <fieldset>
 	<?=form_heading("Setting up a site section")?>
   <?=medium(text_field($model, "title"))?>
-  <?=small(select($model, "parent_id", $tree_collection, array(), "Parent Category"), "Testing")?>
+  <?=small(select($model, "parent_id", $tree_collection, array(), "Parent Category"))?>
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
+  <?=form_divider()?>
   <a href="/admin/sections/">Cancel</a>
 </fieldset>
