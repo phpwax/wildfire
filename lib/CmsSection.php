@@ -10,7 +10,8 @@ class CmsSection extends WXTreeRecord {
  	}
 
 	public function after_setup() {
-		$this->traverse_tree($this->find_roots());
+		$section = new __CLASS__;
+		$this->traverse_tree($section->find_roots());
 	}
 
 	protected function traverse_tree($object_array) {
