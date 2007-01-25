@@ -22,7 +22,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	}
 	
 	public function order() {
-		$this->main_sections = $this->model->find_roots();
+		$root_section = $this->model->find_by_parent_id(0);
+		$this->main_sections = $root_section->get_children();
 	}
 	
 	
