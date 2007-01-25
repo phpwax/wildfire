@@ -40,6 +40,7 @@ class CmsSection extends WXTreeRecord {
 		foreach($array as $key=>$node) {
 			if($node->section_type != $id) unset($array[$key]);
 		}
+		print_r($array); exit;
 		return $array;
 	} 	
 	
