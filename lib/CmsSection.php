@@ -19,10 +19,11 @@ class CmsSection extends WXTreeRecord {
 		}
 	}
 	
-	public function sections_as_collection() {	
+	public function sections_as_collection($collection = null) {	
 		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
+		if(!$collection) $collection = $this->tree_array;
 		$collection["0"]="Default";
-		foreach($this->tree_array as $item) {
+		foreach($collection as $item) {
 	  	$value = str_pad($item->title, strlen($item->title) + $item->get_level(), "^", STR_PAD_LEFT);
 			$value = str_replace("^", "&nbsp;", $value);
 			$collection["{$item->id}"] = $value;
@@ -35,13 +36,13 @@ class CmsSection extends WXTreeRecord {
 		return $this->tree_array;
 	}
 	
-	public function filtered_sections($id) {
+	public function filtered_sections_collection($id) {
 		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
 		$array = $this->tree_array;
 		foreach($array as $key=>$node) {
 			if($node->section_type != $id) unset($array[$key]);
 		}
-		return $array;
+		return $this->sections_as_collection($array);
 	} 	
 	
 }
