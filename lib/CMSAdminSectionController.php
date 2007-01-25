@@ -34,6 +34,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 			$section = new $this->model_class($id);
 			$section->update_attributes(array("order"=>$order));
 		}
+		echo "ok";
 	}
 	
 	
