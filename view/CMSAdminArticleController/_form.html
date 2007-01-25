@@ -1,7 +1,7 @@
 <fieldset>
 	<?=form_heading("Article Editor")?>
   <?=medium(text_field($model, "title"))?>
-	<?=small(select($model, "article_type", $model->article_types))?>
+  <?=small(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title"), array(), "Choose a section" ))?>
   <?=small(select($model, "status", $model->status_options))?>
   <?=form_divider()?>
 	<?=medium(date_select($model, "published"))?>

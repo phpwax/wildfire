@@ -3,7 +3,6 @@
 class CmsArticle extends WXActiveRecord {
   
   public $status_options = array("0"=>"Draft", "1"=>"Published");
- 	public $article_types = array('cms_article'=>'News', "cms_blog"=>'Press Release');
  	
  	public function after_setup() {
  	  $this->has_many("cms_file", "images");
@@ -21,6 +20,16 @@ class CmsArticle extends WXActiveRecord {
  	  $title = WXInflections::dasherize($title);
  	  return $this->find_by_title($title, array("options"=>"published = 1"));
  	}
+
+	public function sections() {
+		$section = new CmsSection;
+		return $section->filtered_sections(1);
+	}
+	
+	public function section() {
+		$section = new CmsSection;
+		return $section->find($this->cms_section_id)->title;
+	}
 }
 
 ?>
