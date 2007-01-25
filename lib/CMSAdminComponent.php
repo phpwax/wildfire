@@ -33,6 +33,7 @@ class CMSAdminComponent extends WXControllerBase {
 	**/
 	public $scaffold_columns = null;
 	public $filter_columns = null;
+	public $intercept_method = null;
 	
 	/** 
 	* Construct method, initialises authentication, default model and menu items
@@ -40,8 +41,9 @@ class CMSAdminComponent extends WXControllerBase {
 	function __construct() {
 		$auth = new CMSAuthorise($this->auth_database_table);
 		$this->current_user = $auth->get_user();
-		if($this->current_user->usergroup>0) $this->is_admin=true;
+		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
+		$this->before_filter("all", "intercept_action");
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = WXInflections::underscore($this->model_class);
@@ -54,12 +56,6 @@ class CMSAdminComponent extends WXControllerBase {
 		  $this->page_no = $this->param("page");
 	    $this->list_offset = ($this->page_no * $this->list_limit);
 	  }
-		
-		// used to set permissions on interface elements - use if($is_allowed['id']) to test
-		foreach($this->is_allowed as $model_attribute=>$permission){
-			if($this->current_user->usergroup >= $permission) $this->is_allowed[$model_attribute] = true;
-			else $this->is_allowed[$model_attribute] = false;
-		}
 	}
 
 	/**
@@ -171,6 +167,12 @@ class CMSAdminComponent extends WXControllerBase {
 			$this->model->delete($id);
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('../../index');
+		}
+	}
+	
+	public function intercept_action() {
+		if($this->intercept_method && !$this->is_public_method($this, $this->action)) {
+			$this->action = $this->intercept_method;
 		}
 	}
 	
