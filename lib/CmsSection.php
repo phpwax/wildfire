@@ -1,6 +1,6 @@
 <?php
 
-class CmsSection extends WXActiveRecord {
+class CmsSection extends WXTreeRecord {
   
   public $type_options = array("0"=>"Page-Style Content", "1"=>"News Article-Style Content");
  	
