@@ -18,7 +18,7 @@ class CMSAdminPageController extends CMSAdminComponent {
 	public $allowed_images = 3;
 	
 	public function controller_global() {
-		if(!$this->is_public_method($this, $this->action)  $this->action = "section";
+		if(!$this->is_public_method($this, $this->action))  $this->action = "section";
 	}
 	
 	
