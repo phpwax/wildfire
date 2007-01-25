@@ -173,6 +173,7 @@ class CMSAdminComponent extends WXControllerBase {
 	
 	public function intercept_action() {
 		if($this->intercept_method && !$this->is_public_method($this, $this->action)) {
+			$this->original_action = $this->action;
 			$this->action = $this->intercept_method;
 		}
 	}
