@@ -1,0 +1,7 @@
+<ul id="sortable_sections">
+  <?foreach($main_sections as $section):?>
+    <li><?=$section_title?></li>
+  <?endforeach?>
+</ul>
+
+<?=sortable_element("sortable_sections", array("url" => array(":action" => "reorder")))?>

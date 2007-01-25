@@ -1,5 +1,5 @@
 <div id="section filter">
-  <strong>View by section</strong>
+  <strong>View by section: </strong>
   <a href="/admin/articles/">All sections</a> &nbsp;&nbsp;
   <?foreach($model->sections as $section):?>
     <a href="/admin/articles/<?=dasherize($section->title)?>"><?=$section->title?></a> &nbsp;&nbsp;
