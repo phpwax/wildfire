@@ -2,7 +2,7 @@
 
 class CmsSection extends WXTreeRecord {
   
-  public $type_options = array("0"=>"Page-Style Content", "1"=>"News Article-Style Content");
+  public $type_options = array("0"=>"Page Template", "1"=>"News Template");
 	public $tree_array = array();
 
 	public function template_style() {

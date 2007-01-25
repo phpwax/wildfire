@@ -16,6 +16,15 @@ class CMSAdminPageController extends CMSAdminComponent {
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
+	
+	public function controller_global() {
+		if(!$this->is_public_method($this, $this->action)  $this->action = "section";
+	}
+	
+	
+	public function section() {
+		die("hahaha");
+	}
 
 	
 	public function add_image() {
