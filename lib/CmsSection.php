@@ -38,6 +38,7 @@ class CmsSection extends WXTreeRecord {
 	public function filtered_sections($id) {
 		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
 		$array = $this->tree_array;
+		print_r($array); exit;
 		foreach($array as $key=>$node) {
 			if($node->section_type != $id) unset($array[$key]);
 		}
