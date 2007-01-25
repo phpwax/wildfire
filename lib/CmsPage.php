@@ -33,6 +33,11 @@ class CmsPage extends WXActiveRecord{
 		$record = $this->parent;
 		return $record->title;
 	}
+	
+	public function sections() {
+		$section = new CmsSection;
+		return $section->find_all_by_section_type(0);
+	}
  	
 }
 ?>

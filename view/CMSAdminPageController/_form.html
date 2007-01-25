@@ -2,7 +2,7 @@
 	<?=form_heading("Edit Page")?>
   <?=medium(text_field($model, "title"))?>
   <?=small(select($model, "status", $model->status_options))?>
-  <?=small(select($model, "cms_section_id", options_from_collection($model->cms_section->find_all()) ))?>
+  <?=small(select($model, "cms_section_id", options_from_collection($model->sections) ))?>
   
   <?=large(simple_wysiwyg($model, "content"))?>
 	<?=form_divider()?>
