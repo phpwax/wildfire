@@ -92,6 +92,7 @@ class CMSAdminComponent extends WXControllerBase {
 	  $options = array("order"=>$this->default_order." ".$this->default_direction);
 		$this->all_rows = $this->model->paginate($this->list_limit, $options);
 		if(!$this->all_rows) $this->all_rows=array();
+		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
 
