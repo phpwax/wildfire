@@ -1,6 +1,7 @@
 <fieldset>
 	<?=form_heading("Setting up a site section")?>
   <?=medium(text_field($model, "title"))?>
+  <?=medium(select($model, "parent_id", $tree_collection))?>
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
 </fieldset>
