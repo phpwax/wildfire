@@ -5,7 +5,7 @@
 */
 
 class CMSAdminPageController extends CMSAdminComponent {
-	public $module_name = "page";												
+	public $module_name = "pages";												
 	public $model_class = 'CmsPage';
 	public $model_name = "cms_page";													
 	public $display_name = "Pages";

@@ -4,7 +4,7 @@
 * @package PHP-WAX CMS
 */
 class CMSAdminArticleController extends CMSAdminComponent {
-	public $module_name = "article";											
+	public $module_name = "articles";											
 	public $model_class = 'CmsArticle';
 	public $model_name = "cms_article";													
 	public $display_name = "Articles";

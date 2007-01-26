@@ -2,7 +2,7 @@
 
 class CMSAdminSectionController extends CMSAdminComponent {
 
-  public $module_name = "section";												
+  public $module_name = "sections";												
   public $model_class = 'CmsSection';
 	public $model_name = "cms_section";													
 	public $display_name = "Site Sections";
