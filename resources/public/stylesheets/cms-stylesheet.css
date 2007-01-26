@@ -106,6 +106,8 @@ p{
 	position:absolute;
 	top:23px;
 	left:25px;
+	width:200px;
+	height:40px;
 	background-image: url(/images/cms/cms_webxpress-logo.gif);
 }
 #header-container #primary-navigation{
