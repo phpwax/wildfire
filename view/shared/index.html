@@ -13,5 +13,7 @@
     <?=$list?> 
   </tbody> 
 </table>
-
+<?if(count($all_rows)<1):?>
+  No items available
+<?endif?>
 <?=pagination_links($model)?>
