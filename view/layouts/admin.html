@@ -25,7 +25,7 @@
 	<div id="main-navigation-container">	
 		<ul>
 		  <?foreach($all_modules as $name=>$values):?>
-		    <li<?if($name = $module_name): echo " id='selected_nav'";?>>
+		    <li<?if($name = $module_name): echo " id='selected_nav'"; endif?>>
 		      <a href="<?=$controller?>"><?=$values['display_name']?></a>
 		    </li>
 			<?endforeach?>
