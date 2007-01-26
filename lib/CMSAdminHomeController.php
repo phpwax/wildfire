@@ -5,7 +5,7 @@
 */
 
 class CMSAdminHomeController extends CMSAdminComponent {
-  
+	public $module_name = "home";												
   public $model = "CmsUser";
 	public $model_class;
 	public $display_name = "Home";

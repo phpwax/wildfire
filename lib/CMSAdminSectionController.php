@@ -1,7 +1,8 @@
 <?php
 
 class CMSAdminSectionController extends CMSAdminComponent {
-  
+
+  public $module_name = "section";												
   public $model_class = 'CmsSection';
 	public $model_name = "cms_section";													
 	public $display_name = "Site Sections";

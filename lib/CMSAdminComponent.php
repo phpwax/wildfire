@@ -9,9 +9,12 @@ Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 
 class CMSAdminComponent extends WXControllerBase {
+
+	protected $all_modules = array();
+	public $module_name = null;											
 	public $model;	
 	protected $model_class;
-	public $model_name;													
+	public $model_name;
 	protected $access = "0";
 	protected $unauthorised_redirect="/admin/home/login";
 	protected $current_user=false;
@@ -24,13 +27,12 @@ class CMSAdminComponent extends WXControllerBase {
 	public $default_order = "id";
 	public $default_direction="ASC";
 	public $is_admin=false;
-	public $is_allowed = array();
-	/** scaffold columns can be overrided to specify
+	
+	/** scaffold columns can be overrided to specify what properties are listed
 	* @var array
 	**/
 	public $scaffold_columns = null;
 	public $filter_columns = null;
-	public $intercept_method = null;
 	
 	/** 
 	* Construct method, initialises authentication, default model and menu items
@@ -40,7 +42,6 @@ class CMSAdminComponent extends WXControllerBase {
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
-		$this->before_filter("all", "intercept_action");
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = WXInflections::underscore($this->model_class);
@@ -53,6 +54,7 @@ class CMSAdminComponent extends WXControllerBase {
 		  $this->page_no = $this->param("page");
 	    $this->list_offset = ($this->page_no * $this->list_limit);
 	  }
+		$this->all_modules = CMSApplication::get_modules();
 	}
 
 	/**
@@ -165,13 +167,6 @@ class CMSAdminComponent extends WXControllerBase {
 			$this->model->delete($id);
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('../../index');
-		}
-	}
-	
-	public function intercept_action() {
-		if($this->intercept_method && !$this->is_public_method($this, $this->action)) {
-			$this->original_action = $this->action;
-			$this->action = $this->intercept_method;
 		}
 	}
 	

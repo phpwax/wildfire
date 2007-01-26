@@ -21,8 +21,16 @@ class CMSApplication {
 	 * @param array $module
 	 **/
 
-	static public function register_module($module) {
-		self::$modules = $module;
+	static public function register_module($name, $values) {
+		self::$modules[$name] = $values;
+	}
+	
+	static public function get_modules() {
+		return self::$modules;
+	}
+	
+	static public function get_module($name) {
+		return self::$modules[$name];
 	}
 	
 }

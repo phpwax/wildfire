@@ -5,7 +5,7 @@
 */
 
 class CMSAdminFileController extends CMSAdminComponent {
-		
+	public $module_name = "file";												
   public $model;
 	public $model_class="CmsFile";
 	public $display_name = "Files";

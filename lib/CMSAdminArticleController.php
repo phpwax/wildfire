@@ -4,6 +4,7 @@
 * @package PHP-WAX CMS
 */
 class CMSAdminArticleController extends CMSAdminComponent {
+	public $module_name = "article";											
 	public $model_class = 'CmsArticle';
 	public $model_name = "cms_article";													
 	public $display_name = "Articles";
@@ -15,11 +16,10 @@ class CMSAdminArticleController extends CMSAdminComponent {
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
-	public $intercept_method = "section";
 
 	
 	
-	public function section() {
+	public function method_missing() {
 		$this->use_view="index";
 		$section = new CmsSection;
 		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->original_action)->id);

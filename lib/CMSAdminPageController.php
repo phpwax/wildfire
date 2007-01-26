@@ -5,6 +5,7 @@
 */
 
 class CMSAdminPageController extends CMSAdminComponent {
+	public $module_name = "page";												
 	public $model_class = 'CmsPage';
 	public $model_name = "cms_page";													
 	public $display_name = "Pages";
@@ -16,11 +17,10 @@ class CMSAdminPageController extends CMSAdminComponent {
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
-	public $intercept_method = "section";
 
 	
 	
-	public function section() {
+	public function method_missing() {
 		$this->use_view="index";
 		$section = new CmsSection;
 		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->original_action)->id);
