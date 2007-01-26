@@ -1,10 +1,7 @@
 <?php
 /**
-* Abstract class defining minimum requirments for CMS component
-* @package wxFramework
-* @subpackage CMSPlugin
-* @author WebXpress <john@webxpress.com>
-* @version 1.0
+* Home page controller
+* @package PHP-WAX CMS
 */
 
 class CMSAdminHomeController extends CMSAdminComponent {

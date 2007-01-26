@@ -183,6 +183,14 @@ p{
 	width:100%;
 	margin-top:12px;
 }
+#page-container a {
+	color:#64A801;
+	font-weight:bold;
+	text-decoration:none;
+}
+#page-container a:hover {
+	color:#92C905;
+}
 #page-container #page-title{
 	float:left;
 	margin:0 0 10px 25px;
@@ -350,6 +358,15 @@ h4{
 	margin-top:60px;
 	background:url(/images/cms/cms-footer-bg.gif) repeat-x;
 	padding:10px 40px 40px 40px;
+	text-align:right;
+}
+#footer a {
+	color:#64A801;
+	font-weight:bold;
+	text-decoration:none;
+}
+#footer a:hover {
+	color:#92C905;
 }
 
 .clearfix:after {

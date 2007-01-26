@@ -2,10 +2,7 @@
 /**
 * Class defining minimum requirments for CMS component
 * Depends on CMSAuthorise.php to provide authentication
-* @package wxFramework
-* @subpackage CMSPlugin
-* @author WebXpress <john@webxpress.com>
-* @version 1.0
+* @package PHP-WAX CMS
 */
 
 Autoloader::include_from_registry('CMSHelper');

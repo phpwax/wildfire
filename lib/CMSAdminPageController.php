@@ -2,7 +2,6 @@
 /**
 * CMSAdminPageController
 * @package PHP-WAX CMS
-* @version 1.0
 */
 
 class CMSAdminPageController extends CMSAdminComponent {

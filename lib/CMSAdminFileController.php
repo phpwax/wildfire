@@ -1,9 +1,7 @@
 <?php
 /**
 * Class giving an admin interface to manipulate files
-* @package CMSPlugin
-* @author WebXpress <ross@webxpress.com>
-* @version 1.0
+* @package PHP-WAX CMS
 */
 
 class CMSAdminFileController extends CMSAdminComponent {

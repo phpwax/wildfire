@@ -1,7 +1,6 @@
 <?php
 /**
 * Article Controller
-* Depends on CMSAuthorise.php to provide authentication
 * @package PHP-WAX CMS
 */
 class CMSAdminArticleController extends CMSAdminComponent {
