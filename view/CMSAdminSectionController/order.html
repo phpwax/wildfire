@@ -12,8 +12,8 @@
 
 <?=sortable_element("sortable_sections", array("url" => array("action" => "reorder")))?>
 
-<p>When you've finished, <?=link_to("just click here", array("action", "index"))?> to go back to the main page</p>
+<p>When you've finished, <?=link_to("just click here", array("action"=>"index"))?> to go back to the main page</p>
 
 <?else:?>
-  <p>No sections set up yet. <?=link_to("Click here", array("action", "index"))?> to go back to the main page</p>
+  <p>No sections set up yet. <?=link_to("Click here", array("action"=>"index"))?> to go back to the main page</p>
 <?endif?>
