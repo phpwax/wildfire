@@ -1,7 +1,7 @@
 <?foreach($all_rows as $image):?>
   <div class="browse_image" id="<?=$image->id?>">
     <img src="/admin/files/show_image/<?=$image->id?>/70" title="<?=$image->caption?>" /><br />
-    <?=$image->filename?>
+    <a href="edit/<?=$image->id?>"><?=truncate($image->filename, 12)?></a>
   </div>
 <?endforeach;?>
 <?if(empty($all_rows)):?>
