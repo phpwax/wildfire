@@ -327,6 +327,9 @@ h4{
   padding:3px 0 0 3px;
   font-size:9px;
 }
+#image_display .browse_image {
+	margin:0 15px 15px 0;
+}
 
 .item_row1 {
   background-color:#ebebeb;
