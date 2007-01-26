@@ -108,7 +108,7 @@ p{
 	left:25px;
 	width:200px;
 	height:40px;
-	background-image: url(/images/cms/cms_webxpress-logo.gif);
+	background-image: url(/images/cms/cms_webxpress-logo.gif) no-repeat;
 }
 #header-container #primary-navigation{
 	position:absolute;
