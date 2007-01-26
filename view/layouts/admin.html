@@ -25,8 +25,10 @@
 	<div id="main-navigation-container">	
 		<ul>
 		  <?foreach($all_modules as $name=>$values):?>
-		    <li<?if($name == $module_name): echo " id='selected_nav'"; endif?>>
-		      <a href="<?=$controller?>"><?=$values['display_name']?></a>
+		    <li<?if($name == $module_name) echo " id='selected_nav'";?>>
+		      <a href="/<?= WXRoute::controller_to_url($values['controller'])?>">
+		        <?=$values['display_name']?>
+		      </a>
 		    </li>
 			<?endforeach?>
 		</ul>
