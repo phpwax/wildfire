@@ -345,8 +345,11 @@ h4{
 }
 
 #footer {
-	margin-top:45px;
-	background:url(/images/cms/cms-footer-bg.gif) repeat-y;
+	font-size:70%;
+	color:#444444;
+	margin-top:60px;
+	background:url(/images/cms/cms-footer-bg.gif) repeat-x;
+	padding:10px 40px 40px 40px;
 }
 
 .clearfix:after {
