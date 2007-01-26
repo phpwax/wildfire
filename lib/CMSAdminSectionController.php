@@ -22,6 +22,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	}
 	
 	public function order() {
+		$this->sub_links["order"] = "Change the order of sections";
 		$root_section = $this->model->find_by_parent_id(0);
 		$this->main_sections = $root_section->get_children("`order` ASC");
 	}
@@ -35,9 +36,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 			$section->update_attributes(array("order"=>$order));
 		}
 		echo "ok";
-	}
-	
-	
+	}	
 	
 
 }
