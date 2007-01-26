@@ -161,18 +161,10 @@ p{
 	padding-right:10px;
 }
 
-#home #home_nav,
-#pages #pages_nav,
-#articles #articles_nav,
-#files #files_nav,
-#site_sections #section_nav {
+#selected_nav {
   background:#FFFFFF url(/images/cms/cms-navigation-left-tab.gif) no-repeat left top;
 }
-#home #home_nav a,
-#pages #pages_nav a,
-#articles #articles_nav a,
-#files #files_nav a,
-#site_sections #section_nav a {
+#selected_nav a {
   background:#FFFFFF url(/images/cms/cms-navigation-right-tab.gif) no-repeat right top;
 }
 
