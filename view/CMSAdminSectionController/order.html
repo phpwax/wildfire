@@ -1,4 +1,5 @@
 <h2>Reorder your sections</h2>
+<?if(count($main_sections) >0):?>
 <p>
   <strong>You'll find below a list of all your top-level sections.</strong><br />
   All you have to do to change the order is drag the blocks into the order you want.
@@ -11,4 +12,8 @@
 
 <?=sortable_element("sortable_sections", array("url" => array("action" => "reorder")))?>
 
-<p>When you've finished, <a href="/admin/sections/">just click here</a> to go back to the main page</p>
+<p>When you've finished, <?=link_to("just click here", array("action", "index"))?> to go back to the main page</p>
+
+<?else:?>
+  <p>No sections set up yet. <?=link_to("Click here", array("action", "index"))?> to go back to the main page</p>
+<?endif?>
