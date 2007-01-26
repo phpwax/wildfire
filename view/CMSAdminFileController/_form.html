@@ -4,4 +4,6 @@
   <?=large(text_area($model, "caption", array("rows"=>"2")))?>
 	
   <?=small(submit_field($model, "Save File"))?> 
+  <?=form_divider()?>
+  <?link_to("cancel", array("action"=>"index"))?>
 </fieldset>
