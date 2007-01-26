@@ -36,8 +36,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     }
 		if($this->image = File::display_image($file) ) {
 			return true;
-		}
-    return false;
+		} else $this->image = File::display_image(PUBLIC_DIR."images/cms/cms-generic-icon.gif");
   }
 	
 	public function download_file() {
