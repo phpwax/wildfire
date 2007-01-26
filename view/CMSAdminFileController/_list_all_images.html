@@ -1,7 +1,7 @@
 <?foreach($all_images as $image):?>
   <div class="browse_image" id="<?=$image->id?>">
     <img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" /><br />
-    <?=$image->filename?>
+    <?=truncate($image->filename, 12)?>
   </div>
   <?=draggable_element($image->id, array("revert"=>"true", "ghosting"=>"true"))?>
 <?endforeach;?>
