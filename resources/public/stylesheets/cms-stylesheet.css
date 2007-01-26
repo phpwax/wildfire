@@ -100,11 +100,13 @@ p{
 #header-container{
 	background-image: url(/images/cms/cms_header-bg.gif);
 	height:80px;
+	padding-left:150px;
 }
-#header-container #webxpress-logo{
+#header-container #cms-logo{
 	position:absolute;
 	top:23px;
 	left:25px;
+	background-image: url(/images/cms/cms_webxpress-logo.gif);
 }
 #header-container #primary-navigation{
 	position:absolute;
