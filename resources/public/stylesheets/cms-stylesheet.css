@@ -201,6 +201,7 @@ p{
 	border:1px solid #5f9002;
 	border-left:1px solid #649e02;
 	background: url(/images/cms/cms_header-submenu-bg.gif) repeat-x;
+	margin-right:10px;
 }
 #page-container #page-options #submenu li a {
 	color:#fff;
@@ -343,6 +344,10 @@ h4{
 	color:#555555;
 }
 
+#footer {
+	margin-top:45px;
+	background:url(/images/cms/cms-footer-bg.gif) repeat-y;
+}
 
 .clearfix:after {
 	content:".";
