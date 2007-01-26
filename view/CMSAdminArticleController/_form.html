@@ -10,7 +10,7 @@
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
   <?=form_divider()?>
-	<a href="/admin/articles/">Cancel</a>
+  <?=link_to("cancel", array("action"=>"index"))?>
 </fieldset>
 
 <?if($allowed_images):?>
