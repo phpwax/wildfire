@@ -1,7 +1,7 @@
 <?php
 /**
-* Class defining minimum requirments for CMS component
-* Depends on CMSAuthorise.php to provide authentication
+* Class defining basic building blocks of a CMS component
+* Uses database to provide authentication
 * @package PHP-WAX CMS
 */
 
@@ -38,7 +38,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* Construct method, initialises authentication, default model and menu items
 	**/
 	function __construct() {
-		$auth = new CMSAuthorise($this->auth_database_table);
+		$auth = new WXDBAuthenticate(array("encrypt"=>false, "db_table"=>$this->auth_database_table));
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
