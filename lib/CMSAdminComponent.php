@@ -112,7 +112,7 @@ class CMSAdminComponent extends WXControllerBase {
 	  $this->id = $this->param("id");
     $this->model = new $this->model_class($this->id);
 		$this->form = $this->render_partial("form");
-		$this->save($this->model, "../../index");
+		$this->save($this->model, "index");
 	}
 	
 	/**
@@ -147,8 +147,8 @@ class CMSAdminComponent extends WXControllerBase {
 			$model->author_id = $this->current_user->id;
 			
 			if($id = $model->update_attributes($_POST[$this->model_name]) ) {
-			  if($redirect_to =="edit") $redirect_to = "../edit/".$id;
-			  elseif(!$redirect_to) $redirect_to="../index";
+			  if($redirect_to =="edit") $redirect_to = "edit/".$id;
+			  elseif(!$redirect_to) $redirect_to="index";
       	Session::add_message($this->display_name." ".$success);
       	$this->redirect_to($redirect_to);
 			}
@@ -163,7 +163,7 @@ class CMSAdminComponent extends WXControllerBase {
 		if($id = $this->param('id')) {
 			$this->model->delete($id);
 			Session::add_message("Item successfully deleted");
-			$this->redirect_to('../../index');
+			$this->redirect_to('index');
 		}
 	}
 	
