@@ -20,7 +20,7 @@ class CmsSection extends WXTreeRecord {
 		foreach($object_array as $node) {
 			$this->tree_array[] = $node;
 			if($node->has_children()) {
-			  if($order) $this->traverse_tree($node->get_children($order." ".$direction));
+			  if($order) $this->traverse_tree($node->get_children("`".$order."` ".$direction));
 				else $this->traverse_tree($node->get_children());
 			} 
 		}
