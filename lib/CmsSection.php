@@ -4,6 +4,8 @@ class CmsSection extends WXTreeRecord {
   
   public $type_options = array("0"=>"Page Template", "1"=>"News Template");
 	public $tree_array = array();
+	public $order_field = "order";
+	public $order_direction = "ASC";
 	
 	public function before_save() {
 		$this->url = WXInflections::dasherize($this->title);
@@ -14,11 +16,12 @@ class CmsSection extends WXTreeRecord {
  	}
 
 	
-	protected function traverse_tree($object_array) {
+	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
 		foreach($object_array as $node) {
 			$this->tree_array[] = $node;
 			if($node->has_children()) {
-				$this->traverse_tree($node->get_children("title ASC"));
+			  if($order) $this->traverse_tree($node->get_children($order." ".$direction));
+				else $this->traverse_tree($node->get_children());
 			} 
 		}
 	}
@@ -35,7 +38,7 @@ class CmsSection extends WXTreeRecord {
 	}
 	
 	public function find_ordered_sections() {
-		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
+		if(!$this->tree_array) $this->traverse_tree($this->find_roots(), $this->order_field, $this->order_direction);
 		return $this->tree_array;
 	}
 	
