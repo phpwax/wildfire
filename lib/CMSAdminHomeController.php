@@ -6,8 +6,9 @@
 
 class CMSAdminHomeController extends CMSAdminComponent {
 	public $module_name = "home";												
-  public $model = "CmsUser";
-	public $model_class;
+  	public $model;
+	public $model_name = "cms_user";
+	public $model_class = "CmsUser";
 	public $display_name = "Home";
 	public $base_url;
 	
@@ -17,7 +18,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	private function process_login() {
-		$auth = new WXDBAuthenticate(array("db_table"=>$this->model));
+		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
 		  if($_POST['redirect'] && !strpos($_POST['redirect'], "login")) return $_POST['redirect'];
 			else return 'index';
@@ -37,7 +38,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	public function logout( ) {
-		$auth = new WXDBAuthenticate(array("db_table"=>$this->model));
+		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name));
 		$auth->logout();
 		$this->redirect_to('/');
 	}

@@ -18,7 +18,7 @@ class CMSAdminComponent extends WXControllerBase {
 	protected $access = "0";
 	protected $unauthorised_redirect="/admin/home/login";
 	protected $current_user=false;
-	public $auth_database_table="CmsUser";
+	public $auth_database_table="cms_user";
 	public $use_plugin = "cms";
 	public $use_layout = "admin";
 	public $sub_links;
