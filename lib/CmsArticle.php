@@ -31,6 +31,11 @@ class CmsArticle extends WXActiveRecord {
 		return $section->find($this->cms_section_id)->title;
 	}
 	
+	public function section_url() {
+		$section = new CmsSection;
+		return $section->find($this->cms_section_id)->url;
+	}
+	
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
 	}
