@@ -3,7 +3,7 @@
   <?$current_row = 1 - $current_row?>
     <tr id="row-<?=$row->id?>" class="item_row<?=$current_row?>">
       <td id="icon_row">
-      </td>
+       </td>
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
           <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id), array("class" =>"lbOn"))?>
