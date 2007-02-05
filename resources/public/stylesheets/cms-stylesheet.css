@@ -100,6 +100,7 @@ p{
 #header-container{
 	background-image: url(/images/cms/cms_header-bg.gif);
 	height:80px;
+	padding:0px;
 	padding-left:150px;
 }
 #header-container #cms-logo{
@@ -345,9 +346,7 @@ h4{
   padding:3px 0 0 3px;
   font-size:9px;
 }
-.attached_image img {
-  display:block;
-}
+
 #image_display .browse_image {
 	margin:0 15px 15px 0;
 }
