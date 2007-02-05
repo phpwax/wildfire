@@ -2,8 +2,14 @@
   function toggle_browser() {
     if($('image_browser').style.width == '450px') {
       $('image_browser').style.width="0px";
+      $('filter_block').style.display="none";
+      $('image_list').style.display="none";
+      $('drop_zones').style.display="none";
     } else {
       $('image_browser').style.width="450px";
+      $('filter_block').style.display="block";
+      $('image_list').style.display="block";
+      $('drop_zones').style.display="block";
     }
   }
 </script>
