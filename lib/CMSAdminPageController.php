@@ -23,7 +23,7 @@ class CMSAdminPageController extends CMSAdminComponent {
 	public function method_missing() {
 		$this->use_view="index";
 		$section = new CmsSection;
-		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->original_action)->id);
+		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->action)->id);
 		$this->filter_block_partial = $this->render_partial("section_filter");
 		$this->list = $this->render_partial("list");
 	}
