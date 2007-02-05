@@ -20,7 +20,7 @@ div, ul, ol {
   padding:0;
 }
 html > body * {
-  font-size:medium;
+  font-size:small;
 }
 img{
 	border:0px;
