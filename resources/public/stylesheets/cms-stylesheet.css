@@ -290,6 +290,7 @@ h4{
   position:absolute;
   top:180px;
   left:-1px;
+  z-index:0;
 }
 #image_browser {
   width:0px;
@@ -303,6 +304,7 @@ h4{
   padding:10px;
   float:left;
   width:317px;
+  display:none;
 }
 #image_browse_tab {
   float:left;
@@ -312,11 +314,13 @@ h4{
 }
 #filter_block {
   padding:4px 10px;
+  display:none;
 }
 #drop_zones {
   float:left;
   padding:4px;
   width:100px;
+  display:none;
 }
 .dropzone_active {
   background:#DDDDDD;
