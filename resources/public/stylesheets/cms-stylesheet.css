@@ -132,7 +132,7 @@ p{
 	text-align:center;
 	vertical-align:bottom;
 	/* QUICK FIX: FIND BETTER SOLUTION */
-	line-height:105px;
+	line-height:60px;
 }
 #header-container #primary-navigation li{
 	float:left;
