@@ -37,16 +37,13 @@ option {
 h6{display:none;}
 /*-- generic menu title --*/
 h1{
-	font-size:13pt;
 	margin-top:13px;
 	margin-bottom:13px;
 }
 h2{
-	font-size:14pt;
 	padding:4px;
 }
 h5{
-	font-size:10pt;
 }
 ul {
 	list-style:none;

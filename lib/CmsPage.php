@@ -26,7 +26,7 @@ class CmsPage extends WXActiveRecord{
  	}
  	
  	public function before_insert() {
- 	  $this->url = WXInflections::dasherize($this->title);
+ 	  $this->url = WXInflections::to_url($this->title);
  	}
  	
 	public function parent_name(){
