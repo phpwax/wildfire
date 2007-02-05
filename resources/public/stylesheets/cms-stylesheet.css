@@ -124,11 +124,6 @@ p{
 	background-repeat:no-repeat;
 	width:100px;
 	display:block;
-	height:60px;
-	text-align:center;
-	vertical-align:bottom;
-	/* QUICK FIX: FIND BETTER SOLUTION */
-	line-height:105px;
 }
 #header-container #primary-navigation li{
 	float:left;
