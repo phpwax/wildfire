@@ -130,6 +130,7 @@ p{
 	display:block;
 	height:60px;
 	padding-top:45px;
+	text-align:center;
 }
 #header-container #primary-navigation li{
 	float:left;
