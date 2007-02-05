@@ -15,3 +15,5 @@ class SectionTableMigrate extends WXMigrate {
     $this->drop_table("cms_section");
   }
   
+}
+?>
