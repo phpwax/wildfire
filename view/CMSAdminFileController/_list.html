@@ -1,6 +1,6 @@
 <?foreach($all_rows as $image):?>
   <div class="browse_image" id="<?=$image->id?>">
-    <img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" class="reflect ropacity30 rheight30"/><br />
+    <img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" class="reflect ropacity40 rheight25"/><br />
     <a href="edit/<?=$image->id?>"><?=truncate($image->filename, 15)?></a>
     <?=link_to(image_tag("cms/trash.gif"), array("action"=>"delete", "id"=>$image->id))?>
   </div>
