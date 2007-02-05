@@ -15,6 +15,9 @@
 	padding:0;
 	margin:0;
 }
+html > body {
+  font-size:small;
+}
 img{
 	border:0px;
 }
