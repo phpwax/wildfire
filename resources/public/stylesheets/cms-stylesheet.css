@@ -15,6 +15,10 @@
 	padding:0;
 	margin:0;
 }
+div, ul, ol {
+  margin:0;
+  padding:0;
+}
 html > body {
   font-size:medium;
 }
@@ -153,7 +157,7 @@ p{
 	background-color:#dedede;
 	padding:0px;
 }
-#main-navigation-container ul{
+#main-navigation-container ul {
 	margin-left:18px;
 	padding-top:8px;
 }
