@@ -9,7 +9,7 @@
 *
 */
 
-*{
+* {
 	font-family:verdana, georgia, arial, sans-serif;
 	font-size:9pt;
 	padding:0;
@@ -148,6 +148,7 @@ p{
 	height:3.5em;
 	border-bottom:1px solid #c2c2c2;
 	background-color:#dedede;
+	padding:0px;
 }
 #main-navigation-container ul{
 	margin-left:18px;
