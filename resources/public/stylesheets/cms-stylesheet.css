@@ -100,7 +100,6 @@ p{
 #header-container{
 	background-image: url(/images/cms/cms_header-bg.gif);
 	height:80px;
-	padding:0px;
 	padding-left:150px;
 }
 #header-container #cms-logo{
