@@ -19,9 +19,7 @@ div, ul, ol {
   margin:0;
   padding:0;
 }
-html > body * {
-  font-size:small;
-}
+
 img{
 	border:0px;
 }
@@ -373,7 +371,6 @@ h4{
 }
 
 #footer {
-	font-size:70%;
 	color:#444444;
 	margin-top:60px;
 	background:url(/images/cms/cms-footer-bg.gif) repeat-x;
