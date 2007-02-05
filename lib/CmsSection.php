@@ -8,7 +8,7 @@ class CmsSection extends WXTreeRecord {
 	public $order_direction = "ASC";
 	
 	public function before_save() {
-		$this->url = WXInflections::dasherize($this->title);
+		$this->url = WXInflections::to_url($this->title);
 	}
 
 	public function template_style() {
