@@ -158,6 +158,8 @@ p{
 	padding:0px;
 }
 #main-navigation-container ul {
+  margin:0;
+  padding:0;
 	margin-left:18px;
 	padding-top:8px;
 }
