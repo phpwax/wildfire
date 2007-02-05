@@ -320,10 +320,12 @@ h4{
   display:none;
 }
 #image_browse_tab {
-  float:left;
   width:34px;
   height:100px;
   margin-top:15px;
+  position:absolute;
+  top:180px;
+  left:0px;
 }
 #filter_block {
   padding:4px 10px;
