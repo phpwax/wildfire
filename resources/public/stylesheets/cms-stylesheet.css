@@ -114,6 +114,7 @@ p{
 	position:absolute;
 	left:300px;
 	top:12px;
+	margin:0;
 }
 #header-container #primary-navigation a{
 	color:#fff;
