@@ -44,13 +44,25 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	public function index() {
-		$this->display_action_name = 'Welcome';
-		$page_model = new CmsPage;
-		$this->page_rows = $page_model->find_all(array('limit'=>5));
-		$article_model = new CmsArticle;
-		$this->article_rows = $article_model->find_all(array('limit'=>5));
+    $this->links = $this->parse_rss("http://getclicky.com/stats/feed/1480/a661180b0d9b/links", "5");
 	}
 	
 	public function support() { $this->display_action_name = 'Support'; }
+
+  public function parse_rss($url, $items) {
+    $simple = simplexml_load_file($url);
+    for($i=0; $i<$items; $i+=1) {
+      $title = utfdan($simple->item[$i]->title);
+      $desc = utfdan($simple->item[$i]->description);
+      $link = $simple->item[$i]->link; // Translation not necessary
+      $rss[]=array($title, $desc, $link);
+    }
+    return $rss;
+  }
+
+
+
+
 }
+
 ?>
