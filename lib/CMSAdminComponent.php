@@ -28,6 +28,7 @@ class CMSAdminComponent extends WXControllerBase {
 	public $default_order = "id";
 	public $default_direction="ASC";
 	public $is_admin=false;
+	public $config;
 	
 	/** scaffold columns can be overrided to specify what properties are listed
 	* @var array
