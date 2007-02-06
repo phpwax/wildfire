@@ -53,9 +53,9 @@ class CMSAdminHomeController extends CMSAdminComponent {
     ini_set("allow_url_fopen","on");
     $simple = simplexml_load_file($url);
     for($i=0; $i<$items; $i+=1) {
-      $title = utfdan($simple->item[$i]->title);
-      $desc = utfdan($simple->item[$i]->description);
-      $link = $simple->item[$i]->link; // Translation not necessary
+      $title = $simple->item[$i]->title;
+      $desc = $simple->item[$i]->description;
+      $link = $simple->item[$i]->link;
       $rss[]=array($title, $desc, $link);
     }
     return $rss;
