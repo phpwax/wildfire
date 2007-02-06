@@ -13,10 +13,10 @@ class CmsConfiguration extends WXActiveRecord{
   public function set($name, $value) {
     $conf = new CmsConfiguration;
     if($result = $conf->find_by_name($name)) {
-      $result->update_attributes("value"=>$value);
+      $result->update_attributes(array("value"=>$value));
     } else {
       $conf = new CmsConfiguration;
-      $conf->update_attributes("name"=>$name, "value"=>$value);
+      $conf->update_attributes(array("name"=>$name, "value"=>$value));
     }
     return true;
   }
