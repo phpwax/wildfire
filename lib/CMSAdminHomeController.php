@@ -50,6 +50,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	public function support() { $this->display_action_name = 'Support'; }
 
   public function parse_rss($url, $items) {
+    ini_set("allow_url_fopen","on");
     $simple = simplexml_load_file($url);
     for($i=0; $i<$items; $i+=1) {
       $title = utfdan($simple->item[$i]->title);
