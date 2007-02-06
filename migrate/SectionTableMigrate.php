@@ -9,6 +9,7 @@ class SectionTableMigrate extends WXMigrate {
     $this->create_column("section_type", "integer", "2", false, "0");
     $this->create_column("url", "string");
     $this->create_table("cms_section");
+    $this->run_sql("INSERT INTO cms_section (title, parent_id) VALUES('Default', '0')");
   }
   
   public function down() {
