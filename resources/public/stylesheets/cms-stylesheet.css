@@ -391,6 +391,16 @@ h4{
 	color:#92C905;
 }
 
+
+.cms_home_module {
+  width:30%;
+  border:1px solid #E1E1E1;
+}
+.cms_home_module h3 {
+  background:#282828;
+}
+
+
 .clearfix:after {
 	content:".";
 	display:block;
