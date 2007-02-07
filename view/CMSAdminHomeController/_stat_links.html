@@ -1,0 +1,17 @@
+<div class="cms_home_module">
+  
+  <?if(count($stat_links)):?>
+    <?foreach($stat_links as $link):?>
+      <?print_r($link)?>
+    <?endforeach?>
+  <?else:?>
+    <form action="" method="post" class="form_container">
+      <fieldset>
+        <?=large(text_field_tag("Link Statistics URL"))?>
+        <?=form_divider()?>
+        <?=small(submit_tag("Update"))?>
+      </fieldset>
+    </form>
+
+  <?endif?>
+</div>
