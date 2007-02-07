@@ -392,13 +392,28 @@ h4{
 }
 
 
+
 .cms_home_module {
   width:30%;
-  border:1px solid #E1E1E1;
+  border:1px solid #D1D1D1;
+  margin:0;
+  padding:0;
 }
 .cms_home_module h3 {
   background:#282828;
+  margin:0 !important;
+  padding:4px 15px;
+  color:white;
+  font-weight:normal;
+  font-size:140%;
 }
+.home_module_line {
+  padding:4px 15px;
+  border-bottom:1px solid #D1D1D1;
+}
+
+
+
 
 
 .clearfix:after {

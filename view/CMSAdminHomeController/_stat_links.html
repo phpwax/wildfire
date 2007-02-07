@@ -2,12 +2,12 @@
   <h3>Link Statistics</h3>
   <?if(count($stat_links)):?>
     <?foreach($stat_links as $link):?>
-      <?print_r($link)?>
+      <div class="home_module_line"><a href="<?=$link[2]?>"><?$txt = explode(" ",$link[0]); echo $txt[4]?></a></div>
     <?endforeach?>
   <?else:?>
     <form action="" method="post" class="form_container">
       <fieldset>
-        <?=large(text_field_tag("Link Statistics URL"))?>
+        <?=large(text_field_tag("stat_link_url", "", array(),"Link Statistics URL"))?>
         <?=form_divider()?>
         <?=small(submit_tag("Update"))?>
       </fieldset>

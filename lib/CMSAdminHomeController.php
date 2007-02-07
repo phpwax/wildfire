@@ -44,10 +44,8 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	public function index() {
-	  $li = CmsConfiguration::get("stat_links") ? $this->stat_links = $this->parse_rss($li, 5) : $this->stat_links = array();
-	  $vi = CmsConfiguration::get("visit_links") ? $this->visit_links = $this->parse_rss($vi, 5) : $this->visit_links = array();
-	  $dash = CmsConfiguration::get("dash_links") ? $this->dash_links = $this->parse_rss($dash, 5) : $this->dash_links = array();
-	  $search = CmsConfiguration::get("search_links") ? $this->search_links = $this->parse_rss($search, 5) : $this->search_links = array();
+	  $this->stat_setup();
+	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_rss($li, 5) : array();
 	  $this->link_module = $this->render_partial("stat_links");
 	  
 	}
@@ -63,6 +61,13 @@ class CMSAdminHomeController extends CMSAdminComponent {
       $rss[]=array($title, $desc, $link);
     }
     return $rss;
+  }
+  
+  protected function stat_setup() {
+    if($_POST['stat_link_url']) CmsConfiguration::set("stat_link_url", $_POST['stat_link_url']);
+    if($_POST['visit_link_url']) CmsConfiguration::set("visit_link_url", $_POST['visit_link_url']);
+    if($_POST['search_link_url']) CmsConfiguration::set("search_link_url", $_POST['search_link_url']);
+    if($_POST['dash_link_url']) CmsConfiguration::set("dash_link_url", $_POST['dash_link_url']);
   }
 
 
