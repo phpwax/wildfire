@@ -5,90 +5,7 @@
 **    Last modified: 2005-03-09
 **
 **    File modified and enhanced by Ross Riley (http://www.sorrylies.com)
-**
-**
-**
-**
-**    License Information:
-**    -------------------------------------------------------------------------
-**    Copyright (C) 2005 Cameron Adams
-**
-**    This program is free software; you can redistribute it and/or modify it
-**    under the terms of the GNU General Public License as published by the
-**    Free Software Foundation; either version 2 of the License, or (at your
-**    option) any later version.
-**    
-**    This program is distributed in the hope that it will be useful, but
-**    WITHOUT ANY WARRANTY; without even the implied warranty of
-**    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-**    General Public License for more details.
-**    
-**    You should have received a copy of the GNU General Public License along
-**    with this program; if not, write to the Free Software Foundation, Inc.,
-**    59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-**    
-**    
-**    
-**    
-**    Purpose:
-**    -------------------------------------------------------------------------
-**
-**    Replaces all textareas (class="widgEditor") in a HTML document with
-**    enhanced editing windows to allow basic HTML formatting in a WYSIWYG
-**    manner.
-**
-**
-**
-**
-**    Function list:
-**    -------------------------------------------------------------------------
-**
-**    run()
-**
-**    widgInit()
-**
-**    widgEditor(replacedTextareaID)
-**    widtEditor.cleanPaste()
-**    widgEditor.cleanSource()
-**    widgEditor.convertSPANs(theSwitch)
-**    widgEditor.detectPaste(e)
-**    widgEditor.initEdit()
-**    widgEditor.insertNewParagraph()
-**    widgEditor.modifyFormSubmit()
-**    widgEditor.paragraphise()
-**    widgEditor.refreshDisplay()
-**    widgEditor.switchMode()
-**    widgEditor.updateWidgInput()
-**    widgEditor.writeDocument()
-**
-**    widgToolbar()
-**    widgToolbar.addButton(theID, theClass, theLabel, theAction)
-**    widgToolbar.addSelect(theID, theClass, theContentArray, theAction)
-**    widgToolbar.disable()
-**    widgToolbar.enable()
-**    widgToolbar.setState(theState, theStatus)
-**
-**    widgToolbarAction()
-**
-**    widgToolbarCheckState(theWidgEditor, resubmit)
-**
-**    widgToolbarMouseover()
-**
-**    acceptableChildren(theNode)
-**
-**    changeNodeType(theNode, nodeType)
-**
-**    replaceNodeWithChildren()
-**
-**    String.addClass(theClass)
-**    String.classExists(theClass)
-**    String.isAcceptedElementName()
-**    String.isInlineName()
-**    String.removeClass(theClass)
-**    String.reverse()
-**    String.validTags()
-*/
-
+**/
 
 
 
@@ -114,12 +31,9 @@ widgToolbarItems.push("blockformat");
 var widgSelectBlockOptions = new Array();
 
 widgSelectBlockOptions.push("", "Change block type");
-widgSelectBlockOptions.push("<h1>", "Heading 1");
-widgSelectBlockOptions.push("<h2>", "Heading 2");
-widgSelectBlockOptions.push("<h3>", "Heading 3");
-widgSelectBlockOptions.push("<h4>", "Heading 4");
-widgSelectBlockOptions.push("<h5>", "Heading 5");
-widgSelectBlockOptions.push("<h6>", "Heading 6");
+widgSelectBlockOptions.push("<h3>", "Heading");
+widgSelectBlockOptions.push("<h4>", "Subheading");
+widgSelectBlockOptions.push("<h6>", "Quote");
 widgSelectBlockOptions.push("<p>", "Paragraph");
 
 /* If widgInsertParagraphs = true, when content is submitted paragraphs will be
@@ -403,13 +317,14 @@ widgEditor.prototype.cleanSource = function()
 	theHTML = theHTML.replace(/<br>/g, "<br />");
 	
 	/* Remove BRs right before the end of blocks */
-	theHTML = theHTML.replace(/<br \/>\s*<\/(h1|h2|h3|h4|h5|h6|li|p)/g, "</$1");
+	theHTML = theHTML.replace(/<br \/>\s*<\/(h1|h2|h3|h4|h5|h6|li|p|address|pre)/g, "</$1");
 	
 	/* Replace improper IMGs */
 	theHTML = theHTML.replace(/(<img [^>]+[^\/])>/g, "$1 />");
 	
 	/* Remove empty tags */
 	theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, "");
+
 	
 	if (this.wysiwyg)
 	{
@@ -1142,9 +1057,7 @@ function widgToolbarAction()
 	{
 		case "formatblock":
 			theIframe.contentWindow.document.execCommand(this.action, false, this.value);
-			
 			theWidgEditor.theToolbar.setState("SelectBlock", this.value);
-			
 			break;
 			
 		case "html":
@@ -1568,7 +1481,7 @@ String.prototype.classExists = function(theClass)
 /* Check if a string is the nodeName of an accepted element */
 String.prototype.isAcceptedElementName = function()
 {
-	var elementList = new Array("#text", "a", "em", "h1", "h2", "h3", "h4", "h5", "h6", "img", "li", "ol", "p", "strong", "ul");
+	var elementList = new Array("#text", "a", "em", "h1", "h2", "h3", "h4", "h5", "h6", "img", "li", "ol", "p", "strong", "ul", "address", "pre");
 	var theName = this.toLowerCase();
 	
 	for (var i = 0; i < elementList.length; i++)

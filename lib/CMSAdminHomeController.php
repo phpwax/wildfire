@@ -46,7 +46,9 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	public function index() {
 	  $this->stat_setup();
 	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_rss($li, 5) : array();
+	  $this->search_links = ($li = CmsConfiguration::get("stat_search_url")) ? $this->parse_rss($li, 5) : array();
 	  $this->link_module = $this->render_partial("stat_links");
+	  $this->search_module = $this->render_partial("stat_links");
 	  
 	}
 	

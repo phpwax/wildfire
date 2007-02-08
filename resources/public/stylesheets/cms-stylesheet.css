@@ -406,10 +406,12 @@ h4{
   color:white;
   font-weight:normal;
   font-size:140%;
+  border:0;
 }
 .home_module_line {
   padding:4px 15px;
   border-bottom:1px solid #D1D1D1;
+  margin:0 6px;
 }
 
 
