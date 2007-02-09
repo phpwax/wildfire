@@ -2,9 +2,13 @@
   <h3>Recent Search Referrals</h3>
   <?if(count($stat_search)):?>
     <?foreach($stat_search as $search):?>
-      <?preg_match("/http:[^\"]*/",$search[1], $results)?>
-      <?$search = explode(":", $search[0])?>
-      <div class="home_module_line"><?=$search[0]?>:<?=$search[1]?> <a href="<?=$results[0]?>"><?=$search[2]?></a></div>
+      <?if($search[0]):?>
+        <?preg_match("/http:[^\"]*/",$search[1], $results)?>
+        <?$search = explode(":", $search[0])?>
+        <div class="home_module_line"><?=$search[0]?>:<?=$search[1]?></div>
+        <div class="home_module_value"><a href="<?=$results[0]?>"><?=$search[2]?></a></div>
+        <div class="graph_separator"></div>
+      <?endif?>
     <?endforeach?>
   <?else:?>
     <form action="" method="post" class="form_container">

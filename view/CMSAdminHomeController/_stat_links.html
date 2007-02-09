@@ -2,8 +2,12 @@
   <h3>Recent Incoming Links</h3>
   <?if(count($stat_links)):?>
     <?foreach($stat_links as $link):?>
-      <?$link = explode(":", $link[0])?>
-      <div class="home_module_line"><?=$link[0]?>:<?=$link[1]?>&nbsp;&nbsp;&nbsp;<a href="http://<?=$link[2]?>"><?=$link[2]?></a></div>
+      <?if($link[0]):?>
+        <?$link = explode(":", $link[0])?>
+        <div class="home_module_line"><?=$link[0]?>:<?=$link[1]?>&nbsp;&nbsp;&nbsp;</div>
+        <div class="home_module_value"><a href="http://<?=$link[2]?>"><?=$link[2]?></a></div>
+        <div class="graph_separator"></div>
+      <?endif?>
     <?endforeach?>
   <?else:?>
     <form action="" method="post" class="form_container">

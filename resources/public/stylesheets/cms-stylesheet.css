@@ -395,7 +395,6 @@ h4{
 
 .cms_home_module {
   width:30%;
-  border:1px solid #D1D1D1;
   margin:0;
   padding:0;
   float:left;
@@ -408,14 +407,32 @@ h4{
   color:white;
   font-weight:normal;
   font-size:140%;
-  border:0;
-}
-.home_module_line {
-  padding:4px 15px;
-  border-bottom:1px solid #D1D1D1;
-  margin:0 6px;
+  border:0 !important;
+  margin-bottom:7px !important;
 }
 
+.home_module_line, .graph_line {
+  padding:0;
+  margin:5px 0 5px 15px;
+  float:left;
+  width:30%;
+  border:0;
+}
+.bar_graph, .home_module_value {
+  background:url(/images/cms/cms-stat-graph.gif) repeat-x;
+  height:9px;
+  float:left;
+  margin:5px 15px 5px 0;
+}
+.home_module_value {
+  background:none;
+}
+.graph_separator {
+  clear:both;
+  border-top:1px solid #D1D1D1;
+  margin:5px 15px;
+  padding:0;
+}
 
 
 
