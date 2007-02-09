@@ -12,7 +12,7 @@ $max = max($visits);
     <?foreach($stat_dash as $dash):?>
       <?preg_match("/([0-9]+)\svisitors/",$dash[0], $results)?>
       <?preg_match("/(.*):/",$dash[0], $results2)?>
-      <?$width = (($results[1] / $max) * 0.6)*100?>
+      <?$width = (($results[1] / $max) * 0.5)*100?>
       <?if($dash[0]):?>
         <div class="home_module_line graph_line"><?=$results2[1]?>: <strong><?=$results[1]?> Visitors</strong> &nbsp;&nbsp;</div>
         <div class="bar_graph" style="width:<?=$width?>%"></div><div class="graph_separator"></div>

@@ -4,6 +4,7 @@
   </form>
   <?=observe_field("filter_field", array(
     "url" => array("action"=>"filter"),
+    "evalScripts"=>true,
     "frequency" => "1",
     "update"=>"list_rows",
     "with"=>"'filter='+value"

@@ -4,7 +4,7 @@ class ConfigurationTableMigrate extends WXMigrate {
   
   public function up() {
     $this->create_column("name", "string");
-    $this->create_column("value", "string");
+    $this->create_column("value", "text");
     $this->create_table("cms_configuration");
   }
   

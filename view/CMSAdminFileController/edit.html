@@ -1,5 +1,8 @@
-<h3>Editing file</h3>
-<img src="/admin/files/show_image/<?=$model->id?>" />
+<h1>Editing file</h1>
+<div id="existing_image" style="float:left; margin-right:15px">
+  <img src="/admin/files/show_image/<?=$model->id?>" class="reflect rheight15" />
+  <p><a href="../download-file/<?=$model->id?>">Download File</a></p>
+</div>
 <form action="" class="form_container" method="post" enctype="multipart/form-data">
   <?=$form?>
 </form>

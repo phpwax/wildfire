@@ -327,7 +327,7 @@ h4{
   top:180px;
   left:0px;
 }
-#filter_block {
+#image_browser_container #filter_block {
   padding:4px 10px;
   display:none;
 }
