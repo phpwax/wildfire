@@ -325,6 +325,14 @@ widgEditor.prototype.cleanSource = function()
 	/* Remove empty tags */
 	theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, "");
 
+  /* Add extra hooks to h6 tags */
+	theHTML = theHTML.replace(/<h6>/g, "<h6><span>");
+	theHTML = theHTML.replace(/<\/h6>/g, "</span></h6>");
+	
+	/* Strip double spans */
+  theHTML = theHTML.replace(/<span><span>/g, "<span>");
+	theHTML = theHTML.replace(/<\/span><\/span>/g, "</span>");
+  
 	
 	if (this.wysiwyg)
 	{
