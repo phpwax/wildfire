@@ -1,0 +1,28 @@
+<? // Find max value of visitors 
+foreach($stat_dash as $dash):
+  preg_match("/([0-9]+)\svisitors/",$dash[0], $results)
+  $visits[]=$results[1];
+endforeach;
+$max = max($visits);
+?>
+
+<div class="cms_home_module">
+  <h3>Recent Visits and Page Views</h3>
+  <?if(count($stat_dash)):?>
+    <?foreach($stat_dash as $dash):?>
+      <?preg_match("/([0-9]+)\svisitors/",$dash[0], $results)?>
+      <?preg_match("/(.*):/",$dash[0], $results2)?>
+      <?$width = ($results[1] / $max) * 0.8?>
+      <div class="home_module_line"><?=$results2[1]?><?=$results[1]?><img src="/images/cms/cms-stat-graph.gif" width="<?=$width?>%"></div>
+    <?endforeach?>
+  <?else:?>
+    <form action="" method="post" class="form_container">
+      <fieldset>
+        <?=large(text_field_tag("stat_dash_url", "", array(),"Enter RSS URL"))?>
+        <?=form_divider()?>
+        <?=small(submit_tag("Update"))?>
+      </fieldset>
+    </form>
+
+  <?endif?>
+</div>

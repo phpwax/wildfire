@@ -398,6 +398,8 @@ h4{
   border:1px solid #D1D1D1;
   margin:0;
   padding:0;
+  float:left;
+  margin-right:25px;
 }
 .cms_home_module h3 {
   background:#282828;

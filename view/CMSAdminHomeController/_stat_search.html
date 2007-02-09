@@ -1,14 +1,15 @@
 <div class="cms_home_module">
-  <h3>Recent Incoming Links</h3>
-  <?if(count($stat_links)):?>
-    <?foreach($stat_links as $link):?>
-      <?$link = explode(":", $link[0])?>
-      <div class="home_module_line"><?=$link[0]?>:<?=$link[1]?>&nbsp;&nbsp;&nbsp;<a href="http://<?=$link[2]?>"><?=$link[2]?></a></div>
+  <h3>Recent Search Referrals</h3>
+  <?if(count($stat_search)):?>
+    <?foreach($stat_search as $search):?>
+      <?preg_match("/http:[^\"]*/",$search[1], $results)?>
+      <?$search = explode(":", $search[0])?>
+      <div class="home_module_line"><?=$search[0]?>:<?=$search[1]?> <a href="<?=$results[0]?>"><?=$search[2]?></a></div>
     <?endforeach?>
   <?else:?>
     <form action="" method="post" class="form_container">
       <fieldset>
-        <?=large(text_field_tag("stat_link_url", "", array(),"Link Statistics URL"))?>
+        <?=large(text_field_tag("stat_search_url", "", array(),"Search Statistics URL"))?>
         <?=form_divider()?>
         <?=small(submit_tag("Update"))?>
       </fieldset>
