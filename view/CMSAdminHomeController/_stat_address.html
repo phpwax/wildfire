@@ -1,0 +1,20 @@
+<div class="cms_home_module">
+  <h3>Address Information</h3>
+  
+    <form action="" method="post" class="form_container">
+      <fieldset>
+        <?=large(text_area_tag("address[address]", $address , array(),"Enter Address"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[postcode]", $postcode , array(),"Enter Postcode"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[email_address]", $email , array(),"Enter Email Address"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[phone_number]", $phone , array(),"Enter Phone Number"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[fax_number]", $fax , array(),"Enter Fax Number"))?>
+        <?=form_divider()?>
+        <?=small(submit_tag("Update"))?>
+      </fieldset>
+    </form>
+
+</div>
