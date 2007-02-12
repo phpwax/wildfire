@@ -6,7 +6,7 @@
        </td>
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
-          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id), array("class" =>"lbOn"))?>
+          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
           <?=$row->$column?>
           <?endif;?>
@@ -15,6 +15,15 @@
       <td class="column">
         <?=link_to(image_tag("cms/button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
         <?=link_to(image_tag("cms/button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
+
+				<?if($row->table == "cms_section" && $row->url != "home"):?>
+					<?$url = "/" . $row->url;?>
+				<?elseif($row->table == "cms_section"):?>
+					<?$url = "/";?>
+				<?else:?>				
+					<?$url = "/" . $row->section_url() . "/" . $row->url;?>
+				<?endif?>
+				<?=link_to(image_tag("cms/button_view.gif"), $url)?>
       </td>
     </tr>
 <?endforeach?>
