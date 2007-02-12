@@ -3,7 +3,7 @@ foreach($stat_dash as $dash):
   preg_match("/([0-9]+)\svisitors/",$dash[0], $results);
   $visits[]=$results[1];
 endforeach;
-$max = max($visits);
+if($visits) $max = max($visits);
 ?>
 
 <div class="cms_home_module">
