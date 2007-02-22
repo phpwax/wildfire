@@ -33,4 +33,8 @@ class CMSApplication {
 		return self::$modules[$name];
 	}
 	
+	static public function unregister_module($name){
+		unset(self::$modules[$name]);
+	}
+	
 }
