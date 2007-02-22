@@ -45,6 +45,10 @@ class CMSAdminComponent extends WXControllerBase {
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->all_modules = CMSApplication::get_modules();
+		if(!array_key_exists($this->module_name,$this->all_modules)){
+			Session::add_message('This component is not registered with the application.');
+			$this->redirect_to('/admin/home/index');
+		}
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = WXInflections::underscore($this->model_class);
