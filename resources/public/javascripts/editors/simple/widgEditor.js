@@ -875,6 +875,13 @@ function widgToolbar(theEditor)
 				this.addSelect(this.theList.id + "SelectBlock", "widgSelectBlock", widgSelectBlockOptions, "formatblock");
 				
 				break;
+			
+			case "imageattach":
+  			this.addButton(this.theList.id + "ButtonAttachImage", "widgButtonAttachImage", "Select Images", "attachimage");
+  			break;
+  		case "categoryattach":
+    		this.addButton(this.theList.id + "ButtonAttachImage", "widgButtonAttachImage", "Select Categories", "attachcategory");
+    		break;
 		}
 	}
 
@@ -1068,6 +1075,14 @@ function widgToolbarAction()
 			theWidgEditor.theToolbar.setState("SelectBlock", this.value);
 			break;
 			
+		case "attachimage":
+		  YAHOO.cms.container.image_browser_container.show();
+		  break;
+	
+	    case "attachcategory":
+  		  YAHOO.cms.container.category_browser_container.show();
+  		  break;
+			
 		case "html":
 			theWidgEditor.switchMode();
 			
@@ -1166,7 +1181,7 @@ function widgToolbarAction()
 			{
 				return false;
 			}
-		
+				
 		default:
 			theIframe.contentWindow.document.execCommand(this.action, false, null);
 			
