@@ -17,7 +17,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 		$this->sub_links = array();
 	}
 	
-	private function process_login() {
+	protected function process_login() {
 		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
 		  if($this->authorised_redirect) return $this->authorised_redirect;		  
