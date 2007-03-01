@@ -1,10 +1,15 @@
 <?php
+if(!defined("WAX_ROOT")) define("WAX_ROOT", dirname(dirname(dirname(__FILE__)))."/");
+if(!defined("CONTROLLER_DIR")) define("CONTROLLER_DIR", WAX_ROOT."app/controller/");
+if(!defined("PUBLIC_DIR")) define("PUBLIC_DIR", WAX_ROOT."public/");
+if(!defined("PLUGIN_DIR")) define("PLUGIN_DIR", WAX_ROOT."plugins/");
+
 echo "------------------------------------------------------------------------"."\n";
 echo "We're now going to copy some files into your application folder."."\n";
 echo "Be careful what you agree to!"."\n";
 echo "------------------------------------------------------------------------"."\n";
 
-system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/* ".CONTROLLER_DIR);
+system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
 system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images/");
 system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/*.css ".PUBLIC_DIR."stylesheets/");
 system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");

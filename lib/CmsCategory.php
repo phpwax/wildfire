@@ -1,6 +1,6 @@
 <?php
 
-class CmsSection extends WXTreeRecord {
+class CmsCategory extends WXTreeRecord {
   
 	public $tree_array = array();
 

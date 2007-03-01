@@ -299,50 +299,33 @@ h4{
 }
 
 
-#image_browser_container {
-  position:absolute;
-  top:180px;
-  left:-1px;
-  z-index:0;
-}
+
 #image_browser {
-  width:0px;
-  border:1px solid #302D2D;
   float:left;
   overflow:hidden;
   height:550px;
   background:url(/images/cms/image-browse-bg.gif) repeat-y;
+  margin:10px;
 }
 #image_list {
   padding:10px;
   float:left;
   width:317px;
-  display:none;
 }
-#image_browse_tab {
-  width:34px;
-  height:100px;
-  margin-top:15px;
-  position:absolute;
-  top:180px;
-  left:0px;
-}
+
 #image_browser_container #filter_block {
   padding:4px 10px;
-  display:none;
 }
 #drop_zones {
   float:left;
   padding:4px;
   width:100px;
-  display:none;
 }
 .dropzone_active {
   background:#DDDDDD;
   height:100px
 }
 .dropzone_active img {
-	display:none;
 }
 .browse_image {
   float:left;

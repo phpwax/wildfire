@@ -6,6 +6,7 @@ class CmsArticle extends WXActiveRecord {
  	
  	public function after_setup() {
  	  $this->has_many("cms_file", "images");
+ 	  $this->has_many("cms_category", "categories");
  	}
 
  	public function page_status() {

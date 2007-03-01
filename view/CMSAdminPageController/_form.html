@@ -14,17 +14,4 @@
 <?if($allowed_images):?>
   <?=$image_partial?>
 <?endif?>
-
-<script type="text/javascript">
-  YAHOO.namespace("example.container");
-	function init() {
-		YAHOO.example.container.panel1 = new YAHOO.widget.Panel("image_browser_container", { width:"700px", visible:false, constraintoviewport:true } );
-		YAHOO.example.container.panel1.render();
-		YAHOO.util.Event.addListener("show1", "click", YAHOO.example.container.panel1.show, YAHOO.example.container.panel1, true);
-	}
-
-	YAHOO.util.Event.addListener(window, "load", init);
-  
-</script>
-
-<button id="show1">Show panel1</button>
+<?=$category_partial?>

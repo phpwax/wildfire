@@ -52,6 +52,7 @@ class CMSAdminPageController extends CMSAdminComponent {
 		$this->page = new $this->model_class($this->param("id"));
 		$this->attached_images = $this->page->images;
 		$this->image_partial = $this->render_partial("page_images");
+		$this->category_partial = $this->render_partial("apply_categories");
 		parent::edit();
 	}
 	

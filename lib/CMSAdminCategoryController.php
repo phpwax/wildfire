@@ -9,10 +9,10 @@ class CMSAdminCategoryController extends CMSAdminComponent {
 	public $scaffold_columns = array(
     "name"   =>array(),
   );
-  public $filter_columns = array("title");
+  public $filter_columns = array("name");
 
 	public function controller_global() {
-		$this->tree_collection = $this->model->sections_as_collection();
+		$this->tree_collection = $this->model->categories_as_collection();
 	}
 
 }

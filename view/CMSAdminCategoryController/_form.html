@@ -2,7 +2,6 @@
 	<?=form_heading("Setup Category")?>
   <?=medium(text_field($model, "name"))?>
   <?=small(select($model, "parent_id", $tree_collection, array(), "Parent Category"))?>
-  <?=small(select($model, "section_type", $model->type_options))?>
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
   <?=form_divider()?>
