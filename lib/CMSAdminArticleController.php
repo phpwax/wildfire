@@ -50,8 +50,9 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	public function edit() {
 		$this->page = new $this->model_class($this->param("id"));
 		$this->attached_images = $this->page->images;
+		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
-		$this->all_categories = $cat->find_all();
+		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();
 		
 		$this->image_partial = $this->render_partial("page_images");
 		$this->category_partial = $this->render_partial("apply_categories");
@@ -59,7 +60,14 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	}
 	
 	public function set_categories() {
-	  
+	  $this->use_layout=false;
+	  $this->use_view=false;
+		$page = new $this->model_class($this->param("id"));
+		$page->clear_categories();
+		foreach($_POST as $cat=>$val) {
+		  if($page->add_categories($val)) echo "Added category $val";
+		}
+		exit;
 	}
 	
 	public function create() {
