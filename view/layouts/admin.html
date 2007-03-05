@@ -4,6 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<?=yui_default_js()?>
+	<?=yui_container_files()?>
 	<?=stylesheet_link_tag('cms-stylesheet')?>
 	<?=stylesheet_link_tag('cms-overrides')?>
 	<?=stylesheet_link_tag('cms-wysiwyg-styles')?>
@@ -13,8 +15,6 @@
 	<?=javascript_include_tag("editors/simple/widgEditor")?>
 	<?=javascript_include_tag("cms_application")?>
 	<?=javascript_include_tag("reflection")?>
-	<?=yui_default_js()?>
-	<?=yui_container_files()?>
 </head>
 
 <body id="<?=strtolower(WXInflections::underscore($display_name))?>">

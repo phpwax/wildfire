@@ -24,7 +24,6 @@ widgToolbarItems.push("italic");
 widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
-widgToolbarItems.push("htmlsource");
 widgToolbarItems.push("blockformat");
 
 /* Options on block format select element. Consists of string pairs (option value, option label) */
@@ -880,7 +879,7 @@ function widgToolbar(theEditor)
   			this.addButton(this.theList.id + "ButtonAttachImage", "widgButtonAttachImage", "Select Images", "attachimage");
   			break;
   		case "categoryattach":
-    		this.addButton(this.theList.id + "ButtonAttachImage", "widgButtonAttachImage", "Select Categories", "attachcategory");
+    		this.addButton(this.theList.id + "ButtonAttachCat", "widgButtonAttachCat", "Select Categories", "attachcategory");
     		break;
 		}
 	}

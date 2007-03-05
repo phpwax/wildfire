@@ -50,8 +50,16 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	public function edit() {
 		$this->page = new $this->model_class($this->param("id"));
 		$this->attached_images = $this->page->images;
+		$cat = new CmsCategory;
+		$this->all_categories = $cat->find_all();
+		
 		$this->image_partial = $this->render_partial("page_images");
+		$this->category_partial = $this->render_partial("apply_categories");
 		parent::edit();
+	}
+	
+	public function set_categories() {
+	  
 	}
 	
 	public function create() {

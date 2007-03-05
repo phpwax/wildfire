@@ -3,8 +3,8 @@
 .widgToolbar a
 {
 	display: block;
-	width: 30px;
-	height: 30px;
+	width: 24px;
+	height: 24px;
 	overflow: hidden;
 	background-repeat: no-repeat;
 	text-indent: -1000em;
@@ -13,19 +13,19 @@
 
 .widgToolbar a:hover
 {
-	background-position: 0 -30px;
+	background-position: 0 -24px;
 }
 
 .widgToolbar a:active
 {
 	margin-top: 2px;
 	margin-left: 2px;
-	background-position: 0 -60px;
+	background-position: 0 -48px;
 }
 
 .widgToolbar li.on a, .widgToolbar li.on a:hover
 {
-	background-position: 0 -60px;
+	background-position: 0 -48px;
 }
 
 .widgToolbar li.widgEditButton
@@ -48,6 +48,11 @@
 .widgButtonImage, .widgButtonAttachImage 
 {
 	background-image: url(/images/cms/widgeditor_button_image.gif);
+}
+
+.widgButtonCat, .widgButtonAttachCat 
+{
+	background-image: url(/images/cms/widgeditor_button_cat.gif);
 }
 
 .widgButtonItalic 
@@ -95,7 +100,7 @@
 {
 	list-style: none;
 	width: 100%;
-	height: 48px;
+	height: 40px;
 	margin: 0;
 	padding: 0 0 0 2px;
 	border: 1px solid #CCCCCC;
@@ -112,8 +117,8 @@
 {
 	display: inline;
 	float: left;
-	width: 32px;
-	height: 32px;
+	width: 24px;
+	height: 24px;
 	margin-top: 9px;
 	margin-left: 7px;
 	line-height: 30px;
@@ -142,3 +147,17 @@
 	padding: 0;
 }
 /*********** END WIDGET AREA **********/
+
+
+/* YUI Extension Styles */
+.yui-panel .hd {
+  background-color:#444444;
+  height:20px;
+}
+.yui-panel .container-close {
+  background:url(/images/cms/window_close.gif) no-repeat;
+  width:18px;
+  height:18px;
+}
+
+
