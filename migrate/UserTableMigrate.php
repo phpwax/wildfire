@@ -10,7 +10,6 @@ class UserTableMigrate extends WXMigrate {
     $this->create_column("password", "string");
     $this->create_column("usergroup", "string");
     $this->create_table("cms_user");
-    $this->run_sql("INSERT INTO cms_user (username, email, password, usergroup) VALUES ('admin', 'test@example.com', 'password', 30)");
   }
   
   public function down() {
