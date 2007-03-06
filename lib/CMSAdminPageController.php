@@ -72,7 +72,7 @@ class CMSAdminPageController extends CMSAdminComponent {
 	
 	public function create() {
 	  parent::create(false);
-		$this->save($this->model, "edit", "successfully saved. Now you can use the tabs on the left to add more content");
+		$this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
 	}
   
 	

@@ -72,7 +72,7 @@ class CMSAdminArticleController extends CMSAdminComponent {
 	
 	public function create() {
 	  parent::create(false);
-	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the tabs on the left to add more content");
+	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
     else $this->save($this->model);
 	}
 }
