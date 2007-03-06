@@ -81,6 +81,11 @@ class CMSAdminHomeController extends CMSAdminComponent {
     return $rss;
   }
   
+  public function parse_xml($url, $limit) {
+    $simple = simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);
+    return $simple;
+  }
+  
   protected function stat_setup() {
     if($_POST['stat_link_url']) CmsConfiguration::set("stat_link_url", $_POST['stat_link_url']);
     if($_POST['stat_search_url']) CmsConfiguration::set("stat_search_url", $_POST['stat_search_url']);
