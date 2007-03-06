@@ -45,9 +45,9 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	
 	public function index() {
 	  $this->stat_setup();
-	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_rss($li, 5) : array();
-	  $this->stat_search = ($li = CmsConfiguration::get("stat_search_url")) ? $this->parse_rss($li, 5) : array();
-	  $this->stat_dash = ($li = CmsConfiguration::get("stat_dash_url")) ? $this->parse_rss($li, 5) : array();
+	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_xml($li, 5, 'referrer') : array();
+	  $this->stat_search = ($li = CmsConfiguration::get("stat_search_url")) ? $this->parse_xml($li, 5, 'search') : array();
+	  $this->stat_dash = ($li = CmsConfiguration::get("stat_dash_url")) ? $this->parse_xml($li, 5, "visit_day") : array();
 	  $this->link_module = $this->render_partial("stat_links");
 	  $this->search_module = $this->render_partial("stat_search");
 	  $this->dash_module = $this->render_partial("stat_dash");
@@ -81,8 +81,14 @@ class CMSAdminHomeController extends CMSAdminComponent {
     return $rss;
   }
   
-  public function parse_xml($url, $limit) {
+  public function parse_xml($url, $limit, $child=false) {
     $simple = simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);
+    if($child) {
+      for($i=0; $i<$limit; $i++) {
+        $res[] = $simple->{$child}[$i];
+      }
+      return $res;
+    }
     return $simple;
   }
   
