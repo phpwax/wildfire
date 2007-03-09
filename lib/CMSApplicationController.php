@@ -2,15 +2,31 @@
 
 class CmsApplicationController extends WXControllerBase{
   
-  public $section = false;      // Section object
+  public $cms_section = false;      // Section object
   public $cms_content = false;  // Page/Article Object
+  public $content_table = false; // Which table to search for content
+  public $section_stack = array();
+  public $section_id = 1;
+	public $per_page = 4;
 	
 	protected function cms_check() {
-	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;	
-    $stack = $this->route_array;
-    while($this->section = $this->get_section(array("url"=>$stack[0]))) {
+	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+	  $stack = $this->route_array;
+	  $offset = 0;	
+    array_unshift($stack, $this->action);
+    while(count($stack)) {
+      if($result = $this->get_section(array("url"=>$stack[0])) ) {
+         $this->cms_section = $result;
+         $offset ++;
+         $this->section_stack[]=$stack[0];
+       }
       array_shift($stack);
     }
+    $this->setup_content_table();
+    $this->section_id = $this->cms_section->id;
+    $content = array("section"=>$this->cms_section->id, "url"=>$this->route_array[$offset-1]);
+    $this->get_content($content);
+    $this->pick_view();
 	}
 	
 	
@@ -29,25 +45,46 @@ class CmsApplicationController extends WXControllerBase{
 	  return false;
 	}
 	
-	
+	protected function get_content($options = array()) {
+	  $model = WXInflections::camelize($this->content_table, 1);
+    $content = new $model;
+	  if($options['section'] && strlen($options['url'])>1) {
+	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);
+	    return true;
+	  }
+	  if($options['section']) {
+	    $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
+	  }
+	  if($options['url']) {
+	    $this->content = $content->find_by_url($options['url']);
+	  }
+	  
+	}
 	
 
 	
-	public function cms_action(){
-	  $section_url = WXInflections::underscore($this->cms_section->url);
-	  $sub_url = WXInflections::underscore($this->sub_url);
-		$this->set_views($section_url, "layout");
-		if($this->is_news_section()) $this->set_views("shared/_cms_news", "view");
-		elseif($this->summary_section) $this->set_views("shared/_cms_summary", "view");
-		else $this->set_views("shared/_cms_article_page", "view");
-		$this->set_views("shared/".$section_url, "view");
-		if( ($sub_url) ){
-		  $this->set_views("shared/_cms_article_page", "view");
-		  $this->set_views("shared/".$sub_url, "view");
-		  $this->set_views("shared/".$section_url."_".$sub_url, "view");
-		} 
+	protected function setup_content_table() {
+	  if($this->cms_section->section_type == 1) {
+		  $this->content_table = "cms_article";
+	  } else $this->content_table = "cms_page";
 	}
 	
+	protected function is_page() {
+	  if($this->content) return true;
+	  return false;
+	}
+	
+	protected function pick_view() {
+	  $sections = array_reverse($this->section_stack);
+	  if($this->is_page()) $type="page";
+	  else $type="list";
+	  $this->use_view="cms_".$type;
+	  foreach($sections as $section) {
+	    if($this->is_viewable("cms_".$section."_".$type)) $this->use_view("cms_".$section."_".$type);
+	  }
+	}
+  
+  
 
 
 }
