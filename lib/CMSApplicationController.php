@@ -6,7 +6,7 @@ class CmsApplicationController extends WXControllerBase{
   public $cms_content = false;  // Page/Article Object
   public $content_table = false; // Which table to search for content
   public $section_stack = array();
-  public $section_id = 1;
+  public $section_id = 0;
 	public $per_page = 4;
 	
 	protected function cms_check() {
@@ -24,7 +24,8 @@ class CmsApplicationController extends WXControllerBase{
     }
     $this->setup_content_table();
     $this->section_id = $this->cms_section->id;
-    $content = array("section"=>$this->cms_section->id, "url"=>$this->route_array[$offset-1]);
+    if(!$url = $this->route_array[$offset-1]) $url = $this->action;
+    $content = array("section"=>$this->cms_section->id, "url"=>$url);
     $this->get_content($content);
     $this->pick_view();
 	}
@@ -50,15 +51,13 @@ class CmsApplicationController extends WXControllerBase{
     $content = new $model;
 	  if($options['section'] && strlen($options['url'])>1) {
 	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);
-	    return true;
 	  }
-	  if($options['section']) {
+	  elseif($options['section']) {
 	    $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
 	  }
-	  if($options['url']) {
-	    $this->content = $content->find_by_url($options['url']);
+	  elseif($options['url']) {
+	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], "1");
 	  }
-	  
 	}
 	
 
