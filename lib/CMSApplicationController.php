@@ -6,30 +6,35 @@ class CmsApplicationController extends WXControllerBase{
   public $cms_content = false;  // Page/Article Object
   public $content_table = false; // Which table to search for content
   public $section_stack = array();
-  public $section_id = 0;
+  public $section_id = 1;
 	public $per_page = 4;
+	
+	public function cms_content() {}
 	
 	protected function cms_check() {
 	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+	  
 	  $stack = $this->route_array;
 	  $offset = 0;	
     array_unshift($stack, $this->action);
+		$all = $stack;
     while(count($stack)) {
       if($result = $this->get_section(array("url"=>$stack[0])) ) {
          $this->cms_section = $result;
          $offset ++;
          $this->section_stack[]=$stack[0];
        }
-      array_shift($stack);
+      $url = array_shift($stack);
     }
     $this->setup_content_table();
-    $this->section_id = $this->cms_section->id;
-    if(!$url = $this->route_array[$offset-1]) $url = $this->action;
-    $content = array("section"=>$this->cms_section->id, "url"=>$url);
-    $this->get_content($content);
+		if($this->cms_section->id) $this->section_id = $this->cms_section->id;
+    if(!$url) $url = $this->action;
+		
+    $content = array("section"=>$this->section_id, 'section_url'=>$this->cms_section->url,"url"=>$url);
+    $this->get_content($content);		
     $this->pick_view();
-	}
-	
+		$this->action = "cms_content";
+	}	
 	
 	/**
 	 *  @param $options Set of options to query for section
@@ -48,20 +53,16 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function get_content($options = array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
-    $content = new $model;
-	  if($options['section'] && strlen($options['url'])>1) {
-	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);
-	  }
-	  elseif($options['section']) {
+    $content = new $model; 
+		
+	  if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])) {		
+	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);			
+	  } elseif($options['section']) {	
 	    $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
-	  }
-	  elseif($options['url']) {
+	  } elseif($options['url']) {		
 	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], "1");
 	  }
-	}
-	
-
-	
+	}	
 	protected function setup_content_table() {
 	  if($this->cms_section->section_type == 1) {
 		  $this->content_table = "cms_article";
@@ -69,17 +70,18 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	
 	protected function is_page() {
-	  if($this->content) return true;
+	  if(!is_array($this->cms_content) && $this->cms_content) return true;
 	  return false;
 	}
 	
-	protected function pick_view() {
+	protected function pick_view() {		
 	  $sections = array_reverse($this->section_stack);
 	  if($this->is_page()) $type="page";
 	  else $type="list";
-	  $this->use_view="cms_".$type;
+	  $this->use_view="cms_".$type;		
 	  foreach($sections as $section) {
-	    if($this->is_viewable("cms_".$section."_".$type)) $this->use_view("cms_".$section."_".$type);
+	  	if($this->is_viewable("page/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
+			
 	  }
 	}
   
