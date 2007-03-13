@@ -30,7 +30,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 				
 	public function login() {
-	  echo $this->process_login(); exit;
+	  echo $this->process_login();
 		if(count($_POST)>0) $this->redirect_to($this->process_login() );
 		Session::set( 'timestamp', time() );
 		Session::unset_var('errors');
