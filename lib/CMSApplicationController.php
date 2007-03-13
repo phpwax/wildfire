@@ -33,7 +33,8 @@ class CmsApplicationController extends WXControllerBase{
     $content = array("section"=>$this->section_id, 'section_url'=>$this->cms_section->url,"url"=>$url);
     $this->get_content($content);		
     $this->pick_view();
-		$this->action = "cms_content";
+		if($this->cms_content) $this->action = "cms_content";
+		
 	}	
 	
 	/**
@@ -54,13 +55,29 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model; 
-		
+		$user = new WXDBAuthenticate();
+		$logged_in = $user->is_logged_in();
+		$params = array('conditions'=>"status=1 ");
+		//page
 	  if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])) {		
-	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);			
+			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);	
+			else{
+				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=$options[section]";
+				$this->cms_content = $content->find_first($params);
+			}
+	  //section		
 	  } elseif($options['section']) {	
-	    $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
+			if($logged_in) $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
+			else{
+				$params['conditions'] .= "AND `cms_section_id`=$options[section]";
+				$this->cms_content = $content->find_all($params);
+			}
 	  } elseif($options['url']) {		
-	    $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], "1");
+			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
+			else{
+				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=1";
+				$this->cms_content = $content->find_first($params);
+			}
 	  }
 	}	
 	protected function setup_content_table() {
