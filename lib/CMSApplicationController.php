@@ -55,8 +55,8 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model; 
-		//$user = new WXDBAuthenticate();
-		//$logged_in = $user->is_logged_in();
+		$user = new WXDBAuthenticate(array("db_table"=>"cms_user", "encrypt"=>"false"));
+		$logged_in = $user->is_logged_in();
 		$params = array('conditions'=>"status=1 ");
 		//page
 	  if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])) {		
