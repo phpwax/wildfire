@@ -77,6 +77,7 @@ class CMSAdminComponent extends WXControllerBase {
 			}
 		}
 		Session::add_message("Please login to continue");
+		print_r($this); exit;
 		$this->redirect_to($this->unauthorised_redirect);
   }
 
