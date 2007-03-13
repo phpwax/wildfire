@@ -43,6 +43,7 @@ class CMSAdminComponent extends WXControllerBase {
 		$auth = new WXDBAuthenticate(array("encrypt"=>false, "db_table"=>$this->auth_database_table));
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
+		print_r($this); exit;
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->all_modules = CMSApplication::get_modules();
 		if(!array_key_exists($this->module_name,$this->all_modules)){
@@ -77,7 +78,6 @@ class CMSAdminComponent extends WXControllerBase {
 			}
 		}
 		Session::add_message("Please login to continue");
-		print_r($this); exit;
 		$this->redirect_to($this->unauthorised_redirect);
   }
 
