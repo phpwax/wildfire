@@ -42,6 +42,7 @@ class CMSAdminComponent extends WXControllerBase {
 	function __construct() {
 		$auth = new WXDBAuthenticate(array("encrypt"=>false, "db_table"=>$this->auth_database_table));
 		$this->current_user = $auth->get_user();
+		print_r($this); exit;
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->all_modules = CMSApplication::get_modules();
