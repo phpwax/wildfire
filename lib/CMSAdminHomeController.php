@@ -20,7 +20,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	protected function process_login() {
 		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
-		  print_r($this); exit;
+		  print_r($auth); exit;
 		  if($this->authorised_redirect) return $this->authorised_redirect;		  
 			else return 'index';
 		}
