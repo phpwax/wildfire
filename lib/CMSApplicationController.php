@@ -68,7 +68,7 @@ class CmsApplicationController extends WXControllerBase{
 			}
 	  //section		
 	  } elseif($options['section']) {	
-				if($this->cms_section->parent_id == 1) $this->cms_content = $section->find_all_by_parent_id($options['section']);				
+				if($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1) $this->cms_content = $section->find_all_by_parent_id($options['section']);				
 				elseif($loggedin) $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
 				else{
 					$params['conditions'] .= " AND `cms_section_id`=$options[section]";
