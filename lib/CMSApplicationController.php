@@ -55,6 +55,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model; 
+		$section = new CmsSection();
 		$user = new WXDBAuthenticate(array("db_table"=>"cms_user", "encrypt"=>"false"));
 		$logged_in = $user->is_logged_in();
 		$params = array('conditions'=>"status=1 ");
@@ -67,10 +68,10 @@ class CmsApplicationController extends WXControllerBase{
 			}
 	  //section		
 	  } elseif($options['section']) {	
-			if($logged_in) $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
+			if($logged_in) $this->cms_content = $section->find_all_by_parent_id($options['section']);
 			else{
-				$params['conditions'] .= "AND `cms_section_id`=$options[section]";
-				$this->cms_content = $content->find_all($params);
+				$params['conditions'] .= "AND `parent_id`=$options[section]";
+				$this->cms_content = $section->find_all($params);
 			}
 	  } elseif($options['url']) {		
 			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
