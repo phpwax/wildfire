@@ -45,9 +45,10 @@ class CmsApplicationController extends WXControllerBase{
 	  foreach($route as $part) {
 	    if($result = $this->get_section(array("url"=>$part))) {
 	      $url.=$result->url;
-	      $trail[]=array("url"=>$url, "display"=>$result->title);
+	      $this->crumbtrail[]=array("url"=>$url, "display"=>$result->title);
 	    }
 	  }
+	  
 	}
 	
 	/**
