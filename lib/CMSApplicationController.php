@@ -8,6 +8,7 @@ class CmsApplicationController extends WXControllerBase{
   public $section_stack = array();
   public $section_id = 1;
 	public $per_page = 4;
+  public $crumbtrail = array();
 	
 	public function cms_content() {}
 	
@@ -18,6 +19,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $offset = 0;	
     array_unshift($stack, $this->action);
 		$all = $stack;
+		$this->build_crumbtrail($all);
     while(count($stack)) {
       if($result = $this->get_section(array("url"=>$stack[0])) ) {
          $this->cms_section = $result;
@@ -35,7 +37,18 @@ class CmsApplicationController extends WXControllerBase{
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
 		
-	}	
+	}
+	
+	protected function build_crumbtrail($route) {
+	  $url = "/";
+	  $trail[]=array("url"=>$url, "display"=>"home");
+	  foreach($route as $part) {
+	    if($result = $this->get_section($part)) {
+	      $url.=$result->url;
+	      $trail[]=array("url"=>$url, "display"=>$result->title);
+	    }
+	  }
+	}
 	
 	/**
 	 *  @param $options Set of options to query for section
