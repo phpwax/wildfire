@@ -42,12 +42,14 @@ class CmsApplicationController extends WXControllerBase{
 	protected function build_crumbtrail($route) {
 	  $url = "/";
 	  $trail[]=array("url"=>$url, "display"=>"home");
-	  for($i=0;$i<=(count($route)-1);$i++) {
+	  for($i=0;$i<=(count($route));$i++) {
 	    if($result = $this->get_section(array("url"=>$route[$i]))) {
 	      $url.=$result->url."/";
 	      $this->crumbtrail[]=array("url"=>$url, "display"=>$result->title);
 	    }
+	    if($this->is_page()) $this->crumbtrail[]=array("url"=>$this->cms_content->url, "display"=>$this->cms_content->title);
 	  }
+	  
 	  
 	}
 	
