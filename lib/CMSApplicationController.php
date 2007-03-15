@@ -19,7 +19,6 @@ class CmsApplicationController extends WXControllerBase{
 	  $offset = 0;	
     array_unshift($stack, $this->action);
 		$all = $stack;
-		$this->build_crumbtrail($all);
     while(count($stack)) {
       if($result = $this->get_section(array("url"=>$stack[0])) ) {
          $this->cms_section = $result;
@@ -36,6 +35,7 @@ class CmsApplicationController extends WXControllerBase{
     $this->get_content($content);		
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
+		$this->build_crumbtrail($all);
 		
 	}
 	
