@@ -58,7 +58,7 @@ class CmsSection extends WXTreeRecord {
 	  while($section = $section->parent()) {
 	    $stack[]=$section->url;
 	  }
-	  return implode("/", $stack);
+	  return "/".implode("/", $stack);
 	}
 	
 }
