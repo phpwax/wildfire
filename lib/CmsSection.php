@@ -64,6 +64,7 @@ class CmsSection extends WXTreeRecord {
 	    array_reverse($stack);
   	  return "/".implode("/", $stack);
 	  }
+	  return "";
 	}
 	
 }
