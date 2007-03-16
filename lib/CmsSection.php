@@ -6,6 +6,7 @@ class CmsSection extends WXTreeRecord {
 	public $tree_array = array();
 	public $order_field = "order";
 	public $order_direction = "ASC";
+	static public $default_section_id = "1";
 	
 	public function before_save() {
 		$this->url = WXInflections::to_url($this->title);
@@ -56,8 +57,9 @@ class CmsSection extends WXTreeRecord {
 	  $stack[]=$this->url;
 	  $section = $this;
 	  while($section = $section->parent()) {
-	    $stack[]=$section->url;
+	    if($section->id != self::$default_section_id) $stack[]=$section->url;
 	  }
+	  array_reverse($stack);
 	  return "/".implode("/", $stack);
 	}
 	
