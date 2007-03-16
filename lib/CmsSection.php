@@ -54,7 +54,7 @@ class CmsSection extends WXTreeRecord {
 	}
 	
 	public function permalink() {
-	  $stack[]=$this->url;
+	  if($this->id != self::$default_section_id) $stack[]=$this->url;
 	  $section = $this;
 	  while($section = $section->parent()) {
 	    if($section->id != self::$default_section_id) $stack[]=$section->url;
