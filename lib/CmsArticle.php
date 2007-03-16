@@ -40,6 +40,11 @@ class CmsArticle extends WXActiveRecord {
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
 	}
+	
+	public function permalink() {
+	  return $this->section->permalink."/".$this->url;
+	}
+	
 }
 
 ?>

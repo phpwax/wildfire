@@ -49,6 +49,10 @@ class CmsPage extends WXActiveRecord{
 		$section = new CmsSection;
 		return $section->find($this->cms_section_id)->url;
 	}
+	
+	public function permalink() {
+	  return $this->section->permalink."/".$this->url;
+	}
  	
 }
 ?>
