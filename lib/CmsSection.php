@@ -50,7 +50,16 @@ class CmsSection extends WXTreeRecord {
 			if($node->section_type != $id) unset($array[$key]);
 		}
 		return $array;
-	} 	
+	}
+	
+	public function permalink() {
+	  $stack[]=$this->url;
+	  $section = $this;
+	  while($section = $section->parent()) {
+	    $stack[]=$section->url;
+	  }
+	  return implode("/", $stack);
+	}
 	
 }
 
