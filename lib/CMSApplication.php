@@ -37,4 +37,5 @@ class CMSApplication {
 		unset(self::$modules[$name]);
 	}
 	
+	
 }
