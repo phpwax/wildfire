@@ -60,8 +60,10 @@ class CmsSection extends WXTreeRecord {
 	  while($section = $section->parent()) {
 	    if($section->id != self::$default_section_id) $stack[]=$section->url;
 	  }
-	  array_reverse($stack);
-	  return "/".implode("/", $stack);
+	  if(count($stack)) {
+	    array_reverse($stack);
+  	  return "/".implode("/", $stack);
+	  }
 	}
 	
 }
