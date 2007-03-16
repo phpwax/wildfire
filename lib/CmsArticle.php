@@ -42,7 +42,8 @@ class CmsArticle extends WXActiveRecord {
 	}
 	
 	public function permalink() {
-	  return $this->section()->permalink()."/".$this->url;
+	  $section = new CmsSection($this->cms_section_id);
+	  return $section->permalink()."/".$this->url;
 	}
 	
 }
