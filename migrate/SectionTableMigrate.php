@@ -7,6 +7,7 @@ class SectionTableMigrate extends WXMigrate {
     $this->create_column("parent_id", "integer");
     $this->create_column("order", "integer", "2", false, "0");
     $this->create_column("section_type", "integer", "2", false, "0");
+		$this->create_column("introduction", "text");
     $this->create_column("url", "string");
     $this->create_table("cms_section");
   }
