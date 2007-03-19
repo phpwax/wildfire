@@ -4,7 +4,7 @@
   <?=small(select($model, "parent_id", $tree_collection, array(), "Parent Category"))?>
   <?=small(select($model, "section_type", $model->type_options))?>
 	<?=form_divider()?>
-	<?=large(text_field($model, "introduction"))?>
+	<?=medium(text_area($model, "introduction"))?>
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>
   <?=form_divider()?>
