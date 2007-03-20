@@ -85,7 +85,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
     $simple = simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);
     if($child) {
       for($i=0; $i<$limit; $i++) {
-        $res[] = $simple->{$child}[$i];
+        if($simple->{$child}[$i]) $res[] = $simple->{$child}[$i];
       }
       return $res;
     }
