@@ -9,7 +9,7 @@ if($visits) $max = max($visits);
   <h3>Recent Visits and Page Views</h3>
   <?if(count($stat_dash)):?>
     <?foreach($stat_dash as $dash):?>
-      <?$width = (($dash->visits / $max) * 0.5)*100?>
+      <?if($max > 0) $width = (($dash->visits / $max) * 0.5)*100?>
       <?if($dash->visits):?>
         <div class="home_module_line graph_line"><?=date("M j",strtotime($dash->date))?>: <strong><?=$dash->visits?> Visitors</strong> &nbsp;&nbsp;</div>
         <div class="bar_graph" style="width:<?=$width?>%"></div><div class="graph_separator"></div>
