@@ -61,7 +61,7 @@ class CmsSection extends WXTreeRecord {
 	    if($section->id != self::$default_section_id) $stack[]=$section->url;
 	  }
 	  if(count($stack)) {
-	    array_reverse($stack);
+	    $stack = array_reverse($stack);
   	  return "/".implode("/", $stack);
 	  }
 	  return "";
