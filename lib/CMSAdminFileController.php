@@ -66,8 +66,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function image_filter() {
-	  if(!$_POST['filter']) {
-	    $this->route_array['id'] = 1;
+	  if(strlen($_POST['filter'])<1) {
+	    $this->route_array[0] = "1";
 	    $this->browse_images();
 	  } else {
       $this->use_layout=false;
