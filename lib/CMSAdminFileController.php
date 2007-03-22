@@ -47,11 +47,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function browse_images() {
-	  if(!$this->param("id")) $offset = 0;
-	  else $offset = ($this->param("id") -1) * 10;
+	  if(!$this->param("id")) { 
+	    $offset = 0;
+	    $count = -1;
+    } else {$offset = ($this->param("id") -1) * 10; $count = 10}
 		$this->use_layout=false;
   	$this->all_images = ($image = new CmsFile) ? $image->find_all_images() : array();
-  	$this->all_images = new LimitIterator(new ArrayIterator($this->all_images), $offset, 10);
+  	$this->all_images = new LimitIterator(new ArrayIterator($this->all_images), $offset, $count);
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
 	
