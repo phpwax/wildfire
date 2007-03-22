@@ -5,8 +5,10 @@ class CmsFile extends WXFileActiveRecord {
 	  return $this->find_all(array("conditions"=>"type LIKE '%image%'"));
 	}
 	
-	public function find_filter_images($filter) {
-	  return $this->find_all(array("conditions"=>"type LIKE '%image%' AND filename LIKE '%$filter%'"));
+	public function find_filter_images($filter, $limit = false) {
+    $params = array("conditions"=>"type LIKE '%image%' AND filename LIKE '%$filter%'");
+    if($limit) $params['limit']=$limit;
+	  return $this->find_all($params);
 	}
 	
 	
