@@ -56,6 +56,9 @@ class CMSAdminFileController extends CMSAdminComponent {
     }
 		$this->use_layout=false;
   	$this->all_images = ($image = new CmsFile) ? $image->find_all_images() : array();
+  	if($count > 0 && count($this->all_images > $offset + $count)) $this->more =true;
+  	if($count > 0 && $offset > 0) $this->previous = true;
+  	$this->id = $this->param("id");
   	$this->all_images = new LimitIterator(new ArrayIterator($this->all_images), $offset, $count);
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
