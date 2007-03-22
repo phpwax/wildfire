@@ -9,18 +9,18 @@
   <?if(empty($all_images)):?>
     No images available.
   <?endif?>
-</div>
-<div id="image_navigation">
-  <?if($previous):?>
-    <?=link_to_remote("&lt; back", array(
-      "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$previous),
-      "update"=>"image_list_container"
-      ))?>
-  <?endif?>
-  <?if($more):?>
-    <?=link_to_remote("&lt; back", array(
-      "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$more),
-      "update"=>"image_list_container"
-      ))?>
-  <?endif?>
+  <div id="image_navigation">
+    <?if($previous):?>
+      <?=link_to_remote("&lt; back ", array(
+        "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$previous),
+        "update"=>"image_list_container"
+        ))?>
+    <?endif?>
+    <?if($more):?>
+      <?=link_to_remote(" more &gt;", array(
+        "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$more),
+        "update"=>"image_list_container"
+        ))?>
+    <?endif?>
+  </div>
 </div>
