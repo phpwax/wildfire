@@ -47,6 +47,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function browse_images() {
+	  $this->more = false;
+	  $this->previous = false;
 	  if(!$this->param("id")) { 
 	    $offset = 0;
 	    $count = -1;
