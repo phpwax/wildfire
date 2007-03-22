@@ -14,7 +14,7 @@
       ))?>
     </div>
     <div id="image_list">
-      Loading
+      
     </div>
     
     
@@ -54,5 +54,9 @@
 <?=yui_container("image_browser_container")?>
 <?=javascript_tag('widgToolbarItems.push("imageattach")')?>
 <script type="text/javascript">
-YAHOO.util.Event.addListener('YAHOO.cms.container.image_browser_container', 'showMaskEvent', new Ajax.Updater('image_list', '/admin/files/browse_images/1/', {evalScripts:true}));
+  YAHOO.util.Event.addListener(window, "load", new Ajax.Updater('image_list', '/admin/files/browse_images/1/', {evalScripts:true}))
 </script>
+
+
+
+
