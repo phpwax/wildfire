@@ -66,10 +66,15 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function image_filter() {
-    $this->use_layout=false;
-    $images = new CmsFile;
-    $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter'], 10): array();
-    $this->all_images_partial = $this->render_partial("list_all_images");  
+	  if(!$_POST['filter']) {
+	    $this->route_array['id'] = 1;
+	    $this->browse_images();
+	  } else {
+      $this->use_layout=false;
+      $images = new CmsFile;
+      $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter']): array();
+      $this->all_images_partial = $this->render_partial("list_all_images");
+    }
   }
   
   public function preview() {
