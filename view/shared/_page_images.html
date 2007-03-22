@@ -14,7 +14,10 @@
       ))?>
     </div>
     <div id="image_list">
-      
+      <?=link_to_remote("Load Images", array(
+      "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>"1"),
+      "update"=>"image_list"  
+      ))?>
     </div>
     
     
@@ -53,10 +56,4 @@
 </div>
 <?=yui_container("image_browser_container")?>
 <?=javascript_tag('widgToolbarItems.push("imageattach")')?>
-<script type="text/javascript">
-  YAHOO.util.Event.addListener(window, "load", new Ajax.Updater('image_list', '/admin/files/browse_images/1/', {evalScripts:true}))
-</script>
-
-
-
 
