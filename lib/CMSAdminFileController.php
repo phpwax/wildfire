@@ -53,8 +53,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $offset = 0;
 	    $count = -1;
     } else {
-      $offset = ($this->param("id") -1) * 10; 
-      $count = 10;
+      $offset = ($this->param("id") -1) * 12; 
+      $count = 12;
     }
     $this->id = $this->param("id");
 		$this->use_layout=false;
