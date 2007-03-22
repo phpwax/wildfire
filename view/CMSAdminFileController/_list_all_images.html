@@ -1,4 +1,4 @@
-<div id="image_list_container" class="clearfix">
+<div id="image_list_container">
   <?foreach($all_images as $image):?>
     <div class="browse_image" id="<?=$image->id?>">
       <img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" /><br />
@@ -9,6 +9,7 @@
   <?if(empty($all_images)):?>
     No images available.
   <?endif?>
+  <div class="clearfix"></div>
   <div id="image_navigation">
     <?if($previous):?>
       <?=link_to_remote("&lt; back ", array(
