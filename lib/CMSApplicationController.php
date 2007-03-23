@@ -46,6 +46,9 @@ class CmsApplicationController extends WXControllerBase{
 	  $this->use_view = "none";
 	  if(!isset($this->route_array[1])) $size=110;
 	   else $size = $this->route_array[1];
+	  $size = str_replace(".jpg", "", $size);
+	  $size = str_replace(".gif", "", $size);
+	  
 	  $this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
     $file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
