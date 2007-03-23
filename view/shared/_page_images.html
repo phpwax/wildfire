@@ -1,16 +1,21 @@
+<script type="text/javascript">
+function noenter() {
+  return !(window.event && window.event.keyCode == 13); }
+</script>
 <div id="image_browser_container">
 
   <div id="image_browser" class="clearfix">
+	
     <div id="filter_block">
         <strong>Filter images: </strong>(type some text from the filename or caption)<br /> 
-        <input type="text" id="image_filter" name="filter" size="20" />
+        <input type="text" id="image_filter" name="filter" size="20" onKeyPress="return noenter()"/>
       <?=observe_field("image_filter", array(
         "url" => array("controller"=>"admin/files", "action"=>"image_filter"),
         "frequency" => "1",
         "update"=>"image_list",
         "with"=>"'filter='+value"
       ))?>
-			<input type="submit" style="display:none;"/>
+		
     </div>
     <div id="image_list">
       
