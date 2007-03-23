@@ -11,7 +11,9 @@ class CmsFile extends WXFileActiveRecord {
 	  return $this->find_all($params);
 	}
 	
-	
+	public function extension() {
+	  return ".".substr(strrchr($this->type, "/"), 1);
+	}
 	
 	
 }
