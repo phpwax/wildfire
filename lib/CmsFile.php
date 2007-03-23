@@ -12,7 +12,9 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	
 	public function extension() {
-	  return ".".substr(strrchr($this->type, "/"), 1);
+	  $ext = ".".substr(strrchr($this->type, "/"), 1);
+	  if($ext == ".jpeg") $ext = ".jpg";
+	  return $ext;
 	}
 	
 	
