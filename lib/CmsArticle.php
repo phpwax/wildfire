@@ -39,11 +39,17 @@ class CmsArticle extends WXActiveRecord {
 	
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
+	  $this->avoid_section_url_clash();
 	}
 	
 	public function permalink() {
 	  $section = new CmsSection($this->cms_section_id);
 	  return $section->permalink()."/".$this->url;
+	}
+	
+	public function avoid_section_url_clash() {
+	  $section = new CmsSection;
+	  if($section->find_by_url($this->url)) $this->url= $this->url."-info";
 	}
 	
 }
