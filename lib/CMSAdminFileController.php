@@ -30,6 +30,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	   else $size = $this->route_array[1];
 	  $size = str_replace(".jpg", "", $size);
 	  $size = str_replace(".gif", "", $size);
+	  $size = str_replace(".png", "", $size);
 	  
   	$this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;

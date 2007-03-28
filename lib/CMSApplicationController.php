@@ -46,6 +46,10 @@ class CmsApplicationController extends WXControllerBase{
 	  $this->use_view = "none";
 	  if(!isset($this->route_array[1])) $size=110;
 	   else $size = $this->route_array[1];
+	  $size = str_replace(".jpg", "", $size);
+	  $size = str_replace(".gif", "", $size);
+	  $size = str_replace(".png", "", $size);
+	  
 	  $this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
     $file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
@@ -92,32 +96,21 @@ class CmsApplicationController extends WXControllerBase{
 	  if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])) {		
 			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);	
 			else{
-				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=$options[section] AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d') )";
+				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=$options[section]";
 				$this->cms_content = $content->find_first($params);
 			}
 	  //section		
 	  } elseif($options['section']) {	
-				if($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1){
-					$this->cms_content = $section->find_all_by_parent_id($options['section']);
-				}	
-				else {
-					if($logged_in) $params['conditions'] = "";
-					else $params['conditions'] .= " AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  )  AND ";
-					$children = $section->find_all_by_parent_id($options['section']);
-					$ids= array($options['section']);
-					foreach($children as $child){ $ids[] = $child->id;}
-					$ids = implode(",", $ids);
-					$params['conditions'] .= " (`cms_section_id` IN ($ids))";
-					$params['order'] = "id";
-					$params['direction'] = "DESC";
-					$params['limit'] = 5;
+				if($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1) $this->cms_content = $section->find_all_by_parent_id($options['section']);				
+				elseif($loggedin) $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
+				else{
+					$params['conditions'] .= " AND `cms_section_id`=$options[section]";
 					$this->cms_content = $content->find_all($params);
 				}
-				
 	  } elseif($options['url']) {		
 			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
 			else{
-				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=1 AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  )";
+				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=1";
 				$this->cms_content = $content->find_first($params);
 			}
 	  }
@@ -139,7 +132,7 @@ class CmsApplicationController extends WXControllerBase{
 	  else $type="list";
 	  $this->use_view="cms_".$type;		
 	  foreach($sections as $section) {
-	  	if($this->is_viewable("page/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;			
+	  	if($this->is_viewable("page/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$type. "_".$this->cms_content->url) ) $this->use_view =  "cms_".$type. "_".$this->cms_content->url;			
 	}
