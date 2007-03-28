@@ -91,12 +91,12 @@ class CmsApplicationController extends WXControllerBase{
 		$section = new CmsSection();
 		$user = new WXDBAuthenticate(array("db_table"=>"cms_user", "encrypt"=>"false"));
 		$logged_in = $user->is_logged_in();
-		$params = array('conditions'=>"status=1 ");
+		$params = array('conditions'=>"status=1 AND");
 		//page
 	  if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])) {		
 			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);	
 			else{
-				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=$options[section]";
+				$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=$options[section]";
 				$this->cms_content = $content->find_first($params);
 			}
 	  //section		
@@ -106,12 +106,12 @@ class CmsApplicationController extends WXControllerBase{
 				}	
 				else {
 					if($logged_in) $params['conditions'] = "";
-					elseif($this->cms_section->section_type == 1) $params['conditions'] .= " AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) ";
+					elseif($this->cms_section->section_type == 1) $params['conditions'] .= " (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) AND";
 					$children = $section->find_all_by_parent_id($options['section']);
 					$ids= array($options['section']);
 					foreach($children as $child){ $ids[] = $child->id;}
 					$ids = implode(",", $ids);
-					$params['conditions'] .= " AND (`cms_section_id` IN ($ids))";
+					$params['conditions'] .= " (`cms_section_id` IN ($ids))";
 					$params['order'] = "id";
 					$params['direction'] = "DESC";
 					$params['limit'] = 3;
@@ -120,7 +120,7 @@ class CmsApplicationController extends WXControllerBase{
 	  } elseif($options['url']) {		
 			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
 			else{
-				$params['conditions'] .= "AND url='$options[url]' AND `cms_section_id`=1";
+				$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=1";
 				$this->cms_content = $content->find_first($params);
 			}
 	  }
