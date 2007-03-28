@@ -114,7 +114,7 @@ class CmsApplicationController extends WXControllerBase{
 					$params['conditions'] .= " (`cms_section_id` IN ($ids))";
 					$params['order'] = "id";
 					$params['direction'] = "DESC";
-					$params['limit'] = 5;
+					$params['limit'] = 3;
 					$this->cms_content = $content->find_all($params);
 				}
 				
