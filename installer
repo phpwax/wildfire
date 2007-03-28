@@ -15,7 +15,6 @@ system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/*.css ".PUBLIC_DIR."st
 system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
-system(WAX_ROOT."script/migrate directory ".PLUGIN_DIR."cms/migrate/");
 echo "All of the files have now been installed. To complete the installation:"."\n";
 echo "1... Add 'AutoLoader::include_plugin('cms');' to the bottom of your config/environment.php file."."\n";
 echo "2... Enjoy your lovely CMS!"."\n";
