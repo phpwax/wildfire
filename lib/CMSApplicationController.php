@@ -101,12 +101,23 @@ class CmsApplicationController extends WXControllerBase{
 			}
 	  //section		
 	  } elseif($options['section']) {	
-				if($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1) $this->cms_content = $section->find_all_by_parent_id($options['section']);				
-				elseif($loggedin) $this->cms_content = $content->find_all_by_cms_section_id($options['section']);
-				else{
-					$params['conditions'] .= " AND `cms_section_id`=$options[section]";
+				if($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1){
+					$this->cms_content = $section->find_all_by_parent_id($options['section']);
+				}	
+				else {
+					if($logged_in) $params['conditions'] = "";
+					else $params['conditions'] .= " AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  )  AND ";
+					$children = $section->find_all_by_parent_id($options['section']);
+					$ids= array($options['section']);
+					foreach($children as $child){ $ids[] = $child->id;}
+					$ids = implode(",", $ids);
+					$params['conditions'] .= " (`cms_section_id` IN ($ids))";
+					$params['order'] = "id";
+					$params['direction'] = "DESC";
+					$params['limit'] = 5;
 					$this->cms_content = $content->find_all($params);
 				}
+				
 	  } elseif($options['url']) {		
 			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
 			else{
