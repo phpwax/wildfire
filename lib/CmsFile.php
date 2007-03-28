@@ -12,6 +12,7 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	
 	public function extension() {
+	  return ".gif";
 	  $ext = ".".substr(strrchr($this->type, "/"), 1);
 	  if($ext != ".gif" || $ext !=".png") $ext = ".jpg";
 	  return $ext;
