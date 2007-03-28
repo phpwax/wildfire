@@ -27,7 +27,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->use_layout=false;
 		$generic = PUBLIC_DIR."images/cms/cms-generic-icon.png";
   	if(!isset($this->route_array[1])) $size=110;
-  	 else $size = $this->route_array[1];
+	   else $size = $this->route_array[1];
+	  $size = str_replace(".jpg", "", $size);
+	  $size = str_replace(".gif", "", $size);
+	  
   	$this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
 		if(!File::is_image($source)) $source = $generic;
