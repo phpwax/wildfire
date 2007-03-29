@@ -6,22 +6,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<?=yui_default_js()?>
 	<?=yui_container_files()?>
-	<?=stylesheet_link_tag('cms-stylesheet')?>
+	<?=stylesheet_asset('cms','cms-stylesheet')?>
 	<?=stylesheet_link_tag('cms-overrides')?>
-	<?=stylesheet_link_tag('cms-wysiwyg-styles')?>
 	<?=stylesheet_link_tag('form-layout')?>
-	<title>Content Management System</title>
-  <script src="http://static.webxpress.com/scriptaculous/prototype.js"type="text/javascript"></script>
-  <script src="http://static.webxpress.com/scriptaculous/scriptaculous.js"type="text/javascript"></script>
-  
-  <script src="http://static.webxpress.com/scriptaculous/builder.js"type="text/javascript"></script>
-  <script src="http://static.webxpress.com/scriptaculous/controls.js"type="text/javascript"></script>
-  <script src="http://static.webxpress.com/scriptaculous/dragdrop.js"type="text/javascript"></script>
-  <script src="http://static.webxpress.com/scriptaculous/effects.js"type="text/javascript"></script>
-
-	<?=javascript_include_tag("editors/simple/widgEditor")?>
-	<?=javascript_include_tag("cms_application")?>
+  <?=javascript_asset("scriptaculous", "prototype")?>
+  <?=javascript_asset("scriptaculous", "scriptaculous")?>
+	<?=javascript_asset("cms", "widgEditor")?>
 	<?=javascript_include_tag("reflection")?>
+	<title>Content Management System</title>
+	
 </head>
 
 <body id="<?=strtolower(WXInflections::underscore($display_name))?>">
