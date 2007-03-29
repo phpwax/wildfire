@@ -13,8 +13,8 @@
         </td>
       <?endforeach?>
       <td class="column">
-        <?=link_to(image_tag("cms/button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
-        <?=link_to(image_tag("cms/button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
+        <?=link_to(image_asset("cms","button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
+        <?=link_to(image_tag("cms", "button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
       </td>
     </tr>
 <?endforeach?>
