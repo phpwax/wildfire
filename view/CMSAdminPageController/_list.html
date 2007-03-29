@@ -13,8 +13,8 @@
         </td>
       <?endforeach?>
       <td class="column">
-        <?=link_to(image_tag("cms/button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
-        <?=link_to(image_tag("cms/button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
+        <?=link_to(image_asset("cms","button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
+        <?=link_to(image_asset("cms","button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
 
 				<?if($row->table == "cms_section" && $row->url != "home"):?>
 					<?$url = "/" . $row->url;?>
@@ -23,7 +23,7 @@
 				<?else:?>				
 					<?$url = "/" . $row->section_url() . "/" . $row->url;?>
 				<?endif?>
-				<?=link_to(image_tag("cms/button_view.gif"), $url)?>
+				<?=link_to(image_asset("cms","button_view.gif"), $url)?>
       </td>
     </tr>
 <?endforeach?>
