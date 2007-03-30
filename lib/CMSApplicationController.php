@@ -112,7 +112,7 @@ class CmsApplicationController extends WXControllerBase{
 					foreach($children as $child){ $ids[] = $child->id;}
 					$ids = implode(",", $ids);
 					$params['conditions'] .= " (`cms_section_id` IN ($ids))";
-					$params['order'] = "id";
+					$params['order'] = "published";
 					$params['direction'] = "DESC";
 					$params['limit'] = 3;
 					$this->cms_content = $content->find_all($params);
