@@ -7,12 +7,16 @@
 	<?=yui_default_js()?>
 	<?=yui_container_files()?>
 	<?=stylesheet_asset('cms','cms-stylesheet')?>
-	<?=stylesheet_link_tag('cms-overrides')?>
-	<?=stylesheet_link_tag('form-layout')?>
-  <?=javascript_asset("scriptaculous", "prototype")?>
+	<?=javascript_asset("scriptaculous", "prototype")?>
   <?=javascript_asset("scriptaculous", "scriptaculous")?>
 	<?=javascript_asset("cms", "widgEditor")?>
-	<?=javascript_include_tag("reflection")?>
+	<?=stylesheet_asset('cms','wysiwyg-styles')?>
+	
+	<?=javascript_asset("utilities", "reflection")?>
+	
+	
+	<?=stylesheet_link_tag('cms-overrides')?>
+	<?=stylesheet_link_tag('form-layout')?>
 	<title>Content Management System</title>
 	
 </head>
