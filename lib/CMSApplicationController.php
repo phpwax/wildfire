@@ -97,10 +97,12 @@ class CmsApplicationController extends WXControllerBase{
 			$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=$options[section]";
 			$this->cms_content = $content->find_first($params);
 		} elseif($options['section'] && ($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1)) {
-			$cms_content = $section->find_all_by_parent_id($options['section']);
-		}	elseif($options['section']){
+			$this->cms_content = $section->find_all_by_parent_id($options['section']);
+		}
+		elseif($options['section']){
 			if($logged_in) $params['conditions'] = "";
-			elseif($this->cms_section->section_type == 1) $params['conditions'] .= " (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) AND";			
+			elseif($this->cms_section->section_type == 1) $params['conditions'] .= " (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) AND";
+			
 			$children = $section->find_all_by_parent_id($options['section']);
 			$ids= array($options['section']);
 			foreach($children as $child){ $ids[] = $child->id;}
@@ -156,5 +158,8 @@ class CmsApplicationController extends WXControllerBase{
 
 
 }
+
+
+
 
 ?>
