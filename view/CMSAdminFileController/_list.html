@@ -2,7 +2,7 @@
   <div class="browse_image" id="<?=$image->id?>">
     <img src="/admin/files/show_image/<?=$image->id?>/100<?=$image->extension?>" title="<?=$image->caption?>" class=""/><br />
     <a href="edit/<?=$image->id?>"><?=truncate($image->filename, 15)?></a>
-    <?=link_to(image_tag("cms/trash.gif"), array("action"=>"delete", "id"=>$image->id), array("confirm"=>"Are You Sure?"))?>
+    <?=link_to(image_asset("cms","trash.gif"), array("action"=>"delete", "id"=>$image->id), array("confirm"=>"Are You Sure?"))?>
   </div>
 <?endforeach;?>
 <?if(empty($all_rows)):?>
