@@ -7,7 +7,7 @@ class CmsApplicationController extends WXControllerBase{
   public $content_table = false; // Which table to search for content
   public $section_stack = array();
   public $section_id = 1;
-	public $per_page = 4;
+	public $per_page = 5;
   public $crumbtrail = array();
 	
 	public function cms_content() {}
@@ -89,41 +89,43 @@ class CmsApplicationController extends WXControllerBase{
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model; 
 		$section = new CmsSection();
-		$user = new WXDBAuthenticate(array("db_table"=>"cms_user", "encrypt"=>"false"));
-		$logged_in = $user->is_logged_in();
+		$logged_in = $this->is_admin_logged_in();
 		$params = array('conditions'=>"status=1 AND");
-		//page
-	  if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])) {		
-			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);	
-			else{
-				$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=$options[section]";
-				$this->cms_content = $content->find_first($params);
+		if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url']) && $logged_in){
+			$this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);	
+		}	elseif($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])){
+			$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=$options[section]";
+			$this->cms_content = $content->find_first($params);
+		} elseif($options['section'] && ($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1)) {
+			$cms_content = $section->find_all_by_parent_id($options['section']);
+		}	elseif($options['section']){
+			if($logged_in) $params['conditions'] = "";
+			elseif($this->cms_section->section_type == 1) $params['conditions'] .= " (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) AND";			
+			$children = $section->find_all_by_parent_id($options['section']);
+			$ids= array($options['section']);
+			foreach($children as $child){ $ids[] = $child->id;}
+			$ids = implode(",", $ids);
+			$params['conditions'] .= " (`cms_section_id` IN ($ids))";
+			$params['order'] = "`published`";
+			$params['direction'] = "DESC";
+			$this->total = count($content->find_all($params));
+			if(!$this->param("page")){
+				$offset = 0;
+				$this->current_page	= 1;
+			}	else {
+				$offset = ( ($this->param("page")-1) * $this->per_page);		
+				$this->current_page = $this->param("page");	
 			}
-	  //section		
-	  } elseif($options['section']) {	
-				if($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1){
-					$this->cms_content = $section->find_all_by_parent_id($options['section']);
-				}	
-				else {
-					if($logged_in) $params['conditions'] = "";
-					elseif($this->cms_section->section_type == 1) $params['conditions'] .= " (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) AND";
-					$children = $section->find_all_by_parent_id($options['section']);
-					$ids= array($options['section']);
-					foreach($children as $child){ $ids[] = $child->id;}
-					$ids = implode(",", $ids);
-					$params['conditions'] .= " (`cms_section_id` IN ($ids))";
-					$params['order'] = "published";
-					$params['direction'] = "DESC";
-					$params['limit'] = 3;
-					$this->cms_content = $content->find_all($params);
-				}
-	  } elseif($options['url']) {		
-			if($logged_in) $this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
-			else{
-				$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=1";
-				$this->cms_content = $content->find_first($params);
-			}
-	  }
+			$params['limit'] = $this->per_page;
+			$params['offset'] = $offset;
+			$this->cms_content = $content->find_all($params);
+		} elseif($options['url'] && $logged_in) {
+			$this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
+		}
+		elseif($options['url']) {
+			$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=1";
+			$this->cms_content = $content->find_first($params);
+		}		
 	}	
 	protected function setup_content_table() {
 	  if($this->cms_section->section_type == 1) {
@@ -154,8 +156,5 @@ class CmsApplicationController extends WXControllerBase{
 
 
 }
-
-
-
 
 ?>
