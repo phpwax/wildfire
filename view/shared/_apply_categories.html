@@ -31,8 +31,6 @@
 <?=yui_container("category_browser_container")?>
 <?=javascript_tag('widgToolbarItems.push("categoryattach")')?>
 <script type="text/javascript">
-YAHOO.util.Event.addListener(window, "load", function(){YAHOO.cms.container.category_browser_container.show();});
-
   function cat_message() {
     $('message').update('<p id="inserted">Categories updated</p>');
     new Effect.Fade("inserted", {delay:2});
