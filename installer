@@ -8,8 +8,8 @@ echo "------------------------------------------------------------------------".
 echo "We're now going to copy some files into your application folder."."\n";
 echo "Be careful what you agree to!"."\n";
 echo "------------------------------------------------------------------------"."\n";
-
-system("cp -iRp ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
+system('mkdir -p '.CONTROLLER_DIR.'admin/');
+system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
 //system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images/");
 //system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/*.css ".PUBLIC_DIR."stylesheets/");
 //system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
