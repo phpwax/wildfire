@@ -10,9 +10,9 @@ echo "Be careful what you agree to!"."\n";
 echo "------------------------------------------------------------------------"."\n";
 
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
-system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images/");
-system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/*.css ".PUBLIC_DIR."stylesheets/");
-system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
+//system("cp -R ".PLUGIN_DIR."cms/resources/public/images/cms ".PUBLIC_DIR."images/");
+//system("cp ".PLUGIN_DIR."cms/resources/public/stylesheets/*.css ".PUBLIC_DIR."stylesheets/");
+//system("cp -R ".PLUGIN_DIR."cms/resources/public/javascripts/* ".PUBLIC_DIR."javascripts/");
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
 echo "All of the files have now been installed. To complete the installation:"."\n";
