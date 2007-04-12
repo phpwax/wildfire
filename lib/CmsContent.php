@@ -15,7 +15,7 @@ class CmsContent extends WXActiveRecord {
 
 	public function sections() {
 		$section = new CmsSection;
-		return $section->filtered_sections(1);
+		return $section->find_ordered_sections();
 	}
 	
 	public function section() {
