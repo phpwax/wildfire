@@ -15,7 +15,7 @@ class CMSHelper extends WXHelpers {
   public function get_content($section_title, $params=array()) {
     $section = new CmsSection;
     $id = $section->find_by_title($section_title)->id;
-    return $section->published_content(false, $id, $params);
+    return $section->published_content("", $id, $params);
   }
 	
 }
