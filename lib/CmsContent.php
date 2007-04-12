@@ -38,11 +38,11 @@ class CmsContent extends WXActiveRecord {
 	  if($section->find_by_url($this->url)) $this->url= $this->url."-info";
 	}
 	
-	public function published_content($url=false, $section, $params=array()) {
+	public function published_content($url, $section, $params=array()) {
 	  $condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d'))";
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
 	  else $params['conditions'] = $condition;
-	  if($url && $res = $this->find_by_url_and_section_id($url, $section, $params)) return $res;
+	  if(strlen($url)>1) return $this->find_by_url_and_section_id($url, $section, $params));
 	  elseif($res = $this->find_all_by_section_id($section, $params)) return $res;
 	  return array();
 	}
