@@ -1,8 +1,24 @@
 <?php
+function get_response($question, $positive="y", $options=false) {
+  if(!$options) $options = "[y/n] ";
+  echo $question . $options;
+  $response = strtolower(trim(fgets(STDIN)));
+  if($response == $positive) return true;
+  return false;
+}
+
 if(!defined("WAX_ROOT")) define("WAX_ROOT", dirname(dirname(dirname(__FILE__)))."/");
 if(!defined("CONTROLLER_DIR")) define("CONTROLLER_DIR", WAX_ROOT."app/controller/");
 if(!defined("PUBLIC_DIR")) define("PUBLIC_DIR", WAX_ROOT."public/");
 if(!defined("PLUGIN_DIR")) define("PLUGIN_DIR", WAX_ROOT."plugins/");
+
+$pdo = WXActiveRecord::getPDO();
+if(get_response("Would you like to setup a default admin user")) {
+  $pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('admin','password', '30')");
+}
+if(get_response("Would you like to setup a default section 'Home'")) {
+  $pdo->query("INSERT INTO cms_section (title, parent_id, url) VALUES('Home','0', 'home')");
+}
 
 echo "------------------------------------------------------------------------"."\n";
 echo "We're now going to copy some files into your application folder."."\n";
