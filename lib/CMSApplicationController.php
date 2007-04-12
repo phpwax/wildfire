@@ -4,7 +4,7 @@ class CmsApplicationController extends WXControllerBase{
   
   public $cms_section = false;      // Section object
   public $cms_content = false;  // Page/Article Object
-  public $content_table = false; // Which table to search for content
+  public $content_table = "cms_content"; // Which table to search for content
   public $section_stack = array();
   public $section_id = 1;
 	public $per_page = 5;
@@ -14,29 +14,25 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function cms_check() {
 	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
-	  
+	  $url = $this->parse_urls();
+    $content = array("section"=>$this->cms_section->id, "url"=>$url);
+    $this->get_content($content);		
+    $this->pick_view();
+		if($this->cms_content) $this->action = "cms_content";
+	}
+	
+	protected function parse_urls() {
 	  $stack = $this->route_array;
-	  $offset = 0;	
     array_unshift($stack, $this->action);
-		$all = $stack;
+    $this->build_crumbtrail($stack);
     while(count($stack)) {
       if($result = $this->get_section(array("url"=>$stack[0])) ) {
          $this->cms_section = $result;
-         $offset ++;
          $this->section_stack[]=$stack[0];
        }
       $url = array_shift($stack);
     }
-    $this->setup_content_table();
-		if($this->cms_section->id) $this->section_id = $this->cms_section->id;
-    if(!$url) $url = $this->action;
-		
-    $content = array("section"=>$this->section_id, 'section_url'=>$this->cms_section->url,"url"=>$url);
-    $this->get_content($content);		
-    $this->pick_view();
-		if($this->cms_content) $this->action = "cms_content";
-		$this->build_crumbtrail($all);
-		
+    return $url;
 	}
 	
 	/* Generic dnamic image display method */
@@ -87,53 +83,11 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function get_content($options = array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
-    $content = new $model; 
-		$section = new CmsSection();
-		$logged_in = $this->is_admin_logged_in();
-		$params = array('conditions'=>"status=1 AND");
-		if($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url']) && $logged_in){
-			$this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], $options['section']);	
-		}	elseif($options['section'] && strlen($options['url'])>1 && ($options['section_url'] != $options['url'])){
-			$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=$options[section]";
-			$this->cms_content = $content->find_first($params);
-		} elseif($options['section'] && ($this->cms_section->parent_id == 1 && $this->cms_section->section_type != 1)) {
-			$this->cms_content = $section->find_all_by_parent_id($options['section']);
-		}
-		elseif($options['section']){
-			if($logged_in) $params['conditions'] = "";
-			elseif($this->cms_section->section_type == 1) $params['conditions'] .= " (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')  ) AND";
-			
-			$children = $section->find_all_by_parent_id($options['section']);
-			$ids= array($options['section']);
-			foreach($children as $child){ $ids[] = $child->id;}
-			$ids = implode(",", $ids);
-			$params['conditions'] .= " (`cms_section_id` IN ($ids))";
-			$params['order'] = "`published`";
-			$params['direction'] = "DESC";
-			$this->total = count($content->find_all($params));
-			if(!$this->param("page")){
-				$offset = 0;
-				$this->current_page	= 1;
-			}	else {
-				$offset = ( ($this->param("page")-1) * $this->per_page);		
-				$this->current_page = $this->param("page");	
-			}
-			$params['limit'] = $this->per_page;
-			$params['offset'] = $offset;
-			$this->cms_content = $content->find_all($params);
-		} elseif($options['url'] && $logged_in) {
-			$this->cms_content = $content->find_by_url_and_cms_section_id($options['url'], 1);	
-		}
-		elseif($options['url']) {
-			$params['conditions'] .= " url='$options[url]' AND `cms_section_id`=1";
-			$this->cms_content = $content->find_first($params);
-		}		
+    $content = new $model;
+    if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id']);
+		else $this->cms_content = $content->published_content($options['url'], $options['section_id']);
 	}	
-	protected function setup_content_table() {
-	  if($this->cms_section->section_type == 1) {
-		  $this->content_table = "cms_article";
-	  } else $this->content_table = "cms_page";
-	}
+	
 	
 	protected function is_page() {
 	  if(!is_array($this->cms_content) && $this->cms_content) return true;
