@@ -1,18 +1,17 @@
 <?php
 /**
-* CMSAdminPageController
+* Article Controller
 * @package PHP-WAX CMS
 */
-
-class CMSAdminPageController extends CMSAdminComponent {
-	public $module_name = "pages";												
-	public $model_class = 'CmsPage';
-	public $model_name = "cms_page";													
-	public $display_name = "Pages";
-	public $is_allowed = array('url'=>30,'published'=>30);
+class CMSAdminArticleController extends CMSAdminComponent {
+	public $module_name = "content";											
+	public $model_class = 'CmsContent';
+	public $model_name = "cms_content";													
+	public $display_name = "Site Content";
+	
 	public $scaffold_columns = array(
     "title"   =>array(),
-    "page_status" => array(), 
+    "page_status" => array(),
 		"section" => array()
   );
   public $filter_columns = array("title");
@@ -27,13 +26,13 @@ class CMSAdminPageController extends CMSAdminComponent {
 		$this->filter_block_partial = $this->render_partial("section_filter");
 		$this->list = $this->render_partial("list");
 	}
-
+	
 	public function index() {
 		parent::index();
 		$this->filter_block_partial .= $this->render_partial("section_filter");
 		$this->list = $this->render_partial("list");
 	}
-
+	
 	
 	public function add_image() {
 		$this->use_layout=false;
@@ -48,6 +47,18 @@ class CMSAdminPageController extends CMSAdminComponent {
 		$page->delete_images($this->param("image"));
 	}
 	
+	public function edit() {
+		$this->page = new $this->model_class($this->param("id"));
+		$this->attached_images = $this->page->images;
+		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$cat = new CmsCategory;
+		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();
+		
+		$this->image_partial = $this->render_partial("page_images");
+		$this->category_partial = $this->render_partial("apply_categories");
+		parent::edit();
+	}
+	
 	public function set_categories() {
 	  $this->use_layout=false;
 	  $this->use_view=false;
@@ -59,22 +70,10 @@ class CMSAdminPageController extends CMSAdminComponent {
 		exit;
 	}
 	
-	public function edit() {
-		$this->page = new $this->model_class($this->param("id"));
-		$this->attached_images = $this->page->images;
-		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
-		$cat = new CmsCategory;
-		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();
-		$this->image_partial = $this->render_partial("page_images");
-		$this->category_partial = $this->render_partial("apply_categories");
-		parent::edit();
-	}
-	
 	public function create() {
 	  parent::create(false);
-		$this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
+	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
+    else $this->save($this->model);
 	}
-  
-	
 }
 ?>

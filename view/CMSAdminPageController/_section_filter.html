@@ -1,7 +1,0 @@
-<div id="section filter">
-  <strong>View by section: </strong><br />
-  <a href="/admin/pages/">All sections</a> &nbsp;&nbsp;
-  <?foreach($model->sections as $section):?>
-    <a href="/admin/pages/<?=dasherize($section->url)?>"><?=$section->title?></a> &nbsp;&nbsp;
-  <?endforeach?>
-</div>

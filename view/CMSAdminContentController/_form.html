@@ -1,9 +1,11 @@
 <fieldset>
-	<?=form_heading("Edit Page")?>
+	<?=form_heading("Content Editor")?>
   <?=medium(text_field($model, "title"))?>
-  <?=small(select($model, "status", $model->status_options))?>
   <?=small(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title"), array(), "Choose a section" ))?>
-  
+  <?=small(select($model, "status", $model->status_options))?>
+  <?=form_divider()?>
+	<?=medium(date_select($model, "published", array(), "Date to be published"))?>
+  <?=form_divider()?>
   <?=large(simple_wysiwyg($model, "content"))?>
 	<?=form_divider()?>
   <?=small(submit_field($model, "Save"))?>

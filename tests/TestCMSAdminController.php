@@ -1,7 +1,7 @@
 <?php
 class TestCMSAdminController extends WebTestCase
 {
-  public $base = "http://bluebookr.intranet.webxpress/";
+  public $base =false;
   
   public function setUp() {    
     $this->user = new CmsUser;

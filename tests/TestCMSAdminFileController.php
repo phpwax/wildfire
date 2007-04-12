@@ -1,7 +1,7 @@
 <?php
 class TestCMSAdminFileController extends WebTestCase
 {
-  public $base = "http://bluebookr.intranet.webxpress/";
+  public $base = false;
   public $test_image; 
   
   public function setUp() {
