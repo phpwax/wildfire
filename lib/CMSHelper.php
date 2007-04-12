@@ -11,5 +11,11 @@ class CMSHelper extends WXHelpers {
     else $options["class"] = "widgEditor";
     return text_area_tag($name, $value, $options, $with_label, "Put your content here");
   }
+  
+  public function get_content($section_title, $params=array()) {
+    $section = new CmsSection;
+    $id = $section->find_by_title($section_title)->id;
+    return $section->published_content(false, $id, $params);
+  }
 	
 }
