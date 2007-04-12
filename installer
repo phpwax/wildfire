@@ -14,6 +14,7 @@ if(!defined("PLUGIN_DIR")) define("PLUGIN_DIR", WAX_ROOT."plugins/");
 
 $pdo = WXActiveRecord::getDefaultPDO();
 if(get_response("Would you like to setup a default admin user")) {
+  print_r($pdo); exit;
   $pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('admin','password', '30')");
   echo "...User created"."\n";
 }
