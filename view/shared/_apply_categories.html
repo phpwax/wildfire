@@ -1,29 +1,32 @@
 <div id="category_browser_container">
-
-  <form action="" method="post" class="form_container" id="categorise">
-    <fieldset>
-      <?=form_heading("Choose from the categories listed below")?>
-      <?foreach($all_categories as $category):?>
-        <?
-          $switch=false;
-          foreach($attached_categories as $attached) {
-            if($attached->id == $category->id) $switch=true;
-          }
+  <?if(count($all_categories)):?>
+    <form action="" method="post" class="form_container" id="categorise">
+      <fieldset>
+        <?=form_heading("Choose from the categories listed below")?>
+        <?foreach($all_categories as $category):?>
+          <?
+            $switch=false;
+            foreach($attached_categories as $attached) {
+              if($attached->id == $category->id) $switch=true;
+            }
+          ?>
+            <?if($switch):?>
+              <?=large(check_box_tag($category->name, $category->id, true))?>
+            <?else:?>
+              <?=large(check_box_tag($category->name, $category->id, false))?>
+            <?endif?>
+        <?endforeach?>
+        <?=submit_to_remote("commit", "Update categories", array(
+          "url"=>array("action"=>"set_categories", "id"=>$page->id),
+          "complete"=>"cat_message()"      
+        ));
         ?>
-          <?if($switch):?>
-            <?=large(check_box_tag($category->name, $category->id, true))?>
-          <?else:?>
-            <?=large(check_box_tag($category->name, $category->id, false))?>
-          <?endif?>
-      <?endforeach?>
-      <?=submit_to_remote("commit", "Update categories", array(
-        "url"=>array("action"=>"set_categories", "id"=>$page->id),
-        "complete"=>"cat_message()"      
-      ));
-      ?>
-      <div id="message"></div>
-    </fieldset>
-  </form>
+        <div id="message"></div>
+      </fieldset>
+    </form>
+  <?else:?>
+    <p>No categories setup yet</p>
+  <?endif?>
   
 </div>
 <?=javascript_asset("yui", "container-min")?>
