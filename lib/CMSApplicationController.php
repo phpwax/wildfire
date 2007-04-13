@@ -74,7 +74,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_section($url) {
 	  $section = new CmsSection;
 	  $content = new CmsContent;
-	  if($res = $section->find_by_url($url) return $res;
+	  if($res = $section->find_by_url($url)) return $res;
 	  $id = $content->find_by_url($url)->cms_section_id;
     if($res = $section->find($id)) return $res;
 	  return false;
