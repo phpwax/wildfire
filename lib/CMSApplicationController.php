@@ -69,16 +69,14 @@ class CmsApplicationController extends WXControllerBase{
 	
 	/**
 	 *  @param $options Set of options to query for section
-	 *  @return boolean 
+	 *  @return CmsSection Object 
 	 */
-	protected function get_section($options = array()) {
+	protected function get_section($url) {
 	  $section = new CmsSection;
-	  if($options['url']) return $section->find_by_url($options['url']);
-	  if($options['id']) return $section->find($options['id']);
-	  if($options['parent']) {
-	    $child = $section->find($options['parent'])->parent_id;
-	    return $section->find($child);
-	  }
+	  $content = new CmsContent;
+	  if($res = $section->find_by_url($url) return $res;
+	  $id = $content->find_by_url($url)->cms_section_id;
+    if($res = $section->find($id)) return $res;
 	  return false;
 	}
 	
