@@ -18,5 +18,26 @@ class CMSHelper extends WXHelpers {
     $content = new CmsContent;
     return $content->published_content("", $id, $params);
   }
+  
+  public function smart_truncate($paragraph, $limit, $link=false){
+    $tok = strtok($paragraph, " ");
+    $text="";
+    $words='0';
+    while($tok){
+      $text .= " ".$tok;
+      $words++;
+      if(($words >= $limit) && ((substr($tok, -1) == "!")||(substr($tok, -1) == ".")))
+        break;
+      $tok = strtok(" ");
+    }
+    return ltrim($text);
+  }
+  
+  public function word_truncate($text, $words, $striph = false) {
+    preg_match("/([\S]+\s*){0,$words}/", $text, $regs);  
+    $result = trim($regs[0])."...";
+    $result = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "", $result);
+    echo strip_tags($result);
+  }
 	
 }
