@@ -97,6 +97,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
     if($_POST['stat_search_url']) CmsConfiguration::set("stat_search_url", $_POST['stat_search_url']);
     if($_POST['stat_dash_url']) CmsConfiguration::set("stat_dash_url", $_POST['stat_dash_url']);
 		if($_POST['address']) CmsConfiguration::set("address", serialize($_POST['address'])	);
+		if($_POST['google_key']) CmsConfiguration::set("google_key", $_POST['google_key']	);
   }
 
 
