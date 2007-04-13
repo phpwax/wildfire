@@ -32,6 +32,7 @@ class CmsApplicationController extends WXControllerBase{
        }
       $url = array_shift($stack);
     }
+    if(!count($this->section_stack)) $this->section_stack[]=$this->action;
     return $url;
 	}
 	
