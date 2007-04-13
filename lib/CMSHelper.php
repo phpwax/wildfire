@@ -39,5 +39,10 @@ class CMSHelper extends WXHelpers {
     $result = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "", $result);
     echo strip_tags($result);
   }
+  
+  public function smart_nav($url, $display, $current, $selected_id) {
+    if($current == $url) return content_tag("li", content_tag("a", array("href"=>$display)), array("id"=>$selected_id));
+    return content_tag("li", content_tag("a", array("href"=>$display)));
+  }
 	
 }
