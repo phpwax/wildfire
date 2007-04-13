@@ -28,6 +28,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $stack = $this->route_array;
     array_unshift($stack, $this->action);
     $this->build_crumbtrail($stack);
+    print_r($stack); exit;
     while(count($stack)) {
       if($result = $this->get_section(array("url"=>$stack[0])) ) {
          $this->cms_section = $result;
@@ -70,7 +71,7 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	
 	/**
-	 *  @param $options Set of options to query for section
+	 *  @param $url Url to query for section
 	 *  @return CmsSection Object 
 	 */
 	protected function get_section($url) {
@@ -87,7 +88,6 @@ class CmsApplicationController extends WXControllerBase{
     $content = new $model;
     if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id']);
 		else $this->cms_content = $content->published_content($options['url'], $options['section_id']);
-		print_r($this->cms_content); exit;
 	}	
 	
 	
