@@ -29,7 +29,7 @@ class CmsApplicationController extends WXControllerBase{
     array_unshift($stack, $this->action);
     $this->build_crumbtrail($stack);
     while(count($stack)) {
-      if($result = $this->get_section(array("url"=>$stack[0])) ) {
+      if($result = $this->get_section($stack[0]) ) {
          $this->cms_section = $result;
          $this->section_stack[]=$stack[0];
        }
@@ -74,7 +74,6 @@ class CmsApplicationController extends WXControllerBase{
 	 *  @return CmsSection Object 
 	 */
 	protected function get_section($url) {
-    error_log($url);
 	  $section = new CmsSection;
 	  $content = new CmsContent;
 	  if($res = $section->find_by_url($url)) return $res;
