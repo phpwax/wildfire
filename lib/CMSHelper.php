@@ -14,9 +14,9 @@ class CMSHelper extends WXHelpers {
   
   public function get_content($section_title, $params=array()) {
     $section = new CmsSection;
-    $id = $section->find_by_title($section_title)->id;
+    $sec = $section->find_by_title($section_title);
     $content = new CmsContent;
-    return $content->published_content("", $id, $params);
+    return $content->published_content($sec->url, $sec->$id, $params);
   }
   
   public function smart_truncate($paragraph, $limit, $link=false){
