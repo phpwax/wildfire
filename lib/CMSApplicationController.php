@@ -14,7 +14,8 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function cms_check() {
 	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) {
-	    $this->section_stack[]=$this->action;
+	    if($this->action=="index") $this->section_stack[]="";
+	    else $this->section_stack[]=$this->action;
 	    return false;
     }
 	  $url = $this->parse_urls();
