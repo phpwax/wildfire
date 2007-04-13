@@ -48,7 +48,7 @@ class CmsContent extends WXActiveRecord {
 	}
 	
 	public function all_content($url, $section, $params=array()) {
-	  if(strlen($url)>1) return $this->find_by_url_and_cms_section_id($url, $section, $params));
+	  if(strlen($url)>1) return $this->find_by_url_and_cms_section_id($url, $section, $params);
 	  elseif($res = $this->find_all_by_cms_section_id($section, $params)) return $res;
 	  return array();
   }
