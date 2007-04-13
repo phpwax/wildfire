@@ -43,14 +43,20 @@ class CmsContent extends WXActiveRecord {
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
 	  else $params['conditions'] = $condition;
 	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
-	  elseif($res = $this->find_all_by_cms_section_id($section, $params)) return $res;
+	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
 	  return array();
 	}
 	
 	public function all_content($url, $section, $params=array()) {
 	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
-	  elseif($res = $this->find_all_by_cms_section_id($section, $params)) return $res;
+	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
 	  return array();
+  }
+  
+  public function is_section($url) {
+    $section = new CmsSection;
+    if($section->find_by_url($url)) return true;
+    return false;
   }
 	
 }
