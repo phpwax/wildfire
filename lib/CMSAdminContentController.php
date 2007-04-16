@@ -56,6 +56,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		
 		$this->image_partial = $this->render_partial("page_images");
 		$this->category_partial = $this->render_partial("apply_categories");
+		$this->all_links = $this->model->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
 		parent::edit();
 	}
@@ -72,6 +73,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function create() {
+	  $this->all_links = $this->model->find_all_files();
+		$this->link_partial = $this->render_partial("apply_links");
 	  parent::create(false);
 	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
     else $this->save($this->model);

@@ -18,6 +18,10 @@ class CmsFile extends WXFileActiveRecord {
 	  return $ext;
 	}
 	
+	public function find_all_files() {
+	  return $this->find_all(array("conditions"=>"type NOT LIKE '%image%'"));
+	}
+	
 	
 }
 
