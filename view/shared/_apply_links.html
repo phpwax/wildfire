@@ -1,12 +1,10 @@
 <div id="link_browser_container">
   <h3>1. Enter an internet url</h3>
-  <p><a href="javascript:void(0)" onclick="cms_insert_url();">Click Here</a></p>
+  <p><a href="javascript:void(0)" onclick="cms_insert_url('web');">Click Here</a></p>
   <?if(count($all_links)):?>
-    <form action="" method="post" class="form_container" id="categorise">
-      <fieldset>
-        
-      </fieldset>
-    </form>
+    <?foreach($all_links as $link):?>
+      <?=link_to($link->filename, array("onclick"=>"cms_insert_url('/files/".$link->filename."')"))?>
+    <?endforeach?>
   <?else:?>
     <p>No documents to link to</p>
   <?endif?>
@@ -14,8 +12,10 @@
 </div>
 <?=yui_container("link_browser_container")?>
 <script type="text/javascript">
-function cms_insert_url() {
-  var theURL = prompt("Enter the URL for this link:", "http://");
+function cms_insert_url(type) {
+  if(type=='web') {
+    var theURL = prompt("Enter the URL for this link:", "http://");
+  } else var theURL = type;
   if (theURL != null) {			
 		theIframe.contentWindow.document.execCommand("CreateLink", false, theURL);
 		theWidgEditor.theToolbar.setState("Link", "on");
