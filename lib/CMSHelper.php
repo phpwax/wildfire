@@ -30,7 +30,7 @@ class CMSHelper extends WXHelpers {
         break;
       $tok = strtok(" ");
     }
-    return ltrim($text);
+    return strip_tags(ltrim($text));
   }
   
   public function word_truncate($text, $words, $striph = false) {
