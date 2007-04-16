@@ -4,9 +4,12 @@
   <?if(count($all_links)):?>
   <h3>2. Link to one of your files</h3>
     <p>
-      <?foreach($all_links as $link):?>
-        <a href="javascript:void(0);" onclick="cms_insert_url('/files/<?=$link->filename?>');"><?=$link->filename?></a>
-      <?endforeach?>
+      <label for="link_file">Select a file</label>
+      <select id="link_file">
+        <?foreach($all_links as $link):?>
+          <option value="<?=$link->filename?>"><?=$link->filename?></option>
+        <?endforeach?>
+      </select><button onclick="cms_insert_url(document.getElementById('link_file').value);">Insert</button>
     </p>
   <?else:?>
     <p>No documents to link to</p>
