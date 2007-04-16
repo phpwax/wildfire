@@ -3,9 +3,11 @@
   <p><a href="javascript:void(0)" onclick="cms_insert_url('web');">Click Here</a></p>
   <?if(count($all_links)):?>
   <h3>2. Link to one of your files</h3>
-    <?foreach($all_links as $link):?>
-      <a href="javascript:void(0);" onclick="cms_insert_url('/files/<?=$link->filename?>');"><?=$link->filename?></a>
-    <?endforeach?>
+    <p>
+      <?foreach($all_links as $link):?>
+        <a href="javascript:void(0);" onclick="cms_insert_url('/files/<?=$link->filename?>');"><?=$link->filename?></a>
+      <?endforeach?>
+    </p>
   <?else:?>
     <p>No documents to link to</p>
   <?endif?>
