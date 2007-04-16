@@ -56,6 +56,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		
 		$this->image_partial = $this->render_partial("page_images");
 		$this->category_partial = $this->render_partial("apply_categories");
+		$this->link_partial = $this->render_partial("apply_links");
 		parent::edit();
 	}
 	

@@ -44,5 +44,16 @@ class CMSHelper extends WXHelpers {
     if(substr($url, 1) == $current) return content_tag("li", content_tag("a", $display, array("href"=>$url)), array("id"=>$selected_id));
     return content_tag("li", content_tag("a", $display, array("href"=>$url)));
   }
+  
+  public function parse_rss($url, $items) {
+    $simple = @simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);
+    for($i=0; $i<$items; $i+=1) {
+      $title = $simple->channel->item[$i]->title;
+      $desc = $simple->channel->item[$i]->description;
+      $link = $simple->channel->item[$i]->link;
+      $rss[]=array($title, $desc, $link);
+    }
+    return $rss;
+  }
 	
 }
