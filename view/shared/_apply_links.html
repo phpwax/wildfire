@@ -9,7 +9,7 @@
         <?foreach($all_links as $link):?>
           <option value="<?=$link->filename?>"><?=$link->filename?></option>
         <?endforeach?>
-      </select> <button onclick="cms_insert_url(document.getElementById('link_file').value); return false;">Insert</button>
+      </select> <button onclick="cms_insert_url('/files/' + document.getElementById('link_file').value); return false;">Insert</button>
     </p>
   <?else:?>
     <p>No documents to link to</p>
