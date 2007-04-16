@@ -4,7 +4,7 @@
   <?if(count($all_links)):?>
   <h3>2. Link to one of your files</h3>
     <?foreach($all_links as $link):?>
-      <a href="javascript:void(0);" onclick="cms_insert_url('/files/<?=$link->filename?>'"><?=$link->filename?></a>
+      <a href="javascript:void(0);" onclick="cms_insert_url('/files/<?=$link->filename?>');"><?=$link->filename?></a>
     <?endforeach?>
   <?else:?>
     <p>No documents to link to</p>
