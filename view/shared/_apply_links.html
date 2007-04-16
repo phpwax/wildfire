@@ -19,6 +19,7 @@ function cms_insert_url() {
   if (theURL != null) {			
 		theIframe.contentWindow.document.execCommand("CreateLink", false, theURL);
 		theWidgEditor.theToolbar.setState("Link", "on");
+		YAHOO.cms.container.link_browser_container.hide();
 	}
 }
 </script>
