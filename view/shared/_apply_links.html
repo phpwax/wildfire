@@ -1,5 +1,7 @@
 <div id="link_browser_container">
   <?if(count($all_links)):?>
+    <h3>1. Enter an internet url</h3>
+    <p><a href="javascript:onclick='cms_insert_url();'">Click Here</a></p>
     <form action="" method="post" class="form_container" id="categorise">
       <fieldset>
         
@@ -11,3 +13,12 @@
   
 </div>
 <?=yui_container("link_browser_container")?>
+<script type="text/javascript">
+function cms_insert_url() {
+  var theURL = prompt("Enter the URL for this link:", "http://");
+  if (theURL != null) {			
+		theIframe.contentWindow.document.execCommand("CreateLink", false, theURL);
+		theWidgEditor.theToolbar.setState("Link", "on");
+	}
+}
+</script>
