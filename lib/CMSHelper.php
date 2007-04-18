@@ -28,7 +28,7 @@ class CMSHelper extends WXHelpers {
     foreach($text_array as $word) {
       $text .= " ".$word;
       $words++;
-      if($words >= $limit && substr($word, -1) == "!" || substr($word, -1) == "." || strlen($word)<1)
+      if($words >= $limit && (substr($word, -1) == "!" || substr($word, -1) == "." || strlen($word)<1))
         break;
     }
     return ltrim($text);
