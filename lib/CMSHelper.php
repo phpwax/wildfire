@@ -19,25 +19,25 @@ class CMSHelper extends WXHelpers {
     return $content->published_content($sec->url, $sec->id, $params);
   }
   
-  public function smart_truncate($paragraph, $limit, $link=false){
+  public function smart_truncate($paragraph, $limit){
     $tok = strtok($paragraph, " ");
     $text="";
     $words='0';
     while($tok){
       $text .= " ".$tok;
       $words++;
-      if(($words >= $limit) && ((substr($tok, -1) == "!")||(substr($tok, -1) == ".")))
+      if(($words >= $limit) && ((substr($tok, -1) == "!")||(substr($tok, -1) == ".")||(substr($tok, -1) == "\n")))
         break;
       $tok = strtok(" ");
     }
     return strip_tags(ltrim($text));
   }
   
-  public function word_truncate($text, $words, $striph = false) {
+  public function word_truncate($text, $words) {
     preg_match("/([\S]+\s*){0,$words}/", $text, $regs);  
     $result = trim($regs[0])."...";
     $result = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "", $result);
-    echo strip_tags($result);
+    return strip_tags($result);
   }
   
   public function smart_nav($url, $display, $current, $selected_id) {
