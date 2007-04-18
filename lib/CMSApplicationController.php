@@ -19,6 +19,7 @@ class CmsApplicationController extends WXControllerBase{
 	    return false;
     }
 	  $url = $this->parse_urls();
+	  print_r($this->cms_section); exit;
     $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
     $this->get_content($content);
     $this->pick_view();
@@ -86,7 +87,6 @@ class CmsApplicationController extends WXControllerBase{
 	    return $res[0];
 	  }
 	  $id = $content->find_by_url($url)->cms_section_id;
-	  die($id);
     if($res = $section->find($id)) return $res;
 	  return false;
 	}
