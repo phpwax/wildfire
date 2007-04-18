@@ -23,6 +23,7 @@ class CMSHelper extends WXHelpers {
     $paragraph = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "\n\n", $paragraph);
     $paragraph = preg_replace(array("/<(p|ul|li)[^>]*>/iU","/<\/(p|ul|li)[^>]*>/iU"), "\n", $paragraph);
     $text_array = preg_split("/\s/",$paragraph);
+    print_r($text_array); exit;
     $text="";
     $words='0';
     foreach($text_array as $word) {
