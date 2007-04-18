@@ -21,7 +21,7 @@ class CMSHelper extends WXHelpers {
   
   public function smart_truncate($paragraph, $limit) {
     $paragraph = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "\n\n", $paragraph);
-    $paragraph = preg_replace("/<p>.*<\/p>/", "\n$1\n", $paragraph);
+    $paragraph = preg_replace("/<p>(.*)<\/p>/", "\n$1\n", $paragraph);
     die($paragraph);
     $tok = strtok($paragraph, " \n");
     $text="";
