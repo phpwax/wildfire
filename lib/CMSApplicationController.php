@@ -19,8 +19,8 @@ class CmsApplicationController extends WXControllerBase{
 	    return false;
     }
 	  $url = $this->parse_urls();
-	  print_r($this->cms_section); exit;
     $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
+	  print_r($content); exit;
     $this->get_content($content);
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
