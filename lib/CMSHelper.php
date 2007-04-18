@@ -20,7 +20,7 @@ class CMSHelper extends WXHelpers {
   }
   
   public function smart_truncate($paragraph, $limit){
-    $tok = strtok($paragraph, " ");
+    $tok = strtok($paragraph, " \n");
     $text="";
     $words='0';
     while($tok){
