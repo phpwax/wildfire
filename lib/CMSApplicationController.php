@@ -86,6 +86,7 @@ class CmsApplicationController extends WXControllerBase{
 	    return $res[0];
 	  }
 	  $id = $content->find_by_url($url)->cms_section_id;
+	  die($id);
     if($res = $section->find($id)) return $res;
 	  return false;
 	}
