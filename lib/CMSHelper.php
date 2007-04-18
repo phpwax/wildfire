@@ -23,13 +23,12 @@ class CMSHelper extends WXHelpers {
     $paragraph = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "\n\n", $paragraph);
     $paragraph = preg_replace(array("/<(p|ul|li)[^>]*>/iU","/<\/(p|ul|li)[^>]*>/iU"), "\n", $paragraph);
     $text_array = preg_split("/\s/",$paragraph);
-    print_r($text_array); exit;
     $text="";
     $words='0';
     foreach($text_array as $word) {
       $text .= " ".$word;
       $words++;
-      if($words >= $limit && $word == "!" || $word == "." || $word == "\n")
+      if($words >= $limit && substr($word, -1) == "!" || substr($word, -1) == "." || strlen($word)<1)
         break;
     }
     return ltrim($text);
