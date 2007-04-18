@@ -95,6 +95,7 @@ class CmsApplicationController extends WXControllerBase{
     $content = new $model;
     if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id']);
 		else $this->cms_content = $content->published_content($options['url'], $options['section_id']);
+		print_r($this->cms_content); exit;
 	}	
 	
 	
