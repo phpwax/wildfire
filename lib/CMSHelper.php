@@ -21,7 +21,7 @@ class CMSHelper extends WXHelpers {
   
   public function smart_truncate($paragraph, $limit) {
     $paragraph = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "\n\n", $paragraph);
-    $paragraph = preg_replace(array("/<p[^>]*>/iU","/<\/p[^>]*>/iU"), array("","\n"), $paragraph);
+    $paragraph = preg_replace(array("/<p|ul|li[^>]*>/iU","/<\/p|ul|li[^>]*>/iU"), "\n\n", $paragraph);
     $tok = strtok($paragraph, " \n");
     $text="";
     $words='0';
@@ -32,7 +32,7 @@ class CMSHelper extends WXHelpers {
         break;
       $tok = strtok(" ");
     }
-    return strip_tags(ltrim($text));
+    return ltrim($text);
   }
   
   public function word_truncate($text, $words) {
