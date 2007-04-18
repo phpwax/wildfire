@@ -22,15 +22,14 @@ class CMSHelper extends WXHelpers {
   public function smart_truncate($paragraph, $limit) {
     $paragraph = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "\n\n", $paragraph);
     $paragraph = preg_replace(array("/<(p|ul|li)[^>]*>/iU","/<\/(p|ul|li)[^>]*>/iU"), "\n", $paragraph);
-    $tok = strtok($paragraph, "\n");
+    $text_array = preg_split("/\s/",$paragraph);
     $text="";
     $words='0';
-    while($tok){
-      $text .= " ".$tok;
+    foreach($text_array as $word) {
+      $text .= " ".$word;
       $words++;
-      if(($words >= $limit) && ((substr($tok, -1) == "!")||(substr($tok, -1) == ".")||(substr($tok, -1) == "\n")))
+      if($words >= $limit && $word == "!" || $word == "." || $word == "\n")
         break;
-      $tok = strtok(" ");
     }
     return ltrim($text);
   }
