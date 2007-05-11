@@ -27,6 +27,7 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
+		if(is_numeric($stack['page'])) unset($stack['page']);
     array_unshift($stack, $this->action);
     $this->build_crumbtrail($stack);
     while(count($stack)) {
@@ -34,8 +35,8 @@ class CmsApplicationController extends WXControllerBase{
          $this->cms_section = $result;
          $this->section_stack[]=$stack[0];
        }
-      $url = array_shift($stack);
-    }
+			$url = array_shift($stack);
+    }		
     return $url;
 	}
 	
@@ -62,7 +63,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $url = "/";
 	  $this->crumbtrail[]=array("url"=>$url, "display"=>"home");
 	  for($i=0;$i<(count($route));$i++) {
-	    if($result = $this->get_section($route[$i])) {
+	    if($result = $this->get_section($route[$i], true)) {
 	      $url.=$result->url."/";
 	      $this->crumbtrail[]=array("url"=>$url, "display"=>$result->title);
 	    }
@@ -70,11 +71,12 @@ class CmsApplicationController extends WXControllerBase{
 	  if($this->is_page()) $this->crumbtrail[]=array("url"=>$url.$this->cms_content->url."/", "display"=>$this->cms_content->title);	  
 	}
 	
+
 	/**
 	 *  @param $url Url to query for section
 	 *  @return CmsSection Object 
 	 */
-	protected function get_section($url) {
+	protected function get_section($url, $section_only=false) {
 	  $section = new CmsSection;
 	  $content = new CmsContent;
 	  $res = $section->find_all_by_url($url);
@@ -85,8 +87,10 @@ class CmsApplicationController extends WXControllerBase{
 	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
 	    return $res[0];
 	  }
-	  $id = $content->find_by_url($url)->cms_section_id;
-    if($res = $section->find($id)) return $res;
+		if(!$section_only){
+	  	$id = $content->find_by_url($url)->cms_section_id;
+    	if($res = $section->find($id)) return $res;
+		}
 	  return false;
 	}
 	
@@ -121,8 +125,5 @@ class CmsApplicationController extends WXControllerBase{
 
 
 }
-
-
-
 
 ?>
