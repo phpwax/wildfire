@@ -16,6 +16,7 @@ class CMSHelper extends WXHelpers {
     $section = new CmsSection;
     $sec = $section->find_by_title($section_title);
     if(!$sec) $sec = $section->find_by_url($section_title);
+    if(!$sec) $sec = $section->find($section_title);
     $content = new CmsContent;
     return $content->published_content($sec->url, $sec->id, $params);
   }
