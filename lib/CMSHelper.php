@@ -12,12 +12,12 @@ class CMSHelper extends WXHelpers {
     return text_area_tag($name, $value, $options, $with_label, "Put your content here");
   }
   
-  public function get_content($section_title, $params=array()) {
+  public function get_content($section_title, $params=array(), $model = "CmsContent") {
     $section = new CmsSection;
     $sec = $section->find_by_title($section_title);
     if(!$sec) $sec = $section->find_by_url($section_title);
     if(!$sec) $sec = $section->find($section_title);
-    $content = new CmsContent;
+    $content = new $model;
     return $content->published_content($sec->url, $sec->id, $params);
   }
   
