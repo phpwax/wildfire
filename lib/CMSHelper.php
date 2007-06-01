@@ -18,18 +18,6 @@ class CMSHelper extends WXHelpers {
     if(!$sec) $sec = $section->find_by_url($section_title);
     if(!$sec) $sec = $section->find($section_title);
     $content = new $model;
-    $params['order'] = "`published`";
-		$params['direction'] = "DESC";
-		$this->total = count($content->find_all($params));
-		if(!$this->param("page")){
-			$offset = 0;
-			$this->current_page	= 1;
-		}	else {
-			$offset = ( ($this->param("page")-1) * $this->per_page);		
-			$this->current_page = $this->param("page");	
-		}
-		$params['limit'] = $this->per_page;
-		$params['offset'] = $offset;
     return $content->published_content($sec->url, $sec->id, $params);
   }
   
