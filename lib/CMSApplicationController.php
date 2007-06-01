@@ -20,9 +20,10 @@ class CmsApplicationController extends WXControllerBase{
     }
 	  $url = $this->parse_urls();
     $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
+    $model = new CmsContent;
     $params['order'] = "`published`";
 		$params['direction'] = "DESC";
-		$this->total = count($content->find_all($params));
+		$this->total = count($model->find_all($params));
 		if(!$this->param("page")){
 			$offset = 0;
 			$this->current_page	= 1;
