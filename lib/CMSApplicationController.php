@@ -20,27 +20,13 @@ class CmsApplicationController extends WXControllerBase{
     }
 	  $url = $this->parse_urls();
     $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
-    $model = new CmsContent;
-    $params['order'] = "`published`";
-		$params['direction'] = "DESC";
-		$this->total = count($model->find_all($params));
-		if(!$this->param("page")){
-			$offset = 0;
-			$this->current_page	= 1;
-		}	else {
-			$offset = ( ($this->param("page")-1) * $this->per_page);		
-			$this->current_page = $this->param("page");	
-		}
-		$params['limit'] = $this->per_page;
-		$params['offset'] = $offset;
-    $this->get_content($content, $params);
+    $this->get_content($content);
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
 	}
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
-		if(is_numeric($stack['page'])) unset($stack['page']);
     array_unshift($stack, $this->action);
     $this->build_crumbtrail($stack);
     while(count($stack)) {
@@ -48,8 +34,8 @@ class CmsApplicationController extends WXControllerBase{
          $this->cms_section = $result;
          $this->section_stack[]=$stack[0];
        }
-			$url = array_shift($stack);
-    }		
+      $url = array_shift($stack);
+    }
     return $url;
 	}
 	
@@ -76,7 +62,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $url = "/";
 	  $this->crumbtrail[]=array("url"=>$url, "display"=>"home");
 	  for($i=0;$i<(count($route));$i++) {
-	    if($result = $this->get_section($route[$i], true)) {
+	    if($result = $this->get_section($route[$i])) {
 	      $url.=$result->url."/";
 	      $this->crumbtrail[]=array("url"=>$url, "display"=>$result->title);
 	    }
@@ -84,12 +70,11 @@ class CmsApplicationController extends WXControllerBase{
 	  if($this->is_page()) $this->crumbtrail[]=array("url"=>$url.$this->cms_content->url."/", "display"=>$this->cms_content->title);	  
 	}
 	
-
 	/**
 	 *  @param $url Url to query for section
 	 *  @return CmsSection Object 
 	 */
-	protected function get_section($url, $section_only=false) {
+	protected function get_section($url) {
 	  $section = new CmsSection;
 	  $content = new CmsContent;
 	  $res = $section->find_all_by_url($url);
@@ -100,10 +85,8 @@ class CmsApplicationController extends WXControllerBase{
 	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
 	    return $res[0];
 	  }
-		if(!$section_only){
-	  	$id = $content->find_by_url($url)->cms_section_id;
-    	if($res = $section->find($id)) return $res;
-		}
+	  $id = $content->find_by_url($url)->cms_section_id;
+    if($res = $section->find($id)) return $res;
 	  return false;
 	}
 	
