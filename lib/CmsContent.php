@@ -45,7 +45,7 @@ class CmsContent extends WXActiveRecord {
 	  if(!$params['order']) $params['order'] = "published DESC";
 	  if(strlen($url)>0 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
 	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
-	  if(strlen($url)>0 && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
+	  if($res = $this->find_all_by_cms_section_id($section, $params)) return $res;
 	  return array();
 	}
 	
