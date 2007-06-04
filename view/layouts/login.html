@@ -6,22 +6,24 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<?=stylesheet_asset('cms','cms-stylesheet')?>
 	<?=stylesheet_link_tag('form-layout')?>
+	<?=stylesheet_asset('cms','cms_login')?>
   <title><?=$cms_title?></title>
 </head>
 
 <body>
-  <!-- HEAD SECTION, logo & tabs -->
-  <div id="heading-login">
-    <div id="logo">
-      <h6>WebXpress</h6>
+  <div id="login_box">
+    <div id="heading-login">
+      <div id="logo">
+        <h6>Wildfire web content management</h6>
+      </div>
+
     </div>
 
-  </div>
-
-  <div id="login-area">
+    <div id="login_area">
 		
-    <?=info_messages()?>
-    <?=$content_for_layout?>
+      <?=info_messages()?>
+      <?=$content_for_layout?>
+    </div>
   </div>
   
   
