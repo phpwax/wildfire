@@ -91,6 +91,7 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	
 	protected function get_content($options = array()) {
+	  print_r($options); exit;
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
     if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id']);
