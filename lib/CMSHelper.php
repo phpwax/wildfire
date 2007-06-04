@@ -58,5 +58,13 @@ class CMSHelper extends WXHelpers {
     }
     return $rss;
   }
-	
+  
+  public function cms_paginate($obj_array, $per_page="10", $offset="1") {
+    $offset = $offset-1;
+    if(count($obj_array) > 0 && $offset * $per_page < count($obj_array)) {
+      return new LimitIterator(new ArrayIterator($obj_array), $offset, $per_page);
+    }
+    return $obj_array;
+  }
+  	
 }
