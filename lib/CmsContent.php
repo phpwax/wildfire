@@ -25,6 +25,7 @@ class CmsContent extends WXActiveRecord {
 	
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
+	  $this->author_id = Session::get('loggedin_user');
 	  $this->avoid_section_url_clash();
 	}
 	
