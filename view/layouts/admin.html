@@ -43,19 +43,23 @@
 			<?endforeach?>
 		</ul>
 	</div>
+	<div id="sub-navigation-container">
+		<ul id="submenu">
+	    <?if($sub_links):?>
+	      <?foreach($sub_links as $link=>$text):?>
+	        <?if($link==$action) $class=" class='sub_nav_selected'"?>
+	  	    <li<?=$class?>><?=link_to($text, array("action"=>$link))?></li>
+	  	  <?endforeach;?>
+	  	<?endif;?>
+		</ul>
+	</div>
 	<div id="page-container" class="clearfix">
+	
+		
 		<div id="page-title">
 			<h1><?=$display_name?></h1>
 		</div>
-		<div id="page-options">
-			<ul id="submenu">
-		    <?if($sub_links):?>
-		      <?foreach($sub_links as $action=>$text):?>
-		  	    <li><?=link_to($text, array("action"=>$action))?></li>
-		  	  <?endforeach;?>
-		  	<?endif;?>
-			</ul>
-		</div>
+  		
 		<div id="content">
 	  	<?=info_messages()?>
 	  	<?=$content_for_layout?>
