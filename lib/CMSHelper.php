@@ -54,7 +54,8 @@ class CMSHelper extends WXHelpers {
       $title = $simple->channel->item[$i]->title;
       $desc = $simple->channel->item[$i]->description;
       $link = $simple->channel->item[$i]->link;
-      $rss[]=array($title, $desc, $link);
+      $pubdate= $simple->channel->item[$i]->pubDate;
+      $rss[]=array($title, $desc, $link, $pubdate);
     }
     return $rss;
   }
