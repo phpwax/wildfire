@@ -75,7 +75,7 @@ class CMSHelper extends WXHelpers {
   }
   
   public function nl2p($str) {
-	  return "<p>" . str_replace("\n", "</p><p>", $str) . "</p>";
+	  return "<p class='first_para'>" . str_replace("\n", "</p><p>", $str) . "</p>";
 	}
   	
 }
