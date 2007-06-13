@@ -68,5 +68,14 @@ class CMSHelper extends WXHelpers {
     }
     return $obj_array;
   }
+  
+  public function text_format($text) {
+    $text = str_replace("<br /><br />", "\n", $text);
+    return $this->nl2p($text);
+  }
+  
+  public function nl2p($str) {
+	  return "<p>" . str_replace("\n", "</p><p>", $str) . "</p>";
+	}
   	
 }
