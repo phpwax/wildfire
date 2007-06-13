@@ -150,8 +150,7 @@ class CMSAdminComponent extends WXControllerBase {
 	*/
 	protected function save($model, $redirect_to=false, $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
-			$model->author_id = $this->current_user->id;
-			
+			if(!$model->author_id) $model->author_id = $this->current_user->id;			
 			if($id = $model->update_attributes($_POST[$this->model_name]) ) {
 			  if($redirect_to =="edit") $redirect_to = "edit/".$id;
 			  elseif(!$redirect_to) $redirect_to="index";
