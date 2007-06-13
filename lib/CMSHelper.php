@@ -73,7 +73,7 @@ class CMSHelper extends WXHelpers {
     $text = str_replace("<br/><br/>", "\n", $text);
     $text = $this->p2nl($text);
     $text = $this->nl2p($text);
-    return preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
+    return preg_replace("/<p>/", "<p class='first_para'>", $text, 0);
   }
   
   public function nl2p($str) {
