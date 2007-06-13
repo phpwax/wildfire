@@ -70,7 +70,7 @@ class CMSHelper extends WXHelpers {
   }
   
   public function text_format($text) {
-    $text = str_replace("<br /><br />", "\n", $text);
+    $text = str_replace("<br/><br/>", "\n", $text);
     return $this->nl2p($text);
   }
   
