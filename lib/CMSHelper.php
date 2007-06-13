@@ -37,10 +37,11 @@ class CMSHelper extends WXHelpers {
   }
   
   public function word_truncate($text, $words) {
+    $text = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "", $text);
+    $text = strip_tags($text);
     preg_match("/([\S]+\s*){0,$words}/", $text, $regs);  
     $result = trim($regs[0])."...";
-    $result = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "", $result);
-    return strip_tags($result);
+    return $result;
   }
   
   public function smart_nav($url, $display, $current, $selected_id) {
