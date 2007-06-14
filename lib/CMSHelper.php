@@ -24,7 +24,7 @@ class CMSHelper extends WXHelpers {
   public function smart_truncate($content, $min_words, $max_words=false, $suffix="..."){
 		$total_words = 0;
 		$counter = 0;		
-		$content = preg_replace(array("/<(ul|ol)[^>]*><li>/iU", "/<\/(ul|ol)[^>]*><\/li>/iU", "/<(p|ul|li|ol)[^>]*>/iU", "/<\/(p|ul|li|ol)[^>]*>/iU"), " ", $content);
+		$content = preg_replace(array("/<(ul|ol)[^>]*><li>/iU", "/<\/(ul|ol)[^>]*><\/li>/iU", "/<(p|ul|li|ol)[^>]*>/iU", "/<\/(p|ul|li|ol)[^>]*>/iU", '/<a href(.*)>/iU', '</a>'), " ", $content);
 		$sentences =  explode(".", str_replace("  ", " ", $content));	
 		$parsed_words = array();
 		while(($total_words < $min_words) && ($counter < count($sentences)) ){			
