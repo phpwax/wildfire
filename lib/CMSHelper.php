@@ -21,20 +21,22 @@ class CMSHelper extends WXHelpers {
     return $content->published_content($sec->url, $sec->id, $params);
   }
   
-  public function smart_truncate($paragraph, $limit) {
-    $paragraph = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "\n\n", $paragraph);
-    $paragraph = preg_replace(array("/<(p|ul|li)[^>]*>/iU","/<\/(p|ul|li)[^>]*>/iU"), "\n", $paragraph);
-    $text_array = preg_split("/\s/",$paragraph);
-    $text="";
-    $words='0';
-    foreach($text_array as $word) {
-      $text .= " ".$word;
-      $words++;
-      if($words >= $limit && (substr($word, -1) == "!" || substr($word, -1) == "." || strlen($word)<1))
-        break;
-    }
-    return ltrim($text);
-  }
+  public function smart_truncate($content, $min_words, $max_words=false, $suffix="..."){
+		$total_words = 0;
+		$counter = 0;		
+		$content = preg_replace(array("/<(ul|ol)[^>]*><li>/iU", "/<\/(ul|ol)[^>]*><\/li>/iU", "/<(p|ul|li|ol)[^>]*>/iU", "/<\/(p|ul|li|ol)[^>]*>/iU"), " ", $content);
+		$sentences =  explode(".", str_replace("  ", " ", $content));	
+		$parsed_words = array();
+		while(($total_words < $min_words) && ($counter < count($sentences)) ){			
+			$words = array_values(explode(" ", trim($sentences[$counter])."." ) );
+			$parsed_words = array_merge($parsed_words, $words);
+			$total_words += count($words);			
+			$counter ++;				
+		}		
+		if($max_words && ($total_words > $max_words))	$result = implode(" ", array_slice($parsed_words, 0, $max_words+1) ) . $suffix;		
+		else $result = implode(" ", $parsed_words);
+		return $result;
+	}
   
   public function word_truncate($text, $words) {
     $text = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", "", $text);
