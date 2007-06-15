@@ -25,6 +25,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 		if($_POST['address']) CmsConfiguration::set("address", serialize($_POST['address'])	);
 		if($_POST['google_key']) CmsConfiguration::set("google_key", $_POST['google_key']	);
 		if($_POST['super_user']) CmsConfiguration::set("super_user", $_POST['super_user']	);
+		if($_POST['modules']) CmsConfiguration::set("cms_modules", serialize($_POST['modules']));
   }
 
   
@@ -45,7 +46,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 		$this->google_key = CmsConfiguration::get('google_key');
 		$this->super_user = CmsConfiguration::get('super_user');
 		$this->all_cms_modules = CmsApplication::get_modules();
-		$this->config_modules = CmsConfiguration::get("cms_modules");
+		if(!$this->config_modules = unserialize(CmsConfiguration::get("cms_modules"))) $this->config_modules = array(); 
   }
 
 
