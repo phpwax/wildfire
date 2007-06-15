@@ -67,7 +67,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  $this->use_view=false;
 		$page = new $this->model_class($this->param("id"));
 		$page->clear_categories();
-		foreach($_POST as $cat=>$val) {
+		foreach($_POST['cats'] as $cat=>$val) {
 		  if($page->add_categories($val)) echo "Added category $val";
 		}
 		exit;
