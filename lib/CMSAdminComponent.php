@@ -44,8 +44,8 @@ class CMSAdminComponent extends WXControllerBase {
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
-		$this->all_modules = CMSApplication::get_modules();
 		$this->configure_modules();
+		$this->all_modules = CMSApplication::get_modules();
 		if(!array_key_exists($this->module_name,$this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -178,12 +178,9 @@ class CMSAdminComponent extends WXControllerBase {
 	  if($mods && $this->current_user->username != CmsConfiguration::get("super_user")) {
 	    foreach(CMSApplication::get_modules() as $module=>$values) {
         if(!array_key_exists($module, $mods)) {
-          echo "Should unset $module";
+          CMSApplication::unregister_module($module);
         }
-          
-        //CMSApplication::unregister_module($module);
       }
-      exit;
 	  }
 	}
 	
