@@ -48,7 +48,9 @@
     <fieldset>
       <?=form_heading("Enable/Disable Modules")?>
       <?foreach($cms_modules as $name=>$settings):?>
-        <?=medium(check_box_tag($name, "1", false, array("name"=>"modules[".$name."]")))?>
+        <?$check=false?>
+        <?if(array_key_exists($name, $config_modules)) $check=true;?>
+        <?=large(check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]")))?>
       <?endforeach?>
     </fieldset>
 </div>

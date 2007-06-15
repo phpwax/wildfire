@@ -44,9 +44,8 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	  }
 		$this->google_key = CmsConfiguration::get('google_key');
 		$this->super_user = CmsConfiguration::get('super_user');
-		if(!CmsConfiguration::get("cms_modules")) {
-		  $this->cms_modules = CmsApplication::get_modules();
-	  }
+		$this->all_cms_modules = CmsApplication::get_modules();
+		$this->config_modules = CmsConfiguration::get("cms_modules");
   }
 
 
