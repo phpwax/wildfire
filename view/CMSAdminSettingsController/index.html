@@ -29,7 +29,6 @@
         <?=form_divider()?>
         <?=large(text_field_tag("super_user", $super_user , array(),"Super User (username)"))?>
         <?=form_divider()?>
-        <?=small(submit_tag("Update"))?>
       </fieldset>
 </div>
 
@@ -42,7 +41,6 @@
       <?=form_divider()?>
       <?=large(text_field_tag("stat_search_url", $stat_search, array(),"Search Statistics URL"))?>
       <?=form_divider()?>
-      <?=small(submit_tag("Update"))?>
     </fieldset>
 </div>
 
@@ -50,10 +48,11 @@
     <fieldset>
       <?=form_heading("Enable/Disable Modules")?>
       <?foreach($cms_modules as $name=>$settings):?>
-        <?=check_box_tag($name, "1", false, array("name"=>"modules[".$name."]"))?>
+        <?=medium(check_box_tag($name, "1", false, array("name"=>"modules[".$name."]")))?>
       <?endforeach?>
     </fieldset>
 </div>
+<div class="clearfix"></div>
 <?=small(submit_tag("Update Settings"))?>
 </form>
 
