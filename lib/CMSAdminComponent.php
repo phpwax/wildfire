@@ -45,6 +45,7 @@ class CMSAdminComponent extends WXControllerBase {
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->all_modules = CMSApplication::get_modules();
+		$this->configure_modules();
 		if(!array_key_exists($this->module_name,$this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -170,6 +171,16 @@ class CMSAdminComponent extends WXControllerBase {
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('index');
 		}
+	}
+	
+	protected function configure_modules() {
+	  if($mods = CmsConfiguration::get("cms_modules")) {
+	    if($this->current_user->username != CmsConfiguration::get("super_user")) {
+	      foreach($mods as $mod) {
+	        CMSApplication::unregister_module($mod);
+	      }
+	    }
+	  }
 	}
 	
 	
