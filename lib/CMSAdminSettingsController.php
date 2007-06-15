@@ -12,6 +12,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	public $display_name = "Settings";
 	
 	public function index() {
+	  $this->sub_links = array();
 	  $this->stat_setup();
 	}
 	

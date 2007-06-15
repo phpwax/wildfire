@@ -16,13 +16,6 @@ if($visits) $max = max($visits);
       <?endif?>
     <?endforeach?>
   <?else:?>
-    <form action="" method="post" class="form_container">
-      <fieldset>
-        <?=large(text_field_tag("stat_dash_url", "", array(),"Enter RSS URL"))?>
-        <?=form_divider()?>
-        <?=small(submit_tag("Update"))?>
-      </fieldset>
-    </form>
-
+    <p>URL is not defined. This is setup in the <a href="/admin/settings/">settings</a> module.</p>
   <?endif?>
 </div>

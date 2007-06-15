@@ -44,30 +44,15 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	public function index() {
-	  $this->stat_setup();
 	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_xml($li, 5, 'referrer') : array();
 	  $this->stat_search = ($li = CmsConfiguration::get("stat_search_url")) ? $this->parse_xml($li, 5, 'search') : array();
 	  $this->stat_dash = ($li = CmsConfiguration::get("stat_dash_url")) ? $this->parse_xml($li, 5, "visit_day") : array();
 	  $this->link_module = $this->render_partial("stat_links");
 	  $this->search_module = $this->render_partial("stat_search");
 	  $this->dash_module = $this->render_partial("stat_dash");
-	  
-		 
-	}
+ 	}
 	
 	public function support() { $this->display_action_name = 'Support'; }
-
-  public function parse_rss($url, $items) {
-    $simple = simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);
-    for($i=0; $i<$items; $i+=1) {
-      $title = $simple->channel->item[$i]->title;
-      $desc = $simple->channel->item[$i]->description;
-      $link = $simple->channel->item[$i]->link;
-      $pubdate = $simple->channel->item[$i]->pubDate;
-      $rss[]=array($title, $desc, $link, $pubdate);
-    }
-    return $rss;
-  }
   
   public function parse_xml($url, $limit, $child=false) {
     $simple = simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);

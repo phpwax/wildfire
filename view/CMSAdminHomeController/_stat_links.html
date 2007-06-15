@@ -8,13 +8,6 @@
       <div class="graph_separator"></div>
     <?endforeach?>
   <?else:?>
-    <form action="" method="post" class="form_container">
-      <fieldset>
-        <?=large(text_field_tag("stat_link_url", "", array(),"Link Statistics URL"))?>
-        <?=form_divider()?>
-        <?=small(submit_tag("Update"))?>
-      </fieldset>
-    </form>
-
+    <p>URL is not defined. This is setup in the <a href="/admin/settings/">settings</a> module.</p>
   <?endif?>
 </div>
