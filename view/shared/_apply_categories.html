@@ -11,9 +11,9 @@
             }
           ?>
             <?if($switch):?>
-              <?=large(check_box_tag("cats[".$category->name."]", $category->id, true))?>
+              <?=large(check_box_tag($category->name, $category->id, true, array("name"=>"cats[".$category->id."]")))?>
             <?else:?>
-              <?=large(check_box_tag("cats[".$category->name."]", $category->id, false))?>
+              <?=large(check_box_tag($category->name, $category->id, false, array("name"=>"cats[".$category->id."]")))?>
             <?endif?>
         <?endforeach?>
         <?=submit_to_remote("commit", "Update categories", array(
