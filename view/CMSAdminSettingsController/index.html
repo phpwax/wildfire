@@ -29,12 +29,12 @@
 <div class="cms_settings_module">
   <form action="" method="post" class="form_container">
     <fieldset>
-      <?=form_heading("Ststistics URLs")?>
-      <?=large(text_field_tag("stat_dash_url", "", array(),"Enter Visits URL"))?>
+      <?=form_heading("Statistics URLs")?>
+      <?=large(text_field_tag("stat_dash_url", $stat_visit, array(),"Enter Visits URL"))?>
       <?=form_divider()?>
-      <?=large(text_field_tag("stat_link_url", "", array(),"Enter Referrers URL"))?>
+      <?=large(text_field_tag("stat_link_url", $stat_refer, array(),"Enter Referrers URL"))?>
       <?=form_divider()?>
-      <?=large(text_field_tag("stat_search_url", "", array(),"Search Statistics URL"))?>
+      <?=large(text_field_tag("stat_search_url", $stat_search, array(),"Search Statistics URL"))?>
       <?=form_divider()?>
       <?=small(submit_tag("Update"))?>
     </fieldset>
