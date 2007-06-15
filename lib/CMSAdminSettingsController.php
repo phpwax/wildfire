@@ -14,6 +14,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	public function index() {
 	  $this->sub_links = array();
 	  $this->stat_setup();
+	  $this->address_setup();
 	}
 	
   

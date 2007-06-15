@@ -2,7 +2,7 @@
   .cms_settings_module {
     float:left;
     width:30%;
-    margin:0 20px 20px 0;
+    margin:0 0 20px 0;
   }
   
 </style>
@@ -10,7 +10,7 @@
 <div class="cms_settings_module">  
     <form action="" method="post" class="form_container">
       <fieldset>
-        <?=form_heading("Address Information")?>
+        <?=form_heading("General Information")?>
         <?=large(text_area_tag("address[address]", $address , array(),"Enter Address"))?>
         <?=form_divider()?>
 				<?=large(text_field_tag("address[postcode]", $postcode , array(),"Enter Postcode"))?>
@@ -20,6 +20,8 @@
 				<?=large(text_field_tag("address[phone_number]", $phone , array(),"Enter Phone Number"))?>
         <?=form_divider()?>
 				<?=large(text_field_tag("address[fax_number]", $fax , array(),"Enter Fax Number"))?>
+        <?=form_divider()?>
+        <?=large(text_field_tag("google_key", $google_key , array(),"Enter Google Key"))?>
         <?=form_divider()?>
         <?=small(submit_tag("Update"))?>
       </fieldset>
