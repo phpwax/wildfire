@@ -25,6 +25,7 @@ class CmsCategory extends WXTreeRecord {
 		return $collection;
 	}	
 	
+	
 }
 
 ?>

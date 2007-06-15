@@ -37,5 +37,9 @@ class CMSApplication {
 		unset(self::$modules[$name]);
 	}
 	
+	static public function configure_modules() {
+	  
+	}
+	
 	
 }

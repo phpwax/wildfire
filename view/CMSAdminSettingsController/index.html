@@ -4,11 +4,14 @@
     width:30%;
     margin:0 0 20px 0;
   }
+  .cms_settings_module h3 {
+    margin:10px 0 !important;
+  }
   
 </style>
+<form action="" method="post" class="form_container">
 
-<div class="cms_settings_module">  
-    <form action="" method="post" class="form_container">
+<div class="cms_home_module">  
       <fieldset>
         <?=form_heading("General Information")?>
         <?=large(text_area_tag("address[address]", $address , array(),"Enter Address"))?>
@@ -23,13 +26,14 @@
         <?=form_divider()?>
         <?=large(text_field_tag("google_key", $google_key , array(),"Enter Google Key"))?>
         <?=form_divider()?>
+        <?=form_divider()?>
+        <?=large(text_field_tag("super_user", $super_user , array(),"Super User (username)"))?>
+        <?=form_divider()?>
         <?=small(submit_tag("Update"))?>
       </fieldset>
-    </form>
 </div>
 
-<div class="cms_settings_module">
-  <form action="" method="post" class="form_container">
+<div class="cms_home_module">
     <fieldset>
       <?=form_heading("Statistics URLs")?>
       <?=large(text_field_tag("stat_dash_url", $stat_visit, array(),"Enter Visits URL"))?>
@@ -40,5 +44,16 @@
       <?=form_divider()?>
       <?=small(submit_tag("Update"))?>
     </fieldset>
-  </form>
 </div>
+
+<div class="cms_home_module">
+    <fieldset>
+      <?=form_heading("Enable/Disable Modules")?>
+      <?foreach($cms_modules as $name=>$settings):?>
+        <?=check_box_tag($name, "1", false, array("name"=>"modules[".$name."]"))?>
+      <?endforeach?>
+    </fieldset>
+</div>
+<?=small(submit_tag("Update Settings"))?>
+</form>
+
