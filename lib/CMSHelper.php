@@ -38,7 +38,7 @@ class CMSHelper extends WXHelpers {
 		}		
 		if($max_words && ($total_words > $max_words))	$result = implode(" ", array_slice($parsed_words, 0, $max_words+1) ) . $suffix;		
 		else $result = implode(" ", $parsed_words);
-		return $result;
+		return preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $result);
 	}
   
   public function word_truncate($text, $words) {
