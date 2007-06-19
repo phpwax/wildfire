@@ -8,6 +8,7 @@ class CmsApplicationController extends WXControllerBase{
   public $section_stack = array();
   public $section_id = 1;
 	public $per_page = 5;
+	public $this_page = "1";
   public $crumbtrail = array();
 	
 	public function cms_content() {}
@@ -19,8 +20,13 @@ class CmsApplicationController extends WXControllerBase{
 	    return false;
     }
 	  $url = $this->parse_urls();
-    $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
-    $this->get_content($content);
+	  $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
+	  $params = array();
+    if($this->per_page) {
+      $params["offset"] = ($this_page - 1) * $per_page;
+      $params["limit"] = $this->per_page;
+    } 
+    $this->get_content($content, $params);
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
 	}
@@ -90,11 +96,11 @@ class CmsApplicationController extends WXControllerBase{
 	  return false;
 	}
 	
-	protected function get_content($options = array()) {
+	protected function get_content($options = array(), $params=array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
-    if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id']);
-		else $this->cms_content = $content->published_content($options['url'], $options['section_id']);
+    if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id'], $params);
+		else $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
 	}	
 	
 	
