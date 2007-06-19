@@ -76,6 +76,7 @@ class CMSHelper extends WXHelpers {
   
   public function text_format($text) {
     $text = str_replace("<br/><br/>", "\n", $text);
+    $text = str_replace("<br /><br />", "\n", $text);
     $text = $this->p2nl($text);
     $text = $this->nl2p($text);
     return preg_replace("/<p>/", "<p class='first_para'>", $text, 0);
