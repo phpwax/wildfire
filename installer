@@ -30,6 +30,7 @@ echo "------------------------------------------------------------------------".
 system('mkdir -p '.CONTROLLER_DIR.'admin/');
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/Sub* ".CONTROLLER_DIR);
+system("mkdir ".VIEW_DIR."subscribe");
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/view/subscribe/* ".VIEW_DIR ."subscribe/");
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
