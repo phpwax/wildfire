@@ -68,7 +68,7 @@ class CmsSubscriber extends WXActiveRecord {
 	public function handle_options(){
 		$options = $this->get_all_subscribable_module_names();
 		foreach($options as $k=> $option){
-			$results[$option] = WXInflections::humanize_undasherize($option);
+			$results[$option] = ucwords(WXInflections::humanize_undasherize($option));
 		}
 		return $results;
 	}	
