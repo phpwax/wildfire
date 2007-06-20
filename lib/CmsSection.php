@@ -92,6 +92,7 @@ class CmsSection extends WXTreeRecord {
 	                        array("\n\n"),
 	                        $result->content));
 		}
+		$parsed_results['title'] = "Lastest News";
 		return $parsed_results;
 	}
 }
