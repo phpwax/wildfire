@@ -95,7 +95,7 @@ class CmsSubscriber extends WXActiveRecord {
 		$details = $modules[$handle];
 		$model = new $details['model_name']();
 		$function = $details['email_footer_method'];
-		if($function && method_exists($model, $function)) return $model->$function();
+		if($function && method_exists($model, $function)) return $model->$function($handle);
 		else return "\n\n----------------\nUnsubscribe here %UNSUBSCRIBE%\n\n";
 	}
 	
