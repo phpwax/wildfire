@@ -28,6 +28,7 @@ echo "Be careful what you agree to!"."\n";
 echo "------------------------------------------------------------------------"."\n";
 system('mkdir -p '.CONTROLLER_DIR.'admin/');
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
+system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/Sub* ".CONTROLLER_DIR);
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
 echo "All of the files have now been installed. To complete the installation:"."\n";

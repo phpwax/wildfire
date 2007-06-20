@@ -1,0 +1,35 @@
+<script type="text/javascript">
+	function previewEmail(){
+		choice = document.getElementById('cms_subscriber_handle').value;
+		new Ajax.Updater('emailcontent', "/admin/subscriber/ajax_populate_content/"+choice, {evalScripts:true});
+	}
+</script>
+
+<h2>Configure the email</h2>
+
+<form action=""  class="form_container" method="post" >
+<fieldset>
+	<?=medium(select($model, "handle", $model->handle_options(),  array('onChange'=>"previewEmail();") ) )?>
+	<?=form_divider();?>
+	<?=medium(text_field_tag("subject"))?>
+</fieldset>
+<fieldset id="emailcontent">  
+	<div class="medium">
+	<label for="email_content">Content</label><br/>
+	<textarea name="email_content" rows="15" cols="60" id="email_content">
+	<?if(is_array($email_content)):?>
+	<?foreach($email_content as $contents):?>
+	<?=$contents?>
+	<?endforeach?>
+	<?else:?>
+	<?=$email_content?>
+	<?endif?>
+	</textarea>
+	</div>
+	<?=form_divider()?>
+	<input type="submit" name="submit" value="Send" onClick="return confirm('Are you sure you want to send this? (<?=$hcount?> recipients)');"/>  
+  
+</fieldset>
+
+</form>
+</div>

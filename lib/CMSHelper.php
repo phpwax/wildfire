@@ -93,5 +93,22 @@ class CMSHelper extends WXHelpers {
                         array("","\n"),
                         $text);
 	}
+	
+	public function subscription_form($model, $action="", $handle=false, $show_name_field = true){
+		if(!$handle) $handle = "all_sections";
+		
+		$form = '<div id="subscription-form">
+							<form action="'.$action.'" method="post" class="form_container">'
+							. hidden_field($model, "handle", array('value'=>$handle) ) . 
+								hidden_field($model, "status", array('value'=> 1) ) .	'<fieldset>';
+								
+								if($show_name_field) $form .= large(text_field($model, "name", array(), "Your Name")) . form_divider();
+								
+								$form .= large(text_field($model, "email", array(), "Your Email Address")) . form_divider() . small(submit_field($model, "Subscribe"))
+						   	.'</fieldset>
+					 		</form>
+						</div>';
+		return $form;
+	}
   	
 }

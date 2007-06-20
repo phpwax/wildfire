@@ -67,6 +67,33 @@ class CmsSection extends WXTreeRecord {
 	  return "";
 	}
 	
+	public function get_subscribers($handle){
+		switch($handle){
+			default:
+			$params = array('conditions'=>"status=1 AND handle='$handle'");
+		}
+		$model = new CmsSubscriber();
+		$results = $model->find_all($params);
+		return $results;
+	}
+	
+	public function get_subscribe_info($handle){
+		
+		switch($handle){			
+			default:
+				$params = array('conditions'=>"status=1", 'limit'=>4, 'order'=>"published", 'direction'=>"DESC");
+				
+		}		
+		$content = new CmsContent();
+		$results = $content->find_all($params);
+		$parsed_results = array();
+		foreach($results as $result){
+			$parsed_results[] = strip_tags(preg_replace(array("/<p[^>]*>/iU","/<\/p[^>]*>/iU"),
+	                        array("\n\n"),
+	                        $result->content));
+		}
+		return $parsed_results;
+	}
 }
 
 ?>
