@@ -25,6 +25,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		$this->email_content = $this->model->get_subscribed_content();
 		$this->email_content = $this->email_content[$modules[0]];
 		$this->title = $this->email_content['title'];
+		$this->from = $this->model->get_from_email_name($this->model->handle) . " <".$this->model->get_from_email($this->model->handle).">";
+		$this->footer = $this->model->email_footer($this->model->handle);
 		unset($this->email_content['title']);
 		$this->hcount = $this->model->count_of_handle($this->model->handle);
 		//handle posted data
@@ -70,7 +72,9 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		$this->email_content = $this->model->get_subscribed_content();
 		$this->email_content = $this->email_content[$this->param("id")];
 		$this->title = $this->email_content['title'];
+		$this->footer = $this->model->email_footer($this->model->handle);
 		unset($this->email_content['title']);
+		$this->from = $this->model->get_from_email_name($this->model->handle) . " <".$this->model->get_from_email($this->model->handle).">";
 		$this->hcount = $this->model->count_of_handle($this->model->handle);
 		$this->use_layout = false;	
 	}

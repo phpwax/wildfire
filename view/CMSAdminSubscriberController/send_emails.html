@@ -9,17 +9,22 @@
 
 <form action=""  class="form_container" method="post" >
 <fieldset>
-	<?=medium(select($model, "handle", $model->handle_options(),  array('onChange'=>"previewEmail();") ) )?>
+	<?=large(select($model, "handle", $model->handle_options(),  array('onChange'=>"previewEmail();") ) )?>	
 </fieldset>
 <fieldset id="emailcontent">
-	<?=medium(text_field_tag("subject", $title ))?>  
+	<?=large(text_field_tag("from", $from, array('disabled'=>"disabled")))?>
 	<?=form_divider();?>
-	<div class="medium">
+	<?=large(text_field_tag("subject", $title ))?>  
+	<?=form_divider();?>
+	<div class="large">
 	<label for="email_content">Content</label><br/>
-	<textarea name="email_content" rows="15" cols="60" id="email_content"><?if(is_array($email_content)):?><?foreach($email_content as $contents):?><?=$contents?><?endforeach?><?else:?><?=$email_content?><?endif?></textarea>
+	<textarea name="email_content" rows="40" cols="120" id="email_content"><?if(is_array($email_content)):?><?foreach($email_content as $contents):?><?=$contents?><?endforeach?><?else:?><?=$email_content?><?endif?></textarea>
 	</div>
 	<?=form_divider()?>
-	<input type="submit" name="submit" value="Send" onClick="return confirm('Are you sure you want to send this? (<?=$hcount?> recipients)');"/>  
+	<div class="large"><label for="footer-preview">Footer</label>
+	<textarea id="footer-preview" name="footer" disabled="disabled" cols="120" rows="8"><?=$footer?></textarea></div>
+	<?=form_divider()?>	
+	<input type="submit" name="submit" value="Send" onClick="return confirm('Are you sure you want to send this? (<?=$hcount?> recipients)');"/>
   
 </fieldset>
 
