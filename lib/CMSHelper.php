@@ -94,7 +94,7 @@ class CMSHelper extends WXHelpers {
                         $text);
 	}
 	
-	public function subscription_form($model, $action="", $handle=false, $show_name_field = true){
+	public function subscription_form($model, $action="", $handle=false, $show_name_field = true, $extra1=false, $extra2 =false){
 		if(!$handle) $handle = "all_sections";
 		
 		$form = '<div id="subscription-form">
@@ -104,7 +104,10 @@ class CMSHelper extends WXHelpers {
 								
 								if($show_name_field) $form .= large(text_field($model, "name", array(), "Your Name")) . form_divider();
 								
-								$form .= large(text_field($model, "email", array(), "Your Email Address")) . form_divider() . small(submit_field($model, "Subscribe"))
+								$form .= large(text_field($model, "email", array(), "Your Email Address"));
+								if($extra1) $form .= form_divider().large(text_field($model, "extra1", array(), $extra1));
+								if($extra2) $form .= form_divider().large(text_field($model, "extra2", array(), $extra2));
+								$form.= form_divider() . small(submit_field($model, "Subscribe"))
 						   	.'</fieldset>
 					 		</form>
 						</div>';

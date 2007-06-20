@@ -7,7 +7,8 @@ class SubscriberTableMigrate extends WXMigrate {
     $this->create_column("email", "string");
     $this->create_column("handle", "string");
     $this->create_column("status", "integer");
-    $this->create_column("extras", "text");
+		$this->create_column("extra1", "string");
+		$this->create_column("extra2", "string");		
     $this->create_table("cms_subscriber");
   }
   
