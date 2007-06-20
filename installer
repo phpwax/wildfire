@@ -8,6 +8,7 @@ function get_response($question, $positive="y", $options=false) {
 }
 
 if(!defined("WAX_ROOT")) define("WAX_ROOT", dirname(dirname(dirname(__FILE__)))."/");
+if(!defined("VIEW_DIR")) define("VIEW_DIR", WAX_ROOT."app/view/");
 if(!defined("CONTROLLER_DIR")) define("CONTROLLER_DIR", WAX_ROOT."app/controller/");
 if(!defined("PUBLIC_DIR")) define("PUBLIC_DIR", WAX_ROOT."public/");
 if(!defined("PLUGIN_DIR")) define("PLUGIN_DIR", WAX_ROOT."plugins/");
@@ -29,6 +30,7 @@ echo "------------------------------------------------------------------------".
 system('mkdir -p '.CONTROLLER_DIR.'admin/');
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/Sub* ".CONTROLLER_DIR);
+system("cp -iR ".PLUGIN_DIR."cms/resources/app/view/subscribe/* ".VIEW_DIR ."subscribe/");
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
 echo "All of the files have now been installed. To complete the installation:"."\n";
