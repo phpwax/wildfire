@@ -27,6 +27,7 @@ class CMSHelper extends WXHelpers {
 		$content = preg_replace("/<h[0-9]?>.*<\/h[0-9]?>/", " ", $content);		
 		$content = preg_replace("/<ul>.*<\/ul?>/", " ", $content);		
 		$content = preg_replace("/<ol>.*<\/ol?>/", " ", $content);
+		$content = str_replace("</p>", " </p>", $content);
 		$content = strip_tags($content);	
 		$sentences =  explode(".", str_replace("  ", " ", $content));	
 		$parsed_words = array();
@@ -94,7 +95,7 @@ class CMSHelper extends WXHelpers {
                         $text);
 	}
 	
-	public function subscription_form($model, $action="", $handle=false, $show_name_field = true, $extra1=false, $extra2 =false){
+	public function subscription_form($model, $action="", $handle=false, $show_name_field = true, $extra1=false, $extra2 =false, $image_submit=false){
 		if(!$handle) $handle = "all_sections";
 		
 		$form = '<div id="subscription-form">
@@ -102,14 +103,16 @@ class CMSHelper extends WXHelpers {
 							. hidden_field($model, "handle", array('value'=>$handle) ) . 
 								hidden_field($model, "status", array('value'=> 1) ) .	'<fieldset>';
 								
-								if($show_name_field) $form .= large(text_field($model, "name", array(), "Your Name")) . form_divider();
+								if($show_name_field) $form .= large(text_field($model, "name", array(), "Name <span class='mandatory'>*</span>")) . form_divider();
 								
-								$form .= large(text_field($model, "email", array(), "Your Email Address"));
+								$form .= large(text_field($model, "email", array(), "Email <span class='mandatory'>*</span>"));
 								if($extra1) $form .= form_divider().large(text_field($model, "extra1", array(), $extra1));
 								if($extra2) $form .= form_divider().large(text_field($model, "extra2", array(), $extra2));
-								$form.= form_divider() . small(submit_field($model, "Subscribe"))
-						   	.'</fieldset>
-					 		</form>
+								$form.= form_divider() . '<span id="mandatory">* Compulsory fields</span>';
+								if($image_submit) $form .= image_submit_tag($image_submit, array('alt'=>"submit button", "title"=>"Submit"));
+								else $form .= small(submit_field($model, "Subscribe"));
+						   $form .= '</fieldset>
+					 		</form>							
 						</div>';
 		return $form;
 	}

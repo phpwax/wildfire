@@ -18,19 +18,16 @@ class SubscribeController extends ApplicationController {
 			if($result->update()){
 				Session::add_message("Email address '" . $result->email."' has been unsubscribed from '" . WXInflections::humanize_undasherize($handle) ."'");
 			}
-			$this->redirect_to("/subscribe/");
-		} else {
-			exit;
-			$this->redirect_to("/");
-		}
+		} 
+		$this->redirect_to("/");
 	}
 
 	public function subscribe(){
 		$this->model = new CmsSubscriber();
 		if($this->model->handle_post()) { 				 
 			Session::add_message("Email address '". $this->model->email . "' has been subscribed to '" . $this->model->handle . "'"); 
-		  $this->redirect_to("/subscribe/");					
 		}
+		$this->redirect_to($this->referrer);
 	}
 
 }
