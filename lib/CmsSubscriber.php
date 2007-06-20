@@ -7,8 +7,11 @@ class CmsSubscriber extends WXActiveRecord {
 	public $status_options = array("0" => "Unsubscribed", "1"=>"Subscribed");
 	
 	public function validations(){
-		$this->valid_required("name");
     $this->valid_required("email");
+	}
+	
+	public function before_save(){
+		if($this->first_name && $this->surname) $this->name = $this->first_name . " " . $this->surname;
 	}
 	
 	static public $subscribable_modules = array(																	
