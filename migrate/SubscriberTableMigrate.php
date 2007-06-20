@@ -1,6 +1,6 @@
 <?php
 
-class SubscribeTableMigrate extends WXMigrate {
+class SubscriberTableMigrate extends WXMigrate {
   
   public function up() {
     $this->create_column("name", "string");
