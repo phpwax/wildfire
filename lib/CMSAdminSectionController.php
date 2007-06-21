@@ -7,9 +7,11 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	public $model_name = "cms_section";													
 	public $display_name = "Site Sections";
 	public $scaffold_columns = array(
-    "title"   =>array()
+    "title"   =>array(),
+		"url" =>  array()
   );
   public $filter_columns = array("title");
+	public $order_by_columns = array("title","url");
 
 	public function controller_global() {
 		$this->tree_collection = $this->model->sections_as_collection();

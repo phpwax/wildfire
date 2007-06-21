@@ -15,6 +15,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		"section" => array()
   );
   public $filter_columns = array("title");
+	public $order_by_columns = array("title","status",'Date Modified');
 	public $allowed_images = 3;
 
 	

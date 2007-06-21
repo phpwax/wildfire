@@ -35,6 +35,7 @@ class CMSAdminComponent extends WXControllerBase {
 	**/
 	public $scaffold_columns = null;
 	public $filter_columns = null;
+	public $order_by_columns = array();
 	
 	/** 
 	* Construct method, initialises authentication, default model and menu items
@@ -94,8 +95,9 @@ class CMSAdminComponent extends WXControllerBase {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html 
 	*/
 	public function index( ) {
+		$this->set_order();
 		$this->display_action_name = 'List Items';
-	  $options = array("order"=>$this->default_order." ".$this->default_direction);
+	  $options = array("order"=>$this->get_order());
 		$this->all_rows = $this->model->paginate($this->list_limit, $options);
 		if(!$this->all_rows) $this->all_rows=array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
@@ -131,8 +133,7 @@ class CMSAdminComponent extends WXControllerBase {
 	    $this->index();
 	    return true;
 	  }
-	  $default = array("order"=>$this->default_order." ".$this->default_direction);
-	  $options = $this->param("order") ? array("order"=>$this->param("order")) : $default;
+	  $options = array("order"=>$this->get_order());
 	  if($this->filter_columns) {
 	    foreach($this->filter_columns as $filter) {
   	    $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
@@ -173,6 +174,24 @@ class CMSAdminComponent extends WXControllerBase {
 		}
 	}
 	
+	protected function set_order(){
+		if($order = $_GET['order']) {
+			if(in_array($order,$this->describe_model())){
+				$current_order = $this->get_order();
+				$current_order_parts = explode(' ',$current_order);
+				if(!$current_order_parts[1] || $current_order_parts[1] == 'DESC') $order = "{$order} ASC";
+				else $order = "{$order} DESC";
+				Session::set("{$this->model_name}",$order);
+			}
+		}
+		else return false;
+	}
+	
+	protected function get_order(){
+		if($order = Session::get("{$this->model_name}")) return $order;
+		else return "{$this->default_order} {$this->default_direction}";
+	}
+	
 	protected function configure_modules() {
 	  if(!$mods = unserialize(CmsConfiguration::get("cms_modules"))) $mods = array(); 
 	  if($mods && $this->current_user->username != CmsConfiguration::get("super_user")) {
@@ -184,6 +203,12 @@ class CMSAdminComponent extends WXControllerBase {
 	  }
 	}
 	
-	
+	protected function describe_model(){
+		$model_desc = $this->model->describe();
+		foreach($model_desc as $field){
+			$desc[] = $field['Field'];
+		}
+		return $desc;
+	}
 }
 ?>

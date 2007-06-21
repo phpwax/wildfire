@@ -14,6 +14,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     "type" => array()
   );
 	public $filter_columns = array("filename", "caption");
+	public $order_by_columns = array("filename","type");
 	
 	public function file_info() {
 	  $this->use_layout=false;

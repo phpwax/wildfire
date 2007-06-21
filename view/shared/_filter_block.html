@@ -1,12 +1,27 @@
 <div id="filter_block">
-  <form id="filter_form" action="">
-    <strong>Filter:</strong> <input type="text" id="filter_field" name="filter" />
-  </form>
-  <?=observe_field("filter_field", array(
-    "url" => array("action"=>"filter"),
-    "evalScripts"=>true,
-    "frequency" => "1",
-    "update"=>"list_rows",
-    "with"=>"'filter='+value"
-  ))?>
+	<div class="filter-item">
+  	<form id="filter_form" action="">
+	    <strong>Filter:</strong> <input type="text" id="filter_field" name="filter" />
+	  </form>
+	  <?=observe_field("filter_field", array(
+	    "url" => array("action"=>"filter"),
+	    "evalScripts"=>true,
+	    "frequency" => "1",
+	    "update"=>"list_rows",
+	    "with"=>"'filter='+value"
+	  ))?>
+	</div>
+	<? if(!empty($order_by_columns)):?>
+		<div class="filter-item">
+			<form id="order_form" action="" method="get">
+		    <strong>Order By:</strong>
+					<select name="order"  onchange="this.form.submit();">
+						<option value="">Select...</option>
+					<? foreach($order_by_columns as $field):?>
+						<option value="<?= $field?>"><?= humanize($field)?></option>
+					<? endforeach;?>
+					</select>
+		  </form>
+		</div>
+	<? endif;?>
 </div>
