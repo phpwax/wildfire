@@ -13,7 +13,7 @@ class CMSAdminContentController extends CMSAdminComponent {
     "title"   =>array(),
     "page_status" => array(),
 		"section" => array(),
-		"published" => array()
+		"date_published" => array()
   );
   public $filter_columns = array("title");
 	public $order_by_columns = array("title","status","published",'date_modified');

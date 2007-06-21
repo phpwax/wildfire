@@ -34,6 +34,10 @@ class CmsContent extends WXActiveRecord {
 	  return $section->permalink()."/".$this->url;
 	}
 	
+	public function date_published(){
+			return date('D jS M y', strtotime($this->published));
+	}
+	
 	public function avoid_section_url_clash() {
 	  $section = new CmsSection;
 	  if($section->find_by_url($this->url)) $this->url= $this->url."-info";
