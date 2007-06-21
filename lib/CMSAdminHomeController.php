@@ -52,7 +52,13 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	  $this->dash_module = $this->render_partial("stat_dash");
  	}
 	
-	public function support() { $this->display_action_name = 'Support'; }
+	public function support() { 
+		$this->display_action_name = 'Support';
+		$this->guides = array();
+		foreach($this->all_modules as $module=>$value){
+			if(file_exists(PLUGIN_DIR."cms/view/CMSAdminHomeController/_{$module}.html")) $this->guides[$module] = $this->render_partial($module);
+		}
+	}
   
   public function parse_xml($url, $limit, $child=false) {
     $simple = simplexml_load_file($url, "SimpleXMLElement", LIBXML_NOCDATA);
@@ -64,12 +70,6 @@ class CMSAdminHomeController extends CMSAdminComponent {
     }
     return $simple;
   }
-  
-  
-
-
-
-
 }
 
 ?>
