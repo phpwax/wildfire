@@ -14,8 +14,9 @@ if(!defined("PUBLIC_DIR")) define("PUBLIC_DIR", WAX_ROOT."public/");
 if(!defined("PLUGIN_DIR")) define("PLUGIN_DIR", WAX_ROOT."plugins/");
 
 $pdo = WXActiveRecord::getDefaultPDO();
-if(get_response("Would you like to setup a default admin user")) {
+if(get_response("Would you like to setup a default admin and siteadmin user")) {
   $pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('admin','password', '30')");
+	$pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('siteadmin','siteadmin01', '10')");
   echo "...User created"."\n";
 }
 if(get_response("Would you like to setup a default section 'Home'")) {
