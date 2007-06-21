@@ -12,10 +12,11 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $scaffold_columns = array(
     "title"   =>array(),
     "page_status" => array(),
-		"section" => array()
+		"section" => array(),
+		"published" => array()
   );
   public $filter_columns = array("title");
-	public $order_by_columns = array("title","status",'Date Modified');
+	public $order_by_columns = array("title","status","published",'date_modified');
 	public $allowed_images = 3;
 
 	
