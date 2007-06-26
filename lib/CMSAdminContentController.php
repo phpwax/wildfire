@@ -19,8 +19,6 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $order_by_columns = array("title","status","published",'date_modified');
 	public $allowed_images = 3;
 
-	
-	
 	public function method_missing() {
 		$this->use_view="index";
 		$section = new CmsSection;
@@ -34,7 +32,6 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->filter_block_partial .= $this->render_partial("section_filter");
 		$this->list = $this->render_partial("list");
 	}
-	
 	
 	public function add_image() {
 		$this->use_layout=false;

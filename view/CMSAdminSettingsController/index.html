@@ -31,7 +31,7 @@
         <?=form_divider()?>
       </fieldset>
 </div>
-
+<? if($current_user->username == $super_user):?>
 <div class="cms_home_module">
     <fieldset>
       <?=form_heading("Statistics URLs")?>
@@ -43,7 +43,9 @@
       <?=form_divider()?>
     </fieldset>
 </div>
+<? endif;?>
 
+<? if($current_user->username == $super_user):?>
 <div class="cms_home_module">
     <fieldset>
       <?=form_heading("Enable/Disable Modules")?>
@@ -57,4 +59,5 @@
 <div class="clearfix"></div>
 <?=small(submit_tag("Update Settings"))?>
 </form>
+<? endif;?>
 
