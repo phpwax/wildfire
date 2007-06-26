@@ -12,7 +12,8 @@ class CMSAdminCategoryController extends CMSAdminComponent {
   public $filter_columns = array("name");
 
 	public function controller_global() {
-		$this->tree_collection = $this->model->categories_as_collection();
+	  $array = array(0 => 'No Parent');
+		$this->tree_collection = $this->model->categories_as_collection(null, $array);
 	}
 
 }
