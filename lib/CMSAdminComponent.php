@@ -6,6 +6,7 @@
 */
 
 Autoloader::include_from_registry('CMSHelper');
+Autoloader::include_from_registry('CMSAssetTagHelper');
 Autoloader::register_helpers();
 
 class CMSAdminComponent extends WXControllerBase {
