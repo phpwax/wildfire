@@ -26,7 +26,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function show_image() {
   	$this->use_view=false;
 		$this->use_layout=false;
-		$generic = PUBLIC_DIR."images/cms/cms-generic-icon.png";
+		
   	if(!isset($this->route_array[1])) $size=110;
 	   else $size = $this->route_array[1];
 	  $size = str_replace(".jpg", "", $size);
@@ -35,7 +35,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  
   	$this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
-		if(!File::is_image($source)) $source = $generic;
+		if(!File::is_image($source)){
+			var_dump(file_get_contents('http://static.webxpress.com/0.3/images/cms/cms-generic-icon.png'));
+			//exit;
+			$generic = PUBLIC_DIR."images/cms/cms-generic-icon.png";
+			$source = $generic;
+		}
     $file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
     if(!is_file($file) || !is_readable($file)) {
       File::resize_image($source, $file, $size);
