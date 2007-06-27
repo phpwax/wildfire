@@ -36,7 +36,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	$this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
 		if(!File::is_image($source)){
-			var_dump(file_get_contents('http://static.webxpress.com/0.3/images/cms/cms-generic-icon.png'));
+			//var_dump(file_get_contents('http://static.webxpress.com/0.3/images/cms/cms-generic-icon.png'));
 			//exit;
 			$generic = PUBLIC_DIR."images/cms/cms-generic-icon.png";
 			$source = $generic;
