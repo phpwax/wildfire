@@ -37,6 +37,14 @@ class CMSApplication {
 		unset(self::$modules[$name]);
 	}
 	
+	static public function is_registered($name){
+	  if(array_key_exists($name,self::$modules)){
+			return true;
+		} else {
+		  return false;
+		}
+	}
+	
 	static public function configure_modules() {
 	  
 	}

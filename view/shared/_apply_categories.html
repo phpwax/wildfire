@@ -32,7 +32,9 @@
 <?=javascript_asset("yui", "container-min")?>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.2.0/build/dragdrop/dragdrop-min.js"></script>
 <?=yui_container("category_browser_container")?>
+<?if(CMSApplication::is_registered("categories")):?>
 <?=javascript_tag('widgToolbarItems.push("categoryattach")')?>
+<?endif?>
 <script type="text/javascript">
 YAHOO.util.Event.addListener(window, "load", function(){YAHOO.cms.container.category_browser_container.show();YAHOO.cms.container.category_browser_container.hide();});
 
