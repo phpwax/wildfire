@@ -19,16 +19,17 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $allowed_images = 3;
 
 	public function method_missing() {
+	  if(!$page = url("page")) $page=1;
 		$this->use_view="index";
 		$section = new CmsSection;
-		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->action)->id);
+		$options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
+		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->action)->id, $options);
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
 	
 	public function index() {
 	  if(!$page = url("page")) $page=1;
-		$this->set_order();
 		$this->display_action_name = 'List Items';
 	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
 		$this->all_rows = $this->model->find_all($options);
