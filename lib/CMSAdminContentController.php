@@ -28,7 +28,11 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function index() {
-		parent::index();
+	  if(!$page = url("page")) $page=1;
+		$this->set_order();
+		$this->display_action_name = 'List Items';
+	  $options = array("order"=>$this->get_order(), "page"=>$page, "per_page"=>10);
+		$this->all_rows = $this->model->find_all($options);
 		$this->filter_block_partial .= $this->render_partial("section_filter");
 		$this->list = $this->render_partial("list");
 	}
