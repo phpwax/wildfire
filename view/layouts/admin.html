@@ -15,11 +15,9 @@
 	<?=stylesheet_asset('cms','wysiwyg-styles')?>
 	<?=javascript_asset("utilities", "reflection")?>
 	
-	
 	<?=stylesheet_link_tag('cms-overrides')?>
 	<?=stylesheet_link_tag('form-layout')?>
 	<title>Content Management System</title>
-	
 </head>
 
 <body id="<?=strtolower(WXInflections::underscore($display_name))?>">
@@ -61,5 +59,6 @@
 		</div>
 	</div>
 	<div id="footer">Powered by <a href="http://php-wax.com/">PHP-WAX CMS</a> build <?=constant("CMS_VERSION")?></div>
+
 </body>
 </html>
