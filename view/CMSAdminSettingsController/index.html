@@ -24,11 +24,13 @@
         <?=form_divider()?>
 				<?=large(text_field_tag("address[fax_number]", $fax , array(),"Enter Fax Number"))?>
         <?=form_divider()?>
-        <?=large(text_field_tag("google_key", $google_key , array(),"Enter Google Key"))?>
-        <?=form_divider()?>
-        <?=form_divider()?>
-        <?=large(text_field_tag("super_user", $super_user , array(),"Super User (username)"))?>
-        <?=form_divider()?>
+				<? if($current_user->username == $super_user):?>
+        	<?=large(text_field_tag("google_key", $google_key , array(),"Enter Google Key"))?>
+	        <?=form_divider()?>
+	        <?=form_divider()?>
+	        <?=large(text_field_tag("super_user", $super_user , array(),"Super User (username)"))?>
+	        <?=form_divider()?>
+				<? endif;?>
       </fieldset>
 </div>
 <? if($current_user->username == $super_user):?>
