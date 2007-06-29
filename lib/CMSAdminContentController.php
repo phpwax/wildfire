@@ -16,14 +16,13 @@ class CMSAdminContentController extends CMSAdminComponent {
 		"date_published" => array()
   );
   public $filter_columns = array("title");
-	public $order_by_columns = array("title","status","published",'date_modified');
 	public $allowed_images = 3;
 
 	public function method_missing() {
 		$this->use_view="index";
 		$section = new CmsSection;
 		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->action)->id);
-		$this->filter_block_partial = $this->render_partial("section_filter");
+		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
 	
