@@ -2,7 +2,7 @@
   <strong>View by section: </strong><br />
   <form action="" name="section_browser">
     <select name="section_view" onchange="location.href=section_browser.section_view.options[selectedIndex].value">
-      <option value="/admin/content/">All sections</a>
+      <option value="/admin/content/">All sections</option>
       <?foreach($model->sections as $section):?>
         <option value="/admin/content/<?=$section->url?>"><?=$section->title?></option>
       <?endforeach?>
