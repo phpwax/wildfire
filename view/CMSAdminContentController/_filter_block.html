@@ -3,13 +3,11 @@
   	<form id="filter_form" action="">
 	    <strong>Filter:</strong> <input type="text" id="filter_field" name="filter" />
 	  </form>
-	  <?=observe_field("filter_field", array(
-	    "url" => array("action"=>"filter"),
-	    "evalScripts"=>true,
-	    "frequency" => "1",
-	    "update"=>"list_rows",
-	    "with"=>"'filter='+value"
-	  ))?>
+	   <?$url_for = url_for(array("action"=>"filter"))?>
+  	  <script>
+  	    new Form.Element.Observer('filter_field', 1, function(element, value) {
+  	      new Ajax.Updater($("yui-dt-table0").childNodes[2], '<?=$url_for?>', {asynchronous:true, evalScripts:true, parameters:'filter='+value})})
+  	  </script>
 	</div>
 	<div id="section_filter">
     <form action="" name="section_browser">

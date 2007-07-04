@@ -32,8 +32,9 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	
 	protected function parse_urls() {
-	  $stack = $this->route_array;
-    array_unshift($stack, $this->action);
+	  //$stack = $this->route_array;
+	  $stack = array(url("controller"), url("action"), url("id"));
+    //array_unshift($stack, $this->action);
     $this->build_crumbtrail($stack);
     while(count($stack)) {
       if($result = $this->get_section($stack[0]) ) {
