@@ -10,6 +10,11 @@
 	    "update"=>"list_rows",
 	    "with"=>"'filter='+value"
 	  ))?>
+	  <?$url_for = url_for(array("action"=>"filter"))?>
+	  <script>
+	    new Form.Element.Observer('filter_field', 1, function(element, value) {
+	      new Ajax.Updater($("yui-dt-table0").childNodes[2], '<?=$url_for?>', {asynchronous:true, evalScripts:true, parameters:'filter='+value})})
+	  </script>
 	</div>
 	<? if(!empty($order_by_columns)):?>
 		<div class="filter-item">
