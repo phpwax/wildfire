@@ -1,8 +1,5 @@
-<?$current_row = 1?>
 <?foreach($all_rows as $row):?>
-  <?$current_row = 1 - $current_row?>
-    <tr id="row-<?=$row->id?>" class="item_row<?=$current_row?>">
-
+    <tr id="row-<?=$row->id?>">
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
           <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
