@@ -9,17 +9,4 @@
 	      new Ajax.Updater($("yui-dt-table0").childNodes[2], '<?=$url_for?>', {asynchronous:true, evalScripts:true, parameters:'filter='+value})})
 	  </script>
 	</div>
-	<? if(!empty($order_by_columns)):?>
-		<div class="filter-item">
-			<form id="order_form" action="" method="get">
-		    <strong>Order By:</strong>
-					<select name="order"  onchange="this.form.submit();">
-						<option value="">Select...</option>
-					<? foreach($order_by_columns as $field):?>
-						<option value="<?= $field?>"><?= humanize($field)?></option>
-					<? endforeach;?>
-					</select>
-		  </form>
-		</div>
-	<? endif;?>
 </div>
