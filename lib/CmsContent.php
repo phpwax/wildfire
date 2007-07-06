@@ -80,13 +80,13 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function convert_word($text) {
-    $find[] = 'â€œ';  // left side double smart quote
-    $find[] = 'â€';  // right side double smart quote
-    $find[] = 'â€˜';  // left side single smart quote
+    $find[] = '“';  // left side double smart quote
+    $find[] = '”';  // right side double smart quote
+    $find[] = '‘';  // left side single smart quote
     $find[] = '’';  // right side single smart quote
     $find[] = 'â€¦';  // elipsis
-    $find[] = 'â€”';  // em dash
-    $find[] = 'â€“';  // en dash
+    $find[] = '—';  // em dash
+    $find[] = '—';  // en dash
     
     $replace[] = '"';
     $replace[] = '"';
