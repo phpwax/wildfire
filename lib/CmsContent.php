@@ -84,7 +84,7 @@ class CmsContent extends WXActiveRecord {
     $find[] = '”';  // right side double smart quote
     $find[] = '‘';  // left side single smart quote
     $find[] = '’';  // right side single smart quote
-    $find[] = 'â€¦';  // elipsis
+    $find[] = '…';  // elipsis
     $find[] = '—';  // em dash
     $find[] = '—';  // en dash
     
