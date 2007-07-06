@@ -76,8 +76,24 @@ class CmsContent extends WXActiveRecord {
     $text = strip_tags($text, '<p><strong><em><u><a><h1><h2><h3><h4><h4><h5><h6><blockquote>');
     // removes the attributes for allowed tags
     $text = preg_replace("/<(p|strong|em|u|h1|h2|h3|h4|h5|h6)([^>]*)>/", "<$1>", $text);
-    echo $text; exit;
-    return $text;
+    return $this->superhtmlentities($text);
+  }
+  
+  function superhtmlentities($text) {
+    $entities = array(128 => 'euro', 130 => 'sbquo', 131 => 'fnof', 132 => 'bdquo', 133 => 'hellip', 134 => 'dagger', 135 => 'Dagger', 136 => 'circ', 137 => 'permil', 138 => 'Scaron', 139 => 'lsaquo', 140 => 'OElig', 145 => 'lsquo', 146 => 'rsquo', 147 => 'ldquo', 148 => 'rdquo', 149 => 'bull', 150 => '#45', 151 => 'mdash', 152 => 'tilde', 153 => 'trade', 154 => 'scaron', 155 => 'rsaquo', 156 => 'oelig', 159 => 'Yuml');
+    $new_text = '';
+    for($i = 0; $i < strlen($text); $i++) {
+      $num = ord($text{$i});
+      if (array_key_exists($num, $entities)) {
+        switch ($num) {
+          case 150: $new_text .= '-'; break;
+          default:  $new_text .= '&'.$entities[$num].';';
+        }
+      } elseif($num < 127 || $num > 159) {
+          $new_text .= htmlentities($text{$i});
+      }
+    }
+    return $new_text;
   }
 	
 }
