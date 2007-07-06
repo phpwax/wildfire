@@ -78,9 +78,8 @@ class CmsContent extends WXActiveRecord {
   
     $text = strip_tags($text, '<p><strong><em><u><a><h1><h2><h3><h4><h4><h5><h6><blockquote>');
 
-    // removes the attributes for allowed tags, use separate replace for heading tags since a
-    // heading tag is two characters  
-    $text = preg_replace("/<([p|strong|em|u|a|h1|h2|h3|h4|h5|h6|blockquote])[^>]*>/", "<$1>", $text);
+    // removes the attributes for allowed tags
+    $text = preg_replace("/<([p|strong|em|u|a|h1|h2|h3|h4|h5|h6|blockquote]*)[^>]*>/", "<$1>", $text);
     return $text;
   }
 	
