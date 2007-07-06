@@ -60,10 +60,7 @@ class CMSAdminComponent extends WXControllerBase {
 		  }
 	  }
 		$this->sub_links["create"] = "Create New ". $this->display_name;
-		if($this->param("page")) {
-		  $this->page_no = $this->param("page");
-	    $this->list_offset = ($this->page_no * $this->list_limit);
-	  }
+		if(!$this->this_page = url("page")) $this->this_page=1;
 	}
 
 	/**
@@ -98,8 +95,8 @@ class CMSAdminComponent extends WXControllerBase {
 	public function index( ) {
 		$this->set_order();
 		$this->display_action_name = 'List Items';
-	  $options = array("order"=>$this->get_order());
-		$this->all_rows = $this->model->paginate($this->list_limit, $options);
+	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit);
+		$this->all_rows = $this->model->find_all($options);
 		if(!$this->all_rows) $this->all_rows=array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
