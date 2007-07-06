@@ -18,16 +18,6 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->sub_links["order"] = "Change the order of sections";
 	}
 	
-	public function index() {
-		parent::index();
-		if(!$_REQUEST['page'])	$offset = 0;
-		else $offset = ( ($_REQUEST['page']-1) * $this->model->paginate_limit);
-		$all_rows = $this->model->find_ordered_sections("1");
-		if(count($all_rows)) {
-		  $this->all_rows = new LimitIterator(new ArrayIterator($all_rows), $offset, $this->model->paginate_limit);
-		}
-		$this->list = $this->render_partial("list");
-	}
 	
 	public function order() {
 		if($root_section = $this->model->find_by_parent_id(0)) {
