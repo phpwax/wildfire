@@ -1,6 +1,9 @@
 <?=$filter_block_partial?>
+<?=paginate_links($model, "2")?>
+
+
 <div id="list_rows" class="clearfix">
   <?=$list?> 
 </div>
 
-<?=pagination_links($model)?>
+<?=paginate_links($model, "2")?>
