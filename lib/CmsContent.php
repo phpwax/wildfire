@@ -27,6 +27,7 @@ class CmsContent extends WXActiveRecord {
 	  $this->url = WXInflections::to_url($this->title);
 	  $this->author_id = Session::get('loggedin_user');
 	  $this->avoid_section_url_clash();
+	  $this->content = $this->clean_html($this->content);
 	}
 	
 	public function permalink() {
@@ -65,6 +66,22 @@ class CmsContent extends WXActiveRecord {
     $section = new CmsSection;
     if($section->find_by_url($url)) return true;
     return false;
+  }
+  
+  function clean_html($text) {
+    // remove escape slashes
+    $text = stripslashes($text);
+  
+    // trim everything before the body tag right away, leaving possibility for body attributes
+    $text = stristr( $text, "<body"); 
+    // strip tags, still leaving attributes, second variable is allowable tags
+  
+    $text = strip_tags($text, '<p><strong><em><u><a><h1><h2><h3><h4><h4><h5><h6><blockquote>');
+
+    // removes the attributes for allowed tags, use separate replace for heading tags since a
+    // heading tag is two characters  
+    $text = preg_replace("/<([p|strong|em|u|a|h1|h2|h3|h4|h5|h6|blockquote])[^>]*>/", "<$1>", $text);
+    return $text;
   }
 	
 }
