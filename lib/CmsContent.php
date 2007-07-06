@@ -75,7 +75,7 @@ class CmsContent extends WXActiveRecord {
     // strip tags, still leaving attributes, second variable is allowable tags
     $text = strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li>');
     // removes the attributes for allowed tags
-    $text = preg_replace("/<(p|strong|em|h1|h2|h3|h4|h5|h6|ul|ol|li)([^>]*)>/", "<$1>", $text);
+    $text = preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li)([^>]*)>/", "<$1>", $text);
     return $this->convert_word($text);
   }
   
