@@ -89,9 +89,7 @@ class CmsContent extends WXActiveRecord {
           case 150: $new_text .= '-'; break;
           default:  $new_text .= '&'.$entities[$num].';';
         }
-      } elseif($num < 127 || $num > 159) {
-          $new_text .= htmlentities($text{$i});
-      }
+      } 
     }
     return $new_text;
   }
