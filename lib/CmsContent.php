@@ -76,14 +76,14 @@ class CmsContent extends WXActiveRecord {
     $text = strip_tags($text, '<p><strong><em><u><a><h1><h2><h3><h4><h4><h5><h6><blockquote>');
     // removes the attributes for allowed tags
     $text = preg_replace("/<(p|strong|em|u|h1|h2|h3|h4|h5|h6)([^>]*)>/", "<$1>", $text);
-    return $this->convert_smart_quotes($text);
+    return $this->convert_word($text);
   }
   
-  public function convert_smart_quotes($text) {
+  public function convert_word($text) {
     $find[] = 'â€œ';  // left side double smart quote
     $find[] = 'â€';  // right side double smart quote
     $find[] = 'â€˜';  // left side single smart quote
-    $find[] = 'â€™';  // right side single smart quote
+    $find[] = '’';  // right side single smart quote
     $find[] = 'â€¦';  // elipsis
     $find[] = 'â€”';  // em dash
     $find[] = 'â€“';  // en dash
