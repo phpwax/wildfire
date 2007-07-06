@@ -76,7 +76,7 @@ class CmsContent extends WXActiveRecord {
     $text = strip_tags($text, '<p><strong><em><u><a><h1><h2><h3><h4><h4><h5><h6><blockquote>');
     // removes the attributes for allowed tags
     $text = preg_replace("/<(p|strong|em|u|h1|h2|h3|h4|h5|h6)([^>]*)>/", "<$1>", $text);
-    return $this->convert_smart_quotes($text);
+    return $this->debug($text);
   }
   
   public function convert_smart_quotes($string) {
@@ -84,6 +84,14 @@ class CmsContent extends WXActiveRecord {
     $search = array(chr(145), chr(146), chr(147), chr(148), chr(151));
     $replace = array("'", "'", '"', '"', '-');
     return str_replace($search, $replace, $string);
+  }
+  
+  public function debug($text) {
+    for($i = 0; $i < strlen($text); $i++) {
+      $num = ord($text{$i});
+      echo $text{$i}.": ".$num."<br />";
+    }
+    exit;
   }
 	
 }
