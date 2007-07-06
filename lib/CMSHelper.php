@@ -51,6 +51,7 @@ class CMSHelper extends WXHelpers {
   }
   
   public function smart_nav($url, $display, $current, $selected_id) {
+    if(is_array($url)) $url = url_for($url);
     if(substr($url, 1) == $current) return content_tag("li", content_tag("a", $display, array("href"=>$url)), array("id"=>$selected_id));
     return content_tag("li", content_tag("a", $display, array("href"=>$url)));
   }
