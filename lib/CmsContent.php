@@ -72,10 +72,7 @@ class CmsContent extends WXActiveRecord {
     // remove escape slashes
     $text = stripslashes($text);
   
-    // trim everything before the body tag right away, leaving possibility for body attributes
-    $text = stristr( $text, "<body"); 
     // strip tags, still leaving attributes, second variable is allowable tags
-  
     $text = strip_tags($text, '<p><strong><em><u><a><h1><h2><h3><h4><h4><h5><h6><blockquote>');
     // removes the attributes for allowed tags
     $text = preg_replace("/<(\w+)([^>]*)>/", "<$1>", $text);
