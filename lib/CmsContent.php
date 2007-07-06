@@ -81,22 +81,21 @@ class CmsContent extends WXActiveRecord {
   
   public function convert_smart_quotes($text) {
     $find[] = 'â€œ';  // left side double smart quote
-      $find[] = 'â€';  // right side double smart quote
-      $find[] = 'â€˜';  // left side single smart quote
-      $find[] = 'â€™';  // right side single smart quote
-      $find[] = 'â€¦';  // elipsis
-      $find[] = 'â€”';  // em dash
-      $find[] = 'â€“';  // en dash
-
-      $replace[] = '"';
-      $replace[] = '"';
-      $replace[] = "'";
-      $replace[] = "'";
-      $replace[] = "...";
-      $replace[] = "-";
-      $replace[] = "-";
-
-      return str_replace($find, $replace, $text);
+    $find[] = 'â€';  // right side double smart quote
+    $find[] = 'â€˜';  // left side single smart quote
+    $find[] = 'â€™';  // right side single smart quote
+    $find[] = 'â€¦';  // elipsis
+    $find[] = 'â€”';  // em dash
+    $find[] = 'â€“';  // en dash
+    
+    $replace[] = '"';
+    $replace[] = '"';
+    $replace[] = "'";
+    $replace[] = "'";
+    $replace[] = "...";
+    $replace[] = "-";
+    $replace[] = "-";
+    return str_replace($find, $replace, $text);
   }  
 	
 }
