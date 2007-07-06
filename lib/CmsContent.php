@@ -88,7 +88,7 @@ class CmsContent extends WXActiveRecord {
   
   public function debug($text) {
     for($i = 0; $i < strlen($text); $i++) {
-      $num = $this->uniord($text{$i});
+      $num = ord($text{$i});
       echo $text{$i}.": ".$num."<br />";
     }
     exit;
