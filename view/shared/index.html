@@ -5,7 +5,7 @@
 
 <?=$filter_block_partial?>
 
-<?=paginate_links($model, "2")?>
+<?=paginate_links($all_rows, "2")?>
 
 <div id="table_markup">
 <table id="item_list_container" class="sortable">
@@ -26,7 +26,7 @@
 <?if(count($all_rows)<1):?>
   No items available
 <?endif?>
-<?=paginate_links($model, "2")?>
+<?=paginate_links($all_rows, "2")?>
 <?$js_options[]='{key:"operations",text:"Operations",sortable:false}'?>
 <script>
 YAHOO.example.enhanceFromMarkup = function() { 
