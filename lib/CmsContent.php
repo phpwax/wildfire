@@ -81,13 +81,13 @@ class CmsContent extends WXActiveRecord {
   
   public function convert_word($text) {
     $find[] = 'â€œ';  // left side double smart quote
-    $find[] = 'â€';  // right side double smart quote
+    $find[] = 'â€';  // right side double smart quote
     $find[] = 'â€˜';  // left side single smart quote
     $find[] = 'â€™';  // right side single smart quote
     $find[] = 'â€¦';  // elipsis
-    $find[] = '—';  // em dash
-    $find[] = '—';  // en dash
-    
+    $find[] = 'â€”';  // em dash
+    $find[] = 'â€“';  // en dash
+
     $replace[] = '"';
     $replace[] = '"';
     $replace[] = "'";
@@ -95,6 +95,7 @@ class CmsContent extends WXActiveRecord {
     $replace[] = "...";
     $replace[] = "-";
     $replace[] = "-";
+
     return str_replace($find, $replace, $text);
   }
   
