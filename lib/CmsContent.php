@@ -96,7 +96,24 @@ class CmsContent extends WXActiveRecord {
     $replace[] = "-";
     $replace[] = "-";
     return str_replace($find, $replace, $text);
-  }  
+  }
+  
+  public function format_content() {
+    $text = $this->content;
+    $text = preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
+    $text = preg_replace("/\.{4,}/", "<hr />", $text);
+    $widont_finder = "/(\s+)                    # the space to replace
+      ([^<>\s]+                                 # must be flollowed by non-tag non-space characters
+      \s*                                       # optional white space! 
+      (<\/(a|em|span|strong|i|b)[^>]*>\s*)*     # optional closing inline tags with optional white space after each
+      (<\/(p|h[1-6]|li)|$))                     # end with a closing p, h1-6, li or the end of the string
+      /x";
+
+     $text = preg_replace($widont_finder, '&nbsp;\\2', $text);
+     $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
+     $text = preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
+     return $text;
+  }
 	
 }
 

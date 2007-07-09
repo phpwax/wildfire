@@ -14,6 +14,7 @@ class CmsApplicationController extends WXControllerBase{
 	public function cms_content() {}
 	
 	protected function cms_check() {
+	  if(url("page")) $this->this_page=url("page");
 	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) {
 	    if($this->action=="index") $this->section_stack[]="";
 	    else $this->section_stack[]=$this->action;
@@ -23,8 +24,8 @@ class CmsApplicationController extends WXControllerBase{
 	  $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
 	  $params = array();
     if($this->per_page) {
-      $params["offset"] = ($this_page - 1) * $per_page;
-      $params["limit"] = $this->per_page;
+      $params["per_page"] = $this->per_page;
+      $params["page"] = $this->this_page;
     } 
     $this->get_content($content, $params);
     $this->pick_view();
@@ -33,17 +34,17 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
-	  //$stack = array(url("controller"), url("action"), url("id"));
     array_unshift($stack, $this->action);
     $this->build_crumbtrail($stack);
-    while(count($stack)) {
-      if($result = $this->get_section($stack[0]) ) {
-         $this->cms_section = $result;
-         $this->section_stack[]=$stack[0];
-       }
-      $url = array_shift($stack);
+    foreach($stack as $k=>$v) {
+      if(is_numeric($k)) {
+        if($result = $this->get_section($v) ) {
+           $this->cms_section = $result;
+           $this->section_stack[]=$v;
+         }
+      }
     }
-    return $url;
+    return end($this->section_stack);
 	}
 	
 	/* Generic dnamic image display method */
