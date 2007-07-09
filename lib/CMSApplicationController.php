@@ -107,7 +107,7 @@ class CmsApplicationController extends WXControllerBase{
 	
 	
 	protected function is_page() {
-	  if(!is_array($this->cms_content) && $this->cms_content) return true;
+	  if($this->cms_content instanceof CmsContent) return true;
 	  return false;
 	}
 	
