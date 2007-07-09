@@ -26,7 +26,7 @@ class CmsContent extends WXActiveRecord {
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
 	  $this->author_id = Session::get('loggedin_user');
-	  $this->avoid_section_url_clash();
+	  $this->avoid_section_url_clash();~
 	  $this->content = $this->clean_html($this->content);
 	}
 	
@@ -80,11 +80,11 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function convert_word($text) {
-    $find[] = '“';  // left side double smart quote
-    $find[] = '”';  // right side double smart quote
-    $find[] = '‘';  // left side single smart quote
-    $find[] = '’';  // right side single smart quote
-    $find[] = '…';  // elipsis
+    $find[] = 'â€œ';  // left side double smart quote
+    $find[] = 'â€';  // right side double smart quote
+    $find[] = 'â€˜';  // left side single smart quote
+    $find[] = 'â€™';  // right side single smart quote
+    $find[] = 'â€¦';  // elipsis
     $find[] = '—';  // em dash
     $find[] = '—';  // en dash
     
@@ -97,6 +97,7 @@ class CmsContent extends WXActiveRecord {
     $replace[] = "-";
     return str_replace($find, $replace, $text);
   }
+  
   
   public function format_content() {
     $text = $this->content;
