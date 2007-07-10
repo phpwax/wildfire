@@ -18,6 +18,11 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->sub_links["order"] = "Change the order of sections";
 	}
 	
+	public function index() {
+		parent::index();
+		$this->all_rows = $this->model->find_ordered_sections();
+		$this->list = $this->render_partial("list");
+	}
 	
 	public function order() {
 		if($root_section = $this->model->find_by_parent_id(0)) {
