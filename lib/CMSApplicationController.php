@@ -35,7 +35,6 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
-    $this->build_crumbtrail($stack);
     array_unshift($stack, $this->action);
     foreach($stack as $k=>$v) {
       if(is_numeric($k)) {
@@ -45,6 +44,7 @@ class CmsApplicationController extends WXControllerBase{
          }
       }
     }
+    $this->build_crumbtrail($this->section_stack);
     return end($this->section_stack);
 	}
 	
