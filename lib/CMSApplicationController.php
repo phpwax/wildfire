@@ -69,9 +69,9 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function build_crumbtrail($route) {
 	  $url = "/";
-	  $this->crumbtrail[]=array("url"=>$url, "display"=>"home");
-	  foreach($route as $k=>$v) {
-	    if($result = $this->get_section($v) && is_numeric($k)) {
+	  $this->crumbtrail[]=array("url"=>$url, "display"=>"Home");
+	  foreach($route as $v) {
+	    if($result = $this->get_section($v)) {
 	      $url.=$result->url."/";
 	      $this->crumbtrail[]=array("url"=>$result->url, "display"=>$result->title);
 	    }
