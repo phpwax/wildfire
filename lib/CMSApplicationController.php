@@ -73,11 +73,9 @@ class CmsApplicationController extends WXControllerBase{
 	  $section = new CmsSection;
 	  foreach($route as $v) {
 	    if($result = $section->find_by_url($v)) {
-	      $url.=$result->url."/";
-	      $this->crumbtrail[]=array("url"=>$result->url, "display"=>$result->title);
+	      $this->crumbtrail[]=array("url"=>$result->permalink, "display"=>$result->title);
 	    }
 	  }
-	  if($this->is_page()) $this->crumbtrail[]=array("url"=>$url.$this->cms_content->url."/", "display"=>$this->cms_content->title);	  
 	}
 	
 	/**
