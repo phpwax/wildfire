@@ -82,6 +82,8 @@ class CmsContent extends WXActiveRecord {
   public function convert_word($text) {
     $find[] = '“';  // left side double smart quote
     $find[] = '”';  // left side double smart quote
+    $find[] = '’';  // right side single smart quote
+    $find[] = '‘';  // left side single smart quote
     $find[] = 'â€œ';  // left side double smart quote
     $find[] = 'â€';  // right side double smart quote
     $find[] = 'â€˜';  // left side single smart quote
@@ -92,6 +94,8 @@ class CmsContent extends WXActiveRecord {
 
     $replace[] = '"';
     $replace[] = '"';
+    $replace[] = "'";
+    $replace[] = "'";
     $replace[] = '"';
     $replace[] = '"';
     $replace[] = "'";
