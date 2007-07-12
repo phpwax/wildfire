@@ -8,10 +8,9 @@
   <?=form_divider()?>
   <?=large(simple_wysiwyg($model, "content"))?>
 	<?=form_divider()?>
-  <button type="submit" class="generic_button" name="save" value="save"><span>Save</span></button>
-	<button type="submit" class="generic_button" name="save_close" value="save_close"><span>Save and close</span></button>
-	<button type="submit" class="generic_button" name="cancel" value="cancel" onclick="return confirm('Any changes will be lost')"><span>Cancel</span></button>
-  <?=form_divider()?>
+  <input type="submit" class="generic_button" name="save" value="save" />
+	<input type="submit" class="generic_button" name="save_close" value="save_close" />
+	<input type="submit" class="generic_button" name="cancel" value="cancel" onclick="return confirm('Any changes will be lost')" />
 </fieldset>
 
 <?if($allowed_images):?>
