@@ -1,10 +1,14 @@
 <div id="image_list_container">
   <?foreach($all_images as $image):?>
-    <div class="browse_image" id="<?=$image->id?>">
+    <div id="<?=$image->id?>" class="drag_image">
       <img src="/admin/files/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" /><br />
-      <?=truncate($image->filename, 12)?>
+      <?=truncate($image->filename, 19)?>
     </div>
-    <?=draggable_element($image->id, array("revert"=>"true", "ghosting"=>"true"))?>
+    <script>
+      $("#<?=$image->id?>").Draggable(
+      	{ ghosting:	true, opacity: 	0.4, revert:true}
+      );
+    </script>
   <?endforeach;?>
   <?if(empty($all_images)):?>
     No images available.
