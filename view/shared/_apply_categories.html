@@ -1,45 +1,34 @@
 <div id="category_browser_container">
-  <?if(count($all_categories)):?>
-    <form action="" method="post" class="form_container" id="categorise">
-      <fieldset>
-        <?=form_heading("Choose from the categories listed below")?>
-        <?foreach($all_categories as $category):?>
-          <?
-            $switch=false;
-            foreach($attached_categories as $attached) {
-              if($attached->id == $category->id) $switch=true;
-            }
-          ?>
-            <?if($switch):?>
-              <?=large(check_box_tag($category->name, $category->id, true, array("name"=>"cats[".$category->id."]")))?>
-            <?else:?>
-              <?=large(check_box_tag($category->name, $category->id, false, array("name"=>"cats[".$category->id."]")))?>
-            <?endif?>
-        <?endforeach?>
-        <?=submit_to_remote("commit", "Update categories", array(
-          "url"=>array("action"=>"set_categories", "id"=>$page->id),
-          "complete"=>"cat_message()"      
-        ));
-        ?>
-        <div id="message"></div>
-      </fieldset>
-    </form>
-  <?else:?>
-    <p>No categories setup yet</p>
-  <?endif?>
-  
+  <div id="category_browser" class="clearfix">
+	  <div id="drag_indicator">  
+	    <h4>Drag Categories Here</h4>
+	    <?=image_asset("cms", "drag_pointer.gif")?>
+	  </div>
+    <div id="filter_block">
+      <form>
+        <label for="new_cat">Make a new category</label><br />
+        <input type="text" value="" name="new_cat" id="new_cat" />
+        <a href="#" id="new_cat_create">Create</a>
+        <script>
+          $(document).ready(function() {
+            $("#new_cat_create").click(function() {
+              $.ajax({ url: "/admin/content/new_category/?cat="+$("#new_cat").val(), 
+                       complete: function(response){$("#category_list").html(response.responseText);},
+                       dataType: "html"
+              }); 
+              return false;
+            });
+          });
+        </script>
+      </form>
+    </div>
+    <div id="cat_dropzone">
+      <?=$cat_partial?>
+    </div>
+    <div id="category_list">
+      <?=$cat_list?>
+      
+    </div>
+    
+  </div>
 </div>
-<?=javascript_asset("yui", "container-min")?>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.0/build/dragdrop/dragdrop-min.js"></script>
-<?=yui_container("category_browser_container")?>
-<?if(CMSApplication::is_registered("categories")):?>
-<?=javascript_tag('widgToolbarItems.push("categoryattach")')?>
-<?endif?>
-<script type="text/javascript">
-YAHOO.util.Event.addListener(window, "load", function(){YAHOO.cms.container.category_browser_container.show();YAHOO.cms.container.category_browser_container.hide();});
-
-  function cat_message() {
-    $('message').update('<p id="inserted">Categories updated</p>');
-    new Effect.Fade("inserted", {delay:2});
-  }
-</script>

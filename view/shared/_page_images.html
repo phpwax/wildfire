@@ -1,20 +1,26 @@
-<script type="text/javascript">
-function noenter() {
-  return !(window.event && window.event.keyCode == 13); }
-</script>
 <div id="image_browser_container">
 
   <div id="image_browser" class="clearfix">
-	
+	  <div id="drag_indicator">  
+	    <h4>Drag Images Here</h4>
+	    <?=image_asset("cms", "drag_pointer.gif")?>
+	  </div>
     <div id="filter_block">
-        <strong>Filter images: </strong>(type some text from the filename or caption)<br /> 
-        <input type="text" id="image_filter" name="filter" size="20" onKeyPress="return noenter()"/>
-      <?=observe_field("image_filter", array(
-        "url" => array("controller"=>"admin/files", "action"=>"image_filter"),
-        "frequency" => "1",
-        "update"=>"image_list",
-        "with"=>"'filter='+value"
-      ))?>
+        <input type="text" id="image_filter" name="filter" size="20" onKeyPress="return noenter()" value="Filter" />
+        <script>
+        $(document).ready(function(event) {
+          $("#image_filter").bind("keyup", function() {
+            $.ajax({
+              type: "post",
+              url: "/admin/files/image_filter", 
+              data: "filter="+$("#image_filter").val()+"", 
+              dataType: "html",
+              complete: function(response){ $("#image_list").html(response.responseText);}
+            })
+          }); 
+          $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
+        });
+      </script>
 		
     </div>
     <div id="image_list">
@@ -23,30 +29,40 @@ function noenter() {
     
     
     <div id="drop_zones">
-      <h4>Drop Images Here</h4>
       <div id="droppables">
         <?for($i=0; $i<$allowed_images; $i++):?>
           <?$displayed=false?>
-          <div id="dropzone_<?=$i?>" class="attached_image">
+          <div id="dropzone<?=$i?>" class="attached_image">
             <?foreach($attached_images as $img):?>
               <?if($img->order==$i):?>
                 <img src="/admin/files/show_image/<?=$img->id?>">
                 <?=link_to_remote(image_asset("cms","trash.gif"), array(
-                  "update"=> "dropzone_".$i,
-                  "url"   => array("action"=>"remove_image", "id"=>$page->id, "image"=>$img->id)
+                  "complete"=> '$("#dropzone'.$i.'").html(response.responseText);',
+                  "url"   => url_for(array("action"=>"remove_image", "id"=>$page->id, "image"=>$img->id)),
                 ))?>
                 <?$displayed=true;?>
               <?endif?>
             <?endforeach?>
             <?if(!$displayed):?>
-              <?=image_asset("cms", "image-drop-zone.gif")?>
+              <div class="empty_image_dropzone"></div>
             <?endif?>
           </div>
-          <?=drop_receiving_element("dropzone_".$i, array(
-            "update" => "dropzone_".$i,
-            "url" => array("action" => "add_image", "id"=>$page->id, "order"=>$i),
-            "hoverclass" => "dropzone_active"
-          ))?>
+          <script>
+          $(document).ready(function() {
+            $("#dropzone<?=$i?>").Droppable(
+            	{
+            	  accept : 'drag_image',
+            		hoverclass:	'dropzone_active',
+            		tolerance:		'pointer',
+            		ondrop:	function (drag) {
+            					$.post("/admin/content/add_image/<?=$page->id?>?order=<?=$i?>", 
+            					  {id: drag.id},
+                        function(response){$("#dropzone<?=$i?>").html(response);}
+                      )
+            				}
+            });
+          });
+          </script>
         <?endfor?>
       </div>
     </div>
@@ -55,10 +71,13 @@ function noenter() {
   
   
 </div>
-<?=javascript_tag("new Ajax.Updater('image_list', '/admin/files/browse_images/1/', {evalScripts:true})")?>
-<?=javascript_asset("yui", "yahoo-dom-event")?>
-<?=javascript_asset("yui", "container-min")?>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.0/build/dragdrop/dragdrop-min.js"></script>	
-<?=yui_container("image_browser_container")?>
-<?=javascript_tag('widgToolbarItems.push("imageattach")')?>
-
+<script>
+$(document).ready(function() {
+  $.ajax({
+    url: "/admin/files/browse_images/1/", 
+    complete: function(response){$("#image_list").html(response.responseText);}, 
+    dataType: "html",
+    type: "post"
+  })
+})
+</script>

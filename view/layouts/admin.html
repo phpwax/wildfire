@@ -4,16 +4,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.0/build/container/assets/container.css">
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.2/build/reset-fonts-grids/reset-fonts-grids.css" />  
   
-	<?=javascript_asset("scriptaculous", "prototype")?>
-	<?=javascript_asset("scriptaculous", "effects")?>
-	<?=javascript_asset("scriptaculous", "dragdrop")?>
-	<?=javascript_asset("yui", "yahoo-dom-event")?>
+	<?=javascript_asset("jquery", "jquery-1.1.3.1.pack")?>
+	<?=javascript_asset("jquery", "jquery.modal")?>
+	<?=javascript_asset("jquery", "jquery.interface")?>
+	<?=javascript_asset("jquery", "jquery.form")?>
 	<?=javascript_asset("cms", "widgEditor")?>
+	<?=stylesheet_asset('jquery','jquery.modal')?>
 	<?=stylesheet_asset('cms','cms-stylesheet')?>
 	<?=stylesheet_asset('cms','wysiwyg-styles')?>
-	<?=javascript_asset("utilities", "reflection")?>
 	
 	<?=stylesheet_link_tag('cms-overrides')?>
 	<?=stylesheet_link_tag('form-layout')?>
@@ -31,7 +31,7 @@
 	  </ul>
 	</div>
 	<div id="main-navigation-container">	
-		<ul>
+		<ul class="clearfix">
 		  <?foreach($all_modules as $name=>$values):?>
 		    <li<?if($name == $module_name) echo " id='selected_nav'";?>>
 		      <a href="<?=$values['link']?>">
@@ -42,7 +42,7 @@
 		</ul>
 	</div>
 	<div id="sub-navigation-container">
-		<ul id="submenu">
+		<ul id="submenu" class="clearfix">
 	    <?if($sub_links):?>
 	      <?foreach($sub_links as $link=>$text):?>
 	        <?if($link==$action) $class=" class='sub_nav_selected'"?>
@@ -59,6 +59,5 @@
 		</div>
 	</div>
 	<div id="footer">Powered by <a href="http://php-wax.com/">PHP-WAX CMS</a> build <?=constant("CMS_VERSION")?></div>
-
 </body>
 </html>

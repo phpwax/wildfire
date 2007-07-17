@@ -1,4 +1,4 @@
-<div id="link_browser_container">
+<div id="link_dialog" class="jqmWindow">
   <h3>1. Enter an internet url</h3>
   <p><a href="javascript:void(0)" onclick="cms_insert_url('web');">Click Here</a></p>
   <?if(count($all_links)):?>
@@ -14,10 +14,11 @@
   <?endif?>
   
 </div>
-<?=javascript_asset("yui", "container-min")?>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.1/build/dragdrop/dragdrop-min.js"></script>
-<?=yui_container("link_browser_container")?>
+
 <script type="text/javascript">
+$(document).ready(function() {
+  $('#link_dialog').jqm();
+});
 function cms_insert_url(type) {
   if(type=='web') {
     var theURL = prompt("Enter the URL for this link:", "http://");
@@ -25,7 +26,6 @@ function cms_insert_url(type) {
   if (theURL != null) {			
 		theIframe.contentWindow.document.execCommand("CreateLink", false, theURL);
 		theWidgEditor.theToolbar.setState("Link", "on");
-		YAHOO.cms.container.link_browser_container.hide();
 	}
 }
 </script>

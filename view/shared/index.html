@@ -1,19 +1,15 @@
 <!-- Dependencies --> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/datasource/datasource-beta-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/datatable/datatable-beta-min.js"></script>
+<?=javascript_asset("jquery", "jquery.tablesort")?>
 
 <?=$filter_block_partial?>
 
 <?=paginate_links($all_rows, "2")?>
 
-<div id="table_markup">
 <table id="item_list_container" class="sortable">
   <thead>
     <tr id ="list_heading">
       <?foreach($scaffold_columns as $column=>$params):?>
         <th class="column"><?=humanize($column)?></th>
-        <?$js_options[]="{key:'".$column."',text:'".humanize($column)."',sortable:true},"?>
       <?endforeach?> 
       <th class="column">Operations</th>
     </tr>
@@ -22,25 +18,14 @@
     <?=$list?> 
   </tbody> 
 </table>
-</div>
+
 <?if(count($all_rows)<1):?>
   No items available
 <?endif?>
 <?=paginate_links($all_rows, "2")?>
-<?$js_options[]='{key:"operations",text:"Operations",sortable:false}'?>
-<script>
-YAHOO.example.enhanceFromMarkup = function() { 
 
-  this.columnHeaders = [ 
-      <?foreach($js_options as $js):?>
-        <?=$js?>
-      <?endforeach?>
-  ]; 
-    this.columnSet = new YAHOO.widget.ColumnSet(this.columnHeaders); 
- 
-    var markup = YAHOO.util.Dom.get("table_markup"); 
-    this.dataTable = new YAHOO.widget.DataTable(markup,this.columnSet,null); 
-}; 
- 
-YAHOO.util.Event.onAvailable("table_markup",YAHOO.example.enhanceFromMarkup,YAHOO.example.enhanceFromMarkup,true);
+<script>
+$(document).ready(function() {
+  $("#item_list_container").tableSorter();
+})
 </script>

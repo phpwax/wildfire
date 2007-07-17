@@ -65,17 +65,6 @@ class CMSAdminContentController extends CMSAdminComponent {
 		parent::edit();
 	}
 	
-	public function set_categories() {
-	  $this->use_layout=false;
-	  $this->use_view=false;
-		$page = new $this->model_class($this->param("id"));
-		$page->clear_categories();
-		foreach($_POST['cats'] as $cat=>$val) {
-		  if($page->add_categories($val)) echo "Added category $val";
-		}
-		exit;
-	}
-	
 	public function create() {
 	  $files = new CmsFile();
 		$this->all_links = $files->find_all_files();
@@ -83,6 +72,35 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  parent::create(false);
 	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
     else $this->save($this->model);
+	}
+	
+	public function add_category() {
+	  $this->use_layout=false;
+		$this->page = new $this->model_class($this->param("id"));
+		$this->page->add_categories(substr($_POST["id"], 4));
+		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$cat = new CmsCategory;
+		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();		
+		$this->cat_partial = $this->render_partial("list_categories");
+	}
+	
+	public function remove_category() {
+		$this->use_layout=false;
+		$this->page = new $this->model_class($this->param("id"));
+		$this->page->delete_categories($this->param("cat"));
+    if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$cat = new CmsCategory;
+		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();		
+		$this->cat_partial = $this->render_partial("list_categories");	
+	}
+	
+	public function new_category() {
+		$this->use_layout=false;
+		$cat = new CmsCategory;
+		$cat->name = url("cat");
+		$cat->save();
+		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();		
+		$this->cat_list = $this->render_partial("cat_list");	
 	}
 }
 ?>

@@ -1,0 +1,33 @@
+<div class="empty_cat_dropzone" id="cat_drop"></div>
+<script>
+$(document).ready(function() {
+  $("#cat_drop").Droppable(
+  	{
+  	  accept : 'category_tag',
+  		hoverclass:	'dropzone_active',
+  		tolerance:		'pointer',
+  		ondrop:	function (drag) {
+  					$.post("/admin/content/add_category/<?=$page->id?>", 
+  					  {id: drag.id},
+              function(response){
+                $("#cat_dropzone").html(response);
+              }
+            )
+  				}
+  });
+});
+</script>
+<h4>Selected categories</h4>
+  <?foreach($attached_categories as $attached):?>
+  <div class="clearfix">
+    <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>"><?=$attached->name?></div>
+    <span class="trash_cat">
+    <?=link_to_remote(image_asset("cms","trash.gif"), array(
+      "complete"=> '$("#cat_dropzone").html(response.responseText);',
+      "url"   => url_for(array("action"=>"remove_category", "id"=>$page->id, "cat"=>$attached->id)),
+    ))?>
+    </span>
+  </div>
+  <?endforeach?>
+  <?if(!$attached_categories):?><p>No categories selected - drag and drop to add!</p><?endif?>
+<div class="clearfix"></div>
