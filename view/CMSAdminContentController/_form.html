@@ -1,19 +1,56 @@
-<fieldset>
-	<?=form_heading("Content Editor")?>
-  <?=medium(text_field($model, "title"))?>
-  <?=small(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title"), array(), "Choose a section" ))?>
-  <?=small(select($model, "status", $model->status_options))?>
-  <?=form_divider()?>
-	<?=medium(date_select($model, "published", array(), "Date to be published"))?>
-  <?=form_divider()?>
-  <?=large(simple_wysiwyg($model, "content"))?>
-	<?=form_divider()?>
-  <input type="submit" class="generic_button" name="save" value="Save" />
-	<input type="submit" class="generic_button" name="save_close" value="Save and close" />
-	<input type="submit" class="generic_button" name="cancel" value="Cancel" onclick="return confirm('Any changes will be lost')" />
-</fieldset>
+<?=javascript_asset("jquery","jquery.tabs.min")?>
+<?=stylesheet_asset("jquery", "jquery.tabs")?>
+<!--[if lte IE 7]>
+  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
+<![endif]-->
 
-<?if($allowed_images):?>
-  <?=$image_partial?>
-<?endif?>
+  <div id="container">
+    <ul class="tabs-nav">
+      <li><a href="#section-1">Editing Page....</a></li>
+      <li><a href="#section-2">Add Image(s)</a></li>
+      <li><a href="#section-3">Add Categories</a></li>
+    </ul>
+    
+  <div id="content_window" class="clearfix">
+    <div id="content_editor">
+      <div id="section-1" class="tabs-container">
+        <fieldset id="wysiwyg">
+          <?=large(simple_wysiwyg($model, "content", array(), false))?>
+        </fieldset>
+      </div>
+      <div id="section-2" class="tabs-container">
+        <?if($allowed_images):?>
+          <?=$image_partial?>
+        <?endif?>
+      </div>
+      <div id="section-3" class="tabs-container">
+        <?=$category_partial?>
+      </div>
+    </div>
+  
+    <fieldset id="content_options">
+      <?=large(text_field($model, "title"))?>
+      <?=form_divider()?>
+      <?=large(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title"), array(), "Choose a section" ))?>
+      <?=form_divider()?>
+      <?=large(select($model, "status", $model->status_options))?>
+    	<?=form_divider()?>
+    	<?=large(date_select($model, "published", array(), "Date to be published"))?>
+    	<?=form_divider()?>
+    </fieldset>
+    <div class="clearfix"></div>
+    <fieldset id="submit">
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and close" />
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" onclick="return confirm('Any changes will be lost')" />
+    </fieldset>
+  </div>
+  
+</div>
+
+<script>
+  $(document).ready(function() {
+      $("#container").tabs();
+  });
+</script>
 <?=$link_partial?>
