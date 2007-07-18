@@ -6,7 +6,7 @@
 	    <?=image_asset("cms", "drag_pointer.gif")?>
 	  </div>
     <div id="filter_block">
-        <input type="text" id="image_filter" name="filter" size="20" onKeyPress="return noenter()" value="Filter" />
+        <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
         <script>
         $(document).ready(function(event) {
           $("#image_filter").bind("keyup", function() {
@@ -32,7 +32,7 @@
             <?foreach($attached_images as $img):?>
               <?if($img->order==$i):?>
                 <img src="/admin/files/show_image/<?=$img->id?>">
-                <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_<?=$i?>"))?>
+                <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_$i"))?>
                 <script>
                   $(document).ready(function() {
                     $("#delete_image_<?=$i?>").click(function(){
