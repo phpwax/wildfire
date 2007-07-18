@@ -20,9 +20,9 @@
   <div class="clearfix">
     <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>"><?=$attached->name?></div>
     <span class="trash_cat">
-      <?=image_asset("cms", "trash.gif", array("id"=>"delete_category_button"))?>
+      <?=image_asset("cms", "trash.gif", array("id"=>"delete_category_button<?=$attached->id?>"))?>
       <script>
-          $("#delete_category_button").click(function(){
+          $("#delete_category_button<?=$attached->id?>").click(function(){
             $.get("/admin/content/remove_category/<?=$page->id?>?cat=<?=$attached->id?>",function(response){
               $("#cat_dropzone").html(response);
             })
