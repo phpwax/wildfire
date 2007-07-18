@@ -32,10 +32,16 @@
             <?foreach($attached_images as $img):?>
               <?if($img->order==$i):?>
                 <img src="/admin/files/show_image/<?=$img->id?>">
-                <?=link_to_remote(image_asset("cms","trash.gif"), array(
-                  "complete"=> '$("#dropzone'.$i.'").html(response.responseText);',
-                  "url"   => url_for(array("action"=>"remove_image", "id"=>$page->id, "image"=>$img->id)),
-                ))?>
+                <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_<?=$i?>"))?>
+                <script>
+                  $(document).ready(function() {
+                    $("#delete_image_<?=$i?>").click(function(){
+                      $.get("/admin/content/remove_image/<?=$page->id?>?cat=<?=$img->id?>",function(response){
+                        $("#dropzone<?=$i?>").html(response);
+                      })
+                    })
+                  });
+                </script>
                 <?$displayed=true;?>
               <?endif?>
             <?endforeach?>
