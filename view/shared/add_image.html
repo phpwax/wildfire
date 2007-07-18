@@ -3,7 +3,7 @@
 <script>
   $(document).ready(function() {
     $("#delete_image_<?=$image->id?>").click(function(){
-      $.get("/admin/content/remove_image/<?=$page->id?>?cat=<?=$image->id?>",function(response){
+      $.get("/admin/content/remove_image/<?=$page->id?>?image=<?=$image->id?>",function(response){
         $("#dropzone<?=$image->order?>").html(response);
       })
     })
