@@ -43,7 +43,7 @@
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and close" />
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" onclick="return confirm('Any changes will be lost')" />
-      <img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" />
+      <img id="preview_link" class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" />
     </fieldset>
   </div>
   
@@ -55,7 +55,15 @@
       $("#page_tab_title").html($("#cms_content_title").val());
       $("#cms_content_title").keyup(function() {
         $("#page_tab_title").html($("#cms_content_title").val());
-      })
+      });
+      $("#preview_link").click(
+        $('#ex2').jqm({ajax: "<?=$page->permalink?>"});
+      );
+      
   });
 </script>
 <?=$link_partial?>
+<div class="jqmWindow" id="ex2">
+Loading please wait...
+</div>
+
