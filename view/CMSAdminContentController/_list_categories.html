@@ -22,10 +22,16 @@ $(document).ready(function() {
   <div class="clearfix">
     <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>"><?=$attached->name?></div>
     <span class="trash_cat">
-    <?=link_to_remote(image_asset("cms","trash.gif"), array(
-      "complete"=> '$("#cat_dropzone").html(response.responseText);',
-      "url"   => url_for(array("action"=>"remove_category", "id"=>$page->id, "cat"=>$attached->id)),
-    ))?>
+      <?=image_asset("cms", "trash.gif", array("id"=>"delete_category_button"))?>
+      <script>
+        $(document).ready(function() {
+          $("#delete_category_button").click(function(){
+            $.post("/admin/content/remove_category/<?=$page->id?>?cat=<?=$attached->id?>",{},function(response){
+              $("#cat_dropzone").html(response.responseText);
+            })
+          })
+        });
+      </script>
     </span>
   </div>
   <?endforeach?>
