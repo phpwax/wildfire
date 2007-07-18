@@ -131,7 +131,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* Ajax Filter list view
 	*/
 	public function filter() {
-	  $this->use_layout="ajax";
+	  $this->use_layout=false;
 	  if($_POST['filter']=="") {
 	    $this->index();
 	    return true;
