@@ -56,15 +56,12 @@
       $("#cms_content_title").keyup(function() {
         $("#page_tab_title").html($("#cms_content_title").val());
       });
-      $("#preview_link").click(function(){
-        alert("hello"); return false;
-        $('#ex2').jqm({ajax: "<?=$page->permalink?>"});
-      });
+      $('#preview_pane').jqm({ajax: "<?=$page->permalink?>", trigger: '#preview_link'});
       
   });
 </script>
 <?=$link_partial?>
-<div class="jqmWindow" id="ex2">
+<div class="jqmWindow" id="preview_pane">
 Loading please wait...
 </div>
 
