@@ -1,6 +1,11 @@
-<img src="/admin/files/show_image/<?=$image->id?>/90" title="<?=$image->caption?>" />
-<?=link_to_remote(image_asset("cms","trash.gif"), array(
-  "complete"=> 'htmlup = response.responseText; $("#dropzone'.$image->order.'").html(htmlup);',
-  "url"   => url_for(array("action"=>"remove_image", "id"=>$page->id, "image"=>$image->id)),
-  "dataType"=> "html"
-))?>
+<img src="/admin/files/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" />
+<?=image_asset("cms", "trash.gif", array("id"=>"delete_image_<?=$image->id?>"))?>
+<script>
+  $(document).ready(function() {
+    $("#delete_image_<?=$image->id?>").click(function(){
+      $.get("/admin/content/remove_image/<?=$page->id?>?cat=<?=$image->id?>",function(response){
+        $("#dropzone<?=$image->order?>").html(response);
+      })
+    })
+  });
+</script>
