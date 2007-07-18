@@ -6,7 +6,7 @@
 
   <div id="container">
     <ul class="tabs-nav">
-      <li><a href="#section-1">Editing Page....</a></li>
+      <li><a href="#section-1">Editing Page: <span id="page_tab_title"></span></a></li>
       <li><a href="#section-2">Add Image(s)</a></li>
       <li><a href="#section-3">Add Categories</a></li>
     </ul>
@@ -51,6 +51,10 @@
 <script>
   $(document).ready(function() {
       $("#container").tabs();
+      $("#page_tab_title").html($("#cms_content_title").value());
+      $("#cms_content_title").change(function() {
+        $("#page_tab_title").html(this.value());
+      })
   });
 </script>
 <?=$link_partial?>
