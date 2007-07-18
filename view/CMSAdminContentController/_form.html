@@ -56,8 +56,8 @@
       $("#cms_content_title").keyup(function() {
         $("#page_tab_title").html($("#cms_content_title").val());
       });
-      $('#preview_pane').jqm({ajax: "<?=$page->permalink?>", trigger: '#preview_link'});
-      
+      $('#preview_pane').jqm({trigger: '#preview_link'});
+      $("#preview_pane").html("<iframe src='<?=$page->permalink?>' width='100%' height='100%' />");
   });
 </script>
 <?=$link_partial?>
