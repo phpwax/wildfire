@@ -27,7 +27,7 @@ $(document).ready(function() {
         $(document).ready(function() {
           $("#delete_category_button").click(function(){
             $.post("/admin/content/remove_category/<?=$page->id?>?cat=<?=$attached->id?>",{},function(response){
-              $("#cat_dropzone").html(response.responseText);
+              $("#cat_dropzone").html(response);
             })
           })
         });
