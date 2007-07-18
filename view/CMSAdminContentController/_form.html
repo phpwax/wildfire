@@ -56,9 +56,9 @@
       $("#cms_content_title").keyup(function() {
         $("#page_tab_title").html($("#cms_content_title").val());
       });
-      $("#preview_link").click(
+      $("#preview_link").click(function(){
         $('#ex2').jqm({ajax: "<?=$page->permalink?>"});
-      );
+      });
       
   });
 </script>
