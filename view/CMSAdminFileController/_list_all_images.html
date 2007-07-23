@@ -15,17 +15,27 @@
   <?endif?>
   <div class="clearfix"></div>
   <div id="image_navigation">
+
     <?if($previous):?>
-      <?=link_to_remote("&lt; back&nbsp;&nbsp; ", array(
-        "url"=>url_for(array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$previous)),
-        "update"=>"image_list_container"
-        ))?>
+      <a href="#" id="prev_images">&lt; back&nbsp;&nbsp; </a>
+      <script>
+          $("#prev_images").click(function(){
+            $.get("/admin/files/browse_images/<?=$previous?>",function(response){
+              $("#image_list_container").html(response);
+            })
+          });
+      </script>
     <?endif?>
     <?if($more):?>
-      <?=link_to_remote(" &nbsp;&nbsp;more &gt;", array(
-        "url"=>url_for(array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$more)),
-        "update"=>"image_list_container"
-        ))?>
+      <a href="#" id="more_images"> &nbsp;&nbsp;more &gt;</a>
+      <script>
+          $("#more_images").click(function(){
+            $.get("/admin/files/browse_images/<?=$more?>",function(response){
+              $("#image_list_container").html(response);
+            })
+          });
+      </script>
     <?endif?>
   </div>
 </div>
+
