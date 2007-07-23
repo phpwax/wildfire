@@ -1,0 +1,39 @@
+#login_box {
+  background:#1D3550 url(../../images/cms/login_box_top.gif) no-repeat left top;
+  width:298px;
+  margin:100px auto;
+}
+
+#login_box #logo {
+  background:url(../../images/cms/cms_login_logo.gif) no-repeat center 20px;
+  width:298px;
+  height:80px;
+}
+
+#login_box #login_area {
+  background:#1D3550 url(../../images/cms/login_box_bottom.gif) no-repeat left bottom;
+  text-align:center;
+  width:258px;
+  padding:0 10px;
+  padding-bottom:15px;
+}
+#login_box[id] #login_area {
+  width:278px;
+}
+#login_box #login_area label {
+  color:white;
+  font-size:85%;
+  margin:0;
+}
+.user_messages {
+  background:#E79D9D;
+  margin:3px 10px;
+}
+#login_box .form_container {
+  margin:3px;
+  padding:3px;
+  width:252px;
+}
+#login_box[id] .form_container {
+  width:286px;
+}
