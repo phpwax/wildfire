@@ -1,5 +1,6 @@
+<?=javascript_asset("jquery", "jquery.multifile")?>
 <fieldset>
-  <?=large(file_field($model, "filename", array(),"Choose a file to upload"), "This replaces any existing file")?>
+  <?=large(file_field($model, "filename", array("class"=>"multi"),"Choose a file to upload"), "This replaces any existing file")?>
   <?=form_divider()?>
   <?=large(text_area($model, "caption", array("rows"=>"2")))?>
 	
