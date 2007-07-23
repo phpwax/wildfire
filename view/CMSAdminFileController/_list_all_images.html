@@ -17,13 +17,13 @@
   <div id="image_navigation">
     <?if($previous):?>
       <?=link_to_remote("&lt; back&nbsp;&nbsp; ", array(
-        "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$previous),
+        "url"=>url_for(array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$previous)),
         "update"=>"image_list_container"
         ))?>
     <?endif?>
     <?if($more):?>
       <?=link_to_remote(" &nbsp;&nbsp;more &gt;", array(
-        "url"=>array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$more),
+        "url"=>url_for(array("controller"=>"admin/files", "action"=>"browse_images", "id"=>$more)),
         "update"=>"image_list_container"
         ))?>
     <?endif?>
