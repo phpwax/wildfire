@@ -17,6 +17,7 @@ class CMSAdminContentController extends CMSAdminComponent {
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
+	public $allowed_categories = true;
 
 	public function method_missing() {
 	  if(!$page = url("page")) $page=1;
@@ -69,10 +70,12 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function create() {
 	  $files = new CmsFile();
+	  public $allowed_images = false;
+  	public $allowed_categories = false;
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
 	  parent::create(false);
-	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the icons on the toolbar to add images and categories");
+	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the extra tabs to add images and categories");
     else $this->save($this->model);
 	}
 	

@@ -23,10 +23,14 @@
       <div id="section-2" class="tabs-container">
         <?if($allowed_images):?>
           <?=$image_partial?>
+        <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
       <div id="section-3" class="tabs-container">
-        <?=$category_partial?>
+        <?if($allowed_categories):?>
+          <?=$category_partial?>
+        <?else:?><p>Categories disabled</p>
+        <?endif?>
       </div>
     </div>
   
