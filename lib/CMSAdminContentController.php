@@ -70,8 +70,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function create() {
 	  $files = new CmsFile();
-	  public $allowed_images = false;
-  	public $allowed_categories = false;
+	  $this->allowed_images = false;
+  	$this->allowed_categories = false;
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
 	  parent::create(false);
