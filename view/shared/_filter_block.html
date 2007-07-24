@@ -3,10 +3,17 @@
   	<form id="filter_form" action="">
 	    <strong>Filter:</strong> <input type="text" id="filter_field" name="filter" />
 	  </form>
-	  <?$url_for = url_for(array("action"=>"filter"))?>
-	  <script>
-	    new Form.Element.Observer('filter_field', 1, function(element, value) {
-	      new Ajax.Updater($("yui-dt-table0").childNodes[2], '<?=$url_for?>', {asynchronous:true, evalScripts:true, parameters:'filter='+value})})
-	  </script>
+	   <?$url_for = url_for(array("action"=>"filter"))?>
+  	  
+  	  <script>
+      $(document).ready(function(event) {
+        $("#filter_field").keyup(function() {
+          $.post("<?=$url_for?>",
+            {filter: $("#filter_field").val()}, 
+            function(response){ $("#list_rows").html(response);}
+          );
+        }); 
+      });
+    </script>
 	</div>
 </div>
