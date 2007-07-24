@@ -88,6 +88,7 @@ class CmsContent extends WXActiveRecord {
     $find[] = 'â€';  // right side double smart quote
     $find[] = 'â€˜';  // left side single smart quote
     $find[] = 'â€™';  // right side single smart quote
+    $find[] = 'â€™';  // right side single smart quote
     $find[] = 'â€¦';  // elipsis
     $find[] = 'â€”';  // em dash
     $find[] = 'â€“';  // en dash
@@ -98,6 +99,7 @@ class CmsContent extends WXActiveRecord {
     $replace[] = "'";
     $replace[] = '"';
     $replace[] = '"';
+    $replace[] = "'";
     $replace[] = "'";
     $replace[] = "'";
     $replace[] = "...";
