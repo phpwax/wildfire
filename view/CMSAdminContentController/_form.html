@@ -55,10 +55,13 @@
       $("#page_tab_title").html($("#cms_content_title").val());
       $("#cms_content_title").keyup(function() {
         $("#page_tab_title").html($("#cms_content_title").val());
-      });      
+      });
+      
+      
   });
 </script>
 <?=preview_window($page->permalink, "preview_link", "preview_pane")?>
+
 <?=$link_partial?>
 <div class="jqmWindow" id="preview_pane">
 Loading please wait...
