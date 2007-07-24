@@ -554,7 +554,7 @@ PAGINATION STYLES
 .pagination li.pagination_link {
   float:left;
   margin-right:2px;
-  padding:0;
+  padding:3px 0;
 }
 .pagination li.pagination_link a, .pagination span {
   padding:2px 5px;
