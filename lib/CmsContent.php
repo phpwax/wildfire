@@ -80,33 +80,20 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function convert_word($text) {
-    $find[] = '“';  // left side double smart quote
-    $find[] = '”';  // left side double smart quote
-    $find[] = '’';  // right side single smart quote
-    $find[] = '‘';  // left side single smart quote
-    $find[] = 'â€œ';  // left side double smart quote
-    $find[] = 'â€';  // right side double smart quote
-    $find[] = 'â€˜';  // left side single smart quote
-    $find[] = 'â€™';  // right side single smart quote
-    $find[] = 'â€™';  // right side single smart quote
-    $find[] = 'â€¦';  // elipsis
-    $find[] = 'â€”';  // em dash
-    $find[] = 'â€“';  // en dash
+    $search = array(chr(145), 
+                    chr(146), 
+                    chr(147), 
+                    chr(148), 
+                    chr(151)); 
 
-    $replace[] = '"';
-    $replace[] = '"';
-    $replace[] = "'";
-    $replace[] = "'";
-    $replace[] = '"';
-    $replace[] = '"';
-    $replace[] = "'";
-    $replace[] = "'";
-    $replace[] = "'";
-    $replace[] = "...";
-    $replace[] = "-";
-    $replace[] = "-";
+    $replace = array("'", 
+                     "'", 
+                     '"', 
+                     '"', 
+                     '-'); 
 
-    return str_replace($find, $replace, $text);
+    return str_replace($search, $replace, $text);
+
   }
   
   
