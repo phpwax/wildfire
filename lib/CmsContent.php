@@ -26,7 +26,7 @@ class CmsContent extends WXActiveRecord {
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
 	  $this->author_id = Session::get('loggedin_user');
-	  $this->avoid_section_url_clash();~
+	  $this->avoid_section_url_clash();
 	  $this->content = $this->clean_html($this->content);
 	}
 	
@@ -80,11 +80,7 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function convert_word($text) {
-    $arr1 = str_split($text);
-    foreach($arr1 as $val) {
-      echo ord($val)."<br />";
-    }
-    exit;
+    
     $search = array(chr(0xe2) . chr(0x80) . chr(0x98),
                       chr(0xe2) . chr(0x80) . chr(0x99),
                       chr(0xe2) . chr(0x80) . chr(0x9c),
