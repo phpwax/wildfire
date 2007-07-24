@@ -13,7 +13,7 @@ class CMSAdminContentController extends CMSAdminComponent {
     "title"   =>array(),
     "page_status" => array(),
 		"section" => array(),
-		"publish_date" => array()
+		"date_published" => array()
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3;
