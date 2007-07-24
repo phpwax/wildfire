@@ -80,48 +80,21 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function convert_word($text) {
-    $search = array(
-                    '&',
-                    '<',
-                    '>',
-                    '"',
-                    chr(212),
-                    chr(213),
-                    chr(210),
-                    chr(211),
-                    chr(209),
-                    chr(208),
-                    chr(201),
-                    chr(145),
-                    chr(146),
-                    chr(147),
-                    chr(148),
-                    chr(151),
-                    chr(150),
-                    chr(133)
-                    );
-    $replace = array(
-                    '&amp;',
-                    '&lt;',
-                    '&gt;',
-                    '&quot;',
-                    '&#8216;',
-                    '&#8217;',
-                    '&#8220;',
-                    '&#8221;',
-                    '&#8211;',
-                    '&#8212;',
-                    '&#8230;',
-                    '&#8216;',
-                    '&#8217;',
-                    '&#8220;',
-                    '&#8221;',
-                    '&#8211;',
-                    '&#8212;',
-                    '&#8230;'
-                    );
-     return str_replace($search, $replace, $text);
+    $search = array(chr(0xe2) . chr(0x80) . chr(0x98),
+                      chr(0xe2) . chr(0x80) . chr(0x99),
+                      chr(0xe2) . chr(0x80) . chr(0x9c),
+                      chr(0xe2) . chr(0x80) . chr(0x9d),
+                      chr(0xe2) . chr(0x80) . chr(0x93),
+                      chr(0xe2) . chr(0x80) . chr(0x94));
 
+      $replace = array('&lsquo;',
+                       '&rsquo;',
+                       '&ldquo;',
+                       '&rdquo;',
+                       '&ndash;',
+                       '&mdash;');
+
+    return str_replace($search, $replace, $text);
   }
   
   
