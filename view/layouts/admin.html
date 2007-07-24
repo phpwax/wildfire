@@ -45,10 +45,9 @@
 	<div id="sub-navigation-container">
 		<ul id="submenu" class="clearfix">
 	    <?if($sub_links):?>
-	      <?$class="";?>
-	      <?foreach($sub_links as $link=>$text):?>
-	        <?if($link==$action) $class=" class='sub_nav_selected'"?>
-	  	    <li<?=$class?>><?=link_to($text, array("action"=>$link))?></li>
+	      <?foreach($sub_links as $sub_link=>$text):?>
+	        <?if($sub_link==$action) $class=" class='sub_nav_selected'"?>
+	  	    <li<?=$class?>><?=link_to($text, array("action"=>$sub_link))?></li>
 	  	  <?endforeach;?>
 	  	<?endif;?>
 		</ul>
@@ -64,6 +63,5 @@
 	<div class="jqmWindow" id="preview_pane">
   Loading please wait...
   </div>
-  <?=$action?>
 </body>
 </html>
