@@ -36,7 +36,7 @@ class CmsContent extends WXActiveRecord {
 	}
 	
 	public function publish_date(){
-			return date('M d, Y', strtotime($this->published));
+			return date('d/m/Y', strtotime($this->published));
 	}
 	
 	public function avoid_section_url_clash() {
