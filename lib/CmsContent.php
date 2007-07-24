@@ -35,7 +35,7 @@ class CmsContent extends WXActiveRecord {
 	  return $section->permalink()."/".$this->url;
 	}
 	
-	public function date_published(){
+	public function publish_date(){
 			return date('M d, Y', strtotime($this->published));
 	}
 	
