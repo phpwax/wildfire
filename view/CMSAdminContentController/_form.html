@@ -3,6 +3,8 @@
 <!--[if lte IE 7]>
   <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
 <![endif]-->
+<?=javascript_asset("cms","cms_content")?>
+
 
   <div id="container">
     <ul class="tabs-nav">
@@ -49,21 +51,6 @@
   
 </div>
 
-<script>
-  $(document).ready(function() {
-      $("#container").tabs();
-      $("#page_tab_title").html($("#cms_content_title").val());
-      $("#cms_content_title").keyup(function() {
-        $("#page_tab_title").html($("#cms_content_title").val());
-      });
-      
-      
-  });
-</script>
 <?=preview_window($page->permalink, "preview_link", "preview_pane")?>
 
 <?=$link_partial?>
-<div class="jqmWindow" id="preview_pane">
-Loading please wait...
-</div>
-

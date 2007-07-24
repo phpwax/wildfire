@@ -11,7 +11,8 @@
       <td class="column">
         <?=link_to(image_asset("cms","button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
         <?=link_to(image_asset("cms","button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>
-				<?=link_to(image_asset("cms","button_view.gif"), $row->permalink)?>
+				<?=image_asset("cms","button_view.gif", array("id"=>"preview_".$row->id))?>
+				<?=preview_window($row->permalink, "preview_".$row->id, "preview_pane")?>
       </td>
     </tr>
 <?endforeach?>
