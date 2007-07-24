@@ -258,15 +258,13 @@ p{
 	background: url(../../images/cms/cms_header-submenu-bg.gif) repeat-x;
 	margin-right:10px;
 }
-#page-container #page-options #submenu li a {
-	color:#fff;
-	text-decoration:none;
-	font-weight:bold;
-	display:block;
+#submenu li.create_content a {
 	background:transparent url(../../images/cms/cms-icon-new.gif) no-repeat left 2px;
-	padding:4px 12px;
 	padding-left:20px;
 }
+
+
+
 #content{
 	clear:both;
 	margin-left:40px;
