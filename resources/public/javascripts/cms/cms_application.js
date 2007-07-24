@@ -1,18 +1,11 @@
-function add_form_listeners() {
-  document.getElementsByClassName("input_field").each(function(num) {
-    Event.observe(num, "focus", function(event){ Event.element(event).parentNode.style.backgroundColor="#FCF9AD";});
-  });
-  document.getElementsByClassName("input_field").each(function(num) {
-    Event.observe(num, "blur", function(event){ Event.element(event).parentNode.style.backgroundColor="transparent";});
-  });
-}
-
-function page_setup() {
-	add_form_listeners();
-	widgInit();
-}
-
-Event.observe(window, "load", page_setup);
-
 /**** Add application wide javascripts below this point  ******/
 
+function setup_preview(permalink, id, preview_pane) {
+  $(document).ready(function() {
+      $(preview_pane).jqm({trigger: id, onShow: function(hash) {
+        hash.w.show();
+        $(preview_pane).html("<iframe src='"+permalink+"' width='100%' height='100%' border='0' />");
+      }});
+      
+  });
+}

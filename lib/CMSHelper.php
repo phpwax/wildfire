@@ -123,5 +123,12 @@ class CMSHelper extends WXHelpers {
 						</div>';
 		return $form;
 	}
+	
+	public function preview_window($permalink, $trigger_id, $preview_pane) {
+	  $js = new JavascriptHelper;
+	  return $js->javascript_tag("setup_preview($permalink, $trigger_id, $preview_pane);");
+	}
+	
+	
   	
 }
