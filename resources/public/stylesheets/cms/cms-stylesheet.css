@@ -260,7 +260,8 @@ p{
 }
 #submenu li.create_content a {
 	background:transparent url(../../images/cms/cms-icon-new.gif) no-repeat left 2px;
-	padding-left:20px;
+	padding:4px 0 4px 20px;
+	margin-left:-15px;
 }
 
 
