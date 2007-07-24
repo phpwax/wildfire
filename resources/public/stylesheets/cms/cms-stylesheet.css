@@ -556,8 +556,8 @@ PAGINATION STYLES
   margin-right:2px;
   padding:0;
   display:block;
-  width:20px;
-  height:20px;
+  width:22px;
+  height:22px;
 }
 .pagination li.pagination_link a, .pagination span {
   padding:2px 5px;
