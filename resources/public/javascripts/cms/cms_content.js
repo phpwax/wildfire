@@ -44,7 +44,7 @@ $(document).ready(function(event) {
   	{
   	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
   		ondrop:	function (drag) {
-  		  alert(this.parent().id);
+  		  alert($(this).parent().id);
   			$.post("/admin/content/add_image/"+content_page_id+"?order="+this.id.substr(9), 
 				  {id: drag.id},
           function(response){$("#"+this.id).html(response);}
