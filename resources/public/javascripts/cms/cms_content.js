@@ -28,3 +28,35 @@ function initialise_draggables() {
     })
   });
 }
+
+
+/**** Setup for image drag and drop ******/
+$(document).ready(function(event) {
+  $("#image_filter").keyup(function() {
+    $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
+      complete: function(response){ $("#image_list").html(response.responseText);}
+    })
+  }); 
+  $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
+  
+  /**** Initialise the image dropzones ***/
+  $(".attached_image").Droppable(
+  	{
+  	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
+  		ondrop:	function (drag) {
+  			$.post("/admin/content/add_image/"+content_page_id+"?order="+this.id.substr(9), 
+				  {id: drag.id},
+          function(response){$("#"+this.id).html(response);}
+        )
+  		}
+  });
+  
+  /*** Load in the first page of images via ajax ***/
+  $.get("/admin/files/browse_images/1/", function(response){$("#image_list").html(response.responseText);})
+  
+});
+
+function initialise_images() {
+  
+  
+}

@@ -6,22 +6,7 @@
 	    <?=image_asset("cms", "drag_pointer.gif")?>
 	  </div>
     <div id="filter_block">
-        <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
-        <script>
-        $(document).ready(function(event) {
-          $("#image_filter").bind("keyup", function() {
-            $.ajax({
-              type: "post",
-              url: "/admin/files/image_filter", 
-              data: "filter="+$("#image_filter").val()+"", 
-              dataType: "html",
-              complete: function(response){ $("#image_list").html(response.responseText);}
-            })
-          }); 
-          $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
-        });
-      </script>
-		
+      <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
     </div>    
     
     <div id="drop_zones">
@@ -49,22 +34,6 @@
               <div class="empty_image_dropzone"></div>
             <?endif?>
           </div>
-          <script>
-          $(document).ready(function() {
-            $("#dropzone<?=$i?>").Droppable(
-            	{
-            	  accept : 'drag_image',
-            		hoverclass:	'dropzone_active',
-            		tolerance:		'pointer',
-            		ondrop:	function (drag) {
-            					$.post("/admin/content/add_image/<?=$page->id?>?order=<?=$i?>", 
-            					  {id: drag.id},
-                        function(response){$("#dropzone<?=$i?>").html(response);}
-                      )
-            				}
-            });
-          });
-          </script>
         <?endfor?>
       </div>
     </div>
@@ -76,13 +45,3 @@
   
   
 </div>
-<script>
-$(document).ready(function() {
-  $.ajax({
-    url: "/admin/files/browse_images/1/", 
-    complete: function(response){$("#image_list").html(response.responseText);}, 
-    dataType: "html",
-    type: "post"
-  })
-})
-</script>
