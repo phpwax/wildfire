@@ -126,7 +126,7 @@ class CMSHelper extends WXHelpers {
 	
 	public function preview_window($permalink, $trigger_id, $preview_pane) {
 	  $js = new JavascriptHelper;
-	  return $this->content_tag("script","setup_preview('$permalink', '$trigger_id', '$preview_pane');", array("type"=>"text/javascript"));
+	  return $js->javascript_tag("setup_preview('$permalink', '$trigger_id', '$preview_pane');");
 	}
 	
 	
