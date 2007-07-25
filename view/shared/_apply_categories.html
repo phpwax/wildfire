@@ -5,29 +5,15 @@
 	    <?=image_asset("cms", "drag_pointer.gif")?>
 	  </div>
     <div id="filter_block">
-      <form>
         <label for="new_cat">Make a new category</label><br />
         <input type="text" value="" name="new_cat" id="new_cat" />
         <a href="#" id="new_cat_create">Create</a>
-        <script>
-          $(document).ready(function() {
-            $("#new_cat_create").click(function() {
-              $.ajax({ url: "/admin/content/new_category/?cat="+$("#new_cat").val(), 
-                       complete: function(response){$("#category_list").html(response.responseText);},
-                       dataType: "html"
-              }); 
-              return false;
-            });
-          });
-        </script>
-      </form>
     </div>
     <div id="cat_dropzone">
       <?=$cat_partial?>
     </div>
     <div id="category_list">
       <?=$cat_list?>
-      
     </div>
     
   </div>

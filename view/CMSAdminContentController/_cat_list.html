@@ -1,11 +1,6 @@
 <?if(count($all_categories)):?>
     <?foreach($all_categories as $category):?>
       <div class="category_tag" id="tag_<?=$category->id?>"><?=$category->name?></div>
-      <script>
-        $("#tag_<?=$category->id?>").Draggable(
-        	{ ghosting:	true, opacity: 	0.4, revert:true}
-        );
-      </script>
     <?endforeach?>
 <?else:?>
   <p>No categories setup yet</p>
