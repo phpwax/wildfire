@@ -52,7 +52,7 @@ $(document).ready(function(event) {
   });
   
   /*** Load in the first page of images via ajax ***/
-  $.get("/admin/files/browse_images/1/", function(response){$("#image_list").html(response.responseText);})
+  $.get("/admin/files/browse_images/1/", function(response){$("#image_list").html(response);})
   
 });
 
