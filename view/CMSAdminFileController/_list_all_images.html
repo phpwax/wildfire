@@ -4,11 +4,6 @@
       <img src="/admin/files/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" /><br />
       <?=truncate($image->filename, 19)?>
     </div>
-    <script>
-      $("#<?=$image->id?>").Draggable(
-      	{ ghosting:	true, opacity: 	0.4, revert:true}
-      );
-    </script>
   <?endforeach;?>
   <?if(empty($all_images)):?>
     No images available.
@@ -17,24 +12,10 @@
   <div id="image_navigation">
 
     <?if($previous):?>
-      <a href="#" id="prev_images">&lt; back&nbsp;&nbsp; </a>
-      <script>
-          $("#prev_images").click(function(){
-            $.get("/admin/files/browse_images/<?=$previous?>",function(response){
-              $("#image_list_container").html(response);
-            })
-          });
-      </script>
+      <a href="#" id="prev_images_<?=$previous?>" class="paginate_images">&lt; back&nbsp;&nbsp; </a>
     <?endif?>
     <?if($more):?>
-      <a href="#" id="more_images"> &nbsp;&nbsp;more &gt;</a>
-      <script>
-          $("#more_images").click(function(){
-            $.get("/admin/files/browse_images/<?=$more?>",function(response){
-              $("#image_list_container").html(response);
-            })
-          });
-      </script>
+      <a href="#" id="more_images_<?=$more?>" class="paginate_images"> &nbsp;&nbsp;more &gt;</a>
     <?endif?>
   </div>
 </div>

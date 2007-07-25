@@ -17,14 +17,10 @@
             <?foreach($attached_images as $img):?>
               <?if($img->order==$i):?>
                 <img src="/admin/files/show_image/<?=$img->id?>">
-                <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_$i"))?>
+                <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_".$img->id, "class"=>"image_trash_icon"))?>
                 <script>
                   $(document).ready(function() {
-                    $("#delete_image_<?=$i?>").click(function(){
-                      $.get("/admin/content/remove_image/<?=$page->id?>?image=<?=$img->id?>",function(response){
-                        $("#dropzone<?=$i?>").html(response);
-                      })
-                    })
+                    
                   });
                 </script>
                 <?$displayed=true;?>
