@@ -50,7 +50,7 @@ $(document).ready(function(event) {
         )
   		}
   });
-  $(".drag_image").Draggable({ ghosting:	true, opacity: 	0.4, revert:true});
+  
   $(".image_trash_icon").click(function(){
     $.get("/admin/content/remove_image/"+content_page_id+"?image="+this.id.substr(14),function(response){
       this.parent().html(response);
@@ -60,12 +60,15 @@ $(document).ready(function(event) {
   /*** Load in the first page of images via ajax ***/
   $.get("/admin/files/browse_images/1/", function(response){$("#image_list").html(response);});
   $(".paginate_images").click(function(){
-    $.get("/admin/files/browse_images/"+this.id.substr(13),function(response){$("#image_list_container").html(response);})
+    $.get("/admin/files/browse_images/"+this.id.substr(13),function(response){
+      $("#image_list_container").html(response);
+      initialise_images();
+    })
   });
   
 });
 
 function initialise_images() {
-  
+  $(".drag_image").Draggable({ ghosting:	true, opacity: 	0.4, revert:true});
   
 }
