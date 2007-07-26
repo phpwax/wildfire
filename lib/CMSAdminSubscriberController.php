@@ -23,6 +23,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 
 	
 	public function send_emails(){
+	  throw new Exception;
 		$modules = array_keys($this->model->handle_options());
 		$this->model->handle = $modules[0];
 		//get the data
@@ -89,6 +90,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	
 	public function method_missing() {
 	  $class = self::$registered_email_classes[$this->action];
+	  $this->email_handle = $this->action;
 	  $this->email_class = new $class;
 	  $this->use_view="send_emails";
 	  $this->email_content = $this->email_class->get_email_content();

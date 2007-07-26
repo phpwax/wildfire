@@ -2,7 +2,7 @@
 interface CMSSubscription {
     
   public function get_email_content();
-  public function email_content_options();
+  public function email_send_options();
   
 }
 
@@ -18,13 +18,16 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
     
   }
  
-  public function get_email_content() {
+  public function get_email_content($handle) {
     return "";
   }
   
-  public function email_content_options() {
-    return $this->content_options;
+  public function fetch_emails() {
+    $email = new CmsSubscriber();
+    return $email->find_all_by_status("1");
   }
+  
+  
   
   
 }

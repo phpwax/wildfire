@@ -7,7 +7,7 @@
 <![endif]-->
 
 
-<form action=""  class="form_container" method="post" >
+<form action="/admin/subscriber/send_emails" class="form_container" method="post" >
 <div id="container">
   <ul class="tabs-nav">
     <li><a href="#section-1">Editing email content</a></li>
@@ -19,24 +19,17 @@
         <fieldset id="wysiwyg">
           <?=select($model, "handle", $model->handle_options() )?>
         	<label for="email_content">Content</label><br/>
-        	<textarea name="email_content" rows="40" cols="120" id="email_content">
-        	  <?if(is_array($email_content)):?>
-        	    <?foreach($email_content as $contents):?>
-        	      <?=$contents?>
-        	    <?endforeach?>
-        	  <?else:?>
-        	    <?=$email_content?>
-        	  <?endif?>
-        	</textarea>
+        	<textarea name="email_content" rows="40" cols="120" id="email_content"></textarea>
         	<label for="footer-preview">Footer</label>
-        	<textarea id="footer-preview" name="footer" disabled="disabled" cols="120" rows="8"><?=$footer?></textarea>
+        	<textarea id="footer-preview" name="footer" disabled="disabled" cols="120" rows="8"><?=$email_footer?></textarea>
         </fieldset>
       </div>
     </div>
 
     <fieldset id="content_options">
-      <?=large(text_field_tag("from", $from, array('disabled'=>"disabled")))?>
-      <?=large(text_field_tag("subject", $title ))?>  
+      <?=large(text_field_tag("from", ""))?>
+      <?=large(text_field_tag("subject", "" ))?>
+      <?=hidden_field_tag("email_handle", $email_handle)?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
