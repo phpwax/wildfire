@@ -27,8 +27,10 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  $this->successful = 0;
 		$this->failed = 0;
 	  $class = self::$registered_email_classes[$_POST["email_handle"]];
-	  $this->email_class = new $class; 
-	  foreach($this->email_class->fetch_emails() as $recipent){
+	  $this->email_class = new $class;
+	  if(strlen($_POST["test_emails"])>2) $recipients = explode(" ", $_POST["test_emails"]);
+	  else $recipients = $this->email_class->fetch_emails();
+	  foreach($recipients as $recipent){
 			$email = new $class;
 			$email->add_to_address($recipent->name. " <".$recipent->email.">" );
 			$email->add_replyto_address($_POST["from_email_address"], $_POST["from_name"]);
@@ -36,7 +38,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 			$email->from_name = $_POST["from_name"];
 			$email->subject = $_POST["subject"];
 			$link = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$_POST["email_handle"];
-			$footer = str_ireplace("%UNSUBSCRIBE%", $link, $this->email_class->email_footer($_POST["email_handle"]));
+			$footer = str_ireplace("%UNSUBSCRIBE%", $link, $this->email_class->email_footer);
 			$email->body = $_POST["email_content"] . $footer;
 			print_r($email); exit;
 			if($email->send()) $this->successful ++;
