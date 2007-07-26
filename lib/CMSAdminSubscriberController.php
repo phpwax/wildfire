@@ -19,69 +19,29 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		foreach(self::$registered_email_classes as $handle=>$class) {
 		  $this->sub_links[$handle] = "Send ".humanize($handle);
 		}
+		
 	}
 
 	
-	public function send_emails(){
-	  throw new Exception;
-		$modules = array_keys($this->model->handle_options());
-		$this->model->handle = $modules[0];
-		//get the data
-		$this->email_content = $this->model->get_subscribed_content();
-		$this->email_content = $this->email_content[$modules[0]];
-		$this->title = $this->email_content['title'];
-		$this->from = $this->model->get_from_email_name($this->model->handle) . " <".$this->model->get_from_email($this->model->handle).">";
-		$this->footer = $this->model->email_footer($this->model->handle);
-		unset($this->email_content['title']);
-		$this->hcount = $this->model->count_of_handle($this->model->handle);
-		//handle posted data
-		$content 	= $_POST['email_content'];
-		$subject 	= $_POST['subject'];
-		$handle 	= $_POST['cms_subscriber']['handle'];
-		if($content && $subject && $handle){
-			$this->send($handle, $content, $subject);
-			$this->use_view = "send";
-		} elseif($_POST['submit']) {
-			Session::add_message("Please complete all fields");
+	public function send_emails() {
+	  $this->successful = 0;
+		$this->failed = 0;
+	  $class = self::$registered_email_classes[$_POST["email_handle"]];	  
+	  foreach($this->email_class->fetch_emails() as $recipent){
+			$email = new $class;
+			$email->add_to_address($recipent->name. " <".$recipent->email.">" );
+			$email->add_replyto_address($_POST["from_email_address"], $_POST["from_name"]);
+			$email->from = $_POST["from_email_address"];
+			$email->from_name = $_POST["from_name"];
+			$email->subject = $_POST["subject"];
+			$link = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$_POST["email_handle"];
+			$footer = str_ireplace("%UNSUBSCRIBE%", $link, $this->email_class->email_footer($_POST["email_handle"]));
+			$email->body = $_POST["email_content"] . $footer;
+			print_r($email); exit;
+			if($email->send()) $this->successful ++;
+			else $this->failed ++;
 		}
-		
-	}
-	private function send($handle, $content, $subject){
-		if($recipents = $this->model->get_subscribers($handle)){		
-			$this->successful = 0;
-			$this->failed = 0;
-			$from_email = $this->model->get_from_email($handle);
-			$from_name = $this->model->get_from_email_name($handle);
-			foreach($recipents as $recipent){
-				$email = new WXEmail();
-				$email->add_to_address($recipent->name. " <".$recipent->email.">" );
-				$email->add_replyto_address($this->from_email, $this->from_name);
-				$email->from = $from_email;
-				$email->from_name = $from_name;
-				$email->subject = $subject;
-				$link = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$handle;
-				$footer = str_ireplace("%UNSUBSCRIBE%", $link, $this->model->email_footer($handle));
-				$email->body = $content . $footer;
-				if($email->send()) $this->successful ++;
-				else $this->failed ++;
-			}
-		} else {
-			Session::add_message("No Subscribers Found for '" . WXInflections::humanize_undasherize($handle) . "'");
-		}
-	}
-	
-	public function ajax_populate_content(){
-		//set the handle to the one selected
-		$this->model->handle = $this->param("id");
-		//get the data
-		$this->email_content = $this->model->get_subscribed_content();
-		$this->email_content = $this->email_content[$this->param("id")];
-		$this->title = $this->email_content['title'];
-		$this->footer = $this->model->email_footer($this->model->handle);
-		unset($this->email_content['title']);
-		$this->from = $this->model->get_from_email_name($this->model->handle) . " <".$this->model->get_from_email($this->model->handle).">";
-		$this->hcount = $this->model->count_of_handle($this->model->handle);
-		$this->use_layout = false;	
+		$this->use_view = "send";		
 	}
 	
 	public function init_email($class, $handle) {
