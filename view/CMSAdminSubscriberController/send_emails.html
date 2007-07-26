@@ -17,11 +17,9 @@
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
-          <?=select($model, "handle", $model->handle_options() )?>
-        	<label for="email_content">Content</label><br/>
-        	<textarea name="email_content" rows="40" cols="120" id="email_content"></textarea>
+          <?=large(simple_wysiwyg_tag("email_content", $email_content))?>
         	<label for="footer-preview">Footer</label>
-        	<textarea id="footer-preview" name="footer" disabled="disabled" cols="120" rows="8"><?=$email_footer?></textarea>
+        	<textarea id="footer-preview" name="footer" disabled="disabled" cols="80" rows="3"><?=$email_footer?></textarea>
         </fieldset>
       </div>
     </div>
