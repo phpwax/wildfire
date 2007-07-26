@@ -17,7 +17,7 @@
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
-          <?=large(simple_wysiwyg_tag("email_content", $email_content))?>
+          <?=large(simple_wysiwyg_tag("email_content", $email_content, array(), false))?>
         	<label for="footer-preview">Footer</label>
         	<textarea id="footer-preview" name="footer" cols="80" rows="3"><?=$email_footer?></textarea>
         </fieldset>
