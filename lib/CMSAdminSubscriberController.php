@@ -26,7 +26,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	public function send_emails() {
 	  $this->successful = 0;
 		$this->failed = 0;
-	  $class = self::$registered_email_classes[$_POST["email_handle"]];	  
+	  $class = self::$registered_email_classes[$_POST["email_handle"]];
+	  $this->email_class = new $class; 
 	  foreach($this->email_class->fetch_emails() as $recipent){
 			$email = new $class;
 			$email->add_to_address($recipent->name. " <".$recipent->email.">" );
