@@ -1,32 +1,51 @@
-<script type="text/javascript">
-	function previewEmail(){
-		choice = document.getElementById('cms_subscriber_handle').value;
-		new Ajax.Updater('emailcontent', "/admin/subscriber/ajax_populate_content/"+choice, {evalScripts:true});
-	}
-</script>
 
-<h2>Configure the email</h2>
+
+<?=javascript_asset("jquery","jquery.tabs.min")?>
+<?=stylesheet_asset("jquery", "jquery.tabs")?>
+<!--[if lte IE 7]>
+  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
+<![endif]-->
+
 
 <form action=""  class="form_container" method="post" >
-<fieldset>
-	<?=large(select($model, "handle", $model->handle_options(),  array('onChange'=>"previewEmail();") ) )?>	
-</fieldset>
-<fieldset id="emailcontent">
-	<?=large(text_field_tag("from", $from, array('disabled'=>"disabled")))?>
-	<?=form_divider();?>
-	<?=large(text_field_tag("subject", $title ))?>  
-	<?=form_divider();?>
-	<div class="large">
-	<label for="email_content">Content</label><br/>
-	<textarea name="email_content" rows="40" cols="120" id="email_content"><?if(is_array($email_content)):?><?foreach($email_content as $contents):?><?=$contents?><?endforeach?><?else:?><?=$email_content?><?endif?></textarea>
-	</div>
-	<?=form_divider()?>
-	<div class="large"><label for="footer-preview">Footer</label>
-	<textarea id="footer-preview" name="footer" disabled="disabled" cols="120" rows="8"><?=$footer?></textarea></div>
-	<?=form_divider()?>	
-	<input type="submit" name="submit" value="Send" onClick="return confirm('Are you sure you want to send this? (<?=$hcount?> recipients)');"/>
+<div id="container">
+  <ul class="tabs-nav">
+    <li><a href="#section-1">Editing email content</a></li>
+  </ul>
   
-</fieldset>
+  <div id="content_window" class="clearfix">
+    <div id="content_editor">
+      <div id="section-1" class="tabs-container">
+        <fieldset id="wysiwyg">
+          <?=select($model, "handle", $model->handle_options(),  array('id'=>"fetch_content") )?>
+        	<label for="email_content">Content</label><br/>
+        	<textarea name="email_content" rows="40" cols="120" id="email_content"><?if(is_array($email_content)):?><?foreach($email_content as $contents):?><?=$contents?><?endforeach?><?else:?><?=$email_content?><?endif?></textarea>
+        	<label for="footer-preview">Footer</label>
+        	<textarea id="footer-preview" name="footer" disabled="disabled" cols="120" rows="8"><?=$footer?></textarea>
+        </fieldset>
+      </div>
+    </div>
 
-</form>
+    <fieldset id="content_options">
+      <?=large(text_field_tag("from", $from, array('disabled'=>"disabled")))?>
+      <?=large(text_field_tag("subject", $title ))?>  
+    </fieldset>
+    <div class="clearfix"></div>
+    <fieldset id="submit">
+    	<input type="submit" name="submit" value="Send" onClick="return confirm('Are you sure you want to send this? (<?=$hcount?> recipients)');"/>
+    </fieldset>
+  </div>
+
 </div>
+</form>
+
+<script>
+  $(document).ready(function() {
+      $("#container").tabs();
+      $("#fetch_content").change(function() {
+        $.get("/admin/subscriber/ajax_populate_content/"+$("#cms_subscriber_handle").val(), function(response){
+          $("#emailcontent").html(response);
+        });
+      });
+  });
+</script>
