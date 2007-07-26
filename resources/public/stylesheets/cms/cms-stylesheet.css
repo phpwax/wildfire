@@ -54,6 +54,10 @@ strong {
 em {
   font-style:italic;
 }
+hr {
+  visibility:hidden;
+}
+
 /*-- status boxes --*/
 .user_information {
 	color:#333333;
