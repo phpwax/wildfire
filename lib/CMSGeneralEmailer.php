@@ -2,7 +2,7 @@
 interface CMSSubscription {
     
   public function get_email_content();
-  public function email_send_options();
+  public function fetch_emails();
   
 }
 
