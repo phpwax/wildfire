@@ -13,12 +13,13 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
   public $content_options = array();
   
   
+  
   public function __construct() {
     
   }
  
-  public function get_email_content($handle) {
-    
+  public function get_email_content() {
+    return "";
   }
   
   public function email_content_options() {
