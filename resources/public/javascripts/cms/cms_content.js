@@ -59,6 +59,7 @@ $(document).ready(function(event) {
   /*** Load in the first page of images via ajax ***/
   $.get("/admin/files/browse_images/1/", function(response){
     $("#image_list").html(response);
+    initialise_images();
   });
   
   $(".paginate_images").click(function(){
@@ -67,7 +68,6 @@ $(document).ready(function(event) {
       initialise_images();
     })
   });
-  initialise_images();
 });
 
 function initialise_images() {
