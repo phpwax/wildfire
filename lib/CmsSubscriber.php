@@ -1,5 +1,4 @@
 <?
-
 class CmsSubscriber extends WXActiveRecord {  
 	private $from_email = "info@waa.co.uk";
 	private $from_name = "Latest Information";

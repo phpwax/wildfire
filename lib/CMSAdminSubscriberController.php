@@ -10,11 +10,15 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		"status"	=> array()
   );
 	public $filter_columns = array("name", "email", "handle");
+	static public $registered_email_classes = array();
 	
 	
 	public function __construct(){
 		parent::__construct();
-		$this->sub_links['send_emails'] = "Send Emails";
+		self::$registered_email_classes["general_emailer"]="CMSGeneralEmailer";
+		foreach(self::$registered_email_classes as $email_link) {
+		  $this->sub_links[$handle] = "Send ".humanize($handle);
+		}
 	}
 
 	
@@ -77,6 +81,17 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		$this->from = $this->model->get_from_email_name($this->model->handle) . " <".$this->model->get_from_email($this->model->handle).">";
 		$this->hcount = $this->model->count_of_handle($this->model->handle);
 		$this->use_layout = false;	
+	}
+	
+	public function init_email($class, $handle) {
+	  self::$registered_email_classes[$handle]=$class;
+	}
+	
+	public function __call($method, $vals) {
+	  $class = self::$registered_email_classes[$method];
+	  $this->email_class = new $class;
+	  $this->use_view="send_emails";
+	  $this->email_content = $this->email_class->get_email_content();
 	}
 	
 }
