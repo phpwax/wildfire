@@ -16,7 +16,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	public function __construct(){
 		parent::__construct();
 		self::$registered_email_classes["general_emailer"]="CMSGeneralEmailer";
-		foreach(self::$registered_email_classes as $email_link) {
+		foreach(self::$registered_email_classes as $handle=>$class) {
 		  $this->sub_links[$handle] = "Send ".humanize($handle);
 		}
 	}
