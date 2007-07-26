@@ -32,8 +32,10 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  else $recipients = $this->email_class->fetch_emails();
 	  foreach($recipients as $recipent){
 			$email = new $class;
-			$email->add_to_address($recipent->name. " <".$recipent->email.">" );
-			$email->add_replyto_address($_POST["from_email_address"], $_POST["from_name"]);
+			if($recipient instanceof CmsSubscriber) {
+			  $email->add_to_address($recipent->name. " <".$recipent->email.">" );
+			  $email->add_replyto_address($_POST["from_email_address"], $_POST["from_name"]);
+			} else $email->add_to_address($recipient);
 			$email->from = $_POST["from_email_address"];
 			$email->from_name = $_POST["from_name"];
 			$email->subject = $_POST["subject"];
