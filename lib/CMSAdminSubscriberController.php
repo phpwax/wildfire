@@ -94,7 +94,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  $this->email_class = new $class;
 	  $this->use_view="send_emails";
 	  $this->email_content = $this->email_class->get_email_content($this->email_handle);
-	  $this->email_footer = $this->email_class->footer;
+	  $this->email_footer = $this->email_class->email_footer;
 	  $this->hcount = count($this->email_class->fetch_emails());
 	}
 	
