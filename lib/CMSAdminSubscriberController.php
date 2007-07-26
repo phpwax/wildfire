@@ -29,8 +29,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  $class = self::$registered_email_classes[$_POST["email_handle"]];
 	  $this->email_class = new $class;
 	  if(strlen($_POST["test_emails"])>2 && strpos($_POST["test_emails"], " ")) $recipients = explode(" ", $_POST["test_emails"]);
-	  elseif(strlen($_POST["test_emails"] >2 && strpos($_POST["test_emails"], "\n")) $recipients = explode("\n", $_POST["test_emails"]);
-	  elseif(strlen($_POST["test_emails"] > 2) $recipients = array($recipients);
+	  elseif(strlen($_POST["test_emails"]) >2 && strpos($_POST["test_emails"], "\n")) $recipients = explode("\n", $_POST["test_emails"]);
+	  elseif(strlen($_POST["test_emails"]) > 2) $recipients = array($recipients);
 	  else $recipients = $this->email_class->fetch_emails();
 	  foreach($recipients as $recipent){
 			$email = new $class;
