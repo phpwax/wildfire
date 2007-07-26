@@ -17,7 +17,7 @@
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
-          <?=select($model, "handle", $model->handle_options(),  array('id'=>"fetch_content") )?>
+          <?=select($model, "handle", $model->handle_options() )?>
         	<label for="email_content">Content</label><br/>
         	<textarea name="email_content" rows="40" cols="120" id="email_content"><?if(is_array($email_content)):?><?foreach($email_content as $contents):?><?=$contents?><?endforeach?><?else:?><?=$email_content?><?endif?></textarea>
         	<label for="footer-preview">Footer</label>
@@ -42,7 +42,7 @@
 <script>
   $(document).ready(function() {
       $("#container").tabs();
-      $("#fetch_content").change(function() {
+      $("#cms_subscriber_handle").change(function() {
         $.get("/admin/subscriber/ajax_populate_content/"+$("#cms_subscriber_handle").val(), function(response){
           $("#emailcontent").html(response);
         });
