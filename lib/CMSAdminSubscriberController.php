@@ -87,8 +87,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  self::$registered_email_classes[$handle]=$class;
 	}
 	
-	public function __call($method, $vals) {
-	  $class = self::$registered_email_classes[$method];
+	public function method_missing($method) {
+	  $class = self::$registered_email_classes[$this->action];
 	  $this->email_class = new $class;
 	  $this->use_view="send_emails";
 	  $this->email_content = $this->email_class->get_email_content();
