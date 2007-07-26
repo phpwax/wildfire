@@ -49,7 +49,7 @@ class CmsContent extends WXActiveRecord {
 	}
 	
 	public function published_content($url, $section, $params=array()) {
-	  $condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')) AND (`expires` = 0 OR `expires` IS NULL OR DATE_FORMAT(`expires`, '%y%m%d') >=  DATE_FORMAT(NOW(),'%y%m%d') )";
+    $condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d'))";
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
 	  else $params['conditions'] = $condition;
 	  if(!$params['order']) $params['order'] = "published DESC";
