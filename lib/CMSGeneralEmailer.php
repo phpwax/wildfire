@@ -31,7 +31,21 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
     $this->unsubscribe = $unsubscribe;
   }
   
-  
+  public function get_templates($action) {
+    $view = PLUGIN_DIR."cms/view/CMSGeneralEmailer/".$action;
+    $html = $view.".html";
+    $txt =  $view.".txt";
+    if(is_readable($html && is_readable($txt))) {
+      $this->is_html(true);
+      $this->body=WXControllerBase::view_to_string($view, $this);
+      $this->alt_body = WXControllerBase::view_to_string($view, $this, "txt");
+    } elseif(is_readable($html)) {
+      $this->is_html(true);
+      $this->body=WXControllerBase::view_to_string($view, $this);
+    } elseif(!is_readable($html) && is_readable($txt)) {
+      $this->body = WXControllerBase::view_to_string($view, $this, "txt");
+    }
+  }
   
   
 }
