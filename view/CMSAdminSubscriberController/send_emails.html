@@ -23,9 +23,9 @@
     </div>
 
     <fieldset id="content_options">
-      <?=large(text_field_tag("from_email_address", ""))?>
-      <?=large(text_field_tag("from_name", ""))?>
-      <?=large(text_field_tag("email_subject", "" ))?>
+      <?=large(text_field_tag("from_email_address", $from_email))?>
+      <?=large(text_field_tag("from_name", $from_name))?>
+      <?=large(text_field_tag("email_subject", $email_subject ))?>
       <?=large(text_area_tag("test_emails", "", array(), "Send test to these emails only" ))?>
       <?=hidden_field_tag("email_handle", $email_handle)?>
     </fieldset>
