@@ -40,8 +40,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
   			$to_name = $recipient;
 		  }
 			$unsubscribe = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$_POST["email_handle"];
-			if($email->send_$handle($to_email, $to_name, $_POST["from_email_address"], $_POST["from_name"], 
-			$_POST["subject"], $_POST["email_content"], $unsubscribe) ) {
+			$method = "send_".$handle;
+			if($email->$method($to_email, $to_name, $_POST["from_email_address"], $_POST["from_name"], $_POST["subject"], $_POST["email_content"], $unsubscribe)) {
 			  $this->successful ++; 
 			} else $this->failed ++;
 		}
