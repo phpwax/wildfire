@@ -1,5 +1,8 @@
-<?=$email_content?>
-
+<?if($email_content):?>
+  <?=$email_content?>
+<?else:?>
+  Put email content here.
+<?endif?>
 
 -----------
 Follow this link to unsubscribe <?=$unsubscribe?>

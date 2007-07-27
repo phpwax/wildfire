@@ -12,7 +12,6 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
  
   public function get_email_content($handle) {
     $this->get_templates($handle);
-    print_r($this); exit;
     return $this->body;
   }
   
