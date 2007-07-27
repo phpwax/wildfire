@@ -1,0 +1,6 @@
+<?=$email_content?>
+
+
+-----------
+Follow this link to unsubscribe <?=$unsubscribe?>
+

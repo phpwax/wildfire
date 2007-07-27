@@ -19,10 +19,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		foreach(self::$registered_email_classes as $handle=>$class) {
 		  $this->sub_links[$handle] = "Send ".humanize($handle);
 		}
-		
 	}
 
-	
 	public function send_emails() {
 	  $this->successful = 0;
 		$this->failed = 0;
@@ -35,18 +33,17 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  foreach($recipients as $recipent){
 			$email = new $class;
 			if($recipient instanceof CmsSubscriber) {
-			  $email->add_to_address($recipent->name. " <".$recipent->email.">" );
-			  $email->add_replyto_address($_POST["from_email_address"], $_POST["from_name"]);
-			} else $email->add_to_address($recipient);
-			$email->from = $_POST["from_email_address"];
-			$email->from_name = $_POST["from_name"];
-			$email->subject = $_POST["subject"];
-			$link = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$_POST["email_handle"];
-			$footer = str_ireplace("%UNSUBSCRIBE%", $link, $this->email_class->email_footer);
-			$email->body = $_POST["email_content"] . $footer;
-			print_r($email); exit;
-			if($email->send()) $this->successful ++;
-			else $this->failed ++;
+			 $to_email = $recipient->email; 
+			 $to_name = $recipient->name; 
+		  } else {
+		    $to_email = $recipient; 
+  			$to_name = $recipient;
+		  }
+			$unsubscribe = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$_POST["email_handle"];
+			if($email->send_$handle($to_email, $to_name, $_POST["from_email_address"], $_POST["from_name"], 
+			$_POST["subject"], $_POST["email_content"], $unsubscribe) ) {
+			  $this->successful ++; 
+			} else $this->failed ++;
 		}
 		$this->use_view = "send";		
 	}
