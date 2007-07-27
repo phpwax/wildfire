@@ -10,16 +10,9 @@ interface CMSSubscription {
 
 class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
  
-  public $content_options = array();
-  public $email_footer = "\n\n----------------\nFollow this link to unsubscribe %UNSUBSCRIBE%\n\n";
-  
-  
-  public function __construct() {
-    
-  }
- 
   public function get_email_content($handle) {
     $this->get_templates($handle);
+    print_r($this); exit;
     return $this->body;
   }
   
