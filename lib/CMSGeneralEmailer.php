@@ -42,7 +42,7 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
       $this->is_html(true);
       $this->body=$this->view_to_string($view, $this);
     } elseif(!is_readable($html) && is_readable($txt)) {
-      $this->body = p2nl($this->view_to_string($view, $this, "txt"));
+      $this->body = strip_tags(p2nl($this->view_to_string($view, $this, "txt")));
     }
   }
   
