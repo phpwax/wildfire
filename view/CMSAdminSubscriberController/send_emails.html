@@ -31,20 +31,9 @@
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
-    	<input type="submit" name="submit" value="Send" onClick="return confirm('Are you sure you want to send this? (<?=$hcount?> recipients)');"/>
+    	<input type="submit" name="submit" value="Send" id="<?=$hcount?>_email_send" class="email_send_button" />
     </fieldset>
   </div>
 
 </div>
 </form>
-
-<script>
-  $(document).ready(function() {
-      $("#container").tabs();
-      $("#cms_subscriber_handle").change(function() {
-        $.get("/admin/subscriber/ajax_populate_content/"+$("#cms_subscriber_handle").val(), function(response){
-          $("#emailcontent").html(response);
-        });
-      });
-  });
-</script>

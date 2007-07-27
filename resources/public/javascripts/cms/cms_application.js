@@ -9,3 +9,11 @@ function setup_preview(permalink, trigger_id, preview_pane) {
     });
   });
 }
+
+$(document).ready(function() {
+  $("#container").tabs();
+  $(".email_send_button").click(function(){
+    if($("#test_emails").val().length > 4) return confirm('This email will be sent to the test emails only? (Real email would be sent to'+this.id.substring(0,2) +' recipients)');
+    else return confirm('Are you sure you want to send this? ('+this.id.substring(0,2) +' recipients)');
+  })
+});
