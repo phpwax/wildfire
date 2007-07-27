@@ -37,15 +37,21 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
     $txt =  $view.".txt";
     if(is_readable($html && is_readable($txt))) {
       $this->is_html(true);
-      $this->body=WXControllerBase::view_to_string($view, $this);
-      $this->alt_body = WXControllerBase::view_to_string($view, $this, "txt");
+      $this->body=$this->view_to_string($view, $this);
+      $this->alt_body = $this->view_to_string($view, $this, "txt");
     } elseif(is_readable($html)) {
       $this->is_html(true);
-      $this->body=WXControllerBase::view_to_string($view, $this);
+      $this->body=$this->view_to_string($view, $this);
     } elseif(!is_readable($html) && is_readable($txt)) {
-      $this->body = WXControllerBase::view_to_string($view, $this, "txt");
+      $this->body = $this->view_to_string($view, $this, "txt");
     }
   }
+  
+  public function view_to_string($view_path, $values=array(), $suffix="html") {
+		$view= new WXTemplate($values);
+		$view->add_path($view_path);
+		return $view->parse($suffix);
+	}
   
   
 }
