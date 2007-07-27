@@ -21,7 +21,7 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
   }
   
   public function general_emailer($to_email, $to_name, $from_email, $from_name, $subject, $content, $unsubscribe) {
-		$this->add_to_address($to_name. " <".$to_email.">" );
+		$this->add_to_address($to_email, $to_name);
 		$this->add_replyto_address($from_email, $from_name);
 		$this->from = $from_email;
 		$this->from_name = $from_name;
