@@ -30,7 +30,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  elseif(strlen($_POST["test_emails"]) >2 && strpos($_POST["test_emails"], "\n")) $recipients = explode("\n", $_POST["test_emails"]);
 	  elseif(strlen($_POST["test_emails"]) > 2) $recipients = array($recipients);
 	  else $recipients = $this->email_class->fetch_emails();
-	  foreach($recipients as $recipent){
+	  foreach($recipients as $recipient){
 			$email = new $class;
 			if($recipient instanceof CmsSubscriber) {
 			 $to_email = $recipient->email; 
@@ -41,7 +41,7 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		  }
 			$unsubscribe = "http://".$_SERVER['HTTP_HOST']. "/subscribe/unsubscribe/".md5($recipent->email)."?handle=".$_POST["email_handle"];
 			$method = "send_".$_POST["email_handle"];
-			if($email->$method($to_email, $to_name, $_POST["from_email_address"], $_POST["from_name"], $_POST["subject"], $_POST["email_content"], $unsubscribe)) {
+			if($email->$method($to_email, $to_name, $_POST["from_email_address"], $_POST["from_name"], $_POST["email_subject"], $_POST["email_content"], $unsubscribe)) {
 			  $this->successful ++; 
 			} else $this->failed ++;
 		}

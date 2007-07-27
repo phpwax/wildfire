@@ -20,7 +20,7 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
     return $email->find_all_by_status("1");
   }
   
-  public function send_general_emailer($to_email, $to_name, $from_email, $from_name, $subject, $content, $unsubscribe) {
+  public function general_emailer($to_email, $to_name, $from_email, $from_name, $subject, $content, $unsubscribe) {
 		$this->add_to_address($to_name. " <".$to_email.">" );
 		$this->add_replyto_address($from_email, $from_name);
 		$this->from = $from_email;
