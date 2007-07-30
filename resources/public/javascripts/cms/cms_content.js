@@ -64,14 +64,7 @@ $(document).ready(function(event) {
     initialise_images();
   });
   
-  /*** Setup image pagination ***/
   
-  $(".paginate_images").click(function(){
-    $.get("/admin/files/browse_images/"+this.id.substr(12),{},function(response){
-      $("#image_list").html(response);
-      initialise_images();
-    })
-  });
 });
 
 function initialise_images() {
@@ -82,6 +75,16 @@ function initialise_images() {
       initialise_images();
     })
   });
+  
+  /*** Setup image pagination ***/
+  
+  $(".paginate_images").click(function(){
+    $.get("/admin/files/browse_images/"+this.id.substr(12),{},function(response){
+      $("#image_list").html(response);
+      initialise_images();
+    })
+  });
+  
 }
 
 

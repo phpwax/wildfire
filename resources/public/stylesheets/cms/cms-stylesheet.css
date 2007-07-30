@@ -420,6 +420,7 @@ h4{
 }
 .attached_image {
   border:0;
+  margin-left:10px;
 }
 .browse_image {
   float:left;
