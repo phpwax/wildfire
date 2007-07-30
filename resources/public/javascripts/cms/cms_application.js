@@ -14,7 +14,7 @@ function setup_preview(permalink, trigger_id, preview_pane) {
 
 /* Tab setup and emailer setup for CMSGeneralEmailer */
 $(document).ready(function() {
-  $("#container").tabs();
+  if($("#container").length) $("#container").tabs();
   $(".email_send_button").click(function(){
     if($("#test_emails").val().length > 4) return confirm('This will be sent to TEST EMAILS ONLY!\n (Real email would be sent to '+this.id.substring(0,this.id.indexOf("_")) +' recipients)');
     else return confirm('Are you sure you want to send this to '+this.id.substring(0,this.id.indexOf("_")) +' recipients?');
@@ -24,6 +24,8 @@ $(document).ready(function() {
 
 /* JS Table initialisation for index.html */
 $(document).ready(function() {
-  $("#item_list_container").tableSorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
+  if($("#item_list_container").length) {
+    $("#item_list_container").tableSorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
+  }
 })
