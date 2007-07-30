@@ -32,11 +32,13 @@ function initialise_draggables() {
 
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
+
   $("#image_filter").keyup(function() {
     $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
       complete: function(response){ $("#image_list").html(response.responseText);}
     })
   }); 
+
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   
   /**** Initialise the image dropzones ***/
@@ -62,9 +64,11 @@ $(document).ready(function(event) {
     initialise_images();
   });
   
+  /*** Setup image pagination ***/
+  
   $(".paginate_images").click(function(){
     $.get("/admin/files/browse_images/"+this.id.substr(13),function(response){
-      $("#image_list_container").html(response);
+      $("#image_list").html(response);
       initialise_images();
     })
   });
