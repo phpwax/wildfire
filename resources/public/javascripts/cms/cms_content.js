@@ -67,7 +67,7 @@ $(document).ready(function(event) {
   /*** Setup image pagination ***/
   
   $(".paginate_images").click(function(){
-    $.get("/admin/files/browse_images/"+this.id.substr(13),function(response){
+    $.get("/admin/files/browse_images/"+this.id.substr(12),function(response){
       $("#image_list").html(response);
       initialise_images();
     })
