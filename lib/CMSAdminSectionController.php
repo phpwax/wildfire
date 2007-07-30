@@ -14,7 +14,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	public $order_by_columns = array("title","url");
 
 	public function controller_global() {
-		$this->tree_collection = $this->model->sections_as_collection("1");
+		$this->tree_collection = $this->model->sections_as_collection();
+		array_unshift(array("0"=>"None"), $this->tree_collection);
 		$this->sub_links["order"] = "Change the order of sections";
 	}
 	
