@@ -10,6 +10,9 @@ function setup_preview(permalink, trigger_id, preview_pane) {
   });
 }
 
+
+
+/* Tab setup and emailer setup for CMSGeneralEmailer */
 $(document).ready(function() {
   $("#container").tabs();
   $(".email_send_button").click(function(){
@@ -17,3 +20,10 @@ $(document).ready(function() {
     else return confirm('Are you sure you want to send this to '+this.id.substring(0,this.id.indexOf("_")) +' recipients?');
   })
 });
+
+
+/* JS Table initialisation for index.html */
+$(document).ready(function() {
+  $("#item_list_container").tableSorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
+      stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
+})
