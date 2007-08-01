@@ -1,7 +1,7 @@
 $(document).ready(
 	function()
 	{
-		tree = $('.php-file-tree');
+		tree = $('#php-file-tree');
 		$('li', tree.get(0)).each(
 			function()
 			{
