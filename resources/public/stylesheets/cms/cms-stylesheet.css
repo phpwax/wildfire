@@ -722,6 +722,8 @@ li.pagination_link a {
 #file_browse_header {
 	background-color:#dddddc;
   padding:5px 20px;
+  font-weight:bold;
+  font-size:100%;
 }
 #file_tree_head, #file_contents_head {
   float:left;
