@@ -724,12 +724,16 @@ li.pagination_link a {
   padding:5px 20px;
   font-weight:bold;
   font-size:100%;
+  color:#3F3C3C;
 }
 #file_tree_head, #file_contents_head {
   float:left;
 }
 #file_tree_head {
   width:240px;
+}
+#file_tree {
+  background:url(../../images/cms/file_browse_divide.gif) repeat-y right top;
 }
 
 
