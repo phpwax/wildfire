@@ -25,7 +25,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function index() {
 	  parent::index();
-	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/");
+	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
 	}
 	
 	public function show_image() {
@@ -113,7 +113,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   public function file_tree_dir($directory, $return_link, $extensions = array(), $first_call = true) {
 
   	// Get and sort directories/files
-  	if( function_exists("scandir") ) $file = scandir($directory); else $file = php4_scandir($directory);
+  	$file = scandir($directory);
   	natcasesort($file);
   	// Make directories first
   	$files = $dirs = array();
