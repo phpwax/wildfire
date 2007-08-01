@@ -16,7 +16,7 @@ class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
 		$this->from = $from_email;
 		$this->from_name = $from_name;
 		$this->subject = $subject;
-    $this->email_content = $content;
+    $this->email_content = CmsContent::convert_word($content);
     $this->unsubscribe = $unsubscribe;
   }
   

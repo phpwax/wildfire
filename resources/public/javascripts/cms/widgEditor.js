@@ -1567,7 +1567,7 @@ String.prototype.validTags = function()
 		{
 			match = match.replace(/( [^=]+=)([^"][^ >]*)/g, "$1\"$2\"");
 			
-			return match;
+			return match;bla
 		});
 		
 	return theString;
