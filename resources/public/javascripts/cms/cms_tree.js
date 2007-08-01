@@ -8,9 +8,9 @@ $(document).ready(
 				subbranch = $('ul', this);
 				if (subbranch.size() > 0) {
 					if (subbranch.eq(0).css('display') == 'none') {
-						$(this).prepend('<img src="/images/cms/bullet_toggle_plus.png" width="16" height="16" class="expandImage" />');
+						$(this).prepend('<img src="/images/cms/bullet_toggle_plus.gif" width="16" height="16" class="expandImage" />');
 					} else {
-						$(this).prepend('<img src="/images/cms/bullet_toggle_minus.png" width="16" height="16" class="expandImage" />');
+						$(this).prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="16" height="16" class="expandImage" />');
 					}
 				} else {
 					$(this).prepend('<img src="images/spacer.gif" width="16" height="16" class="expandImage" />');
@@ -24,10 +24,10 @@ $(document).ready(
 					subbranch = $('ul', this.parentNode).eq(0);
 					if (subbranch.css('display') == 'none') {
 						subbranch.show();
-						this.src = '/images/cms/bullet_toggle_minus.png';
+						this.src = '/images/cms/bullet_toggle_minus.gif';
 					} else {
 						subbranch.hide();
-						this.src = '/images/cms/bullet_toggle_plus.png';
+						this.src = '/images/cms/bullet_toggle_plus.gif';
 					}
 				}
 			}
@@ -51,7 +51,7 @@ $(document).ready(
 									function()
 									{
 										$(targetBranch).show();
-										$('img.expandImage', targetBranch.parentNode).eq(0).attr('src', '/images/cms/bullet_toggle_minus.png');
+										$('img.expandImage', targetBranch.parentNode).eq(0).attr('src', '/images/cms/bullet_toggle_minus.gif');
 										$.recallDroppables();
 									},
 									500
@@ -89,7 +89,7 @@ $(document).ready(
 					}
 					expander = $('img.expandImage', this.parentNode);
 					if (expander.get(0).src.indexOf('spacer') > -1)
-						expander.get(0).src = '/images/cms/bullet_toggle_minus.png';
+						expander.get(0).src = '/images/cms/bullet_toggle_minus.gif';
 				}
 			}
 		);
