@@ -718,6 +718,12 @@ li.pagination_link a {
   border:0;
 }
 
+/******* File browser styling *******/
+#file_browse_header {
+	background-color:#dddddc;
+  padding:5px 20px;
+}
+
 
 .clearfix:after {
 	content:".";
