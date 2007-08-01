@@ -8,9 +8,9 @@ $(document).ready(
 				subbranch = $('ul', this);
 				if (subbranch.size() > 0) {
 					if (subbranch.eq(0).css('display') == 'none') {
-						$(this).prepend('<img src="images/bullet_toggle_plus.png" width="16" height="16" class="expandImage" />');
+						$(this).prepend('<img src="/images/cms/bullet_toggle_plus.png" width="16" height="16" class="expandImage" />');
 					} else {
-						$(this).prepend('<img src="images/bullet_toggle_minus.png" width="16" height="16" class="expandImage" />');
+						$(this).prepend('<img src="/images/cms/bullet_toggle_minus.png" width="16" height="16" class="expandImage" />');
 					}
 				} else {
 					$(this).prepend('<img src="images/spacer.gif" width="16" height="16" class="expandImage" />');
