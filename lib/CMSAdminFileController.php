@@ -23,6 +23,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->file_size = floor( filesize($this->show_file->path.$this->show_file->filename) / 1024)." Kb";
 	}
 	
+	public function index() {
+	  parent::index();
+	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/");
+	}
+	
 	public function show_image() {
   	$this->use_view=false;
 		$this->use_layout=false;
@@ -97,7 +102,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->image = new $this->model_class($this->param('id'));
   }
   
-  function file_tree($directory, $return_link, $extensions = array()) {
+  public function file_tree($directory, $return_link, $extensions = array()) {
   	// Generates a valid XHTML list of all directories, sub-directories, and files in $directory
   	// Remove trailing slash
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
@@ -105,8 +110,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	return $code;
   }
 
-  function file_tree_dir($directory, $return_link, $extensions = array(), $first_call = true) {
-  	// Recursive function called by php_file_tree() to list directories/files
+  public function file_tree_dir($directory, $return_link, $extensions = array(), $first_call = true) {
 
   	// Get and sort directories/files
   	if( function_exists("scandir") ) $file = scandir($directory); else $file = php4_scandir($directory);

@@ -15,7 +15,11 @@
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
-          <?=$filter_block_partial?>
+          <div id="file_browse_header">
+            <div id="file_tree_head">Folders and files</div>
+            <div id="file_contents_head">Folder Contents</div>
+          </div>
+          <div id="file_tree"><?=$file_tree?></div>
           <div id="list_rows" class="clearfix">
             <?=$list?> 
           </div>
