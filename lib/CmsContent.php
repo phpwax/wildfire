@@ -93,10 +93,10 @@ class CmsContent extends WXActiveRecord {
                       chr(0xe2) . chr(0x80) . chr(0x94),
                       chr(0xe2) . chr(0x80) . chr(0xa6));
 
-      $replace = array('&lsquo;',
-                       '&rsquo;',
-                       '&ldquo;',
-                       '&rdquo;',
+      $replace = array("'",
+                       "'",
+                       '"',
+                       '"',
                        '&ndash;',
                        '&mdash;',
                        "...");
