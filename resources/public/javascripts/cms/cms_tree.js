@@ -24,10 +24,10 @@ $(document).ready(
 					subbranch = $('ul', this.parentNode).eq(0);
 					if (subbranch.css('display') == 'none') {
 						subbranch.show();
-						this.src = 'images/bullet_toggle_minus.png';
+						this.src = '/images/cms/bullet_toggle_minus.png';
 					} else {
 						subbranch.hide();
-						this.src = 'images/bullet_toggle_plus.png';
+						this.src = '/images/cms/bullet_toggle_plus.png';
 					}
 				}
 			}
@@ -51,7 +51,7 @@ $(document).ready(
 									function()
 									{
 										$(targetBranch).show();
-										$('img.expandImage', targetBranch.parentNode).eq(0).attr('src', 'images/bullet_toggle_minus.png');
+										$('img.expandImage', targetBranch.parentNode).eq(0).attr('src', '/images/cms/bullet_toggle_minus.png');
 										$.recallDroppables();
 									},
 									500
@@ -89,7 +89,7 @@ $(document).ready(
 					}
 					expander = $('img.expandImage', this.parentNode);
 					if (expander.get(0).src.indexOf('spacer') > -1)
-						expander.get(0).src = 'images/bullet_toggle_minus.png';
+						expander.get(0).src = '/images/cms/bullet_toggle_minus.png';
 				}
 			}
 		);
