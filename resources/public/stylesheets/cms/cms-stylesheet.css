@@ -723,6 +723,12 @@ li.pagination_link a {
 	background-color:#dddddc;
   padding:5px 20px;
 }
+#file_tree_head, #file_contents_head {
+  float:left;
+}
+#file_tree_head {
+  width:240px;
+}
 
 
 .clearfix:after {
