@@ -745,6 +745,13 @@ li.pagination_link a {
   padding:3px 10px;
 }
 
+.pft-directory {
+  background:url(../../images/cms/cms-directory-icon.gif) no-repeat;
+  padding-left:18px;
+}
+
+
+
 .clearfix:after {
 	content:".";
 	display:block;
