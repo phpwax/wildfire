@@ -734,8 +734,11 @@ li.pagination_link a {
 }
 #file_tree {
   background:url(../../images/cms/file_browse_divide.gif) repeat-y right top;
+  float:left;
 }
-
+#list_rows {
+  float:left;
+}
 
 .clearfix:after {
 	content:".";
