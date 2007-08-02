@@ -175,6 +175,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	protected function unslashify($path) {
+	  $path = str_replace(PUBLIC_DIR, "", $path);
     return str_replace('/', '_', $path);
 	}
 
