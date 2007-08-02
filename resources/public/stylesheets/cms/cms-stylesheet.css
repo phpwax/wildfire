@@ -725,6 +725,7 @@ li.pagination_link a {
   font-weight:bold;
   font-size:100%;
   color:#3F3C3C;
+  border:1px solid #DDDDDC;
 }
 #file_tree_head, #file_contents_head {
   float:left;
@@ -745,6 +746,15 @@ li.pagination_link a {
   padding:3px 10px;
 }
 
+#file_tree_files {
+  overflow:auto;
+}
+#file_tree_files .file_preview {
+  margin:5px 15px 15px 5px;
+}
+#file_tree_files .file_preview a {
+  color:#3F3C3C;
+}
 .pft-directory a {
   background:url(../../images/cms/cms-folder-icon.gif) no-repeat;
 }
