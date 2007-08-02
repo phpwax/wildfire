@@ -22,6 +22,12 @@ class CmsFile extends WXFileActiveRecord {
 	  return $this->find_all(array("conditions"=>"type NOT LIKE '%image%'"));
 	}
 	
+	public function file_size() {
+	  $size = floor( filesize($this->path.$this->filename) / 1024);
+	  if($size < 1024) return $size." Kb";
+	  return ($size / 1024)." Mb"; 
+	}
+	
 	
 }
 
