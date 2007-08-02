@@ -748,6 +748,8 @@ li.pagination_link a {
 
 #file_tree_files {
   overflow:auto;
+  margin-left:210px;
+  float:none;
 }
 #file_tree_files .file_preview {
   margin:5px 15px 15px 5px;
