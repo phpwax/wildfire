@@ -106,7 +106,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	// Generates a valid XHTML list of all directories, sub-directories, and files in $directory
   	// Remove trailing slash
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
-  	$code = "<ul id='file_tree_container'><li id='".underscore($directory)."'>"
+  	$code = "<ul id='file_tree_container'><li id='".underscore($directory)."'>";
   	$code .= $this->file_tree_dir($directory, $return_link, $extensions);
   	$code .= "</li></ul>";
   	return $code;
