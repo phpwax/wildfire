@@ -141,7 +141,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   			if( $this_file != "." && $this_file != ".." ) {
   				if( is_dir("$directory/$this_file") ) {
   					// Directory
-  					$php_file_tree .= "<li class=\"pft-directory\"><a href=\"#\" id='".$this->unslashify($directory.$this_file)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a>";
+  					$php_file_tree .= "<li class=\"pft-directory\"><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a>";
   					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
   					$php_file_tree .= "</li>";
   				} 
