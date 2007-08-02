@@ -1,11 +1,11 @@
 <?foreach($all_rows as $image):?>
   <div class="file_preview" id="<?=$image->id?>">
-    <img src="/admin/files/show_image/<?=$image->id?>/55<?=$image->extension?>" title="<?=$image->caption?>" class=""/><br />
+    <img src="/admin/files/show_image/<?=$image->id?>/50<?=$image->extension?>" title="<?=$image->caption?>" class=""/><br />
     <a href="edit/<?=$image->id?>"><?=truncate($image->filename, 15)?> (<?=$image->file_size?>)</a>
-    <?=link_to(image_asset("cms","file_delete.gif"), array("action"=>"delete", "id"=>$image->id), array("confirm"=>"Are You Sure?"))?>
+    <?=link_to(image_asset("cms","file_delete.gif"), array("controller"=>"admin/files", "action"=>"delete", "id"=>$image->id), array("confirm"=>"Are You Sure?"))?>
   </div>
 <?endforeach;?>
 <?if(empty($all_rows)):?>
-  No images available.
+  Folder is empty
 <?endif;?>
 <div class="clearfix"></div>
