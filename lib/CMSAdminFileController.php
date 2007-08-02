@@ -68,9 +68,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function fetch_folder() {
+	  $this->use_layout=false;
 	  $folder = $_POST["folder"];
 	  if(strpos($folder,"_")) $folder = str_replace("_", "/", $folder);
-	  $folder = PUBLIC_DIR.$folder;
+	  $folder = PUBLIC_DIR.$folder."/";
 	  $this->all_rows = $this->model->find_all_by_path($folder);
 	  $this->list = $this->render_partial("list");
 	}
