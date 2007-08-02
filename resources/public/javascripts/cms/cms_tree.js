@@ -108,5 +108,5 @@ $(document).ready(function() {
 			}
 		);
 
-    $(".tree_folder").click(function(){ alert("Please load")+this.id })
+    $(".tree_folder").click(function(){ alert("Please load"+this.id) })
 });
