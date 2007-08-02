@@ -1,6 +1,4 @@
-$(document).ready(
-	function()
-	{
+$(document).ready(function() {
 		tree = $('#php-file-tree');
 		$('li', tree.get(0)).each(
 			function()
@@ -109,5 +107,6 @@ $(document).ready(
 				}*/
 			}
 		);
-	}
-);
+
+    $(".tree_folder").click(function(){ alert("Please load")+this.id })
+});
