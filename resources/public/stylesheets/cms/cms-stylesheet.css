@@ -748,12 +748,14 @@ li.pagination_link a {
 
 #file_tree_files {
   overflow:auto;
+  width:100%;
 }
 #file_tree_files .file_preview {
   margin:5px 15px 15px 5px;
 }
 #file_tree_files .file_preview a {
   color:#3F3C3C;
+  font-size:77%;
 }
 .pft-directory a {
   background:url(../../images/cms/cms-folder-icon.gif) no-repeat;
