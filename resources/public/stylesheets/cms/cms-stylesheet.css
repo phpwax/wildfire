@@ -589,7 +589,7 @@ li.pagination_link a {
 /********* New Content Styles **********/
 
 #content_editor fieldset {
-  width:auto;
+  width:100%;
 }
   #content_editor {
     float:left;
