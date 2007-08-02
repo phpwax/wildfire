@@ -106,7 +106,8 @@ class CMSAdminFileController extends CMSAdminComponent {
   	// Generates a valid XHTML list of all directories, sub-directories, and files in $directory
   	// Remove trailing slash
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
-  	$code = "<ul id='file_tree_container'><li id='".underscore($directory)."'>";
+  	$code = "<ul id='file_tree_container'><li class='pft-directory'>";
+  	$code .= "<a href='#' id='".$this->unslashify($directory)."' class='tree_folder'>".basename($directory)."</a>";
   	$code .= $this->file_tree_dir($directory, $return_link, $extensions);
   	$code .= "</li></ul>";
   	return $code;
@@ -140,7 +141,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   			if( $this_file != "." && $this_file != ".." ) {
   				if( is_dir("$directory/$this_file") ) {
   					// Directory
-  					$php_file_tree .= "<li class=\"pft-directory\"><a href=\"#\" id='".underscore($directory)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a>";
+  					$php_file_tree .= "<li class=\"pft-directory\"><a href=\"#\" id='".$this->unslashify($directory)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a>";
   					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
   					$php_file_tree .= "</li>";
   				} 
@@ -171,6 +172,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 			}
     }
  		return false;
+	}
+	
+	protected function unslashify($path) {
+    return str_replace('/', '_', $path);
 	}
 
 }
