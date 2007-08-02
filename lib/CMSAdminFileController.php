@@ -67,6 +67,14 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  File::stream_file($this->get_file->path.$this->get_file->filename);
 	}
 	
+	public function fetch_folder() {
+	  $folder = $_POST["folder"];
+	  if(strpos("_", $folder)) $folder = str_replace("_", "/", $folder);
+	  $folder = PUBLIC_DIR.$folder;
+	  $this->all_rows = $this->model->find_by_path($folder);
+	  $this->list = $this->render_partial("list");
+	}
+	
 	public function browse_images() {
 	  $this->more = false;
 	  $this->previous = false;

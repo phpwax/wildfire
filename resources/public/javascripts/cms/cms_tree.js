@@ -95,7 +95,7 @@ $(document).ready(function() {
 			{
 				revert		: true,
 				autoSize		: true,
-				ghosting			: true/*,
+				ghosting			: true,
 				onStop		: function()
 				{
 					$('span.textHolder').each(
@@ -104,9 +104,17 @@ $(document).ready(function() {
 							this.expanded = false;
 						}
 					);
-				}*/
+				}
 			}
 		);
 
-    $(".tree_folder").click(function(){ alert("Please load"+this.id) })
+    $(".tree_folder").click(function(){ 
+      $.post("/admin/files/fetch_folder", 
+			  {folder: this.id},
+        function(response) {
+          $("#file_tree_files").html(response);
+        }
+      )
+    });
+    
 });
