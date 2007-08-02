@@ -748,7 +748,7 @@ li.pagination_link a {
 
 #file_tree_files {
   overflow:auto;
-  margin-left:210px;
+  margin-left:20px;
   float:none;
 }
 #file_tree_files .file_preview {
