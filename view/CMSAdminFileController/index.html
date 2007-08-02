@@ -28,14 +28,15 @@
         </fieldset>
       </div>
     </div>
-  
-    <fieldset id="content_options">
-      <form action="/admin/files/create">
-      <?=large(file_field($model, "filename", array("class"=>"multi"),"Choose a file to upload"), "<br />&nbsp;&nbsp;This replaces any existing file")?>
-      <hr />
-      <?=large(text_area($model, "caption", array("rows"=>"4")))?>
-      <input type="image" src="/images/cms/button_upload.gif" />
-    </fieldset>
+    <form action="/admin/files/create">
+      <fieldset id="content_options">
+      
+        <?=large(file_field($model, "filename", array("class"=>"multi"),"Choose a file to upload"), "<br />&nbsp;&nbsp;This replaces any existing file")?>
+        <hr />
+        <?=large(text_area($model, "caption", array("rows"=>"4")))?>
+        <input type="image" src="/images/cms/button_upload.gif" />
+      </fieldset>
+    </form>
     </div>
     <div class="clearfix"></div>
     
