@@ -29,15 +29,16 @@
       </div>
     </div>
       <fieldset id="content_options">
-      
         <?=large(file_field($model, "filename", array("class"=>"multi"),"Choose a file to upload"))?>
         <hr />
         <?=large(text_area($model, "caption", array("rows"=>"4")))?>
         <hr />
         <input type="image" src="/images/cms/button_upload.gif" />
       </fieldset>
-    </div>
-    <div class="clearfix"></div>
+      <div class="clearfix"></div>
+      <fieldset id="submit">
+        
+      </fieldset>
     
   </div>
   
