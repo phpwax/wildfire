@@ -13,7 +13,7 @@ $(document).ready(
 						$(this).prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="9" height="9" class="expandImage" />');
 					}
 				} else {
-					$(this).prepend('<img src="images/spacer.gif" width="9" height="9" class="expandImage" />');
+					$(this).prepend('<img src="/images/cms/spacer.gif" width="9" height="9" class="expandImage" />');
 				}
 			}
 		);
@@ -84,7 +84,7 @@ $(document).ready(
 					subbranch.eq(0).append(dropped);
 					oldBranches = $('li', oldParent);
 					if (oldBranches.size() == 0) {
-						$('img.expandImage', oldParent.parentNode).src('images/spacer.gif');
+						$('img.expandImage', oldParent.parentNode).src('/images/cms/spacer.gif');
 						$(oldParent).remove();
 					}
 					expander = $('img.expandImage', this.parentNode);
