@@ -45,7 +45,7 @@ class CmsFile extends WXFileActiveRecord {
 		foreach ( $iter as $file ) {
 			if($iter->hasChildren() && !strstr($iter->getPath()."/".$file, "/.")) {
 				$row['name']=str_repeat('&nbsp;&nbsp;', $iter->getDepth()).ucfirst(basename($file));
-				$row['path']=$iter->getPath();
+				$row['path']=$iter->getPath()."/".basename($file);
 				$rows[]=$row; unset($row);
 			} 
 		}
