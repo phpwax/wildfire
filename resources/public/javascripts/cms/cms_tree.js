@@ -92,7 +92,7 @@ $(document).ready(function() {
 			}
 		);
 		
-		$('li .tree_folder').Droppable(
+		$('.tree_folder').Droppable(
 			{
 				accept			: 'file_resource',
 				hoverclass		: 'dropOver',
