@@ -36,13 +36,11 @@
       <?=large(text_area($model, "caption", array("rows"=>"4")))?>
       <hr />
       <?=large(select($model, "folder", $model->folder_options))?>
-      <input type="image" src="/images/cms/button_upload.gif" />
+      <input type="image" src="/images/cms/button_upload.gif" class="input_field" />
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
+      
     </fieldset>
   </div>
 

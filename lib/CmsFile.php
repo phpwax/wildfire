@@ -32,10 +32,24 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	
 	public function folder_options() {
-	  foreach(File::get_folders(PUBLIC_DIR.$this->base_dir) as $folder) {
-	    $options .= content_tag("option", basename($folder["name"]), array("value"=>$folder["path"]));
+	  $options = content_tag("option", "Your Folder", array("value"=>$this->base_dir));
+	  foreach($this->get_folders(PUBLIC_DIR.$this->base_dir) as $folder) {
+	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
+	    $options .= content_tag("option", "&nbsp;&nbsp;".$folder["name"], array("value"=>$path));
 	  }
 	  return $options;
+	}
+	
+	public function get_folders($directory) {
+		$iter = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), true);
+		foreach ( $iter as $file ) {
+			if($iter->hasChildren() && !strstr($iter->getPath()."/".$file, "/.")) {
+				$row['name']=str_repeat('&nbsp;&nbsp;', $iter->getDepth()).ucfirst(basename($file));
+				$row['path']=$iter->getPath();
+				$rows[]=$row; unset($row);
+			} 
+		}
+		return $rows;
 	}
 	
 	
