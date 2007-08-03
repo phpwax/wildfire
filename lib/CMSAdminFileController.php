@@ -26,8 +26,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function index() {
 	  parent::index();
 	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/");
-	  $this->list = $this->render_partial("list");
 	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
+	  $this->list = $this->render_partial("list");
 	}
 	
 	public function show_image() {
