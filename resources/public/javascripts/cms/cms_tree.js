@@ -92,19 +92,6 @@ $(document).ready(function() {
 			}
 		);
 		
-		$('.tree_folder').Droppable(
-			{
-				accept			: 'file_resource',
-				hoverclass		: 'dropOver',
-				activeclass		: 'fakeClass',
-				tolerance		: 'pointer',
-				ondrop			: function(dropped)
-				{
-					alert("you dropped a file");
-				}
-			}
-		);
-		
 		
 		$('li .tree_folder').Draggable(
 			{
@@ -129,6 +116,18 @@ $(document).ready(function() {
 				autoSize		: true,
 				ghosting			: true,
 				opacity: 0.5
+			}
+		);
+		
+		$('.tree_folder').Droppable(
+			{
+				accept			: 'file_resource',
+				hoverclass		: 'dropOver',
+				activeclass		: 'fakeClass',
+				tolerance		: 'pointer',
+				ondrop			: function(dropped) {
+					alert("you dropped a file "+dropped.id);
+				}
 			}
 		);
 
