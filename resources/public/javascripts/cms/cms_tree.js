@@ -122,6 +122,14 @@ $(document).ready(function() {
 				}
 			}
 		);
+		
+		$('.file_resource').Draggable(
+			{
+				revert		: true,
+				autoSize		: true,
+				ghosting			: true
+			}
+		);
 
     $(".tree_folder").click(function(){ 
       $.post("/admin/files/fetch_folder", 
