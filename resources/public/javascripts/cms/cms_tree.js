@@ -90,7 +90,7 @@ $(document).ready(function() {
 						expander.get(0).src = '/images/cms/bullet_toggle_minus.gif';
 				}
 			}
-		); */
+		); 
 		
 		
 		$('li .tree_folder').Draggable(
@@ -108,7 +108,7 @@ $(document).ready(function() {
 					);
 				}
 			}
-		);
+		); */
 		
 		$('.file_resource').Draggable(
 			{

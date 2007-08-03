@@ -783,6 +783,7 @@ li.pagination_link a {
 	height: 16px;
 	line-height: 16px;
 	padding-left: 6px;
+	font-weight:bold;
 }
 
 /**** End file browser *****/
