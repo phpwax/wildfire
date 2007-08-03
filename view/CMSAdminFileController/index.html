@@ -35,7 +35,7 @@
       <hr />
       <?=large(text_area($model, "caption", array("rows"=>"4")))?>
       <hr />
-      <?=large(select($model, "folder", options_from_collection($model->folder_options)))?>
+      <?=large(select($model, "folder", options_for_select($model->folder_options)))?>
       <input type="image" src="/images/cms/button_upload.gif" />
     </fieldset>
     <div class="clearfix"></div>
