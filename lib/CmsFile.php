@@ -1,6 +1,9 @@
 <?php
 
 class CmsFile extends WXFileActiveRecord {
+  
+  public $base_dir = "files";
+  
   public function find_all_images() {
 	  return $this->find_all(array("conditions"=>"type LIKE '%image%'"));
 	}
@@ -26,6 +29,10 @@ class CmsFile extends WXFileActiveRecord {
 	  $size = floor( filesize($this->path.$this->filename) / 1024);
 	  if($size < 1024) return $size." Kb";
 	  return ($size / 1024)." Mb"; 
+	}
+	
+	public function folder_options() {
+	  return File::get_folders(PUBLIC_DIR.$this->base_dir);
 	}
 	
 	
