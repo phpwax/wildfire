@@ -128,7 +128,7 @@ $(document).ready(function() {
 				revert		: true,
 				autoSize		: true,
 				ghosting			: true,
-				opacity: 0.2
+				opacity: 0.5
 			}
 		);
 
