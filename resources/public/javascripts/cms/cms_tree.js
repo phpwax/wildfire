@@ -30,7 +30,7 @@ $(document).ready(function() {
 				}
 			}
 		);
-		$('li .tree_folder').Droppable(
+		/*$('li .tree_folder').Droppable(
 			{
 				accept			: 'tree_folder',
 				hoverclass		: 'dropOver',
@@ -90,7 +90,7 @@ $(document).ready(function() {
 						expander.get(0).src = '/images/cms/bullet_toggle_minus.gif';
 				}
 			}
-		);
+		); */
 		
 		
 		$('li .tree_folder').Draggable(
