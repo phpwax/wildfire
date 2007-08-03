@@ -30,7 +30,7 @@ $(document).ready(function() {
 				}
 			}
 		);
-		$('li.tree_holder').Droppable(
+		$('li .tree_holder').Droppable(
 			{
 				accept			: 'tree_folder',
 				hoverclass		: 'dropOver',
@@ -92,7 +92,7 @@ $(document).ready(function() {
 			}
 		);
 		
-		$('li.tree_holder').Droppable(
+		$('li .tree_holder').Droppable(
 			{
 				accept			: 'file_resource',
 				hoverclass		: 'dropOver',
@@ -106,7 +106,7 @@ $(document).ready(function() {
 		);
 		
 		
-		$('li.tree_folder').Draggable(
+		$('li .tree_folder').Draggable(
 			{
 				revert		: true,
 				autoSize		: true,
