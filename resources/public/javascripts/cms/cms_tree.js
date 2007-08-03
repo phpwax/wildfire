@@ -124,8 +124,8 @@ $(document).ready(function() {
 				accept			: 'file_resource',
 				hoverclass		: 'dropOver',
 				activeclass		: 'fakeClass',
-				tolerance		: 'pointer',
-				ondrop			: function(dropped) {
+				tolerance		: 'intersect',
+				onDrop			: function(dropped) {
 					alert("you dropped a file "+dropped.id);
 				}
 			}
