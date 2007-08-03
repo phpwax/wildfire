@@ -32,7 +32,7 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	
 	public function folder_options() {
-	  return File::get_folders(PUBLIC_DIR.$this->base_dir);
+	  print_r(File::get_folders(PUBLIC_DIR.$this->base_dir)); exit;
 	}
 	
 	
