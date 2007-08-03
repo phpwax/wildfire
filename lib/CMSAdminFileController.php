@@ -67,6 +67,14 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  File::stream_file($this->get_file->path.$this->get_file->filename);
 	}
 	
+	public function create() {
+		$this->model = new $this->model_class;
+		$this->model->file_base = "public/".$_POST['cms_file']['folder'];	
+		$this->save($this->model);
+		$this->form = $this->render_partial("form");
+		$this->redirect_to("index");
+	}
+	
 	public function fetch_folder() {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"];
