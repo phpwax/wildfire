@@ -776,7 +776,13 @@ li.pagination_link a {
   margin-left:6px;
   font-size:11px;
 }
-
+.dropOver {
+	background-color: #00c;
+	color: #fff;
+	height: 16px;
+	line-height: 16px;
+	padding-left: 6px;
+}
 
 /**** End file browser *****/
 
