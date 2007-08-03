@@ -776,6 +776,9 @@ li.pagination_link a {
   margin-left:6px;
   font-size:11px;
 }
+.tree_folder {
+  display:block;
+}
 .dropOver {
 	background-color: #00c;
 	color: #fff;
