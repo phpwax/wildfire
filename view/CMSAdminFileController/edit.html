@@ -1,10 +1,4 @@
-<h1>Editing file</h1>
-<div id="existing_image" style="float:left; margin-right:15px">
-  <img src="/admin/files/show_image/<?=$model->id?>/120<?=$model->extension?>" class="reflect rheight15" />
-	<p>File Link:</p>
-	<input type="text" name="link" value="/files/<?=$model->filename?>" />
-  <p><a href="../download-file/<?=$model->id?>">Download File</a></p>
-</div>
 <form action="" class="form_container" method="post" enctype="multipart/form-data">
+  <?$existing = true?>
   <?=$form?>
 </form>

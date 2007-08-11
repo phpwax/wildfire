@@ -14,7 +14,14 @@
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
-
+          <?if($existing):?>
+            <div id="existing_image" style="float:left; margin-right:15px">
+              <img src="/admin/files/show_image/<?=$model->id?>/120<?=$model->extension?>" class="reflect rheight15" />
+            	<p>File Link:</p>
+            	<input type="text" name="link" value="/files/<?=$model->filename?>" />
+              <p><a href="../download-file/<?=$model->id?>">Download File</a></p>
+            </div>
+          <?endif?>
         </fieldset>
       </div>
     </div>
