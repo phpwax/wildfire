@@ -76,6 +76,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->save($this->model);
 	}
 	
+	public function edit() {
+	  $this->existing = true;
+	  parent::edit();
+	}
+	
 	public function fetch_folder() {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"];
