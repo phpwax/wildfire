@@ -41,6 +41,7 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	
 	public function get_folders($directory) {
+	  $rows=array();
 		$iter = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), true);
 		foreach ( $iter as $file ) {
 			if($iter->hasChildren() && !strstr($iter->getPath()."/".$file, "/.")) {
