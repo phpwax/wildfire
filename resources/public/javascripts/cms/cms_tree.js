@@ -121,7 +121,8 @@ $(document).ready(function() {
 		
 		$('.tree_folder').Droppable(
 			{
-				accept			: 'file_resource',
+				accept			: 'file_r
+				esource',
 				hoverclass		: 'dropOver',
 				activeclass		: 'fakeClass',
 				tolerance		: 'intersect',
@@ -150,7 +151,7 @@ $(document).ready(function() {
     }));
     
     $("#new_folder_name").focus(function({
-      this.val("");
+      $("#new_folder_name").val("");
     }));
     
 });
