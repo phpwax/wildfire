@@ -40,7 +40,7 @@
       <div id="folder_create" class="large">
         <?=select($model, "folder", $model->folder_options, array(), "Create a new folder")?>
         <input type="text" id="new_folder_name" value="New folder name" class="input_field" />
-        <?=image_asset("cms", "button_add_folder.gif", array("class"=>"input_field"))?>
+        <a href="#" id="create_new_folder"><?=image_asset("cms", "button_add_folder.gif", array("class"=>"input_field"))?></a>
       </div>
     </fieldset>
     <div class="clearfix"></div>

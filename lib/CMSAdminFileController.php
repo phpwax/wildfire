@@ -90,6 +90,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->list = $this->render_partial("list");
 	}
 	
+	public function new_folder() {
+	  print_r($_POST); exit;
+	  $folder = $_POST["folder"];
+	}
+	
 	public function browse_images() {
 	  $this->more = false;
 	  $this->previous = false;
