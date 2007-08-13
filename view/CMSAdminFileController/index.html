@@ -38,8 +38,8 @@
       <?=large(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
       <input type="image" src="/images/cms/button_upload.gif" class="input_field" />
       <div id="folder_create" class="large">
-        <?=select($model, "folder", $model->folder_options)?>
-        <input type="text" id="new_folder_name" value="Create a new folder" />
+        <?=select($model, "folder", $model->folder_options, array(), "Create a new folder")?>
+        <input type="text" id="new_folder_name" value="New folder name" class="input_field" />
         <?=image_asset("cms", "button_add_folder.gif")?>
       </div>
     </fieldset>
