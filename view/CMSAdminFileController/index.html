@@ -24,7 +24,11 @@
         <fieldset id="wysiwyg" class="file_browser_container clearfix">
           <div id="file_tree"><?=$file_tree?></div>
           <div id="file_tree_files" class="clearfix">
-            <?=$list?> 
+            <?=$list?>
+          </div>
+          <div id="folder_create">
+            <input type="text" id="new_folder_name" value="Create a new folder" />
+            <?=image_asset("cms", "button_create.gif")?>
           </div>
         </fieldset>
       </div>
