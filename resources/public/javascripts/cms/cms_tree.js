@@ -140,12 +140,12 @@ $(document).ready(function() {
       )
     });
     
-    $("#create_new_folder").click(function({
+    $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
        {folder: $("#new_folder_name").val()},
        function(response) { $("#file_tree").html(response);}
       );
-    }));
+    });
     
     $("#new_folder_name").focus(function({
       $("#new_folder_name").val("");
