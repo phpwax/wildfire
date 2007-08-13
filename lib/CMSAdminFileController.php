@@ -190,8 +190,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	*/
 	protected function save($model, $redirect_to=false, $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
+		  $id = $model->id;
 			if(!$model->author_id && !$_POST[$this->model_name]['author_id']) $model->author_id = $this->current_user->id;			
-			if($id = $model->update_attributes($_POST[$this->model_name]) ) {
+			if($model->update_attributes($_POST[$this->model_name]) ) {
 				//clear cache - rely on filename format of $id_
 				foreach(File::scandir(CACHE_DIR) as $file){
 					if(($pos = strpos($file, $model->id.'_')) == 0 && $pos !== false) unlink(CACHE_DIR.$file);
