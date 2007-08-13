@@ -91,8 +91,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function new_folder() {
-	  print_r($_POST); exit;
 	  $folder = $_POST["folder"];
+	  mkdir($_POST["parent"]."/".$folder);
+    $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
+	  
 	}
 	
 	public function browse_images() {
