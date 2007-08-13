@@ -147,8 +147,8 @@ $(document).ready(function() {
       );
     });
     
-    $("#new_folder_name").focus(function({
+    $("#new_folder_name").focus(function(){
       $("#new_folder_name").val("");
-    }));
+    });
     
 });
