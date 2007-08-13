@@ -121,8 +121,7 @@ $(document).ready(function() {
 		
 		$('.tree_folder').Droppable(
 			{
-				accept			: 'file_r
-				esource',
+				accept			: 'file_resource',
 				hoverclass		: 'dropOver',
 				activeclass		: 'fakeClass',
 				tolerance		: 'intersect',
