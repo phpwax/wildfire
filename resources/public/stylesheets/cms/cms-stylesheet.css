@@ -615,7 +615,7 @@ li.pagination_link a {
   #content_options .large {
     width:100%;
     padding:0;
-    padding-bottom:12px;
+    padding-bottom:4px;
     margin:0;
   }
   #content_options .select_field, #content_options .input_field {

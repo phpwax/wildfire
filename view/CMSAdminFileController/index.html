@@ -26,10 +26,6 @@
           <div id="file_tree_files" class="clearfix">
             <?=$list?>
           </div>
-          <div id="folder_create">
-            <input type="text" id="new_folder_name" value="Create a new folder" />
-            <?=image_asset("cms", "button_create.gif")?>
-          </div>
         </fieldset>
       </div>
     </div>
@@ -41,6 +37,11 @@
       <hr />
       <?=large(select($model, "folder", $model->folder_options))?>
       <input type="image" src="/images/cms/button_upload.gif" class="input_field" />
+      <div id="folder_create" class="large">
+        <input type="text" id="new_folder_name" value="Create a new folder" />
+        <?=select($model, "folder", $model->folder_options)?>
+        <?=image_asset("cms", "button_add_folder.gif")?>
+      </div>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
