@@ -788,6 +788,10 @@ li.pagination_link a {
 	padding-left: 6px;
 	font-weight:bold;
 }
+.file_resource {
+  width:50px;
+  height:50px;
+}
 
 /**** End file browser *****/
 
