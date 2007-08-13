@@ -55,7 +55,7 @@ class CmsFile extends WXFileActiveRecord {
 	
 	public function file_url() {
 	  $original = $this->path;
-	  $url = str_replace(PUBLIC_DIR, "", $original);
+	  $url = str_replace(PUBLIC_DIR, "", $original). $this->filename;
 	  return $url;
 	}
 	
