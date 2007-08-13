@@ -18,7 +18,7 @@
             <div id="existing_image" style="float:left; margin-right:15px">
               <img src="/admin/files/show_image/<?=$model->id?>/120<?=$model->extension?>" class="reflect rheight15" />
             	<p>File Link:</p>
-            	<input type="text" name="link" value="/files/<?=$model->filename?>" />
+            	<input type="text" name="link" value="<?=$model->file_url?>" />
               <p><a href="../download-file/<?=$model->id?>">Download File</a></p>
             </div>
           <?endif?>
