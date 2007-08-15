@@ -2,10 +2,6 @@
 
 
 class SubscribeController extends ApplicationController {
-  
-  public function index() {
-    $this->model = new CmsSubscriber();
-  }
  
 	public function unsubscribe(){
 		if($this->param("id") && $_GET['handle']){
