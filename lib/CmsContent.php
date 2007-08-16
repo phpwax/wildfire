@@ -128,6 +128,7 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function extra_content($name) {
+    die("Gone");
     $extra = new CmsExtraContent;
     print_r($extra); exit;
     if($result = $extra->find_by_name_and_cms_content_id($name, $this->id) ) {
