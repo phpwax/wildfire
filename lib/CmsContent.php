@@ -137,6 +137,14 @@ class CmsContent extends WXActiveRecord {
     }
   }
   
+  public function extra_content_value($name) {
+    $extra = new CmsExtraContent;
+    if($result = $extra->find_by_name_and_cms_content_id($name, $this->id) ) {
+      return $result->content;
+    } 
+    return false;
+  }
+  
   public function save_extra_content() {
     $attributes = $_POST["cms_extra_content"];
     if($attributes) {
