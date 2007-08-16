@@ -1,5 +1,6 @@
 <div id="extra_content">
   <?foreach($extra_content as $content):?>
+    <?=$content?>
     <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3"), humanize($content)))?>
     <hr />
   <?endforeach?>
