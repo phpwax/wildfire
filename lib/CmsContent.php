@@ -133,7 +133,7 @@ class CmsContent extends WXActiveRecord {
       return $result;
     } else {
       $extra->setConstraint("cms_content_id", $this->id);
-      return $model;
+      return $extra;
     }
   }
   
