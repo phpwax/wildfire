@@ -1,6 +1,6 @@
 <?php
 
-class CmsContent extends WXActiveRecord {
+class CmsExtraContent extends WXActiveRecord {
   
 	
 }
