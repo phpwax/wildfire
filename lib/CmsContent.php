@@ -131,7 +131,10 @@ class CmsContent extends WXActiveRecord {
     $model = new CmsExtraContent;
     if($result = $model->find_by_name_and_cms_content_id($name, $this->id) ) {
       return $result;
-    } else return $model;
+    } else {
+      $model->setConstraint("cms_content_id", $this->id);
+      return $model;
+    }
   }
   
   public function save_extra_content() {
