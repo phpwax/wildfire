@@ -138,11 +138,10 @@ class CmsContent extends WXActiveRecord {
     $attributes = $_POST["cms_extra_content"];
     if($attributes) {
       foreach($attributes as $attribute=>$value) {
-        die($value);
         $model = $this->extra_content($attribute);
         $model->cms_content_id = $this->id;
         $model->name = $attribute;
-        $model->value = $value;
+        $model->content = $value;
         $model->save();
       }
     }
