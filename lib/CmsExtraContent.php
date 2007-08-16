@@ -3,7 +3,7 @@
 class CmsExtraContent extends WXActiveRecord {
   
 	public function __get($name) {
-	  self::check_extra($name);
+	  $this->check_extra($name);
 	  parent::__get($name);
 	}
 	
