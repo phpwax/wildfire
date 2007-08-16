@@ -7,8 +7,9 @@ class CmsExtraContent extends WXActiveRecord {
 	  parent::__get($name);
 	}
 	
-	static public function check_extra($name) {
-	  
+	public function check_extra($name) {
+	  $sql = "SELECT value FROM cms_extra_content WHERE cms_content_id = ".$this->id." AND `name` = $name";
+	  die($sql);
 	}
 }
 
