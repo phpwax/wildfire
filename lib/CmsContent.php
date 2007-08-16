@@ -30,6 +30,10 @@ class CmsContent extends WXActiveRecord {
 	  $this->content = $this->clean_html($this->content);
 	}
 	
+	public function after_save() {
+	  $this->save_extra_content();
+	}
+	
 	public function permalink() {
 	  $section = new CmsSection($this->cms_section_id);
 	  return $section->permalink()."/".$this->url;
@@ -129,6 +133,20 @@ class CmsContent extends WXActiveRecord {
       return $result;
     } else return $model;
   }
+  
+  public function save_extra_content() {
+    $attributes = $_POST["cms_extra_content"];
+    if($attributes) {
+      foreach($attributes as $attribute=>$value) {
+        $model = $this->extra_content($attribute);
+        $model->cms_content_id = $this->id;
+        $model->name = $attribute;
+        $model->value = $value;
+        $model->save();
+      }
+    }
+  }
+  
 	
 }
 
