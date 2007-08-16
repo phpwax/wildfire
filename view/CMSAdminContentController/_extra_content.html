@@ -1,6 +1,7 @@
 <div id="extra_content">
   <?foreach($extra_content as $content):?>
-  <?die($content)?>
+  <?$extra = new CmsExtraContent?>
+  <?print_r($extra->find_all_by_name_and_cms_content_id($content, $model->id)); exit;?>
     <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3"), humanize($content)))?>
     <hr />
   <?endforeach?>
