@@ -67,7 +67,6 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
 		parent::edit();
-		print_r($this->extra_content); exit;
 		$this->extra_content_partial = $this->render_partial("extra_content");
 	}
 	
