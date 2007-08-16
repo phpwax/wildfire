@@ -18,6 +18,7 @@ class CMSAdminContentController extends CMSAdminComponent {
   public $filter_columns = array("title");
 	public $allowed_images = 3;
 	public $allowed_categories = true;
+	public $extra_content = array();
 
 	public function method_missing() {
 	  if(!$page = url("page")) $page=1;
