@@ -1,7 +1,7 @@
 <div id="extra_content">
   <?foreach($extra_content as $content):?>
-    <?$ex_model = $model->extra_content($content);?>
-    <?=large(text_area($ex_model, $content, array("rows"=>"3"), humanize($content)))?>
+    <?$ex_model = $model->extra_content($content); die($ex_model->{$content})?>
+    <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3"), humanize($content)))?>
     <hr />
   <?endforeach?>
 </div>
