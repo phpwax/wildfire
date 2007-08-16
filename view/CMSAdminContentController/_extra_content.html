@@ -1,6 +1,6 @@
 <div id="extra_content">
   <?foreach($extra_content as $content):?>
-    <?=text_area($content, "value")?>
+    <?=text_area($model->extra_content($content), "value")?>
     <hr />
   <?endforeach?>
 </div>
