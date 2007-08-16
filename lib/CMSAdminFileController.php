@@ -15,6 +15,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   );
 	public $filter_columns = array("filename", "caption");
 	public $order_by_columns = array("filename","type");
+	public $allow_crops=true;
 	
 	public function file_info() {
 	  $this->use_layout=false;
@@ -135,6 +136,11 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->image = new $this->model_class($this->param('id'));
   }
   
+  public function crop() {
+    $file = new CmsFile;
+    $this->image = = $file->find(url("id"));
+  }
+  
   public function file_tree($directory, $return_link, $extensions = array()) {
   	// Generates a valid XHTML list of all directories, sub-directories, and files in $directory
   	// Remove trailing slash
@@ -200,6 +206,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 					if(($pos = strpos($file, $model->id.'_')) == 0 && $pos !== false) unlink(CACHE_DIR.$file);
 				}
 			  if($redirect_to =="edit") $redirect_to = "edit/".$id;
+			  elseif($this->allow_crops) $redirect_to="crop/".$id;
 			  elseif(!$redirect_to) $redirect_to="index";
       	Session::add_message($this->display_name." ".$success);
       	$this->redirect_to($redirect_to);
