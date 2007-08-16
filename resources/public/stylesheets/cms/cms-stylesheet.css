@@ -721,11 +721,12 @@ li.pagination_link a {
   background:white;
   border:1px solid #D2D0D0 !important;
   width:97%;
-  padding:4px;
+  padding:14px;
 }
 #extra_content label {
   display:block;
-  font-weight:bold;
+  font-size:85%;
+  margin-bottom:4px;
 }
 
 /******* File browser styling *******/
