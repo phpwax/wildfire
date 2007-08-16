@@ -44,7 +44,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	$this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
 		$file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
-		$source=str_replace(" ", "\\ ", $source);
+		$source=preg_replace("/[\s]/", "\ ", $source);
 		error_log($source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
