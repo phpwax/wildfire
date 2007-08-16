@@ -45,6 +45,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     $source = $this->show_image->path.$this->show_image->filename;
 		$file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
 		$source=escapeshellarg($source);
+		error_log($source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($this->show_image->filename);
