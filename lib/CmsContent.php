@@ -135,6 +135,7 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function save_extra_content() {
+    print_r($_POST); exit;
     $attributes = $_POST["cms_extra_content"];
     if($attributes) {
       foreach($attributes as $attribute=>$value) {
