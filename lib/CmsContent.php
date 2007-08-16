@@ -122,6 +122,11 @@ class CmsContent extends WXActiveRecord {
      $text = preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
      return $text;
   }
+  
+  public function extra_content($name) {
+    $model = new CmsExtraContent;
+    return $model->find_by_name_and_cms_content_id($name, $this->id);
+  }
 	
 }
 
