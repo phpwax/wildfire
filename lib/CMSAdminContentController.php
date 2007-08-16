@@ -66,9 +66,9 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$files = new CmsFile();
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
+		parent::edit();
 		$this->extra_model = new CmsExtraContent;
 		$this->extra_content_partial = $this->render_partial("extra_content");
-		parent::edit();
 	}
 	
 	public function create() {
