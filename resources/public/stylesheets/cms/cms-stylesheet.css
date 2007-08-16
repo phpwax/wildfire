@@ -720,6 +720,8 @@ li.pagination_link a {
 #extra_content {
   background:white;
   border:1px solid #D2D0D0 !important;
+  width:97%;
+  padding:4px;
 }
 #extra_content label {
   display:block;
