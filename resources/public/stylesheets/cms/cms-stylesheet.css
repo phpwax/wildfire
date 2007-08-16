@@ -717,6 +717,14 @@ li.pagination_link a {
 #preview_pane iframe {
   border:0;
 }
+#extra_content {
+  background:white;
+  border:1px solid #D2D0D0 !important;
+}
+#extra_content label {
+  display:block;
+  font-weight:bold;
+}
 
 /******* File browser styling *******/
 #file_browse_header {
