@@ -8,9 +8,7 @@ class CmsExtraContent extends WXActiveRecord {
 	}
 	
 	static public function check_extra($name) {
-	  $model = new CmsExtraContent;
-	  $result = $model->find_all_by_name($name);
-	  if($result) {print_r($result); exit;}
+	  
 	}
 }
 
