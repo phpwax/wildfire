@@ -46,7 +46,7 @@ $(document).ready(
 				}
 			}
 		);
-		$("#container").css({background-image: <?=$image->file_url()?>})
+		$("#container").css({background-image: <?="/".$image->file_url()?>})
 	}
 );
 </script>
