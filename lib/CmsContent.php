@@ -149,7 +149,7 @@ class CmsContent extends WXActiveRecord {
     $join=array("table"=>"cms_extra_content", "lhs"=>"id", "rhs"=>"cms_content_id");
     if($params["conditions"]) $params["conditions"].="AND name='$name'";
     else $params["conditions"]= "name = '$name'";
-    return $this->find_all($params, $joins);
+    return $this->find_all($params, $join);
   }
   
   public function save_extra_content() {
