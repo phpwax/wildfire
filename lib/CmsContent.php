@@ -160,7 +160,7 @@ class CmsContent extends WXActiveRecord {
         $model = $this->extra_content($attribute);
         $model->cms_content_id = $this->id;
         $model->name = $attribute;
-        $model->content = $value;
+        $model->extra_content = $value;
         $model->save();
       }
     }
