@@ -158,6 +158,11 @@ class CmsContent extends WXActiveRecord {
     }
   }
   
+  public function image($number) {
+    $images = $this->images;
+    return $images[$number];
+  }
+  
 	
 }
 
