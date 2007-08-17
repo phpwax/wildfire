@@ -146,10 +146,12 @@ class CmsContent extends WXActiveRecord {
   }
   
   public function find_with_extra_content($name, $params=array()) {
-    $params["join"]=array("table"=>"cms_extra_content", "lhs"=>"cms_content.id", "rhs"=>"cms_content_id");
+    $params["join"]=array("table"=>"cms_extra_content", "lhs"=>"id", "rhs"=>"cms_content_id");
     if($params["conditions"]) $params["conditions"].="AND name='$name'";
     else $params["conditions"]= "name = $name";
-    print_r($params);exit;
+    if(!empty($params['join'])) {
+      print_r($params);exit;
+    }
     return $this->find_all($params);
   }
   
