@@ -140,7 +140,7 @@ class CmsContent extends WXActiveRecord {
   public function extra_content_value($name) {
     $extra = new CmsExtraContent;
     if($result = $extra->find_by_name_and_cms_content_id($name, $this->id) ) {
-      return $result->content;
+      return $result->extra_content;
     } 
     return "";
   }
@@ -148,8 +148,8 @@ class CmsContent extends WXActiveRecord {
   public function find_with_extra_content($name, $params=array()) {
     $join=array("table"=>"cms_extra_content", "lhs"=>"id", "rhs"=>"cms_content_id");
     $params["columns"]="*, cms_extra_content.content as ex_content";
-    if($params["conditions"]) $params["conditions"].="AND name='$name' AND `ex_content` != ''";
-    else $params["conditions"]= "name = '$name' AND `ex_content` !=''";
+    if($params["conditions"]) $params["conditions"].="AND name='$name' AND `extra_content` != ''";
+    else $params["conditions"]= "name = '$name' AND `extra_content` !=''";
     return $this->find_all($params, $join);
   }
   
