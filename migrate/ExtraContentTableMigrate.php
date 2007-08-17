@@ -7,6 +7,7 @@ class ExtraContentTableMigrate extends WXMigrate {
     $this->create_column("content", "text");
     $this->create_column("cms_content_id", "integer");
     $this->create_table("cms_extra_content");
+    $this->change_column("cms_extra_content", "content", "extra_content");
   }
   
   public function down() {
