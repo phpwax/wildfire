@@ -79,7 +79,8 @@ class CmsContent extends WXActiveRecord {
   public function clean_html($text) {
     // remove escape slashes
     $text = stripslashes($text);
-  
+    $text = str_replace("£", "&pound;", $text);
+    
     // strip tags, still leaving attributes, second variable is allowable tags
     $text = strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span>');
     // removes the attributes for allowed tags
@@ -112,7 +113,6 @@ class CmsContent extends WXActiveRecord {
   
   public function format_content() {
     $text = $this->content;
-    $text = str_replace("£", "&pound;", $text);
     $text = preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
     $text = preg_replace("/\.{4,}/", "<hr />", $text);
     $widont_finder = "/(\s+)                    # the space to replace
