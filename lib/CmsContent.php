@@ -96,7 +96,9 @@ class CmsContent extends WXActiveRecord {
                       chr(0xe2) . chr(0x80) . chr(0x93),
                       chr(0xe2) . chr(0x80) . chr(0x94),
                       chr(0xe2) . chr(0x80) . chr(0xa6),
-											chr(194) );
+											chr(194), 
+											"£"
+											);
 
       $replace = array("'",
                        "'",
@@ -104,7 +106,8 @@ class CmsContent extends WXActiveRecord {
                        '"',
                        '&ndash;',
                        '&mdash;',
-                       "...");
+                       "...",
+                       "&pound;");
 
     return str_replace($search, $replace, $text);
   }
@@ -127,6 +130,16 @@ class CmsContent extends WXActiveRecord {
      return $text;
   }
   
+  public function find_related_in_section($params) {
+    $section = $this->cms_section_id;
+    $find = "id !=".$this->id;
+    if($params["conditions"]) $params["conditions"] .= " AND $find";
+    else $params["conditions"] = $find;
+    return $this->published_content("", $this->cms_section_id, $params);
+  }
+  
+  /***** Finders for dealing with the extra_content table ******/
+  
   public function extra_content($name) {
     $extra = new CmsExtraContent;
     if($result = $extra->find_by_name_and_cms_content_id($name, $this->id) ) {
@@ -136,7 +149,7 @@ class CmsContent extends WXActiveRecord {
       return $extra;
     }
   }
-  
+    
   public function extra_content_value($name) {
     $extra = new CmsExtraContent;
     if($result = $extra->find_by_name_and_cms_content_id($name, $this->id) ) {
