@@ -96,9 +96,7 @@ class CmsContent extends WXActiveRecord {
                       chr(0xe2) . chr(0x80) . chr(0x93),
                       chr(0xe2) . chr(0x80) . chr(0x94),
                       chr(0xe2) . chr(0x80) . chr(0xa6),
-											chr(194), 
-											"£"
-											);
+											chr(194) );
 
       $replace = array("'",
                        "'",
@@ -106,8 +104,7 @@ class CmsContent extends WXActiveRecord {
                        '"',
                        '&ndash;',
                        '&mdash;',
-                       "...",
-                       "&pound;");
+                       "...");
 
     return str_replace($search, $replace, $text);
   }
@@ -115,6 +112,7 @@ class CmsContent extends WXActiveRecord {
   
   public function format_content() {
     $text = $this->content;
+    $text = str_replace("£", "&pound;", $text);
     $text = preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
     $text = preg_replace("/\.{4,}/", "<hr />", $text);
     $widont_finder = "/(\s+)                    # the space to replace
