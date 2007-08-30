@@ -632,6 +632,7 @@ li.pagination_link a {
   }
   #content_options input.check_box_field {
     width:auto;
+    margin:0;
   }
   
   #content_options .large {
