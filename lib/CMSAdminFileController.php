@@ -27,7 +27,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function index() {
 	  parent::index();
 	  $this->all_rows=array();
-	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/", array("order"=>"filename DESC"));
+	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/", array("order"=>"filename ASC"));
 	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
 	  $this->list = $this->render_partial("list");
 	}
@@ -89,7 +89,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $folder = $_POST["folder"];
 	  if(strpos($folder,"_")) $folder = str_replace("_", "/", $folder);
 	  $folder = PUBLIC_DIR.$folder."/";
-	  $this->all_rows = $this->model->find_all_by_path($folder, array("order"=>"filename desc"));
+	  $this->all_rows = $this->model->find_all_by_path($folder, array("order"=>"filename ASC"));
 	  $this->list = $this->render_partial("list");
 	}
 	
