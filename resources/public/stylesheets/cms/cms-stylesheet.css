@@ -772,8 +772,8 @@ li.pagination_link a {
   background:#FFFFFF url(../../images/cms/file_browse_divide.gif) repeat-y;
   float:left;
   border:1px solid #D2D0D0 !important;
-  height:380px;
-  width:90%;
+  height:395px;
+  width:96% !important;
 }
 #file_tree_files, #file_tree {
   float:left;
