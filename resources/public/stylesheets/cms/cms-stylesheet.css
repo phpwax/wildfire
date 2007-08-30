@@ -345,6 +345,11 @@ h4{
   margin-right:140px;
 }
 
+#category_list {
+  height:300px;
+  overflow:auto;
+}
+
 
 #image_browser_container #filter_block, #category_browser_container #filter_block {
   padding:14px;
