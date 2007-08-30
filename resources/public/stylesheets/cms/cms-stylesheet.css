@@ -617,6 +617,11 @@ li.pagination_link a {
     font-weight:bold;
     margin:0 0 8px 0;
   }
+  #content_options .check_box_label {
+    display:inline;
+    padding:0;
+    margin:0;
+  }
   
   #content_options .large {
     width:100%;
