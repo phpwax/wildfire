@@ -624,8 +624,9 @@ li.pagination_link a {
   }
   
   .form_help_text {
-    clear:both;
+    display:block;
     font-size:77%;
+    padding-left:15px;
   }
   
   #content_options .large {
