@@ -5,7 +5,7 @@ $(document).ready(function() {
       $("#page_tab_title").html($("#cms_content_title").val());
     });
     $("#new_cat_create").click(function() {
-      $.ajax({ url: "/admin/content/new_category/?cat="+$("#new_cat").val(), 
+      $.ajax({ url: "../../new_category/?cat="+$("#new_cat").val(), 
         complete: function(response){$("#category_list").html(response.responseText); initialise_draggables();}
       });
       return false;
@@ -23,7 +23,7 @@ function initialise_draggables() {
   	}
   });
   $(".category_trash_button").click(function(){
-    $.get("/admin/content/remove_category/"+content_page_id+"?cat="+this.id.substr(22),function(response){
+    $.get("../../remove_category/"+content_page_id+"?cat="+this.id.substr(22),function(response){
       $("#cat_dropzone").html(response); initialise_draggables();
     })
   });
@@ -46,7 +46,7 @@ $(document).ready(function(event) {
   	{
   	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
   		ondrop:	function (drag) {
-  			$.post("/admin/content/add_image/"+content_page_id+"?order="+$(this).attr("id").substr(8), 
+  			$.post("../../add_image/"+content_page_id+"?order="+$(this).attr("id").substr(8), 
 				  {id: drag.id},
           function(response) {
             $("#dropzone"+get_query_var(this.url,'order')).html(response);
