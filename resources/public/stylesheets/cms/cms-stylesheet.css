@@ -621,12 +621,16 @@ li.pagination_link a {
     display:inline;
     padding:0;
     margin:0;
+    background:none;
   }
   
-  .form_help_text {
+  #content_options .form_help_text {
     display:block;
     font-size:77%;
     padding-left:15px;
+  }
+  #content_options .check_box_field {
+    width:auto;
   }
   
   #content_options .large {
