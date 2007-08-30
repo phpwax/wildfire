@@ -793,8 +793,14 @@ li.pagination_link a {
 }
 #file_tree_files .file_preview {
   margin:3px 0 0 0;
-  background:#E1E1E1;
+  background:#F1F1F1;
 }
+.file_delete_button {
+  display:block;
+  float:right;
+  width:20px;
+}
+
 #file_tree_files .file_preview a {
   color:#3F3C3C;
   font-size:77%;

@@ -1,7 +1,7 @@
 <?foreach($all_rows as $image):?>
   <div class="file_preview" id="<?=$image->id?>">
+    <?=link_to(image_asset("cms","file_delete.gif"), array("controller"=>"admin/files", "action"=>"delete", "id"=>$image->id), array("confirm"=>"Are You Sure?", "class"=>"file_delete_button"))?>
     <a href="edit/<?=$image->id?>"><?=truncate($image->filename, 15)?> (<?=$image->file_size?>)</a>
-    <?=link_to(image_asset("cms","file_delete.gif"), array("controller"=>"admin/files", "action"=>"delete", "id"=>$image->id), array("confirm"=>"Are You Sure?"))?>
   </div>
 <?endforeach;?>
 <?if(empty($all_rows)):?>
