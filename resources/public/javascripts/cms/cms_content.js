@@ -18,7 +18,7 @@ function initialise_draggables() {
   $("#cat_drop").Droppable(
   	{ accept:     'category_tag', hoverclass:	'dropzone_active', tolerance:	'pointer',
   		ondrop:	function(drag) {
-  		  $.post("add_category/"+content_page_id,{id: drag.id},
+  		  $.post("../../add_category/"+content_page_id,{id: drag.id},
   		  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   	}
   });
