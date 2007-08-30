@@ -70,7 +70,7 @@ $(document).ready(function(event) {
 function initialise_images() {
   $(".drag_image").Draggable({ ghosting:	true, opacity: 	0.4, revert:true});
   $(".image_trash_icon").click(function(){
-    $.get("/admin/content/remove_image/"+content_page_id+"?image="+this.id.substr(13)+"&order="+this.parentNode.id.substr(8),function(response){
+    $.get("../../remove_image/"+content_page_id+"?image="+this.id.substr(13)+"&order="+this.parentNode.id.substr(8),function(response){
       $("#dropzone"+get_query_var(this.url,'order')).html(response);
       initialise_images();
     })
