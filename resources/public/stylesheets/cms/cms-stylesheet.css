@@ -343,11 +343,12 @@ h4{
   padding:10px;
   float:none;
   margin-right:140px;
+  height:380px;
+  overflow:auto;
 }
 
 #category_list {
-  height:300px;
-  overflow:auto;
+
   width:70%;
 }
 
