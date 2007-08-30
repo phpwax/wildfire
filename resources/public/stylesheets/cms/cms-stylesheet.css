@@ -622,6 +622,8 @@ li.pagination_link a {
     padding:0;
     margin:0;
     background:none;
+    font-size:85%;
+    line-height:100%;
   }
   
   #content_options .form_help_text {
@@ -629,7 +631,7 @@ li.pagination_link a {
     font-size:77%;
     padding-left:15px;
   }
-  #content_options .check_box_field {
+  #content_options label.check_box_field {
     width:auto;
   }
   
