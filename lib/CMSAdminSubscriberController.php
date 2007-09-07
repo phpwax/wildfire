@@ -19,7 +19,6 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 		foreach(self::$registered_email_classes as $handle=>$class) {
 		  $this->sub_links[$handle] = "Send ".humanize($handle);
 		}
-		$this->link_partial = $this->render_partial("apply_links");
 	}
 
 	public function send_emails() {
@@ -59,6 +58,8 @@ class CMSAdminSubscriberController extends CMSAdminComponent{
 	  $this->email_handle = $this->action;
 	  $this->email_class = new $class;
 	  $this->use_view="send_emails";
+	  $this->link_partial = $this->render_partial("apply_links");
+	  
 	  $this->email_content = $this->email_class->get_email_content($this->email_handle);
 	  $this->email_subject = $this->email_class->email_subject;
 	  $this->from_email = $this->email_class->from_email;
