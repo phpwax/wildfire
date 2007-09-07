@@ -24,8 +24,8 @@ class CmsCategory extends WXTreeRecord {
 			$collection["{$item->id}"] = $value;
 		}
 		return $collection;
-	}	
-	
+	}
+		
 	
 }
 

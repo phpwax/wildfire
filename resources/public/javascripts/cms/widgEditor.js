@@ -1572,7 +1572,6 @@ String.prototype.validTags = function()
 		
 	return theString;
 }
-//YAHOO.util.Event.addListener(window, "load", widgInit);
 $(document).ready(function(){
   widgInit();
 });
