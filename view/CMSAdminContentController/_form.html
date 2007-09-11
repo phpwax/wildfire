@@ -10,7 +10,9 @@
     <ul class="tabs-nav">
       <li><a href="#section-1">Editing Page: <strong id="page_tab_title">...</strong></a></li>
       <li><a href="#section-2">Add Image(s)</a></li>
+      <?if(CmsApplication::is_registered('categories')):?>
       <li><a href="#section-3">Add Categories</a></li>
+      <?endif?>
       <?if(count($extra_content)):?><li><a href="#section-4">Extra Content</a></li><?endif?>
     </ul>
     
@@ -27,12 +29,14 @@
         <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
+      <?if(CmsApplication::is_registered('categories')):?>
       <div id="section-3" class="tabs-container">
         <?if($allowed_categories):?>
           <?=$category_partial?>
         <?else:?><p>Categories disabled</p>
         <?endif?>
       </div>
+      <?endif?>
       <?if(count($extra_content)):?>
         <div id="section-4" class="tabs-container">
           <?=$extra_content_partial?>
