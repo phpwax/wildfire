@@ -737,6 +737,7 @@ li.pagination_link a {
     left: 15px;    
     width: 95%;
     height:90%;
+    background-color:white;
 }
 #preview_pane iframe {
   border:0;
