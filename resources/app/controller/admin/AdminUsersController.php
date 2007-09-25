@@ -1,3 +1,3 @@
 <?php
-class AdminUsersController extends CMSAdminSubscriberController {}
+class AdminUsersController extends CMSAdminUserController {}
 ?>
