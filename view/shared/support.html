@@ -47,12 +47,10 @@
 <div id="helpdoc">
 	<h3>User Guide</h3>
 	<ol>
-	<? foreach($guides as $title=>$info):?>
-		<li>
-			<a href="#guide-<?= $title?>"><?= ucfirst($title)?></a>
-		</li>
-	<? endforeach?>
-	<ol>
+	<?foreach($guides as $title=>$info):?>
+		<li><a href="#guide-<?= $title?>"><?= ucfirst($title)?></a></li>
+	<?endforeach?>
+	</ol>
 	<div class="guide-block">
 		<h4>Introduction</h4>
 		<p>We've put together a quick how-to guide for each of the modules in the Wildfire Content Management System (CMS). To flick to a module How-To, click the relevant heading in the list above.</p>
@@ -60,7 +58,7 @@
 	<? foreach($guides as $title=>$info):?>
 		<div class="guide-block">
 			<h4><a href="#guide-<?= $title?>" name="guide-<?= $title?>"><?= ucfirst($title)?></a></h4>
-			<p><?= $info?></p>
+			<?= $info?>
 		</div>
 	<? endforeach?>
 </div>
