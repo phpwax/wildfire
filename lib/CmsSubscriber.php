@@ -6,6 +6,7 @@ class CmsSubscriber extends WXActiveRecord {
 	
 	public function validations(){
     $this->valid_required("email");
+    $this->valid_format("email", "email");
 	}
 	
 }
