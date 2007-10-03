@@ -10,6 +10,7 @@
 /******************************************************************************
 **    CONFIGURATION VARIABLES
 ******************************************************************************/
+var cms_allowHTMLedit = false;
 
 /* Location of stylesheet file for editor content */
 var widgStylesheet = "/stylesheets/widget-content.css";
