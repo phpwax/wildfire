@@ -10,7 +10,6 @@
 /******************************************************************************
 **    CONFIGURATION VARIABLES
 ******************************************************************************/
-var allowHTMLedit = false;
 
 /* Location of stylesheet file for editor content */
 var widgStylesheet = "/stylesheets/widget-content.css";
@@ -24,7 +23,7 @@ widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
 widgToolbarItems.push("blockformat");
-if(allowHTMLedit) { widgToolbarItems.push("htmlsource"); }
+if(cms_allowHTMLedit) { widgToolbarItems.push("htmlsource"); }
 
 /* Options on block format select element. Consists of string pairs (option value, option label) */
 var widgSelectBlockOptions = new Array();
