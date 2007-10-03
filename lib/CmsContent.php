@@ -82,7 +82,7 @@ class CmsContent extends WXActiveRecord {
     $text = str_replace("£", "&pound;", $text);
     
     // strip tags, still leaving attributes, second variable is allowable tags
-    $text = strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form>');
+    $text = strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>');
     // removes the attributes for allowed tags
     $text = preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span)([^>]*)>/", "<$1>", $text);
     return $this->convert_word($text);
