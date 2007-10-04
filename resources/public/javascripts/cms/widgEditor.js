@@ -322,7 +322,7 @@ widgEditor.prototype.cleanSource = function()
 	theHTML = theHTML.replace(/(<img [^>]+[^\/])>/g, "$1 />");
 	
 	/* Remove empty tags */
-	theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, "");
+	//theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, "");
 
   /* Add extra hooks to h6 tags */
 	theHTML = theHTML.replace(/<h6>/g, "<h6><span>");
