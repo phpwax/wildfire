@@ -18,7 +18,6 @@ class CmsUser extends WXActiveRecord {
 	  return $this->firstname." ".$this->surname;
 	}
 	
-	
 }
 
 ?>
