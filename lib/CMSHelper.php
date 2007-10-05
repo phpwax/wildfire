@@ -52,7 +52,7 @@ class CMSHelper extends WXHelpers {
   
   public function smart_nav($url, $display, $current, $selected_id) {
     if(is_array($url)) {
-      if($url["action"] == $current && $url["controller"]==$controller) {
+      if($url["action"] == $current) {
         $li_options["id"]=$selected_id;
         return content_tag("li", content_tag("a", $display, array("href"=>url_for($url))), $li_options );
       }
