@@ -15,10 +15,12 @@ class ContentTableMigrate extends WXMigrate {
     $this->create_column("sort", "integer");
     $this->create_column("url", "string");
     $this->create_table("cms_content");
+    $this->add_column("cms_content", "pageviews", "integer", "11", false, "0");
   }
   
   public function down() {
     $this->drop_table("cms_content");
+    $this->remove_column("cms_content", "pageviews");
   }
   
 }

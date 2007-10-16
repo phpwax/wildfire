@@ -10,3 +10,10 @@ body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: #FFFFFF;
 }
+p {
+  font-size:13px;
+}
+h6 {
+  font-size:14px;
+  font-style:italic;
+}
