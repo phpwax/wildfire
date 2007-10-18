@@ -142,9 +142,7 @@ class CMSHelper extends WXHelpers {
 	}
 	
 	public function random_image($directory="images", $alt="") {
-	  $images = File::scandir(PUBLIC_DIR."images", "[a-z0-9_-]\.jpg|gif");
-	  
-	  print_r($images); exit;
+	  $images = File::scandir(PUBLIC_DIR."images", "[a-z0-9_-]\.jpg|gif");	  
 	  $image = $images[rand(0, count($images))];
 	  return "<img src='/".$directory."/".$image."' alt='".$alt."' />";
 	}
