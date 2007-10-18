@@ -141,7 +141,7 @@ class CMSHelper extends WXHelpers {
 	  return $first.$injection.$second;
 	}
 	
-	public function random_image($directory="images", $alt="", $class="") {
+	public function random_image($directory="images", $class="", $alt="") {
 	  $images = File::scandir(PUBLIC_DIR."images", "[a-z0-9_-]\.jpg|gif");	  
 	  $image = $images[rand(0, count($images))];
 	  return "<img src='/".$directory."/".$image."' alt='".$alt."' class='".$class."' />";
