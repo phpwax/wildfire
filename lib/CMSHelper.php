@@ -133,9 +133,9 @@ class CMSHelper extends WXHelpers {
 	  return $js->javascript_tag("setup_preview('$permalink', '$trigger_id', '$preview_pane');");
 	}
 	
-	public function inject_into_content($content, $injection, $offset, $pattern = "<p") {
+	public function inject_into_content($content, $injection, $offset=1, $pattern = "<p") {
 	  $split_content = preg_split("/(".$pattern.")/", $content, -1, PREG_SPLIT_OFFSET_CAPTURE);
-	  $position = $split_content[$position][1];
+	  $position = $split_content[$offset][1];
 	  $first = substr($content, 0, $position - strlen($pattern));
 	  $second = substr($content, $position- strlen($pattern));
 	  return $first.$injection.$second;
