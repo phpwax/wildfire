@@ -134,7 +134,7 @@ class CMSHelper extends WXHelpers {
 	}
 	
 	public function inject_into_content($content, $paragraph, $position="before") {
-	  $split_content = preg_split("/(<\/p>)|(<\/h[0-9]?)/", $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+	  $split_content = preg_split("/(<\/p>)|(<\/h[0-4]?)/", $content, -1, PREG_SPLIT_OFFSET_CAPTURE);
 	  print_r($split_content); exit;
 	}
 	
