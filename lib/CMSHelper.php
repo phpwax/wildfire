@@ -136,8 +136,8 @@ class CMSHelper extends WXHelpers {
 	public function inject_into_content($content, $injection, $position) {
 	  $split_content = preg_split("/(<p)/", $content, -1, PREG_SPLIT_OFFSET_CAPTURE);
 	  $position = $split_content[$position][1];
-	  $first = substr($content, 0, $position);
-	  $second = substr($content, $position);
+	  $first = substr($content, 0, $position-2);
+	  $second = substr($content, $position-2);
 	  return $first.$injection.$second;
 	}
 	
