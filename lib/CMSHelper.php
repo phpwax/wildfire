@@ -142,7 +142,8 @@ class CMSHelper extends WXHelpers {
 	}
 	
 	public function random_image($directory="images", $alt="") {
-	  $images = File::list_images_recursive(PUBLIC_DIR.$directory);
+	  $images = File::scandir(PUBLIC_DIR."images");
+	  
 	  print_r($images); exit;
 	  $image = $images[rand(0, count($images))];
 	  return "<img src='/".$directory."/".$image."' alt='".$alt."' />";
