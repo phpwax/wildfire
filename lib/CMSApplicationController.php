@@ -95,6 +95,7 @@ class CmsApplicationController extends WXControllerBase{
 	    return $res[0];
 	  }
 	  $id = $content->find_by_url($url)->cms_section_id;
+	  if($id == null) throw new WXRoutingException('404');
     if($res = $section->find($id)) return $res;
 	  return false;
 	}
