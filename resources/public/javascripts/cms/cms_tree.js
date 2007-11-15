@@ -40,7 +40,8 @@ $(document).ready(function() {
           draggable_files();
           droppable_folders();
         }
-      )
+      );
+      this.parent().add_class("selected_folder");
     });
     
     $("#create_new_folder").click(function(){
