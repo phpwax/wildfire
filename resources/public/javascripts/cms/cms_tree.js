@@ -73,7 +73,7 @@ function droppable_folders() {
 		    {folder: this.id, file_id: dropped.id},
         function(response) {
           $.post("/admin/files/fetch_folder", 
-    			  {folder: dropped.id},
+    			  {folder: this.id},
             function(response) {
               $("#file_tree_files").html(response);
             }
