@@ -71,7 +71,12 @@ function droppable_folders() {
 		  $.post("/admin/files/move_file/", 
 		    {folder: this.id, file_id: dropped.id},
         function(response) {
-          alert("done");
+          $.post("/admin/files/fetch_folder", 
+    			  {folder: dropped.id},
+            function(response) {
+              $("#file_tree_files").html(response);
+            }
+          )
         });
 		}
   })
