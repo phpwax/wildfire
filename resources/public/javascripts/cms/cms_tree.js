@@ -83,12 +83,12 @@ function droppable_folders() {
     			  {folder: the_folder},
             function(response) {
               $("#file_tree_files").html(response);
+              droppable_folders();
+              draggable_files();
+              $(".pft-directory").removeClass("selected_folder");
+              $(this).parent().addClass("selected_folder");
             }
           );
-        droppable_folders();
-        draggable_files();
-        $(".pft-directory").removeClass("selected_folder");
-        $(this).parent().addClass("selected_folder");
       });
 		}
   })
