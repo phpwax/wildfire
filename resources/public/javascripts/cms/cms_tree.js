@@ -151,4 +151,12 @@ $(document).ready(function() {
       $("#new_folder_name").val("");
     });
     
+    draggable_files();
+    
 });
+
+function draggable_files() {
+  $(".file_preview").Draggable({
+    revert: true
+  })
+}
