@@ -37,6 +37,7 @@ $(document).ready(function() {
 			  {folder: this.id},
         function(response) {
           $("#file_tree_files").html(response);
+          droppable_folders();
         }
       )
     });
