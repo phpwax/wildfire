@@ -793,7 +793,7 @@ li.pagination_link a {
   margin-bottom:40px;
   height:380px;
 }
-#file_tree_files .file_preview {
+.file_preview {
   margin:3px 0 0 0;
   background:#E1E1E1;
 }
@@ -803,7 +803,7 @@ li.pagination_link a {
   width:20px;
 }
 
-#file_tree_files .file_preview a, #file_tree_files .file_preview a:hover, #file_tree_files .file_preview a:active {
+.file_preview a {
   color:#3F3C3C;
   font-size:77%;
 }
