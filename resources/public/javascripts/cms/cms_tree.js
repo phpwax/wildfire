@@ -76,7 +76,9 @@ function droppable_folders() {
             function(response) {
               $("#file_tree_files").html(response);
             }
-          )
+          );
+          draggable_files();
+          droppable_folders();
         });
 		}
   })
