@@ -73,6 +73,7 @@ function droppable_folders() {
     accept: 'file_preview',
     hoverclass: 'drop_file_class',
     tolerance: 'intersect',
+    opacity: 100,
     onDrop			: function(dropped) {
       var the_folder = this.id;		
 		  $.post("/admin/files/move_file/", 
