@@ -68,8 +68,8 @@ function droppable_folders() {
     accept: 'file_preview',
     activeclass: 'drop_file_class',
     onDrop			: function(dropped) {		
-		  $.post("/admin/files/move_file/"+dropped.id+"/", 
-		    {folder: this.id},
+		  $.post("/admin/files/move_file/", 
+		    {folder: this.id, file_id: dropped.id},
         function(response) {
           alert("done");
         });

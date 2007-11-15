@@ -223,8 +223,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function move_file() {
 	  $this->use_view=false;
 	  $this->use_layout = false;
-	  echo "Gonna move file number ".url("id");
-	  echo " to ".url("folder");
+	  echo "Gonna move file number ".$_POST("file_id");
+	  echo " to ".$this->unslashify($_POST("folder"));
 	  exit;
 	}
 
