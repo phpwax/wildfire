@@ -814,7 +814,7 @@ li.pagination_link a {
   margin-left:5px;
 }
 #file_tree ul li {
-  padding:8px;
+  padding:4px;
 }
 #file_tree ul li a {
   padding-left:26px;
@@ -824,7 +824,7 @@ li.pagination_link a {
   font-size:11px;
 }
 .selected_folder {
-  background:#E1E1E1;
+  background:#F1F1F1;
   padding:3px;
 }
 .selected_folder ul {
