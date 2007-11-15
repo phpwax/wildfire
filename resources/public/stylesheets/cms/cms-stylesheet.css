@@ -803,7 +803,9 @@ li.pagination_link a {
   width:20px;
 }
 
-.file_preview a {
+.file_preview a,
+.file_preview a:hover,
+.file_preview a:active {
   color:#3F3C3C;
   font-size:77%;
 }
