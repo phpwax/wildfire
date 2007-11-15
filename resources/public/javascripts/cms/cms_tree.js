@@ -62,7 +62,8 @@ $(document).ready(function() {
 
 function draggable_files() {
   $(".file_preview").Draggable({
-    revert: true
+    revert: true,
+    ghosting: true
   });
   
 }
