@@ -163,7 +163,7 @@ function draggable_files() {
 }
 
 function droppable_folders() {
-  $(".tree_folder").Droppable({
+  $(".pft-directory").Droppable({
     accept: 'file_preview',
     activeclass: 'drop_file_class',
     onDrop			: function(dropped) {
