@@ -30,107 +30,8 @@ $(document).ready(function() {
 				}
 			}
 		);
-		/*$('li .tree_folder').Droppable(
-			{
-				accept			: 'tree_folder',
-				hoverclass		: 'dropOver',
-				activeclass		: 'fakeClass',
-				tollerance		: 'pointer',
-				onhover			: function(dragged)
-				{
-					if (!this.expanded) {
-						subbranches = $('ul', this.parentNode);
-						if (subbranches.size() > 0) {
-							subbranch = subbranches.eq(0);
-							this.expanded = true;
-							if (subbranch.css('display') == 'none') {
-								var targetBranch = subbranch.get(0);
-								this.expanderTime = window.setTimeout(
-									function()
-									{
-										$(targetBranch).show();
-										$('img.expandImage', targetBranch.parentNode).eq(0).attr('src', '/images/cms/bullet_toggle_minus.gif');
-										$.recallDroppables();
-									},
-									500
-								);
-							}
-						}
-					}
-				},
-				onout			: function()
-				{
-					if (this.expanderTime){
-						window.clearTimeout(this.expanderTime);
-						this.expanded = false;
-					}
-				},
-				ondrop			: function(dropped)
-				{
-					if(this.parentNode == dropped)
-						return;
-					if (this.expanderTime){
-						window.clearTimeout(this.expanderTime);
-						this.expanded = false;
-					}
-					subbranch = $('ul', this.parentNode);
-					if (subbranch.size() == 0) {
-						$(this).after('<ul></ul>');
-						subbranch = $('ul', this.parentNode);
-					}
-					oldParent = dropped.parentNode;
-					subbranch.eq(0).append(dropped);
-					oldBranches = $('li', oldParent);
-					if (oldBranches.size() == 0) {
-						$('img.expandImage', oldParent.parentNode).src('/images/cms/spacer.gif');
-						$(oldParent).remove();
-					}
-					expander = $('img.expandImage', this.parentNode);
-					if (expander.get(0).src.indexOf('spacer') > -1)
-						expander.get(0).src = '/images/cms/bullet_toggle_minus.gif';
-				}
-			}
-		); 
 		
 		
-		$('li .tree_folder').Draggable(
-			{
-				revert		: true,
-				autoSize		: true,
-				ghosting			: true,
-				onStop		: function()
-				{
-					$('span.textHolder').each(
-						function()
-						{
-							this.expanded = false;
-						}
-					);
-				}
-			}
-		); */
-		
-		$('.file_resource').Draggable(
-			{
-				revert		: true,
-				autoSize		: true,
-				ghosting			: true,
-				opacity: 0.5
-			}
-		);
-		
-		$('.tree_folder').Droppable(
-			{
-				accept			: 'file_resource',
-				hoverclass		: 'dropOver',
-				activeclass		: 'fakeClass',
-				tolerance		: 'intersect',
-				onDrop			: function(dropped) {
-					alert("you dropped a file "+dropped.id);
-				}
-			}
-		);
-
     $(".tree_folder").click(function(){ 
       $.post("/admin/files/fetch_folder", 
 			  {folder: this.id},
@@ -163,11 +64,15 @@ function draggable_files() {
 }
 
 function droppable_folders() {
-  $(".pft-directory").Droppable({
+  $(".tree_folder").Droppable({
     accept: 'file_preview',
     activeclass: 'drop_file_class',
-    onDrop			: function(dropped) {
-			alert("you dropped a file "+dropped.id);
+    onDrop			: function(dropped) {		
+		  $.post("/admin/files/move_folder/"+dropped.id+"/", 
+		    {folder: this.id},
+        function(response) {
+          alert("done");
+        });
 		}
   })
 }

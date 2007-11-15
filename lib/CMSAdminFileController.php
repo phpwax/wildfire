@@ -219,6 +219,14 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $path = str_replace(PUBLIC_DIR, "", $path);
     return str_replace('/', '_', $path);
 	}
+	
+	public function move_file() {
+	  if(!$id = url("folder")) return false;
+	  $this->use_layout = false;
+	  $this->use_view=false;
+	  echo "Gonna move file number ".url("id");
+	  echo " to "+url("folder");
+	}
 
 }
 ?>
