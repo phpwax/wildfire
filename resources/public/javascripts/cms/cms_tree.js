@@ -71,7 +71,7 @@ function draggable_files() {
 function droppable_folders() {
   $(".tree_folder").Droppable({
     accept: 'file_preview',
-    activeclass: 'drop_file_class',
+    hoverclass: 'drop_file_class',
     tolerance: 'intersect',
     onDrop			: function(dropped) {
       var the_folder = this.id;		
