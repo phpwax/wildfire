@@ -824,11 +824,11 @@ li.pagination_link a {
   font-size:11px;
 }
 .selected_folder {
-  background:#F1F1F1;
+  font-weight:bold !important;
   padding:3px;
 }
 .selected_folder ul {
-  background:none;
+  font-weight:normal;
 }
 .drop_file_class {
   background-color:#FFC964 !important;
