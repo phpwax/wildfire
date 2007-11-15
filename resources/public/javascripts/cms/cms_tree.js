@@ -85,9 +85,11 @@ function droppable_folders() {
               $("#file_tree_files").html(response);
             }
           );
-          draggable_files();
-          droppable_folders();
-        });
+        $(".pft-directory").removeClass("selected_folder");
+        $(this).parent().addClass("selected_folder");
+        draggable_files();
+        droppable_folders();
+      });
 		}
   })
 }
