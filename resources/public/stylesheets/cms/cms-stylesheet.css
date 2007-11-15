@@ -828,7 +828,7 @@ li.pagination_link a {
   padding:3px;
 }
 .selected_folder ul a {
-  font-weight:normal;
+  font-weight:normal !important;
 }
 .drop_file_class {
   background-color:#FFC964 !important;
