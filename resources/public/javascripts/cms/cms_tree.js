@@ -48,7 +48,10 @@ $(document).ready(function() {
     $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
        {folder: $("#new_folder_name").val(), parent: $("#cms_file_new_folder").val()},
-       function(response) { $("#file_tree").html(response);}
+       function(response) { 
+         $("#file_tree").html(response);
+         droppable_folders();
+       }
       );
     });
     
