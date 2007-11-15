@@ -824,7 +824,8 @@ li.pagination_link a {
   font-size:11px;
 }
 .selected_folder {
-  background:#AAAAAA;
+  background:#D1D1D1;
+  padding:3px;
 }
 
 .dropOver {

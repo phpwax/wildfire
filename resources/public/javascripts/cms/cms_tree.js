@@ -41,6 +41,7 @@ $(document).ready(function() {
           droppable_folders();
         }
       );
+      $(".pft-directory").removeClass("selected_folder");
       $(this).parent().addClass("selected_folder");
     });
     
