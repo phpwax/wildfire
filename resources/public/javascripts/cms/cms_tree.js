@@ -63,7 +63,7 @@ $(document).ready(function() {
 function draggable_files() {
   $(".file_preview").Draggable({
     revert: true,
-    ghosting: true
+    ghosting: false
   });
   
 }
@@ -85,8 +85,8 @@ function droppable_folders() {
               $("#file_tree_files").html(response);
             }
           );
-        draggable_files();
         droppable_folders();
+        draggable_files();
         $(".pft-directory").removeClass("selected_folder");
         $(this).parent().addClass("selected_folder");
       });
