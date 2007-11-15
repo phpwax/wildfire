@@ -225,7 +225,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout = false;
 	  $dest = str_replace("_","/",$_POST["folder"]);
 	  $file = new CmsFile($_POST["file_id"]);
-	  if(rename($file->path.$file->filename, PUBLIC_DIR.$dest)) {
+	  if(rename($file->path.$file->filename, PUBLIC_DIR.$dest."/".$file->filename)) {
 	    $file->path = PUBLIC_DIR.$dest;
     }
 	}
