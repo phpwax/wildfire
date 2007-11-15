@@ -75,18 +75,18 @@ function droppable_folders() {
     tolerance: 'intersect',
     opacity: 0.99,
     onDrop			: function(dropped) {
-      var the_folder = this.id;		
+      var the_folder = this;		
 		  $.post("/admin/files/move_file/", 
 		    {folder: this.id, file_id: dropped.id},
         function(response) {
           $.post("/admin/files/fetch_folder", 
-    			  {folder: the_folder},
+    			  {folder: the_folder.id},
             function(response) {
               $("#file_tree_files").html(response);
               droppable_folders();
               draggable_files();
               $(".pft-directory").removeClass("selected_folder");
-              $(this).parent().addClass("selected_folder");
+              $(the_folder).parent().addClass("selected_folder");
             }
           );
       });
