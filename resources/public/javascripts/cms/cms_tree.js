@@ -41,7 +41,7 @@ $(document).ready(function() {
           droppable_folders();
         }
       );
-      $(this).parent().add_class("selected_folder");
+      $(this).parent().addClass("selected_folder");
     });
     
     $("#create_new_folder").click(function(){
