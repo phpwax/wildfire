@@ -152,11 +152,22 @@ $(document).ready(function() {
     });
     
     draggable_files();
-    
+    droppable_folders();
 });
 
 function draggable_files() {
   $(".file_preview").Draggable({
     revert: true
+  });
+  
+}
+
+function droppable_folders() {
+  $(".tree_folder").Droppable({
+    accept: 'file_preview',
+    activeclass: 'drop_file_class',
+    onDrop			: function(dropped) {
+			alert("you dropped a file "+dropped.id);
+		}
   })
 }

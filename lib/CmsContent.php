@@ -117,7 +117,7 @@ class CmsContent extends WXActiveRecord {
     $text = preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
     $text = preg_replace("/\.{4,}/", "<hr />", $text);
     $widont_finder = "/(\s+)                    # the space to replace
-      ([^<>\s]+                                 # must be flollowed by non-tag non-space characters
+      ([^<>\s]+                                 # must be followed by non-tag non-space characters
       \s*                                       # optional white space! 
       (<\/(a|em|span|strong|i|b)[^>]*>\s*)*     # optional closing inline tags with optional white space after each
       (<\/(p|h[1-6]|li)|$))                     # end with a closing p, h1-6, li or the end of the string
