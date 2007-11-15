@@ -795,7 +795,6 @@ li.pagination_link a {
 }
 .file_preview {
   margin:3px 0 0 0;
-  background:#E1E1E1;
 }
 .file_delete_button {
   display:block;
@@ -810,7 +809,7 @@ li.pagination_link a {
 .file_preview a,
 .file_preview a:hover,
 .file_preview a:active {
-  color:#3F3C3C;
+  color:#3F3C3C !important;
   font-size:77%;
 }
 .pft-directory a {
