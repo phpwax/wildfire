@@ -830,6 +830,9 @@ li.pagination_link a {
 .selected_folder ul {
   background:none;
 }
+.drop_file_class {
+  background:#FFA100;
+}
 
 .dropOver {
 	background-color: #00c;
