@@ -69,12 +69,13 @@ function droppable_folders() {
   $(".tree_folder").Droppable({
     accept: 'file_preview',
     activeclass: 'drop_file_class',
-    onDrop			: function(dropped) {		
+    onDrop			: function(dropped) {
+      var the_folder = this.id;		
 		  $.post("/admin/files/move_file/", 
 		    {folder: this.id, file_id: dropped.id},
         function(response) {
           $.post("/admin/files/fetch_folder", 
-    			  {folder: this.id},
+    			  {folder: the_folder},
             function(response) {
               $("#file_tree_files").html(response);
             }
