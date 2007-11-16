@@ -106,7 +106,6 @@ function droppable_folders() {
     }
   });
   $(".tree_folder span").editable("/admin/files/rename_folder/"+this.id, {
-    cancel    : 'Cancel',
-    submit    : 'OK'
+    indicator : "Saving..."
   });
 }
