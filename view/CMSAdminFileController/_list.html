@@ -5,12 +5,7 @@
     <a href="/admin/files/edit/<?=$image->id?>"><?=truncate($image->filename, 45)?> (<?=$image->file_size?>)</a>
   </div>
 <?endforeach;?>
-<div id="folder_context_menu">
-  <ul>
-    <li id="edit">Edit</li>
-    <li id="delete">Delete</li>
-  </ul>
-</div>
+
 <?if(empty($all_rows)):?>
   Folder is empty
 <?endif;?>
