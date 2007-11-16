@@ -99,8 +99,7 @@ function droppable_folders() {
     bindings: {
       'rename': function(t) {
         new_folder = prompt('Enter new name');
-        alert(t.id);
-        old_folder = t.parentNode.id
+        old_folder = t.id
         $.post("/admin/files/rename_folder/",
           { old_name: old_folder,
             new_name: new_folder }
