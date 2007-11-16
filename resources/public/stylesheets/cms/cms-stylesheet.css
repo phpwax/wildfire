@@ -838,6 +838,9 @@ li.pagination_link a {
 .drop_file_class {
   background-color:#FFC964 !important;
 }
+#folder_context_menu {
+  display:none;
+}
 
 .dropOver {
 	background-color: #00c;
