@@ -105,4 +105,5 @@ function droppable_folders() {
       }
     }
   });
+  $(".tree_folder").editable("/admin/files/rename_folder/"+this.id);
 }
