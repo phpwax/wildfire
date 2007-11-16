@@ -97,15 +97,19 @@ function droppable_folders() {
   });
   $(".tree_folder").contextMenu("folder_context_menu", {
     bindings: {
-      'edit': function(t) {
-        alert('Trigger was '+t.id+'\nAction was Edit');
+      'rename': function(t) {
+        new_folder = prompt('Enter new name');
+        $.post("/admin/files/rename_folder/", {
+          { 
+            old_name: this.parent().id,
+            new_name: new_folder
+          }
+        });
       },
       'delete': function(t) {
         alert('Trigger was '+t.id+'\nAction was Delete');
       }
     }
   });
-  $(".tree_folder span").editInPlace({
-      url: "/admin/files/rename_folder/"+$(this).parent().id
-    });
+  
 }
