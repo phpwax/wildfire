@@ -95,5 +95,5 @@ function droppable_folders() {
       });
 		}
   });
-  $(".tree_folder").contextMenu("folder_context_menu");
+  $(".pft-directory").contextMenu("folder_context_menu");
 }
