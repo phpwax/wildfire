@@ -230,6 +230,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $file->save;
     }
 	}
+	
+	public function rename_folder {
+	  $this->use_view=false;
+	  $this->use_layout = false;
+	}
 
 }
 ?>
