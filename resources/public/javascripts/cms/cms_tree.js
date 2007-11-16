@@ -102,7 +102,7 @@ function droppable_folders() {
         $.post("/admin/files/rename_folder/",
           { old_name: this.parent().id,
             new_name: new_folder }
-        });
+        );
       },
       'delete': function(t) {
         alert('Trigger was '+t.id+'\nAction was Delete');
