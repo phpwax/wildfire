@@ -95,7 +95,7 @@ function droppable_folders() {
       });
 		}
   });
-  $(".pft-directory").contextMenu("folder_context_menu", {
+  $(".tree_folder").contextMenu("folder_context_menu", {
     bindings: {
       'edit': function(t) {
         alert('Trigger was '+t.id+'\nAction was Edit');
