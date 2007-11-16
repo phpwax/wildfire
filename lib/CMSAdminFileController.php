@@ -231,7 +231,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     }
 	}
 	
-	public function rename_folder {
+	public function rename_folder() {
 	  $this->use_view=false;
 	  $this->use_layout = false;
 	}
