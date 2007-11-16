@@ -106,7 +106,7 @@ function droppable_folders() {
     }
   });
   $(".tree_folder span").editInPlace({
-      url: "/admin/files/rename_folder/"+this.parent().id,
+      url: "/admin/files/rename_folder/"+$(this).parent().id,
       params: "ajax=yes",
       save_button: "",
       cancel_button: ""
