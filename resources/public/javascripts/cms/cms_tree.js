@@ -99,8 +99,9 @@ function droppable_folders() {
     bindings: {
       'rename': function(t) {
         new_folder = prompt('Enter new name');
+        old_folder = $(this).parent().id
         $.post("/admin/files/rename_folder/",
-          { old_name: $(this).parent().id,
+          { old_name: old_folder,
             new_name: new_folder }
         );
       },
