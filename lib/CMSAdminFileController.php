@@ -235,7 +235,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout = false;
 	  $orig = str_replace("_","/",$_POST["old_name"]);
 	  $new = substr(0, strrpos($orig, "/"), $orig);
-	  $new .= $_POST['new_name'];
+	  $new = $new.$_POST['new_name'];
 	  echo $new; exit;
 	}
 
