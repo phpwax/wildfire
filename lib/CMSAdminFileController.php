@@ -236,7 +236,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $orig = str_replace("_","/", $_POST["old_name"]);
 	  
 	  $new = substr(0, 5, $orig);
-	  die("the position of the string is ".$new);
+	  die("the position of the string is ".$orig);
 	  $new = $new.$_POST['new_name'];
 	  echo $new; exit;
 	}
