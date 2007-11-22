@@ -254,7 +254,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout = false;
 	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/", array("order"=>"filename ASC"));
 	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
-	  $this->list = $this->render_partial("list");
 	}
 
 }

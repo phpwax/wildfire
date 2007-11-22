@@ -107,7 +107,7 @@ function droppable_folders() {
               $.post("/admin/files/refresh_tree", 
         			  {},
                 function(response) {
-                  $("#file_tree_files").html(response);
+                  $("#file_tree").html(response);
                 }
               );
               droppable_folders();
