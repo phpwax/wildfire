@@ -104,6 +104,12 @@ function droppable_folders() {
           { old_name: old_folder,
             new_name: new_folder },
             function() {
+              $.post("/admin/files/refresh_tree", 
+        			  {},
+                function(response) {
+                  $("#file_tree_files").html(response);
+                }
+              );
               droppable_folders();
               draggable_files();
             }
