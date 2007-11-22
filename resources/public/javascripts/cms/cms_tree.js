@@ -110,7 +110,6 @@ function droppable_folders() {
             new_name: new_folder },
             function() {
               $.post("/admin/files/refresh_tree", 
-        			  {},
                 function(response) {
                   $("#file_tree").html(response);
                   initialise_tree();
