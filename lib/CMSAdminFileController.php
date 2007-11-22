@@ -255,6 +255,18 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/", array("order"=>"filename ASC"));
 	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
 	}
+	
+	public function delete_folder() {
+	  $folder = $orig = str_replace("_","/", $_POST["folder_name"]);
+	  if(File::recursively_delete(PUBLIC_DIR.$folder) ) {
+	    $search = PUBLIC_DIR.$folder;
+	    $file_model = new CmsFile;
+	    $files = $file_model->find_all(array("conditions"=>"path LIKE '%$search%'"));
+	    foreach($files as $file) {
+	      $file_model->delete($file->id);
+	    }
+	  }
+	}
 
 }
 ?>

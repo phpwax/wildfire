@@ -120,7 +120,18 @@ function droppable_folders() {
       },
       'delete': function(t) {
         if(confirm("Are you sure? All files and sub-folders will be permanently removed")) {
-          alert('Trigger was '+t.id+'\nAction was Delete'); 
+          alert('Trigger was '+t.id+'\nAction was Delete');
+          $.post("/admin/files/delete_folder/",
+            { folder_name: t.id},
+              function() {
+                $.post("/admin/files/refresh_tree", 
+                  function(response) {
+                    $("#file_tree").html(response);
+                    initialise_tree();
+                  }
+                );
+              }
+          );
         }
       }
     }
