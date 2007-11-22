@@ -232,12 +232,17 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function rename_folder() {
+	  $_POST['new_name'] = str_replace("_","-",$_POST['new_name']);
+	  $this->use_view = false;
 	  $this->use_layout = false;
 	  $orig = str_replace("_","/", $_POST["old_name"]);
 	  $directory_parts = explode("/", $orig);
 	  $oldname = array_pop($directory_parts);
 	  if(rename(PUBLIC_DIR.$orig."/", PUBLIC_DIR.implode("/",$directory_parts)."/".$_POST['new_name'] )) {
-	    
+	    $file = new CmsFile;
+	    $search = PUBLIC_DIR.$orig;
+	    $files = $file->find_all(array("conditions"=>"path LIKE '%$search%'"));
+	    print_r($files); exit;
 	  }
 
 	}
