@@ -233,10 +233,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function rename_folder() {
 	  $this->use_layout = false;
-	  $orig = str_replace("_","/",$_POST["old_name"]);
+	  $orig = str_replace("_","/", $_POST["old_name"]);
 	  
 	  $new = substr(0, 5, $orig);
-	  die($new);
+	  die("the position of the string is ".$new);
 	  $new = $new.$_POST['new_name'];
 	  echo $new; exit;
 	}
