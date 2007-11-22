@@ -119,7 +119,9 @@ function droppable_folders() {
         );
       },
       'delete': function(t) {
-        alert('Trigger was '+t.id+'\nAction was Delete');
+        if(confirm("Are you sure? All files and sub-folders will be permanently removed")) {
+          alert('Trigger was '+t.id+'\nAction was Delete'); 
+        }
       }
     }
   });
