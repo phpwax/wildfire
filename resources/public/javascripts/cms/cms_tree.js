@@ -102,7 +102,11 @@ function droppable_folders() {
         old_folder = t.id
         $.post("/admin/files/rename_folder/",
           { old_name: old_folder,
-            new_name: new_folder }
+            new_name: new_folder },
+            function() {
+              droppable_folders();
+              draggable_files();
+            }
         );
       },
       'delete': function(t) {
