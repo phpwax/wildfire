@@ -108,10 +108,10 @@ function droppable_folders() {
         			  {},
                 function(response) {
                   $("#file_tree").html(response);
+                  droppable_folders();
+                  draggable_files();
                 }
               );
-              droppable_folders();
-              draggable_files();
             }
         );
       },
