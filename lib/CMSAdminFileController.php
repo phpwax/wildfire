@@ -242,7 +242,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $file = new CmsFile;
 	    $search = PUBLIC_DIR.$orig;
 	    $files = $file->find_all(array("conditions"=>"path LIKE '%$search%'"));
-	    print_r($files); exit;
+	    foreach($files as $file) {
+	      $file->path = str_replace($search, PUBLIC_DIR.implode("/",$directory_parts), $file->path);
+	      $file->save();
+	    }
 	  }
 
 	}
