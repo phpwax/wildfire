@@ -41,7 +41,7 @@ $(document).ready(function(event) {
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   $("#cms_file_new_folder").change(function(t){
-    alert("Changed to "+t.id);
+    alert("Changed to "+$(this).value);
   });
   
   /**** Initialise the image dropzones ***/
