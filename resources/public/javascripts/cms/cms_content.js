@@ -49,7 +49,7 @@ $(document).ready(function(event) {
     );
   });
   $("#view_all_button").click(function(){
-    $.post("/admin/files/browse_images",{filterfolder:"files"},
+    $.post("/admin/files/browse_images",{},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
