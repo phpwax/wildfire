@@ -281,7 +281,10 @@ p{
 #filter_block input{
 	border:1px solid #ababab;
 }
-
+#image_filter_folder {
+  float:left;
+  margin-left:25px;
+}
 
 
 
