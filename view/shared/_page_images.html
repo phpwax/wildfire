@@ -8,7 +8,8 @@
     <div id="filter_block">
       <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
       <span id="image_filter_folder">
-        <?=select($image_model, "new_folder", $image_model->folder_options, array("id"=>"image_folder"), "Choose a folder")?>
+        &nbsp;<?=select($image_model, "new_folder", $image_model->folder_options, array("id"=>"image_folder"), "Choose a folder")?>
+        &nbsp;<a href="#" id="view_all_button">See all</a>
       </span>
     </div>    
     

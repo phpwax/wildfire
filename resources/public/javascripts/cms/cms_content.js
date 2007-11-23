@@ -41,8 +41,15 @@ $(document).ready(function(event) {
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   $("#cms_file_new_folder").change(function(t){
-    alert("Changed to "+$(this).val());
     $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
+      function(response) { 
+        $("#image_list").html(response); 
+        initialise_images(); 
+      }
+    );
+  });
+  $("#view_all_button").click(function(){
+    $.post("/admin/files/browse_images",{filterfolder:"files"},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
