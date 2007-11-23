@@ -11,9 +11,6 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
-    $("#image_folder").change(function(t){
-      alert("Changed to "+t.id);
-    });
 });
 
 function initialise_draggables() {
@@ -43,6 +40,9 @@ $(document).ready(function(event) {
   }); 
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
+  $("#image_folder").change(function(t){
+    alert("Changed to "+t.id);
+  });
   
   /**** Initialise the image dropzones ***/
   $(".attached_image").Droppable(
