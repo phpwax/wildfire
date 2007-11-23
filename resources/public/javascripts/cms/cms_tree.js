@@ -145,6 +145,7 @@ function droppable_folders() {
               }
             );
           }
+        );
       }
     }
   });
