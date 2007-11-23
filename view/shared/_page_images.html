@@ -7,7 +7,7 @@
 	  </div>
     <div id="filter_block">
       <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
-      <?=select($files, "new_folder", $files->folder_options, array(), "Choose a folder")?>
+      <?=select($image_model, "new_folder", $image_model->folder_options, array(), "Choose a folder")?>
     </div>    
     
     <div id="drop_zones">
