@@ -116,7 +116,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->use_layout=false;
   	$this->all_images = ($image = new CmsFile) ? $image->find_all_images(array("order"=>"filename ASC")) : array();
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $image->find_all_images(array("order"=>"filename ASC","conditions"=>"path=".PUBLIC_DIR.$_POST['filterfolder']));
+  	  $this->all_images = $image->find_all_images(array("order"=>"filename ASC","conditions"=>"path=".PUBLIC_DIR.$_POST['filterfolder']."/"));
   	}
   	if($count > 0 && count($this->all_images) > $offset + $count) $this->more = $this->id+1;
   	if($count > 0 && $offset > 0) $this->previous = $this->id -1;
