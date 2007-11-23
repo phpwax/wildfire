@@ -136,6 +136,15 @@ function droppable_folders() {
       'new': function(t) {
         new_folder = prompt("Enter the folder name");
         alert("create a new subfolder of "+t.id+" called "+new_folder);
+        $.post("/admin/files/new_folder",{parent:t.id, folder:new_folder},
+          function() {
+            $.post("/admin/files/refresh_tree", 
+              function(response) {
+                $("#file_tree").html(response);
+                initialise_tree();
+              }
+            );
+          }
       }
     }
   });
