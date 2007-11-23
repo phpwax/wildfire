@@ -43,7 +43,10 @@ $(document).ready(function(event) {
   $("#cms_file_new_folder").change(function(t){
     alert("Changed to "+$(this).val());
     $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
-      function(response){ $("#image_list").html(response.responseText); initialise_images(); }
+      function(response) { 
+        $("#image_list").html(response.responseText); 
+        initialise_images(); 
+      }
     );
   });
   
