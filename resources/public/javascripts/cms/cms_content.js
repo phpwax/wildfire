@@ -11,6 +11,9 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
+    $("#image_folder").change(function(t){
+      alert("Changed to "+t.id);
+    });
 });
 
 function initialise_draggables() {

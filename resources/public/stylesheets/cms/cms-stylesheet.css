@@ -281,7 +281,9 @@ p{
 #filter_block input{
 	border:1px solid #ababab;
 }
-
+.image_filter_folder {
+  padding-left:10px;
+}
 
 
 
