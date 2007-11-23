@@ -120,7 +120,6 @@ function droppable_folders() {
       },
       'delete': function(t) {
         if(confirm("Are you sure? All files and sub-folders will be permanently removed")) {
-          alert('Trigger was '+t.id+'\nAction was Delete');
           $.post("/admin/files/delete_folder/",
             { folder_name: t.id},
               function() {
@@ -133,6 +132,10 @@ function droppable_folders() {
               }
           );
         }
+      },
+      'new': function(t) {
+        new_folder = prompt("Enter the folder name");
+        alert("create a new subfolder of "+t.id+" called "+new_folder);
       }
     }
   });

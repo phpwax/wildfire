@@ -257,6 +257,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function delete_folder() {
+	  $this->use_view = false;
+	  $this->use_layout = false;
 	  $folder = $orig = str_replace("_","/", $_POST["folder_name"]);
 	  if(File::recursively_delete(PUBLIC_DIR.$folder) ) {
 	    $search = PUBLIC_DIR.$folder;
