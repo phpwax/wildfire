@@ -40,7 +40,7 @@ $(document).ready(function(event) {
   }); 
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
-  $("#image_folder").change(function(t){
+  $("#cms_file_new_folder").change(function(t){
     alert("Changed to "+t.id);
   });
   
