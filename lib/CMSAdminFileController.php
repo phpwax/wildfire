@@ -95,6 +95,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function new_folder() {
 	  $this->use_layout=false;
+	  $_POST["folder"] = str_replace("_","/",$_POST["folder"]);
 	  $folder = $_POST["parent"]."/".$_POST["folder"];
 	  if(!is_dir($folder)) mkdir($folder);
 	  else $this->warning = "Folder already exists";
