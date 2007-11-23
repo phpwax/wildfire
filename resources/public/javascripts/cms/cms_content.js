@@ -44,7 +44,7 @@ $(document).ready(function(event) {
     alert("Changed to "+$(this).val());
     $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
       function(response) { 
-        $("#image_list").html(response.responseText); 
+        $("#image_list").html(response); 
         initialise_images(); 
       }
     );
