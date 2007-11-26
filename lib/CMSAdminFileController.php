@@ -93,8 +93,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"];
 	  if(strpos($folder,"_")) $folder = str_replace("_", "/", $folder);
-	  $folder = PUBLIC_DIR.$folder."/";
-	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."/' ORDER BY filename ASC";
+	  $folder = $folder."/";
+	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
 	  error_log($sql);
 	  $this->all_rows = $this->model->find_by_sql($sql);
 	  //$this->all_rows = $this->model->find_all_by_path($folder, array("order"=>"filename ASC"));
