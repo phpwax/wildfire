@@ -21,7 +21,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout=false;
 	  $this->accept_routes=1;
 	  $this->show_file = new $this->model_class($this->route_array[0]);
-	  $this->file_size = floor( filesize($this->show_file->path.$this->show_file->filename) / 1024)." Kb";
+	  $this->file_size = floor( filesize($this->show_file->file_path.$this->show_file->filename) / 1024)." Kb";
 	}
 	
 	public function index() {
