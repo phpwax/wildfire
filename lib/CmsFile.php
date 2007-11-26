@@ -28,7 +28,7 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	
 	public function file_size() {
-	  $size = floor( filesize($this->path.$this->filename) / 1024);
+	  $size = floor( filesize($this->file_path.$this->filename) / 1024);
 	  if($size < 1024) return $size." Kb";
 	  return ($size / 1024)." Mb"; 
 	}
