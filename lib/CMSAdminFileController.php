@@ -44,6 +44,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  
   	$this->show_image = new CmsFile($this->route_array[0]);
     $source = $this->show_image->path.$this->show_image->filename;
+    
+    $relative = strstr($source, "public/");
+    $relative = str_replace("public/", "", $relative);
+    $source = PUBLIC_DIR.$relative;
+    
 		$file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
 		$source=preg_replace("/[\s]/", "\ ", $source);
 		error_log($source);
