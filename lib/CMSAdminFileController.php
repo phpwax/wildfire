@@ -27,7 +27,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function index() {
 	  parent::index();
 	  $this->all_rows=array();
-	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/", array("order"=>"filename ASC"));
+	  $folder = $this->model->base_dir."/";
+	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
+	  $this->all_rows = $this->model->find_by_sql($sql);
 	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
 	  $this->list = $this->render_partial("list");
 	}
@@ -95,7 +97,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  if(strpos($folder,"_")) $folder = str_replace("_", "/", $folder);
 	  $folder = $folder."/";
 	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
-	  error_log($sql);
 	  $this->all_rows = $this->model->find_by_sql($sql);
 	  //$this->all_rows = $this->model->find_all_by_path($folder, array("order"=>"filename ASC"));
 	  $this->list = $this->render_partial("list");
