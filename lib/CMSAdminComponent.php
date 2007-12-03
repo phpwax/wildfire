@@ -19,6 +19,7 @@ class CMSAdminComponent extends WXControllerBase {
 	protected $access = "0";
 	protected $unauthorised_redirect="/admin/home/login";
 	protected $authorised_redirect="/admin/home/";
+	protected $unauthorised_message="Please login to continue";
 	public $current_user=false;
 	public $auth_database_table="cms_user";
 	public $use_plugin = "cms";
@@ -76,7 +77,7 @@ class CMSAdminComponent extends WXControllerBase {
 				return true;
 			}
 		}
-		Session::add_message("Please login to continue");
+		Session::add_message($this->unauthorised_message);
 		$this->redirect_to($this->unauthorised_redirect);
   }
 
