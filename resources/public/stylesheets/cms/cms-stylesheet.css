@@ -935,7 +935,18 @@ li.pagination_link a {
   font-size:110%;
   border:0;
 }
-
+.large, .medium, .small {
+  float:left;
+}
+.large {
+  width:90%;
+}
+.medium {
+  width:40%;
+}
+.small {
+  width:25%;
+}
 
 
 /****** End Form Layout Styles ****/
