@@ -1,6 +1,16 @@
 <div id="extra_content">
   <?foreach($extra_content as $content):?>
+    <?if($opts = $extra_content_options[$content] && is_array($opts)):?>
+      <?switch($opts['type']) {
+        case "text_field": 
+          echo large(text_field($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));
+          break;
+        case "select":
+          echo "";
+      }?>
+    <?else:?>
     <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3", "value"=>stripslashes($model->extra_content_value($content))), humanize($content)))?>
     <hr />
+    <?endif?>
   <?endforeach?>
 </div>
