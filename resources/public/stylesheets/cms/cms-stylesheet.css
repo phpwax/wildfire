@@ -938,6 +938,9 @@ li.pagination_link a {
 .large, .medium, .small {
   float:left;
 }
+.large .input_field, .medium .input_field, .small .input_field {
+  width:90%;
+}
 .large {
   width:90%;
 }
