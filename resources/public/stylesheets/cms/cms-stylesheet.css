@@ -940,6 +940,12 @@ li.pagination_link a {
 }
 .large .input_field, .medium .input_field, .small .input_field {
   width:90%;
+  padding:2px 5px;
+  font-size:130%;
+}
+.large label, .medium label, .small label {
+  font-weight:bold;
+  margin:0 0 6px 0;
 }
 .large {
   width:90%;
