@@ -1,6 +1,6 @@
-<div id="extra_content">
+<div id="extra_content" class="clearfix">
   <?foreach($extra_content as $content):?>
-    <?if($opts = $extra_content_options[$content] && is_array($opts)):?>
+    <?if(is_array($opts = $extra_content_options[$content])):?>
       <?switch($opts['type']) {
         case "text_field": 
           echo large(text_field($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));
