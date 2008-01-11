@@ -958,7 +958,7 @@ li.pagination_link a {
 .small {
   width:25%;
 }
-#cms_extra_contentWidgContainer {
+#cms_extra_content .widgIframe {
   height:120px;
 }
 /****** End Form Layout Styles ****/
