@@ -3,7 +3,7 @@
 	 any required setup.
 */
 
-define("CMS_VERSION", "0.1.5");
+define("CMS_VERSION", "0.5-devel");
 CMSApplication::register_module("home", array("display_name"=>"Admin Home", "link"=>"/admin/home/"));
 CMSApplication::register_module("settings", array("display_name"=>"Settings", "link"=>"/admin/settings/"));
 CMSApplication::register_module("sections", array("display_name"=>"Site Sections", "link"=>"/admin/sections/"));
