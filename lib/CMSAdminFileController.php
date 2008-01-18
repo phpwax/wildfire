@@ -166,7 +166,8 @@ class CMSAdminFileController extends CMSAdminComponent {
         $file = new CmsFile;
         $file->path=$_POST['cms_file']['folder'];
         $file->filename = $newfile;
-        $file->save();
+        error_log(print_r($newfile, 1));
+        //$file->save();
       }
       echo "SUCCESS"; exit;
     }
