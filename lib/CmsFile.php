@@ -30,8 +30,8 @@ class CmsFile extends WXFileActiveRecord {
 	/* CHANGED - added PUBLIC_DIR to size check to allow for relative paths in db */
 	public function file_size() {		
 	  $size = floor( filesize(WAX_ROOT.$this->file_path.$this->filename) / 1024);
-	  if($size < 1024) return $size." Kb";
-	  return ($size / 1024)." Mb"; 
+	  if($size < 1024) return number_format($size, 2)." Kb";
+	  return number_format(($size / 1024),2)." Mb"; 
 	}
 	
 	public function folder_options() {
