@@ -197,6 +197,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	// Make directories first
   	$files = $dirs = array();
   	foreach($file as $this_file) {
+  	  if(substr($this_file,0,1)==".") continue;
   		if( is_dir("$directory/$this_file" ) ) $dirs[] = $this_file; else $files[] = $this_file;
   	}
   	$file = array_merge($dirs, $files);
