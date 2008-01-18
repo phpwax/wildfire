@@ -189,7 +189,7 @@ class CMSAdminFileController extends CMSAdminComponent {
         foreach($newfile as $k=>$val) {
           $newfile_fix[$k]['filename']=$val;
         }
-        $path = str_replace("files/", "", $_POST['cms_file']['folder'] );
+        $path = str_replace("files", "", $_POST['cms_file']['folder'] );
         error_log($path);
         $file = new CmsFile;
         $file->filename = $newfile_fix;
