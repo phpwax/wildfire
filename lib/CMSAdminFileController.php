@@ -191,7 +191,7 @@ class CMSAdminFileController extends CMSAdminComponent {
         }
         $path = str_replace("files/", "", $_POST['cms_file']['folder']);
         $path = str_replace("files", "", $path );
-        $path .= "/";
+        if(substr($path, -1) !="/") $path = $path."/";
         error_log($path);
         $file = new CmsFile;
         $file->filename = $newfile_fix;
