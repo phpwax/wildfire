@@ -91,7 +91,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function create() {
 		$this->model = new $this->model_class;
 		/* CHANGED - REMOVE PUBLIC AS THATS THE NEW BASE DIR */
-		$this->model->file_base = $this->model->file_base.$_POST['cms_file']['folder']."/";	
+		$this->model->file_base = "public/".$_POST['cms_file']['folder']."/";	
 		$this->save($this->model);
 	}
 	
