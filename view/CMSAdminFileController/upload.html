@@ -3,14 +3,15 @@
 </form>
 
 <applet name="JUpload" code="wjhk.jupload2.JUploadApplet"
-  archive="/wjhk.jupload.jar, jakarta-commons-oro.jar, jakarta-commons-net.jar"
+  archive="/wjhk.jupload.jar"
   width="780" height="400"
   mayscript>
-  <param name="postURL" value="/admin/files/upload">
-  <param name="showLogWindow" value="False">
-  <param name="showStatusBar" value="False">
-  <param name="afterUploadURL" value="/admin/files/">
-  <param name="formdata" value="upload_form">
+  <param name="archive" value="/wjhk.jupload.jar, /jakarta-commons-oro.jar, /jakarta-commons-net.jar" /> 
+  <param name="postURL" value="/admin/files/upload" />
+  <param name="showLogWindow" value="False" />
+  <param name="showStatusBar" value="False" />
+  <param name="afterUploadURL" value="/admin/files/" />
+  <param name="formdata" value="upload_form" />
   <param name="serverProtocol" value="HTTP/1.1" /> 
   Java 1.5 or higher plugin required.
 </applet>
