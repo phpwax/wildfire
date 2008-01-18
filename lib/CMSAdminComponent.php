@@ -173,7 +173,10 @@ class CMSAdminComponent extends WXControllerBase {
 	* delete model record
 	*/	
 	public function delete(){
-		if($id = $this->param('id')) {
+		$id = url("id");
+		if(!$id) $id = $this->route_array[0];
+		
+		if($id) {
 			$this->model->delete($id);
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('index');
