@@ -28,14 +28,35 @@ class CmsContentFilter {
   }
   
   /**
-   * undocumented function
+   * run_post_filters function
    *
-   * @return void
-   * @author /bin/bash: niutil: command not found
+   * @return $content
    **/
-  function ()
-  {
+  public function run_post_filters() {
+    
   }
+  
+  /**
+   * add_pre_filter function
+   *
+   * @return boolean
+   **/
+  public function add_pre_filter($class, $method) {
+    
+  }
+  
+  
+  /**
+   * add_post_filter function
+   *
+   * @return boolean
+   **/
+  public function add_post_filter($class, $method) {
+    
+  }
+  
+  
+  
 
 } 
 ?>
