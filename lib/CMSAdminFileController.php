@@ -129,7 +129,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"];
 	  if(strpos($folder,"~")) $folder = str_replace("~", "/", $folder);
-	  $folder = $folder."/";
 	  $sql = "SELECT * FROM cms_file WHERE path = 'public/".$folder."' ORDER BY filename ASC";
 	  $this->all_rows = $this->model->find_by_sql($sql);
 	  error_log($sql);
