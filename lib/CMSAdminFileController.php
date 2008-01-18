@@ -22,6 +22,28 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->sub_links["upload"]="Advanced File Upload";
 	}
 	
+	public function synchronise(){
+		$directory = WAX_ROOT . $this->model->file_base;
+		$hdd_files = array();
+		$db_files = array();
+		
+		$iter = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), true);
+		foreach ( $iter as $file ) {
+			$path = $iter->getPath()."/".basename($file);
+			if(is_file($path) ) $hdd_files[] = $path;
+		}
+		
+		$files = $this->model->find_all();
+		foreach($files as $file){
+			$db_files[] = $file->path . $file->filename;
+		}
+		$difference = array_diff($hdd_files, $db_files);
+		print_r($difference);
+		
+		
+		exit;
+	}
+	
 	public function file_info() {
 	  $this->use_layout=false;
 	  $this->accept_routes=1;
