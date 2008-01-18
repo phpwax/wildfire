@@ -106,7 +106,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function fetch_folder() {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"];
-	  if(strpos($folder,"_")) $folder = str_replace("_", "/", $folder);
+	  if(strpos($folder,"~")) $folder = str_replace("~", "/", $folder);
 	  $folder = $folder."/";
 	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
 	  $this->all_rows = $this->model->find_by_sql($sql);
@@ -116,7 +116,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function new_folder() {
 	  $this->use_layout=false;
-	  $_POST["parent"] = str_replace("_","/",$_POST["parent"]);
+	  $_POST["parent"] = str_replace("~","/",$_POST["parent"]);
 	  $folder = $_POST["parent"]."/".$_POST["folder"];
 	  if(!is_dir($folder)) mkdir($folder);
 	  else $this->warning = "Folder already exists";
@@ -255,13 +255,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	protected function unslashify($path) {
 	  $path = str_replace(PUBLIC_DIR, "", $path);
-    return str_replace('/', '_', $path);
+    return str_replace('/', '~', $path);
 	}
 	
 	public function move_file() {
 	  $this->use_view=false;
 	  $this->use_layout = false;
-	  $dest = str_replace("_","/",$_POST["folder"]);
+	  $dest = str_replace("~","/",$_POST["folder"]);
 	  $file = new CmsFile($_POST["file_id"]);
 	  if(rename($file->path.$file->filename, PUBLIC_DIR.$dest."/".$file->filename)) {
 	    $file->path = PUBLIC_DIR.$dest."/";
@@ -270,10 +270,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function rename_folder() {
-	  $_POST['new_name'] = str_replace("_","-",$_POST['new_name']);
+	  $_POST['new_name'] = str_replace("~","-",$_POST['new_name']);
 	  $this->use_view = false;
 	  $this->use_layout = false;
-	  $orig = str_replace("_","/", $_POST["old_name"]);
+	  $orig = str_replace("~","/", $_POST["old_name"]);
 	  $directory_parts = explode("/", $orig);
 	  $oldname = array_pop($directory_parts);
 	  if(rename(PUBLIC_DIR.$orig."/", PUBLIC_DIR.implode("/",$directory_parts)."/".$_POST['new_name'] )) {
@@ -297,7 +297,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function delete_folder() {
 	  $this->use_view = false;
 	  $this->use_layout = false;
-	  $folder = $orig = str_replace("_","/", $_POST["folder_name"]);
+	  $folder = $orig = str_replace("~","/", $_POST["folder_name"]);
 	  if(File::recursively_delete(PUBLIC_DIR.$folder) ) {
 	    $search = PUBLIC_DIR.$folder;
 	    $file_model = new CmsFile;
