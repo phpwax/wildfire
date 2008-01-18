@@ -185,14 +185,14 @@ class CMSAdminFileController extends CMSAdminComponent {
   
   public function upload() {
     if($_FILES) {
-      error_log($_POST['cms_file']['folder']);
       foreach($_FILES as $newfile) {
         foreach($newfile as $k=>$val) {
           $newfile_fix[$k]['filename']=$val;
         }
+        $path = str_replace("files/", "", $_POST['cms_file']['folder'] );
         $file = new CmsFile;
         $file->filename = $newfile_fix;
-        $file->file_base = $file->file_base.$_POST['cms_file']['folder'];
+        $file->file_base.= $path;
         $file->save();
       }
       echo "SUCCESS"; exit;
