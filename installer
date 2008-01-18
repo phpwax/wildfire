@@ -34,6 +34,7 @@ system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROL
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/Sub* ".CONTROLLER_DIR);
 system("mkdir ".VIEW_DIR."subscribe");
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/view/subscribe/* ".VIEW_DIR ."subscribe/");
+system("cp -iR ".PLUGIN_DIR."cms/resources/public/wjhk.jupload.jar ".PUBLIC_DIR);
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
 echo "All of the files have now been installed. To complete the installation:"."\n";

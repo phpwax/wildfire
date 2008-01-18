@@ -160,9 +160,11 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->image = new $this->model_class($this->param('id'));
   }
   
-  public function crop() {
-    $file = new CmsFile;
-    $this->image = $file->find(url("id"));
+  public function upload() {
+    if($_FILES) {
+      echo "SUCCESS"; exit;
+    }
+    
   }
   
   public function file_tree($directory, $return_link, $extensions = array()) {
