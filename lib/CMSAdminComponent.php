@@ -117,7 +117,9 @@ class CMSAdminComponent extends WXControllerBase {
 	* Edit model item in lightbox interface - has shared view cms/view/CONTROLLER/_form.html
 	*/
 	public function edit() {
-	  $this->id = $this->param("id");
+		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
+	  $this->id = url("id");
+		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     if(!$this->model->is_posted()) {
       Session::set("cms_refer", $_SERVER['HTTP_REFERER']);

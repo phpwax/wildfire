@@ -17,11 +17,17 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
 	
+	public function controller_global(){
+		parent::controller_global();
+	}
+	
 	public function file_info() {
 	  $this->use_layout=false;
 	  $this->accept_routes=1;
 	  $this->show_file = new $this->model_class($this->route_array[0]);
-	  $this->file_size = floor( filesize($this->show_file->file_path.$this->show_file->filename) / 1024)." Kb";
+		/* CHANGED - now works with relative file paths */
+		$path = WAX_ROOT . $this->show_file->file_path . $this->show_file->filename;
+	  $this->file_size = floor( filesize($path) / 1024)." Kb";
 	}
 	
 	public function index() {
@@ -34,6 +40,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->list = $this->render_partial("list");
 	}
 	
+	
 	public function show_image() {
   	$this->use_view=false;
 		$this->use_layout=false;
@@ -45,7 +52,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $size = str_replace(".png", "", $size);
 	  
   	$this->show_image = new CmsFile($this->route_array[0]);
-    $source = $this->show_image->path.$this->show_image->filename;
+		/* CHANGED - allows for relative paths in db */
+    $source = WAX_ROOT. $this->show_image->path.$this->show_image->filename;
     
     $relative = strstr($source, "public/");
     $relative = str_replace("public/", "", $relative);
@@ -82,14 +90,17 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function create() {
 		$this->model = new $this->model_class;
-		$this->model->file_base = "public/".$_POST['cms_file']['folder']."/";	
+		/* CHANGED - REMOVE PUBLIC AS THATS THE NEW BASE DIR */
+		$this->model->file_base = $this->model->file_base.$_POST['cms_file']['folder']."/";	
 		$this->save($this->model);
 	}
 	
 	public function edit() {
-	  $this->existing = true;
-	  parent::edit();
+		$this->existing = true;
+		parent::edit();
 	}
+	
+	
 	
 	public function fetch_folder() {
 	  $this->use_layout=false;

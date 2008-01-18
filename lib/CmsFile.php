@@ -2,8 +2,8 @@
 
 class CmsFile extends WXFileActiveRecord {
   
-  public $base_dir = "files";
-  
+  public $base_dir = "files";	
+
   public function find_all_images($params=array()) {
     if($params["conditions"]) $params["conditions"].=" AND type LIKE '%image%'";
     else $params["conditions"] = "type LIKE '%image%'";
@@ -27,8 +27,9 @@ class CmsFile extends WXFileActiveRecord {
 	  return $this->find_all(array("conditions"=>"type NOT LIKE '%image%'"));
 	}
 	
-	public function file_size() {
-	  $size = floor( filesize($this->file_path.$this->filename) / 1024);
+	/* CHANGED - added PUBLIC_DIR to size check to allow for relative paths in db */
+	public function file_size() {		
+	  $size = floor( filesize(WAX_ROOT.$this->file_path.$this->filename) / 1024);
 	  if($size < 1024) return $size." Kb";
 	  return ($size / 1024)." Mb"; 
 	}
@@ -55,18 +56,13 @@ class CmsFile extends WXFileActiveRecord {
 		return $rows;
 	}
 	
+	/* CHANGED - now just returns the path so works with relative path in db */
 	public function file_path() {
-	  $original = $this->path;
-	  $relative = strstr($original, "public/");
-    $relative = str_replace("public/", "", $relative);
-    $original = PUBLIC_DIR.$relative;
-    return $original;
+    return $this->path;
 	}
-	
+	/* CHANGED - now just returns the path so works with relative path in db */
 	public function file_url() {
-    $original = $this->file_path;
-	  $url = str_replace(PUBLIC_DIR, "", $original). $this->filename;
-	  return $url;
+	  return $this->file_path . $this->filename;
 	}
 	
 	
