@@ -62,7 +62,7 @@ class CmsFile extends WXFileActiveRecord {
 	}
 	/* CHANGED - now just returns the path so works with relative path in db */
 	public function file_url() {
-	  return $this->base_dir . $this->filename;
+	  return $this->base_dir ."/". $this->filename;
 	}
 	
 	
