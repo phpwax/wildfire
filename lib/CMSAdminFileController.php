@@ -19,6 +19,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function controller_global(){
 		parent::controller_global();
+		$this->sub_links["upload"]="Advanced File Upload";
 	}
 	
 	public function file_info() {
