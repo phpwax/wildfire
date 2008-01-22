@@ -21,27 +21,44 @@ class CMSAdminFileController extends CMSAdminComponent {
 		parent::controller_global();
 		$this->sub_links["upload"]="Advanced File Upload";
 	}
-	
 	public function synchronise(){
+		//directory to scan round
 		$directory = WAX_ROOT . $this->model->file_base;
+		//arrays
 		$hdd_files = array();
 		$db_files = array();
-		
+		//find all files in the directory structure
 		$iter = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), true);
 		foreach ( $iter as $file ) {
 			$path = $iter->getPath()."/".basename($file);
 			if(is_file($path) ) $hdd_files[] = $path;
 		}
-		
+		//find all db file records
 		$files = $this->model->find_all();
 		foreach($files as $file){
 			$db_files[] = $file->path . $file->filename;
 		}
+		//difference between the two
 		$difference = array_diff($hdd_files, $db_files);
-		print_r($difference);
+		//loop round the differences to see if its a file or not
+		foreach($difference as $diff){
+			if(is_file($diff)) $missing_from_db[] = $diff;
+			else $missing_from_hdd[] = $diff;
+		}
+			
+		//loop round each missing file and add it into db
+		foreach($missing_from_db as $file){
+			$path = substr($file, 0, strrpos($file, "/")+1 );
+			$filename = substr($file, strrpos($file, "/")+1 );
+			$info = getimagesize($file);
+			$model = new $this->model_class;
+			$model->path = str_ireplace(APP_DIR, "", $path);
+			$model->filename = $filename;
+			$model->type = $info['mime'];
+			$model->save();
+		}				
 		
-		
-		exit;
+		$this->redirect_to("/admin/file/");
 	}
 	
 	public function file_info() {
