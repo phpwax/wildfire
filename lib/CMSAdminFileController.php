@@ -340,8 +340,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function delete_folder() {
 	  $this->use_view = false;
 	  $this->use_layout = false;
-	  $folder = $orig = str_replace("~","/", $_POST["folder_name"]);
-	  if(File::recursively_delete(PUBLIC_DIR.$folder) ) {
+	  $folder = $orig = str_replace("~","/", $_POST["folder_name"]);		
+	  if(($folder != $this->model->base_dir) && File::recursively_delete(PUBLIC_DIR.$folder) ) {
 	    $search = PUBLIC_DIR.$folder;
 	    $file_model = new CmsFile;
 	    $files = $file_model->find_all(array("conditions"=>"path LIKE '%$search%'"));
