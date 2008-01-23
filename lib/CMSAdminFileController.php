@@ -302,10 +302,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function move_file() {
 	  $this->use_view=false;
 	  $this->use_layout = false;
-	  $dest = str_replace("~","/",$_POST["folder"]);
+	  $dest = "public/".str_replace("~","/",$_POST["folder"]);
 	  $file = new CmsFile($_POST["file_id"]);
-	  if(rename($file->path.$file->filename, PUBLIC_DIR.$dest."/".$file->filename)) {
-	    $file->path = PUBLIC_DIR.$dest."/";
+		$source = WAX_ROOT . $file->path. $file->filename;
+		$destination = WAX_ROOT. $dest."/".$file->filename;
+	  if(rename($source, $destination) ) {
+	    $file->path = $dest."/";
 	    $file->save;
     }
 	}
