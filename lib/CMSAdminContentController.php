@@ -42,20 +42,20 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function add_image() {
 		$this->use_layout=false;
-		$this->page = new $this->model_class($this->param("id"));
-		$this->page->add_images($_POST['id'], $this->param("order"));
+		$this->page = new $this->model_class(url("id"));
+		$this->page->add_images($_POST['id'], url("order"));
 		$file = new CmsFile;
 		$this->image = $file->find($_POST['id']);
 	}
 	
 	public function remove_image() {
 		$this->use_layout=false;
-		$page = new $this->model_class($this->param("id"));
-		$page->delete_images($this->param("image"));
+		$page = new $this->model_class(url("id"));
+		$page->delete_images(url("image"));
 	}
 	
 	public function edit() {
-		$this->page = new $this->model_class($this->param("id"));
+		$this->page = new $this->model_class(url("id"));
 		$this->attached_images = $this->page->images;
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
@@ -86,7 +86,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function add_category() {
 	  $this->use_layout=false;
-		$this->page = new $this->model_class($this->param("id"));
+		$this->page = new $this->model_class(url("id"));
 		$this->page->add_categories(substr($_POST["id"], 4));
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
@@ -96,8 +96,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function remove_category() {
 		$this->use_layout=false;
-		$this->page = new $this->model_class($this->param("id"));
-		$this->page->delete_categories($this->param("cat"));
+		$this->page = new $this->model_class(url("id"));
+		$this->page->delete_categories(url("cat"));
     if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();		

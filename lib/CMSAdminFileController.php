@@ -124,7 +124,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function download_file() {
 	  $this->use_layout=false;
-	  $this->get_file = new $this->model_class($this->param("id"));
+	  $this->get_file = new $this->model_class(url("id"));
 	  File::stream_file($this->get_file->path.$this->get_file->filename);
 	}
 	
@@ -165,14 +165,14 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function browse_images() {
 	  $this->more = false;
 	  $this->previous = false;
-	  if(!$this->param("id")) { 
+	  if(!url("id")) { 
 	    $offset = 0;
 	    $count = -1;
     } else {
-      $offset = ($this->param("id") -1) * 12; 
+      $offset = (url("id") -1) * 12; 
       $count = 12;
     }
-    $this->id = $this->param("id");
+    $this->id = url("id");
 		$this->use_layout=false;
   	$this->all_images = ($image = new CmsFile) ? $image->find_all_images(array("order"=>"filename ASC")) : array();
   	if($_POST['filterfolder']) {
@@ -197,7 +197,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   }
   
   public function preview() {
-    $this->image = new $this->model_class($this->param('id'));
+    $this->image = new $this->model_class(url('id'));
   }
   
   public function upload() {
