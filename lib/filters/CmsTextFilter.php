@@ -5,7 +5,7 @@
  *
  * @package default
  **/
-class CmsTextFilter implements WaxFilterInterface  {
+class CmsTextFilter  {
 
   static public function clean_html($text) {
     // strip tags, still leaving attributes, second variable is allowable tags
