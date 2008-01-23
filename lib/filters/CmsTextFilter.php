@@ -13,8 +13,7 @@ class CmsTextFilter  {
   }
   
   static public function correct_entities($text) {
-    $text = str_replace("£", "&pound;", $text);
-    return $text;
+    return str_replace("£", "&pound;", $text);
   }
   
   static public function strip_slashes($text) {

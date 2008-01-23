@@ -139,6 +139,7 @@ class CmsContent extends WXActiveRecord {
     foreach(get_class_methods("CmsTextFilter") as $filter) {
       $content = call_user_func(array("CmsTextFilter", $filter), $content);
     }
+    return $content;
   }
   
 	
