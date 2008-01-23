@@ -22,7 +22,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $extra_content_options = array();
 
 	public function method_missing() {
-	  if(!$page = url("page")) $page=1;
+	  if(!$page = $this->param("page")) $page=1;
 		$this->use_view="index";
 		$section = new CmsSection;
 		$options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
@@ -32,7 +32,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function index() {
-	  if(!$page = url("page")) $page=1;
+	  if(!$page = $this->param("page")) $page=1;
 		$this->display_action_name = 'List Items';
 	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
 		$this->all_rows = $this->model->find_all($options);
@@ -43,7 +43,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function add_image() {
 		$this->use_layout=false;
 		$this->page = new $this->model_class($this->route_array[0]);
-		$this->page->add_images($_POST['id'], url("order"));
+		$this->page->add_images($_POST['id'], $this->param("order"));
 		$file = new CmsFile;
 		$this->image = $file->find($_POST['id']);
 	}
@@ -51,7 +51,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function remove_image() {
 		$this->use_layout=false;
 		$page = new $this->model_class($this->route_array[0]);
-		$page->delete_images(url("image"));
+		$page->delete_images($this->param("image"));
 	}
 	
 	public function edit() {
@@ -97,7 +97,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function remove_category() {
 		$this->use_layout=false;
 		$this->page = new $this->model_class($this->route_array[0]);
-		$this->page->delete_categories(url("cat"));
+		$this->page->delete_categories($this->param("cat"));
     if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();		
@@ -107,7 +107,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function new_category() {
 		$this->use_layout=false;
 		$cat = new CmsCategory;
-		$cat->name = url("cat");
+		$cat->name = $this->param("cat");
 		$cat->save();
 		if(!$this->all_categories = $cat->find_all()) $this->all_categories=array();		
 		$this->cat_list = $this->render_partial("cat_list");	
