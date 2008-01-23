@@ -9,7 +9,7 @@ class CmsTextFilter  {
 
   static public function clean_html($text) {
     // strip tags, still leaving attributes, second variable is allowable tags
-    $text = strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>');
+    return strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>');
   }
   
   static public function correct_entities($text) {
