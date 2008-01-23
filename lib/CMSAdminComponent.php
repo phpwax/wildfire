@@ -61,7 +61,7 @@ class CMSAdminComponent extends WXControllerBase {
 		  }
 	  }
 		$this->sub_links["create"] = "Create New ". $this->display_name;
-		if(!$this->this_page = url("page")) $this->this_page=1;
+		if(!$this->this_page = $this->param("page")) $this->this_page=1;
 	}
 
 	/**
@@ -118,7 +118,7 @@ class CMSAdminComponent extends WXControllerBase {
 	*/
 	public function edit() {
 		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
-	  $this->id = url("id");
+	  $this->id = $this->param("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     if(!$this->model->is_posted()) {
@@ -173,7 +173,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* delete model record
 	*/	
 	public function delete(){
-		$id = url("id");
+		$id = $this->param("id");
 		if(!$id) $id = $this->route_array[0];
 		
 		if($id) {
