@@ -7,6 +7,11 @@ function get_response($question, $positive="y", $options=false) {
   return false;
 }
 
+function get_answer($question) {
+  echo $question;
+  return strtolower(trim(fgets(STDIN)));
+}
+
 if(!defined("WAX_ROOT")) define("WAX_ROOT", dirname(dirname(dirname(__FILE__)))."/");
 if(!defined("VIEW_DIR")) define("VIEW_DIR", WAX_ROOT."app/view/");
 if(!defined("CONTROLLER_DIR")) define("CONTROLLER_DIR", WAX_ROOT."app/controller/");
@@ -15,8 +20,19 @@ if(!defined("PLUGIN_DIR")) define("PLUGIN_DIR", WAX_ROOT."plugins/");
 
 $pdo = WXActiveRecord::getDefaultPDO();
 if(get_response("Would you like to setup a default admin and siteadmin user")) {
-  $pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('admin','wx99wildfire', '30')");
-	$pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('siteadmin','siteadmin01', '10')");
+  $admin_pass = "";
+  while(strlen($admin_pass)< 6) {
+    $admin_pass = get_answer("Please choose an admin (super user) password: ");
+    if(strlen($admin_pass) < 6) echo "Password too short... try again."."\n";
+  }
+  $pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('admin', '$admin_pass', '30')");
+
+  $siteadmin_pass = "";
+  while(strlen($siteadmin_pass)< 6) {
+    $siteadmin_pass = get_answer("Please choose an site administrator password: ");
+    if(strlen($siteadmin_pass)< 6) echo "Password too short... try again."."\n";
+  }
+	$pdo->query("INSERT INTO cms_user (username, password, usergroup) VALUES('siteadmin', '$siteadmin_pass' , '10')");
 	$pdo->query("INSERT INTO cms_configuration (name, value) VALUES('super_user','admin')");
   echo "...Users 'admin' and 'siteadmin' created"."\n";
 }
@@ -27,17 +43,13 @@ if(get_response("Would you like to setup a default section 'Home'")) {
 
 echo "------------------------------------------------------------------------"."\n";
 echo "We're now going to copy some files into your application folder."."\n";
-echo "Be careful what you agree to!"."\n";
+echo "Don't worry... nothing is being overwritten"."\n";
 echo "------------------------------------------------------------------------"."\n";
 system('mkdir -p '.CONTROLLER_DIR.'admin/');
-system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
-system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/Sub* ".CONTROLLER_DIR);
-system("mkdir ".VIEW_DIR."subscribe");
-system("cp -iR ".PLUGIN_DIR."cms/resources/app/view/subscribe/* ".VIEW_DIR ."subscribe/");
-system("cp -iR ".PLUGIN_DIR."cms/resources/public/wjhk.jupload.jar ".PUBLIC_DIR);
+system("cp -nR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
+system("cp -nR ".PLUGIN_DIR."cms/resources/app/controller/Sub* ".CONTROLLER_DIR);
+system("cp -n ".PLUGIN_DIR."cms/resources/public/wjhk.jupload.jar ".PUBLIC_DIR);
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
-echo "All of the files have now been installed. To complete the installation:"."\n";
-echo "1... Add 'AutoLoader::include_plugin('cms');' to the bottom of your config/environment.php file."."\n";
-echo "2... Enjoy your lovely CMS!"."\n";
+echo "All of the files have now been installed."."\n";
 ?>

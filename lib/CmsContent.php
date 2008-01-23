@@ -27,7 +27,8 @@ class CmsContent extends WXActiveRecord {
 	  $this->url = WXInflections::to_url($this->title);
 	  $this->author_id = Session::get('loggedin_user');
 	  $this->avoid_section_url_clash();
-	  $this->content = $this->clean_html($this->content);
+	  
+	  $this->content = $this->apply_filters($this->content);
 	}
 	
 	public function after_save() {
@@ -76,59 +77,7 @@ class CmsContent extends WXActiveRecord {
     return false;
   }
   
-  public function clean_html($text) {
-    // remove escape slashes
-    $text = stripslashes($text);
-    $text = str_replace("£", "&pound;", $text);
-    
-    // strip tags, still leaving attributes, second variable is allowable tags
-    //$text = strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>');
 
-    // removes the attributes for allowed tags
-    $text = preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span)([^>]*)>/", "<$1>", $text);
-    return $this->convert_word($text);
-  }
-  
-  public function convert_word($text) {
-    
-    $search = array(chr(0xe2) . chr(0x80) . chr(0x98),
-                      chr(0xe2) . chr(0x80) . chr(0x99),
-                      chr(0xe2) . chr(0x80) . chr(0x9c),
-                      chr(0xe2) . chr(0x80) . chr(0x9d),
-                      chr(0xe2) . chr(0x80) . chr(0x93),
-                      chr(0xe2) . chr(0x80) . chr(0x94),
-                      chr(0xe2) . chr(0x80) . chr(0xa6),
-											chr(194) );
-
-      $replace = array("'",
-                       "'",
-                       '"',
-                       '"',
-                       '&ndash;',
-                       '&mdash;',
-                       "...");
-
-    return str_replace($search, $replace, $text);
-  }
-  
-  
-  public function format_content() {
-    $text = $this->content;
-    $text = preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
-    $text = preg_replace("/\.{4,}/", "<hr />", $text);
-    $widont_finder = "/(\s+)                    # the space to replace
-      ([^<>\s]+                                 # must be followed by non-tag non-space characters
-      \s*                                       # optional white space! 
-      (<\/(a|em|span|strong|i|b)[^>]*>\s*)*     # optional closing inline tags with optional white space after each
-      (<\/(p|h[1-6]|li)|$))                     # end with a closing p, h1-6, li or the end of the string
-      /x";
-
-     $text = preg_replace($widont_finder, '&nbsp;\\2', $text);
-     $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
-     $text = preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
-     return $text;
-  }
-  
   public function find_related_in_section($params) {
     $section = $this->cms_section_id;
     $find = "id !=".$this->id;
@@ -184,6 +133,12 @@ class CmsContent extends WXActiveRecord {
   public function add_pageview() {
     $this->pageviews = $this->pageviews + 1;
     $this->save();
+  }
+  
+  protected function apply_filters($content) {
+    foreach(get_class_methods("CmsTextFilter") as $filter) {
+      $content = call_user_func(array("CmsTextFilter", $filter));
+    }
   }
   
 	
