@@ -322,10 +322,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 
 		if( ($oldname != $this->model->base_dir) && rename(PUBLIC_DIR.$orig."/", PUBLIC_DIR.implode("/",$directory_parts)."/".$_POST['new_name'] ) ) {
 	    $file = new CmsFile;
-	    $search = PUBLIC_DIR.$orig;
+	    $search = $orig;
 	    $files = $file->find_all(array("conditions"=>"path LIKE '%$search%'"));
 	    foreach($files as $file) {
-	      $file->path = str_replace($orig, implode("/",$directory_parts)."/".$_POST['new_name'], $file->path);
+				$path = str_replace($orig, implode("/",$directory_parts)."/".$_POST['new_name'], $file->path);
+	      $file->path = $path;
 	      $file->save();
 	    }
 	  } 
