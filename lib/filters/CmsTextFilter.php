@@ -35,7 +35,9 @@ class CmsTextFilter  {
   }
   
   static public function correct_entities($text) {
-    return str_replace("£", "&pound;", $text);
+		$modified = str_replace("£", "&pound;", $text);
+		$modified = str_replace("€", "&euro;", $modified);
+    return $modified;
   }
   
   static public function strip_slashes($text) {

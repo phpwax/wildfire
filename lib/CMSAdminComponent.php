@@ -40,6 +40,13 @@ class CMSAdminComponent extends WXControllerBase {
 	public $order_by_columns = array();
 	
 	/** 
+	* post delete function vars
+	**/
+	protected $run_post_delete = false;
+	protected $post_delete_function = false;
+	protected $post_delete_information = false;
+	
+	/** 
 	* Construct method, initialises authentication, default model and menu items
 	**/
 	function __construct() {
@@ -178,11 +185,14 @@ class CMSAdminComponent extends WXControllerBase {
 		
 		if($id) {
 			$this->model->delete($id);
+			if($this->run_post_delete && ($function = $this->post_delete_function) ) $this->model->$function($this->post_delete_information, $id);			
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('index');
 		}
 	}
 	
+	
+	/**/
 	protected function set_order(){
 		if($order = $_GET['order']) {
 			if(in_array($order,$this->describe_model())){
