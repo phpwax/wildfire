@@ -10,7 +10,7 @@ class CmsTextFilter  {
   static public $allowed_tags = '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>';
   
   static public $filters = array(
-    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "clean_html"),
+    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "clean_html", "strip_slashes"),
     "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes")
   );
   
