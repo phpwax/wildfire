@@ -24,7 +24,7 @@ class CmsTextFilter  {
 
   static public function filter($trigger, $text) {
     foreach(self::$filters[$trigger] as $method) {
-      $text = self::$method();
+      $text = self::$method($text);
     }
     return $text;
   }
