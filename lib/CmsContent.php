@@ -28,7 +28,7 @@ class CmsContent extends WXActiveRecord {
 	  $this->author_id = Session::get('loggedin_user');
 	  $this->avoid_section_url_clash();
 	  
-	  $this->content = $this->apply_filters($this->content);
+	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
 	}
 	
 	public function after_save() {
@@ -135,11 +135,9 @@ class CmsContent extends WXActiveRecord {
     $this->save();
   }
   
-  protected function apply_filters($content) {
-    foreach(get_class_methods("CmsTextFilter") as $filter) {
-      $content = call_user_func(array("CmsTextFilter", $filter), $content);
-    }
-    return $content;
+  
+  public function format_content() {
+    return CmsTextFilter::filter("before_output", $this->content);
   }
   
 	

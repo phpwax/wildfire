@@ -6,10 +6,32 @@
  * @package default
  **/
 class CmsTextFilter  {
+  
+  static public $allowed_tags = '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>';
+  
+  static public $filters = array(
+    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "clean_html"),
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook")
+  );
+  
+  static public function add_filter($trigger, $method) {
+    self::$filters[$trigger][]=$method;
+  }
+  
+  static public function remove_filter($trigger, $method) {
+    unset(self::$filters[$trigger][array_search($method, self::$filters[$trigger])]);
+  }
 
+  static public function filter($trigger, $text) {
+    foreach(self::$filters[$trigger] as $method) {
+      $text = self::$method();
+    }
+    return $text;
+  }
+  
   static public function clean_html($text) {
     // strip tags, still leaving attributes, second variable is allowable tags
-    return strip_tags($text, '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>');
+    return strip_tags($text, self::$allowed_tags);
   }
   
   static public function correct_entities($text) {
