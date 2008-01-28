@@ -20,6 +20,14 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $allowed_categories = true;
 	public $extra_content = array();
 	public $extra_content_options = array();
+	/* run post delete triggers */
+	protected $run_post_delete = true;
+	protected $post_delete_function = "remove_joins";
+	protected $post_delete_information = array( 'file_table'=>"cms_content_cms_file", 
+																							'file_field'=>"cms_content_id", 
+																							'category_table' => "cms_category_cms_content",
+																							'category_field' => "cms_content_id");
+	
 
 	public function method_missing() {
 	  if(!$page = $this->param("page")) $page=1;
@@ -33,8 +41,22 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function index() {
 	  if(!$page = $this->param("page")) $page=1;
+		/* 
+			remove temporary files 
+			- now using the date_created field to make sure that only files older than an hour created by the logged in user will be deleted. This is should
+			avoid any acidental deletion of temp records that are still being worked on.
+		*/
+		$author_id = $this->current_user->id; 
+		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
+		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id' AND `date_created` < '$time' ") );
+		if(count($temp_content)){
+			foreach($temp_content as $content){
+				$content->delete($content->id);
+			}
+		}
+		/* */
 		$this->display_action_name = 'List Items';
-	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
+	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10, 'conditions'=>"`status` <> '3' ");
 		$this->all_rows = $this->model->find_all($options);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
@@ -74,14 +96,10 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function create() {
-	  $files = new CmsFile();
-	  $this->allowed_images = false;
-  	$this->allowed_categories = false;
-		$this->all_links = $files->find_all_files();
-		$this->link_partial = $this->render_partial("apply_links");
-	  parent::create(false);
-	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the extra tabs to add images and categories");
-    else $this->save($this->model);
+		$model = new CmsContent();
+		$model->status = 3;
+		$model->save();
+		$this->redirect_to("/admin/content/edit/".$model->id);
 	}
 	
 	public function add_category() {

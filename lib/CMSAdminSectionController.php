@@ -13,9 +13,16 @@ class CMSAdminSectionController extends CMSAdminComponent {
   public $filter_columns = array("title");
 	public $order_by_columns = array("title","url");
 
+	/* run post delete triggers */
+	protected $run_post_delete = true;
+	protected $post_delete_function = "prevent_orphans";
+	protected $post_delete_information = array( 'table'=>"cms_content", 
+																							'field'=>"cms_section_id",
+																							'new_parent_id'=>1
+																							);
+
 	public function controller_global() {
 		$this->tree_collection = $this->model->sections_as_collection();
-		$this->sub_links["order"] = "Change the order of sections";
 	}
 	
 	public function index() {
@@ -24,11 +31,11 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->list = $this->render_partial("list");
 	}
 	
-	public function order() {
+	/*public function order() {
 		if($root_section = $this->model->find_by_parent_id(0)) {
 			$this->main_sections = $root_section->get_children("`order` ASC");
 		} else $this->main_sections = array();
-	}
+	}*/
 	
 	public function reorder() {
 		$this->use_layout=false;

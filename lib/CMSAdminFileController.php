@@ -19,7 +19,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	protected $run_post_delete = true;
 	protected $post_delete_function = "remove_joins";
-	protected $post_delete_information = array('table'=>"cms_content_cms_file", 'field'=>"cms_file_id");
+	protected $post_delete_information = array('file_table'=>"cms_content_cms_file", 'file_field'=>"cms_file_id");
 	
 	
 	public function controller_global(){
