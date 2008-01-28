@@ -866,7 +866,7 @@ function widgToolbar(theEditor)
 			
 			default:
 			  ar = widgToolbarItems[i];
-			  this.addButton(ar[0], ar[1], ar[2], ar[3])
+			  this.addButton(this.theList.id + ar[0], ar[1], ar[2], ar[3]);
 			
 		}
 	}
