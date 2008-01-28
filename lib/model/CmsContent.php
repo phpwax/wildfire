@@ -2,7 +2,7 @@
 
 class CmsContent extends WXActiveRecord {
   
-  public $status_options = array("0"=>"Draft", "1"=>"Published");
+  public $status_options = array("0"=>"Draft", "1"=>"Published"); //status 3 is used to signify a temp / autosaved page.
  	
  	public function after_setup() {
  	  $this->has_many("cms_file", "images");
@@ -27,7 +27,8 @@ class CmsContent extends WXActiveRecord {
 	  $this->url = WXInflections::to_url($this->title);
 	  $this->author_id = Session::get('loggedin_user');
 	  $this->avoid_section_url_clash();
-	  
+	  $this->date_modified = date("Y-m-d H:i:s");
+		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");	
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
 	}
 	
@@ -139,8 +140,14 @@ class CmsContent extends WXActiveRecord {
   public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
-  
-	
+  /* delete bits form join table */
+	public function remove_joins($information, $value){
+		if(!is_array($information) || !$value) return false;
+		$file_sql = 'DELETE FROM '. $information['file_table'] . ' WHERE `' . $information['file_field'] . "` = '$value'";
+		$this->pdo->exec($sql);
+		$sql = 'DELETE FROM '. $information['category_table'] . ' WHERE `' . $information['category_field'] . "` = '$value'";
+		$this->pdo->exec($sql);
+	}
 }
 
 ?>
