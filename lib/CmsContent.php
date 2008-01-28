@@ -139,8 +139,14 @@ class CmsContent extends WXActiveRecord {
   public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
-  
-	
+  /* delete bits form join table */
+	public function remove_joins($information, $value){
+		if(!is_array($information) || !$value) return false;
+		$file_sql = 'DELETE FROM '. $information['file_table'] . ' WHERE `' . $information['file_field'] . "` = '$value'";
+		$this->pdo->exec($sql);
+		$sql = 'DELETE FROM '. $information['category_table'] . ' WHERE `' . $information['category_field'] . "` = '$value'";
+		$this->pdo->exec($sql);
+	}
 }
 
 ?>
