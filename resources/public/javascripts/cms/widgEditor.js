@@ -1172,7 +1172,8 @@ function widgToolbarAction()
 			}
 		break;
 		default:
-		  return_val = this.action();
+		  var custom_func = eval(this.action);
+		  return_val = custom_func();
 		  
 	}
 	
