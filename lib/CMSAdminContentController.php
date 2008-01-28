@@ -41,6 +41,14 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function index() {
 	  if(!$page = $this->param("page")) $page=1;
+		/* remove temporary files */
+		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3'") );
+		if(count($temp_content)){
+			foreach($temp_content as $content){
+				$content->delete($content->id);
+			}
+		}
+		/* */
 		$this->display_action_name = 'List Items';
 	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
 		$this->all_rows = $this->model->find_all($options);
@@ -82,14 +90,10 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function create() {
-	  $files = new CmsFile();
-	  $this->allowed_images = false;
-  	$this->allowed_categories = false;
-		$this->all_links = $files->find_all_files();
-		$this->link_partial = $this->render_partial("apply_links");
-	  parent::create(false);
-	  if($this->allowed_images) $this->save($this->model, "edit", "successfully saved. Now you can use the extra tabs to add images and categories");
-    else $this->save($this->model);
+		$model = new CmsContent();
+		$model->status = 3;
+		$model->save();
+		$this->redirect_to("/admin/content/edit/".$model->id);
 	}
 	
 	public function add_category() {

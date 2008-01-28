@@ -2,7 +2,7 @@
 
 class CmsContent extends WXActiveRecord {
   
-  public $status_options = array("0"=>"Draft", "1"=>"Published");
+  public $status_options = array("0"=>"Draft", "1"=>"Published"); //status 3 is used to signify a temp / autosaved page.
  	
  	public function after_setup() {
  	  $this->has_many("cms_file", "images");
