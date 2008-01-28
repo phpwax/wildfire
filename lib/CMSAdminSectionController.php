@@ -23,7 +23,6 @@ class CMSAdminSectionController extends CMSAdminComponent {
 
 	public function controller_global() {
 		$this->tree_collection = $this->model->sections_as_collection();
-		$this->sub_links["order"] = "Change the order of sections";
 	}
 	
 	public function index() {
@@ -32,11 +31,11 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->list = $this->render_partial("list");
 	}
 	
-	public function order() {
+	/*public function order() {
 		if($root_section = $this->model->find_by_parent_id(0)) {
 			$this->main_sections = $root_section->get_children("`order` ASC");
 		} else $this->main_sections = array();
-	}
+	}*/
 	
 	public function reorder() {
 		$this->use_layout=false;
