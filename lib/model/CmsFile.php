@@ -67,7 +67,7 @@ class CmsFile extends WXFileActiveRecord {
 	
 	public function remove_joins($information, $value){
 		if(!is_array($information) || !$value) return false;
-		$sql = 'DELETE FROM '. $information['file_table'] . ' WHERE `' . $information['file_field'] . "` = '$value'";
+		$sql = 'DELETE FROM '. $information['table'] . ' WHERE `' . $information['field'] . "` = '$value'";
 		$this->pdo->exec($sql);
 	}
 	

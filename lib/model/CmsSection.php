@@ -95,13 +95,6 @@ class CmsSection extends WXTreeRecord {
 		$parsed_results['title'] = "Lastest News";
 		return $parsed_results;
 	}
-	
-	public function prevent_orphans($information, $value){
-		if(!is_array($information) || !$value || $value == 1) return false;
-		$sql = 'UPDATE `' . $information['table'] .'` SET `'.$information['field']."` = '".$information['new_parent_id']."' WHERE `".$information['field']."` = $value";
-		$this->pdo->exec($sql);
-	}
-		 
 }
 
 ?>
