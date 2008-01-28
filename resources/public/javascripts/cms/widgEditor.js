@@ -1172,7 +1172,8 @@ function widgToolbarAction()
 			}
 		break;
 		default:
-		  alert(this.action);
+		  return_val = this.action();
+		  
 	}
 	
 	if (theWidgEditor.wysiwyg == true)
