@@ -1085,14 +1085,6 @@ function widgToolbarAction()
 					}
 				}
         $('#link_dialog').jqmShow();
-        
-				/* var theURL = prompt("Enter the URL for this link:", "http://");
-
-				if (theURL != null)
-				{			
-					theIframe.contentWindow.document.execCommand("CreateLink", false, theURL);
-					theWidgEditor.theToolbar.setState("Link", "on");
-				} */
 			}
 			
 			break;
@@ -1148,8 +1140,9 @@ function widgToolbarAction()
 			{
 				return false;
 			}
-				
-		default:
+			
+		case "insertorderedlist":
+		case "insertunorderedlist"
 			theIframe.contentWindow.document.execCommand(this.action, false, null);
 			
 			var theAction = this.action.replace(/^./, function(match){return match.toUpperCase();});
@@ -1177,6 +1170,9 @@ function widgToolbarAction()
 			{
 				theWidgEditor.theToolbar.setState(theAction, "off");
 			}
+		break;
+		default:
+		  alert(this.action);
 	}
 	
 	if (theWidgEditor.wysiwyg == true)
