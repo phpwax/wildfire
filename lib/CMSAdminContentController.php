@@ -41,8 +41,15 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function index() {
 	  if(!$page = $this->param("page")) $page=1;
-		/* remove temporary files */
-		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3'") );
+		/* 
+			remove temporary files 
+			- added the author id check so many people can edit files at the same time. However there is still a 
+			vunerablity that if more then one person is logged in with the same account they might delete something 
+			the other is working on...
+		*/
+		
+		$author_id = $this->current_user->id; 
+		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id'") );
 		if(count($temp_content)){
 			foreach($temp_content as $content){
 				$content->delete($content->id);
