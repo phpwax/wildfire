@@ -865,7 +865,7 @@ function widgToolbar(theEditor)
 				break;
 			
 			default:
-			  alert(typeof(widgToolbarItems[i]);
+			  alert(typeof(widgToolbarItems[i]));
 			
 		}
 	}
