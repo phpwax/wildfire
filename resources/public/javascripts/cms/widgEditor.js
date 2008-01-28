@@ -865,12 +865,6 @@ function widgToolbar(theEditor)
 				
 				break;
 			
-			case "imageattach":
-  			this.addButton(this.theList.id + "ButtonAttachImage", "widgButtonAttachImage", "Select Images", "attachimage");
-  			break;
-  		case "categoryattach":
-    		this.addButton(this.theList.id + "ButtonAttachCat", "widgButtonAttachCat", "Select Categories", "attachcategory");
-    		break;
 		}
 	}
 
