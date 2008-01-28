@@ -43,13 +43,12 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  if(!$page = $this->param("page")) $page=1;
 		/* 
 			remove temporary files 
-			- added the author id check so many people can edit files at the same time. However there is still a 
-			vunerablity that if more then one person is logged in with the same account they might delete something 
-			the other is working on...
+			- now using the date_created field to make sure that only files older than an hour created by the logged in user will be deleted. This is should
+			avoid any acidental deletion of temp records that are still being worked on.
 		*/
-		
 		$author_id = $this->current_user->id; 
-		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id'") );
+		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
+		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id' AND `date_created` < '$time' ") );
 		if(count($temp_content)){
 			foreach($temp_content as $content){
 				$content->delete($content->id);
@@ -57,7 +56,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		}
 		/* */
 		$this->display_action_name = 'List Items';
-	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
+	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10, 'conditions'=>"`status` <> '3' ");
 		$this->all_rows = $this->model->find_all($options);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");

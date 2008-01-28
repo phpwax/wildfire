@@ -11,6 +11,7 @@ class ContentTableMigrate extends WXMigrate {
     $this->create_column("published", "DATETIME");
 		$this->create_column("expires", "DATETIME");
 		$this->create_column("date_modified", "TIMESTAMP");
+		$this->create_column("date_created", "DATETIME");			
     $this->create_column("cms_section_id", "integer");
     $this->create_column("sort", "integer");
     $this->create_column("url", "string");
