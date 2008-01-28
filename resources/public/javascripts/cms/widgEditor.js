@@ -865,7 +865,8 @@ function widgToolbar(theEditor)
 				break;
 			
 			default:
-			  alert(typeof(widgToolbarItems[i]));
+			  ar = widgToolbarItems[i];
+			  this.addButton(ar[0], ar[1], ar[2], ar[3])
 			
 		}
 	}
