@@ -17,11 +17,13 @@ class ContentTableMigrate extends WXMigrate {
     $this->create_column("url", "string");
     $this->create_table("cms_content");
     $this->add_column("cms_content", "pageviews", "integer", "11", false, "0");
+    $this->add_column("cms_content", "date_created", "DATETIME");
   }
   
   public function down() {
     $this->drop_table("cms_content");
     $this->remove_column("cms_content", "pageviews");
+    $this->remove_column("cms_content", "date_created");
   }
   
 }
