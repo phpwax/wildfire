@@ -862,8 +862,10 @@ function widgToolbar(theEditor)
 				
 			case "blockformat":
 				this.addSelect(this.theList.id + "SelectBlock", "widgSelectBlock", widgSelectBlockOptions, "formatblock");
-				
 				break;
+			
+			default:
+			  alert(typeof(widgToolbarItems[i]);
 			
 		}
 	}
@@ -1057,14 +1059,6 @@ function widgToolbarAction()
 			theIframe.contentWindow.document.execCommand(this.action, false, this.value);
 			theWidgEditor.theToolbar.setState("SelectBlock", this.value);
 			break;
-			
-		case "attachimage":
-		  YAHOO.cms.container.image_browser_container.show();
-		  break;
-	
-	    case "attachcategory":
-  		  YAHOO.cms.container.category_browser_container.show();
-  		  break;
 			
 		case "html":
 			theWidgEditor.switchMode();
