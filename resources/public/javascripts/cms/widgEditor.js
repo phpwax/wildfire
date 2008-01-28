@@ -1142,7 +1142,7 @@ function widgToolbarAction()
 			}
 			
 		case "insertorderedlist":
-		case "insertunorderedlist"
+		case "insertunorderedlist":
 			theIframe.contentWindow.document.execCommand(this.action, false, null);
 			
 			var theAction = this.action.replace(/^./, function(match){return match.toUpperCase();});
