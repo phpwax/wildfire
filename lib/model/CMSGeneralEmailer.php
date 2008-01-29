@@ -1,4 +1,13 @@
 <?php
+
+interface CMSSubscription {
+    
+  public function get_email_content($handle);
+  public function fetch_emails();
+  
+}
+
+
 class CMSGeneralEmailer extends WXEmail implements CMSSubscription {
  
   public function get_email_content($handle) {
