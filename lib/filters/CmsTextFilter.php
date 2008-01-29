@@ -94,7 +94,7 @@ class CmsTextFilter  {
   }
   
   static public function nice_quotes($text) {
-    preg_match_all("/\\\"([^\\\"]*)\\\"/", $text, $matches, PREG_SET_ORDER);
+    preg_match_all("/\\\"([^\\\"]*)\\\"/", $text, $matches, PREG_OFFSET_CAPTURE);
     print_r($matches); exit;
     foreach($matches[1] as $quote) {
       $newtext .= "&lsquo;".$quote."&rsquo;";
