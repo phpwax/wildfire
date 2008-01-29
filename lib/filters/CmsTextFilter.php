@@ -11,7 +11,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "clean_html", "strip_slashes"),
-    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes")
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "nice_quotes")
   );
   
   static public function add_filter($trigger, $method) {
@@ -91,6 +91,11 @@ class CmsTextFilter  {
   static public function ampersand_hook($text) {
     $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
     return preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
+  }
+  
+  static public function nice_quotes($text) {
+    preg_match_all("/\"([^<>]*)\"/", $text, $matches);
+    print_r($matches); exit;
   }
 
 
