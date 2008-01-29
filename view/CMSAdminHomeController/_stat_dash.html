@@ -4,7 +4,7 @@ foreach($stat_dash as $dash):
 endforeach;
 if($visits) $max = max($visits);
 ?>
-<!-- Max = <?= $visits ?>  -->
+<!-- Max = <?=print_r($visits ,1)?>  -->
 <div class="cms_home_module">
   <h3>Recent Visits and Page Views</h3>
   <?if(count($stat_dash)):?>
