@@ -41,7 +41,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
   
   
   protected function variable_setup() {
-    $this->{$this->type} = CmsConfiguration::get($this->type);
+    $this->{$this->type} = unserialize(CmsConfiguration::get($this->type));
     if(!$this->{$this->type}) $this->{$this->type} = array();
   }
 
