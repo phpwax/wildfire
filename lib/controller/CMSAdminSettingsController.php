@@ -34,7 +34,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	
   
   protected function handle_post() {
-    print_r($_POST); exit;
+    if($_POST) { print_r($_POST); exit; }
 		foreach($_POST as $setting=>$vals) {
 		  CmsConfiguration::set($setting, serialize($vals));
 		}
