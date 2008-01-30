@@ -22,6 +22,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	  $this->all_cms_modules = CmsApplication::get_modules();
 	  $section = new CmsSection;
 		$this->all_cms_sections = $section->find_all();
+		$this->options_setup();
 	  $this->handle_post();
 	  $this->variable_setup();
 	}
