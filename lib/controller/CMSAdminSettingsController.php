@@ -46,11 +46,11 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 
   protected function options_setup() {
     foreach($this->default_options as $option) {
-      $this->sub_links[$option]=humanize($options);
+      $this->sub_links[$option]=humanize($option);
     }
     if($this->is_admin) {
       foreach($this->admin_options as $option) {
-        $this->sub_links[$option]=humanize($options);
+        $this->sub_links[$option]=humanize($option);
       }
     }
   }
