@@ -33,7 +33,7 @@ class CmsComment extends WXActiveRecord {
   }
   
   public function article_permalink() {
-    $class= camelize($this->attached_name);
+    $class= camelize($this->attached_table);
     $model = new $class;
     $article = $model->find($this->attached_id);
     return $article->permalink;
