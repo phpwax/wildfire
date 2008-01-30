@@ -2,14 +2,14 @@
   <table>
     <thead>
       <tr>
-        <th>Enabled Modules</th>
+        <th>Tick Enabled Modules</th>
         <th></th>
       </tr>
     </thead>
     
       <?foreach($all_cms_modules as $name=>$settings):?>
         <tr>
-          <td><label for="modules_<?=$name?>"><?=$name?></label></td>
+          <td><label for="modules_<?=$name?>"><?=humanize($name)?></label></td>
           <?$check=false?>
           <?if(array_key_exists($name, $modules)) $check=true;?>
           <td><?=check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]", "id"=>"modules_".$name), false)?></td>
