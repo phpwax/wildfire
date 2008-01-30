@@ -1002,7 +1002,7 @@ li.pagination_link a {
   font-weight:bold;
   color:#464646;
 }
-#settings_form .footer {
+#settings_form .footer td {
   background:#CCCCCC;
 }
 #settings_form .footer input {
