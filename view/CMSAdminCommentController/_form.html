@@ -20,8 +20,10 @@
     </div>
 
     <fieldset id="content_options">
+      <?=large(text_field($model, "author_name"))?>
+      <?=large(text_field($model, "author_email"))?>
       <?=large(select($model, "status", $model->status_options))?>
-     
+      
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
