@@ -6,14 +6,15 @@
         <th></th>
       </tr>
     </thead>
-    <tr>
+    
       <?foreach($all_cms_modules as $name=>$settings):?>
-        <td><label for="modules_<?=$name?>"><?=$name?></label></td>
-        <?$check=false?>
-        <?if(array_key_exists($name, $modules)) $check=true;?>
-        <td><?=check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]", "id"=>"modules_".$name), false)?></td>
+        <tr>
+          <td><label for="modules_<?=$name?>"><?=$name?></label></td>
+          <?$check=false?>
+          <?if(array_key_exists($name, $modules)) $check=true;?>
+          <td><?=check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]", "id"=>"modules_".$name), false)?></td>
+        </tr>
       <?endforeach?>
-    </tr>
     
     <tr class="footer">
       <td><input type="submit" value="Update Options" /></td>
