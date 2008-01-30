@@ -1,6 +1,6 @@
 <?php
 
-class CmsConfiguration extends WXActiveRecord{
+class CmsConfiguration extends WXActiveRecord {
     
   static public function get($name) {
     $conf = new CmsConfiguration;
@@ -20,6 +20,7 @@ class CmsConfiguration extends WXActiveRecord{
     }
     return true;
   }
+  
  	
 }
 ?>
