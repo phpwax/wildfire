@@ -989,6 +989,9 @@ li.pagination_link a {
   padding:5px 15px;
   vertical-align:top;
 }
+#settings_form tr {
+  border-bottom:1px solid #444444;
+}
 
 /****** End Settings Form Styles *****/
 
