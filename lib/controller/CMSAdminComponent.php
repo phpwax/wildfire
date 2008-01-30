@@ -212,8 +212,9 @@ class CMSAdminComponent extends WXControllerBase {
 	}
 	
 	protected function configure_modules() {
-	  if(!$mods = unserialize(CmsConfiguration::get("cms_modules"))) $mods = array(); 
-	  if($mods && $this->current_user->username != CmsConfiguration::get("super_user")) {
+	  $config = CmsConfiguration::get("modules");
+	  if(!is_array($mods = $config["enabled_modules"]) ) $mods = array(); 
+	  if($mods && $this->current_user->usergroup != "30") {
 	    foreach(CMSApplication::get_modules() as $module=>$values) {
         if(!array_key_exists($module, $mods)) {
           CMSApplication::unregister_module($module);
