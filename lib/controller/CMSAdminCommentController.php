@@ -12,9 +12,10 @@ class CMSAdminCommentController extends CMSAdminComponent {
     "time"   =>array(),
   );
   public $filter_columns = array("name");
+  
 
 	public function controller_global() {
-	  
+
 	}
 
 }
