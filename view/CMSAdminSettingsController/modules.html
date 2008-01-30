@@ -7,15 +7,12 @@
       </tr>
     </thead>
     <tr>
-      <td><label for="email">Tick Modules Enabled</label></td>
-      <td>
-        <?foreach($all_cms_modules as $name=>$settings):?>
-          <?$check=false?>
-          <?if(array_key_exists($name, $modules)) $check=true;?>
-          <?=large(check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]", "id"=>"modules_".$name)))?>
-        <?endforeach?>
-      </fieldset>
-      </td>
+      <?foreach($all_cms_modules as $name=>$settings):?>
+        <td><label for="modules_<?=$name?>"><?=$name?></label></td>
+        <?$check=false?>
+        <?if(array_key_exists($name, $modules)) $check=true;?>
+        <td><?=check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]", "id"=>"modules_".$name), false)?></td>
+      <?endforeach?>
     </tr>
     
     <tr class="footer">
