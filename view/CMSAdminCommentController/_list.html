@@ -2,7 +2,7 @@
     <tr>
       <td class="column"><?=$row->author_name?></td>
       <td class="column"><?=$row->comment?></td>
-      <td class="column"><?=$row->time_ago?></td>
+      <td class="column"><?=$row->time_ago?> ago</td>
       <td class="column">
         <?=link_to(image_asset("cms","button_edit.gif"), array("action"=>"edit", "id"=>$row->id))?> 
         <?=link_to(image_asset("cms","button_delete.gif"), array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?>

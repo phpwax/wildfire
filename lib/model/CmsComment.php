@@ -9,12 +9,15 @@ class CmsComment extends WXActiveRecord {
     $this->valid_required("author_name");
     $this->valid_required("author_email");
     $this->valid_format("author_email", "email");
+    $this->valid_required("comment");
   }
   
   
   public function before_create() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
+    if(!$this->attached_name) $this->attached_name = "cms_content";
+    $this->flag_spam();
   }
   
   function time_ago() {
@@ -28,6 +31,31 @@ class CmsComment extends WXActiveRecord {
     else $val = $ts.' second';
     if($val>1) $val .= 's';
     return $val;
+  }
+  
+  public function gravatar_url($size="50") {
+    $url = "http://www.gravatar.com/avatar.php?";
+    $url .= "gravatar_id=".md5(trim($this->author_email));
+    $url .= "&size=$size";
+    $url .= "&default=".$_SERVER['HTTP_HOST']."/images/cms/default_avatar.gif";
+    return $url;
+  }
+  
+  protected function flag_spam() {
+    $total_matches = 0;
+    $trash = array();
+    // Count the regular links
+    $total_matches += preg_match_all("/<a[^>]*>.*<\/a>/i", $text, $trash);
+  
+    // Check for common spam words
+    $words = array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax',
+                   'paxil', 'casino', 'slot-machine', 'texas-holdem');
+    foreach ($words as $word) {
+      $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
+      $total_matches += 5 * $word_matches;
+    }
+    if($total_matches > 4) $this->status="2";
+    else $this->status="1";
   }
 
 
