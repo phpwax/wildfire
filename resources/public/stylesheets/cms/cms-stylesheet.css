@@ -979,13 +979,14 @@ li.pagination_link a {
 #settings_form thead th {
   padding:10px;
 }
+#settings_form tr td {
+  background:#F3F3F3;
+}
 #settings_form tr td:first-child {
   background:#E1E1E1;
   text-align:right;
 }
-#settings_form tr td:last-child {
-  background:#F3F3F3;
-}
+
 #settings_form td {
   width:50%;
   font-size:93%;
