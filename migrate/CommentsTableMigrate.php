@@ -15,7 +15,7 @@ class CommentsTableMigrate extends WXMigrate {
     $this->create_column("karma", "integer");
     $this->create_column("author_id", "integer");
     $this->create_column("author_table", "integer");
-    $this->create_column("time", "timestamp");
+    $this->create_column("time", "datetime");
     $this->create_table("cms_comment");
   }
   

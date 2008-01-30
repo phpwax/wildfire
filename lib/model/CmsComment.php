@@ -12,9 +12,12 @@ class CmsComment extends WXActiveRecord {
   }
   
   
-  public function before_save() {
+  public function before_create() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
+    $this->time = date("Y-m-d H:i:s");
   }
+  
+  
 
 
 }
