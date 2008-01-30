@@ -35,13 +35,13 @@ class CMSAdminSettingsController extends CMSAdminComponent {
   
   protected function handle_post() {
 		foreach($_POST as $setting=>$vals) {
-		  CmsConfiguration::set($setting, serialize($vals));
+		  CmsConfiguration::set($setting, $vals);
 		}
   }
   
   
   protected function variable_setup() {
-    $this->{$this->type} = unserialize(CmsConfiguration::get($this->type));
+    $this->{$this->type} = CmsConfiguration::get($this->type);
     if(!$this->{$this->type}) $this->{$this->type} = array();
   }
 
