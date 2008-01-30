@@ -988,9 +988,9 @@ li.pagination_link a {
   font-size:93%;
   padding:5px 15px;
   vertical-align:top;
+  border-bottom:1px solid #444444;
 }
 #settings_form tr {
-  border-bottom:1px solid #444444;
 }
 
 /****** End Settings Form Styles *****/
