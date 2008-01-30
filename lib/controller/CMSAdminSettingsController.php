@@ -11,6 +11,8 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	public $model_class = "CmsConfiguration";
 	public $display_name = "Settings";
 	public $sub_links = array("index"=>"General");
+	public $admin_options = array("modules");
+	public $default_options = array();
 	
 	public function controller_global() {
 	  unset($this->sub_links["create"]);
@@ -35,13 +37,22 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 		  CmsConfiguration::set($setting, serialize($vals));
 		}
   }
-
   
   
   protected function variable_setup() {
     $this->{$this->type} = CmsConfiguration::get($this->type); 
   }
 
+  protected function options_setup() {
+    foreach($this->default_options as $option) {
+      $this->sub_links[$option]=humanize($options);
+    }
+    if($this->is_admin) {
+      foreach($this->admin_options as $option) {
+        $this->sub_links[$option]=humanize($options);
+      }
+    }
+  }
 
 
 }
