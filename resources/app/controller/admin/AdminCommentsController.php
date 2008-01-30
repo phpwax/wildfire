@@ -1,5 +1,5 @@
 <?php
-class AdminCommentsController extends CMSAdminCommentsController {  
+class AdminCommentsController extends CMSAdminCommentController {  
   
 }
 ?>
