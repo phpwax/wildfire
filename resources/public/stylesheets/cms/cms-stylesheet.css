@@ -967,6 +967,27 @@ li.pagination_link a {
 
 /****** End Form Layout Styles ****/
 
+/****** Settings Form Styles  *****/
+
+#settings_form {
+  width:80%;
+}
+#settings_form thead tr {
+  background:#AAAAAA;
+  font-size:140%;
+}
+#settings_form tr:first-child {
+  background:#E1E1E1;
+  text-align:right;
+}
+#settings_form td {
+  width:50%;
+  font-size:85%;
+  padding:3px 10px;
+}
+
+/****** End Settings Form Styles *****/
+
 
 
 .clearfix:after {
