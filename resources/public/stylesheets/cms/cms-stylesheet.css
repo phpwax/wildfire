@@ -996,6 +996,7 @@ li.pagination_link a {
 #settings_form input {
   padding:3px 8px;
   font-size:100%;
+  width:80%;
 }
 
 /****** End Settings Form Styles *****/
