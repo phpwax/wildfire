@@ -10,6 +10,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	public $model_name = "cms_configuration";
 	public $model_class = "CmsConfiguration";
 	public $display_name = "Settings";
+	public $sub_links = array("General"=>"index");
 	
 	public function controller_global() {
 	  $this->type= $this->action;
