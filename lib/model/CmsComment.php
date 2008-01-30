@@ -15,7 +15,7 @@ class CmsComment extends WXActiveRecord {
   public function before_create() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
-    if(!$this->attached_name) $this->attached_name = "cms_content";
+    if(!$this->attached_name) $this->attached_table = "cms_content";
     $this->flag_spam();
   }
   
