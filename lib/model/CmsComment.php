@@ -12,7 +12,6 @@ class CmsComment extends WXActiveRecord {
     $this->valid_required("comment");
   }
   
-  
   public function before_create() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
@@ -31,6 +30,12 @@ class CmsComment extends WXActiveRecord {
     else $val = $ts.' second';
     if($val>1) $val .= 's';
     return $val;
+  }
+  
+  public function article_permalink() {
+    $model = new camelize($this->attached_name);
+    $article = $model->find($this->attached_id);
+    return $article->permalink;
   }
   
   public function gravatar_url($size="50") {
