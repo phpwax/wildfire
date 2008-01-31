@@ -18,7 +18,7 @@
         <?endforeach?>
       </td>
     </tr>
-    <tr>
+    <tr class="option_cell">
       <td><label for="email_comment">Comment Notification</label></td>
       <td>
         <input id="email_comment" name="comments[email_comment]" type="checkbox" value="<?=$comments["email_comment"]?>" />
@@ -30,8 +30,8 @@
     <tr>
       <td><label for="filter">Filter Comments For:</label></td>
       <td>
-        <textarea id="filter" name="comments[filter]"><?=$comments["filter"]?></textarea>
-        <p>A list of words that will trigger comments to be marked as spam</p>
+        <textarea id="filter" name="comments[filter]" rows="5", cols="50"><?=$comments["filter"]?></textarea>
+        <p>A list of words that will trigger comments to be marked as spam. Separate with a space.</p>
       </td>
     </tr>
     <tr class="footer">
