@@ -557,8 +557,8 @@ button.generic_button, div.generic_button {
 button.generic_button span, div.generic_button a {
   background:url(../../images/cms/button_right.gif) no-repeat top right;
   display:block;
-  padding:3px 8px;
-  font-weight:bold;
+  padding:6px 8px;
+  color:#565656;
 }
 
 /****************
