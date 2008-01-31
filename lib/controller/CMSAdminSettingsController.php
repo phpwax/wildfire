@@ -12,7 +12,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	public $display_name = "Settings";
 	public $sub_links = array("index"=>"General");
 	public $admin_options = array("modules");
-	public $default_options = array();
+	public $default_options = array("comments");
 	
 	public function controller_global() {
 	  unset($this->sub_links["create"]);
