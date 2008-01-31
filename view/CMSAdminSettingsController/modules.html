@@ -8,7 +8,7 @@
     </thead>
     <tr>
       <td><label>Select modules which are enabled for CMS Users</td>
-      <td>
+      <td class="option_cell">
       <?foreach($all_cms_modules as $name=>$settings):?>
         <?$check=false?>
         <?if(!is_array($mods = $modules["enabled_modules"])) $mods = array()?>
