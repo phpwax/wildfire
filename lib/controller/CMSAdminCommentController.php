@@ -11,7 +11,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
     "comment"   =>array(),
     "time"   =>array(),
   );
-  public $filter_columns = array("name");
+  public $filter_columns = array("author_name");
   
 
 	public function controller_global() {
