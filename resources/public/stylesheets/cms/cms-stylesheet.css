@@ -1011,8 +1011,11 @@ li.pagination_link a {
 #settings_form .footer input {
   width:auto;
 }
-.option_cell input {
+#settings_form .check_box_field {
   width:auto;
+}
+#settings_form .option_cell label {
+  display:inline;
 }
 
 /****** End Settings Form Styles *****/
