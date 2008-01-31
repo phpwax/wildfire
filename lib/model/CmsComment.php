@@ -3,7 +3,7 @@
 class CmsComment extends WXActiveRecord {
   
 	public $status_options = array("0"=>"Unapproved", "1"=>"Approved", "2"=>"Spam"); 
-	
+	public $config = array();
 
   public function validations() {
     $this->valid_required("author_name");
@@ -15,7 +15,8 @@ class CmsComment extends WXActiveRecord {
   public function before_create() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
-    if(!$this->attached_name) $this->attached_table = "cms_content";
+    if(!$this->attached_table) $this->attached_table = "cms_content";
+    $this->config = CmsConfiguration::get("comments");
     $this->flag_spam();
   }
   
@@ -54,8 +55,8 @@ class CmsComment extends WXActiveRecord {
     $total_matches += preg_match_all("/<a[^>]*>.*<\/a>/i", $text, $trash);
   
     // Check for common spam words
-    $words = array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax',
-                   'paxil', 'casino', 'slot-machine', 'texas-holdem');
+    $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax',
+                   'paxil', 'casino', 'slot-machine', 'texas-holdem'), explode(" ", $this->config["filter"]) );
     foreach ($words as $word) {
       $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
       $total_matches += 5 * $word_matches;
