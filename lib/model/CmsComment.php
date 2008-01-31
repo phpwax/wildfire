@@ -4,6 +4,8 @@ class CmsComment extends WXActiveRecord {
   
 	public $status_options = array("0"=>"Unapproved", "1"=>"Approved", "2"=>"Spam"); 
 	public $config = array();
+	public $attached_table_name = "cms_content";
+	public $author_table_name = "cms_user";
 
   public function validations() {
     $this->valid_required("author_name");
@@ -15,12 +17,14 @@ class CmsComment extends WXActiveRecord {
   public function before_create() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
-    if(!$this->attached_table) $this->attached_table = "cms_content";
+    if(!$this->attached_table) $this->attached_table = $this->attached_table_name;
+    if(!$this->author_table) $this->author_table = $this->author_table_name;
     $this->config = CmsConfiguration::get("comments");
     $this->flag_spam();
   }
   
-  function time_ago() {
+ 
+  public function time_ago() {
     $ts = time() - strtotime(str_replace("-","/",$this->time));
     if($ts>31536000) $val = round($ts/31536000,0).' year';
     else if($ts>2419200) $val = round($ts/2419200,0).' month';
@@ -64,6 +68,5 @@ class CmsComment extends WXActiveRecord {
     if($total_matches > 4) $this->status="2";
     else $this->status="1";
   }
-
-
+  
 }

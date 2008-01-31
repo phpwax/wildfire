@@ -18,14 +18,7 @@
         <?endforeach?>
       </td>
     </tr>
-    <tr>
-      <td><label>Comment Notification</label></td>
-      <td class="option_cell">
-        <?=check_box_tag("email_comment", "1", $comments["email_comment"], array("name"=>"comments[email_comment]"), "Email me when a comment is made")?>
-        <br />
-        <?=check_box_tag("email_spam", "1", $comments["email_spam"], array("name"=>"comments[email_spam]"), "Email me when a comment is made and recognised as spam")?>        
-      </td>
-    </tr>
+   
     <tr>
       <td><label for="filter">Filter Comments For:</label></td>
       <td>
