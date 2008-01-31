@@ -1011,6 +1011,9 @@ li.pagination_link a {
 #settings_form .footer input {
   width:auto;
 }
+.option_cell input {
+  width:auto;
+}
 
 /****** End Settings Form Styles *****/
 

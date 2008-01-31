@@ -8,7 +8,7 @@
     </thead>
     <tr>
       <td><label for="email_comment">Comments Enabled for Sections</label></td>
-      <td>
+      <td class="option_cell">
         <?foreach($all_cms_sections as $section):?>
             <?$check=false?>
             <?if(!is_array($mods = $comments["enabled_sections"])) $mods = array()?>
