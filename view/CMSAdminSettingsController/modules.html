@@ -6,17 +6,17 @@
         <th></th>
       </tr>
     </thead>
-    
+    <tr>
+      <td><label>Select modules which are enabled for CMS Users</td>
+      <td>
       <?foreach($all_cms_modules as $name=>$settings):?>
-        <tr>
-          <td><label for="modules_<?=$name?>"><?=humanize($name)?></label></td>
-          <?$check=false?>
-          <?if(!is_array($mods = $modules["enabled_modules"])) $mods = array()?>
-          <?if(array_key_exists($name, $mods)) $check=true;?>
-          <td><?=check_box_tag($name, "1", $check, array("name"=>"modules[enabled_modules][".$name."]", "id"=>"modules_".$name), false)?></td>
-        </tr>
+        <?$check=false?>
+        <?if(!is_array($mods = $modules["enabled_modules"])) $mods = array()?>
+        <?if(array_key_exists($name, $mods)) $check=true;?>
+        <?=check_box_tag($name, "1", $check, array("name"=>"modules[enabled_modules][".$name."]", "id"=>"modules_".$name), humanize($name))?><br />
       <?endforeach?>
-    
+      </td>
+    </tr>
     <tr class="footer">
       <td><input type="submit" value="Update Options" /></td>
       <td></td>
