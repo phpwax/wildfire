@@ -7,24 +7,36 @@
       </tr>
     </thead>
     <tr>
-      <td><label for="email">Email Address</label></td>
+      <td><label for="email_comment">Comments Enabled for Sections</label></td>
       <td>
-        <input id="email" name="comments[email]" type="text" value="<?=$general["email"]?>" />
-        <p>The email address any communications get sent to</p>
+        <?foreach($all_cms_sections as $section):?>
+            <label for="section_<?=$section->title?>"><?=humanize($section->title)?></label>
+            <?$check=false?>
+            <?if(!is_array($mods = $comment["enabled_sections"])) $mods = array()?>
+            <?if(array_key_exists($name, $mods)) $check=true;?>
+            <?=check_box_tag($name, "1", $check, array("name"=>"comments[enabled_sections][".$name."]", "id"=>"modules_".$name), false)?></td>
+        <?endforeach?>
       </td>
     </tr>
     <tr>
-      <td><label for="email">Google Maps API Key</label></td>
+      <td><label for="email_comment">Comment Notification Enabled</label></td>
       <td>
-        <input id="googlekey" name="comments[googlekey]" type="text" value="<?=$general["googlekey"]?>" />
-        <p>Set if you want to use maps on the site</p>
+        <input id="email_comment" name="comments[email_comment]" type="checkbox" value="<?=$comments["email_comment"]?>" />
+        <p>Email me when a comment is made</p>
       </td>
     </tr>
     <tr>
-      <td><label for="email">Pulse RSS Key</label></td>
+      <td><label for="email_spam">Spam Notification Enabled</label></td>
       <td>
-        <input id="pulsekey" name="comments[pulsekey]" type="text" value="<?=$general["pulsekey"]?>" />
-        <p>Allows web statistics to be displayed in CMS</p>
+        <input id="email_spam" name="comments[email_spam]" type="checkbox" value="<?=$comments["email_spam"]?>" />
+        <p>Email me when a comment is made and recognised as spam</p>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="filter">Filter Comments For:</label></td>
+      <td>
+        <textarea id="filter" name="comments[filter]"><?=$comments["filter"]?></textarea>
+        <p>A list of words that will trigger comments to be marked as spam</p>
       </td>
     </tr>
     <tr class="footer">
