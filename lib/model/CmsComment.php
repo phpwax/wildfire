@@ -23,6 +23,11 @@ class CmsComment extends WXActiveRecord {
     $this->flag_spam();
   }
   
+  public function find_comments($article, $type=false) {
+    if(!$type) $type = $this->attached_table_name;
+    return $this->find_all(array("conditions"=>"attached_table='$type' AND attached_id=$article AND status=1", "order"=>"time ASC"));
+  }
+  
  
   public function time_ago() {
     $ts = time() - strtotime(str_replace("-","/",$this->time));
