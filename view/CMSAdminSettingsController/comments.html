@@ -7,7 +7,7 @@
       </tr>
     </thead>
     <tr>
-      <td><label for="email_comment">Comments Enabled for Sections</label></td>
+      <td><label>Comments Enabled for Sections</label></td>
       <td class="option_cell">
         <?foreach($all_cms_sections as $section):?>
             <?$check=false?>
@@ -19,12 +19,11 @@
       </td>
     </tr>
     <tr>
-      <td><label for="email_comment">Comment Notification</label></td>
+      <td><label>Comment Notification</label></td>
       <td class="option_cell">
         <?=check_box_tag("email_comment", "1", $comments["email_comment"], array("name"=>"comments[email_comment]"), "Email me when a comment is made")?>
         <br />
-        <input id="email_spam" name="comments[email_spam]" type="checkbox" class="check_box_field" value="<?=$comments["email_spam"]?>" />
-        <label for="email_spam">Email me when a comment is made and recognised as spam</label>
+        <?=check_box_tag("email_spam", "1", $comments["email_spam"], array("name"=>"comments[email_spam]"), "Email me when a comment is made and recognised as spam")?>        
       </td>
     </tr>
     <tr>
