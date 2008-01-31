@@ -14,22 +14,17 @@
             <?if(!is_array($mods = $comments["enabled_sections"])) $mods = array()?>
             <?if(array_key_exists($section->id, $mods)) $check=true;?>
             <?=check_box_tag($section->id, "1", $check, array("name"=>"comments[enabled_sections][".$secion->id."]", "id"=>"section_".$section->id), false)?>
-            <label for="section_<?=$section->id?>"><?=$section->title?></label>
+            <label for="section_<?=$section->id?>"><?=$section->title?></label><br />
         <?endforeach?>
       </td>
     </tr>
     <tr>
-      <td><label for="email_comment">Comment Notification Enabled</label></td>
+      <td><label for="email_comment">Comment Notification</label></td>
       <td>
         <input id="email_comment" name="comments[email_comment]" type="checkbox" value="<?=$comments["email_comment"]?>" />
-        <p>Email me when a comment is made</p>
-      </td>
-    </tr>
-    <tr>
-      <td><label for="email_spam">Spam Notification Enabled</label></td>
-      <td>
+        <label for="email_comment">Email me when a comment is made</label><br />
         <input id="email_spam" name="comments[email_spam]" type="checkbox" value="<?=$comments["email_spam"]?>" />
-        <p>Email me when a comment is made and recognised as spam</p>
+        <label for="email_spam">Email me when a comment is made and recognised as spam</label>
       </td>
     </tr>
     <tr>
