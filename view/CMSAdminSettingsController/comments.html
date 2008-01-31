@@ -10,11 +10,11 @@
       <td><label for="email_comment">Comments Enabled for Sections</label></td>
       <td>
         <?foreach($all_cms_sections as $section):?>
-            <label for="section_<?=$section->title?>"><?=humanize($section->title)?></label>
             <?$check=false?>
-            <?if(!is_array($mods = $comment["enabled_sections"])) $mods = array()?>
-            <?if(array_key_exists($name, $mods)) $check=true;?>
-            <?=check_box_tag($name, "1", $check, array("name"=>"comments[enabled_sections][".$name."]", "id"=>"modules_".$name), false)?></td>
+            <?if(!is_array($mods = $comments["enabled_sections"])) $mods = array()?>
+            <?if(array_key_exists($section->id, $mods)) $check=true;?>
+            <?=check_box_tag($section->id, "1", $check, array("name"=>"comments[enabled_sections][".$secion->id."]", "id"=>"section_".$section->id), false)?></td>
+            <label for="section_<?=$section->id?>"><?=$section->title?></label>
         <?endforeach?>
       </td>
     </tr>
