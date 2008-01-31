@@ -13,7 +13,7 @@
             <?$check=false?>
             <?if(!is_array($mods = $comments["enabled_sections"])) $mods = array()?>
             <?if(array_key_exists($section->id, $mods)) $check=true;?>
-            <?=check_box_tag($section->id, "1", $check, array("name"=>"comments[enabled_sections][".$secion->id."]", "id"=>"section_".$section->id), false)?></td>
+            <?=check_box_tag($section->id, "1", $check, array("name"=>"comments[enabled_sections][".$secion->id."]", "id"=>"section_".$section->id), false)?>
             <label for="section_<?=$section->id?>"><?=$section->title?></label>
         <?endforeach?>
       </td>
