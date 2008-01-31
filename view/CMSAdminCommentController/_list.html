@@ -3,7 +3,7 @@
       <td class="column"><?=$row->author_name?></td>
       <td class="column"><?=$row->comment?></td>
       <td class="column"><?=$row->time_ago?> ago</td>
-      <td class="column clearfix">
+      <td class="column">
         <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
         <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
         <div class="generic_button"><a href="<?=$row->article_permalink?>">View Post</a></div>
