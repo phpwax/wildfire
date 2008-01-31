@@ -560,6 +560,7 @@ button.generic_button span, div.generic_button a {
   padding:6px 8px;
   color:#565656 !important;
   font-weight:normal !important;
+  font-size:75% !important;
 }
 
 /****************
