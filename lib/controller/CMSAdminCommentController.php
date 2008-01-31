@@ -17,6 +17,22 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	public function controller_global() {
 
 	}
+	
+	public function spam() {
+	  $comment = new CmsComment($this->param("id"));
+	  if($comment->update_attributes(array("status"=>"2")) ) {
+	    Session::add_message("Comment marked as spam");
+	  }
+	  $this->redirect_to(array("action"=>"index"));
+	}
+	
+	public function approve() {
+	  $comment = new CmsComment($this->param("id"));
+	  if($comment->update_attributes(array("status"=>"1")) ) {
+	    Session::add_message("Comment approved");
+	  }
+	  $this->redirect_to(array("action"=>"index"));
+	}
 
 }
 
