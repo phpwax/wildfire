@@ -1020,7 +1020,9 @@ li.pagination_link a {
   line-height:200%;
   font-weight:normal;
 }
-
+.spam {
+  color:#AAAAAA !important;
+}
 /****** End Settings Form Styles *****/
 
 
