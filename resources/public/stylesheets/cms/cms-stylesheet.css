@@ -552,6 +552,7 @@ button.generic_button, div.generic_button {
  border:0;
  padding-left:3px;
  margin-right:10px;
+ float:left;
 }
 button.generic_button span, div.generic_button a {
   background:url(../../images/cms/button_right.gif) no-repeat top right;
