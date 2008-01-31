@@ -47,7 +47,7 @@
 	    <?if($sub_links):?>
 	      <?foreach($sub_links as $sub_link=>$text):?>
 	        <?$class=""?>
-	        <?if($sub_link==$action) $class="sub_nav_selected"?>
+	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
 	        <?if($sub_link=="create" && strlen($class) > 1) $class.=" create_content";
 	        elseif($sub_link=="create") $class .="create_content";?>
 	  	    <li class="<?=$class?>"><?=link_to($text, array("action"=>$sub_link))?></li>
