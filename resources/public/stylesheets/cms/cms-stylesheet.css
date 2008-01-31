@@ -547,13 +547,13 @@ h4{
   color:#333333;
 }
 
-button.generic_button {
+button.generic_button, div.generic_button {
  background:url(../../images/cms/button_left.gif) no-repeat top left;
  border:0;
  padding-left:3px;
  margin-right:10px;
 }
-button.generic_button span {
+button.generic_button span, div.generic_button a {
   background:url(../../images/cms/button_right.gif) no-repeat top right;
   display:block;
   padding:3px 8px;

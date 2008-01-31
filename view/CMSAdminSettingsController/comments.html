@@ -1,0 +1,35 @@
+<form action="" method="post" id="settings_form">
+  <table>
+    <thead>
+      <tr>
+        <th>Comments Options</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tr>
+      <td><label for="email">Email Address</label></td>
+      <td>
+        <input id="email" name="comments[email]" type="text" value="<?=$general["email"]?>" />
+        <p>The email address any communications get sent to</p>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="email">Google Maps API Key</label></td>
+      <td>
+        <input id="googlekey" name="comments[googlekey]" type="text" value="<?=$general["googlekey"]?>" />
+        <p>Set if you want to use maps on the site</p>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="email">Pulse RSS Key</label></td>
+      <td>
+        <input id="pulsekey" name="comments[pulsekey]" type="text" value="<?=$general["pulsekey"]?>" />
+        <p>Allows web statistics to be displayed in CMS</p>
+      </td>
+    </tr>
+    <tr class="footer">
+      <td><input type="submit" value="Update Options" /></td>
+      <td></td>
+    </tr>
+  </table>
+</form>
