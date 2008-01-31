@@ -1016,7 +1016,9 @@ li.pagination_link a {
 }
 #settings_form .option_cell label {
   display:inline;
-  margin:0 20px 12px 0;
+  margin:0 20px 0 0;
+  line-height:200%;
+  font-weight:normal;
 }
 
 /****** End Settings Form Styles *****/
