@@ -14,7 +14,7 @@ class CmsComment extends WXActiveRecord {
     $this->valid_required("comment");
   }
   
-  public function before_create() {
+  public function before_insert() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
     if(!$this->attached_table) $this->attached_table = $this->attached_table_name;
