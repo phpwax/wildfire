@@ -981,6 +981,7 @@ li.pagination_link a {
 }
 #settings_form thead th {
   padding:10px;
+  background:#ccdeaf !important;
 }
 #settings_form tr td {
   background:#F3F3F3;
