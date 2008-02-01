@@ -976,12 +976,11 @@ li.pagination_link a {
   width:80%;
 }
 #settings_form thead tr {
-  background:#ccdeaf !important;
   font-size:130%;
 }
 #settings_form thead th {
   padding:10px;
-  background:#ccdeaf !important;
+  background:#a5cc7a !important;
 }
 #settings_form tr td {
   background:#F3F3F3;
