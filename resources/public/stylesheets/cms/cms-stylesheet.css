@@ -976,7 +976,7 @@ li.pagination_link a {
   width:80%;
 }
 #settings_form thead tr {
-  background:#AAAAAA;
+  background:#ccdeaf !important;
   font-size:130%;
 }
 #settings_form thead th {
