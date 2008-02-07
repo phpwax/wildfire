@@ -258,20 +258,18 @@ class CMSAdminFileController extends CMSAdminComponent {
   		}
   	}
     error_log(print_r($file,1));
-  	if( count($file) > 2 ) { // Use 2 instead of 0 to account for . and .. "directories"
-  		$php_file_tree = "<ul>";
-  		foreach( $file as $this_file ) {
-  			if( $this_file != "." && $this_file != ".." ) {
-  				if( is_dir("$directory/$this_file") ) {
-  					// Directory
-  					$php_file_tree .= "<li class=\"pft-directory\"><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'><span>" . htmlspecialchars($this_file) . "</span></a>";
-  					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
-  					$php_file_tree .= "</li>";
-  				} 
-  			}
-  		}
-  		$php_file_tree .= "</ul>";
-  	}
+  	$php_file_tree = "<ul>";
+		foreach( $file as $this_file ) {
+			if( $this_file != "." && $this_file != ".." ) {
+				if( is_dir("$directory/$this_file") ) {
+					// Directory
+					$php_file_tree .= "<li class=\"pft-directory\"><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'><span>" . htmlspecialchars($this_file) . "</span></a>";
+					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
+					$php_file_tree .= "</li>";
+				} 
+			}
+		}
+		$php_file_tree .= "</ul>";
   	return $php_file_tree;
   }
 
