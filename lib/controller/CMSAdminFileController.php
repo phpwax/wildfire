@@ -257,7 +257,6 @@ class CMSAdminFileController extends CMSAdminComponent {
   			}
   		}
   	}
-    error_log(print_r($file,1));
   	$php_file_tree = "<ul>";
 		foreach( $file as $this_file ) {
 			if( $this_file != "." && $this_file != ".." ) {
