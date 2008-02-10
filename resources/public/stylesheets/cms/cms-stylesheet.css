@@ -791,6 +791,8 @@ li.pagination_link a {
 #file_tree {
   width:200px;
   padding:3px 10px;
+  overflow:auto;
+  height:380px;
 }
 
 #file_tree_files {
