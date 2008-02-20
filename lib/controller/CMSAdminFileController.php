@@ -168,10 +168,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function browse_images() {
 		$this->use_layout=false;
-	  $folder = $this->model->base_dir."/";
+	  $folder = "public/".$this->model->base_dir."/";
 	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'"));
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$_POST['filterfolder']."/"."'"));
+  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='public/".$_POST['filterfolder']."/"."'"));
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
