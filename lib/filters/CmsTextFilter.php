@@ -107,7 +107,7 @@ class CmsTextFilter  {
     $all_tags = $all_tags[1];
     foreach ($all_tags as $i => $tag) {
       if(in_array($tag, $allowed_tags)) continue;
-      $text =preg_replace('!<(\s*'.$slashes[$i].'\s*'.$tag . '[^>]*)>!', '$1', $text);
+      $text =preg_replace('!<(\s*'.$slashes[$i].'\s*'.$tag . '[^>]*)>!', "<$1>", $text);
     }
     return $text;
   }
