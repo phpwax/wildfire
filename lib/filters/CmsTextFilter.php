@@ -12,7 +12,7 @@ class CmsTextFilter  {
         "<blockquote>","<ul>","<ol>","<li>","<span>","<img>");
   
   static public $filters = array(
-    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "strip_tags_except", "strip_slashes"),
+    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "strip_slashes"),
     "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video")
   );
   
@@ -99,19 +99,6 @@ class CmsTextFilter  {
     return preg_replace("/\\\"([^\\\"]*)\\\"/", "<span class='leftquote'>&ldquo;</span>$1<span class='rightquote'>&rdquo;</span>",$text);
   }
   
-  static function strip_tags_except($text, $allowed_tags=array()) {
-    if (!count($allowed_tags)) $allowed_tags = self::$strip_tags_allow;
-    preg_match_all('!<\s*(/)?\s*([a-zA-Z]+)[^>]*>!', $text, $all_tags);
-    array_shift($all_tags);
-    $slashes = $all_tags[0];
-    $all_tags = $all_tags[1];
-    error_log(print_r($all_tags, 1));
-    foreach ($all_tags as $i => $tag) {
-      if(in_array($tag, $allowed_tags)) continue;
-      $text =preg_replace('!<(\s*'.$slashes[$i].'\s*'.$tag . '[^>]*)>!', "<$1>", $text);
-    }
-    return $text;
-  }
   
   static public function yt_video($text) {
     return preg_replace("/<!--yt_video-->([a-zA-Z\-0-9]*)<!--\/yt_video-->/", '<object width="425" height="350">
