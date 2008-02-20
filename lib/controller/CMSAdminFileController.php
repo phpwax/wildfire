@@ -172,7 +172,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
 	  $this->all_images = $this->model->find_by_sql($sql);
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".PUBLIC_DIR.$_POST['filterfolder']."/"."'"));
+  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$_POST['filterfolder']."/"."'"));
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
