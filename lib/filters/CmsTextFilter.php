@@ -8,9 +8,11 @@
 class CmsTextFilter  {
   
   static public $allowed_tags = '<p><strong><em><a><h1><h2><h3><h4><h4><h5><h6><blockquote><ul><ol><li><span><form><input><img>';
+  static public $strip_tags_allow = array("<p>","<strong>","<em>","<a>","<h1>","<h2>","<h3>","<h4>","<h4>","<h5>","<h6>",
+        "<blockquote>","<ul>","<ol>","<li>","<span>","<img>");
   
   static public $filters = array(
-    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "clean_html", "strip_slashes"),
+    "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "strip_tags_except", "strip_slashes"),
     "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes")
   );
   
@@ -24,15 +26,15 @@ class CmsTextFilter  {
 
   static public function filter($trigger, $text) {
     foreach(self::$filters[$trigger] as $method) {
-      $text = self::$method($text);
+      if(is_array($method)) {
+        $class = $method[0];
+        $method=$method[1];
+      } else $class="self";
+      $text = call_user_func(array($class, $method), $text);
     }
     return $text;
   }
   
-  static public function clean_html($text) {
-    // strip tags, still leaving attributes, second variable is allowable tags
-    return strip_tags($text, self::$allowed_tags);
-  }
   
   static public function correct_entities($text) {
 		$modified = str_replace("£", "&pound;", $text);
@@ -95,6 +97,19 @@ class CmsTextFilter  {
   
   static public function nice_quotes($text) {
     return preg_replace("/\\\"([^\\\"]*)\\\"/", "<span class='leftquote'>&ldquo;</span>$1<span class='rightquote'>&rdquo;</span>",$text);
+  }
+  
+  static function strip_tags_except($text, $allowed_tags=array()) {
+    if (!count($allowed_tags)) $allowed_tags = self::$strip_tags_allow;
+    preg_match_all('!<\s*(/)?\s*([a-zA-Z]+)[^>]*>!', $text, $all_tags);
+    array_shift($all_tags);
+    $slashes = $all_tags[0];
+    $all_tags = $all_tags[1];
+    foreach ($all_tags as $i => $tag) {
+      if(in_array($tag, $allowed_tags)) continue;
+      $text =preg_replace('!<(\s*'.$slashes[$i].'\s*'.$tag . '[^>]*)>!', '$1', $text);
+    }
+    return $text;
   }
 
 
