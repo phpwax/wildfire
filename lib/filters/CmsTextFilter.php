@@ -13,7 +13,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "strip_tags_except", "strip_slashes"),
-    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes")
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video")
   );
   
   static public function add_filter($trigger, $method) {
@@ -110,6 +110,13 @@ class CmsTextFilter  {
       $text =preg_replace('!<(\s*'.$slashes[$i].'\s*'.$tag . '[^>]*)>!', "<$1>", $text);
     }
     return $text;
+  }
+  
+  static public function yt_video($text) {
+    return preg_replace("/<!--yt_video>([a-zA-Z\-0-9])*<!--\/yt_video-->/", '<object width="425" height="350">
+      <param name="movie" value="http://www.youtube.com/v/$1"></param>
+      <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" width="425" height="350"></embed>
+    </object>', $text);
   }
 
 
