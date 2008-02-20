@@ -24,7 +24,7 @@ widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
 widgToolbarItems.push("blockformat");
-if(cms_allowHTMLedit) { widgToolbarItems.push("htmlsource"); }
+
 
 /* Options on block format select element. Consists of string pairs (option value, option label) */
 var widgSelectBlockOptions = new Array();
