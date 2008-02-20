@@ -49,7 +49,7 @@ class CmsApplicationController extends WXControllerBase{
     return end($this->section_stack);
 	}
 	
-	/* Generic dnamic image display method */
+	/* Generic dynamic image display method */
 	
 	public function show_image() {
 	  $this->use_layout=false;

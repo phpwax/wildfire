@@ -167,24 +167,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function browse_images() {
-	  $this->more = false;
-	  $this->previous = false;
-	  if(!url("id")) { 
-	    $offset = 0;
-	    $count = -1;
-    } else {
-      $offset = (url("id") -1) * 12; 
-      $count = 12;
-    }
-    $this->id = url("id");
 		$this->use_layout=false;
-  	$this->all_images = ($image = new CmsFile) ? $image->find_all_images(array("order"=>"filename ASC")) : array();
+	  $folder = $this->model->base_dir."/";
+	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
+	  $this->all_images = $this->model->find_by_sql($sql);
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $image->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".PUBLIC_DIR.$_POST['filterfolder']."/"."'"));
+  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".PUBLIC_DIR.$_POST['filterfolder']."/"."'"));
   	}
-  	if($count > 0 && count($this->all_images) > $offset + $count) $this->more = $this->id+1;
-  	if($count > 0 && $offset > 0) $this->previous = $this->id -1;
-  	if(count($this->all_images)) $this->all_images = new LimitIterator(new ArrayIterator($this->all_images), $offset, $count);
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
 	
@@ -310,7 +299,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$destination = WAX_ROOT. $dest."/".$file->filename;
 	  if(rename($source, $destination) ) {
 	    $file->path = $dest."/";
-	    $file->save;
+	    $file->save();
     }
 	}
 	
