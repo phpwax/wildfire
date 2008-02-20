@@ -169,8 +169,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function browse_images() {
 		$this->use_layout=false;
 	  $folder = $this->model->base_dir."/";
-	  $sql = "SELECT * FROM cms_file WHERE SUBSTRING_INDEX(path, 'public/', -1) = '".$folder."' ORDER BY filename ASC";
-	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'");
+	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'"));
   	if($_POST['filterfolder']) {
   	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$_POST['filterfolder']."/"."'"));
   	}
