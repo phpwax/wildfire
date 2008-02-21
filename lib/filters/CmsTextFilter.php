@@ -13,7 +13,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "strip_slashes"),
-    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video")
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "nice_quotes", "yt_video")
   );
   
   static public function add_filter($trigger, $method) {
