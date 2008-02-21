@@ -96,7 +96,7 @@ class CmsTextFilter  {
   }
   
   static public function nice_quotes($text) {
-    return preg_replace("/([\w\s>]?)\\\"([^\\\"]*)\\\"/", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
+    return preg_replace("/([^=]?)\\\"([^\\\"]*)\\\"/", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
   }
   
   
