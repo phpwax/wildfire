@@ -12,6 +12,8 @@ class CMSAdminCommentController extends CMSAdminComponent {
     "time"   =>array(),
   );
   public $filter_columns = array("author_name");
+  public $default_order = "time";
+	public $default_direction="DESC";
   
 
 	public function controller_global() {
@@ -32,7 +34,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	    Session::add_message("Comment approved");
 	  }
 	  $this->redirect_to(array("action"=>"index"));
-	}
+	}ß
 
 }
 
