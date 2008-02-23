@@ -761,6 +761,9 @@ li.pagination_link a {
   font-size:85%;
   margin-bottom:4px;
 }
+.comment_column {
+  width:40%;
+}
 
 /******* File browser styling *******/
 #file_browse_header {
