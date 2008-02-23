@@ -7,7 +7,7 @@
       <td class="column">
         <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
         <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
-        <div class="generic_button"><a href="/<?=$row->article_permalink?>">View Post</a></div>
+        <div class="generic_button"><a href="<?=$row->article_permalink?>">View Post</a></div>
         <?if($row->status=="1"):?>
           <div class="generic_button"><?=link_to("Mark as Spam", array("action"=>"spam", "id"=>$row->id))?></div>
         <?else:?>
