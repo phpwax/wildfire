@@ -34,7 +34,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	    Session::add_message("Comment approved");
 	  }
 	  $this->redirect_to(array("action"=>"index"));
-	}ß
+	}
 
 }
 
