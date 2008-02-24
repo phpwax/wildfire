@@ -171,7 +171,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $folder = "public/".$this->model->base_dir."/";
 	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'"));
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='public/".$_POST['filterfolder']."/"."'", "limit"=>"30"));
+  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='public/".$_POST['filterfolder']."/"."'"));
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
@@ -183,7 +183,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  } else {
       $this->use_layout=false;
       $images = new CmsFile;
-      $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter']): array();
+      $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter'], "30"): array();
       $this->all_images_partial = $this->render_partial("list_all_images");
     }
   }
