@@ -10,7 +10,7 @@ class CmsComment extends WXActiveRecord {
   public function validations() {
     $this->valid_required("author_name");
     $this->valid_required("author_email");
-    $this->valid_format("author_email", "email");
+    //$this->valid_format("author_email", "email");
     $this->valid_required("comment");
   }
   
