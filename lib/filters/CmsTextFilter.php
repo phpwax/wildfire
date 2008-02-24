@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("clean_word", "strip_attributes", "correct_entities", "strip_slashes"),
-    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "nice_quotes", "yt_video")
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "nice_quotes", "yt_video", "nl2p")
   );
   
   static public function add_filter($trigger, $method) {
@@ -104,6 +104,13 @@ class CmsTextFilter  {
     </object>';
     $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9]*)<\/a>/", $replace, $text);
     return preg_replace("/<!--yt_video-->([a-zA-Z\-0-9]*)<!--\/yt_video-->/", $replace, $text);
+  }
+  
+  static public function nl2p($text) {
+    return "<p>" . str_replace("
+
+  ", "</p>
+  <p>", $text) . "</p>";
   }
 
 
