@@ -9,7 +9,7 @@
           echo large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));;
           break;
         case "radiogroup":
-          echo '<div class="large">'
+          echo '<div class="large">';
           foreach($opts["choices"] as $choice) {
             echo radio_button($model->extra_content($content), $content, $model->extra_content_value($content), array(), humanize($content));
           }
