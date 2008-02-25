@@ -11,7 +11,7 @@
         case "radiogroup":
           echo '<div class="large">';
           foreach($opts["choices"] as $choice) {
-            echo radio_button($model->extra_content($content), $content, $model->extra_content_value($content), array(), humanize($content));
+            echo radio_button($model->extra_content($content), $content, $choice, array(), $choice);
           }
           echo '</div>';
           break;
