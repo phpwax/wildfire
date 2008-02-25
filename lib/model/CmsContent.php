@@ -87,6 +87,11 @@ class CmsContent extends WXActiveRecord {
     return $this->published_content("", $this->cms_section_id, $params);
   }
   
+  public function author() {
+    $user = new CmsUser;
+    return $user->find($this->author_id);
+  }
+  
   /***** Finders for dealing with the extra_content table ******/
   
   public function extra_content($name) {
