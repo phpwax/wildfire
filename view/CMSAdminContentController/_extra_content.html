@@ -9,10 +9,10 @@
           echo large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));;
           break;
         case "radiogroup":
-          echo '<div class="large">';
+          echo '<div class="large"><label>Rating</label>';
           foreach($opts["choices"] as $choice) {
-            if($model->extra_content_value($content)==$choice) $options = array("selected"=>"selected");
-            else $options = array();
+            if($model->extra_content_value($content)==$choice) $options = array("selected"=>"selected", "class"=>"");
+            else $options = array("class"=>"");
             echo radio_button($model->extra_content($content), $content, $choice, $options, false);
             echo $choice;
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
