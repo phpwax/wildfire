@@ -761,6 +761,9 @@ li.pagination_link a {
   font-size:85%;
   margin-bottom:4px;
 }
+#extra_content .large {
+  margin-bottom:12px !important;
+}
 .comment_column {
   width:40%;
 }
@@ -957,7 +960,7 @@ li.pagination_link a {
 }
 .large label, .medium label, .small label {
   font-weight:bold;
-  margin:0 0 12px 0;
+  margin:0 0 6px 0;
   font-size:100%;
 }
 .large {
