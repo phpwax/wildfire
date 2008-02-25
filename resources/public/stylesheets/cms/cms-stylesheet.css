@@ -740,12 +740,12 @@ li.pagination_link a {
 }
 
 #preview_pane {
-    margin:0;
-    top: 15px;
-    left: 15px;    
-    width: 95%;
-    height:90%;
-    background-color:white;
+  margin:0;
+  top: 15px;
+  left: 15px;    
+  width: 95%;
+  height:90%;
+  background-color:white;
 }
 #preview_pane iframe {
   border:0;
