@@ -154,11 +154,11 @@ class CmsContent extends WXActiveRecord {
 		$this->pdo->exec($sql);
 	}
 	
-	public function find_most_commented($section="1", $since, $limit="10") {
+	public function find_most_commented($section="1", $since="7", $limit="10") {
 	  $content = new CmsContent;
 	  $sections = new CmsSection;
 	  if(!is_numeric($section)) $section = $sections->find_by_url($section)->id;
-	  $sql = "SELECT *, count(attached_id) as counter FROM `cms_comment` WHERE cms_section_id=$section `time` > '$since' GROUP BY attached_id ORDER BY counter DESC LIMIT $limit";
+	  $sql = "SELECT *, count(attached_id) as counter FROM `cms_comment` WHERE cms_section_id=$section AND `time` > date_sub(now(), interval '$since' day) GROUP BY attached_id ORDER BY counter DESC LIMIT $limit";
 	  return $content->find_by_sql($sql);
 	}
 	
