@@ -11,10 +11,9 @@
         case "radiogroup":
           echo '<div class="large"><label>Rating</label>';
           foreach($opts["choices"] as $choice) {
-            echo "<!-- ".$model->extra_content_value($content)." :: $choice-->";
-            if($model->extra_content_value($content)==$choice) $options = array("checked"=>"checked", "class"=>"rating");
-            else $options = array("class"=>"rating");
-            echo radio_button($model->extra_content($content), $content, $choice, $options, false);
+            if($model->extra_content_value($content)==$choice) $checked=true;
+            else $checked = false;
+            echo radio_button_tag("cms_extra_content[rating]", $choice, "checked", array("class"=>"rating"), false);
             echo $choice;
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
           }
