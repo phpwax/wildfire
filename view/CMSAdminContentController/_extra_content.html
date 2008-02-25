@@ -13,7 +13,7 @@
           foreach($opts["choices"] as $choice) {
             if($model->extra_content_value($content)==$choice) $checked=true;
             else $checked = false;
-            echo radio_button_tag("cms_extra_content[rating]", $choice, "checked", array("class"=>"rating"), false);
+            echo radio_button_tag("cms_extra_content[rating]", $choice, $checked, array("class"=>"rating"), false);
             echo $choice;
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
           }
