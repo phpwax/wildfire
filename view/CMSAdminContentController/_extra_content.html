@@ -8,6 +8,13 @@
         case "wysiwyg":
           echo large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));;
           break;
+        case "radiogroup":
+          echo '<div class="large">'
+          foreach($opts["choices"] as $choice) {
+            echo radio_button($model->extra_content($content), $content, $model->extra_content_value($content), array(), humanize($content));
+          }
+          echo '</div>';
+          break;
       }?>
     <?else:?>
     <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3", "value"=>stripslashes($model->extra_content_value($content))), humanize($content)))?>
