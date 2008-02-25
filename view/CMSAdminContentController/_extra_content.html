@@ -12,6 +12,7 @@
           echo '<div class="large"><label>Rating</label>';
           echo "<!--".$model->extra_content_value($content)." -->";
           foreach($opts["choices"] as $choice) {
+            echo "<!-- $choice -->"
             if($model->extra_content_value($content)===$choice) $options = array("checked"=>"checked", "class"=>"rating");
             else $options = array("class"=>"rating");
             echo radio_button($model->extra_content($content), $content, $choice, $options, false);
