@@ -11,7 +11,11 @@
         case "radiogroup":
           echo '<div class="large">';
           foreach($opts["choices"] as $choice) {
-            echo radio_button($model->extra_content($content), $content, $choice, array(), $choice);
+            if($model->extra_content_value($content)==$choice) $options = array("selected"=>"selected");
+            else $options = array();
+            echo radio_button($model->extra_content($content), $content, $choice, $options, $choice, false);
+            echo $choice;
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;";
           }
           echo '</div>';
           break;
