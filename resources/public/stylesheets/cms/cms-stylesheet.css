@@ -753,7 +753,7 @@ li.pagination_link a {
 #extra_content {
   background:white;
   border:1px solid #D2D0D0 !important;
-  width:97%;
+  width:93%;
   padding:14px;
 }
 #extra_content label {
@@ -957,7 +957,7 @@ li.pagination_link a {
 }
 .large label, .medium label, .small label {
   font-weight:bold;
-  margin:0 0 6px 0;
+  margin:0 0 12px 0;
   font-size:100%;
 }
 .large {
@@ -970,7 +970,7 @@ li.pagination_link a {
   width:25%;
 }
 #extra_content .widgIframe {
-  height:120px;
+  height:340px;
 }
 
 /****** End Form Layout Styles ****/
