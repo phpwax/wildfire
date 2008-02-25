@@ -10,6 +10,7 @@
           break;
         case "radiogroup":
           echo '<div class="large"><label>Rating</label>';
+          echo "<!--".$model->extra_content($content)." -->";
           foreach($opts["choices"] as $choice) {
             if($model->extra_content_value($content)===$choice) $options = array("checked"=>"checked", "class"=>"rating");
             else $options = array("class"=>"rating");
