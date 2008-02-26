@@ -157,7 +157,7 @@ class CmsContent extends WXActiveRecord {
 	public function find_most_commented($section="1", $since="7", $limit="10") {
 	  $content = new CmsContent;
 	  $sections = new CmsSection;
-	  if(!is_numeric($section)) $section = $sections->find_by_url($section)->id;
+	  if($section && !is_numeric($section)) $section = $sections->find_by_url($section)->id;
 	  $sql = "SELECT *, count(attached_id) as counter FROM `cms_comment` RIGHT JOIN cms_content ON attached_id=cms_content.id WHERE `time` > date_sub(now(), interval '$since' day)";
 	  if($section) $sql.= " AND cms_section_id=$section";
 	  $sql.= " GROUP BY attached_id ORDER BY counter DESC LIMIT $limit";
