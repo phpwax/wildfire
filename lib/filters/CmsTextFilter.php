@@ -106,7 +106,7 @@ class CmsTextFilter  {
     return preg_replace("/<!--yt_video-->([a-zA-Z\-0-9]*)<!--\/yt_video-->/", $replace, $text);
   }
   
-  static public function nl2p($pee) {
+  static public function nl2p($pee, $br=true) {
     $pee = $pee . "\n"; // just to make things a little easier, pad the end
   	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
   	// Space things out a little
