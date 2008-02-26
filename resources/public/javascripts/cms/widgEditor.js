@@ -251,7 +251,7 @@ widgEditor.prototype.cleanPaste = function()
 			{
 				match = match.replace(/ ([^=]+)="[^"]*"/g, function(match2, attributeName)
 					{
-						if (attributeName == "alt" || attributeName == "href" || attributeName == "src" || attributeName == "title" || attributeName == "style")
+						if (attributeName == "alt" || attributeName == "href" || attributeName == "src" || attributeName == "title")
 						{
 							return match2;
 						}
