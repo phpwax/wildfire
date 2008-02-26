@@ -53,7 +53,7 @@ class CmsComment extends WXActiveRecord {
     $url = "http://www.gravatar.com/avatar.php?";
     $url .= "gravatar_id=".md5(trim($this->author_email));
     $url .= "&size=$size";
-    $url .= "&default=".$_SERVER['HTTP_HOST']."/images/cms/default_avatar.gif";
+    $url .= "&default=http://".$_SERVER['HTTP_HOST']."/images/cms/default_avatar.gif";
     return $url;
   }
   
