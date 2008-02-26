@@ -171,6 +171,14 @@ class CmsContent extends WXActiveRecord {
 	  return $comments->find_all($params);
 	}
 	
+	public function find_by_category($category, $limit="1", $order="published DESC") {
+	  $sql="SELECT t1.* FROM `cms_content` as t1, cms_category as t2, cms_category_cms_content as t3
+    WHERE t2.id=t3.cms_category_id 
+    AND t1.id=t3.cms_content_id
+    AND t2.id=$category";
+    $sql.= "ORDER BY t1.$order LIMIT $limit";
+    return $this->find_by_sql($sql);
+	}
 	
 }
 
