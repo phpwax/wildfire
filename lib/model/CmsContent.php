@@ -177,7 +177,11 @@ class CmsContent extends WXActiveRecord {
     AND t1.id=t3.cms_content_id
     AND t2.id=$category";
     $sql.= " ORDER BY t1.$order LIMIT $limit";
-    return $this->find_by_sql($sql);
+    if($limit > 1) return $this->find_by_sql($sql);
+    else {
+      $res = $this->find_by_sql($sql);
+      return $res[0];
+    }
 	}
 	
 }
