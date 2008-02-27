@@ -25,11 +25,14 @@ class CmsContent extends WXActiveRecord {
 	
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
-	  $this->author_id = Session::get('loggedin_user');
 	  $this->avoid_section_url_clash();
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");	
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
+	}
+	
+	public function before_insert() {
+	  $this->author_id = Session::get('loggedin_user');
 	}
 	
 	public function after_save() {
