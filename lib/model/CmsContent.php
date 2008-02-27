@@ -170,7 +170,7 @@ class CmsContent extends WXActiveRecord {
 	public function comments($params= array()) {
 	  $comments = new CmsComment;
 	  $params["conditions"]= "attached_id=".$this->id." AND attached_table='cms_content' AND status=1";
-	  if(!$params["order"]) $params["order"] = "time DESC";
+	  if(!$params["order"]) $params["order"] = "time ASC";
 	  return $comments->find_all($params);
 	}
 	
