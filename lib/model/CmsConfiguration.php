@@ -2,10 +2,14 @@
 
 class CmsConfiguration extends WXActiveRecord {
     
-  static public function get($name) {
+  static public function get($name, $value=false) {
     $conf = new CmsConfiguration;
     if($result = $conf->find_by_name($name)) {
-      return unserialize($result->value);
+      if(!$value) return unserialize($result->value);
+      else {
+        $set = unserialize($result->value);
+        return $set[$value];
+      }
     }
     return false;
   }
