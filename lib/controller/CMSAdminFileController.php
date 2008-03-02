@@ -218,7 +218,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	// Remove trailing slash
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
   	$code = "<ul id='php-file-tree'><li>";
-  	$code .= "<a href='#' id='".$this->unslashify($directory)."'>Your Folder</a>";
+  	$code .= "<a href='#' id='".$this->unslashify($directory)." class='tree_folder'>Your Folder</a>";
   	$code .= $this->file_tree_dir($directory, $return_link, $extensions);
   	$code .= "</li></ul>";
   	return $code;
