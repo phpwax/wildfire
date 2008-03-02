@@ -2,7 +2,9 @@ $(document).ready(function() {
 		initialise_tree();
     
     $("#php-file-tree").treeview({
-      animated: "fast",
+      persist: "location",
+  		collapsed: true,
+  		unique: true
     });
     $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
