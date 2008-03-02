@@ -1,4 +1,5 @@
 $(document).ready(function() {
+		initialise_tree();
     
     $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
