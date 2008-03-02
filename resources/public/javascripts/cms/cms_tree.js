@@ -44,6 +44,7 @@ function initialise_tree() {
 		{
 			if (this.src.indexOf('spacer') == -1) {
 				subbranch = $('ul', this.parentNode).eq(0);
+				alert(subbranch);
 				if (subbranch.css('display') == 'none') {
 					subbranch.show();
 					this.src = '/images/cms/bullet_toggle_minus.gif';
