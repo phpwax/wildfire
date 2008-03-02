@@ -3,7 +3,6 @@ $(document).ready(function() {
     
     $("#php-file-tree").treeview({
       animated: "fast",
-  		collapsed: true,
     });
     $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
