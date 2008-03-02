@@ -1,6 +1,7 @@
 $(document).ready(function() {
 		
-    initialise_tree();
+    //initialise_tree();
+    $("#php-file-tree").treeview();
     $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
        {folder: $("#new_folder_name").val(), parent: $("#cms_file_new_folder").val()},
