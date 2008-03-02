@@ -27,11 +27,11 @@ function initialise_tree() {
 		function()
 		{
 			subbranch = $('ul', this);
-			if (subbranch.size() > 0) {
-				if (subbranch.eq(0).hasClass('collapsed') ) {
-					$(this).prepend('<img src="/images/cms/bullet_toggle_plus.gif" width="9" height="9" class="expandImage" />');
+			if (subbranch.find("ul").size() > 0) {
+				if (subbranch.eq(0).attr("class")=="collapsed" ) {
+					$(this).find("span").prepend('<img src="/images/cms/bullet_toggle_plus.gif" width="9" height="9" class="expandImage" />');
 				} else {
-					$(this).prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="9" height="9" class="expandImage" />');
+					$(this).find("span").prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="9" height="9" class="expandImage" />');
 				}
 			} else {
 				$(this).prepend('<img src="/images/cms/spacer.gif" width="9" height="9" class="expandImage" />');
@@ -43,7 +43,7 @@ function initialise_tree() {
 		{
 			if (this.src.indexOf('spacer') == -1) {
 				subbranch = $('ul', this.parentNode).eq(0);
-				if (subbranch.hasClass('collapsed')) {
+				if (subbranch.attr('class')=="collapsed") {
 					subbranch.removeClass("collapsed");
 					this.src = '/images/cms/bullet_toggle_minus.gif';
 				} else {
