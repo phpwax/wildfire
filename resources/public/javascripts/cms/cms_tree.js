@@ -56,7 +56,6 @@ function initialise_tree() {
 	
 	
   $(".tree_folder").click(function() {
-    alert("tree update"); 
     $.post("/admin/files/fetch_folder", 
 		  {folder: this.id},
       function(response) {
@@ -67,6 +66,7 @@ function initialise_tree() {
     );
     $(".pft-directory").removeClass("selected_folder");
     $(this).parent().addClass("selected_folder");
+    return false;
   });
 }
 
