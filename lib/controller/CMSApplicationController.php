@@ -61,12 +61,13 @@ class CmsApplicationController extends WXControllerBase{
 	  $size = str_replace(".png", "", $size);
 	  
 	  $this->show_image = new CmsFile($this->route_array[0]);
+	  $imgid =$this->route_array[0];
 		/* CHANGED - allows for relative paths in db */
     $source = WAX_ROOT . $this->show_image->path.$this->show_image->filename;
     $relative = strstr($source, "public/");
     $relative = str_replace("public/", "", $relative);
     $source = PUBLIC_DIR.$relative;
-    $file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1].$this->show_image->extension;
+    $file = CACHE_DIR.imgid."_".$size.$this->show_image->extension;
 	  if(!is_readable($file)) File::resize_image($source, $file, $size, false, $this->force_image_width);
 	  if($this->image = File::display_image($file) ) return true;
 	  return false;
