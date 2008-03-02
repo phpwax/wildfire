@@ -55,7 +55,8 @@ function initialise_tree() {
 	);
 	
 	
-  $(".tree_folder").click(function(){ 
+  $(".tree_folder").click(function() {
+    alert("tree update"); 
     $.post("/admin/files/fetch_folder", 
 		  {folder: this.id},
       function(response) {
@@ -114,6 +115,7 @@ function droppable_folders() {
                 function(response) {
                   $("#file_tree").html(response);
                   initialise_tree();
+                  droppable_folders();
                 }
               );
             }
@@ -128,6 +130,7 @@ function droppable_folders() {
                   function(response) {
                     $("#file_tree").html(response);
                     initialise_tree();
+                    droppable_folders();
                   }
                 );
               }
@@ -142,6 +145,7 @@ function droppable_folders() {
               function(response) {
                 $("#file_tree").html(response);
                 initialise_tree();
+                droppable_folders();
               }
             );
           }
