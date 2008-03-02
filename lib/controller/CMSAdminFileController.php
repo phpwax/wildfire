@@ -217,7 +217,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	// Generates a valid XHTML list of all directories, sub-directories, and files in $directory
   	// Remove trailing slash
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
-  	$code = "<ul id='php-file-tree' class='treeview treeview-famfamfam'><li class='folder'>";
+  	$code = "<ul id='php-file-tree'><li>";
   	$code .= "<a href='#' id='".$this->unslashify($directory)."'>Your Folder</a>";
   	$code .= $this->file_tree_dir($directory, $return_link, $extensions);
   	$code .= "</li></ul>";
@@ -251,7 +251,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if( $this_file != "." && $this_file != ".." ) {
 				if( is_dir("$directory/$this_file") ) {
 					// Directory
-					$php_file_tree .= "<li class=\"folder\"><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."'><span class='folder'>" . htmlspecialchars($this_file) . "</span></a>";
+					$php_file_tree .= "<li class=\"folder\"><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'><span>" . htmlspecialchars($this_file) . "</span></a>";
 					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
 					$php_file_tree .= "</li>";
 				} 
