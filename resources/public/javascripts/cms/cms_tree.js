@@ -1,7 +1,7 @@
 $(document).ready(function() {
 		
-    //initialise_tree();
     $("#php-file-tree").treeview();
+    initialise_tree();
     $("#create_new_folder").click(function(){
       $.post("/admin/files/new_folder",
        {folder: $("#new_folder_name").val(), parent: $("#cms_file_new_folder").val()},
@@ -23,6 +23,7 @@ $(document).ready(function() {
 
 function initialise_tree() {
   tree = $('#php-file-tree');
+  /*
 	$('li', tree.get(0)).each(
 		function()
 		{
@@ -53,7 +54,7 @@ function initialise_tree() {
 			}
 		}
 	);
-	
+	*/
 	
   $(".tree_folder").click(function(){ 
     $.post("/admin/files/fetch_folder", 
