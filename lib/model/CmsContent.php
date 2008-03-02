@@ -185,7 +185,10 @@ class CmsContent extends WXActiveRecord {
     AND t1.status=1 
     AND (DATE_FORMAT(t1.published, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')) 
     AND t2.id=$category";
-    if($section) $sql.= " AND t1.cms_section_id=$section";
+    if(is_array($section)) {
+      $sql.=" AND t1.cms_section_id IN(".join(",", $section).")";
+    } elseif($section) $sql.= " AND t1.cms_section_id=$section";
+    
     $sql.= " ORDER BY t1.published DESC LIMIT $limit";
     if($limit > 1) return $this->find_by_sql($sql);
     else {
