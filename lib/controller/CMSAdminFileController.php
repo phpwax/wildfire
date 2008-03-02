@@ -246,12 +246,12 @@ class CMSAdminFileController extends CMSAdminComponent {
   			}
   		}
   	}
-  	$php_file_tree = "<ul>";
+  	$php_file_tree = "<ul class='collapsed'>";
 		foreach( $file as $this_file ) {
 			if( $this_file != "." && $this_file != ".." ) {
 				if( is_dir("$directory/$this_file") ) {
 					// Directory
-					$php_file_tree .= "<li class=\"folder collapsed\"><span class='folder'><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a></span>";
+					$php_file_tree .= "<li class=\"folder\"><span class='folder'><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a></span>";
 					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
 					$php_file_tree .= "</li>";
 				} 
