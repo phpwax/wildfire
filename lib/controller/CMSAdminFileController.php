@@ -72,7 +72,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->show_file = new $this->model_class($this->route_array[0]);
 		/* CHANGED - now works with relative file paths */
 		$path = WAX_ROOT . $this->show_file->file_path . $this->show_file->filename;
-	  $this->file_size = floor( filesize($path) / 1024)." Kb";
+	  $this->file_size = 0;
+	  if(is_readable($path)) $this->file_size = floor( filesize($path) / 1024)." Kb";
 	}
 	
 	public function index() {
