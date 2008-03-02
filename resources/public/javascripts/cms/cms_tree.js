@@ -44,12 +44,11 @@ function initialise_tree() {
 		{
 			if (this.src.indexOf('spacer') == -1) {
 				subbranch = $('ul', this.parentNode).eq(0);
-				alert(subbranch);
-				if (subbranch.css('display') == 'none') {
-					subbranch.show();
+				if (subbranch.hasClass('collapsed')) {
+					subbranch.removeClass("collapsed");
 					this.src = '/images/cms/bullet_toggle_minus.gif';
 				} else {
-					subbranch.hide();
+					subbranch.addClass("collapsed");
 					this.src = '/images/cms/bullet_toggle_plus.gif';
 				}
 			}
