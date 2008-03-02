@@ -1,5 +1,5 @@
 $(document).ready(function() {
-		initialise_tree();
+		//initialise_tree();
     
     $("#php-file-tree").treeview({
       persist: "location",
