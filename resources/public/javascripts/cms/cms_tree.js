@@ -29,6 +29,7 @@ function initialise_tree() {
 			subbranch = $('ul', this);
 			if (subbranch.size() > 0) {
 				if (subbranch.eq(0).css('display') == 'none') {
+				  alert(this).html();
 					$(this).prepend('<img src="/images/cms/bullet_toggle_plus.gif" width="9" height="9" class="expandImage" />');
 				} else {
 					$(this).prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="9" height="9" class="expandImage" />');

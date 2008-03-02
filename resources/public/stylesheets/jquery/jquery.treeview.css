@@ -4,4 +4,5 @@
 .filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; }
 .filetree span.folder { background: url(/images/cms/folder.gif) 0 0 no-repeat; }
 .filetree li.expandable span.folder { background: url(/images/cms/folder-closed.gif) 0 0 no-repeat; }
-.filetree .expandImage { float:left;}
+.filetree .expandImage { float:left; margin-right:10px;}
+.filetree .collapsed {display:none;}
