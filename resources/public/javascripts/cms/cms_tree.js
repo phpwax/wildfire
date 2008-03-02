@@ -29,9 +29,9 @@ function initialise_tree() {
 			subbranch = $('ul', this);
 			if (subbranch.find("ul").size() > 0) {
 				if (subbranch.eq(0).attr("class")=="collapsed" ) {
-					$(this).find("span").prepend('<img src="/images/cms/bullet_toggle_plus.gif" width="9" height="9" class="expandImage" />');
+					$(this).prepend('<img src="/images/cms/bullet_toggle_plus.gif" width="9" height="9" class="expandImage" />');
 				} else {
-					$(this).find("span").prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="9" height="9" class="expandImage" />');
+					$(this).prepend('<img src="/images/cms/bullet_toggle_minus.gif" width="9" height="9" class="expandImage" />');
 				}
 			} else {
 				$(this).prepend('<img src="/images/cms/spacer.gif" width="9" height="9" class="expandImage" />');
