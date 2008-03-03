@@ -18,7 +18,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	protected function process_login() {
-		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name));
+		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user"));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
 		  if($this->authorised_redirect) return $this->authorised_redirect;		  
 			else return 'index';
@@ -38,7 +38,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	}
 	
 	public function logout( ) {
-		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name));
+		$auth = new WXDBAuthenticate(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user"));
 		$auth->logout();
 		$this->redirect_to('/');
 	}
