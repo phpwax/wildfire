@@ -51,7 +51,7 @@
       <?=form_divider()?>
       <?=large(select($model, "status", $model->status_options))?>
     	<?=form_divider()?>
-    	<?=large(date_select($model, "published", array(), "Date to be published"))?>
+    	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
     	<?=form_divider()?>
     </fieldset>
     <div class="clearfix"></div>
