@@ -20,7 +20,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $allowed_categories = true;
 	public $extra_content = array();
 	public $extra_content_options = array();
-	public $default_order = 'published DESC';
+	public $default_order = 'published';
+	public $default_direction = 'DESC';
 	/* run post delete triggers */
 	protected $run_post_delete = true;
 	protected $post_delete_function = "remove_joins";
