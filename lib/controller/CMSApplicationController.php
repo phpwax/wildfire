@@ -22,6 +22,7 @@ class CmsApplicationController extends WXControllerBase{
 	    return false;
     }
 	  $url = $this->parse_urls();
+	  error_log($url);
 	  $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
 	  $params = array();
     if($this->per_page) {
@@ -99,6 +100,7 @@ class CmsApplicationController extends WXControllerBase{
 	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
 	    return $res[0];
 	  }
+	  error_log("-------".$url);
 	  $id = $content->find_by_url($url)->cms_section_id;
 	  if($id == null) throw new WXRoutingException('404');
     if($res = $section->find($id)) return $res;
