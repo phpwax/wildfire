@@ -135,9 +135,10 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   $("#content_edit_form").submit(function(event){
     var form=this;
-    $(form).find("input|textarea|select").each(function(){
+    $(form).find("input,textarea,select").each(function(){
         alert(this.val());
-    }); return false;
+    }); 
+    return false;
   });
   setInterval(function(){
     alert("Submitting");
