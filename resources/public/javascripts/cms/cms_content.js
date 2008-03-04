@@ -136,7 +136,7 @@ $(document).ready(function() {
   
   setInterval(function(){
     alert("Submitting");
-    $(".widgEditor").updateWidgInput();
+    alert($("#content_edit_form").onsubmit);
     
   },50000);
 });
