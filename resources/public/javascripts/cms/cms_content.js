@@ -136,7 +136,7 @@ $(document).ready(function() {
   
   setInterval(function(){
     alert("Submitting");
-    $("#cms_content_contentWidgToolbar").find("textarea").updateWidgInput();
+    $(".widgEditor").updateWidgInput();
     
   },50000);
 });
