@@ -136,7 +136,7 @@ $(document).ready(function() {
   
   setInterval(function(){
     alert("Submitting");
-    $("#content_edit_form").trigger("submit");
+    $("#content_edit_form").submit();
     
   },50000);
 });
