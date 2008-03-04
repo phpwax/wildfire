@@ -133,16 +133,15 @@ function cms_insert_url(type) {
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
 $(document).ready(function() {
-  $("#content_edit_form").submit(function(event){
-    var form=this;
-    $(form).find("input,textarea,select").each(function(i){
-        alert($(this).val());
-    }); 
-    return false;
-  });
+  
   setInterval(function(){
     alert("Submitting");
-    $("#content_edit_form").submit();
+    $("#content_edit_form").trigger("submit");
+    $("#content_edit_form").find("textarea").each(function(){
+      alert($(this).val());
+    });
+    
+    
   },50000);
 });
 
