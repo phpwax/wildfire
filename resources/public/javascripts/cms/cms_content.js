@@ -137,10 +137,6 @@ $(document).ready(function() {
   setInterval(function(){
     alert("Submitting");
     $("#content_edit_form").trigger("submit");
-    $("#content_edit_form").find("textarea").each(function(){
-      alert($(this).val());
-    });
-    
     
   },50000);
 });
