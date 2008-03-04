@@ -136,14 +136,14 @@ $(document).ready(function() {
   $("#content_edit_form").submit(function(event){
     var form=this;
     $(form).find("input,textarea,select").each(function(i){
-        alert(this);
+        alert($(this).val());
     }); 
     return false;
   });
   setInterval(function(){
     alert("Submitting");
     $("#content_edit_form").submit();
-  },10000);
+  },50000);
 });
 
 
