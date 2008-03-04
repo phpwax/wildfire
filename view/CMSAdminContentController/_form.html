@@ -3,6 +3,7 @@
 <!--[if lte IE 7]>
   <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
 <![endif]-->
+<?=javascript_asset("jquery", "jquery.autosave")?>
 <?=javascript_asset("cms","cms_content")?>
 
 
@@ -54,7 +55,7 @@
     	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
     	<?=form_divider()?>
     </fieldset>
-    <div class="clearfix"></div>
+    <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and close" />

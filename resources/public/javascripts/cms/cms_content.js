@@ -130,3 +130,21 @@ function cms_insert_url(type) {
 		theWidgEditor.theToolbar.setState("Link", "on");
 	}
 }
+
+/**** Auto Save Makes Sure Content Doesn't Get Lost *******/
+$(document).ready(function() {
+  $("#content_edit_form").submit(function(event){
+    event.PreventDefault();
+    var form=this;
+    $(form).find("input|textarea|select").each(function(){
+        alert(this.val());
+    });
+  });
+  setInterval(function(){
+    alert("Submitting");
+    $("#content_edit_form").submit();
+  },10000)
+});
+
+
+
