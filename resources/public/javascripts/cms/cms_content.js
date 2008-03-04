@@ -135,8 +135,8 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   
   setInterval(function(){
-    alert("Submitting");
-    alert($("#cms_content_contentWidgIframe #iframebody").html());
+
+
     
   },50000);
 });
