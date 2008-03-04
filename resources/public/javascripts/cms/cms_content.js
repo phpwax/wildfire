@@ -136,7 +136,7 @@ $(document).ready(function() {
   
   setInterval(function(){
     alert("Submitting");
-    alert($("#content_edit_form").onsubmit);
+    alert($("#cms_content_contentWidgIframe #iframebody").html());
     
   },50000);
 });
