@@ -239,7 +239,7 @@ widgEditor.prototype.cleanPaste = function()
 		/* Replace opening bold tags with strong */
 		newSnippet = newSnippet.replace(/<b(\s+|>)/g, "<strong$1");
 		/* Replace closing bold tags with closing strong */
-		newSnippet = newSnippet.replace(/<\/b(\s+|>)/g, "</strong$1");
+		newSnippet = new¬Snippet.replace(/<\/b(\s+|>)/g, "</strong$1");
 
 		/* Replace italic tags with em */
 		newSnippet = newSnippet.replace(/<i(\s+|>)/g, "<em$1");
@@ -1140,6 +1140,12 @@ function widgToolbarAction()
 			{
 				return false;
 			}
+		case "italic":
+		  theIframe.contentWindow.document.execCommand(this.action, false, null);
+			break;
+		case "bold":
+		  theIframe.contentWindow.document.execCommand(this.action, false, null);
+			break;
 			
 		case "insertorderedlist":
 		case "insertunorderedlist":
