@@ -213,7 +213,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     
   }
   
-  public function file_tree($directory, $return_link, $extensions = array()) {
+  public function file_tree($directory, $return_link, $extensions = array(), $collapse=true) {
   	// Generates a valid XHTML list of all directories, sub-directories, and files in $directory
   	// Remove trailing slash
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
@@ -224,7 +224,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	return $code;
   }
 
-  public function file_tree_dir($directory, $return_link, $extensions = array(), $first_call = true) {
+  public function file_tree_dir($directory, $return_link, $extensions = array(), $first_call = true, $collapse=true) {
 
   	// Get and sort directories/files
   	$file = scandir($directory);
@@ -246,7 +246,8 @@ class CMSAdminFileController extends CMSAdminComponent {
   			}
   		}
   	}
-  	$php_file_tree = "<ul class='collapsed'>";
+  	if($collapse) $php_file_tree = "<ul class='collapsed'>";
+  	else $php_file_tree .= "<ul>";
 		foreach( $file as $this_file ) {
 			if( $this_file != "." && $this_file != ".." ) {
 				if( is_dir("$directory/$this_file") ) {
@@ -327,7 +328,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function refresh_tree() {
 	  $this->use_layout = false;
 	  $this->all_rows = $this->model->find_all_by_path(PUBLIC_DIR.$this->model->base_dir."/", array("order"=>"filename ASC"));
-	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
+	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test", array(), false);
 	}
 	
 	public function delete_folder() {
