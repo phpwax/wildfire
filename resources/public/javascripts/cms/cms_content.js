@@ -135,15 +135,15 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   $("#content_edit_form").submit(function(event){
     var form=this;
-    $(form).find("input,textarea,select").each(function(){
-        alert(this.val());
+    $(form).find("input,textarea,select").each(function(i){
+        alert(this);
     }); 
     return false;
   });
   setInterval(function(){
     alert("Submitting");
     $("#content_edit_form").submit();
-  },10000)
+  },10000);
 });
 
 
