@@ -18,6 +18,7 @@ class CMSAdminContentController extends CMSAdminComponent {
   public $filter_columns = array("title");
 	public $allowed_images = 3;
 	public $allowed_categories = true;
+	public $edit_author = false;
 	public $extra_content = array();
 	public $extra_content_options = array();
 	public $default_order = 'published';

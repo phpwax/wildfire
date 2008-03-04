@@ -52,8 +52,10 @@
       <?=large(select($model, "status", $model->status_options))?>
     	<?=form_divider()?>
     	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
-    	<?=form_divider()?>
-    	<?=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
+    	<?if($edit_author):?>
+    	  <?=form_divider()?>
+    	  <?=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
+    	<?endif?>
     </fieldset>
     <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
