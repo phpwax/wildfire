@@ -99,6 +99,11 @@ class CmsContent extends WXActiveRecord {
     return $user->find($this->author_id);
   }
   
+  public function author_options() {
+    $user = new CmsUser;
+    return options_from_collection($user->find_all(array("conditions"=>"usergroup > 9")), "id", "fullname");
+  }
+  
   /***** Finders for dealing with the extra_content table ******/
   
   public function extra_content($name) {
