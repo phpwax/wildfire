@@ -140,7 +140,7 @@ $(document).ready(function() {
        $("#autosaver").html("Automatically saved at "+response);
      })
 
-   },10000);
+   },40000);
 });
 
 
