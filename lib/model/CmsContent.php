@@ -209,7 +209,7 @@ class CmsContent extends WXActiveRecord {
     }
 	}
 	
-	protected function ping_technorati($host) {
+	public function ping_technorati($host) {
 	
   	# Using the XML-RPC extension to format the XML package
     $request = xmlrpc_encode_request("weblogUpdates.ping", array($this->title, $_SERVER['HTTP_HOST'].$this->permalink) );
