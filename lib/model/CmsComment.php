@@ -58,6 +58,7 @@ class CmsComment extends WXActiveRecord {
   }
   
   protected function flag_spam() {
+    $text = $this->comment;
     $total_matches = 0;
     $trash = array();
     // Count the regular links
@@ -67,11 +68,12 @@ class CmsComment extends WXActiveRecord {
     if(strlen($user_blocks = $this->config["filter"]) > 1) $user_blocks = explode(" ", $user_blocks);
     else $user_blocks = array();
     $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax',
-                   'paxil', 'casino', 'slot-machine', 'texas-holdem'), $user_blocks );
+                   'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy"), $user_blocks );
     foreach ($words as $word) {
       $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
       $total_matches += 5 * $word_matches;
     }
+    if(strlen($text > 1000)) $total_matches +-2;
     if($total_matches > 4) $this->status="2";
     else $this->status="1";
   }
