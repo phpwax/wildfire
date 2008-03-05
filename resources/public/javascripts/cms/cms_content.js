@@ -133,12 +133,14 @@ function cms_insert_url(type) {
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
 $(document).ready(function() {
-  
   setInterval(function(){
+     var ed = document.getElementById("cms_content_content");
+     ed.widgEditorObject.updateWidgInput();
+     $.post("/admin/content/autosave/"+content_page_id, {test: ed.value}, function(response){
+       $("#autosaver").html("Last saved at "+response.responseText);
+     })
 
-
-    
-  },50000);
+   },10000);
 });
 
 

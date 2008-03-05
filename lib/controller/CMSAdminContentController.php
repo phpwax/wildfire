@@ -133,5 +133,13 @@ class CMSAdminContentController extends CMSAdminComponent {
 		if(!$this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"))) $this->all_categories=array();		
 		$this->cat_list = $this->render_partial("cat_list");	
 	}
+	public function autosave() {
+	  $this->use_layout=false;
+	  $this->use_view=false;
+	  $content = new CmsContent($this->param("id"));
+	  $content->update_attributes(array("content"=>$_POST["content"]));
+	  echo date("H:i:s");
+	  exit;
+	}
 }
 ?>
