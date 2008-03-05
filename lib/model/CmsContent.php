@@ -50,7 +50,7 @@ class CmsContent extends WXActiveRecord {
 	}
 	
 	public function is_published() {
-	  if($this->status=="1" && strtotime($this->published) > time() ) return true;
+	  if($this->status=="1" && strtotime($this->published) < time() ) return true;
 	  return false;
 	}
 	
@@ -209,7 +209,7 @@ class CmsContent extends WXActiveRecord {
     }
 	}
 	
-	public function ping_technorati($host) {
+	public function ping_technorati() {
 	
   	# Using the XML-RPC extension to format the XML package
     $request = xmlrpc_encode_request("weblogUpdates.ping", array($this->title, $_SERVER['HTTP_HOST'].$this->permalink) );
