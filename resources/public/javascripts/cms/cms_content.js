@@ -137,7 +137,7 @@ $(document).ready(function() {
      var ed = document.getElementById("cms_content_content");
      ed.widgEditorObject.updateWidgInput();
      $.post("/admin/content/autosave/"+content_page_id, {test: ed.value}, function(response){
-       $("#autosaver").html("Last saved at "+response.responseText);
+       $("#autosaver").html("Last saved at "+response);
      })
 
    },10000);
