@@ -37,7 +37,7 @@ class CmsContent extends WXActiveRecord {
 	
 	public function after_save() {
 	  $this->save_extra_content();
-	  //if($this->is_published()) $this->ping_technorati();
+	  if($this->is_published()) $this->ping_technorati();
 	}
 	
 	public function permalink() {
@@ -212,14 +212,29 @@ class CmsContent extends WXActiveRecord {
 	public function ping_technorati() {
 	
   	# Using the XML-RPC extension to format the XML package
-    $request = xmlrpc_encode_request("weblogUpdates.ping", array($this->title, $_SERVER['HTTP_HOST'].$this->permalink) );
-
+    $request = '
+      <?xml version="1.0"?>
+      <methodCall>
+        <methodName>weblogUpdates.ping</methodName>
+        <params>
+          <param>
+            <value>'.$_SERVER["host"].'</value>
+          </param>
+          <param>
+            <value>'.$_SERVER["host"].$this->permalink.'</value>
+          </param>
+        </params>
+      </methodCall>
+    ';
+    
+    
     # Using the cURL extension to send it off, 
     # first creating a custom header block
     $header[] = "Host: rpc.technorati.com";
     $header[] = "Content-type: text/xml";
     $header[] = "Content-length: ".strlen($request) . "\r\n";
     $header[] = $request;
+    
     error_log($request);
 
     $ch = curl_init();
