@@ -218,10 +218,10 @@ class CmsContent extends WXActiveRecord {
         <methodName>weblogUpdates.ping</methodName>
         <params>
           <param>
-            <value>'.$_SERVER["host"].'</value>
+            <value>'.$_SERVER["HTTP_HOST"].'</value>
           </param>
           <param>
-            <value>'.$_SERVER["host"].$this->permalink.'</value>
+            <value>'.$_SERVER["HTTP_HOST"].$this->permalink.'</value>
           </param>
         </params>
       </methodCall>
