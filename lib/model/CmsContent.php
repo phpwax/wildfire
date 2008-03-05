@@ -234,9 +234,6 @@ class CmsContent extends WXActiveRecord {
     $header[] = "Content-type: text/xml";
     $header[] = "Content-length: ".strlen($request) . "\r\n";
     $header[] = $request;
-    
-    error_log($request);
-
     $ch = curl_init();
     curl_setopt( $ch, CURLOPT_URL, "http://rpc.technorati.com/rpc/ping"); # URL to post to
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); # return into a variable
