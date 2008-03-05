@@ -107,7 +107,6 @@ class CMSAdminFileController extends CMSAdminComponent {
     
 		$file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
 		$source=preg_replace("/[\s]/", "\ ", $source);
-		error_log($source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($this->show_image->filename);
@@ -202,7 +201,6 @@ class CMSAdminFileController extends CMSAdminComponent {
         $path = str_replace("files/", "", $_POST['cms_file']['folder']);
         $path = str_replace("files", "", $path );
         if(substr($path, -1) !="/") $path = $path."/";
-        error_log($path);
         $file = new CmsFile;
         $file->filename = $newfile_fix;
         $file->file_base.= $path;

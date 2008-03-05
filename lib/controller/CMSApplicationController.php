@@ -22,7 +22,6 @@ class CmsApplicationController extends WXControllerBase{
 	    return false;
     }
 	  $url = $this->parse_urls();
-	  error_log($url);
 	  $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
 	  $params = array();
     if($this->per_page) {

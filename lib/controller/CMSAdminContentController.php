@@ -141,5 +141,11 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  echo date("H:i:s");
 	  exit;
 	}
+	
+	
+	
+	
+	
+	
 }
 ?>
