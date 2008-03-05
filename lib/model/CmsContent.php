@@ -212,8 +212,7 @@ class CmsContent extends WXActiveRecord {
 	public function ping_technorati() {
 	
   	# Using the XML-RPC extension to format the XML package
-    $request = '
-      <?xml version="1.0"?>
+    $request = '<?xml version="1.0"?>
       <methodCall>
         <methodName>weblogUpdates.ping</methodName>
         <params>
