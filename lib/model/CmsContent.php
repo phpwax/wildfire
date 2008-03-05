@@ -37,7 +37,7 @@ class CmsContent extends WXActiveRecord {
 	
 	public function after_save() {
 	  $this->save_extra_content();
-	  if($this->is_published()) $this->ping_technorati();
+	  //if($this->is_published()) $this->ping_technorati();
 	}
 	
 	public function permalink() {
