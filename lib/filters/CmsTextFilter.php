@@ -104,7 +104,7 @@ class CmsTextFilter  {
     </object>';
     $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9]*)<\/a>/", $replace, $text);
     $text = preg_replace("/<!--yt_video-->([a-zA-Z\-_0-9]*)<!--\/yt_video-->/", $replace, $text);
-    $text = preg_replace("/<!--yt_video-->([^\s]*)/", $replace, $text);
+    $text = preg_replace("/<!--yt_video-->([^\s<]*)/", $replace, $text);
   }
   
   static public function nl2p($pee, $br=true) {
