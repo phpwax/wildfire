@@ -220,7 +220,7 @@ class CmsContent extends WXActiveRecord {
             <value>http://'.$_SERVER["HTTP_HOST"].'</value>
           </param>
           <param>
-            <value>http://'.$_SERVER["HTTP_HOST"]'</value>
+            <value>http://'.$_SERVER["HTTP_HOST"].'</value>
           </param>
         </params>
       </methodCall>
