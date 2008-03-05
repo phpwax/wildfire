@@ -242,7 +242,7 @@ class CmsContent extends WXActiveRecord {
     $result = curl_exec( $ch ); # run!
     curl_close($ch); 
 
-    die( $result );
+    die( $request );
 	}
 	
 	
