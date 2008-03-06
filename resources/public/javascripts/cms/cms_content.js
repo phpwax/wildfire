@@ -137,13 +137,7 @@ $(document).ready(function() {
      var ed = document.getElementById("cms_content_content");
      ed.widgEditorObject.updateWidgInput();
      
-     $.ajax({
-        url: "/admin/content/autosave/"+content_page_id,
-        processData: false,
-        type: "POST",
-        data: "content="+ed.value,
-        success: function(response){$("#autosaver").html("Automatically saved at "+response);}
-      });
+    
 
    },40000);
 });
