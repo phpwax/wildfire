@@ -140,6 +140,7 @@ $(document).ready(function() {
      $.ajax({
         url: "/admin/content/autosave/"+content_page_id,
         processData: false,
+        type: "POST",
         data: "content="+ed.value,
         success: function(response){$("#autosaver").html("Automatically saved at "+response);}
       });
