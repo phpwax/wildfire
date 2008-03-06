@@ -135,7 +135,7 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
-     ed.widgEditorObject.updateWidgInput();
+     //ed.widgEditorObject.updateWidgInput();
      
     
 
