@@ -136,9 +136,13 @@ $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
      ed.widgEditorObject.updateWidgInput();
-     $.post("/admin/content/autosave/"+content_page_id, {content: ed.value}, function(response){
-       $("#autosaver").html("Automatically saved at "+response);
-     }, "xml")
+     
+     $.ajax({
+        url: "/admin/content/autosave/"+content_page_id,
+        processData: false,
+        data: "content="+ed.value,
+        success: function(response){$("#autosaver").html("Automatically saved at "+response);}
+      });
 
    },40000);
 });
