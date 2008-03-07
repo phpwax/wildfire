@@ -36,6 +36,7 @@ function delayed_cat_filter(filter) {
       $("#category_list").html(response.responseText); 
       initialise_draggables();
       if(typeof(t) != "undefined" ) clearTimeout(t); 
+      $("#category_filter").css("background", "none");
     }
   });
 }
