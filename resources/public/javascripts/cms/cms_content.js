@@ -47,7 +47,7 @@ $(document).ready(function(event) {
   
   $("#category_filter").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
-    t = setTimeout(delayed_cat_filter($("#category_filter").val(), 400));
+    t = setTimeout('delayed_cat_filter($("#category_filter").val())', 400);
   });
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
