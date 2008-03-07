@@ -40,9 +40,12 @@ $(document).ready(function(event) {
   });
   
   $("#category_filter").keyup(function() {
-    $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+$("#category_filter").val(), 
-      complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
-    })
+    var filter = $("#category_filter").val();
+    if(filter.length > 2) {
+      $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+filter, 
+        complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
+      })
+    }
   });
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
