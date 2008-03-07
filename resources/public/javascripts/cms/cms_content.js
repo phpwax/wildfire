@@ -31,7 +31,11 @@ function initialise_draggables() {
 
 function delayed_cat_filter(filter) {
   $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+filter, 
-    complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
+    complete: function(response){ 
+      $("#category_list").html(response.responseText); 
+      initialise_draggables();
+      if(typeof(t) != "undefined" ) clearTimeout(t); 
+    }
   });
 }
 
@@ -41,7 +45,7 @@ $(document).ready(function(event) {
 
   $("#image_filter").keyup(function() {
     $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
-      complete: function(response){ $("#image_list").html(response.responseText); initialise_images(); if(typeof(t) != "undefined" ) clearTimeout(t); }
+      complete: function(response){ $("#image_list").html(response.responseText); initialise_images();  }
     })
   });
   
