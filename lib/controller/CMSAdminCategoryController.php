@@ -22,7 +22,7 @@ class CMSAdminCategoryController extends CMSAdminComponent {
 	  if(strlen($fil = $_POST['filter'])<1) {
   	  $this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"));
   	} else {
-      $this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC", "conditions"=>"name LIKE '%$fil%'"));
+      $this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC", "conditions"=>"name LIKE '%$fil%'", "limit"=>"30"));
     }
   	$this->cat_partial = $this->render_partial("cat_list");
 	}
