@@ -401,8 +401,9 @@ h4{
 }
 #category_filter {
   float:left;
-  margin-right:5px;
+  margin-right:8px;
   width:100px;
+  padding-top:8px;
 }
 
 
