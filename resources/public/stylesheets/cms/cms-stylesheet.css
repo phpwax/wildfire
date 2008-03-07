@@ -399,6 +399,12 @@ h4{
 .dropzone_active .empty_image_dropzone, div.dropzone_active {
   background:#DDDDDD url(../../images/cms/add_image_icon.gif) no-repeat center center;
 }
+#category_filter {
+  float:left;
+  margin-right:5px;
+  width:100px;
+}
+
 
 .drag_image {
   font-size:77%;

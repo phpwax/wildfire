@@ -55,6 +55,7 @@ $(document).ready(function(event) {
   });
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
+  $("#category_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   $("#cms_file_new_folder").change(function(t){
     $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
       function(response) { 
