@@ -24,7 +24,7 @@ class CMSAdminCategoryController extends CMSAdminComponent {
   	} else {
       $this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC", "conditions"=>"name LIKE '%$fil%'"));
     }
-  	$this->cat_partial = $this->render_partial("list_categories");
+  	$this->cat_partial = $this->render_partial("cat_list");
 	}
 
 }
