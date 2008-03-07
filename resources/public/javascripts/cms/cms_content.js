@@ -41,7 +41,7 @@ $(document).ready(function(event) {
 
   $("#image_filter").keyup(function() {
     $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
-      complete: function(response){ $("#image_list").html(response.responseText); initialise_images(); }
+      complete: function(response){ $("#image_list").html(response.responseText); initialise_images(); if(typeof(t) != "undefined" ) clearTimeout(t); }
     })
   });
   
