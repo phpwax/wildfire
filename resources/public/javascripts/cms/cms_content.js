@@ -40,7 +40,7 @@ $(document).ready(function(event) {
   });
   
   $("#category_filter").keyup(function() {
-    $.ajax({type: "post", url: "/admin/categories/category_filter", data: "filter="+$("#image_filter").val(), 
+    $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+$("#image_filter").val(), 
       complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
     })
   });
