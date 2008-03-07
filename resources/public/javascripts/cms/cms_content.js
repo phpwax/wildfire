@@ -29,6 +29,12 @@ function initialise_draggables() {
   });
 }
 
+function delayed_cat_filter(filter) {
+  $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+filter, 
+    complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
+  });
+}
+
 
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
@@ -40,12 +46,8 @@ $(document).ready(function(event) {
   });
   
   $("#category_filter").keyup(function() {
-    var filter = $("#category_filter").val();
-    if(filter.length > 2) {
-      $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+filter, 
-        complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
-      })
-    }
+    clearTimeout(t);
+    t = setTimeout(delayed_cat_filter($("#category_filter").val(), 400));
   });
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
