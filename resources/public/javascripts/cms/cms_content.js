@@ -46,7 +46,7 @@ $(document).ready(function(event) {
   });
   
   $("#category_filter").keyup(function() {
-    if(t) clearTimeout(t);
+    if(typeof(t) != "undefined" ) clearTimeout(t);
     t = setTimeout(delayed_cat_filter($("#category_filter").val(), 400));
   });
 
