@@ -15,6 +15,17 @@ class CMSAdminCategoryController extends CMSAdminComponent {
 	  $array = array(0 => 'No Parent');
 		$this->tree_collection = $this->model->categories_as_collection(null, $array);
 	}
+	
+	public function filter() {
+	  $this->use_layout=false;
+	  $cat = new CmsCategory;
+	  if(strlen($fil = $_POST['filter'])<1) {
+  	  $this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"));
+  	} else {
+      $this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC", "conditions"=>"name LIKE '%$fil%'"));
+    }
+  	$this->cat_partial = $this->render_partial("list_categories");
+	}
 
 }
 

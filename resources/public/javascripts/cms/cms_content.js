@@ -37,7 +37,13 @@ $(document).ready(function(event) {
     $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
       complete: function(response){ $("#image_list").html(response.responseText); initialise_images(); }
     })
-  }); 
+  });
+  
+  $("#category_filter").keyup(function() {
+    $.ajax({type: "post", url: "/admin/categories/category_filter", data: "filter="+$("#image_filter").val(), 
+      complete: function(response){ $("#category_list").html(response.responseText); initialise_draggables(); }
+    })
+  });
 
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   $("#cms_file_new_folder").change(function(t){
