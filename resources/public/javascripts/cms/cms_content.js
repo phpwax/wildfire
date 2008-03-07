@@ -30,6 +30,7 @@ function initialise_draggables() {
 }
 
 function delayed_cat_filter(filter) {
+  $("#category_filter").css("background", "url(/images/cms/indicator.gif) no-repeat right center");
   $.ajax({type: "post", url: "/admin/categories/filter", data: "filter="+filter, 
     complete: function(response){ 
       $("#category_list").html(response.responseText); 
