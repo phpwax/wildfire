@@ -16,7 +16,7 @@ class CMSAdminCategoryController extends CMSAdminComponent {
 		$this->tree_collection = $this->model->categories_as_collection(null, $array);
 	}
 	
-	public function filter() {
+	public function filters() {
 	  $this->use_layout=false;
 	  $cat = new CmsCategory;
 	  if(strlen($fil = $_POST['filter'])<1) {
