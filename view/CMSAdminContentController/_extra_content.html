@@ -6,7 +6,7 @@
           echo large(text_field($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));
           break;
         case "text_area": 
-          echo large(text_area($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));
+          echo large(text_area($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content)), "rows"=>"4"), humanize($content)));
           break;
         case "wysiwyg":
           echo large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));;
