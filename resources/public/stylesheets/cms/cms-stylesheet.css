@@ -774,6 +774,9 @@ li.pagination_link a {
 .comment_column {
   width:40%;
 }
+#extra_content .input_field {
+  font-size:93%;
+}
 
 /******* File browser styling *******/
 #file_browse_header {
