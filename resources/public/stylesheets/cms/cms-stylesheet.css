@@ -762,6 +762,8 @@ li.pagination_link a {
   border:1px solid #D2D0D0 !important;
   width:93%;
   padding:14px;
+  overflow:auto;
+  height:380px;
 }
 #extra_content label {
   display:block;
