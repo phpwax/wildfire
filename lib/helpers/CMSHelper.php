@@ -50,20 +50,23 @@ class CMSHelper extends WXHelpers {
     return $result;
   }
   
-  public function smart_nav($url, $display, $current, $selected_id) {
+  public function smart_nav($url, $display, $current, $selected_id, $options=array()) {
     if(is_array($url)) {
       if(is_array($current) && $url["action"]==$current["action"] && $url["controller"]=$current["controller"]) {
         $li_options["id"]=$selected_id;
-        return content_tag("li", content_tag("a", $display, array("href"=>url_for($url))), $li_options );
+				$options['href']=url_for($url);
+        return content_tag("li", content_tag("a", $display, $options), $li_options );
       }
       elseif($url["action"] == $current) {
         $li_options["id"]=$selected_id;
-        return content_tag("li", content_tag("a", $display, array("href"=>url_for($url))), $li_options );
+				$options['href']=url_for($url);
+        return content_tag("li", content_tag("a", $display, $options), $li_options );
       }
       $url = url_for($url);
     }
-    if(substr($url, 1) == $current) return content_tag("li", content_tag("a", $display, array("href"=>$url)), array("id"=>$selected_id));
-    return content_tag("li", content_tag("a", $display, array("href"=>$url)));
+		$options['href']= $url;
+    if(substr($url, 1) == $current) return content_tag("li", content_tag("a", $display, $options), array("id"=>$selected_id));
+    return content_tag("li", content_tag("a", $display, $options));
   }
   
   public function parse_rss($url, $items) {
