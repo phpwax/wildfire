@@ -47,7 +47,7 @@
     <fieldset id="content_options">
       <?=large(text_field($model, "title"))?>
       <?=form_divider()?>
-      <?=large(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title"), array(), "Choose a section" ))?>
+      <?=large(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
       <?=form_divider()?>
       <?=large(select($model, "status", $model->status_options))?>
     	<?=form_divider()?>
