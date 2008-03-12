@@ -73,7 +73,7 @@ class CmsComment extends WXActiveRecord {
       $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
       $total_matches += 5 * $word_matches;
     }
-    if(strlen($text > 1000)) $total_matches +-2;
+    if(strlen($text > 1000)) $total_matches +=2;
     if($total_matches > 4) $this->status="2";
     else $this->status="1";
   }
