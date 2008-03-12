@@ -62,8 +62,9 @@ class CmsComment extends WXActiveRecord {
     $total_matches = 0;
     $trash = array();
     // Count the regular links
-    $total_matches += preg_match_all("/<a[^>]*>.*<\/a>/i", $text, $trash);
-  
+    preg_match_all("/<a[^>]*>.*<\/a>/i", $text, $trash);
+    $total_matches = count($trash[0]);
+
     // Check for common spam words
     if(strlen($user_blocks = $this->config["filter"]) > 1) $user_blocks = explode(" ", $user_blocks);
     else $user_blocks = array();
@@ -71,7 +72,7 @@ class CmsComment extends WXActiveRecord {
                    'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy"), $user_blocks );
     foreach ($words as $word) {
       $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
-      $total_matches += 5 * $word_matches;
+      if($word_matches >0) $total_matches +=$word_matches;
     }
     if(strlen($text > 1000)) $total_matches +=2;
     if($total_matches > 4) $this->status="2";
