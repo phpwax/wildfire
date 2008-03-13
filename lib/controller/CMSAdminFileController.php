@@ -204,6 +204,7 @@ class CMSAdminFileController extends CMSAdminComponent {
         $file = new CmsFile;
         $file->filename = $newfile_fix;
         $file->file_base.= $path;
+        $file->caption = $_POST["cms_file"]["caption"];
         $file->save();
       }
       echo "SUCCESS"; exit;
