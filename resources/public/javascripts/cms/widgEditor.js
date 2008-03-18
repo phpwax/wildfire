@@ -309,7 +309,7 @@ widgEditor.prototype.cleanSource = function()
 	theHTML = theHTML.replace(/\s+$/, "");
 	
 	/* Remove style attribute inside any tag  - taken out for now - add back in if probs with copying and pasting from other sources*/ 
-	theHTML = theHTML.replace(/ style="[^"]*"/g, "");*/
+	theHTML = theHTML.replace(/ style="[^"]*"/g, "");
 
 	/* Replace improper BRs */
 	theHTML = theHTML.replace(/<br>/g, "<br />");
@@ -321,7 +321,7 @@ widgEditor.prototype.cleanSource = function()
 	theHTML = theHTML.replace(/(<img [^>]+[^\/])>/g, "$1 />");
 	
 	/* Remove empty tags */
-	//theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, "");
+	/* theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, ""); */
 
   /* Add extra hooks to h6 tags */
 	theHTML = theHTML.replace(/<h6>/g, "<h6><span>");
