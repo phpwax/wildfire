@@ -309,7 +309,7 @@ widgEditor.prototype.cleanSource = function()
 	theHTML = theHTML.replace(/\s+$/, "");
 	
 	/* Remove style attribute inside any tag  - taken out for now - add back in if probs with copying and pasting from other sources*/ 
-	/*theHTML = theHTML.replace(/ style="[^"]*"/g, "");*/
+	theHTML = theHTML.replace(/ style="[^"]*"/g, "");*/
 
 	/* Replace improper BRs */
 	theHTML = theHTML.replace(/<br>/g, "<br />");
