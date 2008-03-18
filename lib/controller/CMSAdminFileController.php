@@ -52,12 +52,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 		}
 			
 		//loop round each missing file and add it into db
-		foreach($missing_from_db as $file){
+		foreach((array) $missing_from_db as $file){
 			$path = substr($file, 0, strrpos($file, "/")+1 );
 			$filename = substr($file, strrpos($file, "/")+1 );
 			$info = getimagesize($file);
 			$model = new $this->model_class;
-			$model->path = str_ireplace(APP_DIR, "", $path);
+			$model->path = str_ireplace(WAX_DIR, "", $path);
 			$model->filename = $filename;
 			$model->type = $info['mime'];
 			$model->save();
