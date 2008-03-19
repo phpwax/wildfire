@@ -40,9 +40,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 		}
 		//find all db file records
 		$files = $this->model->find_all();
-		foreach($files as $file){
-			$db_files[] = $file->path . $file->filename;
-		}
+		foreach($files as $file) $db_files[] = $file->path . $file->filename;
 		//difference between the two
 		$difference = array_diff($hdd_files, $db_files);
 		//loop round the differences to see if its a file or not
@@ -50,7 +48,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if(is_file($diff)) $missing_from_db[] = $diff;
 			else $missing_from_hdd[] = $diff;
 		}
-			
+		$saved = 0;
+		$failed = 0;	
 		//loop round each missing file and add it into db
 		foreach((array) $missing_from_db as $file){
 			$path = substr($file, 0, strrpos($file, "/")+1 );
@@ -60,10 +59,16 @@ class CMSAdminFileController extends CMSAdminComponent {
 			$model->path = str_ireplace(WAX_DIR, "", $path);
 			$model->filename = $filename;
 			$model->type = $info['mime'];
-			$model->save();
-		}				
-		
-		$this->redirect_to("/admin/file/");
+			if($model->save()) $saved ++;
+			else $failed ++;
+		}	
+		$total_missing = count($missing_from_db);
+		$msg = $total_missing . " files missing from DB";
+		if($saved == $total_missing) $msg .= " - all saved";
+		else $msg .= " - $saved saved";
+		if(count($missing_from_hdd)>0) $msg .= "<br />".count($missing_from_hdd)." files missing from hdd";
+		Session::add_message($msg);
+		$this->redirect_to("/admin/files/");
 	}
 	
 	public function file_info() {
