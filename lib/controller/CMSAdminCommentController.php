@@ -17,7 +17,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
   
 
 	public function controller_global() {
-
+    $this->sub_links["moderation"]="Comments in Moderation";
 	}
 	
 	public function index( ) {
