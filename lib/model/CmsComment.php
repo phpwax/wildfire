@@ -68,7 +68,7 @@ class CmsComment extends WXActiveRecord {
     // Check for common spam words
     if(strlen($user_blocks = $this->config["filter"]) > 1) $user_blocks = explode(" ", $user_blocks);
     else $user_blocks = array();
-    $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax',
+    $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax', "porn", "porno",
                    'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy", "buy", "online", "levitra", "[url="), $user_blocks );
     foreach ($words as $word) {
       $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);

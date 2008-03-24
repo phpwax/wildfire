@@ -20,6 +20,27 @@ class CMSAdminCommentController extends CMSAdminComponent {
 
 	}
 	
+	public function index( ) {
+		$this->set_order();
+		$this->display_action_name = 'List Comments';
+	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit, "conditions"=>"status=1");
+		$this->all_rows = $this->model->find_all($options);
+		if(!$this->all_rows) $this->all_rows=array();
+		$this->filter_block_partial = $this->render_partial("filter_block");
+		$this->list = $this->render_partial("list");
+	}
+	
+	public function moderation() {
+	  $this->use_view="index";
+	  $this->set_order();
+		$this->display_action_name = 'Comments in Moderation';
+	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit, "conditions"=>"status=0");
+		$this->all_rows = $this->model->find_all($options);
+		if(!$this->all_rows) $this->all_rows=array();
+		$this->filter_block_partial = $this->render_partial("filter_block");
+		$this->list = $this->render_partial("list");
+	}
+	
 	public function spam() {
 	  $comment = new CmsComment($this->param("id"));
 	  if($comment->update_attributes(array("status"=>"2")) ) {
