@@ -69,7 +69,7 @@ class CmsComment extends WXActiveRecord {
     if(strlen($user_blocks = $this->config["filter"]) > 1) $user_blocks = explode(" ", $user_blocks);
     else $user_blocks = array();
     $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax',
-                   'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy", "buy", "online", "levitra"), $user_blocks );
+                   'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy", "buy", "online", "levitra", "[url="), $user_blocks );
     foreach ($words as $word) {
       $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
       if($word_matches >0) $total_matches +=$word_matches;
