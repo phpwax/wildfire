@@ -34,7 +34,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	  $this->use_view="index";
 	  $this->set_order();
 		$this->display_action_name = 'Comments in Moderation';
-	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit, "conditions"=>"status=0");
+	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit, "conditions"=>"status=2");
 		$this->all_rows = $this->model->find_all($options);
 		if(!$this->all_rows) $this->all_rows=array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
