@@ -71,7 +71,7 @@ class CmsComment extends WXActiveRecord {
     $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax', "porn", "porno",
                    'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy", "buy", "online", "levitra", "\[url\=", "new\.txt"), $user_blocks );
     foreach ($words as $word) {
-      $word_matches = preg_match_all('/' . $word . '/i', $text, $trash);
+      $word_matches = preg_match_all('/' . preg_quote($word) . '/i', $text, $trash);
       if($word_matches >0) $total_matches +=$word_matches;
     }
     if(strlen($text > 1000)) $total_matches +=2;
