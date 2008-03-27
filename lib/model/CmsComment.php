@@ -75,6 +75,7 @@ class CmsComment extends WXActiveRecord {
       if($word_matches >0) $total_matches +=$word_matches;
     }
     if(strlen($text > 1000)) $total_matches +=2;
+    if(strlen($text < 13)) $total_matches +=2;
     if($total_matches > 4) $this->status="2";
     else $this->status="1";
   }
