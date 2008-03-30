@@ -195,6 +195,7 @@ class CmsContent extends WXActiveRecord {
 	    $conditions = "";
 	    $search_words = preg_split("/[\s-]/",$search);
       foreach($search_words as $word) $conditions .= "name LIKE '%$word%' AND ";
+      $conditions = rtrim($conditions, " AND");
       $queries[]=$conditions;
 	  }
 	  $query = "(";
@@ -204,7 +205,6 @@ class CmsContent extends WXActiveRecord {
     print_r($res); exit;
     $content = new CmsContent;
     
-    $conditions = rtrim($conditions, " AND");
 	}
 	
 	public function find_by_category($category, $limit="1", $section=false) {
