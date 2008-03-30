@@ -190,13 +190,29 @@ class CmsContent extends WXActiveRecord {
 	  return $comments->find_all($params);
 	}
 	
+	public function fuzzy_category_find($searches = array(), $params= array()) {
+	  foreach($searches as $search) {
+	    $conditions = "";
+	    $search_words = preg_split("/[\s-]/",$search);
+      foreach($search_words as $word) $conditions .= "name LIKE '%$word%' AND ";
+      $searches[]=$conditions;
+	  }
+	  print_r($searches); exit;
+    $cat = new CmsCategory;
+    $content = new CmsContent;
+    
+    $conditions = rtrim($conditions, " AND");
+	}
+	
 	public function find_by_category($category, $limit="1", $section=false) {
 	  $sql="SELECT t1.* FROM `cms_content` as t1, cms_category as t2, cms_category_cms_content as t3
     WHERE t2.id=t3.cms_category_id 
     AND t1.id=t3.cms_content_id
     AND t1.status=1 
-    AND (DATE_FORMAT(t1.published, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d')) 
-    AND t2.id=$category";
+    AND (DATE_FORMAT(t1.published, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d'))";
+    if(is_array($category)) {
+      $sql.=" AND t2.id IN(".join(",", $category).")";
+    } else $sql.= " AND t2.id=$category";
     if(is_array($section)) {
       $sql.=" AND t1.cms_section_id IN(".join(",", $section).")";
     } elseif($section) $sql.= " AND t1.cms_section_id=$section";
