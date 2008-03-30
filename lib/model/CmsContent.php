@@ -203,9 +203,8 @@ class CmsContent extends WXActiveRecord {
 	  $query.=")";
 	  $cat = new CmsCategory;
     $res = $cat->find_all(array("conditions"=>$query));
-    print_r($res); exit;
-    $content = new CmsContent;
-    
+    foreach($res as $category) $cat_ids[]=$category->id;
+    return $this->find_by_category($cat_ids);
 	}
 	
 	public function find_by_category($category, $limit="1", $section=false) {
