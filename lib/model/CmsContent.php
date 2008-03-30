@@ -201,6 +201,7 @@ class CmsContent extends WXActiveRecord {
 	  $query = "(";
 	  $query.=join($queries, ") OR (");
 	  $query.=")";
+	  die($query);
     $res = $this->find_by_sql($query);
     print_r($res); exit;
     $content = new CmsContent;
