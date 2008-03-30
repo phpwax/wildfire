@@ -190,7 +190,7 @@ class CmsContent extends WXActiveRecord {
 	  return $comments->find_all($params);
 	}
 	
-	public function fuzzy_category_find($searches = array(), $params= array()) {
+	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
 	  foreach($searches as $search) {
 	    $conditions = "";
 	    $search_words = preg_split("/[\s-]/",$search);
@@ -204,7 +204,7 @@ class CmsContent extends WXActiveRecord {
 	  $cat = new CmsCategory;
     $res = $cat->find_all(array("conditions"=>$query));
     foreach($res as $category) $cat_ids[]=$category->id;
-    return $this->find_by_category($cat_ids);
+    return $this->find_by_category($cat_ids, $limit, $section);
 	}
 	
 	public function find_by_category($category, $limit="1", $section=false) {
