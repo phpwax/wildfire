@@ -195,9 +195,9 @@ class CmsContent extends WXActiveRecord {
 	    $conditions = "";
 	    $search_words = preg_split("/[\s-]/",$search);
       foreach($search_words as $word) $conditions .= "name LIKE '%$word%' AND ";
-      $searches[]=$conditions;
+      $queries[]=$conditions;
 	  }
-	  print_r($searches); exit;
+	  print_r($queries); exit;
     $cat = new CmsCategory;
     $content = new CmsContent;
     
