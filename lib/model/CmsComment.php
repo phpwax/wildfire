@@ -62,6 +62,10 @@ class CmsComment extends WXActiveRecord {
     return $url;
   }
   
+  public function clean_comment() {
+    return htmlspecialchars(strip_tags($this->comment, "<a><img>"));
+  }
+  
   protected function flag_spam() {
     $text = $this->comment;
     $total_matches = 0;
