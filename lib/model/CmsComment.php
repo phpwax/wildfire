@@ -2,6 +2,7 @@
 
 class CmsComment extends WXActiveRecord {
   
+  
 	public $status_options = array("0"=>"Unapproved", "1"=>"Approved", "2"=>"Spam"); 
 	public $config = array();
 	public $attached_table_name = "cms_content";
@@ -28,6 +29,10 @@ class CmsComment extends WXActiveRecord {
     return $this->find_all(array("conditions"=>"attached_table='$type' AND attached_id=$article AND status=1", "order"=>"time ASC"));
   }
   
+  public function article() {
+    $class = camelize($this->attached_table_name);
+    return new $class($this->attached_id);
+  }
  
   public function time_ago() {
     $ts = time() - strtotime(str_replace("-","/",$this->time));
