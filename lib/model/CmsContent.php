@@ -197,7 +197,6 @@ class CmsContent extends WXActiveRecord {
       foreach($search_words as $word) $conditions .= "name LIKE '%$word%' AND ";
       $queries[]=$conditions;
 	  }
-	  print_r($queries); exit;
 	  $query = "(";
 	  $query.=join($queries, ") OR (");
 	  $query.=")";
