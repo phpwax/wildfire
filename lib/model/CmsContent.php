@@ -68,6 +68,8 @@ class CmsContent extends WXActiveRecord {
     $condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
 	  else $params['conditions'] = $condition;
+	  error_log($params["conditions"]);
+    
 	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
 	  if(strlen($url)>0 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
 	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
