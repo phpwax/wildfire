@@ -25,6 +25,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function controller_global(){
 		parent::controller_global();
 		$this->sub_links["upload"]="Advanced File Upload";
+		$this->sub_links['synchronise'] = "Synchronise";
 	}
 	public function synchronise(){
 		//directory to scan round
@@ -155,6 +156,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function fetch_folder() {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"] . "/";
+		if($folder == "/") $folder = $this->model->base_dir."/";
 	  if(strpos($folder,"~")) $folder = str_replace("~", "/", $folder);
 	  $sql = "SELECT * FROM cms_file WHERE path = 'public/".$folder."' ORDER BY filename ASC";
 	  $this->all_rows = $this->model->find_by_sql($sql);
