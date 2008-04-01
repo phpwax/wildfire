@@ -8,6 +8,9 @@
         case "text_area": 
           echo large(text_area($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content)), "rows"=>"4"), humanize($content)));
           break;
+				case "select":
+					echo large(select($model->extra_content($content), $content, $opts['choices'] ) );
+					break;
         case "wysiwyg":
           echo large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));;
           break;
