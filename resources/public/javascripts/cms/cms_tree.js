@@ -110,15 +110,20 @@ function droppable_folders() {
         $.post("/admin/files/rename_folder/",
           { old_name: old_folder,
             new_name: new_folder },
-            function() {
-              $.post("/admin/files/refresh_tree", 
-                function(response) {
-                  $("#file_tree").html(response);
-                  initialise_tree();
-                  droppable_folders();
-                }
-              );
-            }
+            function(response) {
+		         $.post("/admin/files/upload_to", 
+	              function(response) {
+						$("#upload_to").html(response);
+	              }
+	            );
+					$.post("/admin/files/refresh_tree", 
+                  function(response) {
+                    $("#file_tree").html(response);
+                    initialise_tree();
+                    droppable_folders();
+                  }
+                );
+	          }
         );
       },
       'delete': function(t) {
@@ -133,6 +138,11 @@ function droppable_folders() {
                     droppable_folders();
                   }
                 );
+					$.post("/admin/files/upload_to", 
+	              function(response) {
+						$("#upload_to").html(response);
+	              }
+	            );
               }
           );
         }
@@ -140,14 +150,15 @@ function droppable_folders() {
       'new': function(t) {
         new_folder = prompt("Enter the folder name");
         $.post("/admin/files/new_folder",{parent:t.id, folder:new_folder},
-          function() {
-            $.post("/admin/files/refresh_tree", 
-              function(response) {
-                $("#file_tree").html(response);
-                initialise_tree();
-                droppable_folders();
-              }
-            );
+			function(response) {
+            $("#file_tree").html(response);
+            initialise_tree();
+            droppable_folders();
+	            $.post("/admin/files/upload_to", 
+	              function(response) {
+						$("#upload_to").html(response);
+	              }
+	            );
           }
         );
       }

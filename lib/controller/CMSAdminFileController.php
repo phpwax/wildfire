@@ -24,9 +24,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function controller_global(){
 		parent::controller_global();
+		$this->sub_links = array();
+		$this->sub_links[""] = "Manage Your Files";
 		$this->sub_links["upload"]="Advanced File Upload";
 		$this->sub_links['synchronise'] = "Synchronise";
 	}
+	
 	public function synchronise(){
 		//directory to scan round
 		$directory = WAX_ROOT . $this->model->file_base;
@@ -90,6 +93,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->all_rows = $this->model->find_by_sql($sql);
 	  $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
 	  $this->list = $this->render_partial("list");
+	
+		$this->upload_to = $this->render_partial('upload_to');
 	}
 	
 	
@@ -151,8 +156,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 		parent::edit();
 	}
 	
-	
-	
+
 	public function fetch_folder() {
 	  $this->use_layout=false;
 	  $folder = $_POST["folder"] . "/";
@@ -166,11 +170,16 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function new_folder() {
 	  $this->use_layout=false;
-	  $_POST["parent"] = str_replace("~","/",$_POST["parent"]);
-	  $folder = $_POST["parent"]."/".$_POST["folder"];
+	 	if($_POST["parent"]) $parent = str_replace("~","/",$_POST["parent"]); else $parent = $this->model->base_dir;
+	  $folder = PUBLIC_DIR.$parent."/".$_POST["folder"];
 	  if(!is_dir($folder)) mkdir($folder);
 	  else $this->warning = "Folder already exists";
-    $this->file_tree = $this->file_tree(PUBLIC_DIR."files/", "test");
+    $this->file_tree = $this->file_tree(PUBLIC_DIR.$this->model->base_dir, "test",array(),false);
+	}
+	
+	public function upload_to(){
+		$this->use_layout = false;
+		$this->upload_to = $this->render_partial('upload_to');
 	}
 	
 	public function browse_images() {
@@ -225,7 +234,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   	if( substr($directory, -1) == "/" ) $directory = substr($directory, 0, strlen($directory) - 1);
   	$code = "<ul id='php-file-tree' class='filetree'><li class='tree_folder'>";
   	$code .= "<span class='folder'><a href='#' id='".$this->unslashify($directory)."'>Your Folder</a></span>";
-  	$code .= $this->file_tree_dir($directory, $return_link, $extensions);
+  	$code .= $this->file_tree_dir($directory, $return_link, $extensions,true,$collapse);
   	$code .= "</li></ul>";
   	return $code;
   }
@@ -259,7 +268,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 				if( is_dir("$directory/$this_file") ) {
 					// Directory
 					$php_file_tree .= "<li class=\"folder\"><span class='folder'><a href=\"#\" id='".$this->unslashify($directory."/".$this_file)."' class='tree_folder'>" . htmlspecialchars($this_file) . "</a></span>";
-					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, false);
+					$php_file_tree .= $this->file_tree_dir("$directory/$this_file", $return_link ,$extensions, $collapse);
 					$php_file_tree .= "</li>";
 				} 
 			}

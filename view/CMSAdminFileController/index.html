@@ -42,7 +42,9 @@
       <hr />
       <?=large(text_area($model, "caption", array("rows"=>"4")))?>
       <hr />
-      <?=large(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
+			<div id="upload_to">
+				<?=$upload_to?>
+			</div>
       <input type="image" src="/images/cms/button_upload.gif" class="input_field" />
     </fieldset>
     <div class="clearfix"></div>
