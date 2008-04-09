@@ -35,9 +35,12 @@ class CmsContent extends WXActiveRecord {
 	  $this->author_id = Session::get('loggedin_user');
 	}
 	
+	public function after_insert() {
+	  if($this->is_published()) $this->ping_technorati();
+	}
+	
 	public function after_save() {
 	  $this->save_extra_content();
-	  if($this->is_published()) $this->ping_technorati();
 	}
 	
 	public function permalink() {
