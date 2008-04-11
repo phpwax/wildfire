@@ -3,6 +3,11 @@
 class CmsCategory extends WXTreeRecord {
   
 	public $tree_array = array();
+	
+	public function before_save() {
+	  $this->url = WXInflections::to_url($this->title);
+	  
+	}
 
 	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
 		foreach($object_array as $node) {
