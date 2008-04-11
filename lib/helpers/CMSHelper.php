@@ -132,7 +132,7 @@ class CMSHelper extends WXHelpers {
 	}
 	
 	public function preview_window($permalink, $trigger_id, $preview_pane) {
-	  return content_tag("script", "setup_preview('$permalink', '$trigger_id', '$preview_pane');")
+	  return content_tag("script", "setup_preview('$permalink', '$trigger_id', '$preview_pane');");
 	}
 	
 	public function inject_into_content($content, $injection, $offset=1, $pattern = "<\/p>") {
