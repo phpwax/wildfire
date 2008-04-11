@@ -81,7 +81,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function edit() {
 		$this->page = new $this->model_class($this->route_array[0]);
-		$this->attached_images = $this->page->images;
+		if(!$this->attached_images = $this->page->images) $this->attached_images=array();
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"))) $this->all_categories=array();
