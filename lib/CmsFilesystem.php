@@ -432,7 +432,6 @@ class CmsFilesystem {
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
-  		   echo "1 $file<br>";
   		 }
          }
          closedir($dh);
@@ -459,7 +458,7 @@ class CmsFilesystem {
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
-    	  	#echo "$filename to search<br>";
+    	  	echo "$filename to search<br>";
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
