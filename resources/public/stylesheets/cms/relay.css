@@ -40,9 +40,12 @@
 	font-size: 7.5pt;
 	color:rgb(153,153,153);
 }
+#fs_body table {
+  border-collapse:separate;
+   border-spacing: 10pt 5pt;
+}
 #fs_body td {
   border:0;
-  border-collapse:separate;
 }
 #meta {color:rgb(34,34,34);}
 #meta td, #meta input, #meta option, #meta select{ font-size:8pt; }
