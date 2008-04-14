@@ -682,7 +682,7 @@ class CmsFilesystem {
   }
 
   function uploadSmart(){
-
+    echo session_id();
     $uploadDir = $this->uploadDir;
   	if(!file_exists($uploadDir."stats_".session_id().".txt")){
   		$this->jsonStart();
