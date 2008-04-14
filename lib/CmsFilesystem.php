@@ -478,6 +478,7 @@ class CmsFilesystem {
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
     $result = $this->query($query);
+    error_log(print_r($result, 1));
     if($this->fileinfo = $result[0]) {
       if(file_exists($this->fileinfo['path'].'/'.$this->fileinfo['filename'])){
 
