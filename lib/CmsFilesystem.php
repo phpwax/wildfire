@@ -455,7 +455,7 @@ class CmsFilesystem {
     }
     if(isset($files)){
       $ak = array_keys($files);
-  	  for($i=0;$i < $this->sizeof($ak);$i++){
+  	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
     	  	#echo "$filename to search<br>";
