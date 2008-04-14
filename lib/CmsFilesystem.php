@@ -182,6 +182,7 @@ class CmsFilesystem {
   	} else {
 	
     	$fullpath = $this->defaultFileStore.$path;
+    	echo $fullpath; exit;
     	$this->databaseSync($fullpath,$path);
     	if (is_dir($fullpath)) {
     	  if ($dh = opendir($fullpath)) {
@@ -453,7 +454,6 @@ class CmsFilesystem {
     		$this->databaseLost($fileid);
     	}
     }
-    print_r($files);
     if(isset($files)){
       $ak = array_keys($files);
   	  for($i=0;$i < sizeof($ak);$i++){
