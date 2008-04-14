@@ -457,7 +457,7 @@ class CmsFilesystem {
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
-
+          error_log($folderpath." :: ".$filename);
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
