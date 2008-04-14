@@ -75,6 +75,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->redirect_to("/admin/files/");
 	}
 	
+	public function fs() {
+	  if($action = $_POST["relay"] || $action = $_GET["relay"]) {
+	    $fs = new CmsFilesystem;
+	    $fs->dispatch($action, array_merge($_GET, $_POST));
+	  }
+	}
+	
 	public function file_info() {
 	  $this->use_layout=false;
 	  $this->accept_routes=1;
