@@ -1,7 +1,7 @@
 // Copyright (c) 2006 Chris Iufer & David Barshow (http://ecosmear.com/relay)
 
 var FC = {
-	URL: 'relay.php',
+	URL: '/admin/files/fs',
 	TYPES: new Array('file','directory'),
 	SELECTEDOBJECT: null,
 	SHOWALL: false,
