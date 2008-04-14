@@ -164,7 +164,7 @@ class CmsFilesystem {
   	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
   	header("Cache-Control: private",false); 
-  	header("Content-type: $fileinfo[type]");
+  	header("Content-type: {$this->fileinfo[type]}");
   	header("Content-Transfer-Encoding: Binary");
   	header("Content-length: ".filesize($filepath));
   	header("Content-disposition: attachment; filename=\"".basename($filepath)."\"");
@@ -245,10 +245,10 @@ class CmsFilesystem {
     $description = mysql_escape_string($description);
     $flags = mysql_escape_string($flags);
     $this->getFileInfo($fileid);
-    if($filename != $fileinfo['filename']){
+    if($filename != $this->fileinfo['filename']){
   	  $this->fileRename($fileid,$filename);
   	}else{
-  	  $filename = $fileinfo['filename'];
+  	  $filename = $this->fileinfo['filename'];
   	}
     $query = "UPDATE wildfire_file set description=\"$description\",flags=\"$flags\" where id=$fileid";
   	$result = $this->query($query);
@@ -274,7 +274,7 @@ class CmsFilesystem {
 
     $query = "DELETE from wildfire_file where id=$fileid";
     $result = $this->query($query);
-    unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
+    unlink($this->fileinfo['path'].'/'.$this->fileinfo['filename']) || $this->error('file error');
     echo "done";
 
   }
@@ -405,7 +405,7 @@ class CmsFilesystem {
   	$this->fileinfo['virtualpath']	= $file['rpath'];
   	$this->fileinfo['size']		=       $this->filesize_format($file['size']);
 	
-  	if(preg_match("$imageTypes",$fileinfo['type'])){
+  	if(preg_match("$imageTypes",$this->fileinfo['type'])){
   	      $this->fileinfo['image'] = 1;
   	}else{
   	      $this->fileinfo['image'] = 0;
@@ -481,10 +481,10 @@ class CmsFilesystem {
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
     $result = $this->query($query);
-    if($fileinfo = $result[0]) {
-      if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
+    if($this->fileinfo = $result[0]) {
+      if(file_exists($this->fileinfo['path'].'/'.$this->fileinfo['filename'])){
 
-  	  if($fileinfo['path'] == $folderpath && $fileinfo['filename'] == $filename){
+  	  if($this->fileinfo['path'] == $folderpath && $this->fileinfo['filename'] == $filename){
   	  	return true;        // file was restored to origional location
   	  }else{
   	    return false;       // exact file still exists somewhere else
