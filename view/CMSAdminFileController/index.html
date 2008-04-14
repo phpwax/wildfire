@@ -5,20 +5,20 @@
 <script src="/javascripts/utilities/relay.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-	folderIcon = 'images/mac_dir.png';
-	fileIcon = 'images/mac_file.png';
-	collapsed = 'images/collapsed.png';
-	expanded = 'images/expanded.png';
-	spinnerIcon = 'images/spinner_blue.gif';
-	deleteIcon = 'images/delete.png';
-	saveIcon = 'images/savebtn.jpg';
+	folderIcon = '/images/fs/mac_dir.png';
+	fileIcon = '/images/fs/mac_file.png';
+	collapsed = '/images/fs/collapsed.png';
+	expanded = '/images/fs/expanded.png';
+	spinnerIcon = '/images/fs/spinner_blue.gif';
+	deleteIcon = '/images/fs/delete.png';
+	saveIcon = '/images/fs/savebtn.jpg';
 	addIcon = '';
-	removeIcon = 'images/bullet_delete.png';
+	removeIcon = '/images/fs/bullet_delete.png';
 	renameIcon = '';
-	vcollapsed = 'images/virtual-collapsed.png';
-	vexpanded = 'images/virtual-expanded.png';
-	uploadCancel = 'images/cancelupload.jpg';
-	uploadBtn = 'images/upload.jpg';
+	vcollapsed = '/images/fs/virtual-collapsed.png';
+	vexpanded = '/images/fs/virtual-expanded.png';
+	uploadCancel = '/images/fs/cancelupload.jpg';
+	uploadBtn = '/images/fs/upload.jpg';
 	
 </script>
 
@@ -76,8 +76,8 @@ div#dashboard {
 
   <div id="dashboard">
   	<div style="position:relative;">
-  		<img src="images/uploadtitle.gif" class="label" alt="Upload" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');" />
-  		<div id="uploadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');"><img src="images/close.gif" /></div>
+  		<img src="/images/fs/uploadtitle.gif" class="label" alt="Upload" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');" />
+  		<div id="uploadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');"><img src="/images/fs/close.gif" /></div>
   	</div>
   	<div id="uploadcart" style="display:none;">
 		
@@ -91,9 +91,9 @@ div#dashboard {
   			</div>
 					
   			<div id="uploadbuttons">
-  				<img src="images/addfile.jpg" class="addfile" id="uploadAdd" alt="choosefile" />
+  				<img src="/images/fs/addfile.jpg" class="addfile" id="uploadAdd" alt="choosefile" />
   				<input id="fileUpload" class="fileupload" size="1" type="file" name="file[]" />
-  				<img class="upload" style="display:none" src="images/upload.jpg" id="uploadSubmit" onclick="uploadAuth();" />
+  				<img class="upload" style="display:none" src="/images/fs/upload.jpg" id="uploadSubmit" onclick="uploadAuth();" />
   			</div>
 			
   			<div id="progress" style="display:none;">
@@ -111,7 +111,7 @@ div#dashboard {
 	
   	</div>
   	<div style="position:relative;">
-  		<div id="downloadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('downloadcart'); Element.toggle('downloadcartclose');"><img src="images/close.gif" /></div>
+  		<div id="downloadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('downloadcart'); Element.toggle('downloadcartclose');"><img src="/images/fs/close.gif" /></div>
   	</div>		
   	<div id="downloadcart"  style="display:none;">
 		
@@ -119,20 +119,20 @@ div#dashboard {
   				<div id="carthelper">Drag files here</div>
   			</div>
   			<div id="cartbtn">
-  				<img src="images/emailto.jpg" class="emailto" onclick="cart.showEmail(); return false" alt="Email To" />
-  				<img src="images/download.jpg" class="downloadsubmit" onclick="cart.download(); return false" alt="Download Cart" />
+  				<img src="/images/fs/emailto.jpg" class="emailto" onclick="cart.showEmail(); return false" alt="Email To" />
+  				<img src="/images/fs/download.jpg" class="downloadsubmit" onclick="cart.download(); return false" alt="Download Cart" />
 		
   				<table id="emailform" style="display:none;">
   					<tr><td colspan="2">Email the contents of your cart:</td></tr>
   					<tr><td>To:</td><td><input type="text" id="emailFormTo" value="Type email address" /></td></tr>
   					<tr><td>From:</td><td><input type="text" id="emailFormFrom" value="Type your email address" /></td></tr>
   					<tr><td></td><td><textarea id="emailFormMessage">Type Message here</textarea></td></tr>
-  					<tr><td> <td align="right"><img src="images/sendEmail.jpg" alt="Send Email" onclick="cart.download()" /></td></tr>
+  					<tr><td> <td align="right"><img src="/images/fs/sendEmail.jpg" alt="Send Email" onclick="cart.download()" /></td></tr>
   				</table>
   				<div id="emailconfirm" style="display:none; text-align:center;">Email Sent</div>
   			</div>
   	</div>
-  	<img src="images/informationtitle.gif" class="label" alt="File Information" />
+  	<img src="/images/fs/informationtitle.gif" class="label" alt="File Information" />
   	<div id="informationcart">
   		<div id="meta"><p>No file selected</p></div>
   	</div>
