@@ -4,7 +4,7 @@
 #fs_body img {border:0; behavior: url("/stylesheets/cms/pngbehavior.htc");}
 #fs_body * 	{-moz-outline:0;}
 #fs_body td	{vertical-align:top; }
-#fs_body a	{text-decoration:none; }
+#fs_body a	{text-decoration:none; font-weight:normal; color:black; }
 
 /*// Typesetting //*/ 
 
@@ -12,6 +12,7 @@
 	font-family:Verdana, Arial, sans-serif;
 	font-size:85%;
 	color:black;
+	text-align:left;
 }
 #head a {
 	color:white;
@@ -457,7 +458,6 @@ div.dragging span, div.dragging .link {
   float:left;
   margin:13px;
   list-style:none;
-  font-size:100% !important;
 }
 #operations li a {
   color:white;
