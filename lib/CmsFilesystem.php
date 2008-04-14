@@ -663,7 +663,7 @@ class CmsFilesystem {
   }
 
   function uploadAuth($path){
-
+    $uploadDir = $this->uploadDir;
   	$path = mysql_escape_string($path);
   	$this->jsonStart();
   	$userpath = $this->defaultFileStore.$path;
@@ -683,7 +683,7 @@ class CmsFilesystem {
 
   function uploadSmart(){
 
-
+    $uploadDir = $this->uploadDir;
   	if(!file_exists($uploadDir."stats_".session_id().".txt")){
   		$this->jsonStart();
   		$this->jsonAdd("\"percent\": 0, \"percentSec\": 0, \"speed\": \"0\", \"secondsLeft\": \"0\", \"done\": \"false\"");
