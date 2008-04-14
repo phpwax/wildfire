@@ -10,9 +10,13 @@ class WildfireFile extends WaxModel {
     $this->define("path", "CharField");
     $this->define("rpath", "CharField");
     $this->define("downloads", "IntegerField");
-    $this->define("status", "CharField");
+    $this->define("status", "CharField", array(
+        "choices"=>array("lost", "found")
+      ));
     $this->define("uploader", "IntegerField");
-    $this->define("flags", "CharField");
+    $this->define("flags", "CharField", array(
+        "choices"=>array("hot", "emergency", "normal")
+      ));
     $this->define("description", "TextField");
     $this->define("date", "DateTimeField");
     $this->define("size", "IntegerField");
