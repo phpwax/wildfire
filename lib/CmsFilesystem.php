@@ -172,7 +172,6 @@ class CmsFilesystem {
 
 
   function getFolder($path){
-    echo "Trying to get $path";
   	$output = '';
   	$this->jsonStart();
     if($path == '' || $path == '/'){
