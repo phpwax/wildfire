@@ -1,57 +1,149 @@
-<?=javascript_asset("jquery","jquery.tabs.min")?>
-<?=javascript_asset("jquery","jquery.interface")?>
-<?=stylesheet_asset("jquery", "jquery.tabs")?>
-<!--[if lte IE 7]>
-  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
+<script src="/javascripts/utilites/prototype.js" type="text/javascript"> </script>
+<script src="/javascripts/utilites/dragdrop.js" type="text/javascript"> </script>
+<script src="/javascripts/utilites/effects.js" type="text/javascript"> </script>
+<script src="/javascripts/utilites/search.js" type="text/javascript"></script>
+<script src="/javascripts/utilites/relay.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	folderIcon = 'images/mac_dir.png';
+	fileIcon = 'images/mac_file.png';
+	collapsed = 'images/collapsed.png';
+	expanded = 'images/expanded.png';
+	spinnerIcon = 'images/spinner_blue.gif';
+	deleteIcon = 'images/delete.png';
+	saveIcon = 'images/savebtn.jpg';
+	addIcon = '';
+	removeIcon = 'images/bullet_delete.png';
+	renameIcon = '';
+	vcollapsed = 'images/virtual-collapsed.png';
+	vexpanded = 'images/virtual-expanded.png';
+	uploadCancel = 'images/cancelupload.jpg';
+	uploadBtn = 'images/upload.jpg';
+	
+</script>
+
+<style type="text/css">
+	@import url(/stylesheets/cms/relay.css);
+</style>
+<style type="text/css">
+#dashboard {
+	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
+  position: relative; left: 25px; top: 74px;
+}
+#fs_body > div#dashboard {
+  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
+  position: fixed;
+}
+<style type="text/css">
+#dashboard {
+	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
+  position: relative; left: 25px; top: 74px;
+}
+#fs_body > div#dashboard {
+  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
+  position: fixed;
+}
+</style>
+<!--[if gte IE 5.5]>
+<![if lt IE 7]>
+<style type="text/css">
+div#dashboard {
+  /* IE5.5+/Win - this is more specific than the IE 5.0 version */
+  left: expression( ( 25 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' ) ;
+  top: expression( ( 124 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' ) ;
+}
+</style>
+<![endif]>
 <![endif]-->
-<?=javascript_asset("cms","cms_content")?>
-<?=javascript_asset("cms","cms_tree")?>
+
+<div id="fs_body">
 
 
-<form class="form_container" action="/admin/files/create" method="post" enctype="multipart/form-data">
-<div id="container">
-  <ul class="tabs-nav">
-    <li><a href="#section-1">Your Files and Images</a></li>
-  </ul>
-  
-  <div id="content_window" class="clearfix">
-    <div id="content_editor">
-      <div id="section-1" class="tabs-container">
-        <div id="file_browse_header" class="clearfix">
-          <div id="file_tree_head">Folders and files</div>
-          <div id="file_contents_head">Folder Contents</div>
-        </div>
-        <fieldset id="" class="file_browser_container clearfix">
-          <div id="file_tree"><?=$file_tree?></div>
-          <div id="file_tree_files" class="clearfix">
-            <?=$list?>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-    <div id="folder_context_menu">
-      <ul>
-        <li id="rename">Rename Folder</li>
-        <li id="delete">Delete Folder</li>
-        <li id="new">New Sub-Folder</li>
-      </ul>
-    </div>
 
-    <fieldset id="content_options">
-      <?=large(file_field($model, "filename", array("class"=>"multi"),"Choose a file to upload"))?>
-      <hr />
-      <?=large(text_area($model, "caption", array("rows"=>"4")))?>
-      <hr />
-			<div id="upload_to">
-				<?=$upload_to?>
-			</div>
-      <input type="image" src="/images/cms/button_upload.gif" class="input_field" />
-    </fieldset>
-    <div class="clearfix"></div>
-    <fieldset id="submit">
-      
-    </fieldset>
+  <div id="operations" class="clearfix">
+    <form onsubmit="search.start(); return false">
+      <input type="text" name="searchbar" id="searchbar" value="" />
+      <input type="button" value="&nbsp;&nbsp;Search&nbsp;&nbsp;" id="searchbtn" alt="Search" onclick="search.start()" />
+    </form>
+    <ul>
+    	<li><a href="#" onclick="newFolder(); return false">Create Folder</a></li>
+    	<li><a href="#" onclick="download(); return false">Download File</a></li>
+    	<li><a href="#" onclick="openAll(); return false">Open All</a></li>
+    	<li><a href="#" onclick="closeAll(); return false">Close All</a></li>
+    	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
+    </ul>
   </div>
 
+  <div id="dashboard">
+  	<div style="position:relative;">
+  		<img src="images/uploadtitle.gif" class="label" alt="Upload" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');" />
+  		<div id="uploadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');"><img src="images/close.gif" /></div>
+  	</div>
+  	<div id="uploadcart" style="display:none;">
+		
+  		<div id="uploadstatus"><em>Destination</em> select a folder</div>
+		
+  		<form id="uploadForm" name="uploadForm" method="post" action="." enctype="multipart/form-data" onsubmit="return false" target='uploadiframe'>
+  			<div id="uploadQ">
+  				<table cellspacing="0" cellpadding="0">
+  					<tbody id="uploadFiles"></tbody>
+  				</table>
+  			</div>
+					
+  			<div id="uploadbuttons">
+  				<img src="images/addfile.jpg" class="addfile" id="uploadAdd" alt="choosefile" />
+  				<input id="fileUpload" class="fileupload" size="1" type="file" name="file[]" />
+  				<img class="upload" style="display:none" src="images/upload.jpg" id="uploadSubmit" onclick="uploadAuth();" />
+  			</div>
+			
+  			<div id="progress" style="display:none;">
+  				<div id="pgbg"></div><div id="pgfg"></div>
+  				<span id="pgpc">0.0%</span>
+  				<span id="pgsp">0.0 K/s</span>
+  				<span id="pgeta">0</span>
+  			</div>
+			
+  			<input type="hidden" name="relay" value="fileUpload" style="display:none;" />
+  			<input type="hidden" name="path" id="uploadPath" />
+  		</form>	
+
+  		<iframe id="uploadiframe" name="uploadiframe">iframe</iframe>
+	
+  	</div>
+  	<div style="position:relative;">
+  		<div id="downloadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('downloadcart'); Element.toggle('downloadcartclose');"><img src="images/close.gif" /></div>
+  	</div>		
+  	<div id="downloadcart"  style="display:none;">
+		
+  			<div id="cart">
+  				<div id="carthelper">Drag files here</div>
+  			</div>
+  			<div id="cartbtn">
+  				<img src="images/emailto.jpg" class="emailto" onclick="cart.showEmail(); return false" alt="Email To" />
+  				<img src="images/download.jpg" class="downloadsubmit" onclick="cart.download(); return false" alt="Download Cart" />
+		
+  				<table id="emailform" style="display:none;">
+  					<tr><td colspan="2">Email the contents of your cart:</td></tr>
+  					<tr><td>To:</td><td><input type="text" id="emailFormTo" value="Type email address" /></td></tr>
+  					<tr><td>From:</td><td><input type="text" id="emailFormFrom" value="Type your email address" /></td></tr>
+  					<tr><td></td><td><textarea id="emailFormMessage">Type Message here</textarea></td></tr>
+  					<tr><td> <td align="right"><img src="images/sendEmail.jpg" alt="Send Email" onclick="cart.download()" /></td></tr>
+  				</table>
+  				<div id="emailconfirm" style="display:none; text-align:center;">Email Sent</div>
+  			</div>
+  	</div>
+  	<img src="images/informationtitle.gif" class="label" alt="File Information" />
+  	<div id="informationcart">
+  		<div id="meta"><p>No file selected</p></div>
+  	</div>
+	
+  </div>
+  <div id="filesystem">
+  	<div id="searcharea"></div>
+  	<div id="fileList"></div>
+  </div>
+
+
+
+
 </div>
-</form>
