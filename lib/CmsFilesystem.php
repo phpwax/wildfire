@@ -453,6 +453,7 @@ class CmsFilesystem {
     		$this->databaseLost($fileid);
     	}
     }
+    print_r($files);
     if(isset($files)){
       $ak = array_keys($files);
   	  for($i=0;$i < sizeof($ak);$i++){
@@ -479,7 +480,6 @@ class CmsFilesystem {
 
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
-    echo $query;
     $result = $this->query($query);
     if($this->fileinfo = $result[0]) {
       if(file_exists($this->fileinfo['path'].'/'.$this->fileinfo['filename'])){
