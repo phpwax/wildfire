@@ -125,7 +125,8 @@ class CmsFilesystem {
   
   public function query($query) {
     $files = new WildfireFile;
-    print_r( $files->query($query) ); exit;
+    error_log($query);
+    return $files->query($query);
   }
 
 
