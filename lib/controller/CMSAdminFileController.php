@@ -76,6 +76,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function fs() {
+	  $this->use_layout=false;
+	  $this->use_view=false;
 	  if($action = $_POST["relay"] || $action = $_GET["relay"]) {
 	    $fs = new CmsFilesystem;
 	    $fs->dispatch($action, array_merge($_GET, $_POST));
