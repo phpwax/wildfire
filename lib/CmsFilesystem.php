@@ -458,7 +458,7 @@ class CmsFilesystem {
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
-    	  	echo "$filename to search<br>";
+
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
@@ -518,7 +518,6 @@ class CmsFilesystem {
   	}
 	
   	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\"";
-  	echo $query;
   	$result = $this->query($query);
 
   	chmod($folderpath . '/' . $filename,0755);
