@@ -175,7 +175,7 @@ class CmsFilesystem {
   	$output = '';
   	$this->jsonStart();
     if($path == '' || $path == '/'){
-  		$this->jsonAdd("\"displayname\":\"$defaultDisplay\",\"scheme\":\"Filestore\",\"type\": \"directory\", \"name\": \"filestore\", \"path\": \"/filestore\",\"virtual\":\"true\"");
+  		$this->jsonAdd("\"displayname\":\"$defaultDisplay\",\"scheme\":\"Filestore\",\"type\": \"directory\", \"name\": \"filestore\", \"path\": \"/\",\"virtual\":\"true\"");
   		$output .= $this->jsonReturn('getFolder');
   	} else {
 	
