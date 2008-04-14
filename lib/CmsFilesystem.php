@@ -470,7 +470,6 @@ class CmsFilesystem {
 
   function databaseLost($fileid){
     $query = "UPDATE wildfire_file set status=\"lost\" where id=$fileid";
-    echo $query;
     $result = $this->query($query);
   }
 
@@ -526,6 +525,7 @@ class CmsFilesystem {
   function checkId($id){
   	$query = "SELECT id from wildfire_file where id=$id";
   	$result = $this->query($query);
+  	error_log(count($result));
   	if(count($result) == 0){
   		return true;
   	}else{
