@@ -428,7 +428,7 @@ class CmsFilesystem {
     if (is_dir($folderpath)) {
       if ($dh = opendir($folderpath)) {
          while (($file = readdir($dh)) !== false) {
-           echo "$file";
+           #echo "$file";
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
@@ -438,7 +438,7 @@ class CmsFilesystem {
       }
     }
 
-    
+    echo print_r($files, 1);
 
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
