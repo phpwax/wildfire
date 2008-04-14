@@ -42,7 +42,7 @@
 }
 #fs_body td {
   border:0;
-  border-collapse:inherit;
+  border-collapse:separate;
 }
 #meta {color:rgb(34,34,34);}
 #meta td, #meta input, #meta option, #meta select{ font-size:8pt; }
