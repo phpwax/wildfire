@@ -21,9 +21,7 @@ class CmsFilesystem {
   
 
   public function dispatch($action, $params) {
-    echo $action;
-    print_r($params);
-    exit;
+
     if(isset($action)) {
     	switch($action){
     		case "search":
