@@ -11,7 +11,7 @@ class CmsFilesystem {
   public $defaultFileStore=false;
   public $defaultDisplay = "Your Folder";
   public $convertpath = "convert";
-  public $relativepath = "files/";
+  public $relativepath = "files";
    
 
   public function __construct() {

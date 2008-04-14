@@ -1,3 +1,5 @@
+@import url("/stylesheets/cms/reset-fonts-grids.css");
+
 
 #fs_body img {border:0; behavior: url("/stylesheets/cms/pngbehavior.htc");}
 #fs_body * 	{-moz-outline:0;}
@@ -8,7 +10,7 @@
 
 #fs_body { 
 	font-family:Verdana, Arial, sans-serif;
-	font-size:100%;
+	font-size:93%;
 	color:black;
 }
 #head a {
