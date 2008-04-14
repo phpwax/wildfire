@@ -875,20 +875,18 @@ class CmsFilesystem {
   */
 
   function jsonStart(){
-    global $json;
-    $json = '';
+    $this->json = '';
   }
 
   function jsonAdd($jsonLine){
-    global $json;
     if($json != '')
       $json .= ",";
     $json .= "{ $jsonLine }";
+    $this->json = $json;
   }
 
   function jsonReturn($variableName){
-    global $json;
-    return "{\"bindings\": [ $json ]}";
+    return "{\"bindings\": [ $this->json ]}";
   }
 
 
