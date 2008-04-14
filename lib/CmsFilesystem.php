@@ -432,7 +432,7 @@ class CmsFilesystem {
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
-  		   #echo "1 $file<br>";
+  		   echo "1 $file<br>";
   		 }
          }
          closedir($dh);
