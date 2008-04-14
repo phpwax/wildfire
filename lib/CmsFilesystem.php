@@ -124,14 +124,13 @@ class CmsFilesystem {
   
   public function query($query) {
     $files = new WildfireFile;
-    $stmt = 
-    return $files->exec($query);
+    return $files->query($query);
   }
 
 
   function search($terms){
-  	$dateFormat = $this->dateFormat
-  	$fileinfo $this->fileInfo; 
+  	$dateFormat = $this->dateFormat;
+  	$fileinfo = $this->fileInfo; 
   	$defaultFileStore = $this->defaultFileStore;
   	$this->jsonStart();
   	$terms = mysql_escape_string($terms);	
@@ -472,7 +471,7 @@ class CmsFilesystem {
   function databaseLost($fileid){
     $query = "UPDATE wildfire_file set status=\"lost\" where id=$fileid";
     #echo $query;
-    $result = $this->query($query));
+    $result = $this->query($query);
   }
 
   function databaseSearch($folderpath,$filename){
