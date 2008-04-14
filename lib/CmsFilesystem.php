@@ -438,7 +438,6 @@ class CmsFilesystem {
       }
     }
 
-    echo print_r($files, 1);
 
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
@@ -471,7 +470,7 @@ class CmsFilesystem {
 
   function databaseLost($fileid){
     $query = "UPDATE wildfire_file set status=\"lost\" where id=$fileid";
-    #echo $query;
+    echo $query;
     $result = $this->query($query);
   }
 
