@@ -182,7 +182,6 @@ class CmsFilesystem {
   	} else {
 	
     	$fullpath = $this->defaultFileStore.$path;
-    	echo $fullpath; exit;
     	$this->databaseSync($fullpath,$path);
     	if (is_dir($fullpath)) {
     	  if ($dh = opendir($fullpath)) {
@@ -198,6 +197,7 @@ class CmsFilesystem {
 
     	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `date` desc";
     	$result = $this->query($query);
+    	print_r($result); exit;
     	foreach($result as $files) {
     	  $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
     	}
