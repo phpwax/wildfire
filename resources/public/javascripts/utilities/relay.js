@@ -9,7 +9,7 @@ var FC = {
 	SEARCHOBJ: null,
 	NEXTPATH: null,
 	AJAXCALL: 0,
-	UPLOADURL: 'upload.pl',
+	UPLOADURL: '/upload.pl',
 	DEBUG:false
 };
 
