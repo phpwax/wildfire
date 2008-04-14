@@ -42,7 +42,7 @@
 }
 #fs_body table {
   border-collapse:separate;
-   border-spacing: 4px;
+   border-spacing: 4px 8px;
 }
 #fs_body td {
   border:0;
