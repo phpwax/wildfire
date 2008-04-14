@@ -457,6 +457,7 @@ div.dragging span, div.dragging .link {
   float:left;
   margin:13px;
   list-style:none;
+  font-size:100%;
 }
 #operations li a {
   color:white;
