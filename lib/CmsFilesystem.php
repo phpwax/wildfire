@@ -483,17 +483,17 @@ class CmsFilesystem {
     if($this->fileinfo = $result[0]) {
       if(file_exists($this->fileinfo['path'].'/'.$this->fileinfo['filename'])){
 
-  	  if($this->fileinfo['path'] == $folderpath && $this->fileinfo['filename'] == $filename){
-  	  	return true;        // file was restored to origional location
+  	    if($this->fileinfo['path'] == $folderpath && $this->fileinfo['filename'] == $filename){
+    	  	return true;        // file was restored to origional location
+    	  } else {
+    	    return false;       // exact file still exists somewhere else
+    	  }
   	  }else{
-  	    return false;       // exact file still exists somewhere else
-  	  }
-  	}else{
-  	  // file must have been moved
-  	  return true;
+  	    // file must have been moved
+  	    return true;
 
-  	}
-    }else{
+  	  }
+    } else{
       // file is new
     	return false;
     }
@@ -518,6 +518,7 @@ class CmsFilesystem {
   	}
 	
   	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\"";
+  	echo $query;
   	$result = $this->query($query);
 
   	chmod($folderpath . '/' . $filename,0755);
