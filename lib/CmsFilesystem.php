@@ -561,11 +561,10 @@ class CmsFilesystem {
   	$thumbsize = 192;
   	$fileid=mysql_escape_string($fileid);
   	$fileinfo = $this->getFileInfo($fileid);
-  	//error_log(print_r($fileinfo, 1));
   	if(preg_match("$this->imageTypes",$fileinfo['type']) ){
     		$deletefile = '';
   		$src_img=($fileinfo['path'].'/'.$fileinfo['filename']);
-		  //echo "Creating from $src_img";
+
   		#image magic coolthings
 
   		$file1 = $fileinfo['path'].'/'.$fileinfo['filename'];
