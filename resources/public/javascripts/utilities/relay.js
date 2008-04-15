@@ -366,7 +366,7 @@ Directory.prototype = {
 			var meta = { name: jsonObject.bindings[0].name, size: jsonObject.bindings[0].size, path: this.path};
 			updateMeta(meta);
 		}
-		else updateMeta({ '<img src="/directory/sad.gif" />':'No Info to display'});	
+		else updateMeta({ ' ':'No Info to display'});	
 	
 	},
 	
