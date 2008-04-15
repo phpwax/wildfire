@@ -490,8 +490,12 @@ class CmsFilesystem {
   function databaseUpdate($folderpath,$filename,$realitivePath){
   	$fileid = $this->fileid($folderpath,$filename);
   	$query = "UPDATE wildfire_file set filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",status=\"found\" where id=$fileid";
-  	error_log($query);
-  	$result = $this->query($query);
+    try {
+      $result = $this->query($query);
+    } catch (Exception $e) {
+      die("NOOOOOO!!!!!!!!!!!!!!!: ".$query);
+    }
+  	
   }
 
   function databaseAdd($folderpath,$filename,$realitivePath){
