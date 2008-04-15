@@ -271,6 +271,7 @@ class CmsFilesystem {
 
     $query = "DELETE from wildfire_file where id=$fileid";
     $result = $this->query($query);
+    error_log("Deleting ".$fileinfo['path'].'/'.$fileinfo['filename']);
     unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
     echo "done";
 
