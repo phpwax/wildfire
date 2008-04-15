@@ -166,7 +166,7 @@ class CmsFilesystem {
   	$fileinfo = $this->getFileInfo($fileid);
   	$filepath = $fileinfo["path"].$fileinfo["filename"];
   	$query = "UPDATE wildfire_file set downloads=downloads+1 where id=$fileid";
-  	$result = $this->query($query);
+  	$this->query($query);
   	header("Pragma: public"); 
   	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -176,6 +176,7 @@ class CmsFilesystem {
   	header("Content-length: ".filesize($filepath));
   	header("Content-disposition: attachment; filename=\"".basename($filepath)."\"");
   	readfile("$filepath");
+  	exit;
   }
 
 
