@@ -186,7 +186,7 @@ class CmsFilesystem {
     	if (is_dir($fullpath)) {
     	  if ($dh = opendir($fullpath)) {
     		  while (($file = readdir($dh)) !== false) {
-    			  echo "$file";
+    			  #echo "$file";
     			  if($file != '.' && $file != '..' && filetype($fullpath . '/' . $file) == 'dir'){
     			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
     				}
@@ -422,7 +422,7 @@ class CmsFilesystem {
     if (is_dir($folderpath)) {
       if ($dh = opendir($folderpath)) {
          while (($file = readdir($dh)) !== false) {
-           #echo "$file";
+           echo "$file";
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
