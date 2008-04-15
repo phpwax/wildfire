@@ -181,13 +181,12 @@ class CmsFilesystem {
   		$output .= $this->jsonReturn('getFolder');
   	} else {
     	$fullpath = $this->defaultFileStore.$path;
-    	die($fullpath);
 	    
     	$this->databaseSync($fullpath,$path);
     	if (is_dir($fullpath)) {
     	  if ($dh = opendir($fullpath)) {
     		  while (($file = readdir($dh)) !== false) {
-    			  #echo "$file";
+    			  echo "$file";
     			  if($file != '.' && $file != '..' && filetype($fullpath . '/' . $file) == 'dir'){
     			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
     				}
