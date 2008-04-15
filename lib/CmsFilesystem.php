@@ -393,7 +393,7 @@ class CmsFilesystem {
   	if(count($result) == 0){
   		$this->error('bad fileid');
   	}
-	
+	  error_log("getting file info for $fileid".print_r($result,1));
   	$file = $result[0];
 	
   	$fileinfo['filename'] 		= $file['filename'];
