@@ -107,7 +107,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function add_category() {
 	  $this->use_layout=false;
-		$this->page = new $this->model_class($this->route_array[0]);
+		$this->page = new $this->model_class(WaxUrl::get("id"));
 		$this->page->add_categories(substr($_POST["id"], 4));
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
