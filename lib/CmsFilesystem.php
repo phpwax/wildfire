@@ -270,14 +270,12 @@ class CmsFilesystem {
     $fileinfo = $this->getFileInfo($fileid);
 
     $query = "DELETE from wildfire_file where id=$fileid";
-    error_log($query);
     try {
       $result = $this->query($query);
       
     } catch (Exception $e) {
       echo "Problem with query";
     }
-    error_log(print_r($fileinfo, 1));
     unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
     echo "File successfully deleted";
     exit;
@@ -294,7 +292,6 @@ class CmsFilesystem {
 	
   	$path = mysql_escape_string($path);
     $fileinfo = $this->getFileInfo($fileid);
-	  error_log($fileinfo, 1);
   	$newPath = $this->defaultFileStore.$path;
   	if(is_dir($newPath)){
       $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
@@ -453,7 +450,6 @@ class CmsFilesystem {
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
-      		  error_log("Couldn't find ".$folderpath."  :  ".$filename);
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
       		}
     	  }
@@ -471,7 +467,6 @@ class CmsFilesystem {
     $query = "SELECT * from wildfire_file where id=$fileid";
     $result = $this->query($query);
     if($fileinfo = $result[0]) {
-      error_log("Found in database looking for....".$fileinfo['path'].'/'.$fileinfo['filename']);
       if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
 
   	    if($fileinfo['path'] == $folderpath && $fileinfo['filename'] == $filename){
@@ -498,7 +493,6 @@ class CmsFilesystem {
   }
 
   function databaseAdd($folderpath,$filename,$realitivePath){
-    error_log($folderpath." :: ".$filename);
   	if(function_exists('mime_content_type') && mime_content_type("relay.php") != ""){
   		$type = mime_content_type("$folderpath/$filename");
   	}else{
