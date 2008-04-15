@@ -268,11 +268,12 @@ class CmsFilesystem {
     $fileinfo = $this->getFileInfo($fileid);
 
     $query = "DELETE from wildfire_file where id=$fileid";
+    error_log($query);
     $result = $this->query($query);
     error_log(print_r($fileinfo, 1));
     unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
     echo "File successfully deleted";
-
+    exit;
   }
 
   function fileMove($fileid,$path){
