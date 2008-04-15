@@ -99,11 +99,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function browse_images() {
+	  $model - new WildfireFile;
+	  $fs = new CmsFilesystem;
 		$this->use_layout=false;
-	  $folder = "public/".$this->model->base_dir."/";
-	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'"));
+	  $folder = $fs->relativePath;
+	  $this->all_images = $model->filter(array("path"=>$folder))->order("filename ASC")->all();
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"rpath='public/".$_POST['filterfolder']."/"."'"));
+  	  $this->all_images = $model->filter(array("rpath"=>$_POST['filterfolder']))->order("filename ASC");
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
