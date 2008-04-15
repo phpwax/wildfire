@@ -564,6 +564,7 @@ class CmsFilesystem {
   }
 
   function checkThumb($fileid){
+    return false;
   	$query = "SELECT id from wildfire_file where id=\"".mysql_escape_string($fileid)."\" and thumb !=''";
   	$result = $this->query($query);
   	if(count($result) == 0)
