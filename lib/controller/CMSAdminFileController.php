@@ -99,7 +99,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function browse_images() {
-	  die(Request::post("filterfolder"));
 		$this->use_layout=false;
 	  $folder = "public/".$this->model->base_dir."/";
 	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'"));
