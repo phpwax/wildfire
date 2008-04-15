@@ -221,11 +221,11 @@ class CmsFilesystem {
   }
 
   function getMeta($fileid){
-    $fileinfo = $this->fileInfo;
   	$this->getFileInfo($fileid);
     $this->jsonStart();
     $this->jsonAdd("\"edit\": \"true\"");
-		
+		$fileinfo = $this->fileInfo;
+    
   	if($fileinfo['type'] > '') $type = $fileinfo['type'];
   	else $type = "document";
   	$this->jsonAdd("\"filename\": \"$fileinfo[filename]\",\"path\": \"$fileinfo[virtualpath]\",\"image\":$fileinfo[image],\"type\": \"$type\", \"date\": \"$fileinfo[date]\", \"downloads\": \"$fileinfo[downloads]\", \"description\": \"$fileinfo[description]\", \"flags\": \"$fileinfo[flags]\", \"type\": \"$fileinfo[type]\", \"size\": \"$fileinfo[size]\"");
