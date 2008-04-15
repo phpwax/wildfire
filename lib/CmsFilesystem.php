@@ -203,7 +203,8 @@ class CmsFilesystem {
   	
     }	
     if($resource != true) echo $output;
-  	else return $output;      
+  	else return $output;
+  	exit;   
   }
 
 
