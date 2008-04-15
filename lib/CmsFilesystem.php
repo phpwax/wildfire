@@ -194,7 +194,7 @@ class CmsFilesystem {
   		  }
     	} else $this->error("directory doesnt exist $fullpath");
 
-    	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `date` desc";
+    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `date` desc";
     	$result = $this->query($query);
       foreach($result as $files) {
         $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
