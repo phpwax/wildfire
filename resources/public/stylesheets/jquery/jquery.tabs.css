@@ -31,7 +31,6 @@
 .tabs-nav a, .tabs-nav a span {
     display: block;
     padding: 0 10px;
-    background: url(tab.png) no-repeat;
 }
 .tabs-nav a {
     position: relative;
