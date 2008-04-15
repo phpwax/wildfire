@@ -180,7 +180,7 @@ class CmsFilesystem {
   		$this->jsonAdd("\"displayname\":\"$defaultDisplay\",\"scheme\":\"Filestore\",\"type\": \"directory\", \"name\": \"{$this->defaultDisplay}\", \"path\": \"{$this->relativepath}\",\"virtual\":\"true\"");
   		$output .= $this->jsonReturn('getFolder');
   	} else {
-	
+	    die($fullpath);
     	$fullpath = $this->defaultFileStore.$path;
     	$this->databaseSync($fullpath,$path);
     	if (is_dir($fullpath)) {
