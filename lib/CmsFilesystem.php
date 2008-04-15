@@ -434,7 +434,6 @@ class CmsFilesystem {
       }
     }
 
-    error_log(print_r($files, 1));
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
     $result = $this->query($query);
@@ -452,6 +451,7 @@ class CmsFilesystem {
       $ak = array_keys($files);      
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
+    	  error_log("Checking $filename ");
     	  if($files[$filename][1]!='done'){
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
