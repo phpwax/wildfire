@@ -452,13 +452,11 @@ class CmsFilesystem {
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
-      		  echo "Adding $folderpath : $filename";
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
       		}
     	  }
     	}
     }
-    exit;
   }
 
   function databaseLost($fileid){
@@ -467,7 +465,6 @@ class CmsFilesystem {
   }
 
   function databaseSearch($folderpath,$filename){
-
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
     $result = $this->query($query);
@@ -497,6 +494,7 @@ class CmsFilesystem {
   }
 
   function databaseAdd($folderpath,$filename,$realitivePath){
+    error_log($folderpath." :: ".$filename);
   	if(function_exists('mime_content_type') && mime_content_type("relay.php") != ""){
   		$type = mime_content_type("$folderpath/$filename");
   	}else{
