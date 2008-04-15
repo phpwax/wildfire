@@ -559,7 +559,7 @@ class CmsFilesystem {
 
   function thumbnail($fileid){
   	$thumbsize = 192;
-
+    echo "Showing thumbnail $fileid";
   	$fileid=mysql_escape_string($fileid);
   	if($fileinfo = $this->getFileInfo($fileid) && preg_match("$this->imageTypes",$fileinfo['type']) ){
     		$deletefile = '';
