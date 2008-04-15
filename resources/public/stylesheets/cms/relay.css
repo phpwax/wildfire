@@ -46,7 +46,7 @@
   padding:2px 3px;
 }
 #meta {color:rgb(34,34,34);}
-#meta td, #meta input, #meta option, #meta select{ font-size:9px; }
+#meta td, #meta input, #meta option, #meta select{ font-size:10px; }
 #meta textarea { font-size:8.5pt; }
 #meta td.l {
 	color:rgb(119,124,127); 
