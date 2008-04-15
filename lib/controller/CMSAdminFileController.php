@@ -26,7 +26,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 		parent::controller_global();
 		$this->sub_links = array();
 		$this->sub_links[""] = "Manage Your Files";
-		$this->sub_links["upload"]="Advanced File Upload";
 	}
 	
 	
@@ -37,10 +36,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  if(!$action = $_POST["relay"]) $action = $_GET["relay"];
 	  $fs = new CmsFilesystem;
 	  $fs->dispatch($action, array_merge($_GET, $_POST));
-	}
-	
-	public function upload(){}
-	
+	}	
 	
 	
 	
