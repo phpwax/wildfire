@@ -467,11 +467,13 @@ class CmsFilesystem {
   function databaseSearch($folderpath,$filename){
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
+    error_log($query);
     $result = $this->query($query);
-    if($this->fileinfo = $result[0]) {
-      if(file_exists($this->fileinfo['path'].'/'.$this->fileinfo['filename'])){
+    if($fileinfo = $result[0]) {
+      error_log(print_r($fileinfo, 1));
+      if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
 
-  	    if($this->fileinfo['path'] == $folderpath && $this->fileinfo['filename'] == $filename){
+  	    if($fileinfo['path'] == $folderpath && $fileinfo['filename'] == $filename){
     	  	return true;        // file was restored to origional location
     	  } else {
     	    return false;       // exact file still exists somewhere else
