@@ -571,7 +571,7 @@ class CmsFilesystem {
   		$file2 = $fileinfo['path']."/thumb_$fileid.jpg";
 
   		$code = "{$this->convertpath} \"$file1\" -render -flatten -resize ".$thumbsize."x".$thumbsize." \"$file2\"";
-  		#echo "$code";
+  		echo "$code";
 
   		$result1 = exec($code);
   		$src_img=($file2);
