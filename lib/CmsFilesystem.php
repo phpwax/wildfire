@@ -422,7 +422,7 @@ class CmsFilesystem {
     if (is_dir($folderpath)) {
       if ($dh = opendir($folderpath)) {
          while (($file = readdir($dh)) !== false) {
-           echo "$file";
+           echo "$file<br />";
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
