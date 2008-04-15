@@ -50,7 +50,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $size = str_replace(".jpg", "", $size);
 	  $size = str_replace(".gif", "", $size);
 	  $size = str_replace(".png", "", $size);
-	  die($img_id);
+
   	$img = new WildfireFile($img_id);
   	print_r($img); exit;
 		/* CHANGED - allows for relative paths in db */
