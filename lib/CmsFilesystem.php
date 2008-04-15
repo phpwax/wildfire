@@ -435,7 +435,7 @@ class CmsFilesystem {
     foreach($result as $dirinfo) {
       $filename = $dirinfo['filename'];
   	  $fileid =   $dirinfo['id'];
-
+      error_log("Comparing ".print_r($files[$filename], 1). " against   ".error_log($dirinfo));
   	  if(isset($files[$filename]) && $files[$filename][0] == $dirinfo['id']){
     		$files[$filename][1]='done';
     	}else{
