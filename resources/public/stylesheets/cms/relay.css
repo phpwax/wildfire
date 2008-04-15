@@ -40,7 +40,9 @@
 	font-size: 7.5pt;
 	color:rgb(153,153,153);
 }
-
+#fs_body table {
+  width:auto;
+}
 #fs_body td {
   border:0;
 }
