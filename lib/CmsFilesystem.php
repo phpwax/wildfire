@@ -125,7 +125,12 @@ class CmsFilesystem {
   
   public function query($query) {
     if(!self::$model) self::$model = new WildfireFile;
-    error_log($query);
+    self::$model->query($query);
+    return true; 
+  }
+  
+  public function find($query) {
+    if(!self::$model) self::$model = new WildfireFile;
     $results = self::$model->query($query);
     if($rows = $results->fetchAll(PDO::FETCH_ASSOC)) return $rows;
     else return array();
@@ -145,7 +150,7 @@ class CmsFilesystem {
   	  ORDER BY rank DESC";
   	#echo $resourceq;
   	$toprank = 0.000001;
-  	$all_files = $this->query($query);
+  	$all_files = $this->find($query);
   	foreach($all_files as $files) {
   		if($toprank == 0.000001 and $files['rank'] != 0)$toprank = $files['rank'];
   		$myrank = round(($files['rank']/$toprank)*3)+2;
@@ -199,7 +204,7 @@ class CmsFilesystem {
     	} else $this->error("directory doesnt exist $fullpath");
 
     	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `date` desc";
-    	$result = $this->query($query);
+    	$result = $this->find($query);
     	print_r($result); exit;
       foreach($result as $files) {
         $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
@@ -391,7 +396,7 @@ class CmsFilesystem {
 	
   	$fileid=mysql_escape_string($fileid);
   	$query = "SELECT * from wildfire_file where id=$fileid";
-  	$result = $this->query($query);
+  	$result = $this->find($query);
   	if(count($result) == 0){
   		$this->error('bad fileid');
   	}
@@ -434,7 +439,7 @@ class CmsFilesystem {
     
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
-    $result = $this->query($query);
+    $result = $this->find($query);
     foreach($result as $dirinfo) {
       $filename = $dirinfo['filename'];
   	  $fileid =   $dirinfo['id'];
@@ -467,7 +472,7 @@ class CmsFilesystem {
   function databaseSearch($folderpath,$filename){
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
-    $result = $this->query($query);
+    $result = $this->find($query);
     if($fileinfo = $result[0]) {
       if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
 
@@ -525,7 +530,7 @@ class CmsFilesystem {
 
   function checkId($id){
   	$query = "SELECT id from wildfire_file where id=$id";
-  	$result = $this->query($query);
+  	$result = $this->find($query);
   	if(count($result) == 0){
   		return true;
   	}else{
@@ -555,7 +560,7 @@ class CmsFilesystem {
   function checkThumb($fileid){
     return false;
   	$query = "SELECT id from wildfire_file where id=\"".mysql_escape_string($fileid)."\" and thumb !=''";
-  	$result = $this->query($query);
+  	$result = $this->find($query);
   	if(count($result) == 0)
   		return false;
   	else
