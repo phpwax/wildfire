@@ -467,10 +467,8 @@ class CmsFilesystem {
   function databaseSearch($folderpath,$filename){
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
-    error_log($query);
     $result = $this->query($query);
     if($fileinfo = $result[0]) {
-      error_log(print_r($fileinfo, 1));
       if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
 
   	    if($fileinfo['path'] == $folderpath && $fileinfo['filename'] == $filename){
@@ -492,6 +490,7 @@ class CmsFilesystem {
   function databaseUpdate($folderpath,$filename,$realitivePath){
   	$fileid = $this->fileid($folderpath,$filename);
   	$query = "UPDATE wildfire_file set filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",status=\"found\" where id=$fileid";
+  	error_log($query);
   	$result = $this->query($query);
   }
 
