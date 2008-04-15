@@ -1151,7 +1151,7 @@ var ER = {
 };
 
 showError = function(text) {
-	$('error').innerHTML = "<img src=\"/images/icons/exclamation.png\" /><p>" + text + "</p><a href=\"#\" class=\"close\" onclick=\"Effect.toggle('error', 'appear'); return false\" />close</a>";
+	$('error').innerHTML = "<p>" + text + "</p><a href=\"#\" class=\"close\" onclick=\"Effect.toggle('error', 'appear'); return false\" />close</a>";
 	Effect.Appear('error');
 	return false;
 }
