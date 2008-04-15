@@ -225,7 +225,7 @@ class CmsFilesystem {
     $this->jsonStart();
     $this->jsonAdd("\"edit\": \"true\"");
 		$fileinfo = $this->fileInfo;
-    
+    error_log(print_r($fileinfo,1));
   	if($fileinfo['type'] > '') $type = $fileinfo['type'];
   	else $type = "document";
   	$this->jsonAdd("\"filename\": \"$fileinfo[filename]\",\"path\": \"$fileinfo[virtualpath]\",\"image\":$fileinfo[image],\"type\": \"$type\", \"date\": \"$fileinfo[date]\", \"downloads\": \"$fileinfo[downloads]\", \"description\": \"$fileinfo[description]\", \"flags\": \"$fileinfo[flags]\", \"type\": \"$fileinfo[type]\", \"size\": \"$fileinfo[size]\"");
@@ -409,8 +409,6 @@ class CmsFilesystem {
   	}else{
   	      $this->fileinfo['image'] = 0;
   	}
-
-  	$filePath = $this->fileinfo['path'];
 
   	$filepath = $file['path'] . '/' . $file['filename'];
   	$userpath = $this->getUserPath($this->fileinfo['path']); // replaces / with \/ from preg_match
