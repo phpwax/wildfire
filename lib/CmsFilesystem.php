@@ -430,8 +430,7 @@ class CmsFilesystem {
          closedir($dh);
       }
     }
-    print_r($files);
-    die();
+    
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
     $result = $this->query($query);
@@ -453,11 +452,13 @@ class CmsFilesystem {
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
+      		  echo "Adding $folderpath : $filename";
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
       		}
     	  }
     	}
     }
+    exit;
   }
 
   function databaseLost($fileid){
