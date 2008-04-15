@@ -128,6 +128,7 @@ class CmsFilesystem {
     error_log($query);
     $results = self::$model->query($query);
     if($rows = $results->fetchAll(PDO::FETCH_ASSOC)) return $rows;
+    else return array();
   }
 
 
