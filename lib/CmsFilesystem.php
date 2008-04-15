@@ -510,6 +510,7 @@ class CmsFilesystem {
     try {
       $result = $this->query($query);
     } catch (Exception $e) {
+      die($query);
       print_r($result); exit;
     }
   	
