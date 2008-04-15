@@ -16,7 +16,7 @@ class CmsFilesystem {
 
   public function __construct() {
     if(!$this->defaultFileStore) $this->defaultFileStore = PUBLIC_DIR;
-    if(!$this->uploadDir) $this->uploadDir = TMP_DIR;
+    if(!$this->uploadDir) $this->uploadDir = CACHE_DIR;
   }
 
   
