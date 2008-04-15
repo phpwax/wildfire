@@ -406,8 +406,8 @@ class CmsFilesystem {
   	$fileinfo['virtualpath']	= $file['rpath'];
   	$fileinfo['size']		=       $this->filesize_format($file['size']);
 	
-  	if(preg_match("$this->imageTypes", $fileinfo['type'])){ $fileinfo['image'] = 1;
-  	else{ $fileinfo['image'] = 0;
+  	if(preg_match("$this->imageTypes", $fileinfo['type'])) $fileinfo['image'] = 1;
+  	else  $fileinfo['image'] = 0;
     return $fileinfo;
   }
 
