@@ -573,7 +573,7 @@ class CmsFilesystem {
   		$code = "{$this->convertpath} \"$file1\" -render -flatten -resize ".$thumbsize."x".$thumbsize." \"$file2\"";
   		#echo "$code";
 
-  		$result1 = @exec($code);
+  		$result1 = exec($code);
   		$src_img=($file2);
   		$deletefile = $file2;
 		
