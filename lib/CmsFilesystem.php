@@ -509,9 +509,9 @@ class CmsFilesystem {
   	}
   	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\", status=\"found\"";
     try {
-      $this->query($query);
+      $res = $this->query($query);
     } catch (Exception $e) {
-      die("NOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!");
+      die("NOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!  ".$query);
     }
     
     
