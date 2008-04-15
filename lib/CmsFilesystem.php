@@ -421,7 +421,6 @@ class CmsFilesystem {
 
   function databaseSync($folderpath,$realitivePath=''){
     // get files from $folderpath and put them in array
-    error_log("Sync $folderpath");
     if (is_dir($folderpath)) {
       if ($dh = opendir($folderpath)) {
          while (($file = readdir($dh)) !== false) {
@@ -435,7 +434,7 @@ class CmsFilesystem {
       }
     }
 
-
+    error_log(print_r($files, 1));
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
     $result = $this->query($query);
