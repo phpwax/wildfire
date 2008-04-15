@@ -393,7 +393,6 @@ class CmsFilesystem {
   	if(count($result) == 0){
   		$this->error('bad fileid');
   	}
-	  error_log("getting file info for $fileid".print_r($result,1));
   	$file = $result[0];
 	
   	$fileinfo['filename'] 		= $file['filename'];
@@ -407,13 +406,8 @@ class CmsFilesystem {
   	$fileinfo['virtualpath']	= $file['rpath'];
   	$fileinfo['size']		=       $this->filesize_format($file['size']);
 	
-  	if(preg_match("$this->imageTypes", $fileinfo['type'])){
-  	      $fileinfo['image'] = 1;
-  	}else{
-  	      $fileinfo['image'] = 0;
-  	}
-
-  	$filepath = $file['path'] . '/' . $file['filename'];
+  	if(preg_match("$this->imageTypes", $fileinfo['type'])){ $fileinfo['image'] = 1;
+  	else{ $fileinfo['image'] = 0;
     return $fileinfo;
   }
 
