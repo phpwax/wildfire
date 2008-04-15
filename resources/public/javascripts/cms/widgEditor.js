@@ -12,7 +12,7 @@
 ******************************************************************************/
 
 /* Location of stylesheet file for editor content */
-var widgStylesheet = "/stylesheets/widget-content.css";
+var widgStylesheet = "/stylesheets/cms/widget-content.css";
 
 /* Items to appear in toolbar. */
 var widgToolbarItems = new Array();
