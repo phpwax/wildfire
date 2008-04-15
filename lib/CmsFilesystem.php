@@ -173,7 +173,6 @@ class CmsFilesystem {
 
 
   function getFolder($path){
-    exit;
   	$output = '';
   	$this->jsonStart();
     if($path == '' || $path == '/'){
@@ -202,7 +201,8 @@ class CmsFilesystem {
       }
     	$output .= $this->jsonReturn('getFolder');
   	
-    }	
+    }
+    exit;	
     if($resource != true) echo $output;
   	else return $output;
   }
