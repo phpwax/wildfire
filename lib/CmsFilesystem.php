@@ -127,6 +127,7 @@ class CmsFilesystem {
     if(!self::$model) self::$model = new WildfireFile;
     error_log($query);
     $results = self::$model->query($query);
+    print_r($results); exit;
     if($rows = $results->fetchAll()) return $rows;
   }
 
