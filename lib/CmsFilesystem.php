@@ -418,12 +418,11 @@ class CmsFilesystem {
 
 
   function databaseSync($folderpath,$realitivePath=''){
-    die( "Checking $folderpath");
     // get files from $folderpath and put them in array
     if (is_dir($folderpath)) {
       if ($dh = opendir($folderpath)) {
          while (($file = readdir($dh)) !== false) {
-           #echo "$file";
+           echo "$file";
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
@@ -432,7 +431,7 @@ class CmsFilesystem {
          closedir($dh);
       }
     }
-
+    die();
     // get files from database
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
     $result = $this->query($query);
