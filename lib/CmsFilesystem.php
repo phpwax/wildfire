@@ -561,18 +561,18 @@ class CmsFilesystem {
   	$thumbsize = 192;
   	$fileid=mysql_escape_string($fileid);
   	$fileinfo = $this->getFileInfo($fileid);
-  	error_log(print_r($fileinfo, 1));
+  	//error_log(print_r($fileinfo, 1));
   	if(preg_match("$this->imageTypes",$fileinfo['type']) ){
     		$deletefile = '';
   		$src_img=($fileinfo['path'].'/'.$fileinfo['filename']);
-		  echo "Creating from $src_img";
+		  //echo "Creating from $src_img";
   		#image magic coolthings
 
   		$file1 = $fileinfo['path'].'/'.$fileinfo['filename'];
   		$file2 = $fileinfo['path']."/thumb_$fileid.jpg";
 
   		$code = "{$this->convertpath} \"$file1\" -render -flatten -resize ".$thumbsize."x".$thumbsize." \"$file2\"";
-  		echo "$code";
+  		#echo "$code";
 
   		$result1 = exec($code);
   		$src_img=($file2);
