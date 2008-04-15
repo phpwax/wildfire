@@ -203,7 +203,6 @@ class CmsFilesystem {
   	
     }
     echo $output;
-  	exit;
   }
 
 
