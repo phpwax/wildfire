@@ -598,13 +598,9 @@ class CmsFilesystem {
   		$this->display_image($file2);
   		ob_end_clean();
 
-  		$thumb = mysql_escape_string($output);
-    		$query = "UPDATE wildfire_file set thumb=\"$thumb\" where id=\"$fileid\"";
-
-  		#echo $query;
-
-    	$result = $this->query($query);
+  		
   		if ($deletefile > '') unlink($deletefile);
+  		
   	}
   }
 
