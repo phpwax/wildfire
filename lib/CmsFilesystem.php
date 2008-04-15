@@ -435,12 +435,12 @@ class CmsFilesystem {
     foreach($result as $dirinfo) {
       $filename = $dirinfo['filename'];
   	  $fileid =   $dirinfo['id'];
-      error_log("Comparing ".print_r($files[$filename], 1). " against   ".print_r($dirinfo,1));
   	  if(isset($files[$filename]) && $files[$filename][0] == $dirinfo['id']){
     		$files[$filename][1]='done';
     	}else{
     		$this->databaseLost($fileid);
     	}
+    	error_log("Done ".print_r($files[$filename]));
     }
     if(isset($files)){
       $ak = array_keys($files);
