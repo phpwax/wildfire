@@ -41,6 +41,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function show_image() {
+	  print_r(WaxUrl::get_params()); exit;
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!isset($this->route_array[1])) $size=110;
@@ -63,7 +64,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($this->show_image->filename);
 				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-{$icon_type}.gif";
-				if(!$icon_file = file_get_contents($icon)) {
+				if(!$icon_file = @file_get_contents($icon)) {
 					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
 					$source = CACHE_DIR."cms-generic-icon.gif";
 				}
