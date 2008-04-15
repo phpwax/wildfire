@@ -41,7 +41,7 @@
 	color:rgb(153,153,153);
 }
 #fs_body table {
-
+  border-collapse:separate;
 }
 #fs_body td {
   border:0;
