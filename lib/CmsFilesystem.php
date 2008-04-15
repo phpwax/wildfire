@@ -507,7 +507,7 @@ class CmsFilesystem {
   	while(!$this->checkId($fileid)){
   		$fileid++;
   	}
-  	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\"";
+  	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\", status=\"found\"";
     $this->query($query);
     
 
