@@ -440,19 +440,15 @@ class CmsFilesystem {
     	}else{
     		$this->databaseLost($fileid);
     	}
-    	error_log("Done ".print_r($files[$filename], 1));
     }
     if(isset($files)){
       $ak = array_keys($files);
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
-    	    error_log("working on ".print_r($files[$filename], 1));
     		  if($this->databaseSearch($folderpath , $filename)){
-    		    error_log("Updating $folderpath : $filename");
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
-      		  error_log("Inserting $folderpath : $filename");
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
       		}
     	  }
@@ -473,19 +469,24 @@ class CmsFilesystem {
       if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
 
   	    if($fileinfo['path'] == $folderpath && $fileinfo['filename'] == $filename){
+  	      error_log("Search found existing record");
     	  	return true;        // file was restored to origional location
     	  } else {
+    	    error_log("We found an id but the path was wrong");
     	    return false;       // exact file still exists somewhere else
     	  }
   	  }else{
+  	    error_log("File is in the database but not at the location it's supposed to be");
   	    // file must have been moved
   	    return true;
 
   	  }
     } else{
       // file is new
+      error_log("No file exists");
     	return false;
     }
+    error_log("There's been a major disaster")l
   }
 
   function databaseUpdate($folderpath,$filename,$realitivePath){
