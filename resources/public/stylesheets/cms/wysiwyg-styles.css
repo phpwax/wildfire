@@ -28,12 +28,7 @@
 	background-position: 0 -48px;
 }
 
-.widgToolbar li.widgEditButton
-{
-	background-image: url(../../images/cms/widgeditor_button_shadow.gif);
-	background-repeat: no-repeat;
-	background-position: bottom right;
-}
+
 
 .widgButtonBold
 {
