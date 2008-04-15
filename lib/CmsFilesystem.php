@@ -506,7 +506,7 @@ class CmsFilesystem {
   	while(!$this->checkId($fileid)){
   		$fileid++;
   	}
-	
+	  die("HERE $fileid");
   	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\"";
   	$result = $this->query($query);
 
@@ -518,7 +518,6 @@ class CmsFilesystem {
   	$query = "SELECT id from wildfire_file where id=$id";
   	$result = $this->query($query);
   	if(count($result) == 0){
-  	  die("YES");
   		return true;
   	}else{
   		return false;
