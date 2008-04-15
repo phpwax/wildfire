@@ -511,6 +511,7 @@ class CmsFilesystem {
       $result = $this->query($query);
     } catch (Exception $e) {
       die("NOOOOOOOOOOOOO!!!!!!!!!!!!!!!!!");
+      print_r(PDO::errorInfo); exit;
     }
   	
 
