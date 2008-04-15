@@ -40,14 +40,12 @@
 	font-size: 7.5pt;
 	color:rgb(153,153,153);
 }
-#fs_body table {
-  font-size:69%;
-}
+
 #fs_body td {
   border:0;
 }
 #meta {color:rgb(34,34,34);}
-#meta td, #meta input, #meta option, #meta select{ font-size:8pt; }
+#meta td, #meta input, #meta option, #meta select{ font-size:9px; }
 #meta textarea { font-size:8.5pt; }
 #meta td.l {
 	color:rgb(119,124,127); 
