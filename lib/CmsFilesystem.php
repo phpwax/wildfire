@@ -165,6 +165,7 @@ class CmsFilesystem {
   function getFile($fileid){
   	$fileinfo = $this->getFileInfo($fileid);
   	$filepath = $fileinfo["path"].$fileinfo["filename"];
+  	die($filepath);
   	$query = "UPDATE wildfire_file set downloads=downloads+1 where id=$fileid";
   	$this->query($query);
   	header("Pragma: public"); 
