@@ -125,6 +125,7 @@ class CMSAdminComponent extends WXControllerBase {
 	*/
 	public function edit() {
 		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
+		print_r(WaxUrl::get_params());
 	  $this->id = WaxUrl::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
