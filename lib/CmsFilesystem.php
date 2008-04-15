@@ -433,6 +433,7 @@ class CmsFilesystem {
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
     $result = $this->query($query);
     foreach($result as $dirinfo) {
+      error_log(print_r($result, 1));
       $filename = $dirinfo['filename'];
   	  $fileid =   $dirinfo['id'];
 
@@ -444,7 +445,6 @@ class CmsFilesystem {
     }
     if(isset($files)){
       $ak = array_keys($files);
-      error_log("About to sync..".print_r($ak, 1));   
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
