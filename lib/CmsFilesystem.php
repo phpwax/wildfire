@@ -493,7 +493,7 @@ class CmsFilesystem {
   	$fileid = $this->fileid($folderpath,$filename);
   	$query = "UPDATE wildfire_file set filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",status=\"found\" where id=$fileid";
     try {
-      $result = $this->query($query);
+      $this->query($query);
     } catch (Exception $e) {
       die("NOOOOOO!!!!!!!!!!!!!!!: ".$query);
     }
@@ -514,7 +514,7 @@ class CmsFilesystem {
   	}
   	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\"";
     try {
-      $result = $this->query($query);
+      $this->query($query);
     } catch (Exception $e) {
       die("NOOOOOOOOOOOOO!!!!!!!!!!!!!". $query);
     }
