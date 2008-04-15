@@ -453,8 +453,9 @@ class CmsFilesystem {
     	}
     }
     if(isset($files)){
-      error_log(print_r($files, 1));
       $ak = array_keys($files);
+      error_log(print_r($files, 1));
+      
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
