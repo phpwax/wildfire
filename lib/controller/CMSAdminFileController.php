@@ -69,6 +69,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 				file_put_contents($source, $icon_file);
 			}
 		}
+		echo "About to resize $source  to  $file   at   $size";
     if(!is_file($file) || !is_readable($file)) {
       File::resize_image($source, $file, $size);
     }
