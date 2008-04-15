@@ -12,7 +12,7 @@ class CmsFilesystem {
   public $defaultDisplay = "Your Folder";
   public $convertpath = "convert";
   public $relativepath = "files";
-   
+  static public $model = false;
 
   public function __construct() {
     if(!$this->defaultFileStore) $this->defaultFileStore = PUBLIC_DIR;
@@ -124,8 +124,8 @@ class CmsFilesystem {
   }
   
   public function query($query) {
-    $files = new WildfireFile;
-    return $files->query($query);
+    if(!self::$model) self::$model = new WildfireFile;
+    return selff::$model->query($query);
   }
 
 
