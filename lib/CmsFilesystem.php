@@ -440,7 +440,7 @@ class CmsFilesystem {
     	}else{
     		$this->databaseLost($fileid);
     	}
-    	error_log("Done ".print_r($files[$filename]));
+    	error_log("Done ".print_r($files[$filename], 1));
     }
     if(isset($files)){
       $ak = array_keys($files);
