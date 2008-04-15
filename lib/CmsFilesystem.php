@@ -448,8 +448,10 @@ class CmsFilesystem {
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
     		  if($this->databaseSearch($folderpath , $filename)){
+    		    error_log("Updating $folderpath : $filename");
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
+      		  error_log("Inserting $folderpath : $filename");
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
       		}
     	  }
