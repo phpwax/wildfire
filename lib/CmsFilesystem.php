@@ -873,10 +873,9 @@ class CmsFilesystem {
   }
 
   function jsonAdd($jsonLine){
-    if($json != '')
-      $json .= ",";
-    $json .= "{ $jsonLine }";
-    $this->json .= $json;
+    if($this->json != '')
+      $this->json .= ",";
+    $this->json .= "{ $jsonLine }";
   }
 
   function jsonReturn($variableName){
