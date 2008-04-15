@@ -538,11 +538,6 @@ class CmsFilesystem {
 
   */
 
-  function output_handler($in){
-    	global $output;
-  	$output="$in";
-  }
-
   function getThumb($fileid) {
 	  $this->thumbnail($fileid);
   }
@@ -578,7 +573,7 @@ class CmsFilesystem {
   		$deletefile = $file2;
 		
 
-  		ob_start("output_handler");
+  		ob_start();
   		$this->display_image($file2);
   		ob_end_clean();
 
