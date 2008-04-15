@@ -566,7 +566,7 @@ File.prototype = {
 	refresh: function () {
 		this.link.className = 'link';
 		this.link.innerHTML = this.name;
-		this.flag != 'normal' ? this.icon.src = "images/"+this.flag+".png" : this.icon.src= fileIcon;
+		this.flag != 'normal' ? this.icon.src = "/images/fs/"+this.flag+".png" : this.icon.src= fileIcon;
 		
 		Element.addClassName(this.link, this.flag);
 	},
