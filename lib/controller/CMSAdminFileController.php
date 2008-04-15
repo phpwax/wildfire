@@ -43,7 +43,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function show_image() {
   	$this->use_view=false;
 		$this->use_layout=false;
-		print_r(WaxUrl::get_params()); exit;
   	if(!isset($this->route_array[1])) $size=110;
 	   else $size = $this->route_array[1];
 	  $size = str_replace(".jpg", "", $size);
@@ -100,6 +99,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function browse_images() {
+	  die(Request::post("filterfolder"));
 		$this->use_layout=false;
 	  $folder = "public/".$this->model->base_dir."/";
 	  $this->all_images = $this->model->find_all_images(array("order"=>"filename ASC","conditions"=>"path='".$folder."'"));
