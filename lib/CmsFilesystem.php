@@ -418,7 +418,7 @@ class CmsFilesystem {
 
 
   function databaseSync($folderpath,$realitivePath=''){
-    echo "Checking $folderpath";
+    die( "Checking $folderpath");
     // get files from $folderpath and put them in array
     if (is_dir($folderpath)) {
       if ($dh = opendir($folderpath)) {
