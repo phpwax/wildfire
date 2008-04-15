@@ -546,21 +546,8 @@ class CmsFilesystem {
   	$output="$in";
   }
 
-  function getThumb($fileid){
-	
-  	if($this->getFileInfo($fileid)){ // if a file type we want to deal with
-  		if(!$this->checkThumb($fileid)){
-  			$this->thumbnail($fileid);
-  		}
-		
-  		$query = "SELECT thumb from wildfire_file where id=\"".mysql_escape_string($fileid)."\"";
-  		$result = $this->query($query);
-		
-  		$fileThumb = $result[0];
-  		header("Content-type:image/jpeg");
-  		echo $fileThumb['thumb'];
-  	}
-
+  function getThumb($fileid) {
+	  $this->thumbnail($fileid);
   }
 
   function checkThumb($fileid){
