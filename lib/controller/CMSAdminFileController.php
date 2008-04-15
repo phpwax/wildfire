@@ -41,28 +41,26 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function show_image() {
-	  print_r(WaxUrl::get_params()); exit;
+	  $options = WaxUrl::get_params();
+	  $img_id = WaxUrl::get("id");
+	  $img_size = $options["params"][0];
   	$this->use_view=false;
 		$this->use_layout=false;
-  	if(!isset($this->route_array[1])) $size=110;
-	   else $size = $this->route_array[1];
+  	if(!$size = $img_size) $size=110;
 	  $size = str_replace(".jpg", "", $size);
 	  $size = str_replace(".gif", "", $size);
 	  $size = str_replace(".png", "", $size);
 	  
-  	$this->show_image = new CmsFile($this->route_array[0]);
+  	$img = new WildfireFile($img_id);
 		/* CHANGED - allows for relative paths in db */
-    $source = WAX_ROOT. $this->show_image->path.$this->show_image->filename;
-    
-    $relative = strstr($source, "public/");
-    $relative = str_replace("public/", "", $relative);
+    $source = PUBLIC_DIR. $img->path."/".$img->filename;    
     $source = PUBLIC_DIR.$relative;
     
-		$file = CACHE_DIR.$this->route_array[0]."_".$this->route_array[1];
+		$file = CACHE_DIR.$img_id."_".$img_size;
 		$source=preg_replace("/[\s]/", "\ ", $source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
-				$icon_type = File::get_extension($this->show_image->filename);
+				$icon_type = File::get_extension($img->filename);
 				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-{$icon_type}.gif";
 				if(!$icon_file = @file_get_contents($icon)) {
 					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
