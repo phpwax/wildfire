@@ -573,13 +573,9 @@ class CmsFilesystem {
   		$deletefile = $file2;
 		
 
-  		ob_start();
-  		$this->display_image($file2);
-  		ob_end_clean();
-
-  		
-  		if ($deletefile > '') unlink($deletefile);
-  		
+  		$this->display_image($file2);  		
+  		if($deletefile > '') unlink($deletefile);
+  		exit;
   	}
   }
 
