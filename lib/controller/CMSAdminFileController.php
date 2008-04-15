@@ -57,7 +57,6 @@ class CMSAdminFileController extends CMSAdminComponent {
     
 		$file = CACHE_DIR.$img_id."_".$img_size;
 		$source=preg_replace("/[\s]/", "\ ", $source);
-		die($source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($img->filename);
