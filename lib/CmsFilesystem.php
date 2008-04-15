@@ -202,9 +202,8 @@ class CmsFilesystem {
     	$output .= $this->jsonReturn('getFolder');
   	
     }
-    exit;	
-    if($resource != true) echo $output;
-  	else return $output;
+    echo $output;
+  	exit;
   }
 
 
