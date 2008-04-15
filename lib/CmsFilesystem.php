@@ -517,7 +517,6 @@ class CmsFilesystem {
   function checkId($id){
   	$query = "SELECT id from wildfire_file where id=$id";
   	$result = $this->query($query);
-  	print_r($result); exit;
   	if(count($result) == 0){
   	  die("YES");
   		return true;
