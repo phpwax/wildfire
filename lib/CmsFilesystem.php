@@ -443,7 +443,8 @@ class CmsFilesystem {
     	}
     }
     if(isset($files)){
-      $ak = array_keys($files);      
+      $ak = array_keys($files);
+      error_log("About to sync..".print_r($ak, 1));   
   	  for($i=0;$i < sizeof($ak);$i++){
     	  $filename = $ak[$i];
     	  if($files[$filename][1]!='done'){
