@@ -205,7 +205,6 @@ class CmsFilesystem {
 
     	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `date` desc";
     	$result = $this->find($query);
-    	print_r($result); exit;
       foreach($result as $files) {
         $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
       }
