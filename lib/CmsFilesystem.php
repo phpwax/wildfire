@@ -519,6 +519,7 @@ class CmsFilesystem {
   	$result = $this->query($query);
   	print_r($result); exit;
   	if(count($result) == 0){
+  	  die("YES");
   		return true;
   	}else{
   		return false;
