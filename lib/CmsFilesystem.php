@@ -435,7 +435,7 @@ class CmsFilesystem {
     foreach($result as $dirinfo) {
       $filename = $dirinfo['filename'];
   	  $fileid =   $dirinfo['id'];
-  	  if(isset($files[$filename]) && $files[$filename][0] == $dirinfo['id']){
+  	  if($files[$filename][0] == $dirinfo['id']){
     		$files[$filename][1]='done';
     	}else{
     		$this->databaseLost($fileid);
