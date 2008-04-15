@@ -224,7 +224,7 @@ class CmsFilesystem {
   	$this->getFileInfo($fileid);
     $this->jsonStart();
     $this->jsonAdd("\"edit\": \"true\"");
-		$fileinfo = $this->fileInfo;
+		$fileinfo = $this->fileinfo;
     error_log(print_r($fileinfo,1));
   	if($fileinfo['type'] > '') $type = $fileinfo['type'];
   	else $type = "document";
