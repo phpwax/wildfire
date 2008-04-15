@@ -285,7 +285,7 @@ class CmsFilesystem {
 	
   	$path = mysql_escape_string($path);
     $fileinfo = $this->getFileInfo($fileid);
-	
+	  error_log($fileinfo, 1);
   	$newPath = $this->defaultFileStore.$path;
   	if(is_dir($newPath)){
       $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
