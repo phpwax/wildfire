@@ -433,7 +433,6 @@ class CmsFilesystem {
     $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
     $result = $this->query($query);
     foreach($result as $dirinfo) {
-      error_log(print_r($result, 1));
       $filename = $dirinfo['filename'];
   	  $fileid =   $dirinfo['id'];
 
