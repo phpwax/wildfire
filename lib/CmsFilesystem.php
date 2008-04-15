@@ -131,7 +131,6 @@ class CmsFilesystem {
 
   function search($terms){
   	$dateFormat = $this->dateFormat;
-  	$fileinfo = $this->fileInfo; 
   	$defaultFileStore = $this->defaultFileStore;
   	$this->jsonStart();
   	$terms = mysql_escape_string($terms);	
@@ -147,7 +146,7 @@ class CmsFilesystem {
   	foreach($all_files as $files) {
   		if($toprank == 0.000001 and $files['rank'] != 0)$toprank = $files['rank'];
   		$myrank = round(($files['rank']/$toprank)*3)+2;
-  		$this->getFileInfo($files['id']);
+  		$fileinfo = $this->getFileInfo($files['id']);
   		$this->jsonAdd("\"rank\":\"$myrank\",\"type\": \"file\", \"path\": \"$fileinfo[virtualpath]\",\"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
   		$results ++;
   	}
@@ -156,14 +155,15 @@ class CmsFilesystem {
   }
 
   function getFile($fileid){
-  	$this->getFileInfo($fileid);
+  	$fileinfo = $this->getFileInfo($fileid);
+  	$filepath = $fileinfo["path"].$fileinfo["filename"];
   	$query = "UPDATE wildfire_file set downloads=downloads+1 where id=$fileid";
   	$result = $this->query($query);
   	header("Pragma: public"); 
   	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
   	header("Cache-Control: private",false); 
-  	header("Content-type: {$this->fileinfo[type]}");
+  	header("Content-type: {$fileinfo[type]}");
   	header("Content-Transfer-Encoding: Binary");
   	header("Content-length: ".filesize($filepath));
   	header("Content-disposition: attachment; filename=\"".basename($filepath)."\"");
@@ -221,10 +221,9 @@ class CmsFilesystem {
   }
 
   function getMeta($fileid){
-  	$this->getFileInfo($fileid);
+  	$fileinfo = $this->getFileInfo($fileid);
     $this->jsonStart();
     $this->jsonAdd("\"edit\": \"true\"");
-		$fileinfo = $this->fileinfo;
   	if($fileinfo['type'] > '') $type = $fileinfo['type'];
   	else $type = "document";
   	$this->jsonAdd("\"filename\": \"$fileinfo[filename]\",\"path\": \"$fileinfo[virtualpath]\",\"image\":$fileinfo[image],\"type\": \"$type\", \"date\": \"$fileinfo[date]\", \"downloads\": \"$fileinfo[downloads]\", \"description\": \"$fileinfo[description]\", \"flags\": \"$fileinfo[flags]\", \"type\": \"$fileinfo[type]\", \"size\": \"$fileinfo[size]\"");
@@ -242,11 +241,11 @@ class CmsFilesystem {
     $filename = mysql_escape_string($filename);
     $description = mysql_escape_string($description);
     $flags = mysql_escape_string($flags);
-    $this->getFileInfo($fileid);
-    if($filename != $this->fileinfo['filename']){
+    $fileinfo = $this->getFileInfo($fileid);
+    if($filename != $fileinfo['filename']){
   	  $this->fileRename($fileid,$filename);
   	}else{
-  	  $filename = $this->fileinfo['filename'];
+  	  $filename = $fileinfo['filename'];
   	}
     $query = "UPDATE wildfire_file set description=\"$description\",flags=\"$flags\" where id=$fileid";
   	$result = $this->query($query);
@@ -259,7 +258,7 @@ class CmsFilesystem {
     $filename = mysql_escape_string($filename);
     $filename = str_replace("\\","",$filename);
     $filename = str_replace("/","",$filename);
-    $this->getFileInfo($fileid);
+    $fileinfo = $this->getFileInfo($fileid);
     $query = "UPDATE wildfire_file set filename=\"$filename\" where id=$fileid";
     $result = $this->query($query);
     rename($fileinfo['path'].'/'.$fileinfo['filename'],$fileinfo['path'].'/'.$filename);
@@ -268,11 +267,11 @@ class CmsFilesystem {
   function fileDelete($fileid){
 
     $fileid = mysql_escape_string($fileid);
-    $this->getFileInfo($fileid);
+    $fileinfo = $this->getFileInfo($fileid);
 
     $query = "DELETE from wildfire_file where id=$fileid";
     $result = $this->query($query);
-    unlink($this->fileinfo['path'].'/'.$this->fileinfo['filename']) || $this->error('file error');
+    unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
     echo "done";
 
   }
@@ -287,7 +286,7 @@ class CmsFilesystem {
   	$path = str_replace("..","",$path);
 	
   	$path = mysql_escape_string($path);
-    $this->getFileInfo($fileid);
+    $fileinfo = $this->getFileInfo($fileid);
 	
   	$newPath = $this->defaultFileStore.$path;
   	if(is_dir($newPath)){
@@ -392,26 +391,25 @@ class CmsFilesystem {
 	
   	$file = $result[0];
 	
-  	$this->fileinfo['filename'] 		= $file['filename'];
-  	$this->fileinfo['date'] 		=     $file['date'];
-  	$this->fileinfo['description'] 	= $file['description'];
-  	$this->fileinfo['downloads']		= $file['downloads'];
-  	$this->fileinfo['flags']		=     $file['flags'];
-  	$this->fileinfo['type']		=       $file['type'];
-  	$this->fileinfo['uploader']		=   $file['uploader'];
-  	$this->fileinfo['path']		=       $file['path'];
-  	$this->fileinfo['virtualpath']	= $file['rpath'];
-  	$this->fileinfo['size']		=       $this->filesize_format($file['size']);
+  	$fileinfo['filename'] 		= $file['filename'];
+  	$fileinfo['date'] 		=     $file['date'];
+  	$fileinfo['description'] 	= $file['description'];
+  	$fileinfo['downloads']		= $file['downloads'];
+  	$fileinfo['flags']		=     $file['flags'];
+  	$fileinfo['type']		=       $file['type'];
+  	$fileinfo['uploader']		=   $file['uploader'];
+  	$fileinfo['path']		=       $file['path'];
+  	$fileinfo['virtualpath']	= $file['rpath'];
+  	$fileinfo['size']		=       $this->filesize_format($file['size']);
 	
-  	if(preg_match("$this->imageTypes",$this->fileinfo['type'])){
-  	      $this->fileinfo['image'] = 1;
+  	if(preg_match("$this->imageTypes", $fileinfo['type'])){
+  	      $fileinfo['image'] = 1;
   	}else{
-  	      $this->fileinfo['image'] = 0;
+  	      $fileinfo['image'] = 0;
   	}
 
   	$filepath = $file['path'] . '/' . $file['filename'];
-  	$userpath = $this->getUserPath($this->fileinfo['path']); // replaces / with \/ from preg_match
-    return true;
+    return $fileinfo;
   }
 
   function getUserPath($folderPath){
@@ -576,9 +574,8 @@ class CmsFilesystem {
   function thumbnail($fileid){
   	$thumbsize = 192;
 
-  	$fileInfo = $this->fileInfo;
   	$fileid=mysql_escape_string($fileid);
-  	if($this->getFileInfo($fileid) && preg_match("$imageTypes",$fileinfo['type']) ){
+  	if($fileinfo = $this->getFileInfo($fileid) && preg_match("$imageTypes",$fileinfo['type']) ){
     		$deletefile = '';
   		$src_img=($fileinfo['path'].'/'.$fileinfo['filename']);
 		
