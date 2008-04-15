@@ -126,7 +126,8 @@ class CmsFilesystem {
   public function query($query) {
     if(!self::$model) self::$model = new WildfireFile;
     error_log($query);
-    return self::$model->query($query);
+    $results = self::$model->query($query);
+    if($rows = $results->fetchAll()) return $rows;
   }
 
 
@@ -464,8 +465,7 @@ class CmsFilesystem {
   function databaseSearch($folderpath,$filename){
     $fileid = $this->fileid($folderpath,$filename);
     $query = "SELECT * from wildfire_file where id=$fileid";
-    $result = $this->query($query)->fetchAll();
-    print_r($result); exit;
+    $result = $this->query($query);
     if($fileinfo = $result[0]) {
       if(file_exists($fileinfo['path'].'/'.$fileinfo['filename'])){
 
