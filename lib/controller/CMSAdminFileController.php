@@ -39,7 +39,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $fs->dispatch($action, array_merge($_GET, $_POST));
 	}
 	
-	
+	public function upload(){}
 	
 	
 	
