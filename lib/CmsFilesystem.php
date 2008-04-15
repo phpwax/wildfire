@@ -452,6 +452,7 @@ class CmsFilesystem {
     		  if($this->databaseSearch($folderpath , $filename)){
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
+      		  error_log("Couldn't find ".$folderpath."  :  ".$filename);
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
       		}
     	  }
