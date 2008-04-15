@@ -486,7 +486,7 @@ class CmsFilesystem {
       error_log("No file exists");
     	return false;
     }
-    error_log("There's been a major disaster")l
+    error_log("There's been a major disaster");
   }
 
   function databaseUpdate($folderpath,$filename,$realitivePath){
