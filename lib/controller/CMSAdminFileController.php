@@ -60,7 +60,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($img->filename);
-				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-{$icon_type}.gif";
+				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-".strtolower($icon_type).".gif";
 				if(!$icon_file = @file_get_contents($icon)) {
 					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
 					$source = CACHE_DIR."cms-generic-icon.gif";
