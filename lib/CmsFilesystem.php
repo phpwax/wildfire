@@ -125,7 +125,7 @@ class CmsFilesystem {
   
   public function query($query) {
     if(!self::$model) self::$model = new WildfireFile;
-    return selff::$model->query($query);
+    return self::$model->query($query);
   }
 
 
