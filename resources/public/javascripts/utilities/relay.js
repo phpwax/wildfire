@@ -737,7 +737,7 @@ updateMeta = function (meta) {
 		$('meta').innerHTML = '<table><tr><td class="l">Name</td><td>'+meta.name+'</td></tr><tr><td class="l">Size</td><td>'+meta.size+'</td></tr></table>';
 	}
 	else {
-		$('meta').innerHTML = '<table><tr><td class="l">Name</td><td><input type="text" id="folderMeta" name="folderMeta" value="'+meta.name+'" /></td></tr><tr><td class="l">Kind</td><td>Folder</td></tr><tr><td class="l">Size</td><td>'+meta.size+'</td></tr><tr><td class="l">Location</td><td><div style="width:115px; overflow:hidden"><a href="'+FC.SCRIPTSRC+'?path='+meta.path+'">'+path+'</a></div></td></tr><tr><td class="l">Label</td><td>Normal</td></tr><tr><td></td><td><a href="#" onclick="saveMeta(); return false"><img src="'+saveIcon+'" alt="" /></a></td></tr></table>';
+		$('meta').innerHTML = '<table><tr><td class="l">Name</td><td><input type="text" id="folderMeta" name="folderMeta" value="'+meta.name+'" /></td></tr><tr><td class="l">Kind</td><td>Folder</td></tr><tr><td class="l">Size</td><td>'+meta.size+'</td></tr><tr><td class="l">Location</td><td><div style="width:115px; overflow:hidden">'+path+'</div></td></tr><tr><td class="l">Label</td><td>Normal</td></tr><tr><td></td><td><a href="#" onclick="saveMeta(); return false"><img src="'+saveIcon+'" alt="" /></a></td></tr></table>';
 	}
 }
 
