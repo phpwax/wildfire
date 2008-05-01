@@ -3,8 +3,8 @@
 class CMSAdminUserController extends CMSAdminComponent {
 
   public $module_name = "users";												
-  public $model_class = 'CmsUser';
-	public $model_name = "cms_user";													
+  public $model_class = 'WildfireUser';
+	public $model_name = "wildfire_user";													
 	public $display_name = "CMS Users";
 	public $scaffold_columns = array(
     "username"   =>array(),
