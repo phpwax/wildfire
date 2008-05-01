@@ -7,8 +7,8 @@
 class CMSAdminHomeController extends CMSAdminComponent {
 	public $module_name = "home";												
   public $model;
-	public $model_name = "cms_user";
-	public $model_class = "CmsUser";
+	public $model_name = "wildfire_user";
+	public $model_class = "WildfireUser";
 	public $display_name = "Home";
 	public $base_url;
 	

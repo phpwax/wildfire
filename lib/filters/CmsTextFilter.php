@@ -70,7 +70,7 @@ class CmsTextFilter  {
   
   
   static public function first_para_hook($text) {
-    return preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
+    return preg_replace("/<p>/u", "<p class='first_para'>", $text, 1);
   }
   
   static public function dots_to_hr($text) {
@@ -83,17 +83,17 @@ class CmsTextFilter  {
       \s*                                       # optional white space! 
       (<\/(a|em|span|strong|i|b)[^>]*>\s*)*     # optional closing inline tags with optional white space after each
       (<\/(p|h[1-6]|li)|$))                     # end with a closing p, h1-6, li or the end of the string
-      /x";
+      /xu";
     return preg_replace($widont_finder, '&nbsp;\\2', $text);
   }
   
   static public function ampersand_hook($text) {
-    $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
+    $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/u";
     return preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
   }
   
   static public function nice_quotes($text) {
-    return preg_replace("/(\s{1})\\\"([^<>\\\"]*)\\\"/", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
+    return preg_replace("/(\s{1})\\\"([^<>\\\"]*)\\\"/u", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
   }
   
   
@@ -102,7 +102,7 @@ class CmsTextFilter  {
       <param name="movie" value="http://www.youtube.com/v/$1"></param>
       <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" width="425" height="350"></embed>
     </object>';
-    $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9]*)<\/a>/", $replace, $text);
+    $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9]*)<\/a>/u", $replace, $text);
     $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/", $replace, $text);
     return preg_replace("/<!--yt_video-->([^\s<]*)/", $replace, $text);
   }

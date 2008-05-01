@@ -130,7 +130,7 @@ class CmsApplicationController extends WXControllerBase{
 	}
   
   public function is_admin_logged_in(){
-		$user = new WXDBAuthenticate(array("db_table"=>"cms_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
+		$user = new WXDBAuthenticate(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
 		return $user->is_logged_in();
 	}
 
