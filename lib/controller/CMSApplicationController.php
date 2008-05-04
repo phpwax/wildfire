@@ -92,6 +92,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $section = new CmsSection;
 	  $content = new CmsContent;
 	  $res = $section->find_all_by_url($url);
+	  print_r($res); exit;
 	  if(count($res)==1) return $res[0];
 	  elseif(count($res)>1) {
 	    $stack=array_reverse($this->section_stack);
