@@ -92,7 +92,6 @@ class CmsApplicationController extends WXControllerBase{
 	  $section = new CmsSection;
 	  $content = new CmsContent;
 	  $res = $section->find_all_by_url($url);
-	  print_r($res); exit;
 	  if(count($res)==1) return $res[0];
 	  elseif(count($res)>1) {
 	    $stack=array_reverse($this->section_stack);
@@ -109,8 +108,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array(), $params=array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
-    if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id'], $params);
-		else $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
+    $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
 	}	
 	
 	
