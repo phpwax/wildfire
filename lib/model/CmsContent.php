@@ -85,7 +85,7 @@ class CmsContent extends WXActiveRecord {
 	  
 	  if(strlen($url)>0) {
 	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    if($res = $this->find_all($params)) return $res;
+	    if($res = $this->find($params)) return $res;
 	  } 
 	  
 	  $params['conditions'].=" AND cms_section_id=$section";
