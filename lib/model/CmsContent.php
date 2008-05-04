@@ -1,6 +1,6 @@
 <?php
 
-class CmsContent extends WXActiveRecord {
+class CmsContent extends WaxModel {
   
   public $status_options = array("0"=>"Draft", "1"=>"Published"); //status 3 is used to signify a temp / autosaved page.
  	
