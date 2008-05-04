@@ -149,7 +149,6 @@ class CmsFilesystem {
   	  OR description like \"%$terms%\")) 
   	  ORDER BY rank DESC";
   	#echo $resourceq;
-  	die($query);
   	$toprank = 0.000001;
   	$all_files = $this->find($query);
   	foreach($all_files as $files) {
