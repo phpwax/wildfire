@@ -76,18 +76,15 @@ class CmsContent extends WXActiveRecord {
 	  
 	  if($this->is_section($url)) {
 	    $params['conditions'].=" AND cms_section_id=$section";
-	    print_r($params); exit;
 	    if($res = $this->find_all($params)) return $res;
 	  }
 	  if(is_array($section)) {
 	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
-	    print_r($params); exit;
 	    return $this->find_all($params);
 	  }
 	  
 	  if(strlen($url)>0) {
 	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    print_r($params); exit;
 	    if($res = $this->find_all($params)) return $res;
 	  } 
 	  
