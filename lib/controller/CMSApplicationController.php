@@ -37,7 +37,6 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
-	  if(class_exists("Request")) $stack = Request::$params;
     array_unshift($stack, $this->action);
     print_r($stack); exit;
     foreach($stack as $k=>$v) {
