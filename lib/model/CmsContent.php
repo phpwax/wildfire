@@ -73,11 +73,7 @@ class CmsContent extends WXActiveRecord {
 	  else $params['conditions'] = $condition;
     
 	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
-	  if(strlen($url)>0) {
-	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    print_r($params); exit;
-	    if($res = $this->find_all($params)) return $res;
-	  } 
+	  
 	  if($this->is_section($url)) {
 	    $params['conditions'].=" AND cms_section_id=$section";
 	    print_r($params); exit;
@@ -88,6 +84,13 @@ class CmsContent extends WXActiveRecord {
 	    print_r($params); exit;
 	    return $this->find_all($params);
 	  }
+	  
+	  if(strlen($url)>0) {
+	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
+	    print_r($params); exit;
+	    if($res = $this->find_all($params)) return $res;
+	  } 
+	  
 	  $params['conditions'].=" AND cms_section_id=$section";
 	  if($res = $this->find_all($params)) return $res;
 	  return array();
