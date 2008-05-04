@@ -28,7 +28,6 @@ class CmsContent extends WXActiveRecord {
 	  $this->avoid_section_url_clash();
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
-		$this->title = stripslashes($this->title);
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
 	}
 	
