@@ -32,7 +32,6 @@ class CmsApplicationController extends WXControllerBase{
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
     if($this->is_page()) $this->cms_content->add_pageview();
-    print_r($this); exit;
 	}
 	
 	protected function parse_urls() {
