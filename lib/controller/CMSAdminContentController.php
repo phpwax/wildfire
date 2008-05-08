@@ -11,6 +11,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public $scaffold_columns = array(
     "title"   =>array(),
+    "author_name" => array(),
     "page_status" => array(),
 		"section" => array(),
 		"date_published" => array()

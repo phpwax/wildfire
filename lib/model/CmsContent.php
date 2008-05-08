@@ -119,6 +119,9 @@ class CmsContent extends WXActiveRecord {
     $user = new CmsUser;
     return $user->find($this->author_id);
   }
+  public function author_name() {
+    return $this->author->fullname;
+  }
   
   public function author_options() {
     $user = new CmsUser;
