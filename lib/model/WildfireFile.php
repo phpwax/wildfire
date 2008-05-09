@@ -29,5 +29,21 @@ class WildfireFile extends WaxModel {
 	  return $this->find_all($params);
 	}
 	
+	public function find_all_images($params=array()) {
+    if($params["conditions"]) $params["conditions"].=" AND type LIKE '%image%'";
+    else $params["conditions"] = "type LIKE '%image%'";
+	  return $this->find_all($params);
+	}
+	
+	public function extension() {
+	  $ext = ".".substr(strrchr($this->type, "/"), 1);
+	  if($ext != ".gif" || $ext !=".png") $ext = ".jpg";
+	  return $ext;
+	}
+	
+	public function find_all_files() {
+	  return $this->find_all(array("conditions"=>"type NOT LIKE '%image%'"));
+	}
+	
 	
 }

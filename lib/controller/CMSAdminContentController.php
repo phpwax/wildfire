@@ -86,12 +86,12 @@ class CMSAdminContentController extends CMSAdminComponent {
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"))) $this->all_categories=array();
-		$this->image_model = new CmsFile;
+		$this->image_model = new WildfireFile;
 		$this->image_partial = $this->render_partial("page_images");
 		$this->cat_partial = $this->render_partial("list_categories");
 		$this->cat_list = $this->render_partial("cat_list");
 		$this->category_partial = $this->render_partial("apply_categories");
-		$files = new CmsFile();
+		$files = new WildfireFile();
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
 		parent::edit();
