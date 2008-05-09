@@ -42,7 +42,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function show_image() {
 	  $options = WaxUrl::get_params();
-	  print_r($options); exit;
 	  $img_id = WaxUrl::get("id");
 	  $img_size = $options["params"][0];
   	$this->use_view=false;
@@ -53,6 +52,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $size = str_replace(".png", "", $size);
 
   	$img = new WildfireFile($img_id);
+  	print_r($img); exit;
 		/* CHANGED - allows for relative paths in db */
     $source = PUBLIC_DIR. $img->rpath."/".$img->filename;    
     
