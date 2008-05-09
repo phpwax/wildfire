@@ -52,7 +52,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $size = str_replace(".png", "", $size);
 
   	$img = new WildfireFile($img_id);
-  	print_r($img); exit;
 		/* CHANGED - allows for relative paths in db */
     $source = PUBLIC_DIR. $img->rpath."/".$img->filename;    
     
