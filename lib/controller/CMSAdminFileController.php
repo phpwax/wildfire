@@ -117,8 +117,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $this->browse_images();
 	  } else {
       $this->use_layout=false;
-      $images = new CmsFile;
-      $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter'], "30"): array();
+      $this->all_images = ($image = new WildfireFile) ? $image->find_filter_images($_POST['filter'], "30"): array();
       $this->all_images_partial = $this->render_partial("list_all_images");
     }
   }

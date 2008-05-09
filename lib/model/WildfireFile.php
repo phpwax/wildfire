@@ -22,6 +22,12 @@ class WildfireFile extends WaxModel {
     $this->define("date", "DateTimeField");
     $this->define("size", "IntegerField");
   }
+  
+  public function find_filter_images($filter, $limit = false) {
+    $params = array("conditions"=>"type LIKE '%image%' AND (filename LIKE '%$filter%' OR description LIKE '%$filter%')");
+    if($limit) $params['limit']=$limit;
+	  return $this->find_all($params);
+	}
 	
 	
 }
