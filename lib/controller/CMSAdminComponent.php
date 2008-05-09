@@ -50,7 +50,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* Construct method, initialises authentication, default model and menu items
 	**/
 	function __construct() {
-		$auth = new WXDBAuthenticate(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user"));
+		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user"));
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		$this->before_filter("all", "check_authorised", array("login"));
