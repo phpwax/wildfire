@@ -136,8 +136,7 @@ class CMSAdminFileController extends CMSAdminComponent {
       $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$s_path}%'" )->first();
       if($new_file->id)  {
         $new_file->oldid = $file->id;
-        print_r($new_file); exit;
-        //$new_file->save();
+        $new_file->save();
       }
     }
     exit;
