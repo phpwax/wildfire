@@ -42,6 +42,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function show_image() {
 	  $options = WaxUrl::get_params();
+	  print_r($options); exit;
 	  $img_id = WaxUrl::get("id");
 	  $img_size = $options["params"][0];
   	$this->use_view=false;
@@ -117,8 +118,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $this->browse_images();
 	  } else {
       $this->use_layout=false;
-      $images = new CmsFile;
-      $this->all_images = ($image = new CmsFile) ? $image->find_filter_images($_POST['filter'], "30"): array();
+      $this->all_images = ($image = new WildfireFile) ? $image->find_filter_images($_POST['filter'], "30"): array();
       $this->all_images_partial = $this->render_partial("list_all_images");
     }
   }
@@ -127,6 +127,17 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->image = new $this->model_class(url('id'));
   }
   
+  public function port_old_files() {
+    $file = new WildfireFile;
+    $files = $file->all();
+    foreach($files as $file) {
+      $old = new CmsFile;
+      $old_file = $old->find_first(array("conditions"=>"filename='{$file->filename}'"));
+      if($old_file) $file->description = $old_file->caption;
+      $file->save();
+    }
+    exit;
+  }
 
 	/**
 	* Save
