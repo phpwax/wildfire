@@ -132,7 +132,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     $files = $file->find_all();
     foreach($files as $file) {
       $new = new WildfireFile;
-      $new_file = $new->filter("filename = {$file->filename} AND rpath LIKE '%{$file->path}%'" )->first();
+      $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$file->path}%'" )->first();
       if($new_file) $new_file->oldid = $file->id;
       print_r($new_file); exit;
       //$new_file->save();
