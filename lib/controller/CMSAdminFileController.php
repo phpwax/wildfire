@@ -134,9 +134,10 @@ class CMSAdminFileController extends CMSAdminComponent {
       $new = new WildfireFile;
       $s_path = rtrim(str_replace("public/files/", "", $file->path), "-" );
       $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$s_path}%'" )->first();
-      if($new_file->id) $new_file->oldid = $file->id;
-      print_r($new_file); exit;
-      //$new_file->save();
+      if($new_file->id) $new_file->oldid = $file->id {
+        print_r($new_file); exit;
+        //$new_file->save();
+      }
     }
     exit;
   }
