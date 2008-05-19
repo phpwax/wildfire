@@ -63,7 +63,7 @@ class CMSAdminComponent extends WXControllerBase {
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = WXInflections::underscore($this->model_class);
-		  if (!$this->scaffold_columns) {
+		  if (!$this->scaffold_columns && is_array($this->model->column_info())) {
 			  $this->scaffold_columns = array_keys($this->model->column_info());
 		  }
 	  }
