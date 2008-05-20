@@ -30,10 +30,8 @@ class WildfireContent extends WaxModel{
 		$section = new CmsSection;
 		return $section->find_ordered_sections();
 	}
-	public function section() {
-		return $this->section;
-		/*$section = new CmsSection;
-		return $section->find($this->cms_section_id)->title;*/
+	public function section_name() {
+		return $this->section->title;
 	}
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
@@ -110,13 +108,8 @@ class WildfireContent extends WaxModel{
     else $params["conditions"] = $find;
     return $this->published_content("", $this->cms_section_id, $params);*/
   }
-	public function author() {
-		$this->author;
-    /*$user = new CmsUser;
-    return $user->find($this->author_id);*/
-  }
-  public function by() {
-    return $this->author->fullname;
+	public function by() {
+    return $this->author->username;
   }
 	public function author_options() {
 		$user = new WildfireUser;
