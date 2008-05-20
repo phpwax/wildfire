@@ -111,53 +111,7 @@ p{
 }
 
 /* HEADER */
-#header-container{
-	background-image: url(../../images/cms/cms_header-bg.gif);
-	height:80px;
-	padding:0;
-	padding-left:150px;
-}
-#header-container #cms-logo{
-	position:absolute;
-	top:8px;
-	left:25px;
-	width:141px;
-	height:61px;
-	background:url(../../images/cms/cms_wildfire-logo.gif) no-repeat;
-}
-#header-container #primary-navigation{
-	position:absolute;
-	left:300px;
-	top:12px;
-	margin:0;
-}
-#header-container #primary-navigation a{
-	color:#fff;
-	text-decoration:none;
-	font-weight:bold;
-	background-position:center top;
-	background-repeat:no-repeat;
-	width:100px;
-	display:block;
-	height:20px;
-	padding-top:45px;
-	text-align:center;
-}
-#header-container #primary-navigation li{
-	float:left;
-}
-#header-container #primary-navigation #home{
-	background-image: url(../../images/cms/cms_header-icon-home.gif);
-}
-#header-container #primary-navigation #support{
-	background-image: url(../../images/cms/cms_header-icon-support.gif);
-}
-#header-container #primary-navigation #site{
-	background-image: url(../../images/cms/cms_header-icon-site.gif);
-}
-#header-container #primary-navigation #logout{
-	background-image: url(../../images/cms/cms_header-icon-logout.gif);
-}
+
 #main-navigation-container{
   font-size:92%;
 	background:#B4B3B3 url(../../images/cms/main_nav_bg.gif) repeat-x;
