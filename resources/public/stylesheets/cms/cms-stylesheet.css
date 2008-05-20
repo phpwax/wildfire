@@ -1002,6 +1002,7 @@ li.pagination_link a {
   height:69px;
   padding:0;
   padding-left:10px;
+  border:1px solid red;
 }
 
 #primary-navigation {
