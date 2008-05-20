@@ -140,7 +140,18 @@ class CMSAdminFileController extends CMSAdminComponent {
   }
   
   public function port_content() {
-    
+    $content = new CmsContent;
+    $articles = $content->find_all(array("limit"=>"10"));
+    $new = new WildfireFile;
+    foreach($articles as $article) {
+      $art_images = $article->images;
+      $article->has_many("wildfire_file", "images");
+   	  foreach($art_images as $img) {
+   	    $newimg = $new->filter("oldid=".$img->id)->first();
+   	    $new_imgs[]=$newimg;
+   	  }
+    }
+    print_r($new_imgs); exit;
   }
 
 	/**
