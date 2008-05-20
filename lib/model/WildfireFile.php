@@ -21,6 +21,7 @@ class WildfireFile extends WaxModel {
     $this->define("description", "TextField");
     $this->define("date", "DateTimeField");
     $this->define("size", "IntegerField");
+    $this->define("oldid", "IntegerField");
   }
   
   public function find_filter_images($filter, $limit = false) {

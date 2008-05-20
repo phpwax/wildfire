@@ -124,14 +124,17 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->image = new $this->model_class(url('id'));
   }
   
-  public function port_old_files() {
-    $file = new WildfireFile;
-    $files = $file->all();
+  public function port_ids() {
+    $file = new CmsFile;
+    $files = $file->find_all();
     foreach($files as $file) {
-      $old = new CmsFile;
-      $old_file = $old->find_first(array("conditions"=>"filename='{$file->filename}'"));
-      if($old_file) $file->description = $old_file->caption;
-      $file->save();
+      $new = new WildfireFile;
+      $s_path = rtrim(str_replace("public/files/", "", $file->path), "/" );
+      $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$s_path}%'" )->first();
+      if($new_file->id)  {
+        $new_file->oldid = $file->id;
+        $new_file->save();
+      }
     }
     exit;
   }
