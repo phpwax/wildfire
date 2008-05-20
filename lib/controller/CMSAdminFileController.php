@@ -138,6 +138,10 @@ class CMSAdminFileController extends CMSAdminComponent {
     }
     exit;
   }
+  
+  public function port_content() {
+    
+  }
 
 	/**
 	* Save
