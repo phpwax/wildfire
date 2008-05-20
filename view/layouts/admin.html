@@ -36,20 +36,19 @@
 	    <li><a href="/admin/home/logout" id="logout">Logout</a></li>
 	  </ul>
 	</div>
-	
-	<div id="sub-navigation-container">
-		<ul id="submenu" class="clearfix">
-	    <?if($sub_links):?>
-	      <?foreach($sub_links as $sub_link=>$text):?>
-	        <?$class=""?>
-	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
-	        <?if($sub_link=="create" && strlen($class) > 1) $class.=" create_content";
-	        elseif($sub_link=="create") $class .="create_content";?>
-	  	    <li class="<?=$class?>"><?=link_to($text, array("action"=>$sub_link))?></li>
-	  	  <?endforeach;?>
-	  	<?endif;?>
-		</ul>
-	</div>
+	<?if($sub_links):?>
+  	<div id="sub-navigation-container">
+  		<ul id="submenu" class="clearfix">
+  	      <?foreach($sub_links as $sub_link=>$text):?>
+  	        <?$class=""?>
+  	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
+  	        <?if($sub_link=="create" && strlen($class) > 1) $class.=" create_content";
+  	        elseif($sub_link=="create") $class .="create_content";?>
+  	  	    <li class="<?=$class?>"><?=link_to($text, array("action"=>$sub_link))?></li>
+  	  	  <?endforeach;?>
+  		</ul>
+  	</div>
+	<?endif;?>
 	<div id="page-container" class="clearfix">
   		
 		<div id="content">
