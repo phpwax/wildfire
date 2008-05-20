@@ -1007,7 +1007,7 @@ li.pagination_link a {
 
 #primary-navigation {
   float:left;
-  font-size:108%;
+  font-size:100%;
   margin:10px 0 0 40px;
 }
 #primary-navigation li {
@@ -1018,7 +1018,7 @@ li.pagination_link a {
 }
 #primary-navigation li a {
   color:#1A1718;
-  text-shadow:#E1E1E1 1px 2px 0;
+  text-shadow:#E1E1E1 1px 1px 0;
   text-decoration:none;
 }
 #primary-navigation li.active {
