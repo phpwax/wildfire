@@ -1022,7 +1022,7 @@ li.pagination_link a {
   text-decoration:none;
 }
 #primary-navigation li.active {
-  background:url(../../images/nav_highlight.gif) no-repeat bottom center;
+  background:url(../../images/cms/nav_highlight.gif) no-repeat bottom center;
 }
 #cms_logo {
   float:left;
