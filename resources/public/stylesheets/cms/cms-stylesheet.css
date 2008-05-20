@@ -1007,17 +1007,17 @@ li.pagination_link a {
 #primary-navigation {
   float:left;
   font-size:100%;
-  margin:10px 0 0 40px;
 }
 #primary-navigation li {
   display:block;
   float:left;
   margin-right:30px;
   height:69px;
+  line-height:69px;
 }
 #primary-navigation li a {
   color:#E1E1E1;
-  text-shadow:#333333 1px 1px 0;
+  text-shadow:#333333 1px 2px 0;
   text-decoration:none;
 }
 #primary-navigation li.active {
