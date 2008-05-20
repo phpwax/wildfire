@@ -62,6 +62,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->display_action_name = 'List Items';
 	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>$this->list_limit, 'conditions'=>"`status` <> '3' ");
 		$this->all_rows = $this->model->find_all($options);
+		print_r($this->all_rows);exit;
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}

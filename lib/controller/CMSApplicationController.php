@@ -16,6 +16,7 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function cms_check() {
 	  if($this->param("page")) $this->this_page=$this->param("page");
+		if($this->action == "error-404") {print_r($this);exit;}
 	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) {
 	    if($this->action=="index") $this->section_stack[]="";
 	    else $this->section_stack[]=$this->action;
@@ -36,6 +37,7 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
+
     foreach($stack as $k=>$v) {
       if(is_numeric($k)) {
         if($result = $this->get_section($v) ) {

@@ -9,7 +9,7 @@ class WildfireUser extends WaxModel {
     $this->define("firstname", "CharField");
     $this->define("surname", "CharField");
     $this->define("email", "CharField");
-    $this->define("password", "CharField", array("required"=>true));
+    $this->define("password", "PasswordField", array("required"=>true));
     $this->define("usergroup", "CharField");
   }
 	
