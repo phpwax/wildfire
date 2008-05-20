@@ -1023,7 +1023,9 @@ li.pagination_link a {
 #primary-navigation li.active {
   background:url(../../images/nav_highlight.gif) no-repeat bottom center;
 }
-
+#cms_logo {
+  float:left;
+}
 
 
 
