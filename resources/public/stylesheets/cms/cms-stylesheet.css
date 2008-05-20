@@ -18,7 +18,6 @@ img{
 }
 body{
 	background:#fff;
-	border-top:1px solid #89c202;
 	text-align:left;
 	font-family:verdana;
 }
@@ -1002,7 +1001,7 @@ li.pagination_link a {
   background-image: url(../../images/cms/cms_header-bg.gif);
   height:69px;
   padding:0;
-  padding-left:90px;
+  padding-left:10px;
 }
 
 #primary-navigation {
