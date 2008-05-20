@@ -1043,7 +1043,38 @@ li.pagination_link a {
 }
 /****** End Settings Form Styles *****/
 
+/**** Wildfire 1.0 Updated Style ********/
+#header-container {
+  background-image: url(../../images/cms/cms_header-bg.gif);
+  height:69px;
+  padding:0;
+  padding-left:90px;
+}
 
+#primary-navigation {
+  float:left;
+  font-size:108%;
+  margin:10px 0 0 40px;
+}
+#primary-navigation li {
+  display:block;
+  float:left;
+  margin-right:30px;
+  height:46px;
+}
+#primary-navigation li a {
+  color:#1A1718;
+  text-shadow:white 1px 2px 0;
+  text-decoration:none;
+}
+#primary-navigation li.active {
+  background:url(../../images/nav_highlight.gif) no-repeat bottom center;
+}
+
+
+
+
+/*** End Wildfire 1.0 Updates **********/
 
 .clearfix:after {
 	content:".";
