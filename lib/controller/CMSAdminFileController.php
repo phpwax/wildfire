@@ -25,7 +25,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function controller_global(){
 		parent::controller_global();
 		$this->sub_links = array();
-		$this->sub_links[""] = "Manage Your Files";
 	}
 	
 	
