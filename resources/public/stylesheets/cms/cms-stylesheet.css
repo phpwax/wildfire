@@ -1049,7 +1049,7 @@ li.pagination_link a {
 }
 #submenu li a:hover {
   text-decoration:none !important;
-  color:#999999;
+  color:#262626;
   font-weight:normal;
 }
 #submenu .sub_nav_selected a {
