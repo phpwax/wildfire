@@ -1029,12 +1029,13 @@ li.pagination_link a {
   padding-top:10px;
 }
 
-
+#sub-navigation-container {
+  background:none;
+}
 #submenu {
   margin:20px 0;
   border-bottom:1px solid #989898;
   width:90%;
-  background:none;
 }
 #submenu li {
   float:left;
