@@ -166,23 +166,9 @@ class CmsContent extends WaxModel {
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
-  /* delete bits form join table */
-	public function remove_joins($information, $value){
-		if(!is_array($information) || !$value) return false;
-		$file_sql = 'DELETE FROM '. $information['file_table'] . ' WHERE `' . $information['file_field'] . "` = '$value'";
-		$this->pdo->exec($sql);
-		$sql = 'DELETE FROM '. $information['category_table'] . ' WHERE `' . $information['category_field'] . "` = '$value'";
-		$this->pdo->exec($sql);
-	}
-	public function find_most_commented($section="1", $since="7", $limit="10") {
-	  $content = new CmsContent;
-	  $sections = new CmsSection;
-	  if($section && !is_numeric($section)) $section = $sections->find_by_url($section)->id;
-	  $sql = "SELECT *, count(attached_id) as counter FROM `cms_comment` RIGHT JOIN cms_content ON attached_id=cms_content.id WHERE cms_comment.status=1 AND `time` > date_sub(now(), INTERVAL '$since' DAY)";
-	  if($section) $sql.= " AND cms_section_id=$section";
-	  $sql.= " GROUP BY attached_id ORDER BY counter DESC LIMIT $limit";
-	  return $content->find_by_sql($sql);
-	}
+  /* delete bits form join table -now handled by the field */
+	public function remove_joins($information, $value){return false;}
+	
 	public function comments($params= array()) {
 	  $comments = new CmsComment;
 	  $params["conditions"]= "attached_id=".$this->id." AND attached_table='cms_content' AND status=1";

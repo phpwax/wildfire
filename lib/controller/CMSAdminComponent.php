@@ -184,7 +184,8 @@ class CMSAdminComponent extends WXControllerBase {
 		if(!$id) $id = $this->route_array[0];
 		
 		if($id) {
-			$this->model->delete($id);
+			$field = $this->model->primary_key;
+			$this->model->filter($field.'='.$id)->first()->delete($id);
 			if($this->run_post_delete && ($function = $this->post_delete_function) ) $this->model->$function($this->post_delete_information, $id);			
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('index');
