@@ -1045,7 +1045,7 @@ li.pagination_link a {
   text-decoration:none;
   color:#686868;
   font-size:100%;
-  line-height:180%;
+  line-height:200%;
 }
 #submenu li a:hover {
   text-decoration:none !important;
@@ -1055,7 +1055,7 @@ li.pagination_link a {
   font-size:109%;
   color:#1A1718;
   font-weight:bold;
-  line-height:180%;
+  line-height:200%;
 }
 #submenu .sub_nav_selected {
   border-bottom:4px solid #989898;
