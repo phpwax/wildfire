@@ -1054,7 +1054,7 @@ li.pagination_link a {
   line-height:180%;
 }
 #submenu .sub_nav_selected {
-  border-bottom:3px solid #989898;
+  border-bottom:4px solid #989898;
   background:none;
 }
 
