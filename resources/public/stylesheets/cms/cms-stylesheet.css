@@ -1048,7 +1048,7 @@ li.pagination_link a {
   line-height:200%;
 }
 #submenu li a:hover {
-  text-decoration:none;
+  text-decoration:none !important;
   color:#999999;
 }
 #submenu .sub_nav_selected a {
