@@ -1046,13 +1046,13 @@ li.pagination_link a {
   font-size:93%;
   line-height:200%;
 }
-#submenu.sub_nav_selected a {
+#submenu .sub_nav_selected a {
   font-size:108%;
   color:#1A1718;
   font-weight:bold;
   line-height:180%;
 }
-#submenu.sub_nav_selected {
+#submenu .sub_nav_selected {
   border-bottom:3px solid #989898;
 }
 
