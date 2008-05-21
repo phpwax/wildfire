@@ -5,8 +5,8 @@
 */
 class CMSAdminContentController extends CMSAdminComponent {
 	public $module_name = "content";
-	public $model_class = 'WildfireContent';
-	public $model_name = "wildfire_content";
+	public $model_class = 'CmsContent';
+	public $model_name = "cms_content";
 	public $display_name = "Site Content";
 	
 	public $scaffold_columns = array(
