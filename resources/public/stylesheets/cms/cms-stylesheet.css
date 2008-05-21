@@ -1040,6 +1040,7 @@ li.pagination_link a {
 #submenu li {
   float:left;
   margin:0 23px 0 0;
+  padding:0;
 }
 #submenu li a {
   text-decoration:none;
