@@ -40,11 +40,12 @@ class CMSAdminComponent extends WXControllerBase {
 	public $order_by_columns = array();
 	
 	/** 
-	* post delete function vars
-	**/
-	protected $run_post_delete = false;
-	protected $post_delete_function = false;
-	protected $post_delete_information = false;
+	* post delete function vars - no longer in use, replaced by the field model unlinking
+	*
+	* protected $run_post_delete = false;
+	* protected $post_delete_function = false;
+	* protected $post_delete_information = false;
+	*/
 	
 	/** 
 	* Construct method, initialises authentication, default model and menu items
@@ -183,9 +184,9 @@ class CMSAdminComponent extends WXControllerBase {
 		$id = WaxUrl::get("id");
 		if(!$id) $id = $this->route_array[0];
 		
-		if($id) {
-			$this->model->delete($id);
-			if($this->run_post_delete && ($function = $this->post_delete_function) ) $this->model->$function($this->post_delete_information, $id);			
+		if($id) { /*updated to new methods*/
+			$field = $this->model->primary_key;
+			$this->model->filter($field.'='.$id)->first()->delete($id);
 			Session::add_message("Item successfully deleted");
 			$this->redirect_to('index');
 		}
