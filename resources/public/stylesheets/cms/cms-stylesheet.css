@@ -1030,6 +1030,33 @@ li.pagination_link a {
 }
 
 
+#submenu {
+  margin-bottom:20px;
+  border-bottom:1px solid #989898;
+}
+#submenu li {
+  float:left;
+  margin-right:23px;
+}
+#submenu li a {
+  text-decoration:none;
+  color:#686868;
+  font-size:93%;
+  line-height:200%;
+}
+#submenu.sub_nav_selected a {
+  font-size:108%;
+  color:#1A1718;
+  font-weight:bold;
+  line-height:180%;
+}
+#submenu.sub_nav_selected {
+  border-bottom:3px solid #989898;
+}
+
+
+
+
 
 /*** End Wildfire 1.0 Updates **********/
 
