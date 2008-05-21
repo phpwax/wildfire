@@ -25,6 +25,8 @@ class CmsContent extends WaxModel {
 		$this->define("author", "ForeignKey", array('model_name'=>'WildfireUser', 'col_name'=>"author_id"));
 		//extra content
 		$this->define("more_content", "HasManyField", array('model_name'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
+		//comments
+		$this->define("comments", "HasManyField", array('model_name'=>"CmsComments", 'join_field'=>"attached_id"));
 	}
 	public function page_status() {
 		return $this->status_options[$this->status];
@@ -168,13 +170,7 @@ class CmsContent extends WaxModel {
   }
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return false;}
-	
-	public function comments($params= array()) {
-	  $comments = new CmsComment;
-	  $params["conditions"]= "attached_id=".$this->id." AND attached_table='cms_content' AND status=1";
-	  if(!$params["order"]) $params["order"] = "time ASC";
-	  return $comments->find_all($params);
-	}
+
 	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
 	  foreach($searches as $search) {
 	    $conditions = "";

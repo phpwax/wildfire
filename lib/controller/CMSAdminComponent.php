@@ -186,8 +186,9 @@ class CMSAdminComponent extends WXControllerBase {
 		
 		if($id) { /*updated to new methods*/
 			$field = $this->model->primary_key;
-			$this->model->filter($field.'='.$id)->first()->delete($id);
+			$model= $this->model->clear()->filter($field.'='.$id)->first()->limit(false)->delete();
 			Session::add_message("Item successfully deleted");
+			
 			$this->redirect_to('index');
 		}
 	}
