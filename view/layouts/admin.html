@@ -39,9 +39,7 @@
 	<?if($sub_links):?>
   	<div id="sub-navigation-container">
   		<ul id="submenu" class="clearfix">
-  		    <?if($action=="index") $opts = array("class"=>"sub_nav_selected");
-  		    else $opts=array()?>
-  		    <li><?=link_to("Index", array("action"=>"index"), $opts)?></li>
+  		    <li<?if($action=="index"):?> class="sub_nav_selected"<?endif?>><?=link_to("Index", array("action"=>"index"))?></li>
   	      <?foreach($sub_links as $sub_link=>$text):?>
   	        <?$class=""?>
   	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
