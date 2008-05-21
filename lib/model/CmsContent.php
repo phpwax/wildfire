@@ -114,9 +114,6 @@ class CmsContent extends WaxModel {
   }
 	public function author() {
 		$this->author->username;
-    /*old version 
-		$user = new CmsUser;
-    return $user->find($this->author_id);*/
   }
   public function by() {
     return $this->author->username;
@@ -124,8 +121,6 @@ class CmsContent extends WaxModel {
 	public function author_options() {
 		$user = new WildfireUser;
 		return options_from_collection($user->filter('usergroup > 9')->all(), "id", "fullname");
-    /*$user = new CmsUser;
-    return options_from_collection($user->find_all(array("conditions"=>"usergroup > 9")), "id", "fullname");*/
   }
   /***** Finders for dealing with the extra_content table ******/
 	public function extra_content($name) {
