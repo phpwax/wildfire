@@ -16,11 +16,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public $filter_columns = array("filename", "caption");
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
-	
-	protected $run_post_delete = true;
-	protected $post_delete_function = "remove_joins";
-	protected $post_delete_information = array('file_table'=>"cms_content_cms_file", 'file_field'=>"cms_file_id");
-	
+
 	
 	public function controller_global(){
 		parent::controller_global();

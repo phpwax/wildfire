@@ -13,14 +13,6 @@ class CMSAdminSectionController extends CMSAdminComponent {
   public $filter_columns = array("title");
 	public $order_by_columns = array("title","url");
 
-	/* run post delete triggers */
-	protected $run_post_delete = true;
-	protected $post_delete_function = "prevent_orphans";
-	protected $post_delete_information = array( 'table'=>"cms_content", 
-																							'field'=>"cms_section_id",
-																							'new_parent_id'=>1
-																							);
-
 	public function controller_global() {
 		$this->tree_collection = $this->model->sections_as_collection();
 	}
