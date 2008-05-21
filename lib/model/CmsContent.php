@@ -116,7 +116,7 @@ class CmsContent extends WaxModel {
     return $user->find($this->author_id);*/
   }
   public function by() {
-    return $this->author->username;
+    return $this->author->fullname;
   }
 	public function author_options() {
 		$user = new WildfireUser;
