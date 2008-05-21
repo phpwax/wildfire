@@ -1040,14 +1040,13 @@ li.pagination_link a {
 #submenu li {
   float:left;
   margin:0 23px 0 0;
-  padding:0;
+  padding:0 2px !important;
 }
 #submenu li a {
   text-decoration:none;
   color:#686868;
   font-size:108%;
   line-height:140%;
-  padding:0;
 }
 #submenu li a:hover {
   text-decoration:none !important;
