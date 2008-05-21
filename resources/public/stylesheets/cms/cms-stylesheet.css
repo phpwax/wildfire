@@ -1055,6 +1055,7 @@ li.pagination_link a {
 }
 #submenu .sub_nav_selected {
   border-bottom:3px solid #989898;
+  background:none;
 }
 
 
