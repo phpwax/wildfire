@@ -1039,7 +1039,7 @@ li.pagination_link a {
 }
 #submenu li {
   float:left;
-  margin-right:23px;
+  margin:0 23px 0 0;
 }
 #submenu li a {
   text-decoration:none;
