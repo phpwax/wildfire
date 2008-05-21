@@ -17,9 +17,9 @@ img{
 	border:0px;
 }
 body{
-	background:#fff;
-	text-align:left;
-	font-family:verdana;
+	background:#EDEDED;
+  text-align:left;
+  font-family:Arial;
 }
 option {
 	margin-right:12px;
@@ -1028,6 +1028,41 @@ li.pagination_link a {
   float:left;
   padding-top:10px;
 }
+
+#sub-navigation-container {
+  background:none;
+}
+#submenu {
+  margin:20px 2%;
+  border-bottom:1px solid #989898;
+  width:95%;
+}
+#submenu li {
+  float:left;
+  margin:0 23px 0 0;
+  padding:0 2px !important;
+}
+#submenu li a {
+  text-decoration:none;
+  color:#686868;
+  font-size:116%;
+  line-height:140%;
+}
+#submenu li a:hover {
+  text-decoration:none !important;
+  color:#262626;
+  font-weight:normal;
+}
+#submenu .sub_nav_selected a {
+  color:#1A1718;
+  font-weight:bold;
+}
+#submenu .sub_nav_selected {
+  border-bottom:4px solid #989898;
+  background:none;
+}
+
+
 
 
 
