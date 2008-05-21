@@ -4,9 +4,9 @@
 * @package PHP-WAX CMS
 */
 class CMSAdminContentController extends CMSAdminComponent {
-	public $module_name = "content";
+	public $module_name = "content";											
 	public $model_class = 'WildfireContent';
-	public $model_name = "wildfire_content";
+	public $model_name = "wildfire_content";													
 	public $display_name = "Site Content";
 	
 	public $scaffold_columns = array(
@@ -27,10 +27,10 @@ class CMSAdminContentController extends CMSAdminComponent {
 	/* run post delete triggers */
 	protected $run_post_delete = true;
 	protected $post_delete_function = "remove_joins";
-	protected $post_delete_information = array( 'file_table'=>"wildfire_content_wildfire_file",
-																							'file_field'=>"wildfire_content_id",
+	protected $post_delete_information = array( 'file_table'=>"wildfire_content_wildfire_file", 
+																							'file_field'=>"wildfire_content_id", 
 																							'category_table' => "cms_category_wildfire_content",
-																							'category_field' => "wildfire_content");
+																							'category_field' => "cms_content_id");
 	
 
 	public function method_missing() {
@@ -100,7 +100,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function create() {
-		$model = new CmsContent();
+		$model = new WildfireContent();
 		$model->status = 3;
 		$model->save();
 		$this->redirect_to("/admin/content/edit/".$model->id);

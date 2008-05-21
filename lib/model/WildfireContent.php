@@ -33,6 +33,7 @@ class WildfireContent extends WaxModel{
 	public function section_name() {
 		return $this->section->title;
 	}
+
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
 	  $this->avoid_section_url_clash();
@@ -108,7 +109,12 @@ class WildfireContent extends WaxModel{
     else $params["conditions"] = $find;
     return $this->published_content("", $this->cms_section_id, $params);*/
   }
-	public function by() {
+	public function author() {
+		$this->author->username;
+    /*$user = new CmsUser;
+    return $user->find($this->author_id);*/
+  }
+  public function by() {
     return $this->author->username;
   }
 	public function author_options() {
