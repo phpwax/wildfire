@@ -5,8 +5,8 @@
 */
 class CMSAdminContentController extends CMSAdminComponent {
 	public $module_name = "content";											
-	public $model_class = 'WildfireContent';
-	public $model_name = "wildfire_content";													
+	public $model_class = 'CmsContent';
+	public $model_name = "cms_content";													
 	public $display_name = "Site Content";
 	
 	public $scaffold_columns = array(
@@ -27,9 +27,9 @@ class CMSAdminContentController extends CMSAdminComponent {
 	/* run post delete triggers */
 	protected $run_post_delete = true;
 	protected $post_delete_function = "remove_joins";
-	protected $post_delete_information = array( 'file_table'=>"wildfire_content_wildfire_file", 
-																							'file_field'=>"wildfire_content_id", 
-																							'category_table' => "cms_category_wildfire_content",
+	protected $post_delete_information = array( 'file_table'=>"cms_content_wildfire_file", 
+																							'file_field'=>"cms_content_id", 
+																							'category_table' => "cms_category_cms_content",
 																							'category_field' => "cms_content_id");
 	
 
@@ -52,7 +52,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		*/
 		$author_id = $this->current_user->id; 
 		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `wildfire_user_id`='$author_id' AND `date_created` < '$time' ") );
+		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id' AND `date_created` < '$time' ") );
 		if(count($temp_content)){
 			foreach($temp_content as $content){
 				$content->delete($content->id);
@@ -100,7 +100,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function create() {
-		$model = new WildfireContent();
+		$model = new CmsContent();
 		$model->status = 3;
 		$model->save();
 		$this->redirect_to("/admin/content/edit/".$model->id);
