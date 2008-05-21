@@ -100,7 +100,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	}
 	
 	public function create() {
-		$model = new CmsContent();
+		$model = new WildfireContent();
 		$model->status = 3;
 		$model->save();
 		$this->redirect_to("/admin/content/edit/".$model->id);
