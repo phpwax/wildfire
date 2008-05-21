@@ -1047,6 +1047,10 @@ li.pagination_link a {
   font-size:93%;
   line-height:200%;
 }
+#submenu li a:hover {
+  text-decoration:none;
+  color:#999999;
+}
 #submenu .sub_nav_selected a {
   font-size:108%;
   color:#1A1718;
