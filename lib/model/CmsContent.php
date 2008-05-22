@@ -27,6 +27,8 @@ class CmsContent extends WaxModel {
 		$this->define("more_content", "HasManyField", array('model_name'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
 		//comments
 		$this->define("comments", "HasManyField", array('model_name'=>"CmsComments", 'join_field'=>"attached_id"));
+		//categorys
+		$this->define("categories", "ManyToManyField", array('model_name'=>"CmsCategory"));
 	}
 	public function page_status() {
 		return $this->status_options[$this->status];
