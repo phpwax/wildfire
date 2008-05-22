@@ -22,7 +22,6 @@ class CmsApplicationController extends WXControllerBase{
 	    return false;
     }
 	  $url = $this->parse_urls();
-	  die($url);
 	  $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
 	  $params = array();
     if($this->per_page) {
@@ -30,6 +29,7 @@ class CmsApplicationController extends WXControllerBase{
       $params["page"] = $this->this_page;
     } 
     $this->get_content($content, $params);
+    die("HELLO");
     $this->pick_view();
 		if($this->cms_content) $this->action = "cms_content";
     if($this->is_page()) $this->cms_content->add_pageview();
