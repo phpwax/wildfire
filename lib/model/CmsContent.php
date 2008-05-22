@@ -191,7 +191,6 @@ class CmsContent extends WaxModel {
     return $this->find_by_category($cat_ids, $limit, $section);
 	}
 	public function find_by_category($category, $limit="1", $section=false) {
-	  return array();
 		$sql="SELECT t1.* FROM `cms_content` as t1, cms_category as t2, cms_category_cms_content as t3
     WHERE t2.id=t3.cms_category_id AND t1.id=t3.cms_content_id AND t1.status=1 AND (DATE_FORMAT(t1.published, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d'))";
     if(is_array($category)) {
