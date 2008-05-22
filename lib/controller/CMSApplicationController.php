@@ -98,7 +98,10 @@ class CmsApplicationController extends WXControllerBase{
 	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
 	    return $res[0];
 	  }
-	  $id = $content->find_by_url($url)->cms_section_id;
+		$found = $content->filter(array('url'=>$url))->first();
+		if($found->id) $id = $found->cms_section_id;
+		else $id = null;
+
 	  if($id == null) throw new WXRoutingException('404');
     if($res = $section->find($id)) return $res;
 	  return false;
@@ -108,7 +111,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
     $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
-		print_r($this->cms_content);exit;
+
 	}	
 	
 	
