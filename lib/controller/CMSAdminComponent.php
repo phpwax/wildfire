@@ -189,7 +189,7 @@ class CMSAdminComponent extends WXControllerBase {
 			$model= $this->model->clear()->filter($field.'='.$id)->first()->limit(false)->delete();
 			Session::add_message("Item successfully deleted");
 			
-			$this->redirect_to('index');
+			$this->redirect_to("/".WaxUrl::get("controller")."/index");
 		}
 	}
 	
