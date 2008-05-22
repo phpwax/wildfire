@@ -48,7 +48,7 @@ class CmsApplicationController extends WXControllerBase{
     return end($this->section_stack);
 	}
 	
-	/* Generic dynamic image display method */
+	/* Generic dynamic image display method -needs rewriting!*/
 	
 	public function show_image() {
 	  $this->use_layout=false;
@@ -108,6 +108,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
     $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
+		print_r($this->cms_content);exit;
 	}	
 	
 	
