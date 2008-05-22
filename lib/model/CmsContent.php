@@ -182,7 +182,7 @@ class CmsContent extends WaxModel {
 	  $sql = "SELECT *, count(attached_id) as counter FROM `cms_comment` RIGHT JOIN cms_content ON attached_id=cms_content.id WHERE cms_comment.status=1 AND `time` > date_sub(now(), INTERVAL '$since' DAY)";
 	  if($section) $sql.= " AND cms_section_id=$section";
 	  $sql.= " GROUP BY attached_id ORDER BY counter DESC LIMIT $limit";
-	  print_r($content->find_by_sql($sql));exit;
+	  return $content->find_by_sql($sql);
 	  
 	}
 	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
