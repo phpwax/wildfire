@@ -1,37 +1,46 @@
 <?php
 
-class CmsComment extends WXActiveRecord {
+class CmsComment extends WaxModel {
   
   
 	public $status_options = array("0"=>"Unapproved", "1"=>"Approved", "2"=>"Spam"); 
 	public $config = array();
-	public $attached_table_name = "cms_content";
-	public $author_table_name = "cms_user";
+	
+	public function setup(){
+		$this->define("attached_to", "ForeignKey", array('model_name'=>"CmsContent", 'col_name'=>"attached_id") );
+		$this->define("comment", "TextField");
+		$this->define("author_name", "CharField", array('maxlength'=>255));
+		$this->define("author_email", "CharField", array('maxlength'=>255));
+		$this->define("author_website", "CharField", array('maxlength'=>255));				
+		$this->define("author_ip", "CharField", array('maxlength'=>255));				
+		$this->define("author", "ForeignKey", array('model_name'=>"WildfireUser"));				
+		$this->define("status", "IntegerField", array('maxlength'=>2));
+		$this->define("type", "CharField", array('maxlength'=>255));		
+		$this->define("karma", "IntegerField", array('maxlength'=>128));		
+		$this->define("time", "DateTimeField");				
+	}
+	
+	
 
   public function validations() {
     $this->valid_required("author_name");
     $this->valid_required("author_email");
-    //$this->valid_format("author_email", "email");
     $this->valid_required("comment");
   }
   
   public function before_insert() {
     $this->author_ip = $_SERVER["REMOTE_ADDR"];
     $this->time = date("Y-m-d H:i:s");
-    if(!$this->attached_table) $this->attached_table = $this->attached_table_name;
-    if(!$this->author_table) $this->author_table = $this->author_table_name;
     $this->config = CmsConfiguration::get("comments");
     $this->flag_spam();
   }
-  
-  public function find_comments($article, $type=false) {
-    if(!$type) $type = $this->attached_table_name;
-    return $this->find_all(array("conditions"=>"attached_table='$type' AND attached_id=$article AND status=1", "order"=>"time ASC"));
+  /*old, cant see it used anywhere so will get it to return false*/
+  public function find_comments($article=false, $type=false) {
+		return false;
   }
   
   public function article() {
-    $class = camelize($this->attached_table_name);
-    return new $class($this->attached_id);
+    return $this->attached_to;
   }
  
   public function time_ago() {
@@ -48,10 +57,7 @@ class CmsComment extends WXActiveRecord {
   }
   
   public function article_permalink() {
-    $class= camelize($this->attached_table, true);
-    $model = new $class;
-    $article = $model->find($this->attached_id);
-    return $article->permalink;
+    return $$this->attached_to->permalink;
   }
   
   public function gravatar_url($size="50") {

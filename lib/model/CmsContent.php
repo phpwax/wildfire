@@ -108,7 +108,8 @@ class CmsContent extends WaxModel {
   }
 	public function find_related_in_section($params=false) {
 		return $this->clear()->filter('cms_section_id='.$this->cms_section_id . " id <> ".$this->id)->order('published DESC')->all();
-    /*$section = $this->cms_section_id;
+    /* old version, left in as this function doesnt seem to be used at the mo.
+		$section = $this->cms_section_id;
     $find = "id !=".$this->id;
     if($params["conditions"]) $params["conditions"] .= " AND $find";
     else $params["conditions"] = $find;
@@ -118,7 +119,7 @@ class CmsContent extends WaxModel {
 		$this->author->username;
   }
   public function by() {
-    return $this->author->fullname;
+    return $this->author->username;
   }
 	public function author_options() {
 		$user = new WildfireUser;
@@ -138,7 +139,7 @@ class CmsContent extends WaxModel {
   }
 	public function extra_content_value($name) {
 		$content = $this->more_content;
-		if($content) return stripslashes($content->filter(array('name'=>$name))->first()->extra_content);
+		if($content) return CmsTextFilter::filter("before_output", $content->filter(array('name'=>$name))->first()->extra_content);
 		else return "";
   }
 	/*not sure if or where this is used - cant seem to find it so now returns false*/
