@@ -165,10 +165,10 @@ class CmsContent extends WaxModel {
 		return $this->images[$number-1];
 	}
 	public function add_pageview() {
-	  echo $this->pageviews."....";
+	  echo $this->pageviews."....1";
 		$this->pageviews = intval($this->pageviews) + 1;
 		$this->save();
-	  echo $this->pageviews."....";
+	  echo $this->pageviews."....2";
 	  exit;
   }
 	public function format_content() {
