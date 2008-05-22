@@ -201,7 +201,7 @@ class CmsContent extends WaxModel {
     if($limit > 1) return $this->find_by_sql($sql);
     else {
 			$res = $this->find_by_sql($sql);
-      return $res[0];
+      return $res->first();
 		}
 	}
 	public function ping_technorati(){

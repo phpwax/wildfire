@@ -20,8 +20,6 @@ class CmsComment extends WaxModel {
 		$this->define("time", "DateTimeField");				
 	}
 	
-	
-
   public function validations() {
     $this->valid_required("author_name");
     $this->valid_required("author_email");
