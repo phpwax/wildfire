@@ -26,7 +26,7 @@ class CmsContent extends WaxModel {
 		//extra content
 		$this->define("more_content", "HasManyField", array('model_name'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
 		//comments
-		$this->define("comments", "HasManyField", array('model_name'=>"CmsComments", 'join_field'=>"attached_id"));
+		$this->define("comments", "HasManyField", array('model_name'=>"CmsComment", 'join_field'=>"attached_id"));
 		//categorys
 		$this->define("categories", "ManyToManyField", array('model_name'=>"CmsCategory"));
 	}
@@ -166,7 +166,7 @@ class CmsContent extends WaxModel {
 		return $this->images[$number-1];
 	}
 	public function add_pageview() {
-		$this->pageviews = $this->pageviews + 1;
+		$this->pageviews = intval($this->pageviews) + 1;
 		$this->save();
   }
 	public function format_content() {
