@@ -1,6 +1,6 @@
 <?php
 
-class CmsCategory extends WXTreeRecord {
+class CmsCategory extends WaxModel {
   
 	public $tree_array = array();
 	

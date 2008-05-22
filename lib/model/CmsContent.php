@@ -95,6 +95,7 @@ class CmsContent extends WaxModel {
 	  }
 	  $params['conditions'].=" AND cms_section_id=$section";
 	  if($res = $this->find_all($params)) return $res;
+	
 	  return array();
 	}
 	public function all_content($url, $section, $params=false) {
