@@ -167,8 +167,8 @@ class CmsContent extends WaxModel {
 	public function add_pageview() {
 	  echo $this->pageviews."....1";
 		$this->pageviews = intval($this->pageviews) + 1;
-		$this->save();
 	  print_r($this);
+		$this->save();
 	  exit;
   }
 	public function format_content() {
