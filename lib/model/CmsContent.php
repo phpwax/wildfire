@@ -169,7 +169,7 @@ class CmsContent extends WaxModel {
     return CmsTextFilter::filter("before_output", $this->content);
   }
   /* delete bits form join table -now handled by the field */
-	public function remove_joins($information, $value){return false;}
+	public function remove_joins($information, $value){return true;}
 
 	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
 	  foreach($searches as $search) {
