@@ -94,12 +94,10 @@ class CmsSection extends WaxTreeModel {
 		if($this->id == $root_id) return "/".$this->url;
 		//otherwise loop up the parent cols
 		else{
-			$section = $this;
-			while($section = $section->parent) if($section->id != $root_id) $stack[]=$section->url;
-			if(count($stack)){
-				$stack = array_reverse($stack);
-				return "/".implode("/",$stack);
-			}
+			$url = "/";
+			$path = array_reverse($this->array_to_root());
+			foreach($path as $object) if($object->url != "home") $url .= $object->url."/";
+			return substr($url, 0, -1);
 		}
 		return "";
 	  /*
@@ -153,8 +151,7 @@ class CmsSection extends WaxTreeModel {
 		$parsed_results['title'] = "Lastest News";
 		return $parsed_results;
 	}
-	/* tmp measure */
-	public function get_level(){return 1;}	 
+
 }
 
 ?>
