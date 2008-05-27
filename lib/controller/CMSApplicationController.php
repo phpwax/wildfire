@@ -141,40 +141,17 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function parse_urls() {
 	  $stack = $this->route_array;
+    array_unshift($stack, $this->action);
     foreach($stack as $k=>$v) {
       if(is_numeric($k)) {
         if($result = $this->get_section($v) ) {
-        	$this->cms_section = $result;
-					echo "adding to stack.. $v<br />";
-          $this->section_stack[]=$v;
+           $this->cms_section = $result;
+           $this->section_stack[]=$v;
          }
       }
     }
     $this->build_crumbtrail($this->section_stack);
     return end($this->section_stack);
-	}
-	/**
-	 *  @param $url Url to query for section
-	 *  @return CmsSection Object 
-	 */
-	protected function get_section($url) {
-	  $section = new CmsSection;
-	  $content = new CmsContent;
-	  $res = $section->filter(array('url'=>$url))->all();
-	  if(count($res)==1) return $res[0];
-	  elseif(count($res)>1) {
-	    $stack=array_reverse($this->section_stack);
-	    array_shift($stack);
-	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
-	    return $res[0];
-	  }
-		$found = $content->filter(array('url'=>$url))->first();
-		if($found->id) $id = $found->cms_section_id;
-		else $id = null;
-
-	  if($id == null) throw new WXRoutingException('404');
-    if($res = $section->filter(array('id'=>$id) )->first()) return $res;
-	  return false;
 	}
 	protected function build_crumbtrail($route) {
 	  $url = "/";
@@ -186,11 +163,34 @@ class CmsApplicationController extends WXControllerBase{
 	    }
 	  }
 	}
+	
+	/**
+	 *  @param $url Url to query for section
+	 *  @return CmsSection Object 
+	 */
+	protected function get_section($url) {
+	  $section = new CmsSection;
+	  $content = new CmsContent;
+	  $res = $section->find_all_by_url($url);
+	  if(count($res)==1) return $res[0];
+	  elseif(count($res)>1) {
+	    $stack=array_reverse($this->section_stack);
+	    array_shift($stack);
+	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
+	    return $res[0];
+	  }
+	  $id = $content->find_by_url($url)->cms_section_id;
+	  if($id == null) throw new WXRoutingException('404');
+    if($res = $section->find($id)) return $res;
+	  return false;
+	}
+	
 	protected function get_content($options = array(), $params=array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
-    $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
-	}	
+    if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id'], $params);
+		else $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
+	}
 	
 }
 
