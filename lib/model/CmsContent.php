@@ -59,7 +59,8 @@ class CmsContent extends WaxModel {
 	}
 	public function permalink() {
 		$section = new CmsSection($this->cms_section_id);
-		return $section->permalink()."/".$this->url;
+		return false;
+		//return $section->permalink()."/".$this->url;
 	}
 	public function date_published(){
 		return date('d/m/Y', strtotime($this->published));
@@ -74,7 +75,7 @@ class CmsContent extends WaxModel {
 	}
 	public function avoid_section_url_clash() {
 	  $section = new CmsSection;
-	  if($section->find_by_url($this->url)) $this->url= $this->url."-info";
+	  if($section->filter(array('url'=>$this->url))->first() ) $this->url= $this->url."-info";
 	}
 	
 	
