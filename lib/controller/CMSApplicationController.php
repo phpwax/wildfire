@@ -19,7 +19,10 @@ class CmsApplicationController extends WXControllerBase{
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
 		$this->find_contents_by_path();
 		$this->pick_view();
-		if($this->cms_content) $this->action = "cms_content";
+		if($this->cms_content) {
+			$this->action = "cms_content";
+			$this->build_crumb();
+		}
     if($this->is_page()) $this->cms_content->add_pageview();
 	}
 	
@@ -59,20 +62,33 @@ class CmsApplicationController extends WXControllerBase{
 	
 	protected function find_content($url){
 		$content = new CmsContent();
+		$logged_in = $this->is_admin_logged_in();
 		if($url){
-			$filter = "url='$url' AND `cms_section_id`='".$this->cms_section->id."'";
-			if($this->is_admin_logged_in()) $filter .= " AND `published` <= NOW()";
-			$res = $content->filter($filter)->all();
-			if(count($res) == 0) $res = $content->clear()->filter(array('url'=>$url))->all();
+			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section_id);
+			if($logged_in) $res = $content->filter($filters)->all();
+			else $res = $content->filter($filters)->filter(" AND `published` <= NOW()")->all();
+			if(count($res) == 0 && $logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
+			elseif(count($res) == 0) $res = $content->clear()->filter(array('url'=>$url))->filter(" AND `published` <= NOW()")->all();
 			if($res->count()>0) $this->cms_content = $res->first();
 			else throw new WXRoutingException('404');
 		}else{
 			$filter = "`cms_section_id` = '".$this->cms_section->id."'";
-			if($this->is_admin_logged_in()) $filter .= " AND published <= NOW()";	
+			if(!$this->is_admin_logged_in()) $filter .= " AND published <= NOW()";	
 			if(!$this->this_page) $this->cms_content = $content->filter($filter)->all();
 			else $this->cms_content = $content->filter($filter)->page($this->this_page, $this->per_page);
 		}
 	}
+	//use the path to root to create - new build crumb function
+	protected function build_crumb(){
+		$path_to_root = array_reverse($this->cms_section->array_to_root());
+		foreach($path_to_root as $count => $path){
+			if($count > 0) $url = $this->crumbtrail[($count-1)]['url']  . $path->url;
+			else $url = "/";
+			$this->crumbtrail[]=array("url"=>$url, "display"=>$path->title);
+		}
+		if(!is_array($this->cms_content)) $this->crumbtrail[] = array('url'=>$this->cms_content->permalink, 'display'=>$this->cms_content->title);
+	}
+	
 	/* used by old and new */
 	public function show_image() {
 	  $this->use_layout=false;
