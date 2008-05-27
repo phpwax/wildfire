@@ -45,16 +45,18 @@
     </div>
   
     <fieldset id="content_options">
+			
       <?=large(text_field($model, "title"))?>
       <?=form_divider()?>
       <?=large(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
       <?=form_divider()?>
       <?=large(select($model, "status", $model->status_options))?>
     	<?=form_divider()?>
+
     	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
     	<?if($edit_author):?>
     	  <?=form_divider()?>
-    	  <?=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
+    	  <?#=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
     	<?endif?>
     </fieldset>
     <div class="clearfix" id="autosaver"></div>
