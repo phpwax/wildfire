@@ -49,13 +49,12 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id' AND `date_created` < '$time' ") );
 		if(count($temp_content)){
 			foreach($temp_content as $content){
-				$content->delete($content->id);
+				$content->delete();
 			}
 		}
 		/* */
 		$this->display_action_name = 'List Items';
-	  $options = array("order"=>"published DESC", "page"=>$page, "per_page"=>$this->list_limit, 'conditions'=>"`status` <> '3' ");
-		$this->all_rows = $this->model->find_all($options);
+		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order("published DESC")->page($page, $this->list_limit);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
@@ -86,7 +85,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->cat_list = $this->render_partial("cat_list");
 		$this->category_partial = $this->render_partial("apply_categories");
 		$files = new WildfireFile();
-		$this->all_links = $files->find_all_files();
+		$this->all_links = $files->all();
 		$this->link_partial = $this->render_partial("apply_links");
 		parent::edit();
 		$this->extra_content_partial = $this->render_partial("extra_content");

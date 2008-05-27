@@ -2,6 +2,7 @@
 
 class CmsContent extends WaxModel {
   public $status_options = array("0"=>"Draft", "1"=>"Published");
+
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
 		$this->define("excerpt", "TextField");
@@ -133,9 +134,8 @@ class CmsContent extends WaxModel {
   /***** Finders for dealing with the extra_content table ******/
 	public function extra_content($name) {
 		$content = $this->more_content;
-		if($content){
-			return $content->filter(array('name'=>$name))->first();
-		}else{
+		if($content->count() > 0) return $content->filter(array('name'=>$name))->first();
+		else{
 			$extra = new CmsExtraContent;
 			$extra->setConstraint("cms_content_id", $this->id);
 			return $extra;
