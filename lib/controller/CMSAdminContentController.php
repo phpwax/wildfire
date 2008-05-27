@@ -62,15 +62,16 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function add_image() {
 		$this->use_layout=false;
 		$this->page = new $this->model_class($this->route_array[0]);
-		$this->page->add_images($_POST['id'], $this->param("order"));
-		$file = new CmsFile;
-		$this->image = $file->find($_POST['id']);
+		$file = new CmsFile($_POST['id']);
+		$this->page->images = $file;
+		$this->image = $file;
 	}
 	
 	public function remove_image() {
 		$this->use_layout=false;
 		$page = new $this->model_class($this->route_array[0]);
-		$page->delete_images($this->param("image"));
+		$image = new CmsFile($this->param("image"));
+		$page->images->unlink($image);
 	}
 	
 	public function edit() {
@@ -102,29 +103,31 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function add_category() {
 	  $this->use_layout=false;
 		$this->page = new $this->model_class(WaxUrl::get("id"));
-		$this->page->add_categories(substr($_POST["id"], 4));
+		$category = new CmsCategory(substr($_POST["id"], 4));
+		$this->page->categories = $category;
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
-		if(!$this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"))) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->order("parent_id ASC, name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");
 	}
 	
 	public function remove_category() {
 		$this->use_layout=false;
 		$this->page = new $this->model_class(WaxUrl::get("id"));
-		$this->page->delete_categories($this->param("cat"));
+		$category = new CmsCategory(Request::get("cat"));
+		$this->page->categories->unlink($category);
     if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
-		if(!$this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"))) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->order("parent_id ASC, name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");	
 	}
 	
 	public function new_category() {
 		$this->use_layout=false;
 		$cat = new CmsCategory;
-		$cat->name = $this->param("cat");
+		$cat->name = Request::get("cat");
 		$cat->save();
-		if(!$this->all_categories = $cat->find_all(array("order"=>"parent_id ASC, name ASC"))) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->clear()->order("parent_id ASC, name ASC")->all()) $this->all_categories=array();		
 		$this->cat_list = $this->render_partial("cat_list");	
 	}
 	public function autosave() {
