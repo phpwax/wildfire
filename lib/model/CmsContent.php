@@ -76,6 +76,8 @@ class CmsContent extends WaxModel {
 	  $section = new CmsSection;
 	  if($section->find_by_url($this->url)) $this->url= $this->url."-info";
 	}
+	
+	
 	public function published_content($url, $section, $params=array()) {
 		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
