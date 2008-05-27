@@ -34,15 +34,6 @@ class CmsSection extends WaxTreeModel {
 			$this->tree_array[] = $node;
 			if($node->children && $node->children->count())	$this->traverse_tree($node->children->order($order . " ". $direction)->all());
 		}
-		/*
-		foreach($object_array as $node) {
-			$this->tree_array[] = $node;
-			if($node->has_children()) {
-			  if($order) $this->traverse_tree($node->get_children("`".$order."` ".$direction));
-				else $this->traverse_tree($node->get_children());
-			} 
-		}
-		*/
 	}
 	
 	public function sections_as_collection($input = null, $padding_char ="&nbsp;&nbsp;") {	
@@ -56,16 +47,6 @@ class CmsSection extends WaxTreeModel {
 			$collection["{$item->id}"] = str_replace("^", $padding_char, $value);
 		}
 		return $collection;
-		/*
-		if(!$this->tree_array) $this->traverse_tree($this->find_roots());
-		if(!$input) $input = $this->tree_array;
-		foreach($input as $item) {
-	  	$value = str_pad($item->title, strlen($item->title) + $item->get_level(), "^", STR_PAD_LEFT);
-			$value = str_replace("^", "&nbsp;", $value);
-			$collection["{$item->id}"] = $value;
-		}
-		return $collection;
-		*/
 	}
 	
 	/* changed how this works... now pass in the parent section you want to to start at */
@@ -75,11 +56,6 @@ class CmsSection extends WaxTreeModel {
 		else $data = $parent_section->children;
 		$this->traverse_tree($data);
 		return $this->tree_array;
-    /*
-		$this->tree_array=array();
-		$this->traverse_tree($this->find_roots($start_level), $this->order_field, $this->order_direction);
-		return $this->tree_array;
-		*/
 	}
 	
 	/* not used any more -- returns empty array */
@@ -100,19 +76,6 @@ class CmsSection extends WaxTreeModel {
 			return substr($url, 0, -1);
 		}
 		return "";
-	  /*
-		$stack = array();
-	  if($this->id != self::$default_section_id) $stack[]=$this->url;
-	  $section = $this;
-	  while($section = $section->parent()) {
-	    if($section->id != self::$default_section_id) $stack[]=$section->url;
-	  }
-	  if(count($stack)) {
-	    $stack = array_reverse($stack);
-  	  return "/".implode("/", $stack);
-	  }
-	  return "";
-		*/
 	}
 	
 	/* dont think this is needed any more - leave it in for now */
