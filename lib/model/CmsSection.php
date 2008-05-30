@@ -1,9 +1,6 @@
 <?php
 
 class CmsSection extends WaxTreeModel {
-  
-	/* old - should not be in use any more */
-  public $type_options = array("0"=>"Page Template", "1"=>"News Template");
 	
 	public $tree_array = array();
 	public $order_field = "order";
