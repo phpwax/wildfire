@@ -5,7 +5,6 @@ class CmsSection extends WaxTreeModel {
 	public $tree_array = array();
 	public $order_field = "order";
 	public $order_direction = "ASC";
-	static public $default_section_id = "1";
 	
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -19,6 +18,7 @@ class CmsSection extends WaxTreeModel {
 	}
 	
 	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
+		if(!is_array($object_array)) $object_array = array($object_array);
 		if(!$order) $order = $this->primary_key;
 		foreach($object_array as $node){
 			$this->tree_array[] = $node;
@@ -71,7 +71,7 @@ class CmsSection extends WaxTreeModel {
 	public function filtered_sections($id, $params=array()) {
 		return array();
 	}
-	/* dont think this is needed any more - leave it in for now */
+	/* dont think this is needed any more - leave it in for now, should be done by the field? */
 	public function prevent_orphans($information, $value){
 		/*if(!is_array($information) || !$value || $value == 1) return false;
 		$sql = 'UPDATE `' . $information['table'] .'` SET `'.$information['field']."` = '".$information['new_parent_id']."' WHERE `".$information['field']."` = $value";

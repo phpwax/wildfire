@@ -15,20 +15,19 @@ class CmsContent extends WaxModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3));
 		$this->define("pageviews", "IntegerField", array('maxlength'=>5));
 		$this->define("url", "CharField", array('maxlength'=>255,"unique"=>true));
-		//old copy over fields
+		//used in conversion
 		$this->define("oldid", "IntegerField");
-		//joins
 		//images
 		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile"));
 		//section
 		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		//author
 		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id"));
-		//extra content
+		//more_content <-> content
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
-		//comments
+		//comments <-> attached_to
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id"));
-		//category
+		//category <-> attached_to
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory"));
 	}
 	public function page_status() {
@@ -124,6 +123,7 @@ class CmsContent extends WaxModel {
 			}
 		}
   }
+
 	public function image($number) {
 		return $this->images[$number-1];
 	}

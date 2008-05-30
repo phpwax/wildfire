@@ -32,11 +32,7 @@ class CmsComment extends WaxModel {
     $this->config = CmsConfiguration::get("comments");
     $this->flag_spam();
   }
-  /*old, cant see it used anywhere so will get it to return false*/
-  public function find_comments($article=false, $type=false) {
-		return false;
-  }
-  
+	
   public function article() {
     return $this->attached_to;
   }
@@ -93,4 +89,10 @@ class CmsComment extends WaxModel {
     else $this->status="1";
   }
   
+	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	/*old, cant see it used anywhere so will get it to return false*/
+  public function find_comments($article=false, $type=false) {
+		return false;
+  }
+	
 }
