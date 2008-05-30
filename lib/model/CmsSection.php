@@ -20,13 +20,6 @@ class CmsSection extends WaxTreeModel {
 	public function before_save() {
 		$this->url = WXInflections::to_url($this->title);
 	}
-
-	/* shouldnt be in use - returns false */
-	public function template_style() {
-		return false;
- 	  /*return $this->type_options[$this->section_type];*/
- 	}
-
 	
 	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
 		if(!$order) $order = $this->primary_key;
@@ -49,20 +42,6 @@ class CmsSection extends WaxTreeModel {
 		return $collection;
 	}
 	
-	/* changed how this works... now pass in the parent section you want to to start at */
-	public function find_ordered_sections($parent_section = false) {
-		$this->tree_array = array();
-		if(!$parent_section) $data = array($this->root());
-		else $data = $parent_section->children;
-		$this->traverse_tree($data);
-		return $this->tree_array;
-	}
-	
-	/* not used any more -- returns empty array */
-	public function filtered_sections($id, $params=array()) {
-		return array();
-	}
-	
 	public function permalink() {
 		$stack = array();
 		$root_id = $this->root->id;
@@ -76,15 +55,32 @@ class CmsSection extends WaxTreeModel {
 			return substr($url, 0, -1);
 		}
 		return "";
+	}	
+	/* changed how this works... now pass in the parent section you want to to start at */
+	public function find_ordered_sections($parent_section = false) {
+		$this->tree_array = array();
+		if(!$parent_section) $data = array($this->root());
+		else $data = $parent_section->children;
+		$this->traverse_tree($data);
+		return $this->tree_array;
 	}
+	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	/* shouldnt be in use - returns false */
+	public function template_style() {
+		return false;
+ 	}
 	
+	/* not used any more -- returns empty array */
+	public function filtered_sections($id, $params=array()) {
+		return array();
+	}
 	/* dont think this is needed any more - leave it in for now */
 	public function prevent_orphans($information, $value){
-		if(!is_array($information) || !$value || $value == 1) return false;
+		/*if(!is_array($information) || !$value || $value == 1) return false;
 		$sql = 'UPDATE `' . $information['table'] .'` SET `'.$information['field']."` = '".$information['new_parent_id']."' WHERE `".$information['field']."` = $value";
-		$this->pdo->exec($sql);
+		$this->pdo->exec($sql);*/
+		return false;
 	}
-	
 	/*** err - this subscriber stuff needs re writing... ***/
 	public function get_subscribers($handle){
 		switch($handle){
