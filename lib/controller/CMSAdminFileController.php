@@ -149,7 +149,7 @@ class CMSAdminFileController extends CMSAdminComponent {
    	    $new_imgs[]=$new_arr;
    	  }
     }
-    exit;
+
     print_r($new_imgs); exit;
   }
 
