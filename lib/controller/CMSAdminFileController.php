@@ -137,6 +137,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   public function port_content() {
     $content = new CmsContent;
     $articles = $content->find_all(array("limit"=>"10"));
+    die("HERE");
     $new = new WildfireFile;
     foreach($articles as $article) {
       $art_images = $article->images;
