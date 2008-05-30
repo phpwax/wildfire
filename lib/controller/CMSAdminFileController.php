@@ -7,7 +7,7 @@
 class CMSAdminFileController extends CMSAdminComponent {
 	public $module_name = "files";												
   public $model;
-	public $model_class="CmsFile";
+	public $model_class="WildfireFile";
 	public $display_name = "Files";
 	public $scaffold_columns = array(
     "filename"   =>array(),
@@ -22,7 +22,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 		parent::controller_global();
 		$this->sub_links = array();
 	}
-	
 	
 	
 	public function fs() {
