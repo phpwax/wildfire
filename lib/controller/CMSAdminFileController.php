@@ -135,7 +135,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   
   public function port_content() {
     $content = new CmsContent;
-    $articles = $content->find_all(array("limit"=>"50", "order"=>"id ASC"));
+    $articles = $content->find_all(array("limit"=>"150", "order"=>"id ASC"));
     $new = new WildfireFile;
     foreach($articles as $article) {
       $oldimgs = $new->sql("SELECT * FROM cms_content_cms_file WHERE cms_content_id = $article->id")->all();
