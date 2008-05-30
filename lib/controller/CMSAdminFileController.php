@@ -142,7 +142,7 @@ class CMSAdminFileController extends CMSAdminComponent {
    	  foreach($oldimgs as $img) {
    	    $newimg = $new->clear()->filter("oldid=".$img->cms_file_id)->first();
    	    $newfile = new WildfireFile($newimg->id);
-   	    if($newfile) $article->images = $newfile;
+   	    if($newfile->id) $article->images = $newfile;
    	  }
     }
 
