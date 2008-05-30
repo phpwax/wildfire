@@ -19,17 +19,17 @@ class CmsContent extends WaxModel {
 		$this->define("oldid", "IntegerField");
 		//joins
 		//images
-		$this->define("images", "ManyToManyField", array('model_name'=>"WildfireFile"));
+		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile"));
 		//section
-		$this->define("section", "ForeignKey", array('model_name'=>'CmsSection'));
+		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		//author
-		$this->define("author", "ForeignKey", array('model_name'=>'WildfireUser', 'col_name'=>"author_id"));
+		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id"));
 		//extra content
-		$this->define("more_content", "HasManyField", array('model_name'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
+		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
 		//comments
-		$this->define("comments", "HasManyField", array('model_name'=>"CmsComment", 'join_field'=>"attached_id"));
+		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id"));
 		//category
-		$this->define("categories", "ManyToManyField", array('model_name'=>"CmsCategory"));
+		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory"));
 	}
 	public function page_status() {
 		return $this->status_options[$this->status];
