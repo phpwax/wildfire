@@ -18,12 +18,12 @@ class CmsSection extends WaxTreeModel {
 	
 	
 	
-	public function sections_as_collection($padding_char ="&nbsp;&nbsp;") {
-		if(!$this->tree_array) $this->generate_tree();
-		$input = $this->tree_array;
+	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
+		if(!$this->tree_array && !$input) $this->generate_tree();
+		if(!$input) $input = $this->tree_array;
 		$collection = array();
 		foreach($input as $item){
-			$value = str_pad($item->title, strlen($item->title) + $item->level, "^", STR_PAD_LEFT);
+			$value = str_pad($item->title, strlen($item->title) + $item->level(), "^", STR_PAD_LEFT);
 			$collection["{$item->id}"] = str_replace("^", $padding_char, $value);
 		}
 		return $collection;
@@ -31,7 +31,7 @@ class CmsSection extends WaxTreeModel {
 	
 	public function permalink() {
 		$stack = array();
-		if(!$this->root_node) $this->get_root();
+		if(!$this->root_node->id) $this->get_root();
 		$root_id = $this->root_node->id;
 		//if this is the root section, return this url
 		if($this->id == $root_id) return "/".$this->url;
