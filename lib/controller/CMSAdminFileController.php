@@ -143,8 +143,7 @@ class CMSAdminFileController extends CMSAdminComponent {
    	    $new_arr=array();
    	    $new_arr["oldid"]=$img->cms_file_id;
    	    $newimg = $new->clear()->filter("oldid=".$img->cms_file_id)->first();
-   	    $new_arr["newid"]["id"]=$newimg->id;
-   	    $new_arr["newfile"]["filename"]=$newimg->filename;
+   	    $new_arr["newid"]=$newimg->id;
    	    $new_imgs[]=$new_arr;
    	  }
     }
