@@ -11,6 +11,7 @@ class CmsSection extends WaxTreeModel {
 		$this->define("introduction", "TextField");
 		$this->define("order", "IntegerField", array('maxlength'=>5) );
 		$this->define("url", "CharField", array('maxlength'=>255) );
+		$this->construct_tree();
 	}
 	
 	public function before_save() {
@@ -18,22 +19,25 @@ class CmsSection extends WaxTreeModel {
 	}
 	
 	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
-		if(!is_array($object_array)) $object_array = array($object_array);
+		$this->tree_array = $this->tree();
+		print_r($this->tree_array);exit;
+		/*if(!is_array($object_array)) $object_array = array($object_array);
 		if(!$order) $order = $this->primary_key;
 		foreach($object_array as $node){
 			$this->tree_array[] = $node;
 			if($node->children && $node->children->count())	$this->traverse_tree($node->children->order($order . " ". $direction)->all());
-		}
+		}*/
 	}
 	
-	public function sections_as_collection($input = null, $padding_char ="&nbsp;&nbsp;") {	
+	public function sections_as_collection($input = null, $padding_char ="&nbsp;&nbsp;") {
 		if(!$this->tree_array && !$input){
-			$this->traverse_tree(array($this->root));
+			$this->traverse_tree(array());
 			$input = $this->tree_array;
 		}
+
 		$collection = array();
 		foreach($input as $item){
-			$value = str_pad($item->title, strlen($item->title)+ $item->get_level(), "^", STR_PAD_LEFT);
+			$value = str_pad($item->title, strlen($item->title) + $item->level, "^", STR_PAD_LEFT);
 			$collection["{$item->id}"] = str_replace("^", $padding_char, $value);
 		}
 		return $collection;
