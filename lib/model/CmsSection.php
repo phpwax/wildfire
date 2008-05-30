@@ -2,7 +2,6 @@
 
 class CmsSection extends WaxTreeModel {
 	
-	public $tree_array = array();
 	public $order_field = "order";
 	public $order_direction = "ASC";
 	
@@ -11,30 +10,17 @@ class CmsSection extends WaxTreeModel {
 		$this->define("introduction", "TextField");
 		$this->define("order", "IntegerField", array('maxlength'=>5) );
 		$this->define("url", "CharField", array('maxlength'=>255) );
-		$this->construct_tree();
 	}
 	
 	public function before_save() {
 		$this->url = WXInflections::to_url($this->title);
 	}
 	
-	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
-		$this->tree_array = $this->tree();
-		print_r($this->tree_array);exit;
-		/*if(!is_array($object_array)) $object_array = array($object_array);
-		if(!$order) $order = $this->primary_key;
-		foreach($object_array as $node){
-			$this->tree_array[] = $node;
-			if($node->children && $node->children->count())	$this->traverse_tree($node->children->order($order . " ". $direction)->all());
-		}*/
-	}
 	
-	public function sections_as_collection($input = null, $padding_char ="&nbsp;&nbsp;") {
-		if(!$this->tree_array && !$input){
-			$this->traverse_tree(array());
-			$input = $this->tree_array;
-		}
-
+	
+	public function sections_as_collection($padding_char ="&nbsp;&nbsp;") {
+		if(!$this->tree_array) $this->generate_tree();
+		$input = $this->tree_array;
 		$collection = array();
 		foreach($input as $item){
 			$value = str_pad($item->title, strlen($item->title) + $item->level, "^", STR_PAD_LEFT);
@@ -45,27 +31,28 @@ class CmsSection extends WaxTreeModel {
 	
 	public function permalink() {
 		$stack = array();
-		$root_id = $this->root->id;
+		if(!$this->root_node) $this->get_root();
+		$root_id = $this->root_node->id;
 		//if this is the root section, return this url
 		if($this->id == $root_id) return "/".$this->url;
 		//otherwise loop up the parent cols
 		else{
 			$url = "/";
-			$path = array_reverse($this->array_to_root());
+			$path = array_reverse($this->path_to_root());
 			foreach($path as $object) if($object->url != "home") $url .= $object->url."/";
 			return substr($url, 0, -1);
 		}
 		return "";
 	}	
-	/* changed how this works... now pass in the parent section you want to to start at */
+	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections($parent_section = false) {
-		$this->tree_array = array();
-		if(!$parent_section) $data = array($this->root());
-		else $data = $parent_section->children;
-		$this->traverse_tree($data);
+		if(!$this->tree_array) $this->generate_tree();
 		return $this->tree_array;
 	}
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
+		return false;
+	}
 	/* shouldnt be in use - returns false */
 	public function template_style() {
 		return false;

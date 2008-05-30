@@ -80,7 +80,7 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	//use the path to root to create - new build crumb function
 	protected function build_crumb(){
-		$path_to_root = array_reverse($this->cms_section->array_to_root());
+		$path_to_root = array_reverse($this->cms_section->path_to_root());
 		foreach($path_to_root as $count => $path){
 			if($count > 0) $url = $this->crumbtrail[($count-1)]['url']  . $path->url;
 			else $url = "/";
