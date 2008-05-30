@@ -141,9 +141,8 @@ class CMSAdminFileController extends CMSAdminComponent {
       $oldimgs = $new->sql("SELECT * FROM cms_content_cms_file WHERE cms_content_id = $article->id")->all();
    	  foreach($oldimgs as $img) {
    	    $new_arr=array();
-   	    $new_arr["oldid"]=$img->id;
-   	    $new_arr["oldfile"]=$img->filename;
-   	    $newimg = $new->clear()->filter("oldid=".$img->id)->first();
+   	    $new_arr["oldid"]=$img->cms_file_id;
+   	    $newimg = $new->clear()->filter("oldid=".$img->cms_file_id)->first();
    	    $new_arr["newid"]["id"]=$newimg->id;
    	    $new_arr["newfile"]["filename"]=$newimg->filename;
    	    $new_imgs[]=$new_arr;
