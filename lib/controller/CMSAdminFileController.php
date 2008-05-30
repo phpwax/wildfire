@@ -136,14 +136,10 @@ class CMSAdminFileController extends CMSAdminComponent {
   public function port_content() {
     $content = new CmsContent;
     $articles = $content->find_all(array("limit"=>"10"));
-
     $new = new WildfireFile;
     foreach($articles as $article) {
-      var_dump($article);
-      $art_images = $article->oldimages;
-      
-      print_r($art_images); exit;
-      $article->has_many("wildfire_file", "images");
+      $oldimgs = $new->sql("SELECT * FROM cms_content_cms_file WHERE cms_content_id = $article->id")->all();
+ 	    print_r($oldimgs); exit;
    	  foreach($art_images as $img) {
    	    $new_arr=array();
    	    $new_arr["oldid"]=$img->id;
