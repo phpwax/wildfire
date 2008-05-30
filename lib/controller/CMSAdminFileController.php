@@ -140,6 +140,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     $new = new WildfireFile;
     foreach($articles as $article) {
       $art_images = $article->images;
+      print_r($art_images); exit;
       $article->has_many("wildfire_file", "images");
    	  foreach($art_images as $img) {
    	    $new_arr=array();

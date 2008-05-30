@@ -99,8 +99,8 @@ class CmsApplicationController extends WXControllerBase{
 	  $size = str_replace(".gif", "", $size);
 	  $size = str_replace(".png", "", $size);
 	  
-	  $this->show_image = new CmsFile($this->route_array[0]);
-	  $imgid =$this->route_array[0];
+	  $this->show_image = new WildfireFile(Request::get("id"));
+	  $imgid = Request::get("id");
     $source = WAX_ROOT . $this->show_image->path.$this->show_image->filename;
     $relative = strstr($source, "public/");
     $relative = str_replace("public/", "", $relative);
