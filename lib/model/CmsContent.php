@@ -188,7 +188,7 @@ class CmsContent extends WaxModel {
 	}
 	//this should now be handled by a category model
 	public function find_by_category($category, $limit="1", $section=false) {
-		return false
+		return false;
 	}
 	
 	public function ping_technorati(){
