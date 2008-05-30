@@ -78,21 +78,8 @@ class CmsContent extends WaxModel {
 	  if($section->filter(array('url'=>$this->url))->first() ) $this->url= $this->url."-info";
 	}
 	
-	
-	
-	public function is_section($url) {
-		$section = new CmsSection;
-    if($section->find_by_url($url)) return true;
-    return false;
-  }
 	public function find_related_in_section($params=false) {
 		return $this->clear()->filter('cms_section_id='.$this->cms_section_id . " id <> ".$this->id)->order('published DESC')->all();
-    /* old version, left in as this function doesnt seem to be used at the mo.
-		$section = $this->cms_section_id;
-    $find = "id !=".$this->id;
-    if($params["conditions"]) $params["conditions"] .= " AND $find";
-    else $params["conditions"] = $find;
-    return $this->published_content("", $this->cms_section_id, $params);*/
   }
 	public function author() {
 		$this->author->username;
@@ -149,6 +136,12 @@ class CmsContent extends WaxModel {
   }
 
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	public function is_section($url) {
+		$section = new CmsSection;
+    if($section->filter(array('url'=>$url))->first()) return true;
+    return false;
+  }
+	//these will be replaced by 'scoping'
 	public function published_content($url, $section, $params=array()) {
 		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
@@ -193,22 +186,11 @@ class CmsContent extends WaxModel {
 	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
 	  return false;
 	}
+	//this should now be handled by a category model
 	public function find_by_category($category, $limit="1", $section=false) {
-		$sql="SELECT t1.* FROM `cms_content` as t1, cms_category as t2, cms_category_cms_content as t3
-    WHERE t2.id=t3.cms_category_id AND t1.id=t3.cms_content_id AND t1.status=1 AND (DATE_FORMAT(t1.published, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d'))";
-    if(is_array($category)) {
-      $sql.=" AND t2.id IN(".join(",", $category).")";
-    } else $sql.= " AND t2.id=$category";
-    if(is_array($section)) {
-      $sql.=" AND t1.cms_section_id IN(".join(",", $section).")";
-    } elseif($section) $sql.= " AND t1.cms_section_id=$section";
-    $sql.= " ORDER BY t1.published DESC LIMIT $limit";
-    if($limit > 1) return $this->find_by_sql($sql);
-    else {
-			$res = $this->find_by_sql($sql);
-      return $res->first();
-		}
+		return false
 	}
+	
 	public function ping_technorati(){
 		# Using the XML-RPC extension to format the XML package
 		$request = '<?xml version="1.0"?>
