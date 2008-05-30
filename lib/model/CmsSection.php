@@ -31,7 +31,7 @@ class CmsSection extends WaxTreeModel {
 	
 	public function permalink() {
 		$stack = array();
-		if(!$this->root_node) $this->get_root();
+		if(!$this->root_node->id) $this->get_root();
 		$root_id = $this->root_node->id;
 		//if this is the root section, return this url
 		if($this->id == $root_id) return "/".$this->url;
