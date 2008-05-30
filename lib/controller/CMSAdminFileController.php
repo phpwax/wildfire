@@ -135,7 +135,7 @@ class CMSAdminFileController extends CMSAdminComponent {
   
   public function port_content() {
     $content = new CmsContent;
-    $articles = $content->find_all(array("limit"=>"150", "order"=>"id ASC"));
+    $articles = $content->find_all(array("limit"=>"10", "order"=>"id ASC"));
     $new = new WildfireFile;
     foreach($articles as $article) {
       $oldimgs = $new->sql("SELECT * FROM cms_content_cms_file WHERE cms_content_id = $article->id")->all();
@@ -148,12 +148,11 @@ class CMSAdminFileController extends CMSAdminComponent {
    	    $new_arr["newid"]=$newimg->id;
    	    $newfile = new WildfireFile($newimg->id);
    	    $new_arr["newname"]=$newfile->filename;
-   	    
    	    $new_imgs[]=$new_arr;
+   	    $article->images = $newfile;
    	  }
     }
 
-    print_r($new_imgs); exit;
   }
 
 	/**
