@@ -134,6 +134,11 @@ class CmsContent extends WaxModel {
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
+  
+  public function scope_published() {
+    $this->filter(array("status"=>"1"));
+    $this->filter("(DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))");
+  }
 
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
 	public function is_section($url) {
