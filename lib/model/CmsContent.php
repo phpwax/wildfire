@@ -79,34 +79,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	
-	public function published_content($url, $section, $params=array()) {
-		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
-	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
-	  else $params['conditions'] = $condition;
-	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
-	  if($this->is_section($url)) {
-	    $params['conditions'].=" AND cms_section_id=$section";
-	    if($res = $this->find_all($params)) return $res;
-	  }
-	  if(is_array($section)) {
-	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
-	    return $this->find_all($params);
-	  }
-	  if(strlen($url)>0) {
-	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    if($res = $this->find($params)) return $res;
-	  }
-	  $params['conditions'].=" AND cms_section_id=$section";
-	  if($res = $this->find_all($params)) return $res;
 	
-	  return array();
-	}
-	public function all_content($url, $section, $params=false) {
-		if(!$params['order']) $params['order'] = "published DESC";
-	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
-	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
-	  return array();
-  }
 	public function is_section($url) {
 		$section = new CmsSection;
     if($section->find_by_url($url)) return true;
@@ -174,6 +147,37 @@ class CmsContent extends WaxModel {
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
+
+	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	public function published_content($url, $section, $params=array()) {
+		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
+	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
+	  else $params['conditions'] = $condition;
+	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
+	  if($this->is_section($url)) {
+	    $params['conditions'].=" AND cms_section_id=$section";
+	    if($res = $this->find_all($params)) return $res;
+	  }
+	  if(is_array($section)) {
+	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
+	    return $this->find_all($params);
+	  }
+	  if(strlen($url)>0) {
+	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
+	    if($res = $this->find($params)) return $res;
+	  }
+	  $params['conditions'].=" AND cms_section_id=$section";
+	  if($res = $this->find_all($params)) return $res;
+	
+	  return array();
+	}
+	public function all_content($url, $section, $params=false) {
+		if(!$params['order']) $params['order'] = "published DESC";
+	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
+	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
+	  return array();
+  }
+
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}
 	/* old version */
@@ -187,20 +191,7 @@ class CmsContent extends WaxModel {
 	  return $content->find_by_sql($sql);
 	}
 	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
-	  foreach($searches as $search) {
-	    $conditions = "";
-	    $search_words = preg_split("/[\s-]/",$search);
-      foreach($search_words as $word) $conditions .= "name LIKE '%$word%' AND ";
-      $conditions = rtrim($conditions, " AND");
-      $queries[]=$conditions;
-	  }
-		$query = "(";
-	  $query.=join($queries, ") OR (");
-	  $query.=")";
-	  $cat = new CmsCategory;
-    $res = $cat->find_all(array("conditions"=>$query));
-    foreach($res as $category) $cat_ids[]=$category->id;
-    return $this->find_by_category($cat_ids, $limit, $section);
+	  return false;
 	}
 	public function find_by_category($category, $limit="1", $section=false) {
 		$sql="SELECT t1.* FROM `cms_content` as t1, cms_category as t2, cms_category_cms_content as t3
