@@ -7,13 +7,13 @@ class CmsComment extends WaxModel {
 	public $config = array();
 	
 	public function setup(){
-		$this->define("attached_to", "ForeignKey", array('model_name'=>"CmsContent", 'col_name'=>"attached_id") );
+		$this->define("attached_to", "ForeignKey", array('target_model'=>"CmsContent", 'col_name'=>"attached_id") );
 		$this->define("comment", "TextField");
 		$this->define("author_name", "CharField", array('maxlength'=>255));
 		$this->define("author_email", "CharField", array('maxlength'=>255));
 		$this->define("author_website", "CharField", array('maxlength'=>255));				
 		$this->define("author_ip", "CharField", array('maxlength'=>255));				
-		$this->define("author", "ForeignKey", array('model_name'=>"WildfireUser"));				
+		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser"));				
 		$this->define("status", "IntegerField", array('maxlength'=>2));
 		$this->define("type", "CharField", array('maxlength'=>255));		
 		$this->define("karma", "IntegerField", array('maxlength'=>128));		
@@ -32,11 +32,7 @@ class CmsComment extends WaxModel {
     $this->config = CmsConfiguration::get("comments");
     $this->flag_spam();
   }
-  /*old, cant see it used anywhere so will get it to return false*/
-  public function find_comments($article=false, $type=false) {
-		return false;
-  }
-  
+	
   public function article() {
     return $this->attached_to;
   }
@@ -93,4 +89,10 @@ class CmsComment extends WaxModel {
     else $this->status="1";
   }
   
+	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	/*old, cant see it used anywhere so will get it to return false*/
+  public function find_comments($article=false, $type=false) {
+		return false;
+  }
+	
 }

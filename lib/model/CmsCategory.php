@@ -7,6 +7,7 @@ class CmsCategory extends WaxTreeModel {
 	public function setup(){
 		$this->define("name", "CharField", array('maxlength'=>255) );
 		$this->define("url", "CharField", array('maxlength'=>255) );
+		$this->define("attached_to", "ManyToManyField", array('target_model'=>"CmsContent"));		
 	}
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);

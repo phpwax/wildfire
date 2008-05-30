@@ -15,21 +15,20 @@ class CmsContent extends WaxModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3));
 		$this->define("pageviews", "IntegerField", array('maxlength'=>5));
 		$this->define("url", "CharField", array('maxlength'=>255,"unique"=>true));
-		//old copy over fields
+		//used in conversion
 		$this->define("oldid", "IntegerField");
-		//joins
 		//images
-		$this->define("images", "ManyToManyField", array('model_name'=>"WildfireFile"));
+		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile"));
 		//section
-		$this->define("section", "ForeignKey", array('model_name'=>'CmsSection'));
+		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		//author
-		$this->define("author", "ForeignKey", array('model_name'=>'WildfireUser', 'col_name'=>"author_id"));
-		//extra content
-		$this->define("more_content", "HasManyField", array('model_name'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
-		//comments
-		$this->define("comments", "HasManyField", array('model_name'=>"CmsComment", 'join_field'=>"attached_id"));
-		//category
-		$this->define("categories", "ManyToManyField", array('model_name'=>"CmsCategory"));
+		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id"));
+		//more_content <-> content
+		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id"));
+		//comments <-> attached_to
+		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id"));
+		//category <-> attached_to
+		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory"));
 	}
 	public function page_status() {
 		return $this->status_options[$this->status];
@@ -78,48 +77,8 @@ class CmsContent extends WaxModel {
 	  if($section->filter(array('url'=>$this->url))->first() ) $this->url= $this->url."-info";
 	}
 	
-	
-	public function published_content($url, $section, $params=array()) {
-		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
-	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
-	  else $params['conditions'] = $condition;
-	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
-	  if($this->is_section($url)) {
-	    $params['conditions'].=" AND cms_section_id=$section";
-	    if($res = $this->find_all($params)) return $res;
-	  }
-	  if(is_array($section)) {
-	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
-	    return $this->find_all($params);
-	  }
-	  if(strlen($url)>0) {
-	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    if($res = $this->find($params)) return $res;
-	  }
-	  $params['conditions'].=" AND cms_section_id=$section";
-	  if($res = $this->find_all($params)) return $res;
-	
-	  return array();
-	}
-	public function all_content($url, $section, $params=false) {
-		if(!$params['order']) $params['order'] = "published DESC";
-	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
-	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
-	  return array();
-  }
-	public function is_section($url) {
-		$section = new CmsSection;
-    if($section->find_by_url($url)) return true;
-    return false;
-  }
 	public function find_related_in_section($params=false) {
 		return $this->clear()->filter('cms_section_id='.$this->cms_section_id . " id <> ".$this->id)->order('published DESC')->all();
-    /* old version, left in as this function doesnt seem to be used at the mo.
-		$section = $this->cms_section_id;
-    $find = "id !=".$this->id;
-    if($params["conditions"]) $params["conditions"] .= " AND $find";
-    else $params["conditions"] = $find;
-    return $this->published_content("", $this->cms_section_id, $params);*/
   }
 	public function author() {
 		$this->author->username;
@@ -164,6 +123,7 @@ class CmsContent extends WaxModel {
 			}
 		}
   }
+
 	public function image($number) {
 		return $this->images[$number-1];
 	}
@@ -174,6 +134,43 @@ class CmsContent extends WaxModel {
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
+
+	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	public function is_section($url) {
+		$section = new CmsSection;
+    if($section->filter(array('url'=>$url))->first()) return true;
+    return false;
+  }
+	//these will be replaced by 'scoping'
+	public function published_content($url, $section, $params=array()) {
+		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
+	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
+	  else $params['conditions'] = $condition;
+	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
+	  if($this->is_section($url)) {
+	    $params['conditions'].=" AND cms_section_id=$section";
+	    if($res = $this->find_all($params)) return $res;
+	  }
+	  if(is_array($section)) {
+	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
+	    return $this->find_all($params);
+	  }
+	  if(strlen($url)>0) {
+	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
+	    if($res = $this->find($params)) return $res;
+	  }
+	  $params['conditions'].=" AND cms_section_id=$section";
+	  if($res = $this->find_all($params)) return $res;
+	
+	  return array();
+	}
+	public function all_content($url, $section, $params=false) {
+		if(!$params['order']) $params['order'] = "published DESC";
+	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
+	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
+	  return array();
+  }
+
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}
 	/* old version */
@@ -188,37 +185,13 @@ class CmsContent extends WaxModel {
 	  
 	}
 	public function fuzzy_category_find($searches = array(), $limit="1", $section=false) {
-	  foreach($searches as $search) {
-	    $conditions = "";
-	    $search_words = preg_split("/[\s-]/",$search);
-      foreach($search_words as $word) $conditions .= "name LIKE '%$word%' AND ";
-      $conditions = rtrim($conditions, " AND");
-      $queries[]=$conditions;
-	  }
-		$query = "(";
-	  $query.=join($queries, ") OR (");
-	  $query.=")";
-	  $cat = new CmsCategory;
-    $res = $cat->find_all(array("conditions"=>$query));
-    foreach($res as $category) $cat_ids[]=$category->id;
-    return $this->find_by_category($cat_ids, $limit, $section);
+	  return false;
 	}
+	//this should now be handled by a category model
 	public function find_by_category($category, $limit="1", $section=false) {
-		$sql="SELECT t1.* FROM `cms_content` as t1, cms_category as t2, cms_category_cms_content as t3
-    WHERE t2.id=t3.cms_category_id AND t1.id=t3.cms_content_id AND t1.status=1 AND (DATE_FORMAT(t1.published, '%y%m%d') <=  DATE_FORMAT(NOW(),'%y%m%d'))";
-    if(is_array($category)) {
-      $sql.=" AND t2.id IN(".join(",", $category).")";
-    } else $sql.= " AND t2.id=$category";
-    if(is_array($section)) {
-      $sql.=" AND t1.cms_section_id IN(".join(",", $section).")";
-    } elseif($section) $sql.= " AND t1.cms_section_id=$section";
-    $sql.= " ORDER BY t1.published DESC LIMIT $limit";
-    if($limit > 1) return $this->find_by_sql($sql);
-    else {
-			$res = $this->find_by_sql($sql);
-      return $res->first();
-		}
+		return false;
 	}
+	
 	public function ping_technorati(){
 		# Using the XML-RPC extension to format the XML package
 		$request = '<?xml version="1.0"?>
