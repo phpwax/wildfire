@@ -88,24 +88,40 @@ class CmsApplicationController extends WXControllerBase{
 	
 	/* used by old and new */
 	public function show_image() {
-	  $this->use_layout=false;
-	  $this->use_view = "none";
-	  if(!isset($this->route_array[1])) $size=110;
-	   else $size = $this->route_array[1];
+	  $options = WaxUrl::get_params();
+	  $img_id = WaxUrl::get("id");
+	  $img_size = $options["params"][0];
+  	$this->use_view=false;
+		$this->use_layout=false;
+  	if(!$size = $img_size) $size=110;
 	  $size = str_replace(".jpg", "", $size);
 	  $size = str_replace(".gif", "", $size);
 	  $size = str_replace(".png", "", $size);
-	  
-	  $this->show_image = new WildfireFile(Request::get("id"));
-	  $imgid = Request::get("id");
-    $source = WAX_ROOT . $this->show_image->path.$this->show_image->filename;
-    $relative = strstr($source, "public/");
-    $relative = str_replace("public/", "", $relative);
-    $source = PUBLIC_DIR.$relative;
-    $file = CACHE_DIR.$imgid."_".$size.$this->show_image->extension;
-	  if(!is_readable($file)) File::resize_image($source, $file, $size, false, $this->force_image_width);
-	  if($this->image = File::display_image($file) ) return true;
-	  return false;
+
+  	$img = new WildfireFile($img_id);
+		/* CHANGED - allows for relative paths in db */
+    $source = PUBLIC_DIR. $img->rpath."/".$img->filename;    
+    
+		$file = CACHE_DIR.$img_id."_".$img_size;
+		$source=preg_replace("/[\s]/", "\ ", $source);
+		if(!File::is_image($source)){
+			if(!is_file($file) || !is_readable($file)) {
+				$icon_type = File::get_extension($img->filename);
+				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-".strtolower($icon_type).".gif";
+				if(!is_readable($icon) || $icon_file !=file_get_contents($icon)) {
+					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
+					$source = CACHE_DIR."cms-generic-icon.gif";
+				}
+				else $source = CACHE_DIR."cms-generic-icon-{$icon_type}.gif";
+				file_put_contents($source, $icon_file);
+			}
+		}
+    if(!is_file($file) || !is_readable($file)) {
+      File::resize_image($source, $file, $size);
+    }
+		if($this->image = File::display_image($file) ) {
+			return true;
+		} return false;
 	}
 
 	/* used by old and new */
