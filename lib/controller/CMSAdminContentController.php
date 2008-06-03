@@ -70,7 +70,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function remove_image() {
 		$this->use_layout=false;
 		$page = new $this->model_class($this->route_array[0]);
-		$image = new CmsFile($this->param("image"));
+		$image = new WildfireFile($this->param("image"));
 		$page->images->unlink($image);
 	}
 	

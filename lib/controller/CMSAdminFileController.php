@@ -95,6 +95,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $model = new WildfireFile;
 	  $fs = new CmsFilesystem;
 	  $folder = $fs->relativePath;
+		if(!$folder) $folder ="files";
 	  error_log($folder);
 	  $this->all_images = $model->filter(array("rpath"=>$folder))->order("filename ASC")->all();
   	if($_POST['filterfolder']) {
