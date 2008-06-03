@@ -106,10 +106,7 @@ class CmsContent extends WaxModel {
 		if($content) return CmsTextFilter::filter("before_output", $content->filter(array('name'=>$name))->first()->extra_content);
 		else return "";
   }
-	/*not sure if or where this is used - cant seem to find it so now returns false*/
-	public function find_with_extra_content($name, $params=array()) {
-		return false;
-  }
+	
 	public function save_extra_content() {
 		$attributes = $_POST["cms_extra_content"];
 		if(count($attributes)){
@@ -142,6 +139,10 @@ class CmsContent extends WaxModel {
   }
 
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
+	/*not sure if or where this is used - cant seem to find it so now returns false*/
+	public function find_with_extra_content($name, $params=array()) {
+		return false;
+  }
 	public function is_section($url) {
 		$section = new CmsSection;
     if($section->filter(array('url'=>$url))->first()) return true;
@@ -149,6 +150,8 @@ class CmsContent extends WaxModel {
   }
 	//these will be replaced by 'scoping'
 	public function published_content($url, $section, $params=array()) {
+		return array();
+		/*
 		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
 	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
 	  else $params['conditions'] = $condition;
@@ -169,24 +172,30 @@ class CmsContent extends WaxModel {
 	  if($res = $this->find_all($params)) return $res;
 	
 	  return array();
+		*/
 	}
 	public function all_content($url, $section, $params=false) {
+		return array();
+		/*
 		if(!$params['order']) $params['order'] = "published DESC";
 	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
 	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
 	  return array();
+		*/
   }
 
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}
 	/* old version */
 	public function find_most_commented($section="1", $since="7", $limit="10") {
+		
 		$content = new CmsContent;
 		$sections = new CmsSection;
-	  if($section && !is_numeric($section)) $section = $sections->find_by_url($section)->id;
+	  if($section && !is_numeric($section)) $section = $sections->filter(array('url'=>$section))->first()->id;
 	  $sql = "SELECT *, count(attached_id) as counter FROM `cms_comment` RIGHT JOIN cms_content ON attached_id=cms_content.id WHERE cms_comment.status=1 AND `time` > date_sub(now(), INTERVAL '$since' DAY)";
 	  if($section) $sql.= " AND cms_section_id=$section";
 	  $sql.= " GROUP BY attached_id ORDER BY counter DESC LIMIT $limit";
+		echo $sql;exit;
 	  return $content->find_by_sql($sql);
 	  
 	}
