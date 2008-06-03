@@ -12,10 +12,10 @@ class CmsCategory extends WaxTreeModel {
 	public function before_save() {
 	  $this->url = WXInflections::to_url($this->title);
 	}
-	
+	 
 	public function sections_as_collection($input = false, $padding_char ="&nbsp;&nbsp;") {	
 		if(!$this->tree_array && !$input) $this->generate_tree();
-		if(!$input)$input = $this->tree_array;
+		if(!$input) $input = $this->tree_array;
 		$collection = array();
 		foreach($input as $item){
 			$value = str_pad($item->title, strlen($item->title)+ $item->level(), "^", STR_PAD_LEFT);
