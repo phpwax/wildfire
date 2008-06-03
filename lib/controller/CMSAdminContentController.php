@@ -31,8 +31,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  if(!$page = $this->param("page")) $page=1;
 		$this->use_view="index";
 		$section = new CmsSection;
-		$options = array("order"=>"published DESC", "page"=>$page, "per_page"=>10);
-		$this->all_rows = $this->model->find_all_by_cms_section_id($section->find_by_url($this->action)->id, $options);
+		$sect_id = $section->find_by_url($this->action)->id;
+		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id) )->order("published DESC")->page($page, 10);
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
@@ -46,11 +46,9 @@ class CMSAdminContentController extends CMSAdminComponent {
 		*/
 		$author_id = $this->current_user->id; 
 		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-		$temp_content = $this->model->find_all( array('conditions'=>"`status`='3' AND `author_id`='$author_id' AND `date_created` < '$time' ") );
+		$temp_content = $this->model->filter(array('author_id'=>$author_id, 'status'=>3))->filter("`date_created` < '$time'")->all();
 		if(count($temp_content)){
-			foreach($temp_content as $content){
-				$content->delete();
-			}
+			foreach($temp_content as $content) $content->delete();
 		}
 		/* */
 		$this->display_action_name = 'List Items';
@@ -96,7 +94,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function create() {
 		$model = new CmsContent();
 		$model->status = 3;
-		$model->save();
+		$model->author_id = Session::get('loggedin_user');
+		$model = $model->save();
 		$this->redirect_to("/admin/content/edit/".$model->id);
 	}
 	
