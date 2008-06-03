@@ -22,7 +22,6 @@ class CmsConfiguration extends WaxModel {
   static public function set($name, $value) {
     $conf = new CmsConfiguration;
 		$result = $conf->filter(array('name'=>$name))->first();
-		print_r($result);
     if($result) return $result->update_attributes(array("value"=>serialize($value)));
     else {
       $conf = new CmsConfiguration;
