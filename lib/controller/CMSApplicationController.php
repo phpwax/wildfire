@@ -65,17 +65,14 @@ class CmsApplicationController extends WXControllerBase{
 		$logged_in = $this->is_admin_logged_in();
 		if($url){
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section_id);
-			if($logged_in) $res = $content->filter($filters)->all();
-			else $res = $content->filter($filters)->filter("`published` <= NOW()")->all();
-			if(count($res) == 0 && $logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
-			elseif(count($res) == 0) $res = $content->clear()->filter(array('url'=>$url))->filter("`published` <= NOW()")->all();
+			$res = $content->scope("published")->filter($filters)->all();
+			if(count($res) == 0) $res = $content->clear()->filter(array('url'=>$url))->all();
 			if($res->count()>0) $this->cms_content = $res->first();
 			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
-			$filter = "`cms_section_id` = '".$this->cms_section->id."'";
-			if(!$this->is_admin_logged_in()) $filter .= " AND published <= NOW()";	
-			if(!$this->this_page) $this->cms_content = $content->filter($filter)->all();
-			else $this->cms_content = $content->filter($filter)->page($this->this_page, $this->per_page);
+			$filter = "`cms_section_id` = '".$this->cms_section->id."'";	
+			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
+			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
 		}
 	}
 	//use the path to root to create - new build crumb function
@@ -204,9 +201,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array(), $params=array()) {
 	  $model = WXInflections::camelize($this->content_table, 1);
     $content = new $model;
-    if($this->is_admin_logged_in()) $this->cms_content = $content->all_content($options['url'], $options['section_id'], $params);
-		else $this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
-		//$this->cms_content = $content->scope("published")->filter(array("cms_section_id"=>array(2,5,8)))->limit(8)->all();
+		$this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
     
 	}
 	
