@@ -14,9 +14,7 @@ class CmsSection extends WaxTreeModel {
 	
 	public function before_save() {
 		$this->url = WXInflections::to_url($this->title);
-	}
-	
-	
+	}	
 	
 	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
 		if(!$this->tree_array && !$input) $this->generate_tree();
