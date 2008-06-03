@@ -59,15 +59,15 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	public function add_image() {
 		$this->use_layout=false;
-		$this->page = new $this->model_class($this->route_array[0]);
-		$file = new CmsFile($_POST['id']);
+		$this->page = new $this->model_class(Request::get('id'));
+		$file = new WildfireFile($_POST['id']);
 		$this->page->images = $file;
 		$this->image = $file;
 	}
 	
 	public function remove_image() {
 		$this->use_layout=false;
-		$page = new $this->model_class($this->route_array[0]);
+		$page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
 		$page->images->unlink($image);
 	}
