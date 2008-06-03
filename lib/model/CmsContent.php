@@ -122,7 +122,8 @@ class CmsContent extends WaxModel {
   }
 
 	public function image($number) {
-		return $this->images->offset($number-1)->limit(1)->first();
+	  $images = $this->images;
+	  if($images->count()) return $images->offset($number-1)->limit(1)->first();
 	}
 	public function add_pageview() {
 		$this->pageviews = intval($this->pageviews) + 1;
