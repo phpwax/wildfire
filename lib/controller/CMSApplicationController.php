@@ -70,7 +70,7 @@ class CmsApplicationController extends WXControllerBase{
 			if(count($res) == 0 && $logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
 			elseif(count($res) == 0) $res = $content->clear()->filter(array('url'=>$url))->filter("`published` <= NOW()")->all();
 			if($res->count()>0) $this->cms_content = $res->first();
-			else throw new WXRoutingException('404');
+			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
 			$filter = "`cms_section_id` = '".$this->cms_section->id."'";
 			if(!$this->is_admin_logged_in()) $filter .= " AND published <= NOW()";	
