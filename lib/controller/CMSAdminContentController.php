@@ -84,7 +84,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->cat_list = $this->render_partial("cat_list");
 		$this->category_partial = $this->render_partial("apply_categories");
 		$files = new WildfireFile();
-		$this->all_links = $files->all();
+		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
 		parent::edit();
 		$this->extra_content_partial = $this->render_partial("extra_content");
