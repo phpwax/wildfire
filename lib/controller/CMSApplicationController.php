@@ -66,7 +66,7 @@ class CmsApplicationController extends WXControllerBase{
 		if($url){
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section_id);
 			$res = $content->scope("published")->filter($filters)->all();
-			if(count($res) == 0) $res = $content->clear()->filter(array('url'=>$url))->all();
+			if(count($res) == 0) $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
 			if($res->count()>0) $this->cms_content = $res->first();
 			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
