@@ -30,7 +30,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  if(!$action = $_POST["relay"]) $action = $_GET["relay"];
 	  $fs = new CmsFilesystem;
 	  $fs->dispatch($action, array_merge($_GET, $_POST));
-	}	
+	}
+	
+	public function synchronise() {
+	  if($_POST) print_r($_POST);
+	}
 	
 	
 	
