@@ -1047,7 +1047,7 @@ li.pagination_link a {
   text-decoration:none;
   color:#686868;
   font-size:116%;
-  line-height:120%;
+  line-height:100%;
 }
 #submenu li a:hover {
   text-decoration:none !important;
