@@ -36,7 +36,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  if($_POST && $_POST['sync']=="go") {
 	    $fs = new CmsFilesystem;
 	    $scan = File::get_folders($fs->relativepath);
-	    print_r($scan); exit;
+	    foreach($scan as $folder) {
+	      $fs->databaseSync(PUBLIC_DIR.$folder['path']);
+	    }
 	  }
 	}
 	
