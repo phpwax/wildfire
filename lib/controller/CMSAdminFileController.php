@@ -33,7 +33,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function synchronise() {
-	  if($_POST) print_r($_POST);
+	  if($_POST && $_POST['sync']=="go") {
+	    die("wecanhassynchrnize");
+	  }
 	}
 	
 	
