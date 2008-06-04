@@ -1032,6 +1032,7 @@ li.pagination_link a {
 #sub-navigation-container {
   background:#cfcfcf;
   border-bottom:1px solid #989898;
+  padding-top:8px;
 }
 #submenu {
   margin:0 2% 0 2%;
