@@ -999,7 +999,7 @@ li.pagination_link a {
 /**** Wildfire 1.0 Updated Style ********/
 #header-container {
   background-image: url(../../images/cms/cms_header-bg.gif);
-  height:65px;
+  height:60px;
   padding:0;
   padding-left:10px;
 }
@@ -1013,8 +1013,8 @@ li.pagination_link a {
   display:block;
   float:left;
   margin-right:30px;
-  height:69px;
-  line-height:69px;
+  height:60px;
+  line-height:60px;
 }
 #primary-navigation li a {
   color:#E1E1E1;
