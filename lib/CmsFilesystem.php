@@ -395,7 +395,6 @@ class CmsFilesystem {
 	
   	$fileid=mysql_escape_string($fileid);
   	$query = "SELECT * from wildfire_file where id=$fileid";
-  	error_log($query);
   	$result = $this->find($query);
   	if(count($result) == 0){
   		$this->error('bad fileid');
@@ -458,6 +457,7 @@ class CmsFilesystem {
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
+      		  error_log("Adding File: $folderpath :: $filename");
       		}
     	  }
     	}
@@ -503,7 +503,7 @@ class CmsFilesystem {
   	if(function_exists('mime_content_type') && mime_content_type("relay.php") != ""){
   		$type = mime_content_type("$folderpath/$filename");
   	}else{
-  		$type = exec("file --mime -b $folderpath/$filename");
+  		$type = exec(escapeshellarg("file --mime -b $folderpath/$filename"));
   	}
   	$size = $this->get_size($folderpath.'/'.$filename);
   	$fileid = $this->fileid($folderpath,$filename);
