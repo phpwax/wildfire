@@ -395,6 +395,7 @@ class CmsFilesystem {
 	
   	$fileid=mysql_escape_string($fileid);
   	$query = "SELECT * from wildfire_file where id=$fileid";
+  	error_log($query);
   	$result = $this->find($query);
   	if(count($result) == 0){
   		$this->error('bad fileid');
