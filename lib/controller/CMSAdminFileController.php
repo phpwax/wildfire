@@ -37,7 +37,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $fs = new CmsFilesystem;
 	    $scan = File::get_folders($fs->defaultFileStore.$fs->relativepath);
 	    foreach($scan as $folder) {
-	      $fs->databaseSync($folder['path'], $fs->relativepath);
+	      $rel = str_replace($fs->defaultFileStore, "", $folder['path']);
+	      $fs->databaseSync($folder['path'], $rel);
 	    }
 	    exit;
 	  }
