@@ -503,7 +503,7 @@ class CmsFilesystem {
   	if(function_exists('mime_content_type') && mime_content_type("relay.php") != ""){
   		$type = mime_content_type("$folderpath/$filename");
   	}else{
-  		$type = exec(escapeshellarg("file --mime -b $folderpath/$filename"));
+  		$type = exec("file --mime -b".escapeshellarg("$folderpath/$filename"));
   	}
   	$size = $this->get_size($folderpath.'/'.$filename);
   	$fileid = $this->fileid($folderpath,$filename);
