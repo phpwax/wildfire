@@ -31,7 +31,6 @@ class CmsApplicationController extends WXControllerBase{
 		$stack = $this->route_array;
 		foreach($stack as $key => $url){
 		  $url = substr($url, 0, strrpos($url, "."));
-		  die($url);
 			//only check numeric keys, ie not page or search terms && check its a section
 			if(is_numeric($key) && $this->find_section($url)){
 				$this->section_stack[] = $url;
