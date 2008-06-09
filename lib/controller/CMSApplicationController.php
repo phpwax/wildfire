@@ -33,7 +33,7 @@ class CmsApplicationController extends WXControllerBase{
 		  if(strpos($url, ".")) {
 		    $format = substr(strrchr($url,"."), 1);
 		    $url = substr($url, 0, strrpos($url, "."));
-  		  die($format);
+		    $this->use_format=$format;
 		  }
 			//only check numeric keys, ie not page or search terms && check its a section
 			if(is_numeric($key) && $this->find_section($url)){
