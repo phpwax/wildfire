@@ -457,7 +457,6 @@ class CmsFilesystem {
       		  $this->databaseUpdate($folderpath,$filename,$realitivePath);
       		}else{
       		  $this->databaseAdd($folderpath,$filename,$realitivePath);
-      		  error_log("Adding File: $folderpath :: $filename");
       		}
     	  }
     	}
