@@ -36,6 +36,7 @@ class CmsApplicationController extends WXControllerBase{
 				unset($stack[$key]);
 			}
 		}
+		die(end($stack));
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
 		//otherwise this is a section, so find all content in the section
