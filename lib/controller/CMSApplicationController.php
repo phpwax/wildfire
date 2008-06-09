@@ -61,7 +61,6 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	
 	protected function find_content($url){
-	  die($url);
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
 		if($url){
