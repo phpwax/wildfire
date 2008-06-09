@@ -31,7 +31,7 @@ class CmsApplicationController extends WXControllerBase{
 		$stack = $this->route_array;
 		foreach($stack as $key => $url){
 		  if(strpos($url, ".")) {
-		    $format = strrchr($url,".");
+		    $format = substr(strrchr($url,"."), 1);
 		    $url = substr($url, 0, strrpos($url, "."));
   		  die($format);
 		  }
