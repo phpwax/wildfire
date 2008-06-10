@@ -112,14 +112,17 @@
 	float:left;
 	padding:0 0 0 14px;
 }
-#searchbar {
+#operations form {
   float:right;
+  margin:5px 10px 0 0;
+}
+#searchbar {
 	width:128px;
 	border:0;
 	padding:3px 5px;
 }
 #searchbtn {
-	float:right;
+
 }
 #filesystem {
 	position:relative;
