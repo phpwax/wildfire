@@ -46,5 +46,9 @@ class WildfireFile extends WaxModel {
 	  return $this->clear()->filter("type NOT LIKE '%image%'")->all();
 	}
 	
+	public function url() {
+	  return "/".$this->rpath.$this->filename;
+	}
+	
 	
 }
