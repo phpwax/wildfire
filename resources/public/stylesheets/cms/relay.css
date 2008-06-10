@@ -113,7 +113,7 @@
 	padding:0 0 0 14px;
 }
 #searchbar {
-	position:absolute;
+	position:relative;
 	top:15px;
 	right:92px;
 	width:128px;
