@@ -113,17 +113,13 @@
 	padding:0 0 0 14px;
 }
 #searchbar {
-	position:relative;
-	top:15px;
-	right:92px;
+  float:right;
 	width:128px;
 	border:0;
 	padding:3px 5px;
 }
 #searchbtn {
-	position:absolute;
-	top:12px;
-	right:5px;
+	float:right;
 }
 #filesystem {
 	position:relative;
