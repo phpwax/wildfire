@@ -59,7 +59,7 @@ $(document).ready(function(event) {
   $("#image_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   $("#category_filter").focus(function(){if($(this).val() =="Filter") {$(this).val('')}; });
   $("#category_filter").blur(function(){if($(this).val() =="") {$(this).val('Filter')}; });
-  $("#cms_file_new_folder").change(function(t){
+  $("#wildfire_file_new_folder").change(function(t){
     $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
       function(response) { 
         $("#image_list").html(response); 
