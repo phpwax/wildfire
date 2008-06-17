@@ -57,7 +57,7 @@ class WildfireFile extends WaxModel {
 		$folders = File::get_folders($dir);
 		foreach($folders as $folder) {
 	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
-	    $options .= content_tag("option", "&nbsp;&nbsp;".$folder["name"], array("value"=>$path));
+	    $options .= content_tag("option", $folder["name"], array("value"=>$path));
 	  }
 		return $options;
 	}
