@@ -41,14 +41,25 @@ function delayed_cat_filter(filter) {
   });
 }
 
+function delayed_image_filter(filter) {
+  $("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
+  $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
+    complete: function(response){ 
+      $("#image_list").html(response.responseText); 
+      initialise_images();  
+      if(typeof(t) != "undefined" ) clearTimeout(t); 
+      $("#image_filter").css("background", "white");
+    }
+  });
+}
+
 
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
 
   $("#image_filter").keyup(function() {
-    $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
-      complete: function(response){ $("#image_list").html(response.responseText); initialise_images();  }
-    })
+    if(typeof(t) != "undefined" ) clearTimeout(t);
+    t = setTimeout('delayed_image_filter($("#image_filter").val())', 400);
   });
   
   $("#category_filter").keyup(function() {
