@@ -50,5 +50,17 @@ class WildfireFile extends WaxModel {
 	  return "/".$this->rpath.$this->filename;
 	}
 	
+	public function folder_options(){
+		$fs = new CmsFilesystem();
+		$dir = $fs->defaultFileStore.$fs->relativepath;
+		$options = content_tag("option", "Your Folder", array("value"=>$this->base_dir));
+		$folders = File::get_folders($dir);
+		foreach($folders as $folder) {
+	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
+	    $options .= content_tag("option", "&nbsp;&nbsp;".$folder["name"], array("value"=>$path));
+	  }
+		return $options;
+	}
+	
 	
 }
