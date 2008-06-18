@@ -499,7 +499,7 @@ class CmsFilesystem {
   }
 
   function databaseAdd($folderpath,$filename,$realitivePath){
-  	if(function_exists('mime_content_type') && mime_content_type("relay.php") != ""){
+  	if(function_exists('mime_content_type') ){
   		$type = mime_content_type("$folderpath/$filename");
   	}else{
   		$type = exec("file --mime -b ".escapeshellarg("$folderpath/$filename"));
