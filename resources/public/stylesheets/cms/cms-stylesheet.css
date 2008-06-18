@@ -575,7 +575,7 @@ li.pagination_link a {
 
 
 #resizehandle {
-  height:7px; 
+  height:8px; 
   display:block;
   width:100%;
   background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
