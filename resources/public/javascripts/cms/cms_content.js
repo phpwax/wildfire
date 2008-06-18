@@ -11,6 +11,10 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
+    $("#cms_content_contentWidgIframe").resizable({ 
+        handles: "s",
+        proxy: "resizehandle"
+    });
 });
 
 function initialise_draggables() {

@@ -163,9 +163,7 @@ function widgEditor(replacedTextareaID)
 	
 	/* Attach onsubmit to parent form */
 	this.modifyFormSubmit();
-	$("#cms_content_contentWidgIframe").resizable({ 
-      handles: "s" 
-  });
+	
 	return true;
 }
 

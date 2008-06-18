@@ -17,9 +17,3 @@ h6 {
   font-size:14px;
   font-style:italic;
 }
-.ui-resizable-s {
-  height:4px; 
-  display:block;
-  width:100%;
-  background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
-}
