@@ -632,6 +632,7 @@ li.pagination_link a {
   #content_options .multiple_datetime_select #cms_content_published_year {
     width:23%;
     padding:0;
+    margin-right:15px;
   }
   
   #content_window {
