@@ -583,7 +583,7 @@ body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body
  
 
 .ui-resizable-s {
-  height:5px; 
+  height:25px; 
   background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
 }
   
