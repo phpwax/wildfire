@@ -11,7 +11,7 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
-    $(".widgContainer").resizable({ 
+    $("#cms_content_contentWidgContainer").resizable({ 
         handles: "s" 
     });
 });
