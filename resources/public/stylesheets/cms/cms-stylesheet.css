@@ -618,11 +618,11 @@ li.pagination_link a {
     background:url(../../images/cms/cms_cform_divider.gif) no-repeat center right;
   }
   #content_options .select_field, #content_options .input_field {
-    font-size:100%;
+    font-size:85%;
   }
   
   #content_options .multiple_datetime_select {
-    font-size:75%;
+    font-size:85%;
   }
   #content_options .multiple_datetime_select select {
     width:16%;
