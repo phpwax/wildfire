@@ -22,7 +22,12 @@ widgToolbarItems.push("italic");
 widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
+widgToolbarItems.push("separator");
+
 widgToolbarItems.push("blockformat");
+widgToolbarItems.push("separator");
+
+
 widgToolbarItems.push("htmlsource");
 
 
@@ -863,6 +868,10 @@ function widgToolbar(theEditor)
 			case "blockformat":
 				this.addSelect(this.theList.id + "SelectBlock", "widgSelectBlock", widgSelectBlockOptions, "formatblock");
 				break;
+				
+			case "separator":
+			  this.addSeparator();
+			  break;
 			
 			default:
 			  ar = widgToolbarItems[i];
@@ -901,7 +910,11 @@ widgToolbar.prototype.addButton = function(theID, theClass, theLabel, theAction)
 
 	return true;
 }
-
+widgToolbar.prototype.addSeparator = function() {
+  var separator = document.createElement("span");
+	separator.className = "widgSeparator";
+	this.theList.appendChild(separator);
+}
 
 
 
