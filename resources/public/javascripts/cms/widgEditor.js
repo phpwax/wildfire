@@ -911,7 +911,7 @@ widgToolbar.prototype.addButton = function(theID, theClass, theLabel, theAction)
 	return true;
 }
 widgToolbar.prototype.addSeparator = function() {
-  var separator = document.createElement("span");
+  var separator = document.createElement("li");
 	separator.className = "widgSeparator";
 	this.theList.appendChild(separator);
 }
