@@ -619,9 +619,12 @@ li.pagination_link a {
   }
   #content_options .select_field, #content_options .input_field {
     margin:0;
-    font-size:85%;
+    font-size:100%;
   }
   
+  #content_options .multiple_datetime_select {
+    font-size:85%;
+  }
   
   #content_window {
     background:#F5F5F4;
