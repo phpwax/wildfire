@@ -230,6 +230,8 @@ p{
 #filter_block{
 	padding:10px;
 	background-image: url(../../images/cms/widg_bg.gif);
+	border-top: 1px solid #ebebeb;
+	border-bottom: 1px solid #ebebeb;
 }
 #filter_block input{
 	border:1px solid #ababab;
