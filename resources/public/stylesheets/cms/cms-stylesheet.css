@@ -576,6 +576,8 @@ li.pagination_link a {
 
 #resizable_panel {
   border:1px solid pink;
+  clear:both;
+  background:white;
 }
 .ui-resizable-s {
   height:25px; 
