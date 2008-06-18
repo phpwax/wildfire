@@ -625,6 +625,9 @@ li.pagination_link a {
   #content_options .multiple_datetime_select {
     font-size:85%;
   }
+  #content_options .multiple_datetime_select select {
+    width:12%;
+  }
   
   #content_window {
     background:#F5F5F4;
