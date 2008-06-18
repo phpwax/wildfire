@@ -12,7 +12,15 @@ $(document).ready(function() {
     });   
     initialise_draggables();
     $("#resizehandle").resizable({ 
-        handles: "s"
+        handles: "s",
+        resize: function() {
+          var origheight=13;
+          var newheight = $("#resizehandle").css("height");
+          var addheight = newheight - origheight;
+          var iframeheight = $(".widgIframe").height();
+          $(".widgIframe").height(iframeheight + addheight);
+          $("#resizehandle").height(13);
+        }
     });
 });
 
