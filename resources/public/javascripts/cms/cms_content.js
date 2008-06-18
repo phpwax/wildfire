@@ -15,7 +15,7 @@ $(document).ready(function() {
         handles: "s",
         stop: function() {
           var origheight=13;
-          var newheight = $("#resizehandle").css("height");
+          var newheight = $("#resizehandle").height();
           var addheight = newheight - origheight;
           var iframeheight = $(".widgIframe").height();
           
