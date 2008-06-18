@@ -50,7 +50,7 @@ var widgInsertParagraphs = true;
 ** prompted as to whether they wish to clean the content.
 */
 
-var widgAutoClean = true;
+var widgAutoClean = false;
 
 /******************************************************************************
 **    END CONFIGURATION
@@ -248,6 +248,10 @@ widgEditor.prototype.cleanPaste = function()
 		newSnippet = newSnippet.replace(/<i(\s+|>)/g, "<em$1");
 		/* Replace closing italic tags with closing em */
 		newSnippet = newSnippet.replace(/<\/i(\s+|>)/g, "</em$1");
+		
+		/* Remove unwanted tags */
+
+		
 
 		/* Strip out unaccepted attributes */
 		newSnippet = newSnippet.replace(/<[^>]*>/g, function(match)
