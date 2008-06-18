@@ -575,10 +575,10 @@ li.pagination_link a {
  
 
 .ui-resizable-s {
-  height:8px; 
+  height:6px; 
   display:block;
   width:100%;
-  background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat bottom center;
+  background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
 }
   
   #content_options {
