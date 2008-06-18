@@ -103,6 +103,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function upload() {
     if($_FILES) {
+      print_r($_FILES); exit;
       foreach($_FILES as $newfile) {
         foreach($newfile as $k=>$val) {
           $newfile_fix[$k]['filename']=$val;
