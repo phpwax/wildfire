@@ -114,6 +114,9 @@
 .widgEditSelect {
   width:auto !important;
 }
+.widgToolbar li.separator {
+  border-right:1px solid #dddddd;
+}
 
 
 
