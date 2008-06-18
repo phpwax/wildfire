@@ -1,6 +1,6 @@
 <form action="" method="post" name="upload_form" id="upload_form">
   <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
-  <?=large(text_area($model, "caption", array("rows"=>"3"), "Give these images a caption (optional)"))?>
+  <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images a caption (optional)"))?>
 </form>
 
 <applet name="JUpload" code="wjhk.jupload2.JUploadApplet"

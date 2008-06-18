@@ -101,6 +101,22 @@ class CMSAdminFileController extends CMSAdminComponent {
 		parent::edit();
 	}
 	
+	public function upload() {
+    if($_FILES) {
+      foreach($_FILES as $newfile) {
+        foreach($newfile as $k=>$val) {
+          $newfile_fix[$k]['filename']=$val;
+        }
+        $path = $_POST['cms_file']['folder'];
+        $file = new WildfireFile;
+        $file->filename = $newfile_fix;
+        $file->description = $_POST["cms_file"]["description"];
+        $file->save();
+      }
+      echo "SUCCESS"; exit;
+    }
+	}
+	
 	
 	public function browse_images() {
 		$this->use_layout=false;
