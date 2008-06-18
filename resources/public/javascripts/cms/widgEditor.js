@@ -79,6 +79,9 @@ function widgInit()
 				
 				
 				setTimeout("new widgEditor('" + theTextarea.id + "')", 500 * (i));
+				$(".widgIframe").resizable({ 
+            handles: "s" 
+        });
 			}
 		}
 	}
