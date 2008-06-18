@@ -17,31 +17,33 @@
     </ul>
     
   <div id="content_window" class="clearfix">
-    <div id="content_editor" class="clearfix">
-      <div id="section-1" class="tabs-container">
-        <fieldset id="wysiwyg">
-          <?=large(simple_wysiwyg($model, "content", array(), false))?>
-        </fieldset>
-      </div>
-      <div id="section-2" class="tabs-container">
-        <?if($allowed_images):?>
-          <?=$image_partial?>
-        <?else:?><p>Images disabled</p>
-        <?endif?>
-      </div>
-      <?if(CmsApplication::is_registered('categories')):?>
-      <div id="section-3" class="tabs-container">
-        <?if($allowed_categories):?>
-          <?=$category_partial?>
-        <?else:?><p>Categories disabled</p>
-        <?endif?>
-      </div>
-      <?endif?>
-      <?if(count($extra_content)):?>
-        <div id="section-4" class="tabs-container">
-          <?=$extra_content_partial?>
+    <div id="resizable_panel">
+      <div id="content_editor" class="clearfix">
+        <div id="section-1" class="tabs-container">
+          <fieldset id="wysiwyg">
+            <?=large(simple_wysiwyg($model, "content", array(), false))?>
+          </fieldset>
         </div>
-      <?endif?>
+        <div id="section-2" class="tabs-container">
+          <?if($allowed_images):?>
+            <?=$image_partial?>
+          <?else:?><p>Images disabled</p>
+          <?endif?>
+        </div>
+        <?if(CmsApplication::is_registered('categories')):?>
+        <div id="section-3" class="tabs-container">
+          <?if($allowed_categories):?>
+            <?=$category_partial?>
+          <?else:?><p>Categories disabled</p>
+          <?endif?>
+        </div>
+        <?endif?>
+        <?if(count($extra_content)):?>
+          <div id="section-4" class="tabs-container">
+            <?=$extra_content_partial?>
+          </div>
+        <?endif?>
+      </div>
     </div>
   
     <fieldset id="content_options">			
