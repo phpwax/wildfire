@@ -90,11 +90,11 @@
 
 .widgToolbar {
 	margin: 0;
-	padding: 15px 20px;
+	padding: 8px 20px;
 	border-top: 1px solid #CCCCCC;
 	border-bottom: 1px solid #CCCCCC;
 	background-image: url(../../images/cms/widg_bg.gif);
-	height:28px;
+	height:22px;
 }
 
 * html .widgToolbar
