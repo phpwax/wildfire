@@ -636,15 +636,19 @@ li.pagination_link a {
   #content_editor .large {
     width:100%;
   }
+  .tabs-nav {
+    background:white;
+    color:#4f4f4f;
+  }
   .tabs-nav li {
     border:1px solid #E3E2E2;
-    background:#F5F5F4;
+    background:#FFF;
     border-bottom:0;
     margin-right:8px !important;
   }
   .tabs-nav li a {
     display:block;
-    color:#8B8B8A !important;
+    color:#4f4f4f !important;
     padding:8px 12px;
     font-size:100%;
     font-family:Arial;
