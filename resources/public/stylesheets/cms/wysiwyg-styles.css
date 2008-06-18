@@ -5,7 +5,9 @@
 	display: block;
 	width: 15px;
 	height: 15px;
+	overflow: hidden;
 	background-repeat: no-repeat;
+	text-indent: -1000em;
 	text-decoration: none;
 }
 
