@@ -12,8 +12,7 @@ $(document).ready(function() {
     });   
     initialise_draggables();
     $("#cms_content_contentWidgIframe").resizable({ 
-        handles: "s",
-        proxy: "resizehandle"
+        handles: $("#resizehandle")
     });
 });
 
