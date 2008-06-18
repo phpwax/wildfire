@@ -229,7 +229,7 @@ p{
 }
 #filter_block{
 	padding:10px;
-	background-color:#dddddc;
+	background-image: url(../../images/cms/widg_bg.gif);
 }
 #filter_block input{
 	border:1px solid #ababab;
