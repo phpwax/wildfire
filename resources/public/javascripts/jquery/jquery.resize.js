@@ -1,1 +1,1041 @@
-(function(C){C.ui={plugin:{add:function(E,F,H){var G=C.ui[E].prototype;for(var D in H){G.plugins[D]=G.plugins[D]||[];G.plugins[D].push([F,H[D]])}},call:function(D,F,E){var H=D.plugins[F];if(!H){return }for(var G=0;G<H.length;G++){if(D.options[H[G][0]]){H[G][1].apply(D.element,E)}}}},cssCache:{},css:function(D){if(C.ui.cssCache[D]){return C.ui.cssCache[D]}var E=C('<div class="ui-resizable-gen">').addClass(D).css({position:"absolute",top:"-5000px",left:"-5000px",display:"block"}).appendTo("body");C.ui.cssCache[D]=!!((!(/auto|default/).test(E.css("cursor"))||(/^[1-9]/).test(E.css("height"))||(/^[1-9]/).test(E.css("width"))||!(/none/).test(E.css("backgroundImage"))||!(/transparent|rgba\(0, 0, 0, 0\)/).test(E.css("backgroundColor"))));try{C("body").get(0).removeChild(E.get(0))}catch(F){}return C.ui.cssCache[D]},disableSelection:function(D){D.unselectable="on";D.onselectstart=function(){return false};if(D.style){D.style.MozUserSelect="none"}},enableSelection:function(D){D.unselectable="off";D.onselectstart=function(){return true};if(D.style){D.style.MozUserSelect=""}},hasScroll:function(G,E){var D=/top/.test(E||"top")?"scrollTop":"scrollLeft",F=false;if(G[D]>0){return true}G[D]=1;F=G[D]>0?true:false;G[D]=0;return F}};var B=C.fn.remove;C.fn.remove=function(){C("*",this).add(this).trigger("remove");return B.apply(this,arguments)};function A(E,F,G){var D=C[E][F].getter||[];D=(typeof D=="string"?D.split(/,?\s+/):D);return(C.inArray(G,D)!=-1)}C.widget=function(E,D){var F=E.split(".")[0];E=E.split(".")[1];C.fn[E]=function(J){var H=(typeof J=="string"),I=Array.prototype.slice.call(arguments,1);if(H&&A(F,E,J)){var G=C.data(this[0],E);return(G?G[J].apply(G,I):undefined)}return this.each(function(){var K=C.data(this,E);if(H&&K&&C.isFunction(K[J])){K[J].apply(K,I)}else{if(!H){C.data(this,E,new C[F][E](this,J))}}})};C[F][E]=function(I,H){var G=this;this.widgetName=E;this.widgetBaseClass=F+"-"+E;this.options=C.extend({disabled:false},C[F][E].defaults,H);this.element=C(I).bind("setData."+E,function(L,J,K){return G.setData(J,K)}).bind("getData."+E,function(K,J){return G.getData(J)}).bind("remove",function(){return G.destroy()});this.init()};C[F][E].prototype=C.extend({},C.widget.prototype,D)};C.widget.prototype={init:function(){},destroy:function(){this.element.removeData(this.widgetName)},getData:function(D){return this.options[D]},setData:function(D,E){this.options[D]=E;if(D=="disabled"){this.element[E?"addClass":"removeClass"](this.widgetBaseClass+"-disabled")}},enable:function(){this.setData("disabled",false)},disable:function(){this.setData("disabled",true)}};C.ui.mouse={mouseInit:function(){var D=this;this.element.bind("mousedown."+this.widgetName,function(E){return D.mouseDown(E)});if(C.browser.msie){this._mouseUnselectable=this.element.attr("unselectable");this.element.attr("unselectable","on")}this.started=false},mouseDestroy:function(){this.element.unbind("."+this.widgetName);(C.browser.msie&&this.element.attr("unselectable",this._mouseUnselectable))},mouseDown:function(F){(this._mouseStarted&&this.mouseUp(F));this._mouseDownEvent=F;var E=this,G=(F.which==1),D=(typeof this.options.cancel=="string"?C(F.target).is(this.options.cancel):false);if(!G||D||!this.mouseCapture(F)){return true}this._mouseDelayMet=!this.options.delay;if(!this._mouseDelayMet){this._mouseDelayTimer=setTimeout(function(){E._mouseDelayMet=true},this.options.delay)}if(this.mouseDistanceMet(F)&&this.mouseDelayMet(F)){this._mouseStarted=(this.mouseStart(F)!==false);if(!this._mouseStarted){F.preventDefault();return true}}this._mouseMoveDelegate=function(H){return E.mouseMove(H)};this._mouseUpDelegate=function(H){return E.mouseUp(H)};C(document).bind("mousemove."+this.widgetName,this._mouseMoveDelegate).bind("mouseup."+this.widgetName,this._mouseUpDelegate);return false},mouseMove:function(D){if(C.browser.msie&&!D.button){return this.mouseUp(D)}if(this._mouseStarted){this.mouseDrag(D);return false}if(this.mouseDistanceMet(D)&&this.mouseDelayMet(D)){this._mouseStarted=(this.mouseStart(this._mouseDownEvent,D)!==false);(this._mouseStarted?this.mouseDrag(D):this.mouseUp(D))}return !this._mouseStarted},mouseUp:function(D){C(document).unbind("mousemove."+this.widgetName,this._mouseMoveDelegate).unbind("mouseup."+this.widgetName,this._mouseUpDelegate);if(this._mouseStarted){this._mouseStarted=false;this.mouseStop(D)}return false},mouseDistanceMet:function(D){return(Math.max(Math.abs(this._mouseDownEvent.pageX-D.pageX),Math.abs(this._mouseDownEvent.pageY-D.pageY))>=this.options.distance)},mouseDelayMet:function(D){return this._mouseDelayMet},mouseStart:function(D){},mouseDrag:function(D){},mouseStop:function(D){},mouseCapture:function(D){return true}};C.ui.mouse.defaults={cancel:null,distance:1,delay:0}})(jQuery);(function(A){A.widget("ui.resizable",A.extend(A.ui.mouse,{init:function(){var M=this,N=this.options;var Q=this.element.css("position");this.element.addClass("ui-resizable").css({position:/static/.test(Q)?"relative":Q});A.extend(N,{_aspectRatio:!!(N.aspectRatio),proxy:N.proxy||N.ghost||N.animate?N.proxy||"proxy":null,knobHandles:N.knobHandles===true?"ui-resizable-knob-handle":N.knobHandles});var H="1px solid #DEDEDE";N.defaultTheme={"ui-resizable":{display:"block"},"ui-resizable-handle":{position:"absolute",background:"#F2F2F2",fontSize:"0.1px"},"ui-resizable-n":{cursor:"n-resize",height:"4px",left:"0px",right:"0px",borderTop:H},"ui-resizable-s":{cursor:"s-resize",height:"4px",left:"0px",right:"0px",borderBottom:H},"ui-resizable-e":{cursor:"e-resize",width:"4px",top:"0px",bottom:"0px",borderRight:H},"ui-resizable-w":{cursor:"w-resize",width:"4px",top:"0px",bottom:"0px",borderLeft:H},"ui-resizable-se":{cursor:"se-resize",width:"4px",height:"4px",borderRight:H,borderBottom:H},"ui-resizable-sw":{cursor:"sw-resize",width:"4px",height:"4px",borderBottom:H,borderLeft:H},"ui-resizable-ne":{cursor:"ne-resize",width:"4px",height:"4px",borderRight:H,borderTop:H},"ui-resizable-nw":{cursor:"nw-resize",width:"4px",height:"4px",borderLeft:H,borderTop:H}};N.knobTheme={"ui-resizable-handle":{background:"#F2F2F2",border:"1px solid #808080",height:"8px",width:"8px"},"ui-resizable-n":{cursor:"n-resize",top:"0px",left:"45%"},"ui-resizable-s":{cursor:"s-resize",bottom:"0px",left:"45%"},"ui-resizable-e":{cursor:"e-resize",right:"0px",top:"45%"},"ui-resizable-w":{cursor:"w-resize",left:"0px",top:"45%"},"ui-resizable-se":{cursor:"se-resize",right:"0px",bottom:"0px"},"ui-resizable-sw":{cursor:"sw-resize",left:"0px",bottom:"0px"},"ui-resizable-nw":{cursor:"nw-resize",left:"0px",top:"0px"},"ui-resizable-ne":{cursor:"ne-resize",right:"0px",top:"0px"}};N._nodeName=this.element[0].nodeName;if(N._nodeName.match(/canvas|textarea|input|select|button|img/i)){var B=this.element;if(/relative/.test(B.css("position"))&&A.browser.opera){B.css({position:"relative",top:"auto",left:"auto"})}B.wrap(A('<div class="ui-wrapper"	style="overflow: hidden;"></div>').css({position:B.css("position"),width:B.outerWidth(),height:B.outerHeight(),top:B.css("top"),left:B.css("left")}));var J=this.element;this.element=this.element.parent();this.element.data("resizable",this);this.element.css({marginLeft:J.css("marginLeft"),marginTop:J.css("marginTop"),marginRight:J.css("marginRight"),marginBottom:J.css("marginBottom")});J.css({marginLeft:0,marginTop:0,marginRight:0,marginBottom:0});if(A.browser.safari&&N.preventDefault){J.css("resize","none")}N.proportionallyResize=J.css({position:"static",zoom:1,display:"block"});this.element.css({margin:J.css("margin")});this._proportionallyResize()}if(!N.handles){N.handles=!A(".ui-resizable-handle",this.element).length?"e,s,se":{n:".ui-resizable-n",e:".ui-resizable-e",s:".ui-resizable-s",w:".ui-resizable-w",se:".ui-resizable-se",sw:".ui-resizable-sw",ne:".ui-resizable-ne",nw:".ui-resizable-nw"}}if(N.handles.constructor==String){N.zIndex=N.zIndex||1000;if(N.handles=="all"){N.handles="n,e,s,w,se,sw,ne,nw"}var O=N.handles.split(",");N.handles={};var G={handle:"position: absolute; display: none; overflow:hidden;",n:"top: 0pt; width:100%;",e:"right: 0pt; height:100%;",s:"bottom: 0pt; width:100%;",w:"left: 0pt; height:100%;",se:"bottom: 0pt; right: 0px;",sw:"bottom: 0pt; left: 0px;",ne:"top: 0pt; right: 0px;",nw:"top: 0pt; left: 0px;"};for(var R=0;R<O.length;R++){var S=A.trim(O[R]),L=N.defaultTheme,F="ui-resizable-"+S,C=!A.ui.css(F)&&!N.knobHandles,P=A.ui.css("ui-resizable-knob-handle"),T=A.extend(L[F],L["ui-resizable-handle"]),D=A.extend(N.knobTheme[F],!P?N.knobTheme["ui-resizable-handle"]:{});var K=/sw|se|ne|nw/.test(S)?{zIndex:++N.zIndex}:{};var I=(C?G[S]:""),E=A(['<div class="ui-resizable-handle ',F,'" style="',I,G.handle,'"></div>'].join("")).css(K);N.handles[S]=".ui-resizable-"+S;this.element.append(E.css(C?T:{}).css(N.knobHandles?D:{}).addClass(N.knobHandles?"ui-resizable-knob-handle":"").addClass(N.knobHandles))}if(N.knobHandles){this.element.addClass("ui-resizable-knob").css(!A.ui.css("ui-resizable-knob")?{}:{})}}this._renderAxis=function(Y){Y=Y||this.element;for(var V in N.handles){if(N.handles[V].constructor==String){N.handles[V]=A(N.handles[V],this.element).show()}if(N.transparent){N.handles[V].css({opacity:0})}if(this.element.is(".ui-wrapper")&&N._nodeName.match(/textarea|input|select|button/i)){var W=A(N.handles[V],this.element),X=0;X=/sw|ne|nw|se|n|s/.test(V)?W.outerHeight():W.outerWidth();var U=["padding",/ne|nw|n/.test(V)?"Top":/se|sw|s/.test(V)?"Bottom":/^e$/.test(V)?"Right":"Left"].join("");if(!N.transparent){Y.css(U,X)}this._proportionallyResize()}if(!A(N.handles[V]).length){continue}}};this._renderAxis(this.element);N._handles=A(".ui-resizable-handle",M.element);if(N.disableSelection){N._handles.each(function(U,V){A.ui.disableSelection(V)})}N._handles.mouseover(function(){if(!N.resizing){if(this.className){var U=this.className.match(/ui-resizable-(se|sw|ne|nw|n|e|s|w)/i)}M.axis=N.axis=U&&U[1]?U[1]:"se"}});if(N.autohide){N._handles.hide();A(M.element).addClass("ui-resizable-autohide").hover(function(){A(this).removeClass("ui-resizable-autohide");N._handles.show()},function(){if(!N.resizing){A(this).addClass("ui-resizable-autohide");N._handles.hide()}})}this.mouseInit()},plugins:{},ui:function(){return{axis:this.options.axis,options:this.options}},propagate:function(C,B){A.ui.plugin.call(this,C,[B,this.ui()]);this.element.triggerHandler(C=="resize"?C:["resize",C].join(""),[B,this.ui()],this.options[C])},destroy:function(){var D=this.element,C=D.children(".ui-resizable").get(0);this.mouseDestroy();var B=function(E){A(E).removeClass("ui-resizable ui-resizable-disabled").removeData("resizable").unbind(".resizable").find(".ui-resizable-handle").remove()};B(D);if(D.is(".ui-wrapper")&&C){D.parent().append(A(C).css({position:D.css("position"),width:D.outerWidth(),height:D.outerHeight(),top:D.css("top"),left:D.css("left")})).end().remove();B(C)}},mouseStart:function(K){if(this.options.disabled){return false}var J=false;for(var H in this.options.handles){if(A(this.options.handles[H])[0]==K.target){J=true}}if(!J){return false}var C=this.options,B=this.element.position(),D=this.element,I=function(O){return parseInt(O,10)||0},G=A.browser.msie&&A.browser.version<7;C.resizing=true;C.documentScroll={top:A(document).scrollTop(),left:A(document).scrollLeft()};if(D.is(".ui-draggable")||(/absolute/).test(D.css("position"))){var M=A.browser.msie&&!C.containment&&(/absolute/).test(D.css("position"))&&!(/relative/).test(D.parent().css("position"));var L=M?C.documentScroll.top:0,F=M?C.documentScroll.left:0;D.css({position:"absolute",top:(B.top+L),left:(B.left+F)})}if(A.browser.opera&&/relative/.test(D.css("position"))){D.css({position:"relative",top:"auto",left:"auto"})}this._renderProxy();var N=I(this.helper.css("left")),E=I(this.helper.css("top"));this.offset=this.helper.offset();this.position={left:N,top:E};this.size=C.proxy||G?{width:D.outerWidth(),height:D.outerHeight()}:{width:D.width(),height:D.height()};this.originalSize=C.proxy||G?{width:D.outerWidth(),height:D.outerHeight()}:{width:D.width(),height:D.height()};this.originalPosition={left:N,top:E};this.sizeDiff={width:D.outerWidth()-D.width(),height:D.outerHeight()-D.height()};this.originalMousePosition={left:K.pageX,top:K.pageY};C.aspectRatio=(typeof C.aspectRatio=="number")?C.aspectRatio:((this.originalSize.height/this.originalSize.width)||1);if(C.preserveCursor){A("body").css("cursor",this.axis+"-resize")}this.propagate("start",K);return true},mouseDrag:function(I){var D=this.helper,C=this.options,J={},M=this,F=this.originalMousePosition,K=this.axis;var N=(I.pageX-F.left)||0,L=(I.pageY-F.top)||0;var E=this._change[K];if(!E){return false}var H=E.apply(this,[I,N,L]),G=A.browser.msie&&A.browser.version<7,B=this.sizeDiff;if(C._aspectRatio||I.shiftKey){H=this._updateRatio(H,I)}H=this._respectSize(H,I);this.propagate("resize",I);D.css({top:this.position.top+"px",left:this.position.left+"px",width:this.size.width+"px",height:this.size.height+"px"});if(!C.proxy&&C.proportionallyResize){this._proportionallyResize()}this._updateCache(H);return false},mouseStop:function(I){this.options.resizing=false;var E=this.options,H=function(M){return parseInt(M,10)||0},K=this;if(E.proxy){var D=E.proportionallyResize,B=D&&(/textarea/i).test(D.get(0).nodeName),C=B&&A.ui.hasScroll(D.get(0),"left")?0:K.sizeDiff.height,G=B?0:K.sizeDiff.width;var L={width:(K.size.width-G),height:(K.size.height-C)},F=(parseInt(K.element.css("left"),10)+(K.position.left-K.originalPosition.left))||null,J=(parseInt(K.element.css("top"),10)+(K.position.top-K.originalPosition.top))||null;if(!E.animate){this.element.css(A.extend(L,{top:J,left:F}))}if(E.proxy&&!E.animate){this._proportionallyResize()}}if(E.preserveCursor){A("body").css("cursor","auto")}this.propagate("stop",I);if(E.proxy){this.helper.remove()}return false},_updateCache:function(B){var C=this.options;this.offset=this.helper.offset();if(B.left){this.position.left=B.left}if(B.top){this.position.top=B.top}if(B.height){this.size.height=B.height}if(B.width){this.size.width=B.width}},_updateRatio:function(D,E){var F=this.options,G=this.position,C=this.size,B=this.axis;if(D.height){D.width=(C.height/F.aspectRatio)}else{if(D.width){D.height=(C.width*F.aspectRatio)}}if(B=="sw"){D.left=G.left+(C.width-D.width);D.top=null}if(B=="nw"){D.top=G.top+(C.height-D.height);D.left=G.left+(C.width-D.width)}return D},_respectSize:function(H,I){var F=this.helper,E=this.options,N=E._aspectRatio||I.shiftKey,M=this.axis,P=H.width&&E.maxWidth&&E.maxWidth<H.width,J=H.height&&E.maxHeight&&E.maxHeight<H.height,D=H.width&&E.minWidth&&E.minWidth>H.width,O=H.height&&E.minHeight&&E.minHeight>H.height;if(D){H.width=E.minWidth}if(O){H.height=E.minHeight}if(P){H.width=E.maxWidth}if(J){H.height=E.maxHeight}var C=this.originalPosition.left+this.originalSize.width,L=this.position.top+this.size.height;var G=/sw|nw|w/.test(M),B=/nw|ne|n/.test(M);if(D&&G){H.left=C-E.minWidth}if(P&&G){H.left=C-E.maxWidth}if(O&&B){H.top=L-E.minHeight}if(J&&B){H.top=L-E.maxHeight}var K=!H.width&&!H.height;if(K&&!H.left&&H.top){H.top=null}else{if(K&&!H.top&&H.left){H.left=null}}return H},_proportionallyResize:function(){var F=this.options;if(!F.proportionallyResize){return }var D=F.proportionallyResize,C=this.helper||this.element;if(!F.borderDif){var B=[D.css("borderTopWidth"),D.css("borderRightWidth"),D.css("borderBottomWidth"),D.css("borderLeftWidth")],E=[D.css("paddingTop"),D.css("paddingRight"),D.css("paddingBottom"),D.css("paddingLeft")];F.borderDif=A.map(B,function(G,I){var H=parseInt(G,10)||0,J=parseInt(E[I],10)||0;return H+J})}D.css({height:(C.height()-F.borderDif[0]-F.borderDif[2])+"px",width:(C.width()-F.borderDif[1]-F.borderDif[3])+"px"})},_renderProxy:function(){var C=this.element,F=this.options;this.elementOffset=C.offset();if(F.proxy){this.helper=this.helper||A('<div style="overflow:hidden;"></div>');var B=A.browser.msie&&A.browser.version<7,D=(B?1:0),E=(B?2:-1);this.helper.addClass(F.proxy).css({width:C.outerWidth()+E,height:C.outerHeight()+E,position:"absolute",left:this.elementOffset.left-D+"px",top:this.elementOffset.top-D+"px",zIndex:++F.zIndex});this.helper.appendTo("body");if(F.disableSelection){A.ui.disableSelection(this.helper.get(0))}}else{this.helper=C}},_change:{e:function(D,C,B){return{width:this.originalSize.width+C}},w:function(F,C,B){var G=this.options,D=this.originalSize,E=this.originalPosition;return{left:E.left+C,width:D.width-C}},n:function(F,C,B){var G=this.options,D=this.originalSize,E=this.originalPosition;return{top:E.top+B,height:D.height-B}},s:function(D,C,B){return{height:this.originalSize.height+B}},se:function(D,C,B){return A.extend(this._change.s.apply(this,arguments),this._change.e.apply(this,[D,C,B]))},sw:function(D,C,B){return A.extend(this._change.s.apply(this,arguments),this._change.w.apply(this,[D,C,B]))},ne:function(D,C,B){return A.extend(this._change.n.apply(this,arguments),this._change.e.apply(this,[D,C,B]))},nw:function(D,C,B){return A.extend(this._change.n.apply(this,arguments),this._change.w.apply(this,[D,C,B]))}}}));A.extend(A.ui.resizable,{defaults:{cancel:":input,button",distance:0,delay:0,preventDefault:true,transparent:false,minWidth:10,minHeight:10,aspectRatio:false,disableSelection:true,preserveCursor:true,autohide:false,knobHandles:false}});A.ui.plugin.add("resizable","containment",{start:function(I,K){var E=K.options,M=A(this).data("resizable"),G=M.element;var C=E.containment,F=(C instanceof A)?C.get(0):(/parent/.test(C))?G.parent().get(0):C;if(!F){return }M.containerElement=A(F);if(/document/.test(C)||C==document){M.containerOffset={left:0,top:0};M.containerPosition={left:0,top:0};M.parentData={element:A(document),left:0,top:0,width:A(document).width(),height:A(document).height()||document.body.parentNode.scrollHeight}}else{M.containerOffset=A(F).offset();M.containerPosition=A(F).position();M.containerSize={height:A(F).innerHeight(),width:A(F).innerWidth()};var J=M.containerOffset,B=M.containerSize.height,H=M.containerSize.width,D=(A.ui.hasScroll(F,"left")?F.scrollWidth:H),L=(A.ui.hasScroll(F)?F.scrollHeight:B);M.parentData={element:F,left:J.left,top:J.top,width:D,height:L}}},resize:function(H,K){var E=K.options,N=A(this).data("resizable"),C=N.containerSize,J=N.containerOffset,G=N.size,I=N.position,L=E._aspectRatio||H.shiftKey,B={top:0,left:0},D=N.containerElement;if(/static/.test(D.css("position"))){B=N.containerPosition}if(I.left<(E.proxy?J.left:B.left)){N.size.width=N.size.width+(E.proxy?(N.position.left-J.left):(N.position.left-B.left));if(L){N.size.height=N.size.width*E.aspectRatio}N.position.left=E.proxy?J.left:B.left}if(I.top<(E.proxy?J.top:0)){N.size.height=N.size.height+(E.proxy?(N.position.top-J.top):N.position.top);if(L){N.size.width=N.size.height/E.aspectRatio}N.position.top=E.proxy?J.top:0}var F=(E.proxy?N.offset.left-J.left:(N.position.left-B.left))+N.sizeDiff.width,M=(E.proxy?N.offset.top-J.top:N.position.top)+N.sizeDiff.height;if(F+N.size.width>=N.parentData.width){N.size.width=N.parentData.width-F;if(L){N.size.height=N.size.width*E.aspectRatio}}if(M+N.size.height>=N.parentData.height){N.size.height=N.parentData.height-M;if(L){N.size.width=N.size.height/E.aspectRatio}}},stop:function(G,J){var C=J.options,L=A(this).data("resizable"),H=L.position,I=L.containerOffset,B=L.containerPosition,D=L.containerElement;var E=A(L.helper),M=E.offset(),K=E.innerWidth(),F=E.innerHeight();if(C.proxy&&!C.animate&&/relative/.test(D.css("position"))){A(this).css({left:(M.left-I.left),top:(M.top-I.top),width:K,height:F})}if(C.proxy&&!C.animate&&/static/.test(D.css("position"))){A(this).css({left:B.left+(M.left-I.left),top:B.top+(M.top-I.top),width:K,height:F})}}});A.ui.plugin.add("resizable","grid",{resize:function(H,J){var D=J.options,L=A(this).data("resizable"),G=L.size,E=L.originalSize,F=L.originalPosition,K=L.axis,I=D._aspectRatio||H.shiftKey;D.grid=typeof D.grid=="number"?[D.grid,D.grid]:D.grid;var C=Math.round((G.width-E.width)/(D.grid[0]||1))*(D.grid[0]||1),B=Math.round((G.height-E.height)/(D.grid[1]||1))*(D.grid[1]||1);if(/^(se|s|e)$/.test(K)){L.size.width=E.width+C;L.size.height=E.height+B}else{if(/^(ne)$/.test(K)){L.size.width=E.width+C;L.size.height=E.height+B;L.position.top=F.top-B}else{if(/^(sw)$/.test(K)){L.size.width=E.width+C;L.size.height=E.height+B;L.position.left=F.left-C}else{L.size.width=E.width+C;L.size.height=E.height+B;L.position.top=F.top-B;L.position.left=F.left-C}}}}});A.ui.plugin.add("resizable","animate",{stop:function(I,K){var F=K.options,L=A(this).data("resizable");var E=F.proportionallyResize,B=E&&(/textarea/i).test(E.get(0).nodeName),C=B&&A.ui.hasScroll(E.get(0),"left")?0:L.sizeDiff.height,H=B?0:L.sizeDiff.width;var D={width:(L.size.width-H),height:(L.size.height-C)},G=(parseInt(L.element.css("left"),10)+(L.position.left-L.originalPosition.left))||null,J=(parseInt(L.element.css("top"),10)+(L.position.top-L.originalPosition.top))||null;L.element.animate(A.extend(D,J&&G?{top:J,left:G}:{}),{duration:F.animateDuration||"slow",easing:F.animateEasing||"swing",step:function(){var M={width:parseInt(L.element.css("width"),10),height:parseInt(L.element.css("height"),10),top:parseInt(L.element.css("top"),10),left:parseInt(L.element.css("left"),10)};if(E){E.css({width:M.width,height:M.height})}L._updateCache(M);L.propagate("animate",I)}})}});A.ui.plugin.add("resizable","ghost",{start:function(E,D){var F=D.options,B=A(this).data("resizable"),G=F.proportionallyResize,C=B.size;if(!G){B.ghost=B.element.clone()}else{B.ghost=G.clone()}B.ghost.css({opacity:0.25,display:"block",position:"relative",height:C.height,width:C.width,margin:0,left:0,top:0}).addClass("ui-resizable-ghost").addClass(typeof F.ghost=="string"?F.ghost:"");B.ghost.appendTo(B.helper)},resize:function(D,C){var E=C.options,B=A(this).data("resizable"),F=E.proportionallyResize;if(B.ghost){B.ghost.css({position:"relative",height:B.size.height,width:B.size.width})}},stop:function(D,C){var E=C.options,B=A(this).data("resizable"),F=E.proportionallyResize;if(B.ghost&&B.helper){B.helper.get(0).removeChild(B.ghost.get(0))}}});A.ui.plugin.add("resizable","alsoResize",{start:function(E,C){var F=C.options,B=A(this).data("resizable"),D=function(G){A(G).each(function(){A(this).data("resizable-alsoresize",{width:parseInt(A(this).width(),10),height:parseInt(A(this).height(),10),left:parseInt(A(this).css("left"),10),top:parseInt(A(this).css("top"),10)})})};if(typeof (F.alsoResize)=="object"){A.each(F.alsoResize,function(G,H){D(G)})}else{D(F.alsoResize)}},resize:function(F,E){var G=E.options,C=A(this).data("resizable"),D=C.originalSize,I=C.originalPosition;var H={height:(C.size.height-D.height)||0,width:(C.size.width-D.width)||0,top:(C.position.top-I.top)||0,left:(C.position.left-I.left)||0},B=function(J,K){A(J).each(function(){var N=A(this).data("resizable-alsoresize"),M={},L=K&&K.length?K:["width","height","top","left"];A.each(L||["width","height","top","left"],function(O,Q){var P=(N[Q]||0)+(H[Q]||0);if(P&&P>=0){M[Q]=P||null}});A(this).css(M)})};if(typeof (G.alsoResize)=="object"){A.each(G.alsoResize,function(J,K){B(J,K)})}else{B(G.alsoResize)}},stop:function(C,B){A(this).removeData("resizable-alsoresize-start")}})})(jQuery);
+/*
+ * jQuery UI 1.5
+ *
+ * Copyright (c) 2008 Paul Bakaus (ui.jquery.com)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * http://docs.jquery.com/UI
+ *
+ */
+;(function($) {
+
+$.ui = {
+	plugin: {
+		add: function(module, option, set) {
+			var proto = $.ui[module].prototype;
+			for(var i in set) {
+				proto.plugins[i] = proto.plugins[i] || [];
+				proto.plugins[i].push([option, set[i]]);
+			}
+		},
+		call: function(instance, name, args) {
+			var set = instance.plugins[name];
+			if(!set) { return; }
+			
+			for (var i = 0; i < set.length; i++) {
+				if (instance.options[set[i][0]]) {
+					set[i][1].apply(instance.element, args);
+				}
+			}
+		}	
+	},
+	cssCache: {},
+	css: function(name) {
+		if ($.ui.cssCache[name]) { return $.ui.cssCache[name]; }
+		var tmp = $('<div class="ui-resizable-gen">').addClass(name).css({position:'absolute', top:'-5000px', left:'-5000px', display:'block'}).appendTo('body');
+		
+		//if (!$.browser.safari)
+			//tmp.appendTo('body'); 
+		
+		//Opera and Safari set width and height to 0px instead of auto
+		//Safari returns rgba(0,0,0,0) when bgcolor is not set
+		$.ui.cssCache[name] = !!(
+			(!(/auto|default/).test(tmp.css('cursor')) || (/^[1-9]/).test(tmp.css('height')) || (/^[1-9]/).test(tmp.css('width')) || 
+			!(/none/).test(tmp.css('backgroundImage')) || !(/transparent|rgba\(0, 0, 0, 0\)/).test(tmp.css('backgroundColor')))
+		);
+		try { $('body').get(0).removeChild(tmp.get(0));	} catch(e){}
+		return $.ui.cssCache[name];
+	},
+	disableSelection: function(e) {
+		e.unselectable = "on";
+		e.onselectstart = function() { return false; };
+		if (e.style) { e.style.MozUserSelect = "none"; }
+	},
+	enableSelection: function(e) {
+		e.unselectable = "off";
+		e.onselectstart = function() { return true; };
+		if (e.style) { e.style.MozUserSelect = ""; }
+	},
+	hasScroll: function(e, a) {
+		var scroll = /top/.test(a||"top") ? 'scrollTop' : 'scrollLeft', has = false;
+		if (e[scroll] > 0) return true; e[scroll] = 1;
+		has = e[scroll] > 0 ? true : false; e[scroll] = 0;
+		return has;
+	}
+};
+
+
+/** jQuery core modifications and additions **/
+
+var _remove = $.fn.remove;
+$.fn.remove = function() {
+	$("*", this).add(this).trigger("remove");
+	return _remove.apply(this, arguments );
+};
+
+// $.widget is a factory to create jQuery plugins
+// taking some boilerplate code out of the plugin code
+// created by Scott González and Jörn Zaefferer
+function getter(namespace, plugin, method) {
+	var methods = $[namespace][plugin].getter || [];
+	methods = (typeof methods == "string" ? methods.split(/,?\s+/) : methods);
+	return ($.inArray(method, methods) != -1);
+}
+
+$.widget = function(name, prototype) {
+	var namespace = name.split(".")[0];
+	name = name.split(".")[1];
+	
+	// create plugin method
+	$.fn[name] = function(options) {
+		var isMethodCall = (typeof options == 'string'),
+			args = Array.prototype.slice.call(arguments, 1);
+		
+		if (isMethodCall && getter(namespace, name, options)) {
+			var instance = $.data(this[0], name);
+			return (instance ? instance[options].apply(instance, args)
+				: undefined);
+		}
+		
+		return this.each(function() {
+			var instance = $.data(this, name);
+			if (isMethodCall && instance && $.isFunction(instance[options])) {
+				instance[options].apply(instance, args);
+			} else if (!isMethodCall) {
+				$.data(this, name, new $[namespace][name](this, options));
+			}
+		});
+	};
+	
+	// create widget constructor
+	$[namespace][name] = function(element, options) {
+		var self = this;
+		
+		this.widgetName = name;
+		this.widgetBaseClass = namespace + '-' + name;
+		
+		this.options = $.extend({ disabled: false }, $[namespace][name].defaults, options);
+		this.element = $(element)
+			.bind('setData.' + name, function(e, key, value) {
+				return self.setData(key, value);
+			})
+			.bind('getData.' + name, function(e, key) {
+				return self.getData(key);
+			})
+			.bind('remove', function() {
+				return self.destroy();
+			});
+		this.init();
+	};
+	
+	// add widget prototype
+	$[namespace][name].prototype = $.extend({}, $.widget.prototype, prototype);
+};
+
+$.widget.prototype = {
+	init: function() {},
+	destroy: function() {
+		this.element.removeData(this.widgetName);
+	},
+	
+	getData: function(key) {
+		return this.options[key];
+	},
+	setData: function(key, value) {
+		this.options[key] = value;
+		
+		if (key == 'disabled') {
+			this.element[value ? 'addClass' : 'removeClass'](
+				this.widgetBaseClass + '-disabled');
+		}
+	},
+	
+	enable: function() {
+		this.setData('disabled', false);
+	},
+	disable: function() {
+		this.setData('disabled', true);
+	}
+};
+
+
+/** Mouse Interaction Plugin **/
+
+$.ui.mouse = {
+	mouseInit: function() {
+		var self = this;
+	
+		this.element.bind('mousedown.'+this.widgetName, function(e) {
+			return self.mouseDown(e);
+		});
+		
+		// Prevent text selection in IE
+		if ($.browser.msie) {
+			this._mouseUnselectable = this.element.attr('unselectable');
+			this.element.attr('unselectable', 'on');
+		}
+		
+		this.started = false;
+	},
+	
+	// TODO: make sure destroying one instance of mouse doesn't mess with
+	// other instances of mouse
+	mouseDestroy: function() {
+		this.element.unbind('.'+this.widgetName);
+		
+		// Restore text selection in IE
+		($.browser.msie
+			&& this.element.attr('unselectable', this._mouseUnselectable));
+	},
+	
+	mouseDown: function(e) {
+		// we may have missed mouseup (out of window)
+		(this._mouseStarted && this.mouseUp(e));
+		
+		this._mouseDownEvent = e;
+		
+		var self = this,
+			btnIsLeft = (e.which == 1),
+			elIsCancel = (typeof this.options.cancel == "string" ? $(e.target).is(this.options.cancel) : false);
+		if (!btnIsLeft || elIsCancel || !this.mouseCapture(e)) {
+			return true;
+		}
+		
+		this._mouseDelayMet = !this.options.delay;
+		if (!this._mouseDelayMet) {
+			this._mouseDelayTimer = setTimeout(function() {
+				self._mouseDelayMet = true;
+			}, this.options.delay);
+		}
+		
+		if (this.mouseDistanceMet(e) && this.mouseDelayMet(e)) {
+			this._mouseStarted = (this.mouseStart(e) !== false);
+			if (!this._mouseStarted) { e.preventDefault(); return true; }
+		}
+		
+		// these delegates are required to keep context
+		this._mouseMoveDelegate = function(e) {
+			return self.mouseMove(e);
+		};
+		this._mouseUpDelegate = function(e) {
+			return self.mouseUp(e);
+		};
+		$(document)
+			.bind('mousemove.'+this.widgetName, this._mouseMoveDelegate)
+			.bind('mouseup.'+this.widgetName, this._mouseUpDelegate);
+		
+		return false;
+	},
+	
+	mouseMove: function(e) {
+		// IE mouseup check - mouseup happened when mouse was out of window
+		if ($.browser.msie && !e.button) {
+			return this.mouseUp(e);
+		}
+		
+		if (this._mouseStarted) {
+			this.mouseDrag(e);
+			return false;
+		}
+		
+		if (this.mouseDistanceMet(e) && this.mouseDelayMet(e)) {
+			this._mouseStarted =
+				(this.mouseStart(this._mouseDownEvent, e) !== false);
+			(this._mouseStarted ? this.mouseDrag(e) : this.mouseUp(e));
+		}
+		
+		return !this._mouseStarted;
+	},
+	
+	mouseUp: function(e) {
+		$(document)
+			.unbind('mousemove.'+this.widgetName, this._mouseMoveDelegate)
+			.unbind('mouseup.'+this.widgetName, this._mouseUpDelegate);
+		
+		if (this._mouseStarted) {
+			this._mouseStarted = false;
+			this.mouseStop(e);
+		}
+		
+		return false;
+	},
+	
+	mouseDistanceMet: function(e) {
+		return (Math.max(
+				Math.abs(this._mouseDownEvent.pageX - e.pageX),
+				Math.abs(this._mouseDownEvent.pageY - e.pageY)
+			) >= this.options.distance
+		);
+	},
+	
+	mouseDelayMet: function(e) {
+		return this._mouseDelayMet;
+	},
+	
+	// These are placeholder methods, to be overriden by extending plugin
+	mouseStart: function(e) {},
+	mouseDrag: function(e) {},
+	mouseStop: function(e) {},
+	mouseCapture: function(e) { return true; }
+};
+
+$.ui.mouse.defaults = {
+	cancel: null,
+	distance: 1,
+	delay: 0
+};
+
+})(jQuery);
+/*
+ * jQuery UI Resizable
+ *
+ * Copyright (c) 2008 Paul Bakaus
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ * http://docs.jquery.com/UI/Resizables
+ *
+ * Depends:
+ *	ui.core.js
+ *
+ */
+(function($) {
+
+$.widget("ui.resizable", $.extend($.ui.mouse, {
+	init: function() {
+
+		var self = this, o = this.options;
+
+		var elpos = this.element.css('position');
+		
+		// simulate .ui-resizable { position: relative; }
+		this.element.addClass("ui-resizable").css({ position: /static/.test(elpos) ? 'relative' : elpos });
+		
+		$.extend(o, {
+			_aspectRatio: !!(o.aspectRatio),
+			proxy: o.proxy || o.ghost || o.animate ? o.proxy || 'proxy' : null,
+			knobHandles: o.knobHandles === true ? 'ui-resizable-knob-handle' : o.knobHandles
+		});
+		
+		//Default Theme
+		var aBorder = '1px solid #DEDEDE';
+		
+		o.defaultTheme = {
+			'ui-resizable': { display: 'block' },
+			'ui-resizable-handle': { position: 'absolute', background: '#F2F2F2', fontSize: '0.1px' },
+			'ui-resizable-n': { cursor: 'n-resize', height: '4px', left: '0px', right: '0px', borderTop: aBorder },
+			'ui-resizable-s': { cursor: 's-resize', height: '4px', left: '0px', right: '0px', borderBottom: aBorder },
+			'ui-resizable-e': { cursor: 'e-resize', width: '4px', top: '0px', bottom: '0px', borderRight: aBorder },
+			'ui-resizable-w': { cursor: 'w-resize', width: '4px', top: '0px', bottom: '0px', borderLeft: aBorder },
+			'ui-resizable-se': { cursor: 'se-resize', width: '4px', height: '4px', borderRight: aBorder, borderBottom: aBorder },
+			'ui-resizable-sw': { cursor: 'sw-resize', width: '4px', height: '4px', borderBottom: aBorder, borderLeft: aBorder },
+			'ui-resizable-ne': { cursor: 'ne-resize', width: '4px', height: '4px', borderRight: aBorder, borderTop: aBorder },
+			'ui-resizable-nw': { cursor: 'nw-resize', width: '4px', height: '4px', borderLeft: aBorder, borderTop: aBorder }
+		};
+		
+		o.knobTheme = {
+			'ui-resizable-handle': { background: '#F2F2F2', border: '1px solid #808080', height: '8px', width: '8px' },
+			'ui-resizable-n': { cursor: 'n-resize', top: '0px', left: '45%' },
+			'ui-resizable-s': { cursor: 's-resize', bottom: '0px', left: '45%' },
+			'ui-resizable-e': { cursor: 'e-resize', right: '0px', top: '45%' },
+			'ui-resizable-w': { cursor: 'w-resize', left: '0px', top: '45%' },
+			'ui-resizable-se': { cursor: 'se-resize', right: '0px', bottom: '0px' },
+			'ui-resizable-sw': { cursor: 'sw-resize', left: '0px', bottom: '0px' },
+			'ui-resizable-nw': { cursor: 'nw-resize', left: '0px', top: '0px' },
+			'ui-resizable-ne': { cursor: 'ne-resize', right: '0px', top: '0px' }
+		};
+		
+		o._nodeName = this.element[0].nodeName;
+		
+		//Wrap the element if it cannot hold child nodes
+		if(o._nodeName.match(/canvas|textarea|input|select|button|img/i)) {
+			var el = this.element;
+			
+			//Opera fixing relative position
+			if (/relative/.test(el.css('position')) && $.browser.opera)
+				el.css({ position: 'relative', top: 'auto', left: 'auto' });
+			
+			//Create a wrapper element and set the wrapper to the new current internal element
+			el.wrap(
+				$('<div class="ui-wrapper"	style="overflow: hidden;"></div>').css( {
+					position: el.css('position'),
+					width: el.outerWidth(),
+					height: el.outerHeight(),
+					top: el.css('top'),
+					left: el.css('left')
+				})
+			);
+			
+			var oel = this.element; this.element = this.element.parent();
+			
+			// store instance on wrapper
+			this.element.data('resizable', this); 
+			
+			//Move margins to the wrapper
+			this.element.css({ marginLeft: oel.css("marginLeft"), marginTop: oel.css("marginTop"),
+				marginRight: oel.css("marginRight"), marginBottom: oel.css("marginBottom")
+			});
+			
+			oel.css({ marginLeft: 0, marginTop: 0, marginRight: 0, marginBottom: 0});
+			
+			//Prevent Safari textarea resize
+			if ($.browser.safari && o.preventDefault) oel.css('resize', 'none');
+			
+			o.proportionallyResize = oel.css({ position: 'static', zoom: 1, display: 'block' });
+			
+			// avoid IE jump
+			this.element.css({ margin: oel.css('margin') });
+			
+			// fix handlers offset
+			this._proportionallyResize();
+		}
+		
+		if(!o.handles) o.handles = !$('.ui-resizable-handle', this.element).length ? "e,s,se" : { n: '.ui-resizable-n', e: '.ui-resizable-e', s: '.ui-resizable-s', w: '.ui-resizable-w', se: '.ui-resizable-se', sw: '.ui-resizable-sw', ne: '.ui-resizable-ne', nw: '.ui-resizable-nw' };
+		if(o.handles.constructor == String) {
+			
+			o.zIndex = o.zIndex || 1000;
+			
+			if(o.handles == 'all') o.handles = 'n,e,s,w,se,sw,ne,nw';
+			
+			var n = o.handles.split(","); o.handles = {};
+			
+			// insertions are applied when don't have theme loaded
+			var insertionsDefault = {
+				handle: 'position: absolute; display: none; overflow:hidden;',
+				n: 'top: 0pt; width:100%;',
+				e: 'right: 0pt; height:100%;',
+				s: 'bottom: 0pt; width:100%;',
+				w: 'left: 0pt; height:100%;',
+				se: 'bottom: 0pt; right: 0px;',
+				sw: 'bottom: 0pt; left: 0px;',
+				ne: 'top: 0pt; right: 0px;',
+				nw: 'top: 0pt; left: 0px;'
+			};
+			
+			for(var i = 0; i < n.length; i++) {
+				var handle = $.trim(n[i]), dt = o.defaultTheme, hname = 'ui-resizable-'+handle, loadDefault = !$.ui.css(hname) && !o.knobHandles, userKnobClass = $.ui.css('ui-resizable-knob-handle'), 
+							allDefTheme = $.extend(dt[hname], dt['ui-resizable-handle']), allKnobTheme = $.extend(o.knobTheme[hname], !userKnobClass ? o.knobTheme['ui-resizable-handle'] : {});
+				
+				// increase zIndex of sw, se, ne, nw axis
+				var applyZIndex = /sw|se|ne|nw/.test(handle) ? { zIndex: ++o.zIndex } : {};
+				
+				var defCss = (loadDefault ? insertionsDefault[handle] : ''), 
+					axis = $(['<div class="ui-resizable-handle ', hname, '" style="', defCss, insertionsDefault.handle, '"></div>'].join('')).css( applyZIndex );
+				o.handles[handle] = '.ui-resizable-'+handle;
+				
+				this.element.append(
+					//Theme detection, if not loaded, load o.defaultTheme
+					axis.css( loadDefault ? allDefTheme : {} )
+						// Load the knobHandle css, fix width, height, top, left...
+						.css( o.knobHandles ? allKnobTheme : {} ).addClass(o.knobHandles ? 'ui-resizable-knob-handle' : '').addClass(o.knobHandles)
+				);
+			}
+			
+			if (o.knobHandles) this.element.addClass('ui-resizable-knob').css( !$.ui.css('ui-resizable-knob') ? { /*border: '1px #fff dashed'*/ } : {} );
+		}
+		
+		this._renderAxis = function(target) {
+			target = target || this.element;
+			
+			for(var i in o.handles) {
+				if(o.handles[i].constructor == String) 
+					o.handles[i] = $(o.handles[i], this.element).show();
+				
+				if (o.transparent)
+					o.handles[i].css({opacity:0});
+				
+				//Apply pad to wrapper element, needed to fix axis position (textarea, inputs, scrolls)
+				if (this.element.is('.ui-wrapper') && 
+					o._nodeName.match(/textarea|input|select|button/i)) {
+					
+					var axis = $(o.handles[i], this.element), padWrapper = 0;
+					
+					//Checking the correct pad and border
+					padWrapper = /sw|ne|nw|se|n|s/.test(i) ? axis.outerHeight() : axis.outerWidth();
+					
+					//The padding type i have to apply...
+					var padPos = [ 'padding', 
+						/ne|nw|n/.test(i) ? 'Top' :
+						/se|sw|s/.test(i) ? 'Bottom' : 
+						/^e$/.test(i) ? 'Right' : 'Left' ].join(""); 
+					
+					if (!o.transparent)
+						target.css(padPos, padWrapper);
+					
+					this._proportionallyResize();
+				}
+				if(!$(o.handles[i]).length) continue;
+			}
+		};
+		
+		this._renderAxis(this.element);
+		o._handles = $('.ui-resizable-handle', self.element);
+		
+		if (o.disableSelection)
+			o._handles.each(function(i, e) { $.ui.disableSelection(e); });
+		
+		//Matching axis name
+		o._handles.mouseover(function() {
+			if (!o.resizing) {
+				if (this.className) 
+					var axis = this.className.match(/ui-resizable-(se|sw|ne|nw|n|e|s|w)/i);
+				//Axis, default = se
+				self.axis = o.axis = axis && axis[1] ? axis[1] : 'se';
+			}
+		});
+		
+		//If we want to auto hide the elements
+		if (o.autohide) {
+			o._handles.hide();
+			$(self.element).addClass("ui-resizable-autohide").hover(function() {
+				$(this).removeClass("ui-resizable-autohide");
+				o._handles.show();
+			},
+			function(){
+				if (!o.resizing) {
+					$(this).addClass("ui-resizable-autohide");
+					o._handles.hide();
+				}
+			});
+		}
+		
+		this.mouseInit();
+	},
+	plugins: {},
+	ui: function() {
+		return {
+			axis: this.options.axis,
+			options: this.options
+		};
+	},
+	propagate: function(n,e) {
+		$.ui.plugin.call(this, n, [e, this.ui()]);
+		this.element.triggerHandler(n == "resize" ? n : ["resize", n].join(""), [e, this.ui()], this.options[n]);
+	},
+	destroy: function() {
+		var el = this.element, wrapped = el.children(".ui-resizable").get(0);
+		
+		this.mouseDestroy();
+		
+		var _destroy = function(exp) {
+			$(exp).removeClass("ui-resizable ui-resizable-disabled")
+				.removeData("resizable").unbind(".resizable").find('.ui-resizable-handle').remove();
+		};
+		
+		_destroy(el);
+		
+		if (el.is('.ui-wrapper') && wrapped) {
+			el.parent().append(
+				$(wrapped).css({
+					position: el.css('position'),
+					width: el.outerWidth(),
+					height: el.outerHeight(),
+					top: el.css('top'),
+					left: el.css('left')
+				})
+			).end().remove();
+			
+			_destroy(wrapped);
+		}
+	},
+	mouseStart: function(e) {
+		if(this.options.disabled) return false;
+		
+		var handle = false;
+		for(var i in this.options.handles) {
+			if($(this.options.handles[i])[0] == e.target) handle = true;
+		}
+		if (!handle) return false;
+		
+		var o = this.options, iniPos = this.element.position(), el = this.element, 
+			num = function(v) { return parseInt(v, 10) || 0; }, ie6 = $.browser.msie && $.browser.version < 7;
+		o.resizing = true;
+		o.documentScroll = { top: $(document).scrollTop(), left: $(document).scrollLeft() };
+		
+		// bugfix #1749
+		if (el.is('.ui-draggable') || (/absolute/).test(el.css('position'))) {
+			
+			// sOffset decides if document scrollOffset will be added to the top/left of the resizable element
+			var sOffset = $.browser.msie && !o.containment && (/absolute/).test(el.css('position')) && !(/relative/).test(el.parent().css('position'));
+			var dscrollt = sOffset ? o.documentScroll.top : 0, dscrolll = sOffset ? o.documentScroll.left : 0;
+			
+			el.css({ position: 'absolute', top: (iniPos.top + dscrollt), left: (iniPos.left + dscrolll) });
+		}
+		
+		//Opera fixing relative position
+		if ($.browser.opera && /relative/.test(el.css('position')))
+			el.css({ position: 'relative', top: 'auto', left: 'auto' });
+		
+		this._renderProxy();
+		
+		var curleft = num(this.helper.css('left')), curtop = num(this.helper.css('top'));
+		
+		//Store needed variables
+		this.offset = this.helper.offset();
+		this.position = { left: curleft, top: curtop };
+		this.size = o.proxy || ie6 ? { width: el.outerWidth(), height: el.outerHeight() } : { width: el.width(), height: el.height() };
+		this.originalSize = o.proxy || ie6 ? { width: el.outerWidth(), height: el.outerHeight() } : { width: el.width(), height: el.height() };
+		this.originalPosition = { left: curleft, top: curtop };
+		this.sizeDiff = { width: el.outerWidth() - el.width(), height: el.outerHeight() - el.height() };
+		this.originalMousePosition = { left: e.pageX, top: e.pageY };
+		
+		//Aspect Ratio
+		o.aspectRatio = (typeof o.aspectRatio == 'number') ? o.aspectRatio : ((this.originalSize.height / this.originalSize.width)||1);
+		
+		if (o.preserveCursor)
+			$('body').css('cursor', this.axis + '-resize');
+			
+		this.propagate("start", e);
+		return true;
+	},
+	mouseDrag: function(e) {
+		
+		//Increase performance, avoid regex
+		var el = this.helper, o = this.options, props = {},
+			self = this, smp = this.originalMousePosition, a = this.axis;
+		
+		var dx = (e.pageX-smp.left)||0, dy = (e.pageY-smp.top)||0;
+		var trigger = this._change[a];
+		if (!trigger) return false;
+		
+		// Calculate the attrs that will be change
+		var data = trigger.apply(this, [e, dx, dy]), ie6 = $.browser.msie && $.browser.version < 7, csdif = this.sizeDiff;
+		
+		if (o._aspectRatio || e.shiftKey)
+			data = this._updateRatio(data, e);
+		
+		data = this._respectSize(data, e);
+		
+		this.propagate("resize", e);
+		
+		el.css({
+			top: this.position.top + "px", left: this.position.left + "px", 
+			width: this.size.width + "px", height: this.size.height + "px"
+		});
+		
+		if (!o.proxy && o.proportionallyResize)
+			this._proportionallyResize();
+		
+		this._updateCache(data);
+		
+		return false;
+	},
+	mouseStop: function(e) {
+		
+		this.options.resizing = false;
+		var o = this.options, num = function(v) { return parseInt(v, 10) || 0; }, self = this;
+		
+		if(o.proxy) {
+			var pr = o.proportionallyResize, ista = pr && (/textarea/i).test(pr.get(0).nodeName), 
+						soffseth = ista && $.ui.hasScroll(pr.get(0), 'left') /* TODO - jump height */ ? 0 : self.sizeDiff.height,
+							soffsetw = ista ? 0 : self.sizeDiff.width;
+			
+			var s = { width: (self.size.width - soffsetw), height: (self.size.height - soffseth) },
+				left = (parseInt(self.element.css('left'), 10) + (self.position.left - self.originalPosition.left)) || null, 
+				top = (parseInt(self.element.css('top'), 10) + (self.position.top - self.originalPosition.top)) || null;
+			
+			if (!o.animate)
+				this.element.css($.extend(s, { top: top, left: left }));
+			
+			if (o.proxy && !o.animate) this._proportionallyResize();
+		}
+		
+		if (o.preserveCursor)
+			$('body').css('cursor', 'auto');
+		
+		this.propagate("stop", e);
+		
+		if (o.proxy) this.helper.remove();
+		
+		return false;
+	},
+	_updateCache: function(data) {
+		var o = this.options;
+		this.offset = this.helper.offset();
+		if (data.left) this.position.left = data.left;
+		if (data.top) this.position.top = data.top;
+		if (data.height) this.size.height = data.height;
+		if (data.width) this.size.width = data.width;
+	},
+	_updateRatio: function(data, e) {
+		var o = this.options, cpos = this.position, csize = this.size, a = this.axis;
+		
+		if (data.height) data.width = (csize.height / o.aspectRatio);
+		else if (data.width) data.height = (csize.width * o.aspectRatio);
+		
+		if (a == 'sw') {
+			data.left = cpos.left + (csize.width - data.width);
+			data.top = null;
+		}
+		if (a == 'nw') { 
+			data.top = cpos.top + (csize.height - data.height);
+			data.left = cpos.left + (csize.width - data.width);
+		}
+		
+		return data;
+	},
+	_respectSize: function(data, e) {
+		
+		var el = this.helper, o = this.options, pRatio = o._aspectRatio || e.shiftKey, a = this.axis, 
+				ismaxw = data.width && o.maxWidth && o.maxWidth < data.width, ismaxh = data.height && o.maxHeight && o.maxHeight < data.height,
+					isminw = data.width && o.minWidth && o.minWidth > data.width, isminh = data.height && o.minHeight && o.minHeight > data.height;
+		
+		if (isminw) data.width = o.minWidth;
+		if (isminh) data.height = o.minHeight;
+		if (ismaxw) data.width = o.maxWidth;
+		if (ismaxh) data.height = o.maxHeight;
+		
+		var dw = this.originalPosition.left + this.originalSize.width, dh = this.position.top + this.size.height;
+		var cw = /sw|nw|w/.test(a), ch = /nw|ne|n/.test(a);
+		
+		if (isminw && cw) data.left = dw - o.minWidth;
+		if (ismaxw && cw) data.left = dw - o.maxWidth;
+		if (isminh && ch)	data.top = dh - o.minHeight;
+		if (ismaxh && ch)	data.top = dh - o.maxHeight;
+		
+		// fixing jump error on top/left - bug #2330
+		var isNotwh = !data.width && !data.height;
+		if (isNotwh && !data.left && data.top) data.top = null;
+		else if (isNotwh && !data.top && data.left) data.left = null;
+		
+		return data;
+	},
+	_proportionallyResize: function() {
+		var o = this.options;
+		if (!o.proportionallyResize) return;
+		var prel = o.proportionallyResize, el = this.helper || this.element;
+		
+		if (!o.borderDif) {
+			var b = [prel.css('borderTopWidth'), prel.css('borderRightWidth'), prel.css('borderBottomWidth'), prel.css('borderLeftWidth')],
+				p = [prel.css('paddingTop'), prel.css('paddingRight'), prel.css('paddingBottom'), prel.css('paddingLeft')];
+			
+			o.borderDif = $.map(b, function(v, i) {
+				var border = parseInt(v,10)||0, padding = parseInt(p[i],10)||0;
+				return border + padding; 
+			});
+		}
+		prel.css({
+			height: (el.height() - o.borderDif[0] - o.borderDif[2]) + "px",
+			width: (el.width() - o.borderDif[1] - o.borderDif[3]) + "px"
+		});
+	},
+	_renderProxy: function() {
+		var el = this.element, o = this.options;
+		this.elementOffset = el.offset();
+		
+		if(o.proxy) {
+			this.helper = this.helper || $('<div style="overflow:hidden;"></div>');
+			
+			// fix ie6 offset
+			var ie6 = $.browser.msie && $.browser.version < 7, ie6offset = (ie6 ? 1 : 0),
+			pxyoffset = ( ie6 ? 2 : -1 );
+			
+			this.helper.addClass(o.proxy).css({
+				width: el.outerWidth() + pxyoffset,
+				height: el.outerHeight() + pxyoffset,
+				position: 'absolute',
+				left: this.elementOffset.left - ie6offset +'px',
+				top: this.elementOffset.top - ie6offset +'px',
+				zIndex: ++o.zIndex
+			});
+			
+			this.helper.appendTo("body");
+			
+			if (o.disableSelection)
+				$.ui.disableSelection(this.helper.get(0));
+			
+		} else {
+			this.helper = el; 
+		}
+	},
+	_change: {
+		e: function(e, dx, dy) {
+			return { width: this.originalSize.width + dx };
+		},
+		w: function(e, dx, dy) {
+			var o = this.options, cs = this.originalSize, sp = this.originalPosition;
+			return { left: sp.left + dx, width: cs.width - dx };
+		},
+		n: function(e, dx, dy) {
+			var o = this.options, cs = this.originalSize, sp = this.originalPosition;
+			return { top: sp.top + dy, height: cs.height - dy };
+		},
+		s: function(e, dx, dy) {
+			return { height: this.originalSize.height + dy };
+		},
+		se: function(e, dx, dy) {
+			return $.extend(this._change.s.apply(this, arguments), this._change.e.apply(this, [e, dx, dy]));
+		},
+		sw: function(e, dx, dy) {
+			return $.extend(this._change.s.apply(this, arguments), this._change.w.apply(this, [e, dx, dy]));
+		},
+		ne: function(e, dx, dy) {
+			return $.extend(this._change.n.apply(this, arguments), this._change.e.apply(this, [e, dx, dy]));
+		},
+		nw: function(e, dx, dy) {
+			return $.extend(this._change.n.apply(this, arguments), this._change.w.apply(this, [e, dx, dy]));
+		}
+	}
+}));
+
+$.extend($.ui.resizable, {
+	defaults: {
+		cancel: ":input,button",
+		distance: 0,
+		delay: 0,
+		preventDefault: true,
+		transparent: false,
+		minWidth: 10,
+		minHeight: 10,
+		aspectRatio: false,
+		disableSelection: true,
+		preserveCursor: true,
+		autohide: false,
+		knobHandles: false
+	}
+});
+
+/*
+ * Resizable Extensions
+ */
+
+$.ui.plugin.add("resizable", "containment", {
+	
+	start: function(e, ui) {
+		var o = ui.options, self = $(this).data("resizable"), el = self.element;
+		var oc = o.containment,	ce = (oc instanceof $) ? oc.get(0) : (/parent/.test(oc)) ? el.parent().get(0) : oc;
+		if (!ce) return;
+		
+		self.containerElement = $(ce);
+		
+		if (/document/.test(oc) || oc == document) {
+			self.containerOffset = { left: 0, top: 0 };
+			self.containerPosition = { left: 0, top: 0 };
+			
+			self.parentData = { 
+				element: $(document), left: 0, top: 0, width: $(document).width(),
+				height: $(document).height() || document.body.parentNode.scrollHeight
+			};
+		}
+				
+		// i'm a node, so compute top, left, right, bottom
+		else{
+			self.containerOffset = $(ce).offset();
+			self.containerPosition = $(ce).position();
+			self.containerSize = { height: $(ce).innerHeight(), width: $(ce).innerWidth() };
+		
+			var co = self.containerOffset, ch = self.containerSize.height,	cw = self.containerSize.width, 
+						width = ($.ui.hasScroll(ce, "left") ? ce.scrollWidth : cw ), height = ($.ui.hasScroll(ce) ? ce.scrollHeight : ch);
+		
+			self.parentData = { 
+				element: ce, left: co.left, top: co.top, width: width, height: height
+			};
+		}
+	},
+	
+	resize: function(e, ui) {
+		var o = ui.options, self = $(this).data("resizable"), 
+				ps = self.containerSize, co = self.containerOffset, cs = self.size, cp = self.position,
+				pRatio = o._aspectRatio || e.shiftKey, cop = { top:0, left:0 }, ce = self.containerElement;
+		
+		if (/static/.test(ce.css('position')))
+			cop = self.containerPosition;
+		
+		if (cp.left < (o.proxy ? co.left : cop.left)) {
+			self.size.width = self.size.width + (o.proxy ? (self.position.left - co.left) : (self.position.left - cop.left));
+			if (pRatio) self.size.height = self.size.width * o.aspectRatio;
+			self.position.left = o.proxy ? co.left : cop.left;
+		}
+		
+		if (cp.top < (o.proxy ? co.top : 0)) {
+			self.size.height = self.size.height + (o.proxy ? (self.position.top - co.top) : self.position.top);
+			if (pRatio) self.size.width = self.size.height / o.aspectRatio;
+			self.position.top = o.proxy ? co.top : 0;
+		}
+		
+		var woset = (o.proxy ? self.offset.left - co.left : (self.position.left - cop.left)) + self.sizeDiff.width, 
+					hoset = (o.proxy ? self.offset.top - co.top : self.position.top) + self.sizeDiff.height;
+		
+		if (woset + self.size.width >= self.parentData.width) {
+			self.size.width = self.parentData.width - woset;
+			if (pRatio) self.size.height = self.size.width * o.aspectRatio;
+		}
+		
+		if (hoset + self.size.height >= self.parentData.height) {
+			self.size.height = self.parentData.height - hoset;
+			if (pRatio) self.size.width = self.size.height / o.aspectRatio;
+		}
+	},
+	
+	stop: function(e, ui){
+		var o = ui.options, self = $(this).data("resizable"), cp = self.position,
+				co = self.containerOffset, cop = self.containerPosition, ce = self.containerElement;
+		
+		var helper = $(self.helper), ho = helper.offset(), w = helper.innerWidth(), h = helper.innerHeight();
+		
+		
+		if (o.proxy && !o.animate && /relative/.test(ce.css('position')))
+			$(this).css({ left: (ho.left - co.left), top: (ho.top - co.top), width: w, height: h });
+		
+		if (o.proxy && !o.animate && /static/.test(ce.css('position')))
+			$(this).css({ left: cop.left + (ho.left - co.left), top: cop.top + (ho.top - co.top), width: w, height: h });
+		
+	}
+});
+
+$.ui.plugin.add("resizable", "grid", {
+	
+	resize: function(e, ui) {
+		var o = ui.options, self = $(this).data("resizable"), cs = self.size, os = self.originalSize, op = self.originalPosition, a = self.axis, ratio = o._aspectRatio || e.shiftKey;
+		o.grid = typeof o.grid == "number" ? [o.grid, o.grid] : o.grid;
+		var ox = Math.round((cs.width - os.width) / (o.grid[0]||1)) * (o.grid[0]||1), oy = Math.round((cs.height - os.height) / (o.grid[1]||1)) * (o.grid[1]||1);
+		
+		if (/^(se|s|e)$/.test(a)) {
+			self.size.width = os.width + ox;
+			self.size.height = os.height + oy;
+		}
+		else if (/^(ne)$/.test(a)) {
+			self.size.width = os.width + ox;
+			self.size.height = os.height + oy;
+			self.position.top = op.top - oy;
+		}
+		else if (/^(sw)$/.test(a)) {
+			self.size.width = os.width + ox;
+			self.size.height = os.height + oy;
+			self.position.left = op.left - ox;
+		}
+		else {
+			self.size.width = os.width + ox;
+			self.size.height = os.height + oy;
+			self.position.top = op.top - oy;
+			self.position.left = op.left - ox;
+		}
+	}
+	
+});
+
+$.ui.plugin.add("resizable", "animate", {
+	
+	stop: function(e, ui) {
+		var o = ui.options, self = $(this).data("resizable");
+		
+		var pr = o.proportionallyResize, ista = pr && (/textarea/i).test(pr.get(0).nodeName), 
+						soffseth = ista && $.ui.hasScroll(pr.get(0), 'left') /* TODO - jump height */ ? 0 : self.sizeDiff.height,
+							soffsetw = ista ? 0 : self.sizeDiff.width;
+		
+		var style = { width: (self.size.width - soffsetw), height: (self.size.height - soffseth) },
+					left = (parseInt(self.element.css('left'), 10) + (self.position.left - self.originalPosition.left)) || null, 
+						top = (parseInt(self.element.css('top'), 10) + (self.position.top - self.originalPosition.top)) || null; 
+		
+		self.element.animate(
+			$.extend(style, top && left ? { top: top, left: left } : {}), { 
+				duration: o.animateDuration || "slow", easing: o.animateEasing || "swing", 
+				step: function() {
+					
+					var data = {
+						width: parseInt(self.element.css('width'), 10),
+						height: parseInt(self.element.css('height'), 10),
+						top: parseInt(self.element.css('top'), 10),
+						left: parseInt(self.element.css('left'), 10)
+					};
+					
+					if (pr) pr.css({ width: data.width, height: data.height });
+					
+					// propagating resize, and updating values for each animation step
+					self._updateCache(data);
+					self.propagate("animate", e);
+					
+				}
+			}
+		);
+	}
+	
+});
+
+$.ui.plugin.add("resizable", "ghost", {
+	
+	start: function(e, ui) {
+		var o = ui.options, self = $(this).data("resizable"), pr = o.proportionallyResize, cs = self.size;
+		
+		if (!pr) self.ghost = self.element.clone();
+		else self.ghost = pr.clone();
+		
+		self.ghost.css(
+			{ opacity: .25, display: 'block', position: 'relative', height: cs.height, width: cs.width, margin: 0, left: 0, top: 0 }
+		)
+		.addClass('ui-resizable-ghost').addClass(typeof o.ghost == 'string' ? o.ghost : '');
+		
+		self.ghost.appendTo(self.helper);
+		
+	},
+	
+	resize: function(e, ui){
+		var o = ui.options, self = $(this).data("resizable"), pr = o.proportionallyResize;
+		
+		if (self.ghost) self.ghost.css({ position: 'relative', height: self.size.height, width: self.size.width });
+		
+	},
+	
+	stop: function(e, ui){
+		var o = ui.options, self = $(this).data("resizable"), pr = o.proportionallyResize;
+		if (self.ghost && self.helper) self.helper.get(0).removeChild(self.ghost.get(0));
+	}
+	
+});
+
+$.ui.plugin.add("resizable", "alsoResize", {
+	
+	start: function(e, ui) {
+		var o = ui.options, self = $(this).data("resizable"), 
+		
+		_store = function(exp) {
+			$(exp).each(function() {
+				$(this).data("resizable-alsoresize", {
+					width: parseInt($(this).width(), 10), height: parseInt($(this).height(), 10),
+					left: parseInt($(this).css('left'), 10), top: parseInt($(this).css('top'), 10)
+				});
+			});
+		};
+		
+		if (typeof(o.alsoResize) == 'object') {
+			$.each(o.alsoResize, function(exp, c) { _store(exp); });
+		}else{
+			_store(o.alsoResize);
+		} 
+	},
+	
+	resize: function(e, ui){
+		var o = ui.options, self = $(this).data("resizable"), os = self.originalSize, op = self.originalPosition;
+		
+		var delta = { 
+			height: (self.size.height - os.height) || 0, width: (self.size.width - os.width) || 0,
+			top: (self.position.top - op.top) || 0, left: (self.position.left - op.left) || 0
+		},
+		
+		_alsoResize = function(exp, c) {
+			$(exp).each(function() {
+				var start = $(this).data("resizable-alsoresize"), style = {}, css = c && c.length ? c : ['width', 'height', 'top', 'left'];
+				
+				$.each(css || ['width', 'height', 'top', 'left'], function(i, prop) {
+					var sum = (start[prop]||0) + (delta[prop]||0);
+					if (sum && sum >= 0)
+						style[prop] = sum || null;
+				});
+				$(this).css(style);
+			});
+		};
+		
+		if (typeof(o.alsoResize) == 'object') {
+			$.each(o.alsoResize, function(exp, c) { _alsoResize(exp, c); });
+		}else{
+			_alsoResize(o.alsoResize);
+		}
+	},
+	
+	stop: function(e, ui){
+		$(this).removeData("resizable-alsoresize-start");
+	}
+});
+
+})(jQuery);
