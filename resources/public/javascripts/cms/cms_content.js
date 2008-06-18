@@ -11,8 +11,8 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
-    $("#cms_content_contentWidgIframe").resizable({ 
-        handles: $("#resizehandle")
+    $("#resizehandle").resizable({ 
+        handles: "s"
     });
 });
 
