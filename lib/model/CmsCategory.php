@@ -10,7 +10,7 @@ class CmsCategory extends WaxTreeModel {
 		$this->define("attached_to", "ManyToManyField", array('target_model'=>"CmsContent"));		
 	}
 	public function before_save() {
-	  $this->url = WXInflections::to_url($this->title);
+	  $this->url = WXInflections::to_url($this->name);
 	}
 	 
 	public function sections_as_collection($input = false, $padding_char ="&nbsp;&nbsp;") {	
