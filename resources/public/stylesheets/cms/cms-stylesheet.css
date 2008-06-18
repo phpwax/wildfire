@@ -574,11 +574,6 @@ li.pagination_link a {
 /* This file skins resizables */
  
 
-#resizable_panel {
-  border:1px solid pink;
-  clear:both;
-  background:white;
-}
 .ui-resizable-s {
   height:25px; 
   background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
