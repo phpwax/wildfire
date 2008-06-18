@@ -744,28 +744,11 @@ li.pagination_link a {
 #preview_pane iframe {
   border:0;
 }
-#extra_content {
-  background:white;
-  border:1px solid #D2D0D0 !important;
-  width:93%;
-  padding:14px;
-  overflow:auto;
-  height:240px;
-}
-#extra_content label {
-  display:block;
-  font-size:85%;
-  margin-bottom:4px;
-}
-#extra_content .large {
-  margin-bottom:12px !important;
-}
+
 .comment_column {
   width:40%;
 }
-#extra_content .input_field {
-  font-size:93%;
-}
+
 
 /******* File browser styling *******/
 #file_browse_header {
