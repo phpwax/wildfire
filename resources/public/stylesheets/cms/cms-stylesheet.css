@@ -581,7 +581,9 @@ li.pagination_link a {
 body .ui-resizable-disabled .ui-resizable-handle { display: none; } /* use 'body' to make it more specific (css order) */
 body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body' to make it more specific (css order) */
  
-
+#resizable_panel {
+  border:1px solid pink;
+}
 .ui-resizable-s {
   height:25px; 
   background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
