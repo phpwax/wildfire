@@ -23,6 +23,7 @@ widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
 widgToolbarItems.push("blockformat");
+widgToolbarItems.push("htmlsource");
 
 
 /* Options on block format select element. Consists of string pairs (option value, option label) */
