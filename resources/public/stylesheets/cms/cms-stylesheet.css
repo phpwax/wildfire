@@ -573,9 +573,6 @@ li.pagination_link a {
 /******* Resizable Styles ***********/
 /* This file skins resizables */
 
-#wysiwyg .large {
-  height:240px;
-}
 
 .ui-resizable-s {
   height:4px; 
@@ -963,7 +960,7 @@ li.pagination_link a {
   width:25%;
 }
 #extra_content .widgIframe {
-  height:100%;
+  height:240px;
   border:0;
 }
 
