@@ -930,6 +930,7 @@ li.pagination_link a {
 .form_container fieldset .input_field {
   width:98%;
   font-size:130%;
+  padding:3px 2px;
 }
 
 .form_container fieldset .select_field {
