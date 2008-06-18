@@ -663,11 +663,11 @@ li.pagination_link a {
   }
   #image_tab_link {
     background:url(../../images/cms/image_tab_icon.gif) no-repeat left center;
-    padding-left:15px;
+    padding-left:21px;
   }
   #cat_tab_link {
     background:url(../../images/cms/cat_tab_link.gif) no-repeat left center;
-    padding-left:15px;
+    padding-left:21px;
   }
   
 
