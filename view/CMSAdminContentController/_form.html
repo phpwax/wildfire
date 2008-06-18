@@ -48,6 +48,7 @@
     	<?if($edit_author):?>
     	  <?=medium(select($model, "author_id", $model->author_options, array(), "Author"))?>
     	<?endif?>
+    	<hr />
     	<?if(count($extra_content)):?>
           <?=$extra_content_partial?>
       <?endif?>
