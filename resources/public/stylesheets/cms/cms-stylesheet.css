@@ -653,7 +653,6 @@ li.pagination_link a {
   .tabs-nav li a {
     display:block;
     color:#4f4f4f !important;
-    padding:8px 12px;
     font-size:100%;
     font-family:Arial;
   }
