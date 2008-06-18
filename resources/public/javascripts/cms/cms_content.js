@@ -13,6 +13,7 @@ $(document).ready(function() {
     initialise_draggables();
     $("#resizehandle").resizable({ 
         handles: "s",
+        transparent: true, 
         stop: function() {
           var origheight=13;
           var newheight = $("#resizehandle").height();
