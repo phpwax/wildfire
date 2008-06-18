@@ -937,8 +937,6 @@ li.pagination_link a {
 
 .form_container fieldset .select_field {
   width:98%;
-  padding:0;
-  font-size:110%;;
 }
 .form_container fieldset .check_box_field,
 .form_container fieldset .radio_button_field {
