@@ -12,7 +12,7 @@ $(document).ready(function() {
     });   
     initialise_draggables();
     $("#resizehandle").resizable({ 
-        handles: $("#handle")
+        handles: "handle"
     });
 });
 
