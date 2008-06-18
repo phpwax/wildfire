@@ -44,6 +44,7 @@
       <?=large(select($model, "cms_section_id", options_from_collection($model->sections, "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
       <?=large(select($model, "status", $model->status_options))?>
     	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
+    	<hr />
     	<?if($edit_author):?>
     	  <?=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
     	<?endif?>
