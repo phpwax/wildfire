@@ -643,7 +643,7 @@ li.pagination_link a {
   .tabs-nav li {
     background:#FFF;
     border-bottom:0;
-    margin:8px 8px 8px 0 !important;
+    padding:8px 8px 8px 0 !important;
   }
   .tabs-nav li input {
     padding:2px 4px;
@@ -659,6 +659,7 @@ li.pagination_link a {
   .tabs-nav li.tabs-selected a {
     color:#3F3C3C !important;
     font-size:107%;
+    border-bottom:3px solid #ebebeb;
   }
   
   input.generic_button {
