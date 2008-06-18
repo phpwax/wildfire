@@ -574,9 +574,9 @@ li.pagination_link a {
     margin:0;
   }
   #content_options label {
-    padding:8px;
+    padding:2px;
     font-family:Arial;
-    font-size:100%;
+    font-size:93%;
     font-weight:bold;
     margin:0 0 8px 0;
   }
@@ -604,7 +604,7 @@ li.pagination_link a {
     padding-bottom:4px;
     margin:0;
     float:left;
-    background:url(../../cms_cform_divider.gif) no-repeat center right;
+    background:url(../../images/cms/cms_cform_divider.gif) no-repeat center right;
   }
   #content_options .select_field, #content_options .input_field {
     width:70%;
