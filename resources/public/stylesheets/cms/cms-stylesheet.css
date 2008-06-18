@@ -577,7 +577,7 @@ li.pagination_link a {
 #resizehandle {
   height:13px; 
   display:block;
-  background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
+  background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center bottom;
 }
   
   #content_options {
