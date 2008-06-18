@@ -37,11 +37,6 @@
         <?endif?>
       </div>
       <?endif?>
-      <?if(count($extra_content)):?>
-        <div id="section-4" class="tabs-container">
-          <?=$extra_content_partial?>
-        </div>
-      <?endif?>
       <div id="resizehandle"></div>
     </div>
   
@@ -50,8 +45,11 @@
       <?=large(select($model, "status", $model->status_options))?>
     	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
     	<?if($edit_author):?>
-    	  <?#=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
+    	  <?=large(select($model, "author_id", $model->author_options, array(), "Author"))?>
     	<?endif?>
+    	<?if(count($extra_content)):?>
+          <?=$extra_content_partial?>
+      <?endif?>
     </fieldset>
     <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
