@@ -641,10 +641,9 @@ li.pagination_link a {
     color:#4f4f4f;
   }
   .tabs-nav li {
-    border:1px solid #E3E2E2;
     background:#FFF;
     border-bottom:0;
-    margin-right:8px !important;
+    margin:8px 8px 8px 0 !important;
   }
   .tabs-nav li input {
     padding:2px 4px;
