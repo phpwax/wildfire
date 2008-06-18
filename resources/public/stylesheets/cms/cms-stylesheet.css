@@ -626,7 +626,7 @@ li.pagination_link a {
     font-size:75%;
   }
   #content_options .multiple_datetime_select select {
-    width:18%;
+    width:auto;
     padding:0;
   }
   
