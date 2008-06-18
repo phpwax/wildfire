@@ -938,6 +938,7 @@ li.pagination_link a {
 }
 #extra_content .widgIframe {
   height:240px;
+  border:0;
 }
 
 /****** End Form Layout Styles ****/
