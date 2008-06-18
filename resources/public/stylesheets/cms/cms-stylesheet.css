@@ -639,6 +639,7 @@ li.pagination_link a {
   .tabs-nav {
     background:white;
     color:#4f4f4f;
+    padding:0px !important;
   }
   .tabs-nav li {
     background:#FFF;
