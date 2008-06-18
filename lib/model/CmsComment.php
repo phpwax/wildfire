@@ -36,6 +36,11 @@ class CmsComment extends WaxModel {
   public function article() {
     return $this->attached_to;
   }
+  
+  public function scope_filtered() {
+    $this->filter(array("status"=>1));
+    $this->order("id DESC");
+  }
  
   public function time_ago() {
     $ts = time() - strtotime(str_replace("-","/",$this->time));
