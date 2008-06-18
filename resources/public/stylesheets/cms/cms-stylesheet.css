@@ -626,11 +626,11 @@ li.pagination_link a {
   }
   #content_options .multiple_datetime_select select {
     width:16%;
-    padding:0;
+    padding:3px 2px;
   }
   #content_options .multiple_datetime_select #cms_content_published_year {
     width:23%;
-    padding:0;
+    padding:3px 2px;
     margin-right:15px;
   }
   
