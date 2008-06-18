@@ -606,8 +606,7 @@ li.pagination_link a {
     background:url(../../images/cms/cms_cform_divider.gif) no-repeat center right;
   }
   #content_options .select_field, #content_options .input_field {
-    width:70%;
-    margin:0 0 15px 15px;
+    margin:0;
     font-size:100%;
   }
   #content_options #cms_content_published_day {
