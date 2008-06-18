@@ -959,7 +959,7 @@ li.pagination_link a {
 .small {
   width:25%;
 }
-#extra_content .widgIframe {
+#extra_content .ui-resizable {
   height:240px;
   border:0;
 }
