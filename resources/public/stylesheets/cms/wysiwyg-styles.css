@@ -3,11 +3,9 @@
 .widgToolbar a
 {
 	display: block;
-	width: 24px;
-	height: 24px;
-	overflow: hidden;
+	width: 15px;
+	height: 15px;
 	background-repeat: no-repeat;
-	text-indent: -1000em;
 	text-decoration: none;
 }
 
@@ -113,9 +111,7 @@
 .widgEditSelect {
   width:auto !important;
 }
-.widgToolbar li img {
-  margin-top:2px;
-}
+
 
 
 
