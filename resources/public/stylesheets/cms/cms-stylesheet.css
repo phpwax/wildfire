@@ -929,6 +929,8 @@ li.pagination_link a {
 
 .form_container fieldset .input_field {
   width:98%;
+  padding:3px 2px;
+  clear:right;
 }
 
 .form_container fieldset .select_field {
