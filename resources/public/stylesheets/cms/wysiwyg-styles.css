@@ -115,7 +115,7 @@
   width:auto !important;
 }
 .widgToolbar li.widgSeparator {
-	background-image: url(../../images/cms/widgeditor_separotor.gif) no-repeat center center;
+	background: url(../../images/cms/widgeditor_separotor.gif) no-repeat center center;
 }
 
 
