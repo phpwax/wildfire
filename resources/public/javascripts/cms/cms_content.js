@@ -11,7 +11,7 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
-    $("#content_window").resizable();
+    $("#content_editor").resizable();
 });
 
 function initialise_draggables() {
