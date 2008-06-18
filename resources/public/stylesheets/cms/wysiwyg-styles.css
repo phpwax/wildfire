@@ -114,7 +114,7 @@
 .widgEditSelect {
   width:auto !important;
 }
-.widgToolbar li.separator {
+.widgToolbar li.widgSeparator {
 	background-image: url(../../images/cms/widgeditor_separotor.gif) no-repeat center center;
 }
 
