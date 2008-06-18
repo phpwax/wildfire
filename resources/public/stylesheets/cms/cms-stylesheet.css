@@ -599,7 +599,7 @@ li.pagination_link a {
   
   #content_options .large {
     width:30%;
-    padding:0;
+    padding:0 10px;
     padding-bottom:4px;
     margin:0 10px;
     float:left;
