@@ -90,9 +90,10 @@
 }
 
 .widgToolbar {
-	margin: 0;
+	margin: 1px 0 0 0;
 	padding: 8px 20px;
-	border-bottom: 1px solid #CCCCCC;
+	border-top: 1px solid #ebebeb;
+	border-bottom: 1px solid #ebebeb;
 	background-image: url(../../images/cms/widg_bg.gif);
 	height:22px;
 }
