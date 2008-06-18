@@ -116,6 +116,7 @@
 }
 .widgToolbar li.widgSeparator {
 	background: url(../../images/cms/widgeditor_separator.gif) no-repeat center center;
+	width:10px;
 }
 
 
