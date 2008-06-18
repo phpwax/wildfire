@@ -574,7 +574,7 @@ li.pagination_link a {
 /* This file skins resizables */
 
 
-#resizehandle {
+#resizehandle .ui-handle-s {
   height:13px; 
   display:block;
   background:#7596c1 url(../../images/cms/cms_resizer.gif) no-repeat center center;
