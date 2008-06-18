@@ -585,7 +585,7 @@ li.pagination_link a {
     padding:20px;
     margin:0;
   }
-  #content_options label {
+  #content_options label, #content_options .large {
     padding:2px;
     font-family:Arial;
     font-size:93%;
@@ -748,111 +748,6 @@ li.pagination_link a {
 .comment_column {
   width:40%;
 }
-
-
-/******* File browser styling *******/
-#file_browse_header {
-	background-color:#DDDDDC;
-  padding:5px 20px;
-  font-weight:bold;
-  font-size:100%;
-  color:#3F3C3C;
-  border:1px solid #DDDDDC;
-  margin-right:25px;
-}
-#file_tree_head, #file_contents_head {
-  float:left;
-}
-#file_tree_head {
-  width:200px;
-}
-.file_browser_container {
-  background:#FFFFFF url(../../images/cms/file_browse_divide.gif) repeat-y;
-  float:left;
-  border:1px solid #D2D0D0 !important;
-  height:395px;
-  width:96% !important;
-}
-#file_tree_files, #file_tree {
-  float:left;
-}
-#file_tree {
-  width:200px;
-  padding:3px 10px;
-  overflow:auto;
-  height:380px;
-}
-
-#file_tree_files {
-  overflow:auto;
-  margin:0;
-  float:none;
-  margin:0;
-  margin-bottom:40px;
-  height:380px;
-}
-.file_preview {
-  margin:3px 0 0 0;
-}
-.file_delete_button {
-  display:block;
-  float:right;
-  width:20px;
-}
-.file_preview img {
-  float:left;
-  margin-right:10px;
-}
-
-.file_preview a,
-.file_preview a:hover,
-.file_preview a:active {
-  color:#3F3C3C !important;
-  font-size:77%;
-}
-.pft-directory a {
-  background:url(../../images/cms/cms-folder-icon.gif) no-repeat;
-}
-#file_tree ul {
-  margin-left:5px;
-}
-#file_tree ul li {
-  padding:4px;
-}
-#file_tree ul li a {
-  color:#333333;
-  font-weight:normal;
-  margin-left:6px;
-  font-size:11px;
-}
-.selected_folder a {
-  font-weight:bold !important;
-  padding:3px;
-}
-.selected_folder ul a {
-  font-weight:normal !important;
-}
-.drop_file_class {
-  background-color:#FFC964 !important;
-}
-#folder_context_menu {
-  display:none;
-}
-
-.dropOver {
-	background-color: #00c;
-	color: #fff;
-	height: 16px;
-	line-height: 16px;
-	padding-left: 6px;
-	font-weight:bold;
-}
-.file_resource {
-  width:50px;
-  height:50px;
-}
-
-/**** End file browser *****/
 
 /*****Form Layout Styles *******/
 .form_container {
