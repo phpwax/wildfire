@@ -23,10 +23,7 @@
 	background-position: 0 -48px;
 }
 
-.widgToolbar li.on a, .widgToolbar li.on a:hover
-{
-	background-position: 0 -48px;
-}
+
 
 
 
@@ -91,15 +88,11 @@
 	cursor: pointer;
 }
 
-.widgToolbar
-{
-	list-style: none;
-	width: 100%;
-	height: 32px;
+.widgToolbar {
 	margin: 0;
-	padding: 0;
+	padding: 10px 0;
 	border: 1px solid #CCCCCC;
-	background-color:#dddddc;
+	background-image: url(../../images/cms/widg_bg.gif);
 }
 
 * html .widgToolbar
