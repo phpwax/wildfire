@@ -113,6 +113,9 @@
 .widgEditSelect {
   width:auto !important;
 }
+.widgToolbar li img {
+  margin-top:2px;
+}
 
 
 
