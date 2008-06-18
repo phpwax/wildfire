@@ -79,9 +79,7 @@ function widgInit()
 				
 				
 				setTimeout("new widgEditor('" + theTextarea.id + "')", 500 * (i));
-				$(".widgIframe").resizable({ 
-            handles: "s" 
-        });
+				
 			}
 		}
 	}
@@ -165,7 +163,9 @@ function widgEditor(replacedTextareaID)
 	
 	/* Attach onsubmit to parent form */
 	this.modifyFormSubmit();
-	
+	$("#cms_content_contentWidgIframe").resizable({ 
+      handles: "s" 
+  });
 	return true;
 }
 
