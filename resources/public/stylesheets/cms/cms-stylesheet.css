@@ -574,7 +574,6 @@ li.pagination_link a {
     margin:0;
   }
   #content_options label {
-    background:#a5cc7a;
     padding:8px;
     font-family:Arial;
     font-size:100%;
@@ -600,7 +599,7 @@ li.pagination_link a {
   }
   
   #content_options .large {
-    width:100%;
+    width:30%;
     padding:0;
     padding-bottom:4px;
     margin:0;
