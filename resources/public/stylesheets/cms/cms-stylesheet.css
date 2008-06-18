@@ -626,7 +626,11 @@ li.pagination_link a {
     font-size:75%;
   }
   #content_options .multiple_datetime_select select {
-    width:auto;
+    width:16%;
+    padding:0;
+  }
+  #content_options .multiple_datetime_select #cms_content_published_year {
+    width:26%;
     padding:0;
   }
   
