@@ -646,6 +646,10 @@ li.pagination_link a {
     border-bottom:0;
     margin-right:8px !important;
   }
+  .tabs-nav li input {
+    padding:2px 4px;
+    width:200px;
+  }
   .tabs-nav li a {
     display:block;
     color:#4f4f4f !important;
