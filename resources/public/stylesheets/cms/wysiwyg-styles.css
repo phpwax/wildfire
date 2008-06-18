@@ -115,7 +115,7 @@
   width:auto !important;
 }
 .widgToolbar li.separator {
-  border-right:1px solid #dddddd;
+	background-image: url(../../images/cms/widgeditor_separotor.gif) no-repeat center center;
 }
 
 
