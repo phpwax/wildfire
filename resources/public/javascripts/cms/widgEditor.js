@@ -28,9 +28,6 @@ widgToolbarItems.push("blockformat");
 widgToolbarItems.push("separator");
 
 
-widgToolbarItems.push("htmlsource");
-
-
 /* Options on block format select element. Consists of string pairs (option value, option label) */
 var widgSelectBlockOptions = new Array();
 
