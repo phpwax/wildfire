@@ -96,6 +96,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$model->status = 3;
 		$model->author_id = Session::get('loggedin_user');
 		$model->url = time();
+		print_r($_SESSION);
 		print_r($model); exit;
 		$this->redirect_to("/admin/content/edit/".$model->save()->id);
 	}
