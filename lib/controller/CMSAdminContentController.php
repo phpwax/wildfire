@@ -94,7 +94,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function create() {
 		$model = new CmsContent();
 		$model->status = 3;
-		$model->author_id = Session::get('loggedin_user');
+		$model->author_id = Session::get('wildfire_user');
 		$model->url = time();
 		print_r($_SESSION);
 		print_r($model); exit;
