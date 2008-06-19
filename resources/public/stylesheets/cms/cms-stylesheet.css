@@ -723,7 +723,7 @@ li.pagination_link a {
   background-repeat:no-repeat;
   background-position:3px 4px;
   padding-left:15px;
-  color:#105bbb !important;
+  color:#F1F1F1 !important;
   cursor:hand;
 }
 #item_list_container thead .descending {
