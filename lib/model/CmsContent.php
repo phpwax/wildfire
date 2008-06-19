@@ -42,7 +42,7 @@ class CmsContent extends WaxModel {
 	}
 
 	public function before_save() {
-	  if($this->id)
+	  if($this->id) {
 	    $old_model = new CmsContent($this->id);
 	    if($old_model->status < $this->status) $this->before_publish();
 	  }
