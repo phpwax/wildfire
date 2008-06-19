@@ -42,6 +42,9 @@ class CmsContent extends WaxModel {
 	}
 
 	public function before_save() {
+	  $this->date_modified = date("Y-m-d H:i:s");
+		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
+	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
 	  if($this->id) {
 	    $old_model = new CmsContent($this->id);
 	    if($old_model->status < $this->status) $this->before_publish();
@@ -49,13 +52,9 @@ class CmsContent extends WaxModel {
 	  if(!$this->is_published()) {
 	    $this->generate_url();
 	  }
-	  $this->date_modified = date("Y-m-d H:i:s");
-		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
-	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
 	}
 	public function before_insert() {
-	  $this->url= time();
-		$this->author_id = Session::get('wildfire_user');
+
 	}
 	
 	public function generate_url() {
