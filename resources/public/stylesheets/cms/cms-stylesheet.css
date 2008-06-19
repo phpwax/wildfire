@@ -542,7 +542,7 @@ PAGINATION STYLES
   padding:2px 5px;
 }
 .pagination li.pagination_link a, .pagination span.disabled {
-  border:1px solid #c6dfe9;
+  border:1px solid #105bbb;
 }
 
 li.pagination_link a {
