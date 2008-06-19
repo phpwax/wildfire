@@ -55,7 +55,7 @@ class CmsContent extends WaxModel {
 	}
 	public function before_insert() {
 	  $this->url= time();
-		$this->author_id = Session::get('loggedin_user');
+		$this->author_id = Session::get('wildfire_user');
 	}
 	
 	public function generate_url() {
