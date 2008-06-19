@@ -49,7 +49,6 @@ class CmsContent extends WaxModel {
 	    $old_model = new CmsContent($this->id);
 	    if($old_model->status < $this->status) $this->before_publish();
 	  }
-	  die("HERE");
 	  if(!$this->is_published()) {
 	    $this->generate_url();
 	  }
@@ -59,6 +58,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function generate_url() {
+	  if(!$this->title) return false;
 	  $this->url = WXInflections::to_url($this->title);
   	$this->avoid_section_url_clash();
 	}
