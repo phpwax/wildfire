@@ -548,7 +548,7 @@ PAGINATION STYLES
 li.pagination_link a {
   font-weight:bold;
   text-decoration:none;
-  color:#c6dfe9 !important;
+  color:#105bbb !important;
 }
 .pagination span.disabled {
   border:1px solid #C1C1C1;
