@@ -555,13 +555,13 @@ li.pagination_link a {
   color:#C1C1C1;
 }
 .pagination_link span.current {
-  background:#c6dfe9;
+  background:#105bbb;
   color:white;
-  border:1px solid #c6dfe9;
+  border:1px solid #105bbb;
 }
 .pagination li.pagination_link a:hover {
   color:white !important;
-  background:#c6dfe9;
+  background:#105bbb;
 }
 
 /********* New Content Styles **********/
