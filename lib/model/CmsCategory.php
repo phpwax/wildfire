@@ -23,6 +23,12 @@ class CmsCategory extends WaxTreeModel {
 		}
 		return $collection;
 	}
+	
+	
+	public function tree_collection() {
+	  return $this->sections_as_collection();
+	}
+	
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/	
 	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
 		return false;
