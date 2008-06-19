@@ -26,7 +26,7 @@ class CmsCategory extends WaxTreeModel {
 	
 	
 	public function tree_collection() {
-	   $this->sections_as_collection();
+	  return $this->sections_as_collection();
 	}
 	
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/	
