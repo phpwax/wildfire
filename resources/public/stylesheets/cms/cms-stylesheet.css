@@ -178,7 +178,7 @@ p{
 	margin-top:12px;
 }
 #page-container a {
-	color:#64A801;
+	color:#105bbb;
 	font-weight:bold;
 	text-decoration:none;
 }
@@ -723,7 +723,7 @@ li.pagination_link a {
   background-repeat:no-repeat;
   background-position:3px 4px;
   padding-left:15px;
-  color:#F1F1F1 !important;
+  color:#E1E1E1 !important;
   cursor:hand;
 }
 #item_list_container thead .descending {
