@@ -65,7 +65,6 @@ class CmsContent extends WaxModel {
 	
 	
 	public function after_save() {
-	  print_r($this); exit;
 		$this->save_extra_content();
 	}
 	
