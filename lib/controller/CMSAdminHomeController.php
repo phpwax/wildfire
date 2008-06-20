@@ -20,6 +20,11 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	protected function process_login() {
 		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user"));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
+		  $log = new WildfireLog;
+		  $log->action="login";
+		  $log->user=$auth->get_user();
+		  $log->time = date("Y-m-d H:i:s");
+		  $log->save();
 		  if($this->authorised_redirect) return $this->authorised_redirect;		  
 			else return 'index';
 		}

@@ -22,5 +22,3 @@ class WildfireUser extends WaxModel {
 	}
 	
 }
-
-?>
