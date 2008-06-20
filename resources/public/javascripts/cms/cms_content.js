@@ -179,6 +179,10 @@ $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
      ed.widgEditorObject.theTextarea.value = ed.widgEditorObject.theInput.value;
+     var wig = ed.widgEditorObjec;
+     if(wig.wysiwyg) {
+       wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
+     }
      alert(ed.value);
      // $.ajax({ 
      //        url: "/admin/content/autosave/"+content_page_id, 
