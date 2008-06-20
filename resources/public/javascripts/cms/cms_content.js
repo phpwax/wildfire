@@ -185,7 +185,7 @@ $(document).ready(function() {
      }
      $.ajax({ 
             url: "/admin/content/autosave/"+content_page_id, 
-            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);}
+            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
             processData: false, 
             type: "POST", 
             data: "content="+ed.value, 
