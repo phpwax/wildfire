@@ -12,7 +12,7 @@
         <?$cats = 0?>
         <?foreach($row->categories as $cat):?>
           <?if($cats < 3):?>
-            <span class="category_label"><?=$cat->name?></span>, 
+            <span class="category_label"><?=$cat->name?>&nbsp;</span> 
           <?else:?>
             ...<?break?>
           <?endif?>
