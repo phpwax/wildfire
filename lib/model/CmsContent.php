@@ -49,7 +49,7 @@ class CmsContent extends WaxModel {
 	    $old_model = new CmsContent($this->id);
 	    if($old_model->status < $this->status) $this->before_publish();
 	  }
-	  if(!$this->is_published() || is_numeris($this->url)) {
+	  if(!$this->is_published() || is_numeric($this->url)) {
 	    $this->generate_url();
 	  }
 	}
