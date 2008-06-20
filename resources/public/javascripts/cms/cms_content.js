@@ -191,7 +191,7 @@ $(document).ready(function() {
             success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
     });
 
-   },10000);
+   },40000);
 });
 
 
