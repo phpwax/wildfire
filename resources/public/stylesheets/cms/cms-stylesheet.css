@@ -698,7 +698,9 @@ li.pagination_link a {
     padding-left:21px;
     margin-top:4px;
   }
-  
+  #quicksave {
+    float:right;
+  }
 
 /****************/
 #table_markup {
