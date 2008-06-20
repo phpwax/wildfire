@@ -9,8 +9,13 @@
         </td>
       <?endforeach?>
       <td class="column">
+        <?$cats = 0?>
         <?foreach($row->categories as $cat):?>
-          <?=$cat->name?> ..
+          <?if($cats < 3):?>
+            <?=$cat->name?>
+          <?else:?>
+            ...<?break?>
+          <?endif?>
         <?endforeach?>
       </td>
       <td class="column">
