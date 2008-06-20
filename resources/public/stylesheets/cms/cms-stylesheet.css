@@ -704,6 +704,12 @@ li.pagination_link a {
     font-size:75%;
     color:#989898;
   }
+  #quicksave span {
+    margin-right:8px;
+  }
+  #quicksave a {
+    margin-top:3px;
+  }
 
 /****************/
 #table_markup {
