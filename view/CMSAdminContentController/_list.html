@@ -9,6 +9,11 @@
         </td>
       <?endforeach?>
       <td class="column">
+        <?foreach($row->categories as $cat):?>
+          <?=$cat->name?> ..
+        <?endforeach?>
+      </td>
+      <td class="column">
         <?if($row->is_published()):?>
           <img src="/images/cms/icon_published.gif" title="This article is published" width="12" class="status_icon" />
         <?else:?>
