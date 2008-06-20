@@ -124,7 +124,7 @@ class CMSAdminFileController extends CMSAdminComponent {
       //       }
       //       echo "SUCCESS"; exit;
       //     }
-    }
+    } else echo "NOTHING";
 	}
 	
 	
