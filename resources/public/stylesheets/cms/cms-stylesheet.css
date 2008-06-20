@@ -542,7 +542,7 @@ PAGINATION STYLES
   padding:2px 5px;
 }
 .pagination li.pagination_link a, .pagination span.disabled {
-  border:1px solid #105bbb;
+  border:1px solid #8ea8cb;
 }
 
 li.pagination_link a {
@@ -555,13 +555,13 @@ li.pagination_link a {
   color:#C1C1C1;
 }
 .pagination_link span.current {
-  background:#105bbb;
+  background:#8ea8cb;
   color:white;
-  border:1px solid #105bbb;
+  border:1px solid #8ea8cb;
 }
 .pagination li.pagination_link a:hover {
   color:white !important;
-  background:#105bbb;
+  background:#8ea8cb;
 }
 
 /********* New Content Styles **********/
