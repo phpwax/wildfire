@@ -103,6 +103,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function upload() {
     if($_POST) {
+      die(ENV);
   	  if (  (!isset($_FILES["Filedata"]) || !is_uploaded_file($_FILES["Filedata"]["tmp_name"]) || $_FILES["Filedata"]["error"] != 0)) {
     		echo "There was a problem with the upload";
     		exit(0);
@@ -111,7 +112,6 @@ class CMSAdminFileController extends CMSAdminComponent {
     	  echo print_r($_POST, 1);
     	}
       // if($_FILES) {
-      //       error_log(print_r($_FILES), 1); exit;
       //       foreach($_FILES as $newfile) {
       //         foreach($newfile as $k=>$val) {
       //           $newfile_fix[$k]['filename']=$val;
