@@ -2,8 +2,8 @@ $(document).ready(function() {
   var swfu;
 
 		var settings = {
-			flash_url : "../swfupload/swfupload_f9.swf",
-			upload_url: "../simpledemo/upload.php",	// Relative to the SWF file
+			flash_url : "/image/cms/swfupload_f8.swf",
+			upload_url: "/admin/files/upload",	// Relative to the SWF file
 			post_params: {"PHPSESSID" : "<?php echo session_id(); ?>"},
 			file_size_limit : "100 MB",
 			file_types : "*.*",
