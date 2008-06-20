@@ -102,7 +102,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function upload() {
-    if($_POST) {
+    if($_POST || $_FILES) {
   	  if (  (!isset($_FILES["Filedata"]) || !is_uploaded_file($_FILES["Filedata"]["tmp_name"]) || $_FILES["Filedata"]["error"] != 0)) {
     		echo "There was a problem with the upload";
     		exit(0);
