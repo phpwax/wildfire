@@ -530,6 +530,9 @@ button.generic_button span, div.generic_button a {
   margin-right:7px;
   margin-top:5px;
 }
+.category_label {
+  font-size:75%;
+}
 
 /****************
 PAGINATION STYLES
