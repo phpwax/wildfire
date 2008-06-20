@@ -18,15 +18,21 @@ $(document).ready(function() {
   		debug: false,
 
 			// The event handler functions are defined in handlers.js
-			file_queued_handler : fileQueued,
-			file_queue_error_handler : fileQueueError,
-			file_dialog_complete_handler : fileDialogComplete,
-			upload_start_handler : uploadStart,
-			upload_progress_handler : uploadProgress,
-			upload_error_handler : uploadError,
-			upload_success_handler : uploadSuccess,
-			upload_complete_handler : uploadComplete,
-			queue_complete_handler : queueComplete	// Queue plugin event
+  		swfupload_loaded_handler : swfUploadLoaded,
+  		file_queued_handler : fileQueued,
+  		file_queue_error_handler : fileQueueError,
+  		file_dialog_complete_handler : fileDialogComplete,
+  		upload_start_handler : uploadStart,
+  		upload_progress_handler : uploadProgress,
+  		upload_error_handler : uploadError,
+  		upload_success_handler : uploadSuccess,
+  		upload_complete_handler : uploadComplete,
+  		queue_complete_handler : queueComplete,	// Queue plugin event
+
+  		// SWFObject settings
+  		minimum_flash_version : "8",
+  		swfupload_pre_load_handler : swfUploadPreLoad,
+  		swfupload_load_failed_handler : swfUploadLoadFailed
 		};
 
 		swfu = new SWFUpload(settings);
