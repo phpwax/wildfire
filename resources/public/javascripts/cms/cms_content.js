@@ -178,8 +178,8 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
-     alert ed.theInput.vale;
-     alert ed.theTextarea.value;
+     alert(ed.theInput.value);
+     alert(ed.theTextarea.value);
      // $.ajax({ 
      //        url: "/admin/content/autosave/"+content_page_id, 
      //        processData: false, 
