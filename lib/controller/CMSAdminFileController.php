@@ -102,30 +102,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function upload() {
-	  echo "WORKING";
-    if($_POST || $_FILES) {
-  	  if (  !isset($_FILES["Filedata"]) || !is_uploaded_file($_FILES["Filedata"]["tmp_name"]) || $_FILES["Filedata"]["error"] != 0) {
-    		echo "There was a problem with the upload";
-    		exit(0);
-    	} else {
-    	  echo "WORKING UPLOAD";
-    	  echo print_r($_FILES, 1);
-    	  echo print_r($_POST, 1);
-    	}
-      // if($_FILES) {
-      //       foreach($_FILES as $newfile) {
-      //         foreach($newfile as $k=>$val) {
-      //           $newfile_fix[$k]['filename']=$val;
-      //         }
-      //         $path = $_POST['cms_file']['folder'];
-      //         $file = new WildfireFile;
-      //         $file->filename = $newfile_fix;
-      //         $file->description = $_POST["cms_file"]["description"];
-      //         $file->save();
-      //       }
-      //       echo "SUCCESS"; exit;
-      //     }
-    }
+   
 	}
 	
 	
