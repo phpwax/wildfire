@@ -186,7 +186,7 @@ $(document).ready(function() {
      //        type: "POST", 
      //        data: "content="+ed.value, 
      //        success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
-     });
+    // });
 
    },10000);
 });
