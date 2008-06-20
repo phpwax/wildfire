@@ -184,7 +184,6 @@ function autosave_content() {
   var ed = document.getElementById("cms_content_content");
    var wig = ed.widgEditorObject;
    if(wig.wysiwyg) {
-     wig.cleanSource();
      wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
    }
    $.ajax({ 
