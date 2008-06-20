@@ -102,10 +102,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function upload() {
-	  if (isset($_POST["PHPSESSID"])) {
-  		session_id($_POST["PHPSESSID"]);
-  	}
-  	session_start();
 
   	if (!isset($_FILES["Filedata"]) || !is_uploaded_file($_FILES["Filedata"]["tmp_name"]) || $_FILES["Filedata"]["error"] != 0) {
   		echo "There was a problem with the upload";
