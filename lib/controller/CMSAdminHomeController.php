@@ -45,7 +45,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	public function logout( ) {
 		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user"));
 		$auth->logout();
-		$this->redirect_to('/');
+		$this->redirect_to($this->unauthorised_redirect);  	
 	}
 	
 	public function index() {
