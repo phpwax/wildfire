@@ -79,7 +79,7 @@ class CmsApplicationController extends WXControllerBase{
 			if($this->is_admin_logged_in()) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
 			if(count($res) == 0) {
-			  if($this->is_admin_logged_in()) $res = $content->clear()->filter($filters)->all();
+			  if($this->is_admin_logged_in()) $res = $content->clear()->filter(array('url'=>$url))->all();
 			  else $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
 		  }
 			if($res->count()>0) $this->cms_content = $res->first();
