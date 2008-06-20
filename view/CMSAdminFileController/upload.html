@@ -1,4 +1,4 @@
-<form action="" method="post" name="upload_form" id="upload_form" enctype="multipart/form-data">
+<!-- <form action="" method="post" name="upload_form" id="upload_form" enctype="multipart/form-data">
   <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
   <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images a caption (optional)"))?>
 </form>
@@ -14,5 +14,21 @@
   <param name="formdata" value="upload_form" />
   <param name="serverProtocol" value="HTTP/1.1" /> 
   Java 1.5 or higher plugin required.
-</applet>
+</applet> -->
+
+
+<h2>Simple Demo</h2>
+<form id="form1" action="/admin/files/upload" method="post" enctype="multipart/form-data">
+	<p>This page demonstrates a simple usage of SWFUpload.  It uses the Queue Plugin to simplify uploading or cancelling all queued files.</p>
+
+		<fieldset class="flash" id="fsUploadProgress">
+		<legend>Upload Queue</legend>
+		</fieldset>
+	<div id="divStatus">0 Files Uploaded</div>
+		<div>
+			<input type="button" value="Upload file (Max 100 MB)" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
+			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
+		</div>
+
+</form>
 
