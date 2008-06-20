@@ -12,7 +12,7 @@
         <?if($row->is_published()):?>
           <img src="/images/cms/icon_published.gif" title="This article is published" width="12" />
         <?else:?>
-        <img src="/images/cms/icon_draft.gif" title="This article is a draft" width="" />
+        <img src="/images/cms/icon_draft.gif" title="This article is a draft" width="12" />
         <?endif?>
         <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
         <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
