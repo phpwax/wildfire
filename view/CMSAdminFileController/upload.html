@@ -47,11 +47,12 @@
 <div id="content">
 	<h2>Simple Demo</h2>
 	<form id="form1" action="index.php" method="post" enctype="multipart/form-data">
-		<p>This page demonstrates a simple usage of SWFUpload.  It uses the Queue Plugin to simplify uploading or cancelling all queued files.</p>
-
-			<fieldset class="flash" id="fsUploadProgress">
+    <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
+    <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images a caption (optional)"))?>
+      
+		<fieldset class="flash" id="fsUploadProgress">
 			<legend>Upload Queue</legend>
-			</fieldset>
+		</fieldset>
 		<div id="divStatus">0 Files Uploaded</div>
 			<div>
 				<input type="button" value="Upload file (Max 100 MB)" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
