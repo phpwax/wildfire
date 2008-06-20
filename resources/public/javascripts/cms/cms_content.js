@@ -180,16 +180,16 @@ $(document).ready(function() {
      var ed = document.getElementById("cms_content_content");
      var wig = ed.widgEditorObject;
      if(wig.wysiwyg) {
+       wig.cleanSource();
        wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
      }
-     alert(ed.value);
-     // $.ajax({ 
-     //        url: "/admin/content/autosave/"+content_page_id, 
-     //        processData: false, 
-     //        type: "POST", 
-     //        data: "content="+ed.value, 
-     //        success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
-    // });
+     $.ajax({ 
+            url: "/admin/content/autosave/"+content_page_id, 
+            processData: false, 
+            type: "POST", 
+            data: "content="+ed.value, 
+            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
+    });
 
    },10000);
 });
