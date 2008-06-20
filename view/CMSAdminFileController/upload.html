@@ -37,6 +37,11 @@
 
 			swfu = new SWFUpload(settings);
 	     };
+	     
+	  function set_post_params(){
+	    swfu.addPostParam("wildfire_file_folder", $("#wildfire_file_folder").val());
+	    swfu.addPostParam("wildfire_file_description", $("#wildfire_file_description").val());
+	  }
 	</script>
 
 <div id="content">
@@ -52,7 +57,7 @@
 		</fieldset>
 		<div id="divStatus">0 Files Uploaded</div>
 			<div>
-				<input type="button" value="Upload file (Max 100 MB)" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
+				<input type="button" value="Upload file (Max 100 MB)" onclick="set_post_params(); swfu.selectFiles()" style="font-size: 8pt;" />
 				<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
 
 			</div>
