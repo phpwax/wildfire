@@ -19,8 +19,9 @@ $(document).ready(function() {
           var newheight = $("#resizehandle").height();
           var addheight = newheight - origheight;
           var iframeheight = $(".widgIframe").height();
-          
+          var textareaheight = $("#cms_content_contentWidgTextarea").height();
           $(".widgIframe").height(iframeheight + addheight);
+          $("#cms_content_contentWidgTextarea").height(textareaheight + addheight);
           $("#resizehandle").height(13);
         }
     });
