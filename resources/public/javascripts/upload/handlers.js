@@ -1,17 +1,7 @@
+/* Demo Note:  This demo uses a FileProgress class that handles the UI for displaying the file name and percent complete.
+The FileProgress class is not part of SWFUpload.
+*/
 
-/* This is an example of how to cancel all the files queued up.  It's made somewhat generic.  Just pass your SWFUpload
-object in to this method and it loops through cancelling the uploads. */
-function cancelQueue(instance) {
-	document.getElementById(instance.customSettings.cancelButtonId).disabled = true;
-	instance.stopUpload();
-	var stats;
-	
-	do {
-		stats = instance.getStats();
-		instance.cancelUpload();
-	} while (stats.files_queued !== 0);
-	
-}
 
 /* **********************
    Event Handlers
@@ -21,13 +11,8 @@ function cancelQueue(instance) {
    package.  They are part of my application.  Without these none
    of the actions SWFUpload makes will show up in my application.
    ********************** */
-function fileDialogStart() {
-	/* I don't need to do anything here */
-}
 function fileQueued(file) {
 	try {
-		// You might include code here that prevents the form from being submitted while the upload is in
-		// progress.  Then you'll want to put code in the Queue Complete handler to "unblock" the form
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setStatus("Pending...");
 		progress.toggleCancel(true, this);
@@ -62,9 +47,6 @@ function fileQueueError(file, errorCode, message) {
 			progress.setStatus("Invalid File Type.");
 			this.debug("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 			break;
-		case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
-			alert("You have selected too many files.  " +  (message > 1 ? "You may only add " +  message + " more files" : "You cannot add any more files."));
-			break;
 		default:
 			if (file !== null) {
 				progress.setStatus("Unhandled Error");
@@ -79,11 +61,11 @@ function fileQueueError(file, errorCode, message) {
 
 function fileDialogComplete(numFilesSelected, numFilesQueued) {
 	try {
-		if (this.getStats().files_queued > 0) {
+		if (numFilesSelected > 0) {
 			document.getElementById(this.customSettings.cancelButtonId).disabled = false;
 		}
 		
-		/* I want auto start and I can do that here */
+		/* I want auto start the upload and I can do that here */
 		this.startUpload();
 	} catch (ex)  {
         this.debug(ex);
@@ -92,19 +74,21 @@ function fileDialogComplete(numFilesSelected, numFilesQueued) {
 
 function uploadStart(file) {
 	try {
-		/* I don't want to do any file validation or anything,  I'll just update the UI and return true to indicate that the upload should start */
+		/* I don't want to do any file validation or anything,  I'll just update the UI and
+		return true to indicate that the upload should start.
+		It's important to update the UI here because in Linux no uploadProgress events are called. The best
+		we can do is say we are uploading.
+		 */
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setStatus("Uploading...");
 		progress.toggleCancel(true, this);
 	}
-	catch (ex) {
-	}
+	catch (ex) {}
 	
 	return true;
 }
 
 function uploadProgress(file, bytesLoaded, bytesTotal) {
-
 	try {
 		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
 
@@ -128,20 +112,6 @@ function uploadSuccess(file, serverData) {
 	}
 }
 
-function uploadComplete(file) {
-	try {
-		/*  I want the next upload to continue automatically so I'll call startUpload here */
-		if (this.getStats().files_queued === 0) {
-			document.getElementById(this.customSettings.cancelButtonId).disabled = true;
-		} else {	
-			this.startUpload();
-		}
-	} catch (ex) {
-		this.debug(ex);
-	}
-
-}
-
 function uploadError(file, errorCode, message) {
 	try {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
@@ -152,10 +122,6 @@ function uploadError(file, errorCode, message) {
 		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
 			progress.setStatus("Upload Error: " + message);
 			this.debug("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
-			progress.setStatus("Configuration Error");
-			this.debug("Error Code: No backend file, File name: " + file.name + ", Message: " + message);
 			break;
 		case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
 			progress.setStatus("Upload Failed.");
@@ -173,15 +139,12 @@ function uploadError(file, errorCode, message) {
 			progress.setStatus("Upload limit exceeded.");
 			this.debug("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 			break;
-		case SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND:
-			progress.setStatus("File not found.");
-			this.debug("Error Code: The file was not found, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-			break;
 		case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
 			progress.setStatus("Failed Validation.  Upload skipped.");
 			this.debug("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 			break;
 		case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+			// If there aren't any files left (they were all cancelled) disable the cancel button
 			if (this.getStats().files_queued === 0) {
 				document.getElementById(this.customSettings.cancelButtonId).disabled = true;
 			}
@@ -192,11 +155,23 @@ function uploadError(file, errorCode, message) {
 			progress.setStatus("Stopped");
 			break;
 		default:
-			progress.setStatus("Unhandled Error: " + error_code);
+			progress.setStatus("Unhandled Error: " + errorCode);
 			this.debug("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 			break;
 		}
 	} catch (ex) {
         this.debug(ex);
     }
+}
+
+function uploadComplete(file) {
+	if (this.getStats().files_queued === 0) {
+		document.getElementById(this.customSettings.cancelButtonId).disabled = true;
+	}
+}
+
+// This event comes from the Queue Plugin
+function queueComplete(numFilesUploaded) {
+	var status = document.getElementById("divStatus");
+	status.innerHTML = numFilesUploaded + " file" + (numFilesUploaded === 1 ? "" : "s") + " uploaded.";
 }
