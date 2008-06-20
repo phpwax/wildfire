@@ -107,6 +107,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     		echo "There was a problem with the upload";
     		exit(0);
     	} else {
+    	  echo "WORKING UPLOAD";
     	  echo print_r($_FILES, 1);
     	  echo print_r($_POST, 1);
     	}
