@@ -176,22 +176,24 @@ function cms_insert_url(type) {
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
 $(document).ready(function() {
-  setInterval(function(){
-     var ed = document.getElementById("cms_content_content");
-     var wig = ed.widgEditorObject;
-     if(wig.wysiwyg) {
-       wig.cleanSource();
-       wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
-     }
-     $.ajax({ 
-            url: "/admin/content/autosave/"+content_page_id, 
-            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-            processData: false, 
-            type: "POST", 
-            data: "content="+ed.value, 
-            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
-    });
-
-   },40000);
+  setInterval('autosave_content()',40000);
+  $("#autosave").click(function(){autosave_content()})
 });
+
+function autosave_content() {
+  var ed = document.getElementById("cms_content_content");
+   var wig = ed.widgEditorObject;
+   if(wig.wysiwyg) {
+     wig.cleanSource();
+     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
+   }
+   $.ajax({ 
+          url: "/admin/content/autosave/"+content_page_id, 
+          beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
+          processData: false, 
+          type: "POST", 
+          data: "content="+ed.value, 
+          success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
+  });
+}
 
