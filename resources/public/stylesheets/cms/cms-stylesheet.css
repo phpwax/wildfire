@@ -706,6 +706,7 @@ li.pagination_link a {
   }
   #quicksave span {
     margin-right:8px;
+    padding-top:2px;
   }
   #quicksave a {
     float:right;
