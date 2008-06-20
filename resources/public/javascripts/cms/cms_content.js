@@ -178,7 +178,7 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
-     ed.refreshDisplay();
+     ed.widgEditorObject.refreshDisplay();
      alert(ed.value);
      // $.ajax({ 
      //        url: "/admin/content/autosave/"+content_page_id, 
