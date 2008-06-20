@@ -42,8 +42,10 @@
 <div id="content">
 	<h2>Advanced File Upload</h2>
 	<form id="form1" action="index.php" method="post" enctype="multipart/form-data">
-    <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
-    <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images a caption (optional)"))?>
+	  <fieldset>
+      <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
+      <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images a caption (optional)"))?>
+    </fieldset>
       
 		<fieldset class="flash" id="fsUploadProgress">
 			<legend>Upload Queue</legend>
