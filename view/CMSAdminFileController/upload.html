@@ -17,18 +17,47 @@
 </applet> -->
 
 
-<h2>Simple Demo</h2>
-<form id="form1" action="/admin/files/upload" method="post" enctype="multipart/form-data">
-	<p>This page demonstrates a simple usage of SWFUpload.  It uses the Queue Plugin to simplify uploading or cancelling all queued files.</p>
+<script type="text/javascript" src="/images/cms/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="/images/cms/swfupload.swfobject.js"></script>
+<script type="text/javascript" src="/images/cms/swfupload.queue.js"></script>
+<script type="text/javascript" src="/images/cms/fileprogress.js"></script>
+<script type="text/javascript" src="/images/cms/handlers.js"></script>
 
+
+<h2>SWFObject Demo</h2>
+<form id="form1" action="index.php" method="post" enctype="multipart/form-data">
+	<p> This page demonstrates the SWFObject plugin.  Do each of the following (one at a time) to see the plugin work: </p>
+		<ul>
+			<li>Uninstall your Flash Player or install a version less than 9.0.28</li>
+			<li>Cause the SWF file to fail to load by deleting or renaming swfupload_f9.swf (simulating a very slow or failed download)</li>
+			<li>Disable JavaScript</li>
+		</ul>
+	<p>
+		Each of these tests demontrate how these issues can be handled by SWFUpload and the SWFObject libraries. You'll also notice
+		that the page flicker found in the Graceful Degradation plugin has been eliminated.
+	</p>
+	<div id="divSWFUploadUI" style="visibility: hidden;">
 		<fieldset class="flash" id="fsUploadProgress">
 		<legend>Upload Queue</legend>
 		</fieldset>
-	<div id="divStatus">0 Files Uploaded</div>
-		<div>
-			<input type="button" value="Upload file (Max 100 MB)" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
-			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
-		</div>
-
+		<p id="divStatus">0 Files Uploaded</p>
+		<p>
+			<input id="btnBrowse" type="button" value="Upload file (Max 100 MB)" style="font-size: 8pt;" />
+			<input id="btnCancel" type="button" value="Cancel All Uploads" disabled="disabled" style="font-size: 8pt;" />
+			<br />
+		</p>
+	</div>
+	<noscript style="display: block; background-color: #FFFF66; border-top: solid 4px #FF9966; border-bottom: solid 4px #FF9966; margin: 10px 25px; padding: 10px 15px;">
+		We're sorry.  SWFUpload could not load.  You must have JavaScript enabled to enjoy SWFUpload.
+	</noscript>
+	<div id="divLoadingContent" class="content" style="background-color: #FFFF66; border-top: solid 4px #FF9966; border-bottom: solid 4px #FF9966; margin: 10px 25px; padding: 10px 15px; display: none;">
+		SWFUpload is loading. Please wait a moment...
+	</div>
+	<div id="divLongLoading" class="content" style="background-color: #FFFF66; border-top: solid 4px #FF9966; border-bottom: solid 4px #FF9966; margin: 10px 25px; padding: 10px 15px; display: none;">
+		SWFUpload is taking a long time to load or the load has failed.  Please make sure JavaScript is enabled and that a working version of the Adobe Flash Player is installed.
+	</div>
+	<div id="divAlternateContent" class="content" style="background-color: #FFFF66; border-top: solid 4px #FF9966; border-bottom: solid 4px #FF9966; margin: 10px 25px; padding: 10px 15px; display: none;">
+		We're sorry.  SWFUpload could not load.  You may need to install or upgrade Flash Player.
+		Visit the <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash">Adobe website</a> to get the Flash Player.
+	</div>
 </form>
-
