@@ -700,6 +700,9 @@ li.pagination_link a {
   }
   #quicksave {
     float:right;
+    padding:7px 10px 0 0;
+    font-size:75%;
+    color:#989898;
   }
 
 /****************/
