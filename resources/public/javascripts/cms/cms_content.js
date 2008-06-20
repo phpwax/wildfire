@@ -178,11 +178,17 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
-     //ed.widgEditorObject.updateWidgInput();
-     
-    
+     alert ed.theInput.vale;
+     alert ed.theTextarea.value;
+     // $.ajax({ 
+     //        url: "/admin/content/autosave/"+content_page_id, 
+     //        processData: false, 
+     //        type: "POST", 
+     //        data: "content="+ed.value, 
+     //        success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
+     });
 
-   },40000);
+   },10000);
 });
 
 
