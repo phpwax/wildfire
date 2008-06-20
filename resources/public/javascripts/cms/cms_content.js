@@ -178,8 +178,7 @@ function cms_insert_url(type) {
 $(document).ready(function() {
   setInterval(function(){
      var ed = document.getElementById("cms_content_content");
-     ed.widgEditorObject.theTextarea.value = ed.widgEditorObject.theInput.value;
-     var wig = ed.widgEditorObjec;
+     var wig = ed.widgEditorObject;
      if(wig.wysiwyg) {
        wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
      }
