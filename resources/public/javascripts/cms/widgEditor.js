@@ -286,7 +286,7 @@ widgEditor.prototype.cleanPaste = function()
 		/* Convert semantics to spans in Mozilla */
 		if (!this.IE)
 		{
-			this.convertSPANs();
+			this.convertSPANs(true);
 		}
 	}
 	
@@ -529,7 +529,7 @@ widgEditor.prototype.initEdit = function()
 	
 	if (!this.IE)
 	{
-		this.convertSPANs(false);
+		this.convertSPANs(true);
 	}
 	
 	this.theContainer.style.visibility = "visible";

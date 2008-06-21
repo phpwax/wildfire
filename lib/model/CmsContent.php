@@ -251,7 +251,6 @@ class CmsContent extends WaxModel {
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'POST' ); # This POST is special, and uses its specified Content-type
     $result = curl_exec( $ch ); # run!
     curl_close($ch);
-    error_log($result);
 	}	
 	
 }

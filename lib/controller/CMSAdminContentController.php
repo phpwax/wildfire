@@ -129,7 +129,6 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->cat_list = $this->render_partial("cat_list");	
 	}
 	public function autosave() {
-	  error_log($_POST['content']);
 	  $this->use_layout=false;
 	  $this->use_view=false;
 	  $content = new CmsContent($this->param("id"));
