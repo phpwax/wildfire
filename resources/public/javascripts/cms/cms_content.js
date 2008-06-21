@@ -186,14 +186,15 @@ function autosave_content() {
    var wig = ed.widgEditorObject;
    if(wig.wysiwyg) {
      wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
-   }
-   $.ajax({ 
-          url: "/admin/content/autosave/"+content_page_id, 
-          beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-          processData: false, 
-          type: "POST", 
-          data: "content="+ed.value, 
-          success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
-  });
+   
+     $.ajax({ 
+            url: "/admin/content/autosave/"+content_page_id, 
+            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
+            processData: false, 
+            type: "POST", 
+            data: "content="+wig.theInput.value, 
+            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
+    });
+  }
 }
 
