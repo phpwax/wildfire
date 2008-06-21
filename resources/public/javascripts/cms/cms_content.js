@@ -186,7 +186,9 @@ function autosave_content() {
    var wig = ed.widgEditorObject;
    if(wig.wysiwyg) {
      wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
-   
+   } else {
+     wig.theInput.value = wig.theTextarea.value;
+   }
      $.ajax({ 
             url: "/admin/content/autosave/"+content_page_id, 
             beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
@@ -195,6 +197,5 @@ function autosave_content() {
             data: "content="+wig.theInput.value, 
             success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
     });
-  }
 }
 
