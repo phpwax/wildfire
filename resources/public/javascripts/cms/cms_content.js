@@ -193,8 +193,15 @@ function autosave_content() {
             url: "/admin/content/autosave/"+content_page_id, 
             beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
             type: "POST", 
-            data: "content="+wig.theInput.value, 
+            data: "content="+escapeHTMLEncode(wig.theInput.value), 
             success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
     });
+}
+
+function escapeHTMLEncode(str) {
+  var div = document.createElement(’div’);
+  var text = document.createTextNode(str);
+  div.appendChild(text);
+  return div.innerHTML;
 }
 
