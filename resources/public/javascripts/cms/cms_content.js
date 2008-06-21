@@ -192,7 +192,6 @@ function autosave_content() {
      $.ajax({ 
             url: "/admin/content/autosave/"+content_page_id, 
             beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-            processData: false, 
             type: "POST", 
             data: "content="+wig.theInput.value, 
             success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
