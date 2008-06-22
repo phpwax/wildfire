@@ -43,14 +43,12 @@ class CMSAdminContentController extends CMSAdminComponent {
 			- now using the date_created field to make sure that only files older than an hour created by the logged in user will be deleted. This is should
 			avoid any acidental deletion of temp records that are still being worked on.
 		*/
-		try {
-		  $author_id = $this->current_user->id; 
-  		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-  		$temp_content = $this->model->filter(array('author_id'=>$author_id, 'status'=>3))->filter("`date_created` < '$time'")->all();
-  		if(count($temp_content)){
-  			foreach($temp_content as $content) $content->delete();
-  		}
-	  }catch (Exception $e) { true;}
+		$author_id = $this->current_user->id; 
+		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
+		$temp_content = $this->model->filter(array('author_id'=>$author_id, 'status'=>3))->filter("`date_created` < '$time'")->all();
+		if(count($temp_content)){
+			foreach($temp_content as $content) $content->delete();
+		}
 		/* */
 		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order("published DESC")->page($page, $this->list_limit);
@@ -97,7 +95,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$model->status = 3;
 		$model->author_id = Session::get('wildfire_user');
 		$model->url = time();
-		$this->redirect_to("/admin/content/edit/".$model->save()->id);
+		$this->redirect_to("/admin/content/edit/".$model->save()->id."/");
 	}
 	
 	public function add_category() {
