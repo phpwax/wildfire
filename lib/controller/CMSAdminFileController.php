@@ -104,6 +104,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function upload() {
    
 	}
+	public function quickupload() {
+    $this->use_layout=false;
+	}
 	
 	
 	public function browse_images() {

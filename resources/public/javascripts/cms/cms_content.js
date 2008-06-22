@@ -159,10 +159,11 @@ function get_query_var(query, variable) {
   }
 }
 
-/******* Setup for the link modal window *******/
+/******* Setup for the link modal window and quick upload window *******/
 
 $(document).ready(function() {
   $('#link_dialog').jqm();
+  $("#quick_upload_pane").jqm({trigger:"quick_upload_button", ajax:"/admin/files/quickupload"})
 });
 
 function cms_insert_url(type) {
