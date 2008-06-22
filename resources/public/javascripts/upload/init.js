@@ -1,7 +1,6 @@
-var swfu;
-
-window.onload = function() {
-	var settings = {
+$(document).ready(function() {
+  var swfu;
+  var settings = {
 		flash_url : "/swfupload_f9.swf",
 		upload_url: "/upload.php",	// Relative to the SWF file
 		post_params: {},
@@ -29,7 +28,9 @@ window.onload = function() {
 	};
 
 	swfu = new SWFUpload(settings);
-   };
+});
+
+
    
 function set_post_params(){
   swfu.addPostParam("wildfire_file_folder", $("#wildfire_file_folder").val());
