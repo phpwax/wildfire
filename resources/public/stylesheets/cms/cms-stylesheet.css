@@ -738,6 +738,7 @@ li.pagination_link a {
 }
 #item_list_container {
   background:white;
+  padding:1px;
 }
 #item_list_container tbody {
   font-size:85%;
