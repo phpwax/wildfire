@@ -736,6 +736,9 @@ li.pagination_link a {
 .filter-item {
   float:left;
 }
+#item_list_container {
+  background:white;
+}
 #item_list_container tbody {
   font-size:85%;
 }
