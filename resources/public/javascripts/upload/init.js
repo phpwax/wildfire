@@ -1,5 +1,6 @@
+var swfu;
+
 $(document).ready(function() {
-  var swfu;
   var settings = {
 		flash_url : "/swfupload_f9.swf",
 		upload_url: "/upload.php",	// Relative to the SWF file
