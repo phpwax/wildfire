@@ -163,7 +163,7 @@ function get_query_var(query, variable) {
 
 $(document).ready(function() {
   $('#link_dialog').jqm();
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload"})
+  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload", onLoad:init_upload})
 });
 
 function cms_insert_url(type) {

@@ -1,6 +1,11 @@
 var swfu;
 
 $(document).ready(function() {
+  init_upload();
+});
+
+
+function init_upload(){
   var settings = {
 		flash_url : "/swfupload_f9.swf",
 		upload_url: "/upload.php",	// Relative to the SWF file
@@ -29,8 +34,7 @@ $(document).ready(function() {
 	};
 
 	swfu = new SWFUpload(settings);
-});
-
+}
 
    
 function set_post_params(){
