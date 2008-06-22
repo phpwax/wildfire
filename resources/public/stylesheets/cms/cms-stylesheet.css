@@ -760,6 +760,9 @@ li.pagination_link a {
   background-color:#D1D1D1;
 }
 
+#item_list_container tr:nth-child(even) { background-color:#E6E6E6; }  
+
+
 #preview_pane {
   margin:0;
   top: 15px;
