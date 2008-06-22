@@ -105,7 +105,7 @@ class CMSAdminFileController extends CMSAdminComponent {
    
 	}
 	public function quickupload() {
-    $this->use_layout=false;
+    $this->use_layout="simple";
     $this->use_view="upload";
 	}
 	
