@@ -110,9 +110,6 @@ class CmsApplicationController extends WXControllerBase{
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
-	  if( $size = str_replace(".jpg", "", $size)) $ext = ".jpg";
-	  if( $size = str_replace(".gif", "", $size)) $ext = ".gif";
-	  if( $size = str_replace(".png", "", $size)) $ext = ".png";
 
   	$img = new WildfireFile($img_id);
 		/* CHANGED - allows for relative paths in db */
