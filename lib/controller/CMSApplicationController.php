@@ -110,14 +110,14 @@ class CmsApplicationController extends WXControllerBase{
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
-	  $size = str_replace(".jpg", "", $size);
-	  $size = str_replace(".gif", "", $size);
-	  $size = str_replace(".png", "", $size);
+	  if( $size = str_replace(".jpg", "", $size)) $ext = ".jpg";
+	  if( $size = str_replace(".gif", "", $size)) $ext = ".gif";
+	  if( $size = str_replace(".png", "", $size)) $ext = ".png";
 
   	$img = new WildfireFile($img_id);
 		/* CHANGED - allows for relative paths in db */
-    $source = PUBLIC_DIR. $img->rpath."/".$img->filename;    
-    
+    $source = PUBLIC_DIR. $img->rpath."/".$img->filename.$img->extension;    
+    die($source);
 		$file = CACHE_DIR.$img_id."_".$img_size;
 		$source=preg_replace("/[\s]/", "\ ", $source);
 		if(!File::is_image($source)){
@@ -138,7 +138,7 @@ class CmsApplicationController extends WXControllerBase{
 		if($this->image = File::display_image($file) ) {
 			return true;
 		} return false;
-	}
+  }
 
 	/* used by old and new */
 	protected function is_page() {
