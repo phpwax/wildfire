@@ -133,6 +133,7 @@ class CmsApplicationController extends WXControllerBase{
 			}
 		}
     if(!is_file($file) || !is_readable($file)) {
+      error_log("Creating new image from $source  to $file    at $size");
       File::resize_image($source, $file, $size);
     }
 		if($this->image = File::display_image($file) ) {
