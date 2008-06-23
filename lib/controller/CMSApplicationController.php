@@ -122,6 +122,7 @@ class CmsApplicationController extends WXControllerBase{
 
 		$source=preg_replace("/[\s]/", "\ ", $source);
 		error_log("Loading image $source from $file");
+		exit;
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($img->filename);
