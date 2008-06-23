@@ -75,7 +75,7 @@ class CmsApplicationController extends WXControllerBase{
 		    $this->use_format=$format;
 		  }
 		  
-			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section_id);
+			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($this->is_admin_logged_in()) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
 			if(count($res) == 0) {
