@@ -117,8 +117,9 @@ class CmsApplicationController extends WXControllerBase{
   	$img = new WildfireFile($img_id);
 		/* CHANGED - allows for relative paths in db */
     $source = PUBLIC_DIR. $img->rpath.$img->filename;    
-    die($source);
+
 		$file = CACHE_DIR.$img_id."_".$img_size;
+		die($file);
 		$source=preg_replace("/[\s]/", "\ ", $source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
