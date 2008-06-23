@@ -52,7 +52,7 @@ class CmsApplicationController extends WXControllerBase{
 		$section = new CmsSection;
 		$res = $section->filter(array('url'=>$url))->all();
 		if(count($res)==1){
-			$this->cms_section = $res->first();
+			$this->cms_section = $res[0];
 			return true;
 		}elseif(count($res)>1){
 			$stack = array_reverse($this->section_stack);
