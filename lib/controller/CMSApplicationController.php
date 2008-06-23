@@ -119,7 +119,7 @@ class CmsApplicationController extends WXControllerBase{
     $source = PUBLIC_DIR. $img->rpath.$img->filename;    
 
 		$file = CACHE_DIR.$img_id."_".$img_size;
-		die($file);
+
 		$source=preg_replace("/[\s]/", "\ ", $source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
@@ -134,6 +134,7 @@ class CmsApplicationController extends WXControllerBase{
 			}
 		}
     if(!is_file($file) || !is_readable($file)) {
+      die($file);
       File::resize_image($source, $file, $size);
     }
 		if($this->image = File::display_image($file) ) {
