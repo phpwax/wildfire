@@ -18,8 +18,8 @@ class CmsSection extends WaxTreeModel {
 		elseif(!$node && !$this->root_node->id) $node = $this->get_root();
 		$this->tree_array[] = $node;
 		$children = $node->children;
-
-		if($children && count($children)){
+		
+		if($children && count($children) ){
 			foreach($node->children as $child){
 				if($newchildren = $child->children) $this->tree($child);
 				else $this->tree_array[] = $child;
