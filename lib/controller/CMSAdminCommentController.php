@@ -23,8 +23,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	public function index( ) {
 		$this->set_order();
 		$this->display_action_name = 'List Comments';
-	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit, "conditions"=>"status=1");
-		$this->all_rows = $this->model->find_all($options);
+		$this->all_rows = $this->model->filter(array('status'=>1))->order($this->get_order())->page($this->this_page, $this->list_limit);
 		if(!$this->all_rows) $this->all_rows=array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
@@ -34,15 +33,14 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	  $this->use_view="index";
 	  $this->set_order();
 		$this->display_action_name = 'Comments in Moderation';
-	  $options = array("order"=>$this->get_order(), "page"=>$this->this_page, "per_page"=>$this->list_limit, "conditions"=>"status=2");
-		$this->all_rows = $this->model->find_all($options);
+		$this->all_rows = $this->model->filter(array('status'=>2))->order($this->get_order())->page($this->this_page, $this->list_limit);
 		if(!$this->all_rows) $this->all_rows=array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
 	
 	public function spam() {
-	  $comment = new CmsComment($this->param("id"));
+	  $comment = new CmsComment(Resquest::get("id"));
 	  if($comment->update_attributes(array("status"=>"2")) ) {
 	    Session::add_message("Comment marked as spam");
 	  }
@@ -50,7 +48,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	}
 	
 	public function approve() {
-	  $comment = new CmsComment($this->param("id"));
+	  $comment = new CmsComment(Resquest::get("id"));
 	  if($comment->update_attributes(array("status"=>"1")) ) {
 	    Session::add_message("Comment approved");
 	  }
