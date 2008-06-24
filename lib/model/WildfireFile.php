@@ -65,7 +65,7 @@ class WildfireFile extends WaxModel {
 	
 	public function show($size=110){
 		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
-		$file = CACHE_DIR.$img_id."_".$img_size;
+		$file = CACHE_DIR.$this->id."_".$size;
 		//slash any spaces
 		$source=preg_replace("/[\s]/", "\ ", $source);
 
