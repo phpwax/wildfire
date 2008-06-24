@@ -160,7 +160,7 @@ class CmsApplicationController extends WXControllerBase{
 	/* used by old and new */
 	public function show_image() {
 	  $options = Request::get("params");
-	  $img_id = WaxUrl::get("id");
+	  $img_id = Request::get("id");
 	  $img_size = $options[0];
   	$this->use_view=false;
 		$this->use_layout=false;

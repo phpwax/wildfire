@@ -46,42 +46,19 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	
-	
+	/**
+	 * admin area version of show image - outputs an image
+	 */	
 	public function show_image() {
-	  $options = WaxUrl::get_params();
-	  $img_id = WaxUrl::get("id");
-	  $img_size = $options["params"][0];
+	  $options = Request::get("params");
+	  $img_id = Request::get("id");
+	  $img_size = $options[0];
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
-	  $size = str_replace(".jpg", "", $size);
-	  $size = str_replace(".gif", "", $size);
-	  $size = str_replace(".png", "", $size);
-
+  	else $size = substr($size, 0, strrpos($size, "."));
   	$img = new WildfireFile($img_id);
-		/* CHANGED - allows for relative paths in db */
-    $source = PUBLIC_DIR. $img->rpath."/".$img->filename;    
-    
-		$file = CACHE_DIR.$img_id."_".$img_size;
-		$source=preg_replace("/[\s]/", "\ ", $source);
-		if(!File::is_image($source)){
-			if(!is_file($file) || !is_readable($file)) {
-				$icon_type = File::get_extension($img->filename);
-				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-".strtolower($icon_type).".gif";
-				if(!is_readable($icon) || $icon_file !=file_get_contents($icon)) {
-					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
-					$source = CACHE_DIR."cms-generic-icon.gif";
-				}
-				else $source = CACHE_DIR."cms-generic-icon-{$icon_type}.gif";
-				file_put_contents($source, $icon_file);
-			}
-		}
-    if(!is_file($file) || !is_readable($file)) {
-      File::resize_image($source, $file, $size);
-    }
-		if($this->image = File::display_image($file) ) {
-			return true;
-		} return false;
+    $img->show($size);
   }
 	
 	public function download_file() {
