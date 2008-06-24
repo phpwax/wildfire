@@ -85,7 +85,7 @@ class CmsApplicationController extends WXControllerBase{
 		$section = new CmsSection;
 		$res = $section->filter(array('url'=>$url))->all();
 		if(count($res)==1){
-			$this->cms_section = $res->first();
+			$this->cms_section = $res[0];
 			return true;
 		}elseif(count($res)>1){
 			$stack = array_reverse($this->section_stack);
@@ -108,14 +108,14 @@ class CmsApplicationController extends WXControllerBase{
 		    $this->use_format=$format;
 		  }
 		  
-			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section_id);
+			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($this->is_admin_logged_in()) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
 			if(count($res) == 0) {
 			  if($this->is_admin_logged_in()) $res = $content->clear()->filter(array('url'=>$url))->all();
 			  else $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
 		  }
-			if($res->count()>0) $this->cms_content = $res->first();
+			if($res->count()>0) $this->cms_content = $res[0];
 			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
 			$filter = "`cms_section_id` = '".$this->cms_section->id."'";	
@@ -143,16 +143,15 @@ class CmsApplicationController extends WXControllerBase{
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
-	  $size = str_replace(".jpg", "", $size);
-	  $size = str_replace(".gif", "", $size);
-	  $size = str_replace(".png", "", $size);
-
   	$img = new WildfireFile($img_id);
+  	$size = substr($size, 0, strrpos($size, "."));
 		/* CHANGED - allows for relative paths in db */
     $source = PUBLIC_DIR. $img->rpath."/".$img->filename;    
-    
+
 		$file = CACHE_DIR.$img_id."_".$img_size;
+
 		$source=preg_replace("/[\s]/", "\ ", $source);
+
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = File::get_extension($img->filename);
@@ -171,7 +170,7 @@ class CmsApplicationController extends WXControllerBase{
 		if($this->image = File::display_image($file) ) {
 			return true;
 		} return false;
-	}
+  }
 
 	/* used by old and new */
 	protected function is_page() {
@@ -249,7 +248,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_section($url) {
 	  $section = new CmsSection;
 	  $content = new CmsContent;
-	  $res = $section->find_all_by_url($url);
+	  $res = $section->filter(array("url"=>$url))->all();
 	  if(count($res)==1) return $res[0];
 	  elseif(count($res)>1) {
 	    $stack=array_reverse($this->section_stack);
