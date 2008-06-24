@@ -1,31 +1,60 @@
 <?php
+/**
+ * The main class thats used by the front end to access the 
+ * cms data, if data is found then this will also set up the actions,
+ * views and content - how useful is that!
+ * @package PHP-WAX CMS
+ * @author charles marshall
+ */
 
 class CmsApplicationController extends WXControllerBase{
   
-  public $cms_section = false;      // Section object
-  public $cms_content = false;  // Page/Article Object
+  public $cms_section = false;	//Section object
+  public $cms_content = false;  //this is either an array of the content or a single content record
   public $content_table = "cms_content"; // Which table to search for content
-  public $section_stack = array();
-  public $section_id = 1;
-	public $per_page = 5;
-	public $this_page = 1;
-  public $crumbtrail = array();
+  public $section_stack = array(); //array of all section found
+  public $section_id = 1; //default seciton id
+	public $per_page = 5;	//number of content items to list per page
+	public $this_page = 1;	//the current page number
+  public $crumbtrail = array();	//a pre built crumb trail
 	public $force_image_width = false;
 	
+	//default action when content/section is found
 	public function cms_content() {}
 	
+	/**
+	 * MAIN FUNCTION - CALL IN YOUR controller_global
+	 * This chappy uses the url to find the section & content thats appropriate by calling a bunch of others
+	 *
+	 * If the url your requesting sets an action (ie the first part of the url after the controller) and that
+	 * action is a function within the controller then this will return false!
+	 */	
 	protected function cms(){
+		//check if this is paginated
 		if($page = Request::get('page')) $this->this_page = $page;
+		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		//get the content!
 		$this->find_contents_by_path();
+		//set the view
 		$this->pick_view();
+		//set the action
 		if($this->cms_content) {
 			$this->action = "cms_content";
 			$this->build_crumb();
 		}
+		//incremeant the page views counter
     if($this->is_page()) $this->cms_content->add_pageview();
 	}
-	
+	/**
+	 * Using the route array this function:
+	 *  - creates a stacking order, 
+	 *  - traverses the stack,
+	 *  - checks for extension names (ie if you add .xml it will look for a view with .xml),
+	 *  - checks that the part your looking for is a number (to discount get vars) & looks up the section
+	 *  - adds the url to the stack
+	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
+	 */	
 	protected function find_contents_by_path(){
 		//need to replace this with request method, once thats been made
 		$stack = $this->route_array;
@@ -39,7 +68,7 @@ class CmsApplicationController extends WXControllerBase{
 			if(is_numeric($key) && $this->find_section($url)){
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
-			}
+			}elseif(!is_numeric($key)) unset($stack[$key]);
 		}
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
@@ -47,7 +76,11 @@ class CmsApplicationController extends WXControllerBase{
 		else $this->find_content(false);
 	}
 	
-	/* this no sets the cms_section object and only checks by using cms_section */
+	/**
+	 * Takes the url passed in and tries to find a section with a matching url
+	 * - if finds one, return just the 
+	 * @param string $url 
+	 */	
 	protected function find_section($url){
 		$section = new CmsSection;
 		$res = $section->filter(array('url'=>$url))->all();
