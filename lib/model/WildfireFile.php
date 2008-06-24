@@ -63,4 +63,30 @@ class WildfireFile extends WaxModel {
 	}
 	
 	
+	public function show($size=110){
+		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
+		$file = CACHE_DIR.$img_id."_".$img_size;
+		//slash any spaces
+		$source=preg_replace("/[\s]/", "\ ", $source);
+
+		if(!File::is_image($source)){
+			if(!is_file($file) || !is_readable($file)) {
+				$icon_type = File::get_extension($img->filename);
+				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-".strtolower($icon_type).".gif";
+				if(!is_readable($icon) || $icon_file !=file_get_contents($icon)) {
+					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
+					$source = CACHE_DIR."cms-generic-icon.gif";
+				}
+				else $source = CACHE_DIR."cms-generic-icon-{$icon_type}.gif";
+				file_put_contents($source, $icon_file);
+			}
+		}
+    if(!is_file($file) || !is_readable($file)) {
+      File::resize_image($source, $file, $size);
+    }
+		if($this->image = File::display_image($file) ) {
+			return true;
+		} return false;
+	}
+	
 }
