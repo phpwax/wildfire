@@ -42,9 +42,15 @@ class CMSAdminComponent extends WXControllerBase {
 	* Construct method, initialises authentication, default model and menu items
 	**/
 	function __construct() {
+		/**
+		* authentication
+		**/
 		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user"));
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
+		/**
+		* module setup
+		**/
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->configure_modules();
 		$this->all_modules = CMSApplication::get_modules();
@@ -52,6 +58,9 @@ class CMSAdminComponent extends WXControllerBase {
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
+		/**
+		* model instanciation
+		**/
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = WXInflections::underscore($this->model_class);
@@ -181,7 +190,9 @@ class CMSAdminComponent extends WXControllerBase {
 	}
 	
 	
-	/**/
+	/**
+	* sets the default ordering for the lists
+	**/
 	protected function set_order(){
 		if($order = $_GET['order']) {
 			if(in_array($order,$this->describe_model())){
@@ -194,12 +205,17 @@ class CMSAdminComponent extends WXControllerBase {
 		}
 		else return false;
 	}
-	
+	/**
+	* looks up the session order vaules
+	* @return string containing order by for models
+	**/
 	protected function get_order(){
 		if($order = Session::get("{$this->model_name}")) return $order;
 		else return "{$this->default_order} {$this->default_direction}";
 	}
-	
+	/**
+	* creates the module listing - filters on user level
+	**/
 	protected function configure_modules() {
 	  $config = CmsConfiguration::get("modules");
 	  if(!is_array($mods = $config["enabled_modules"]) ) $mods = array(); 
@@ -211,7 +227,10 @@ class CMSAdminComponent extends WXControllerBase {
       }
 	  }
 	}
-	
+	/**
+	* uses the models description function to get an array of fields
+	* @return array of field names
+	**/
 	protected function describe_model(){
 		$model_desc = $this->model->describe();
 		foreach($model_desc as $field) $desc[] = $field['Field'];
