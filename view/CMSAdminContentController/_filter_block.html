@@ -23,7 +23,7 @@
         <option value="/admin/content/">All sections</option>
         <?foreach($model->sections as $section):?>
 					<?
-					$tmp = str_pad("", $section->get_level()-1, "*", STR_PAD_LEFT);
+					$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
 					$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
 					?>
           <option value="/admin/content/<?=$section->url?>"><?=$tmp.$section->title?></option>
