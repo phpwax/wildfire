@@ -53,7 +53,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	 */	
 	public function spam() {
 	  $comment = new CmsComment(Resquest::get("id"));
-	  if($comment->update_attributes(array("status"=>"2")) ) {
+	  if($comment->update_attributes(array("status"=>2)) ) {
 	    Session::add_message("Comment marked as spam");
 	  }
 	  $this->redirect_to(array("action"=>"index"));
@@ -63,7 +63,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	**/
 	public function approve() {
 	  $comment = new CmsComment(Resquest::get("id"));
-	  if($comment->update_attributes(array("status"=>"1")) ) {
+	  if($comment->update_attributes(array("status"=>1)) ) {
 	    Session::add_message("Comment approved");
 	  }
 	  $this->redirect_to(array("action"=>"index"));
