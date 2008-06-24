@@ -223,9 +223,7 @@ class CMSAdminComponent extends WXControllerBase {
 	
 	protected function describe_model(){
 		$model_desc = $this->model->describe();
-		foreach($model_desc as $field){
-			$desc[] = $field['Field'];
-		}
+		foreach($model_desc as $field) $desc[] = $field['Field'];
 		return $desc;
 	}
 }
