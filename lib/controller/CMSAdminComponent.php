@@ -147,15 +147,13 @@ class CMSAdminComponent extends WXControllerBase {
 	    $this->index();
 	    return true;
 	  }
-	  $options = array("order"=>$this->get_order(), "limit"=>"30");
 	  if($this->filter_columns) {
 	    foreach($this->filter_columns as $filter) {
   	    $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
   	  }
 	    $conditions = ltrim($conditions, "OR");
-	    $options = array_merge($options, array("conditions"=>$conditions));
     }
-	  $this->all_rows = $this->model->find_all($options);
+	  $this->all_rows = $this->model->filter($conditions)->order($this->get_order())->limit(30)->all();
 		$this->list = $this->render_partial("list");
 	}
 
