@@ -59,11 +59,7 @@ class CmsApplicationController extends WXControllerBase{
 		//need to replace this with request method, once thats been made
 		$stack = $this->route_array;
 		foreach($stack as $key => $url){
-		  if(strpos($url, ".")) {
-		    $format = substr(strrchr($url,"."), 1);
-		    $url = substr($url, 0, strrpos($url, "."));
-		    $this->use_format=$format;
-		  }
+		  $this->set_formatting($url)
 			//only check numeric keys, ie not page or search terms && check its a section
 			if(is_numeric($key) && $this->find_section($url)){
 				$this->section_stack[] = $url;
@@ -78,8 +74,11 @@ class CmsApplicationController extends WXControllerBase{
 	
 	/**
 	 * Takes the url passed in and tries to find a section with a matching url
-	 * - if finds one, return just the 
-	 * @param string $url 
+	 * - if finds one, set the cms_seciton & return true
+	 * - if it finds more than one, then reverse stack, traverse back looking for matching parents & return true
+	 * - return false 
+	 * @param String $url 
+	 * @return Boolean
 	 */	
 	protected function find_section($url){
 		$section = new CmsSection;
@@ -97,17 +96,20 @@ class CmsApplicationController extends WXControllerBase{
 			return true;
 		}else return false;
 	}
-	
+	/**
+	 * big monster that finds content
+	 * - if the url exists (ie not false) then find content in following priority
+	 *   - content with correct url in the correct section
+	 *   - content with correct url, discounting the section
+	 *   - otherwise throw a 404 
+	 * - if url is false 
+	 *   - find all the content pages inside the current section
+	 * @param string $url 
+	 */	
 	protected function find_content($url){
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
-		if($url){
-		  if(strpos($url, ".")) {
-		    $format = substr(strrchr($url,"."), 1);
-		    $url = substr($url, 0, strrpos($url, "."));
-		    $this->use_format=$format;
-		  }
-		  
+		if($url){		  
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($this->is_admin_logged_in()) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
@@ -133,6 +135,14 @@ class CmsApplicationController extends WXControllerBase{
 			$this->crumbtrail[]=array("url"=>$url, "display"=>$path->title);
 		}
 		if(!is_array($this->cms_content)) $this->crumbtrail[] = array('url'=>$this->cms_content->permalink, 'display'=>$this->cms_content->title);
+	}
+	
+	protected function set_formatting($url){
+		if(strpos($url, ".")) {
+	    $format = substr(strrchr($url,"."), 1);
+	    $url = substr($url, 0, strrpos($url, "."));
+	    $this->use_format=$format;
+	  }
 	}
 	
 	/* used by old and new */
