@@ -1,7 +1,6 @@
 <?php
 
 class WildfireFile extends WaxModel {
-  
 
   public $primary_options = array("auto"=>false);
   
@@ -62,11 +61,20 @@ class WildfireFile extends WaxModel {
 		return $options;
 	}
 	
+	/**
+	 * permalink function returns the path to the show image function
+	 * @return string url
+	 * @param string $size 
+	 */	
 	public function permalink($size=110){
 		$ext = File::get_extension($this->filename);		
 		return "/show-image/".$this->id."/".$size.".".$ext;
 	}
-	
+	/**
+	 * show function - this is now moved from the contoller level so can differ for each model
+	 * NOTE: this function exits
+	 * @param string $size 
+	 */	
 	public function show($size=110){
 		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
 		$extension = File::get_extension($this->filename);
