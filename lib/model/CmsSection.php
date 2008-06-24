@@ -34,7 +34,7 @@ class CmsSection extends WaxTreeModel {
 		if(!$input) $input = $this->tree();
 		$collection = array();
 		foreach($input as $item){
-			$value = str_pad($item->title, strlen($item->title) + $item->get_level() +1, "^", STR_PAD_LEFT);
+			$value = str_pad($item->title, strlen($item->title) + $item->get_level()+1, "^", STR_PAD_LEFT);
 			$collection["{$item->id}"] = str_replace("^", $padding_char, $value);
 		}
 		return $collection;
@@ -56,7 +56,7 @@ class CmsSection extends WaxTreeModel {
 	}	
 	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections($parent_section = false) {
-		if(!$this->tree_array) $this->tree();
+		if(!$this->tree_array || $parent_section) $this->tree($parent_section);
 		return $this->tree_array;
 	}
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
