@@ -17,8 +17,8 @@ class CmsSection extends WaxTreeModel {
 		if(!$node && $this->root_node->id) $node = $this->root_node;
 		elseif(!$node && !$this->root_node->id) $node = $this->get_root();
 		$this->tree_array[] = $node;
-		if($children = $root->children){
-			foreach($root->children as $child){
+		if($children = $node->children){
+			foreach($node->children as $child){
 				if($newchildren = $child->children) $this->tree($child);
 				else $this->tree_array[] = $child;
 			}
@@ -34,7 +34,7 @@ class CmsSection extends WaxTreeModel {
 		if(!$input) $input = $this->tree();
 		$collection = array();
 		foreach($input as $item){
-			$value = str_pad($item->title, strlen($item->title) + $item->level(), "^", STR_PAD_LEFT);
+			$value = str_pad($item->title, strlen($item->title) + $item->get_level() +1, "^", STR_PAD_LEFT);
 			$collection["{$item->id}"] = str_replace("^", $padding_char, $value);
 		}
 		return $collection;
