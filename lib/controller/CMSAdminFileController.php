@@ -138,7 +138,10 @@ class CMSAdminFileController extends CMSAdminComponent {
   public function preview() {
     $this->image = new $this->model_class(url('id'));
   }
-  
+
+	/**
+	* Special conversion function - takes the details in the old cms switches it over the the new cms
+	**/
   public function port_ids() {
     $file = new CmsFile;
     $files = $file->find_all();
@@ -154,9 +157,9 @@ class CMSAdminFileController extends CMSAdminComponent {
     }
     exit;
   }
-  
-   
-  
+	/**
+	* Special conversion function - takes the details in the old cms switches it over the the new cms
+	**/
   public function port_content() {
     $content = new CmsContent;
     $articles = $content->find_all(array("order"=>"id ASC"));
