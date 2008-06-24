@@ -59,7 +59,8 @@ class CmsApplicationController extends WXControllerBase{
 		//need to replace this with request method, once thats been made
 		$stack = $this->route_array;
 		foreach($stack as $key => $url){
-		  $this->set_formatting($url)
+			//check the formatting - if found then it removes the extension
+		  $url = $this->set_formatting($url);
 			//only check numeric keys, ie not page or search terms && check its a section
 			if(is_numeric($key) && $this->find_section($url)){
 				$this->section_stack[] = $url;
@@ -104,6 +105,9 @@ class CmsApplicationController extends WXControllerBase{
 	 *   - otherwise throw a 404 
 	 * - if url is false 
 	 *   - find all the content pages inside the current section
+	 *
+	 * NOTE: If your logged in to the admin area - unpublished content items are accessible via the permalink, but will not show in lists
+	 *
 	 * @param string $url 
 	 */	
 	protected function find_content($url){
@@ -111,10 +115,10 @@ class CmsApplicationController extends WXControllerBase{
 		$logged_in = $this->is_admin_logged_in();
 		if($url){		  
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
-			if($this->is_admin_logged_in()) $res = $content->clear()->filter($filters)->all();
+			if($logged_in) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
 			if(count($res) == 0) {
-			  if($this->is_admin_logged_in()) $res = $content->clear()->filter(array('url'=>$url))->all();
+			  if($logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
 			  else $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
 		  }
 			if($res->count()>0) $this->cms_content = $res[0];
@@ -125,7 +129,10 @@ class CmsApplicationController extends WXControllerBase{
 			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
 		}
 	}
-	//use the path to root to create - new build crumb function
+	
+	/**
+	 * this function creates an internal crumb trail array, can be used for navigation etc
+	 */	
 	protected function build_crumb(){
 		if($this->cms_section->id) $path_to_root = array_reverse($this->cms_section->path_to_root());
 		else $path_to_root = array();
@@ -136,13 +143,18 @@ class CmsApplicationController extends WXControllerBase{
 		}
 		if(!is_array($this->cms_content)) $this->crumbtrail[] = array('url'=>$this->cms_content->permalink, 'display'=>$this->cms_content->title);
 	}
-	
+	/**
+	 * Uses the url passed in to determine what format, returns modified string
+	 * @param string $url 
+	 * @return string $url
+	 */	
 	protected function set_formatting($url){
 		if(strpos($url, ".")) {
 	    $format = substr(strrchr($url,"."), 1);
 	    $url = substr($url, 0, strrpos($url, "."));
 	    $this->use_format=$format;
 	  }
+		return $url;
 	}
 	
 	/* used by old and new */
@@ -182,12 +194,21 @@ class CmsApplicationController extends WXControllerBase{
 		} return false;
   }
 
-	/* used by old and new */
+	/**
+	 * check to see if the cms_content var is indeed a page  
+	 * @return void
+	 * @author charles marshall
+	 */	
 	protected function is_page() {
 	  if($this->cms_content instanceof CmsContent) return true;
 	  return false;
 	}
-	/* used by old and new */	
+	/**
+	 * decides what view should be used - has a more to less specific priority
+	 * - cms_[list|page]_CONTENTURL
+	 * - cms_SECTIONNAME_[list|page]
+	 * - cms_[list|page]
+	 */	
 	protected function pick_view() {		
 	  $sections = array_reverse($this->section_stack);
 	  if($this->is_page()) $type="page";
@@ -198,85 +219,32 @@ class CmsApplicationController extends WXControllerBase{
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$type. "_".$this->cms_content->url) ) $this->use_view =  "cms_".$type. "_".$this->cms_content->url;			
 	}
-  
+	
+  /**
+   * check to see if admin is logged in
+   * @return boolean
+   */  
   public function is_admin_logged_in(){
 		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
 		return $user->is_logged_in();
 	}
 
 
-	/**** OLD METHODS - WILL BE REMOVED SOON ****/
+	/**** OLD METHODS - WILL BE REMOVED SOON - FOR NOW RETURN FALSE ****/
 	protected function cms_check() {
-	  if($this->param("page")) $this->this_page=$this->param("page");
-	  if($this->is_public_method($this, WXInflections::underscore($this->action)) ) {
-	    if($this->action=="index") $this->section_stack[]="";
-	    else $this->section_stack[]=$this->action;
-	    return false;
-    }
-	  $url = $this->parse_urls();
-	  $content = array("section_id"=>$this->cms_section->id, "url"=>$url);
-	  $params = array();
-    if($this->per_page) {
-      $params["per_page"] = $this->per_page;
-      $params["page"] = $this->this_page;
-    } 
-    $this->get_content($content, $params);
-    $this->pick_view();
-		if($this->cms_content) $this->action = "cms_content";
-    if($this->is_page()) $this->cms_content->add_pageview();
-	}
-	
+	 return false;
+	}	
 	protected function parse_urls() {
-	  $stack = $this->route_array;
-    array_unshift($stack, $this->action);
-    foreach($stack as $k=>$v) {
-      if(is_numeric($k)) {
-        if($result = $this->get_section($v) ) {
-           $this->cms_section = $result;
-           $this->section_stack[]=$v;
-         }
-      }
-    }
-    $this->build_crumbtrail($this->section_stack);
-    return end($this->section_stack);
+	 return false;
 	}
 	protected function build_crumbtrail($route) {
-	  $url = "/";
-	  $this->crumbtrail[]=array("url"=>$url, "display"=>"Home");
-	  $section = new CmsSection;
-	  foreach($route as $v) {
-	    if($result = $section->find_by_url($v)) {
-	      $this->crumbtrail[]=array("url"=>$result->permalink, "display"=>$result->title);
-	    }
-	  }
+	 return false;
 	}
-	
-	/**
-	 *  @param $url Url to query for section
-	 *  @return CmsSection Object 
-	 */
 	protected function get_section($url) {
-	  $section = new CmsSection;
-	  $content = new CmsContent;
-	  $res = $section->filter(array("url"=>$url))->all();
-	  if(count($res)==1) return $res[0];
-	  elseif(count($res)>1) {
-	    $stack=array_reverse($this->section_stack);
-	    array_shift($stack);
-	    while($res[0]->parent->url !=$stack[0]) array_shift($res);
-	    return $res[0];
-	  }
-	  $id = $content->find_by_url($url)->cms_section_id;
-	  if($id == null) throw new WXRoutingException('404');
-    if($res = $section->find($id)) return $res;
-	  return false;
+	  return false
 	}
-	
 	protected function get_content($options = array(), $params=array()) {
-	  $model = WXInflections::camelize($this->content_table, 1);
-    $content = new $model;
-		$this->cms_content = $content->published_content($options['url'], $options['section_id'], $params);
-    
+	  return false;
 	}
 	
 }
