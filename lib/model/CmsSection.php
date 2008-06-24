@@ -4,6 +4,7 @@ class CmsSection extends WaxTreeModel {
 	
 	public $order_field = "order";
 	public $order_direction = "ASC";
+	public $tree_array = false;
 	
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -12,13 +13,25 @@ class CmsSection extends WaxTreeModel {
 		$this->define("url", "CharField", array('maxlength'=>255) );
 	}
 	
+	public function tree($node=false){
+		if(!$node && $this->root_node->id) $node = $this->root_node;
+		elseif(!$node && !$this->root_node->id) $node = $this->get_root();
+		$this->tree_array[] = $node;
+		if($children = $root->children){
+			foreach($root->children as $child){
+				if($newchildren = $child->children) $this->tree($child);
+				else $this->tree_array[] = $child;
+			}
+		}
+		return $this->tree_array;
+	}
+	
 	public function before_save() {
 		$this->url = WXInflections::to_url($this->title);
 	}	
 	
 	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
-		if(!$this->tree_array && !$input) $this->generate_tree();
-		if(!$input) $input = $this->tree_array;
+		if(!$input) $input = $this->tree();
 		$collection = array();
 		foreach($input as $item){
 			$value = str_pad($item->title, strlen($item->title) + $item->level(), "^", STR_PAD_LEFT);
@@ -30,9 +43,8 @@ class CmsSection extends WaxTreeModel {
 	public function permalink() {
 		$stack = array();
 		if(!$this->root_node->id) $this->get_root();
-		$root_id = $this->root_node->id;
 		//if this is the root section, return this url
-		if($this->id == $root_id) return "/".$this->url;
+		if($this->id == $this->root_node->id) return "/".$this->url;
 		//otherwise loop up the parent cols
 		else{
 			$url = "/";
@@ -44,7 +56,7 @@ class CmsSection extends WaxTreeModel {
 	}	
 	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections($parent_section = false) {
-		if(!$this->tree_array) $this->generate_tree();
+		if(!$this->tree_array) $this->tree();
 		return $this->tree_array;
 	}
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
@@ -62,9 +74,6 @@ class CmsSection extends WaxTreeModel {
 	}
 	/* dont think this is needed any more - leave it in for now, should be done by the field? */
 	public function prevent_orphans($information, $value){
-		/*if(!is_array($information) || !$value || $value == 1) return false;
-		$sql = 'UPDATE `' . $information['table'] .'` SET `'.$information['field']."` = '".$information['new_parent_id']."' WHERE `".$information['field']."` = $value";
-		$this->pdo->exec($sql);*/
 		return false;
 	}
 	/*** err - this subscriber stuff has been removed... ***/
