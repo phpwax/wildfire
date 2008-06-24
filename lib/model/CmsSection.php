@@ -17,7 +17,9 @@ class CmsSection extends WaxTreeModel {
 		if(!$node && $this->root_node->id) $node = $this->root_node;
 		elseif(!$node && !$this->root_node->id) $node = $this->get_root();
 		$this->tree_array[] = $node;
-		if($children = $node->children){
+		$children = $node->children;
+
+		if($children && count($children)){
 			foreach($node->children as $child){
 				if($newchildren = $child->children) $this->tree($child);
 				else $this->tree_array[] = $child;
@@ -55,8 +57,8 @@ class CmsSection extends WaxTreeModel {
 		return "";
 	}	
 	/* changed how this works...parent section is now longer used */
-	public function find_ordered_sections($parent_section = false) {
-		if(!$this->tree_array || $parent_section) $this->tree($parent_section);
+	public function find_ordered_sections() {
+		if(!$this->tree_array) $this->tree();
 		return $this->tree_array;
 	}
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
