@@ -36,17 +36,8 @@ class CMSAdminComponent extends WXControllerBase {
 	* @var array
 	**/
 	public $scaffold_columns = null;
-	public $filter_columns = null;
-	public $order_by_columns = array();
-	
-	/** 
-	* post delete function vars - no longer in use, replaced by the field model unlinking
-	*
-	* protected $run_post_delete = false;
-	* protected $post_delete_function = false;
-	* protected $post_delete_information = false;
-	*/
-	
+	public $filter_columns = null; //columns to use by the filter
+	public $order_by_columns = array();	
 	/** 
 	* Construct method, initialises authentication, default model and menu items
 	**/
