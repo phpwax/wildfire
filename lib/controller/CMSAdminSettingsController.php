@@ -91,7 +91,6 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 
 	}
 	
-	
   /**
    * work out any post data and set the database record in the config table
    */
