@@ -16,8 +16,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 		"date_published" => array()
   );
   public $filter_columns = array("title");
-	public $allowed_images = 3;
-	public $allowed_categories = true;
+	public $allowed_images = 3; //allows 3 images to be attached to a cms_content record
+	public $allowed_categories = true; //allows the use of categories
 	public $edit_author = false;
 	public $extra_content = array();
 	public $extra_content_options = array();
