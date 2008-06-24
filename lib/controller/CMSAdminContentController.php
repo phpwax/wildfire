@@ -26,13 +26,20 @@ class CMSAdminContentController extends CMSAdminComponent {
 	
 	
 	/**
-	* magic method to catch all if the action thats requested doesnt exist
+	* magic method to catch all if the action thats requested doesn't exist
+	* this function is used for the section filter drop down; which creates a url like /admin/content/section-url
+	* and this converts that into a filtered view of the content by the section specified
 	**/
 	public function method_missing() {
 	  if(!$page = $this->param("page")) $page=1;
 		$this->use_view="index";
 		$section = new CmsSection;
-		$sect_id = $section->find_by_url($this->action)->id;
+		/**
+		* find the section - if not default it to 1
+		**/
+		$section = $section->filter(array('url'=>$this->action))->first();
+		if($section) $sect_id = $section->id;
+		else $sect_id = 1;
 		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id) )->order("published DESC")->page($page, 10);
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
