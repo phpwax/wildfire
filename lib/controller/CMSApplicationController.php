@@ -241,7 +241,7 @@ class CmsApplicationController extends WXControllerBase{
 	 return false;
 	}
 	protected function get_section($url) {
-	  return false
+	  return false;
 	}
 	protected function get_content($options = array(), $params=array()) {
 	  return false;
