@@ -17,12 +17,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
 
-	
+	/**
+	* this is used to call the parent and then reset the sub menu - as its not used for this controller
+	**/
 	public function controller_global(){
 		parent::controller_global();
 		$this->sub_links = array();
 	}
-	
 	
 	public function fs() {
 	  $this->use_layout=false;
@@ -85,7 +86,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function download_file() {
 	  $this->use_layout=false;
-	  $this->get_file = new $this->model_class(url("id"));
+	  $this->get_file = new $this->model_class(Request::get("id"));
 	  File::stream_file($this->get_file->path.$this->get_file->filename);
 	}
 	
