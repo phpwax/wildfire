@@ -11,26 +11,26 @@ Autoloader::register_helpers();
 
 class CMSAdminComponent extends WXControllerBase {
 
-	public $all_modules = array();
-	public $module_name = null;											
-	public $model;	
-	protected $model_class;
-	public $model_name;
-	protected $access = "0";
-	protected $unauthorised_redirect="/admin/home/login";
-	protected $authorised_redirect="/admin/home/";
-	protected $unauthorised_message="Please login to continue";
-	public $current_user=false;
-	public $auth_database_table="wildfire_user";
-	public $use_plugin = "cms";
-	public $use_layout = "admin";
-	public $sub_links;
-	public $display_name = 'CMS';
-	public $list_limit = 20;
-	public $default_order = "id";
-	public $default_direction="ASC";
-	public $is_admin=false;
-	public $config;
+	public $all_modules = array(); //all available modules for this user
+	public $module_name = null;	//the name of this module										
+	public $model;	//the actuall database model to use
+	protected $model_class; //the class name - ie CmsContent
+	public $model_name;	//the db table name - ie cms_content
+	protected $access = "0"; //the required access level
+	protected $unauthorised_redirect="/admin/home/login"; //where to go to if user is not authorised
+	protected $authorised_redirect="/admin/home/"; //default location on successfull auth
+	protected $unauthorised_message="Please login to continue"; //status message
+	public $current_user=false; //the currently logged in 
+	public $auth_database_table="wildfire_user"; //the database table to use for authentication
+	public $use_plugin = "cms"; //the plugin
+	public $use_layout = "admin"; //the default layout to use
+	public $sub_links; //section sub menu is generated from these
+	public $display_name = 'CMS'; //display name of the module
+	public $list_limit = 20; //the limit to use in lists
+	public $default_order = "id"; //default order by field
+	public $default_direction="ASC"; //order by direction
+	public $is_admin=false; //flag set if the user is highest level admin
+	public $config; //config details
 	
 	/** scaffold columns can be overrided to specify what properties are listed
 	* @var array
