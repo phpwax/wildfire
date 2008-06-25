@@ -68,7 +68,7 @@ class WildfireFile extends WaxModel {
 	 */	
 	public function permalink($size=110){
 		$ext = File::get_extension($this->filename);		
-		return "/show-image/".$this->id."/".$size.".".$ext;
+		return "/show_image/".$this->id."/".$size.".".$ext;
 	}
 	/**
 	 * show function - this is now moved from the contoller level so can differ for each model
