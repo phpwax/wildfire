@@ -60,31 +60,7 @@ class CmsSection extends WaxTreeModel {
 		if(!$this->tree_array) $this->tree_array = $this->tree();
 		return $this->tree_array;
 	}
-	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
-	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
-		return false;
-	}
-	/* shouldnt be in use - returns false */
-	public function template_style() {
-		return false;
- 	}
-	
-	/* not used any more -- returns empty array */
-	public function filtered_sections($id, $params=array()) {
-		return array();
-	}
-	/* dont think this is needed any more - leave it in for now, should be done by the field? */
-	public function prevent_orphans($information, $value){
-		return false;
-	}
-	/*** err - this subscriber stuff has been removed... ***/
-	public function get_subscribers($handle){
-		return false;
-	}
-	
-	public function get_subscribe_info($handle){
-		return false;
-	}
+
 
 }
 
