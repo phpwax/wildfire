@@ -1,4 +1,7 @@
 <?php
+/**
+ * cms comments
+ */
 
 class CmsComment extends WaxModel {
   

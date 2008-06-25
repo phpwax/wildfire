@@ -57,7 +57,7 @@ class CmsSection extends WaxTreeModel {
 	}	
 	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections() {
-		if(!$this->tree_array) $this->tree();
+		if(!$this->tree_array) $this->tree_array = $this->tree();
 		return $this->tree_array;
 	}
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
