@@ -77,6 +77,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function permalink() {
+	  if(!$this->section) return $this->url;
 		return $this->section->permalink()."/".$this->url;
 	}
 	public function date_published(){
