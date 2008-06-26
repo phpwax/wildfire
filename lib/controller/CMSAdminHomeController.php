@@ -69,7 +69,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	  $this->dash_module = $this->render_partial("stat_dash");
  	}
 	/**
-	* help pages - content is generated via partials
+	* help pages - content is generated via partials (we really should write some more of these...)
 	**/
 	public function support() { 
 		$this->display_action_name = 'Support';

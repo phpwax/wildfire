@@ -21,9 +21,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	}
 	/**
 	 * index page - list of all sections
-	 * @return void
-	 */
-	
+	 */	
 	public function index() {
 		parent::index();
 		$this->all_rows = $this->model->find_ordered_sections();

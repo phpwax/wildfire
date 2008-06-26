@@ -157,7 +157,6 @@ class CmsApplicationController extends WXControllerBase{
 		return $url;
 	}
 	
-	/* used by old and new */
 	public function show_image() {
 	  $options = Request::get("params");
 	  $img_id = Request::get("id");

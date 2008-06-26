@@ -4,9 +4,10 @@
 * Uses database to provide authentication
 * @package PHP-WAX CMS
 */
-
+/**
+ * load in the cms helper file
+ */
 Autoloader::include_from_registry('CMSHelper');
-Autoloader::include_from_registry('CMSAssetTagHelper');
 Autoloader::register_helpers();
 
 class CMSAdminComponent extends WXControllerBase {

@@ -22,7 +22,6 @@
     <fieldset id="content_options">
       <?=large(text_field($model, "name"))?>
     	<hr />
-      <?=large(select($model, "parent_id", $model->tree_collection, array(), "Parent Category"))?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
