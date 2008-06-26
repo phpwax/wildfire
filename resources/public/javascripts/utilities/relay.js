@@ -1195,6 +1195,6 @@ windowLoader = function () {
 	
 }
 
-
+//Attach to the window loader
 
 window.onload = windowLoader;
