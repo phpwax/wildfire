@@ -68,7 +68,7 @@ class WildfireFile extends WaxModel {
 	 */	
 	public function permalink($size=110){
 		$ext = File::get_extension($this->filename);		
-		return "/show-image/".$this->id."/".$size.".".$ext;
+		return "/show_image/".$this->id."/".$size.".".$ext;
 	}
 	/**
 	 * show function - this is now moved from the contoller level so can differ for each model
@@ -81,7 +81,7 @@ class WildfireFile extends WaxModel {
 		$file = CACHE_DIR.$this->id."_".$size . ".".$extension;
 		//slash any spaces
 		$source=preg_replace("/[\s]/", "\ ", $source);
-
+    if(!is_readable($source)) error_log("FATAL IMAGE ERROR");
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
 				$icon_type = $extension;
