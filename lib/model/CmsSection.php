@@ -38,18 +38,10 @@ class CmsSection extends WaxTreeModel {
 	}
 	
 	public function permalink() {
-		$stack = array();
-		if(!$this->root_node->id) $this->get_root();
-		//if this is the root section, return this url
-		if($this->id == $this->root_node->id) return "/".$this->url;
-		//otherwise loop up the parent cols
-		else{
-			$url = "/";
-			$path = array_reverse($this->path_to_root());
-			foreach($path as $object) if($object->url != "home") $url .= $object->url."/";
-			return substr($url, 0, -1);
-		}
-		return "";
+		$path = array_reverse($this->path_to_root());
+		foreach($path as $object)
+		  $url .= "/".$object->url;
+		return $url;
 	}	
 	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections() {
