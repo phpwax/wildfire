@@ -13,18 +13,14 @@ class CmsSection extends WaxTreeModel {
 		$this->define("url", "CharField", array('maxlength'=>255) );
 	}
 	
-	public function tree($node=false){
-		if(!$node && $this->root_node->id) $node = $this->root_node;
-		elseif(!$node && !$this->root_node->id) $node = $this->get_root();
-		$this->tree_array[] = $node;
-		$children = $node->children;
-		if($children && count($children) ){
-			foreach($node->children as $child){
-				if($newchildren = $child->children) $this->tree($child);
-				else $this->tree_array[] = $child;
-			}
-		}
-		return $this->tree_array;
+	public function tree($nodes = false){
+    if($this->tree_array && !$nodes) return $this->tree_array;
+    if(!$nodes) $nodes = $this->roots;
+    foreach($nodes as $node){
+      $this->tree_array[] = $node;
+      $this->tree($node->children);
+    }
+    return $this->tree_array;
 	}
 	
 	public function before_save() {
