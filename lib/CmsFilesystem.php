@@ -578,6 +578,7 @@ class CmsFilesystem {
   		#echo "$code";
 
   		$result1 = exec($code);
+  		error_log($result1);
   		$src_img=($file2);
   		$deletefile = $file2;
 		
