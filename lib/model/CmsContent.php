@@ -139,6 +139,7 @@ class CmsContent extends WaxModel {
 
 	public function image($number) {
 	  $images = $this->images;
+	  print_r($images); exit;
 	  if($images->count()) return $this->images[$number-1];
 	  return false;
 	}
