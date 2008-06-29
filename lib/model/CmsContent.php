@@ -142,7 +142,8 @@ class CmsContent extends WaxModel {
 
 	public function image($number) {
 	  $images = $this->images;
-	  if($images->count()) return $images[$number-1];
+	  error_log("Fetched images for ".$this->id);
+	  if($images->count()) return $this->images[$number-1];
 	  return false;
 	}
 	public function add_pageview() {
