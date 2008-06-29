@@ -142,7 +142,7 @@ class CmsContent extends WaxModel {
 
 	public function image($number) {
 	  $images = $this->images;
-	  if($images->count()) return $images->[$number-1];
+	  if($images->count()) return $images[$number-1];
 	  return false;
 	}
 	public function add_pageview() {
