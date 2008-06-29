@@ -408,7 +408,7 @@ class CmsFilesystem {
   	$fileinfo['flags']		=     $file['flags'];
   	$fileinfo['type']		=       $file['type'];
   	$fileinfo['uploader']		=   $file['uploader'];
-  	$fileinfo['path']		=       $file['path'];
+  	$fileinfo['path']		=       PUBLIC_DIR.$file['rpath'];
   	$fileinfo['virtualpath']	= $file['rpath'];
   	$fileinfo['size']		=       $this->filesize_format($file['size']);
 	
