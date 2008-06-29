@@ -77,7 +77,6 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function permalink() {
-	  if(!$this->section) return "/".$this->url;
 	  $section = new CmsSection($this->cms_section_id);
 		return $section->permalink()."/".$this->url;
 	}
