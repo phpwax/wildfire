@@ -41,7 +41,7 @@ class CmsApplicationController extends WXControllerBase{
 		//set the action
 		if($this->cms_content) {
 			$this->action = "cms_content";
-			//$this->build_crumb();
+			$this->build_crumb();
 		}
 		//incremeant the page views counter
     if($this->is_page()) $this->cms_content->add_pageview();
