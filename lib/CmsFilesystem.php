@@ -582,7 +582,6 @@ class CmsFilesystem {
   		$deletefile = $file2;
 		
   		$this->display_image($file2);
-  		exit; 		
   		if($deletefile > '') unlink($deletefile);
   		exit;
   	}
