@@ -140,7 +140,6 @@ class CmsContent extends WaxModel {
 
 	public function image($number) {
 	  $images = $this->images;
-	  error_log("Fetched images for ".$this->id);
 	  if($images->count()) return $this->images[$number-1];
 	  return false;
 	}
