@@ -39,7 +39,6 @@ class CmsSection extends WaxTreeModel {
 	
 	public function permalink() {
 		$path = array_reverse($this->path_to_root());
-		print_r($path); exit;
 		foreach($path as $sec_id) {
 		  $sec = new CmsSection($sec_id);
 		  $url .= "/".$sec->url;
