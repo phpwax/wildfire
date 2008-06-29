@@ -121,9 +121,7 @@ class CmsContent extends WaxModel {
 		
   }
 	public function extra_content_value($name) {
-		$content = $this->more_content;
-		if($content) return CmsTextFilter::filter("before_output", $content->filter(array('name'=>$name))->first()->extra_content);
-		else return "";
+		return CmsTextFilter::filter("before_output", $this->more_content->filter(array('name'=>$name))->first()->extra_content);
   }
 	
 	public function save_extra_content() {
