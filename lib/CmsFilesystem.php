@@ -578,12 +578,11 @@ class CmsFilesystem {
   		#echo "$code";
 
   		$result1 = exec($code);
-  		error_log($code);
   		$src_img=($file2);
   		$deletefile = $file2;
 		
-
-  		$this->display_image($file2);  		
+  		$this->display_image($file2);
+  		exit; 		
   		if($deletefile > '') unlink($deletefile);
   		exit;
   	}
@@ -593,7 +592,6 @@ class CmsFilesystem {
     Render Image
   */
   function display_image($image) {
-    error_log($image);
   	$info=getimagesize($image);
   	$mime = image_type_to_mime_type($info[2]);
   	$this->display_asset($image, $mime);
