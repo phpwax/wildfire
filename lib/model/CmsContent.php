@@ -35,7 +35,7 @@ class CmsContent extends WaxModel {
 	}
 	public function sections() {
 		$section = new CmsSection;
-		return $section->find_ordered_sections();
+		return $section->all();
 	}
 	public function section_name() {
 		return $this->section->title;
