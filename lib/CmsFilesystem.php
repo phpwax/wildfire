@@ -592,6 +592,7 @@ class CmsFilesystem {
     Render Image
   */
   function display_image($image) {
+    error_log($image);
   	$info=getimagesize($image);
   	$mime = image_type_to_mime_type($info[2]);
   	$this->display_asset($image, $mime);
