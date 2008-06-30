@@ -21,7 +21,8 @@
       <strong>View by section: </strong>
       <select name="section_view" onchange="location.href=section_browser.section_view.options[selectedIndex].value">
         <option value="/admin/content/">All sections</option>
-        <?foreach($model->sections as $section):?>
+        <?$section = new CmsSection?>
+        <?foreach($section->all() as $section):?>
 					<?
 					$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
 					$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);

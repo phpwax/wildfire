@@ -52,7 +52,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	 * turn a comment into spam (no, not the meat product...)
 	 */	
 	public function spam() {
-	  $comment = new CmsComment(Resquest::get("id"));
+	  $comment = new CmsComment(Request::get("id"));
 	  if($comment->update_attributes(array("status"=>2)) ) {
 	    Session::add_message("Comment marked as spam");
 	  }
@@ -62,7 +62,7 @@ class CMSAdminCommentController extends CMSAdminComponent {
 	 * approve a comment - so set its status to 1 
 	**/
 	public function approve() {
-	  $comment = new CmsComment(Resquest::get("id"));
+	  $comment = new CmsComment(Request::get("id"));
 	  if($comment->update_attributes(array("status"=>1)) ) {
 	    Session::add_message("Comment approved");
 	  }

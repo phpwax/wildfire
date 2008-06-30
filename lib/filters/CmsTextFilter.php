@@ -102,7 +102,7 @@ class CmsTextFilter  {
       <param name="movie" value="http://www.youtube.com/v/$1"></param>
       <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" width="425" height="350"></embed>
     </object>';
-    $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9]*)<\/a>/u", $replace, $text);
+    $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
     $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/", $replace, $text);
     return preg_replace("/<!--yt_video-->([^\s<]*)/", $replace, $text);
   }

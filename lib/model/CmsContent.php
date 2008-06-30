@@ -35,7 +35,7 @@ class CmsContent extends WaxModel {
 	}
 	public function sections() {
 		$section = new CmsSection;
-		return $section->find_ordered_sections();
+		return $section->all();
 	}
 	public function section_name() {
 		return $this->section->title;
@@ -77,8 +77,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function permalink() {
-	  if(!$this->section) return $this->url;
-		return $this->section->permalink()."/".$this->url;
+	  return $this->section->permalink()."/".$this->url;
 	}
 	public function date_published(){
 		return date('d/m/Y', strtotime($this->published));
@@ -121,9 +120,7 @@ class CmsContent extends WaxModel {
 		
   }
 	public function extra_content_value($name) {
-		$content = $this->more_content;
-		if($content) return CmsTextFilter::filter("before_output", $content->filter(array('name'=>$name))->first()->extra_content);
-		else return "";
+		return CmsTextFilter::filter("before_output", $this->more_content->filter(array('name'=>$name))->first()->extra_content);
   }
 	
 	public function save_extra_content() {
@@ -141,8 +138,8 @@ class CmsContent extends WaxModel {
   }
 
 	public function image($number) {
-	  $images = $this->images;
-	  if($images->count()) return $images->offset($number-1)->limit(1)->first();
+	  if($this->images) return $this->images[$number-1];
+	  return false;
 	}
 	public function add_pageview() {
 		$this->pageviews = intval($this->pageviews) + 1;

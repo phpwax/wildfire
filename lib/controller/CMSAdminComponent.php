@@ -34,6 +34,7 @@ class CMSAdminComponent extends WXControllerBase {
 	public $config; //config details
 	public $allowed_images = false; //if a number then allows the use images to be attached (cms_content only by default)
 	public $allowed_categories = false; //if true then allows the use of categories (cms_content only by default)
+
 	/** scaffold columns can be overrided to specify what properties are listed
 	* @var array
 	**/

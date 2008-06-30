@@ -181,8 +181,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  $content->update_attributes(array("content"=>$_POST["content"]));
 	  echo date("H:i:s");
 	  exit;
-	}
-	
+	}	
 	
 	
 	

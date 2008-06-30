@@ -13,18 +13,14 @@ class CmsSection extends WaxTreeModel {
 		$this->define("url", "CharField", array('maxlength'=>255) );
 	}
 	
-	public function tree($node=false){
-		if(!$node && $this->root_node->id) $node = $this->root_node;
-		elseif(!$node && !$this->root_node->id) $node = $this->get_root();
-		$this->tree_array[] = $node;
-		$children = $node->children;
-		if($children && count($children) ){
-			foreach($node->children as $child){
-				if($newchildren = $child->children) $this->tree($child);
-				else $this->tree_array[] = $child;
-			}
-		}
-		return $this->tree_array;
+	public function tree($nodes = false){
+    if($this->tree_array && !$nodes) return $this->tree_array;
+    if(!$nodes) $nodes = $this->roots;
+    foreach($nodes as $node){
+      $this->tree_array[] = $node;
+      $this->tree($node->children);
+    }
+    return $this->tree_array;
 	}
 	
 	public function before_save() {
@@ -42,18 +38,13 @@ class CmsSection extends WaxTreeModel {
 	}
 	
 	public function permalink() {
-		$stack = array();
-		if(!$this->root_node->id) $this->get_root();
-		//if this is the root section, return this url
-		if($this->id == $this->root_node->id) return "/".$this->url;
-		//otherwise loop up the parent cols
-		else{
-			$url = "/";
-			$path = array_reverse($this->path_to_root());
-			foreach($path as $object) if($object->url != "home") $url .= $object->url."/";
-			return substr($url, 0, -1);
-		}
-		return "";
+		$path = array_reverse($this->path_to_root());
+		foreach($path as $sec_id) {
+		  $sec = new CmsSection($sec_id);
+		  $url .= "/".$sec->url;
+	  }
+		  $url = str_replace("/home", "", $url);
+		return $url;
 	}	
 	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections() {
