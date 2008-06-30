@@ -78,8 +78,8 @@ class CmsContent extends WaxModel {
 	
 	public function permalink() {
 	  $sec = $this->section;
-	  echo $sec->permalink().$this->url; exit;
-		return $this->section->permalink()."/".$this->url;
+	  $perm =  $sec->permalink()."/".$this->url;
+		return $perm;
 	}
 	public function date_published(){
 		return date('d/m/Y', strtotime($this->published));
