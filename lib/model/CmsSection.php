@@ -38,14 +38,12 @@ class CmsSection extends WaxTreeModel {
 	}
 	
 	public function permalink() {
-		$path = array_reverse($this->path_to_root());
-		foreach($path as $sec_id) {
-		  $sec = new CmsSection($sec_id);
-		  $url .= "/".$sec->url;
-	  }
-		  $url = str_replace("/home", "", $url);
-		return $url;
-	}	
+      $path = array_reverse($this->path_to_root());
+      foreach($path as $object)
+        $url .= "/".$object->url;
+        $url = str_replace("/home", "", $url);
+      return $url;
+    }
 	/* changed how this works...parent section is now longer used */
 	public function find_ordered_sections() {
 		if(!$this->tree_array) $this->tree_array = $this->tree();
