@@ -54,10 +54,12 @@ class WildfireFile extends WaxModel {
 		$dir = $fs->defaultFileStore.$fs->relativepath;
 		$options = content_tag("option", "Your Folder", array("value"=>$fs->relativepath));
 		$folders = File::get_folders($dir);
-		foreach($folders as $folder) {
-	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
-	    $options .= content_tag("option", $folder["name"], array("value"=>$path));
-	  }
+		if(is_array($folders)){
+  		foreach($folders as $folder) {
+  	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
+  	    $options .= content_tag("option", $folder["name"], array("value"=>$path));
+  	  }
+    }
 		return $options;
 	}
 	
