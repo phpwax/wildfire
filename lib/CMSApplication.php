@@ -25,8 +25,13 @@ class CMSApplication {
 		self::$modules[$name] = $values;
 	}
 	
-	static public function get_modules() {
-		return self::$modules;
+	static public function get_modules($for_display=false) {
+		if(!$for_display) return self::$modules;
+		else{
+			$modules = self::$modules;
+			foreach($modules as $name => $settings) if($settings['dont_display']) unset($modules[$name]);
+			return $modules;
+		}
 	}
 	
 	static public function get_module($name) {

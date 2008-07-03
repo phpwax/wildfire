@@ -56,8 +56,8 @@ class CMSAdminComponent extends WXControllerBase {
 		**/
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->configure_modules();
-		$this->all_modules = CMSApplication::get_modules();
-		if(!array_key_exists($this->module_name,$this->all_modules)){
+		$this->all_modules = CMSApplication::get_modules(true);
+		if(!array_key_exists($this->module_name,CMSApplication::get_modules())){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
