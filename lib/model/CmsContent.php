@@ -10,10 +10,10 @@ class CmsContent extends WaxModel {
 		$this->define("status", "IntegerField", array('maxlength'=>2));
 		$this->define("published", "DateTimeField");
 		$this->define("expires", "DateTimeField");
-		$this->define("date_modified", "DateTimeField");
-		$this->define("date_created", "DateTimeField");
+		$this->define("date_modified", "DateTimeField", array("editable"=>false));
+		$this->define("date_created", "DateTimeField", array("editable"=>false));
 		$this->define("sort", "IntegerField", array('maxlength'=>3));
-		$this->define("pageviews", "IntegerField", array('maxlength'=>5));
+		$this->define("pageviews", "IntegerField", array('maxlength'=>11));
 		$this->define("url", "CharField", array('maxlength'=>255,"unique"=>true));
 		//used in conversion
 		$this->define("oldid", "IntegerField");
