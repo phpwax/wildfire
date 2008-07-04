@@ -18,6 +18,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	**/
 	public function controller_global() {
 		$this->tree_collection = $this->model->sections_as_collection();
+		array_unshift($this->tree_collection, "None");
 	}
 	/**
 	 * index page - list of all sections
