@@ -152,7 +152,7 @@ class CmsContent extends WaxModel {
   
   public function scope_published() {
     $this->filter(array("status"=>"1"));
-    $this->filter("(DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))");
+    $this->filter("(DATE_FORMAT(`published`, '%Y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%Y%m%d%H%i'))");
     $this->order("UNIX_TIMESTAMP(published) DESC");
   }
 
