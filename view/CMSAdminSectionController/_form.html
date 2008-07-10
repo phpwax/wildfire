@@ -22,9 +22,7 @@
     <fieldset id="content_options">
       <?=large(text_field($model, "title"))?>
     	<?=form_divider()?>
-    	<?if($model->id =="1") $options = array("disabled"=>true);
-    	else $options = array();?>
-      <?=large(select($model, "parent_id", $tree_collection, $options, "Parent Category"))?>
+      <?=large(select($model, "parent_id", $tree_collection, array(), "Parent Section"))?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
