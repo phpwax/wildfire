@@ -46,7 +46,7 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function url() {
-	  return "/".$this->rpath.$this->filename;
+	  return "/".$this->rpath."/".$this->filename;
 	}
 	
 	public function folder_options(){
