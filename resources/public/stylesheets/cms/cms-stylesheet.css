@@ -743,9 +743,8 @@ li.pagination_link a {
 #item_list_container {
   margin:0;
 }
-#item_list_container tbody tr td {
-  background-color:#FFF;
-  border-bottom:1px solid #f5f5f5;
+#item_list_container tbody td {
+  border-bottom:2px solid #f5f5f5;
 }
 #item_list_container thead th {
   background-color:transparent !important;
@@ -778,7 +777,7 @@ li.pagination_link a {
 #item_list_container tbody .highlight_col {
   background-color:#D1D1D1;
 }
-
+#item_list_container tr { background-color:#fff; }  
 #item_list_container tr:nth-child(even) { background-color:#f7f9fc; }  
 
 #item_list_container #list_heading {
