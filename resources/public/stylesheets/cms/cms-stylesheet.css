@@ -551,22 +551,25 @@ PAGINATION STYLES
   padding:2px 5px;
 }
 .pagination li.pagination_link a, .pagination span.disabled {
-  border:1px solid #8ea8cb;
+  border:1px solid #e1e9f4;
 }
 
 li.pagination_link a {
   font-weight:bold;
   text-decoration:none;
-  color:#105bbb !important;
+  color:#5a83bf !important;
 }
 .pagination span.disabled {
-  border:1px solid #C1C1C1;
+  border:1px solid #e1e9f4;
   color:#C1C1C1;
+  display:none;
 }
 .pagination_link span.current {
-  background:#8ea8cb;
-  color:white;
-  border:1px solid #8ea8cb;
+  color:#5a83bf;
+  font-weight:bold;
+  border:0;
+  display:inline;
+  font-size:107%;
 }
 .pagination li.pagination_link a:hover {
   color:white !important;
@@ -736,9 +739,18 @@ li.pagination_link a {
 .filter-item {
   float:left;
 }
+
 #item_list_container {
-  background:white;
-  padding:1px;
+  margin:0;
+}
+#item_list_container tbody tr td {
+  background-color:#FFF;
+  border-bottom:1px solid #f5f5f5;
+}
+#item_list_container thead th {
+  background-color:transparent !important;
+  font-size:93%;
+  line-height:290%;
 }
 #item_list_container tbody {
   font-size:85%;
@@ -746,10 +758,16 @@ li.pagination_link a {
 #item_list_container thead .column {
   background-image:url(../../images/cms/table_sort.gif);
   background-repeat:no-repeat;
-  background-position:3px 4px;
-  padding-left:15px;
+  background-position:10px center;
+  padding-left:25px;
   color:#E1E1E1 !important;
   cursor:hand;
+}
+#item_list_container tbody .column {
+  border-right:1px solid #dedede;
+}
+#item_list_container tbody .last {
+  border:none;
 }
 #item_list_container thead .descending {
   background-image:url(../../images/cms/table_sort_desc.gif);
@@ -761,8 +779,29 @@ li.pagination_link a {
   background-color:#D1D1D1;
 }
 
-#item_list_container tr:nth-child(even) { background-color:#E6E6E6; }  
+#item_list_container tr:nth-child(even) { background-color:#f7f9fc; }  
 
+#item_list_container #list_heading {
+  background:url(../../images/cms/table_head_bg.gif) repeat-x;
+  border-bottom:1px solid #DEDEDE;
+}
+#item_list_container td a {
+  color:#333333;
+  font-weight:normal;
+}
+#item_list_container td a:hover {
+  color:#254c84;
+  text-decoration:underline;
+}
+#top_pagiation {
+  float:right;
+  padding-right:25px;
+}
+#bottom_pagination {
+  border-top:1px solid #dedede;
+  background:white;
+  padding:0 10px 5px 20px;
+}
 
 #preview_pane {
   margin:0;

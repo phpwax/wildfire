@@ -10,7 +10,7 @@ class CMSAdminCategoryController extends CMSAdminComponent {
 	public $model_name = "cms_category";													
 	public $display_name = "Site Categories";
 	public $scaffold_columns = array(
-    "name"   =>array(),
+    "name"   =>array("link"=>"edit"),
   );
   public $filter_columns = array("name");
 	/**

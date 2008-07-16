@@ -1,13 +1,14 @@
 <!-- Dependencies --> 
 <?=javascript_asset("jquery", "jquery.tablesort")?>
 
+<div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
+
 <?=$filter_block_partial?>
 
-<?=paginate_links($all_rows, "2")?>
 
 <table id="item_list_container" class="sortable">
   <thead>
-    <tr id ="list_heading">
+    <tr id="list_heading">
       <?foreach($scaffold_columns as $column=>$params):?>
         <th class="column"><?=humanize($column)?></th>
       <?endforeach?> 
@@ -22,4 +23,6 @@
 <?if(count($all_rows)<1):?>
   No items available
 <?endif?>
-<?=paginate_links($all_rows, "2")?>
+<div id="bottom_pagination">
+  <?=paginate_links($all_rows, "2")?>
+</div>

@@ -10,10 +10,10 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $display_name = "Site Content";
 	
 	public $scaffold_columns = array(
-    "title"   =>array(),
+    "title"   =>array("link"=>"edit"),
     "by" => array(),
-		"section_name" => array(),
-		"date_published" => array()
+		"section_name" => array("display"=>"Section"),
+		"date_published" => array("display"=>"Published")
   );
   public $filter_columns = array("title");
 	public $allowed_images = 3; //allows 3 images to be attached to a cms_content record
