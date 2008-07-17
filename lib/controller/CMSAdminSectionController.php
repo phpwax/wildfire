@@ -18,7 +18,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	**/
 	public function controller_global() {
 		$this->tree_collection = $this->model->sections_as_collection();
-		array_unshift($this->tree_collection, "None");
+		if(count($this->tree_collection)) array_unshift($this->tree_collection, "None");
 	}
 	/**
 	 * index page - list of all sections
@@ -26,6 +26,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	public function index() {
 		parent::index();
 		$this->all_rows = $this->model->find_ordered_sections();
+		if(!$this->all_rows) $this->all_rows = array();
 		$this->list = $this->render_partial("list");
 	}
 

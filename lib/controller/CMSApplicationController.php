@@ -111,6 +111,7 @@ class CmsApplicationController extends WXControllerBase{
 	 * @param string $url 
 	 */	
 	protected function find_content($url){
+
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
 		if($url){		  
@@ -121,7 +122,7 @@ class CmsApplicationController extends WXControllerBase{
 			  if($logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
 			  else $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
 		  }
-			if($res->count()>0) $this->cms_content = $res[0];
+			if($res->count() > 0) $this->cms_content = $res[0];
 			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
 			$filter = "`cms_section_id` = '".$this->cms_section->id."'";	

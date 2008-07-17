@@ -30,6 +30,7 @@ class CmsSection extends WaxTreeModel {
 	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
 		if(!$input) $input = $this->tree();
 		$collection = array();
+		if(!$input) return $collection;
 		foreach($input as $item){
 			$value = str_pad($item->title, strlen($item->title) + $item->get_level()+1, "^", STR_PAD_LEFT);
 			$collection["{$item->id}"] = str_replace("^", $padding_char, $value);
