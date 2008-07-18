@@ -143,7 +143,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->page->categories = $category;
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
-		if(!$this->all_categories = $cat->order("parent_id ASC, name ASC")->all() ) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");
 	}
 	/**
@@ -157,7 +157,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->page->categories->unlink($category);
     if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
-		if(!$this->all_categories = $cat->order("parent_id ASC, name ASC")->all() ) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");	
 	}
 	/**
