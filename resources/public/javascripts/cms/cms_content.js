@@ -106,10 +106,10 @@ $(document).ready(function(event) {
   	{
   	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
   		ondrop:	function (drag) {
-  			$.post("../../add_image/"+content_page_id+"?order="+$(this).attr("id").substr(8), 
-				  {id: drag.id},
+  			$.post("../../add_image/"+content_page_id, 
+				  {id: drag.id, order: $(this).attr("id").substr(8)},
           function(response) {
-            $("#dropzone"+get_query_var(this.url,'order')).html(response);
+            $("#dropzone"+get_query_var("?" + this.data,'order')).html(response);
             initialise_images();
           }
         )
