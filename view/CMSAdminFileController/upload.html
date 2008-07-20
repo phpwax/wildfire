@@ -9,23 +9,24 @@
     init_upload();  
 </script>
 
-<div id="content">
-	<h2>Advanced File Upload</h2>
-	<form id="form1" action="index.php" method="post" enctype="multipart/form-data">
-	  <fieldset>
-      <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to folder?"))?>
-      <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images a caption (optional)"))?>
-    </fieldset>
+  <div id="advanced_uploader" class="clearfix">
+  	<h2>Choose Your Files To Upload</h2>
+  	<form id="form1" action="index.php" method="post" enctype="multipart/form-data">
+	      <fieldset class="flash" id="fsUploadProgress">
+
+    		</fieldset>
+        <div id="divStatus">Click start to upload files</div>
+    		
+    		<fieldset>
+      	<input type="button" value="Add Files" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
+  			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
+        <hr />
+        <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to a folder?"))?>
+        <hr />
+        <?=medium(text_area($model, "description", array("rows"=>"3"), "Give these images an optional description"))?>
+        <hr />
+  		  </fieldset>
+      <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); swfu.startUpload(); return false' />
       
-		<fieldset class="flash" id="fsUploadProgress">
-			<legend>Upload Queue</legend>
-		</fieldset>
-		<div id="divStatus">0 Files Uploaded</div>
-			<div>
-				<input type="button" value="Upload file (Max 100 MB)" onclick="set_post_params(); swfu.selectFiles()" style="font-size: 8pt;" />
-				<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
-
-			</div>
-
-	</form>
-</div>
+  	</form>
+  </div>

@@ -104,9 +104,11 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->page = new $this->model_class(WaxUrl::get("id"));
 		//images
 		if(!$attached_images = $this->page->images) $attached_images=array();
-		foreach($attached_images as $image){
-		  $this->attached_images[$this->page->get_col("images")->join_model->filter(array("wildfire_file_id" => $image->primval))->first()->order_by] = $image;
+		foreach($attached_images as $count=>$image){
+		  if(!$order = $this->page->get_col("images")->join_model->filter(array("wildfire_file_id" => $image->primval))->first()->order_by) $order=$count;
+		  $this->attached_images[$order] = $image;
 		}
+
 		//categories assocaited
 		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
