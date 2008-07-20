@@ -49,6 +49,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 	**/
 	public function index() {
 	  if(!$page = $this->param("page")) $page=1;
+	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
+	  
 		/** 
 		*	remove temporary files 
 		*	- now using the date_created field to make sure that only files older than an hour created by the logged in user will be deleted. 
