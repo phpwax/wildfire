@@ -138,7 +138,6 @@ p{
   text-decoration:underline;
 }
 #sub-navigation-container {
-  background:#DEDEDE;
   clear:both;
   font-size:92%;
   min-height:2em;
@@ -1005,7 +1004,7 @@ li.pagination_link a {
 }
 
 #sub-navigation-container {
-  background:#cfcfcf;
+  background:#CFCFCF url(../../images/cms/subnav_bg.gif);
   border-bottom:1px solid #989898;
   padding-top:8px;
 }
