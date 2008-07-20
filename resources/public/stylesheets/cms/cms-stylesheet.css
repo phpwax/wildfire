@@ -1004,7 +1004,7 @@ li.pagination_link a {
 }
 
 #sub-navigation-container {
-  background:#CFCFCF url(../../images/cms/subnav_bg.gif);
+  background:#f0f0f0 url(../../images/cms/subnav_bg.gif) repeat-x bottom center;
   border-bottom:1px solid #989898;
   padding-top:8px;
 }
