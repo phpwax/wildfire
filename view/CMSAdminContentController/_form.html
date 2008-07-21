@@ -14,7 +14,7 @@
     <ul class="tabs-nav">
       <li><a href="#section-1"><?=text_field($model, "title", array(), false)?></a></li>
       <li><a href="#section-2" id="image_tab_link">Add Image(s)</a></li>
-      <?if(CmsApplication::is_registered('categories')):?>
+      <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
         <li><a href="#section-3" id="cat_tab_link">Add Categories</a></li>
       <?endif?>
     </ul>
@@ -32,7 +32,7 @@
         <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
-      <?if(CmsApplication::is_registered('categories')):?>
+      <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
       <div id="section-3" class="tabs-container">
         <?if($allowed_categories):?>
           <?=$category_partial?>
