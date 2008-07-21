@@ -138,7 +138,6 @@ p{
   text-decoration:underline;
 }
 #sub-navigation-container {
-  background:#DEDEDE;
   clear:both;
   font-size:92%;
   min-height:2em;
@@ -744,7 +743,7 @@ li.pagination_link a {
   margin:0;
 }
 #item_list_container tbody td {
-  border-bottom:2px solid #f5f5f5;
+  border-bottom:1px solid #f5f5f5;
 }
 #item_list_container thead th {
   background-color:transparent !important;
@@ -1005,7 +1004,7 @@ li.pagination_link a {
 }
 
 #sub-navigation-container {
-  background:#cfcfcf;
+  background:#f0f0f0 url(../../images/cms/subnav_bg.gif) repeat-x bottom center;
   border-bottom:1px solid #989898;
   padding-top:8px;
 }
@@ -1038,10 +1037,150 @@ li.pagination_link a {
 }
 
 
-
-
-
 /*** End Wildfire 1.0 Updates **********/
+
+/****** Advanced Uploader Styling *******/
+
+.progressWrapper {
+	width: 327px;
+	overflow: hidden;
+}
+
+.progressContainer {
+	margin: 5px;
+	padding: 4px;
+	border: solid 1px #E8E8E8;
+	background-color: #F7F7F7;
+	overflow: hidden;
+}
+/* Message */
+.message {
+	margin: 1em 0;
+	padding: 10px 20px;
+	border: solid 1px #FFDD99;
+	background-color: #FFFFCC;
+	overflow: hidden;
+}
+/* Error */
+.red {
+	border: solid 1px #B50000;
+	background-color: #FFEBEB;
+}
+
+/* Current */
+.green {
+	border: solid 1px #DDF0DD;
+	background-color: #EBFFEB;
+}
+
+/* Complete */
+.blue {
+	border: solid 1px #CEE2F2;
+	background-color: #F0F5FF;
+}
+
+.progressName {
+	font-size: 8pt;
+	font-weight: 700;
+	color: #555;
+	width: 323px;
+	height: 14px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.progressBarInProgress,
+.progressBarComplete,
+.progressBarError {
+	font-size: 0;
+	width: 0%;
+	height: 2px;
+	background-color: blue;
+	margin-top: 2px;
+}
+
+.progressBarComplete {
+	width: 100%;
+	background-color: green;
+	visibility: hidden;
+}
+
+.progressBarError {
+	width: 100%;
+	background-color: red;
+	visibility: hidden;
+}
+
+.progressBarStatus {
+	margin-top: 2px;
+	width: 337px;
+	font-size: 7pt;
+	font-family: Arial;
+	text-align: left;
+	white-space: nowrap;
+}
+
+a.progressCancel {
+	font-size: 0;
+	display: block;
+	height: 14px;
+	width: 14px;
+	background-image: url(../../images/cms/trash.gif);
+	background-repeat: no-repeat;
+	float: right;
+}
+
+a.progressCancel:hover {
+	background-position: 0px 0px;
+}
+
+#advanced_uploader {
+  background:white;
+  padding:45px;
+}
+
+#start_button {
+  background:url(../../images/cms/special_button.gif) no-repeat;
+  padding:10px 39px;
+  border:0;
+  font-size:118%;
+  color:#4f76ad;
+  font-weight:bold;  
+  text-align:center;
+}
+#start_button:hover {
+  cursor:hand;
+}
+#advanced_uploader hr {
+  width:100%;
+  clear:both;
+  margin:10px 0;
+}
+#fsUploadProgress {
+  border:1px solid #BBBBBB;
+  background:white;
+  width:360px !important;
+  padding:15px 8px !important;
+  max-height:150px;
+  overflow:auto;
+}
+#divStatus {
+  background:#E1E1E1;
+  color:black;
+  font-weight:bold;
+  width:360px;
+  padding:5px 8px;
+  border:1px solid #BBBBBB;
+  border-top:0;
+  clear:both;
+}
+.progressContainer div {
+  display:inline;
+  padding-left:7px;
+}
+/*** End uploader styling**********/
+
 
 .clearfix:after {
 	content:".";

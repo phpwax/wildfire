@@ -105,6 +105,7 @@ class CMSAdminComponent extends WXControllerBase {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html 
 	*/
 	public function index( ) {
+	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
 
@@ -132,13 +133,11 @@ class CMSAdminComponent extends WXControllerBase {
 	  $this->id = WaxUrl::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
-    if(!$this->model->is_posted()) {
-      Session::set("cms_refer", $_SERVER['HTTP_REFERER']);
-	  }
+    
 		$this->form = $this->render_partial("form");
-		if($_POST['cancel']) $this->redirect_to(Session::get("cms_refer"));
+		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
 		if($_POST['save']) $this->save($this->model, "edit");
-		else $this->save($this->model, Session::get("cms_refer"));
+		else $this->save($this->model, Session::get("list_refer"));
 	}
 	
 	/**

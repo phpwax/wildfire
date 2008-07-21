@@ -10,6 +10,7 @@ if($_FILES) {
     $file = new WildfireFile;
     $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
     $newfile->description = $_POST["wildfire_file_description"];
+    $newfile->flags = "normal";
     $newfile->save();
     echo "Uploaded";
 }

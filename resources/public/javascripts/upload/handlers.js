@@ -65,8 +65,8 @@ function fileDialogComplete(numFilesSelected, numFilesQueued) {
 			document.getElementById(this.customSettings.cancelButtonId).disabled = false;
 		}
 		
-		/* I want auto start the upload and I can do that here */
-		this.startUpload();
+		/* I want auto start the upload and I can do that here 
+		this.startUpload(); */
 	} catch (ex)  {
         this.debug(ex);
 	}
