@@ -3,7 +3,7 @@ function setup_preview(permalink, trigger_id, preview_pane) {
     $('#'+trigger_id).click(function(){
       $('#'+preview_pane).jqm();
       $('#'+preview_pane).jqmShow();
-      $('#'+preview_pane).html("<iframe src='"+permalink+"' width='100%' height='100%' border='0' />");
+      $('#'+preview_pane).html("<p><a href='' class='jqmClose'>close</a></p><iframe src='"+permalink+"' width='100%' height='100%' border='0' />");
     });
   });
 }
