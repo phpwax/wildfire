@@ -21,6 +21,7 @@
     color: #333;
     border: 1px solid black;
     padding: 12px;
+		z-index:100;
 }
 
 .jqmOverlay { background-color: #000; }
