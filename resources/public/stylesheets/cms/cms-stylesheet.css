@@ -782,6 +782,7 @@ li.pagination_link a {
 #item_list_container #list_heading {
   background:url(../../images/cms/table_head_bg.gif) repeat-x;
   border-bottom:1px solid #DEDEDE;
+	position:relative;
 }
 #item_list_container td a {
   color:#333333;
