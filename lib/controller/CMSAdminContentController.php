@@ -178,7 +178,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$cat = new CmsCategory;
 		$cat->name = Request::get("cat");
 		$cat->save();
-		if(!$this->all_categories = $cat->clear()->order("parent_id ASC, name ASC")->all()) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->clear()->order("name ASC")->all()) $this->all_categories=array();		
 		$this->cat_list = $this->render_partial("cat_list");	
 	}
 	/**
