@@ -27,8 +27,8 @@ class CMSAdminCategoryController extends CMSAdminComponent {
 	public function filters() {
 	  $this->use_layout=false;
 	  $cat = new CmsCategory;
-	  if(strlen($fil = $_POST['filter'])<1) $this->all_categories = $cat->order("parent_id ASC, name ASC")->all();
-  	else $this->all_categories = $cat->filter("name LIKE '%$fil%'")->order("parent_id ASC, name ASC")->all();
+	  if(strlen($fil = $_POST['filter'])<1) $this->all_categories = $cat->order("name ASC")->all();
+  	else $this->all_categories = $cat->filter("name LIKE '%$fil%'")->order("name ASC")->all();
   	$this->cat_partial = $this->render_partial("cat_list");
 	}
 
