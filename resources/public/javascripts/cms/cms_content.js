@@ -186,9 +186,9 @@ function autosave_content() {
   var ed = document.getElementById("cms_content_content");
    var wig = ed.widgEditorObject;
    if(wig.wysiwyg) {
-     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
+     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
    } else {
-     wig.theInput.value = wig.theTextarea.value;
+     wig.theInput.value = wig.theTextarea.value.replace(/£/g, "&pound;");
    }
      $.ajax({ 
             url: "/admin/content/autosave/"+content_page_id, 
