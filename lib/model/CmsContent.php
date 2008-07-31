@@ -98,7 +98,7 @@ class CmsContent extends WaxModel {
 	
 	public function find_related_in_section($params=false) {
 	  $ret = clone $this;
-		return $ret->clear()->filter($this->get_col("section")->col_name . ' = ' . $this->section->primval . " AND id <> " . $this->primval)->order('published DESC')->all();
+		return $ret->clear()->scope("published")->filter($this->get_col("section")->col_name . ' = ' . $this->section->primval . " AND id <> " . $this->primval)->order('published DESC')->all();
   }
 	public function author() {
 		$this->author->username;
