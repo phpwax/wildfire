@@ -44,7 +44,7 @@ class CmsTextFilter  {
   }
   
   static public function strip_attributes($text) {
-    return preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span)\s+([^>]*)>/", "<$1>", $text);
+    return preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span|font)\s+([^>]*)>/", "<$1>", $text);
   }
   
   static public function clean_word($text) {
