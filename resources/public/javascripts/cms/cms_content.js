@@ -184,20 +184,22 @@ $(document).ready(function() {
 
 function autosave_content() {
   var ed = document.getElementById("cms_content_content");
-   var wig = ed.widgEditorObject;
-   if(wig.wysiwyg) {
-     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
-   } else {
-     wig.theInput.value = wig.theTextarea.value.replace(/£/g, "&pound;");
-   }
-     $.ajax({ 
-            url: "/admin/content/autosave/"+content_page_id, 
-            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-            type: "POST",
-            processData: false,
-            data: "content="+escape(wig.theInput.value), 
-            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
-    });
+	if(ed.id){
+  	var wig = ed.widgEditorObject;
+	   if(wig.wysiwyg) {
+	     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
+	   } else {
+	     wig.theInput.value = wig.theTextarea.value.replace(/£/g, "&pound;");
+	   }
+	     $.ajax({ 
+	            url: "/admin/content/autosave/"+content_page_id, 
+	            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
+	            type: "POST",
+	            processData: false,
+	            data: "content="+escape(wig.theInput.value), 
+	            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
+	    });
+	}
 }
 
 var swfu;
