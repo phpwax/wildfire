@@ -10,17 +10,17 @@ class CmsComment extends WaxModel {
 	public $config = array();
 	
 	public function setup(){
-		$this->define("attached_to", "ForeignKey", array('target_model'=>"CmsContent", 'col_name'=>"attached_id") );
-		$this->define("comment", "TextField");
+		$this->define("attached_to", "ForeignKey", array('target_model'=>"CmsContent", 'col_name'=>"attached_id", 'editable'=>false) );
 		$this->define("author_name", "CharField", array('maxlength'=>255));
 		$this->define("author_email", "CharField", array('maxlength'=>255));
-		$this->define("author_website", "CharField", array('maxlength'=>255));				
-		$this->define("author_ip", "CharField", array('maxlength'=>255));				
-		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser"));				
-		$this->define("status", "IntegerField", array('maxlength'=>2));
-		$this->define("type", "CharField", array('maxlength'=>255));		
-		$this->define("karma", "IntegerField", array('maxlength'=>128));		
-		$this->define("time", "DateTimeField");				
+		$this->define("author_website", "CharField", array('maxlength'=>255));	
+		$this->define("comment", "TextField");					
+		$this->define("author_ip", "CharField", array('maxlength'=>255, 'editable'=>false));				
+		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser",'editable'=>false));				
+		$this->define("status", "IntegerField", array('maxlength'=>2,'editable'=>false));
+		$this->define("type", "CharField", array('maxlength'=>255,'editable'=>false));		
+		$this->define("karma", "IntegerField", array('maxlength'=>128,'editable'=>false));		
+		$this->define("time", "DateTimeField",array('editable'=>false));				
 	}
 	
   public function validations() {
