@@ -107,7 +107,8 @@ class CMSAdminContentController extends CMSAdminComponent {
 		//images
 		if(!$attached_images = $this->page->images) $attached_images=array();
 		foreach($attached_images as $count=>$image){
-		  if(!$order = $this->page->get_col("images")->join_model->filter(array("wildfire_file_id" => $image->primval))->first()->order_by) $order=$count;
+			$mod = $this->page->get_col("images")->join_model;			
+		  if($mod && !$order = $mod->filter(array("wildfire_file_id" => $image->primval))->first()->order_by) $order=$count;
 		  $this->attached_images[$order] = $image;
 		}
 
