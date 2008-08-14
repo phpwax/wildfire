@@ -26,6 +26,7 @@ widgToolbarItems.push("separator");
 
 widgToolbarItems.push("blockformat");
 widgToolbarItems.push("separator");
+// widgToolbarItems.push("image");
 
 
 /* Options on block format select element. Consists of string pairs (option value, option label) */

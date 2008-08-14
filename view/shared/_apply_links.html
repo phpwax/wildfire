@@ -7,7 +7,7 @@
       <label for="link_file">Select a file</label><br />
       <select id="link_file">
         <?foreach($all_links as $link):?>
-          <option value="<?=str_ireplace("public", "", $link->path)?><?=$link->filename?>"><?=$link->filename?></option>
+          <option value="<?=$link->url?>"><?=$link->filename?></option>
         <?endforeach?>
       </select> <button onclick="cms_insert_url(document.getElementById('link_file').value); return false;">Insert</button>
     </p>

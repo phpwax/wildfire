@@ -144,6 +144,8 @@ class CmsApplicationController extends WXControllerBase{
 		}
 		if(!is_array($this->cms_content)) $this->crumbtrail[] = array('url'=>$this->cms_content->permalink, 'display'=>$this->cms_content->title);
 	}
+	
+	
 	/**
 	 * Uses the url passed in to determine what format, returns modified string
 	 * @param string $url 
