@@ -79,7 +79,10 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->use_layout=false;
 		$this->page = new $this->model_class(Request::get('id'));
 		$file = new WildfireFile(Request::post('id'));
-		if($existing = $this->page->images->filter(array("order_by" => Request::post('order'))) ) $this->page->images->unlink($existing);
+		$images = $this->page->images;
+		if($images && $images[0]->id){
+			if($existing = $images->filter(array("order_by" => Request::post('order') ) )->first() ) $this->page->images->unlink($existing);
+		}
 		$join = $this->page->get_col("images")->set($file);
 		$join->order_by = Request::post('order');
 		$join->save();
@@ -108,7 +111,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		if(!$attached_images = $this->page->images) $attached_images=array();
 		foreach($attached_images as $count=>$image){
 			$mod = $this->page->get_col("images")->join_model;			
-		  if($mod && !$order = $mod->filter(array("wildfire_file_id" => $image->primval))->first()->order_by) $order=$count;
+		  if($mod->id && !$order = $mod->filter(array("wildfire_file_id" => $image->primval))->first()->order_by) $order=$count;
 		  $this->attached_images[$order] = $image;
 		}
 
