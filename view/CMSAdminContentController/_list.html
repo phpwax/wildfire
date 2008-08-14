@@ -1,14 +1,7 @@
 <?foreach($all_rows as $row):?>
-    <tr id="row_<?=$row->id?>">
+    <tr>
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
-					<span class="status_change_span">
-					<?if($column == 'title' && $row->is_published()):?>
-	          <a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft"><img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" /></a>
-	        <?elseif($column == 'title'):?>
-	        	<a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published"><span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" /></a>
-	        <?endif?>
-					</span>
           <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
           <?=$row->$column?>
@@ -26,7 +19,12 @@
           <?$cats++?>
         <?endforeach?>
       </td>
-      <td class="column last">        
+      <td class="column last">
+        <?if($row->is_published()):?>
+          <img src="/images/cms/icon_published.gif" title="This article is published" width="12" class="status_icon" />
+        <?else:?>
+        <img src="/images/cms/icon_draft.gif" title="This article is a draft" width="12" class="status_icon" />
+        <?endif?>
         <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
         <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
         <?if($row->status!=1):?><div class="generic_button"><a href="#" id="preview_<?=$row->id?>">Preview</a></div>

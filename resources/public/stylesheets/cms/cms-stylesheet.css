@@ -227,7 +227,7 @@ p{
 	width:95%;
 }
 #filter_block{
-	padding:8px 6px;
+	padding:10px;
 	background-image: url(../../images/cms/widg_bg.gif);
 	border-top: 1px solid #ebebeb;
 	border-bottom: 1px solid #ebebeb;
@@ -525,7 +525,9 @@ button.generic_button span, div.generic_button a {
   font-size:85% !important;
 }
 .status_icon {
+  float:left;
   margin-right:7px;
+  margin-top:5px;
 }
 .category_label {
   font-size:85%;
@@ -793,15 +795,13 @@ li.pagination_link a {
 #top_pagiation {
   float:right;
   padding-right:25px;
-	padding-top:6px;
 }
-
 #bottom_pagination {
   border-top:1px solid #dedede;
   background:white;
-  padding:5px 10px 10px 20px;
+  padding:0 10px 5px 20px;
 }
-#top_pagiation .pagination, #bottom_pagination .pagination{margin:0;}
+
 #preview_pane {
   margin:0;
   top: 15px;

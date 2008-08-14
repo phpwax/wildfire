@@ -193,16 +193,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	  exit;
 	}	
 	
-	public function status(){
-		if($id = Request::get('id')){
-			$content = new CmsContent($id);
-			if(isset($_GET['status'])) $content->status = Request::get('status');
-
-			$this->row = $content->save();
-			if(Request::get('ajax')) $this->use_layout = false;
-			else $this->redirect_to(Session::get('list_refer'));
-		}else $this->redirect_to("/admin/home");
-	}
+	
 	
 	
 	

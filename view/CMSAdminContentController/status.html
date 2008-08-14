@@ -1,1 +1,0 @@
-<a href="./status/<?=$row->id?>?status=<?if($row->status == 1):?>0<?else:?>1<?endif?>" id="a_<?=$row->id?>" class="status_change" rel="<?if($row->status == 1):?>0<?else:?>1<?endif?>" title="click to change to draft"><img src="/images/cms/icon_<?=strtolower($row->page_status)?>.gif" title="click to change to draft" width="12" class="status_icon" /></a>
