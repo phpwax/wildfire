@@ -524,11 +524,7 @@ button.generic_button span, div.generic_button a {
   font-weight:normal !important;
   font-size:85% !important;
 }
-.status_icon {
-  float:left;
-  margin-right:7px;
-  margin-top:5px;
-}
+.status_icon {margin-right:7px;}
 .category_label {
   font-size:85%;
   color:#8ea8cb;
