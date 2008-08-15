@@ -50,6 +50,12 @@ system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROL
 system("cp -i ".PLUGIN_DIR."cms/resources/public/upload.pl ".PUBLIC_DIR);
 system("cp -i ".PLUGIN_DIR."cms/resources/public/upload.php ".PUBLIC_DIR);
 system("cp -i ".PLUGIN_DIR."cms/resources/public/swfupload_f9.swf ".PUBLIC_DIR);
+echo "------------------------------------------------------------------------"."\n";
+echo "Adding the file upload config file - ".PUBLIC_DIR. "conf.uploader";
+echo "------------------------------------------------------------------------"."\n";
+file_put_contents(PUBLIC_DIR. "conf.uploader", '$uploadsFolder = "/home/pace/tmp/cache";'."\n".'true;');
+system("chmod 0777 ".PUBLIC_DIR. "conf.uploader");
+
 
 system("chmod -Rf 0777 ".PUBLIC_DIR);
 echo "All of the files have now been installed."."\n";
