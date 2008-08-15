@@ -18,7 +18,7 @@ class CmsContent extends WaxModel {
 		//used in conversion
 		$this->define("oldid", "IntegerField");
 		//images
-		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WildfireFileJoin"));
+		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true));
 		//section
 		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection','editable'=>false));
 		//author
