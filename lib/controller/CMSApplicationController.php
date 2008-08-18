@@ -56,16 +56,17 @@ class CmsApplicationController extends WXControllerBase{
 	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
 	 */	
 	protected function find_contents_by_path(){
-		//need to replace this with request method, once thats been made
-		$stack = $this->route_array;
+		//use the full url params, minus the get array to create the stack to look though
+		$stack = array_diff_assoc(WaxUrl::$params, $_GET); //could do with using something other than $_GET
+		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
 		  $url = $this->set_formatting($url);
 			//only check numeric keys, ie not page or search terms && check its a section
-			if(is_numeric($key) && $this->find_section($url)){
+			if($this->find_section($url)){
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
-			}elseif(!is_numeric($key)) unset($stack[$key]);
+			}
 		}
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
