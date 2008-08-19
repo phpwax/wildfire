@@ -129,7 +129,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	* reason this now redirects is so people can edit / add categories and images without have to save the content first
 	**/
 	public function create() {
-		$model = new CmsContent();
+		$model = new $this->model_class;
 		$model->status = 3;
 		$model->author_id = Session::get('wildfire_user');
 		$model->url = time();
@@ -180,7 +180,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function autosave() {
 	  $this->use_layout=false;
 	  $this->use_view=false;
-	  $content = new CmsContent($this->param("id"));
+	  $content = new $this->model_class($this->param("id"));
 	  $content->update_attributes(array("content"=>$_POST["content"]));
 	  echo date("H:i:s");
 	  exit;
