@@ -36,9 +36,7 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function extension() {
-	  $ext = ".".substr(strrchr($this->type, "/"), 1);
-	  if($ext != ".gif" || $ext !=".png") $ext = ".jpg";
-	  return $ext;
+	  return ".".File::get_extension($this->filename);
 	}
 	
 	public function find_all_files() {
@@ -81,6 +79,7 @@ class WildfireFile extends WaxModel {
 		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
 		$extension = File::get_extension($this->filename);
 		$file = CACHE_DIR.$this->id."_".$size . ".".$extension;
+		error_log("Creating tmp: $file");
 		//slash any spaces
 		$source=preg_replace("/[\s]/", "\ ", $source);
     if(!is_readable($source)) error_log("FATAL IMAGE ERROR");
