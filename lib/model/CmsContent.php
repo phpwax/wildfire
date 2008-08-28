@@ -46,7 +46,8 @@ class CmsContent extends WaxModel {
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
 	  if($this->id) {
-	    $old_model = new CmsContent($this->id);
+	    $class = get_class($this);
+	    $old_model = new $class($this->id);
 	    if($old_model->status < $this->status) $this->before_publish();
 	  }
 	  if(!$this->is_published() || is_numeric($this->url)) {

@@ -509,7 +509,7 @@ class CmsFilesystem {
   	while(!$this->checkId($fileid)){
   		$fileid++;
   	}
-  	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\", status=\"found\"";
+  	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\", status=\"found\", flags=\"normal\"";
     try {
       $res = $this->query($query);
     } catch (Exception $e) {
@@ -619,13 +619,8 @@ class CmsFilesystem {
     $userpath = $this->defaultFileStore.$dir;
 
     $tmp_name = $_FILES["upload"]["tmp_name"];
-    $uploadfile = basename($_FILES['upload']['name']);
-    $i=1;
-    while(file_exists($userpath.'/'.$uploadfile)){
-        $uploadfile = $i . '_' . basename($_FILES['upload']['name']);
-        $i++;
-    }
-  
+    $uploadfile = File::safe_file_save($userpath, basename($_FILES['upload']['name']));
+    error_log($uploadfile);
     move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile);
   	if(isset($_GET['redir'])){
   		header("location: $_GET[redir]");
@@ -690,7 +685,7 @@ class CmsFilesystem {
   		    	$sessionlen = strlen(session_id());
   		    	if(substr($file,0,$sessionlen)==session_id()){
   		    		$filename = substr($file,$sessionlen+1);
-  					$uploadfile=$filename;
+  					$uploadfile=File::safe_file_save($uploadDir, $filename);
   					$i=1;
   					while(file_exists($userpath.'/'.$uploadfile)){
   					  $uploadfile = $i . '_' . $filename;
