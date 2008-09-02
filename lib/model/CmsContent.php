@@ -114,13 +114,13 @@ class CmsContent extends WaxModel {
   /***** Finders for dealing with the extra_content table ******/
 	public function extra_content($name) {
 		$content = $this->more_content;
-		if($content->count() > 0 && $content->filter(array('name'=>$name))->all()->count() > 0) return $content->first();
-		else{
-			$extra = new CmsExtraContent;
-			$extra->setConstraint("cms_content_id", $this->id);
-			return $extra;
-		}
-		
+		if($content){
+			$found = $content->filter(array('name'=>$name))->first();
+			if($found && $found->id) return $found;
+		}		
+		$extra = new CmsExtraContent;
+		$extra->setConstraint("cms_content_id", $this->id);
+		return $extra;		
   }
 	public function extra_content_value($name) {
 		return CmsTextFilter::filter("before_output", $this->more_content->filter(array('name'=>$name))->first()->extra_content);
