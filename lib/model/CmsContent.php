@@ -134,6 +134,7 @@ class CmsContent extends WaxModel {
 					$model = $this->extra_content($name);
 					$model->name = $name;
 					$model->extra_content = $value;
+					$model = $model->save();					
 					$this->more_content = $model;
 				}
 			}
