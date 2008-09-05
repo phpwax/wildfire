@@ -621,11 +621,13 @@ class CmsFilesystem {
     $tmp_name = $_FILES["upload"]["tmp_name"];
     $uploadfile = File::safe_file_save($userpath, basename($_FILES['upload']['name']));
     error_log($uploadfile);
-    move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile);
-    chmod($userpath.'/'.$uploadfile, 0777);
-  	if(isset($_GET['redir'])){
-  		header("location: $_GET[redir]");
-  	}
+    if(move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile)) {
+      chmod($userpath.'/'.$uploadfile, 0777);
+    	if(isset($_GET['redir'])){
+    		header("location: $_GET[redir]");
+    	}
+  	
+	  }
     	
   }
 
