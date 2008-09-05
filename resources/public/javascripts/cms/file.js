@@ -48,5 +48,8 @@ function uploadComplete() {
   jQuery("#start_button").fadeTo("fast", 1.0);
   updateAll(root);
 }
+function uploadError() {
+  jQuery("#start_button").fadeTo("fast", 1.0);
+}
 
 
