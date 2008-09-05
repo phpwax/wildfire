@@ -626,8 +626,7 @@ class CmsFilesystem {
     	if(isset($_GET['redir'])){
     		header("location: $_GET[redir]");
     	}
-  	
-	  }
+	  } else die("FAIL!!!!!");
     	
   }
 
