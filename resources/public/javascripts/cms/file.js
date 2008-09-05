@@ -33,6 +33,7 @@ function init_upload(){
 
    
 function set_post_params(){
+  jQuery("#start_button").fadeTo("fast",0.5);
   var fold = jQuery("#dest").html();
   if(fold == "select a folder") {
     alert("You must choose a folder first");
@@ -44,6 +45,7 @@ function set_post_params(){
 }
 
 function uploadComplete() {
+  jQuery("#start_button").fadeTo("fast", 1.0);
   updateAll(root);
 }
 
