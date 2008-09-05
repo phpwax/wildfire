@@ -628,7 +628,7 @@ class CmsFilesystem {
     	}
 	  } else {
 	    header("HTTP/1.0 500 Internal Server Error");
-	    exit();
+	    die("File upload error");
 	  }
     	
   }
