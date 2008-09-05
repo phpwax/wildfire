@@ -305,7 +305,7 @@ Directory.prototype = {
 	
 	select: function (event) {
 		$('uploadPath').value = this.path;
-		$('uploadstatus').innerHTML = "<em>Destination</em> "+this.path;
+		$('uploadstatus').innerHTML = "<em>Destination</em> <span id='dest'>"+this.path+"</span>";
 		this.del.style.display = "block";
 		if(FC.SELECTEDOBJECT != null && FC.SELECTEDOBJECT != this) FC.SELECTEDOBJECT.deselect(); 
 		window.onkeypress = this.select_handler.bindAsEventListener(this);
@@ -573,7 +573,7 @@ File.prototype = {
 	
 	select: function (ev) {
 		$('uploadPath').value = this.parentObject.path;
-		$('uploadstatus').innerHTML = "<em>Destination</em> "+this.parentObject.path;
+		$('uploadstatus').innerHTML = "<em>Destination</em> <span id='dest'>"+this.parentObject.path+"</span>";
 		
 		this.del.style.display = this.dl.style.display = "block";
 		if(FC.SELECTEDOBJECT != null && FC.SELECTEDOBJECT != this) FC.SELECTEDOBJECT.deselect(); 
