@@ -626,7 +626,10 @@ class CmsFilesystem {
     	if(isset($_GET['redir'])){
     		header("location: $_GET[redir]");
     	}
-	  } else die("FAIL!!!!!");
+	  } else {
+	    header("HTTP/1.0 500 Internal Server Error");
+	    exit();
+	  }
     	
   }
 
