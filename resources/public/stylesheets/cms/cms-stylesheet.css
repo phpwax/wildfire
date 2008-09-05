@@ -796,6 +796,7 @@ li.pagination_link a {
   border-top:1px solid #dedede;
   background:white;
   padding:0 10px 5px 20px;
+  min-height:12px;
 }
 
 #preview_pane {
