@@ -193,7 +193,6 @@ class CmsApplicationController extends WXControllerBase{
 	  else $type="list";
 	  $this->use_view="cms_".$type;		
 	  foreach($sections as $section) {
-			WaxLog::log("error", "[viewing] looking for page/cms_".$section."_".$type);
 	  	if($this->is_viewable("page/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$type. "_".$this->cms_content->url,$this->use_format) ) $this->use_view =  "cms_".$type. "_".$this->cms_content->url;			
