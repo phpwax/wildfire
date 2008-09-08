@@ -183,7 +183,7 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	/**
 	 * decides what view should be used - has a more to less specific priority
-	 * - cms_[list|page]_CONTENTURL
+	 * - cms_CONTENTURL_[list|page]
 	 * - cms_SECTIONNAME_[list|page]
 	 * - cms_[list|page]
 	 */	
@@ -193,9 +193,10 @@ class CmsApplicationController extends WXControllerBase{
 	  else $type="list";
 	  $this->use_view="cms_".$type;		
 	  foreach($sections as $section) {
+			WaxLog::log("error", "[view debug] looking for: ");
 	  	if($this->is_viewable("page/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
-		if($this->is_page() && $this->is_viewable("page/cms_".$type. "_".$this->cms_content->url,$this->use_format) ) $this->use_view =  "cms_".$type. "_".$this->cms_content->url;			
+		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
 	}
 	
   /**
