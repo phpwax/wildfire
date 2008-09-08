@@ -4,6 +4,8 @@ AutoLoader::run_application(ENV, false);
 if($_FILES) {
     $path = $_POST['wildfire_file_folder'];
     $fs = new CmsFilesystem;
+    error_log(print_r($_FILES, 1));
+    error_log(print_r($_POST, 1));
     $_FILES['upload'] = $_FILES["Filedata"];
     $fs->upload($path);
     $fs->databaseSync($fs->defaultFileStore.$path, $path);
