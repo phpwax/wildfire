@@ -115,6 +115,7 @@ class CmsApplicationController extends WXControllerBase{
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
 		if($url){	
+			$url = $this->set_formatting($url); //remove & set the formatting...			
 			WaxLog::log("error", "[content debug] looking for: ".$url);	  
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($logged_in) $res = $content->clear()->filter($filters)->all();
