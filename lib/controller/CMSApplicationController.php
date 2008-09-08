@@ -116,7 +116,6 @@ class CmsApplicationController extends WXControllerBase{
 		$logged_in = $this->is_admin_logged_in();
 		if($url){	
 			$url = $this->set_formatting($url); //remove & set the formatting...			
-			WaxLog::log("error", "[content debug] looking for: ".$url);	  
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($logged_in) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
@@ -198,7 +197,6 @@ class CmsApplicationController extends WXControllerBase{
 	  	if($this->is_viewable("page/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
-		WaxLog::log("error", "[view debug] looking for: ".$this->use_view);
 	}
 	
   /**
