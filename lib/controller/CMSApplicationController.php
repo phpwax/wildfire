@@ -196,6 +196,7 @@ class CmsApplicationController extends WXControllerBase{
 	  	if($this->is_viewable("page/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
+		WaxLog::log("error", "[view debug] looking for: ".$this->use_view);
 	}
 	
   /**
