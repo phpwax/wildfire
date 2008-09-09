@@ -114,7 +114,8 @@ class CmsApplicationController extends WXControllerBase{
 
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
-		if($url){		  
+		if($url){	
+			$url = $this->set_formatting($url); //remove & set the formatting...			
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($logged_in) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
@@ -183,7 +184,7 @@ class CmsApplicationController extends WXControllerBase{
 	}
 	/**
 	 * decides what view should be used - has a more to less specific priority
-	 * - cms_[list|page]_CONTENTURL
+	 * - cms_CONTENTURL_[list|page]
 	 * - cms_SECTIONNAME_[list|page]
 	 * - cms_[list|page]
 	 */	
@@ -195,7 +196,7 @@ class CmsApplicationController extends WXControllerBase{
 	  foreach($sections as $section) {
 	  	if($this->is_viewable("page/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
-		if($this->is_page() && $this->is_viewable("page/cms_".$type. "_".$this->cms_content->url,$this->use_format) ) $this->use_view =  "cms_".$type. "_".$this->cms_content->url;			
+		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
 	}
 	
   /**
