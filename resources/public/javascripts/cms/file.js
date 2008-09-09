@@ -40,6 +40,7 @@ function set_post_params(){
     alert("You must choose a folder first");
     return false;
   }
+  if(!fold) var fold = jQuery("#wildfire_file_folder").val();
   swfu.addPostParam("wildfire_file_folder", fold);
   swfu.addPostParam("wildfire_file_description", jQuery("#wildfire_file_description").val());
   swfu.startUpload();
