@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../app/config/environment.php';
-AutoLoader::run_application(ENV, false);
+$app=new WXApplication(true);
 if($_FILES) {
     $path = $_POST['wildfire_file_folder'];
     $fs = new CmsFilesystem;

@@ -33,7 +33,6 @@ function init_upload(){
 
    
 function set_post_params(){
-  jQuery.noConflict();
   jQuery("#start_button").fadeTo("fast",0.5);
   var fold = jQuery("#dest").html();
   if(fold == "select a folder") {
@@ -47,12 +46,10 @@ function set_post_params(){
 }
 
 function uploadComplete() {
-  jQuery.noConflict();
   jQuery("#start_button").fadeTo("fast", 1.0);
   if(typeof updateAll!="undefined") updateAll(root);
 }
 function uploadError() {
-  jQuery.noConflict();
   jQuery("#start_button").fadeTo("fast", 1.0);
 }
 
