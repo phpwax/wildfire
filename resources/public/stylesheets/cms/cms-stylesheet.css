@@ -1162,7 +1162,6 @@ a.progressCancel:hover {
   background:white;
   width:180px !important;
   padding:15px 8px !important;
-  max-height:100px;
   overflow:auto;
   height:100px;
 }
