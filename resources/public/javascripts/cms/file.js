@@ -46,7 +46,7 @@ function set_post_params(){
 
 function uploadComplete() {
   jQuery("#start_button").fadeTo("fast", 1.0);
-  updateAll(root);
+  if(typeof updateAll!="undefined") updateAll(root);
 }
 function uploadError() {
   jQuery("#start_button").fadeTo("fast", 1.0);
