@@ -40,7 +40,7 @@ function set_post_params(){
     return false;
   }
   swfu.addPostParam("wildfire_file_folder", fold);
-  swfu.addPostParam("wildfire_file_description", jQuery("#wildfire_file_description").text());
+  swfu.addPostParam("wildfire_file_description", jQuery("#wildfire_file_description").val());
   swfu.startUpload();
 }
 
