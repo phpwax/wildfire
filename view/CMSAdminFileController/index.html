@@ -1,7 +1,5 @@
 <link href="/stylesheets/cms/upload.css" rel="stylesheet" type="text/css" />
-<script>
-     jQuery.noConflict(); 
-</script>
+
 <script src="/javascripts/utilities/prototype.js" type="text/javascript"></script>
 <script src="/javascripts/utilities/dragdrop.js" type="text/javascript"></script>
 <script src="/javascripts/utilities/effects.js" type="text/javascript"></script>
@@ -13,9 +11,7 @@
 <script type="text/javascript" src="/javascripts/upload/handlers.js"></script>
 <script type="text/javascript" src="/javascripts/cms/file.js"></script>
 
-<script>
-    init_upload();  
-</script>
+
 
 <script type="text/javascript">
 	folderIcon = '/images/fs/mac_dir.png';
@@ -33,6 +29,10 @@
 	uploadCancel = '/images/fs/cancelupload.jpg';
 	uploadBtn = '/images/fs/upload.jpg';
 	
+</script>
+
+<script>
+    init_upload();  
 </script>
 
 <style type="text/css">
@@ -98,16 +98,18 @@ div#dashboard {
   		<div id="uploadstatus"><em>Destination</em> <span id="dest">select a folder</span></div>
 		
     	<form id="form1" action="" method="post" enctype="multipart/form-data">
-    	      <fieldset class="flash" id="fsUploadProgress">
+    	      <div class="flash" id="fsUploadProgress">
 
-        		</fieldset>
+        		</div>
             <div id="divStatus">Click start to upload files</div>
 
         		<fieldset>
           	<input type="button" value="Add Files" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
-      			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
-      		  <?=large(text_area($model, "description", array("rows"=>"3"), "Give these images an optional description"))?>
+      			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" />
             
+      		  </fieldset>
+      		  <fieldset>
+        		  <?=large(text_area($model, "description", array("rows"=>"1"), "Optional Description"))?>
       		  </fieldset>
           <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); return false' />
 

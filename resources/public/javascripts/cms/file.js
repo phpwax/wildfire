@@ -45,12 +45,3 @@ function set_post_params(){
   swfu.startUpload();
 }
 
-function uploadComplete() {
-  jQuery("#start_button").fadeTo("fast", 1.0);
-  if(typeof updateAll!="undefined") updateAll(root);
-}
-function uploadError() {
-  jQuery("#start_button").fadeTo("fast", 1.0);
-}
-
-

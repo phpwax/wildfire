@@ -162,12 +162,15 @@ function uploadError(file, errorCode, message) {
 	} catch (ex) {
         this.debug(ex);
     }
+  jQuery("#start_button").fadeTo("fast", 1.0);
 }
 
 function uploadComplete(file) {
 	if (this.getStats().files_queued === 0) {
 		document.getElementById(this.customSettings.cancelButtonId).disabled = true;
 	}
+	jQuery("#start_button").fadeTo("fast", 1.0);
+  if(typeof updateAll!="undefined") updateAll(root);
 }
 
 // This event comes from the Queue Plugin

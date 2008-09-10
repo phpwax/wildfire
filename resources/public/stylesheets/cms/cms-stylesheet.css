@@ -1177,7 +1177,7 @@ a.progressCancel:hover {
 }
 .progressContainer div {
   display:block;
-  padding-left:7px;
+  margin:2px 7px;
 }
 /*** End uploader styling**********/
 

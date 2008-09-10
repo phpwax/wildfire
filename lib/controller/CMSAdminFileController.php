@@ -45,6 +45,11 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  }
 	}
 	
+	public function index() {
+	  parent::index();
+	  $this->use_layout="file";
+	}
+	
 	
 	/**
 	 * admin area version of show image - outputs an image
@@ -80,7 +85,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	}
 	
 	public function upload() {
-   
+   $this->use_layout=false;
 	}
 	public function quickupload() {
     $this->use_layout="simple";
