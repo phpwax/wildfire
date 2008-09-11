@@ -50,6 +50,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout="file";
 	}
 	
+	public function upload_url() {
+	  $this->use_layout="simple";
+	}
+	
 	
 	/**
 	 * admin area version of show image - outputs an image

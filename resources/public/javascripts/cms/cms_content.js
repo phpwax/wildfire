@@ -164,6 +164,7 @@ function get_query_var(query, variable) {
 $(document).ready(function() {
   $('#link_dialog').jqm();
   $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload", onLoad:init_upload})
+  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url"})
 });
 
 

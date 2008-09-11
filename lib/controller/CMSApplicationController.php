@@ -172,6 +172,39 @@ class CmsApplicationController extends WXControllerBase{
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
+  
+  public function file_upload() {
+	  if($url = $_POST["upload_from_url"]) {
+      $path = $_POST['wildfire_file_folder'];
+      $fs = new CmsFilesystem;
+      $filename = basename($url);
+      $ext = strtolower(array_pop(explode(".", $filename)));
+      if($_POST["wildfire_file_filename"]) $filename = $_POST["wildfire_file_filename"].".".$ext;
+      $filename = File::safe_file_save($fs->defaultFileStore.$path, $filename);
+      $file = $fs->defaultFileStore.$path."/".$filename;
+      $handle = fopen($file, 'x+'); 
+      fwrite($handle, file_get_contents($url));
+      fclose($handle);
+      $fs->databaseSync($fs->defaultFileStore.$path, $path);
+      $file = new WildfireFile;
+      $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
+      $newfile->description = $_POST["wildfire_file_description"];
+      $newfile->save();
+      echo "Uploaded";
+    } elseif($_FILES) {
+        $path = $_POST['wildfire_file_folder'];
+        $fs = new CmsFilesystem;
+        $_FILES['upload'] = $_FILES["Filedata"];
+        $fs->upload($path);
+        $fs->databaseSync($fs->defaultFileStore.$path, $path);
+        $file = new WildfireFile;
+        $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
+        $newfile->description = $_POST["wildfire_file_description"];
+        $newfile->save();
+        echo "Uploaded";
+    } else die("UPLOAD ERROR");
+    exit;
+	}
 
 	/**
 	 * check to see if the cms_content var is indeed a page  

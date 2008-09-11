@@ -632,6 +632,7 @@ class CmsFilesystem {
 	  }
     	
   }
+  
 
   function uploadAuth($path){
     $uploadDir = $this->uploadDir;
