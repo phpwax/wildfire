@@ -21,6 +21,7 @@ class CMSAdminSettingsController extends CMSAdminComponent {
 	 */
 	
 	public function controller_global() {
+	  unset($this->sub_links["index"]);
 	  unset($this->sub_links["create"]);
 	  $this->type= $this->action;
 	  if($this->type=="index") $this->type="general";
