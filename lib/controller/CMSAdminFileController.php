@@ -50,6 +50,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout="file";
 	}
 	
+	public function upload_url() {
+	  $this->use_layout="simple";
+	}
+	
 	
 	/**
 	 * admin area version of show image - outputs an image
@@ -129,7 +133,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     $files = $file->find_all();
     foreach($files as $file) {
       $new = new WildfireFile;
-      $s_path = rtrim(str_replace("public/files/", "", $file->path), "/" );
+      $s_path = rtrim(str_replace("public/","",strrchr($file->path,"public/files")), "/" );
       $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$s_path}%'" )->first();
       if($new_file->id)  {
         $new_file->oldid = $file->id;

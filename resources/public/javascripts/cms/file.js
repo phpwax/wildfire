@@ -3,7 +3,7 @@ var swfu;
 function init_upload(){
   var settings = {
 		flash_url : "/swfupload_f9.swf",
-		upload_url: "/upload.php",	// Relative to the SWF file
+		upload_url: "/file_upload.php",	// Relative to the SWF file
 		post_params: {},
 		file_size_limit : "100 MB",
 		file_types : "*.*",
@@ -40,6 +40,18 @@ function set_post_params(){
     return false;
   }
   if(!fold) var fold = jQuery("#wildfire_file_folder").val();
+  if(jQuery("#upload_from").val().length >1) {
+    jQuery.post("/file_upload", { 
+      wildfire_file_folder: fold, 
+      wildfire_file_description: jQuery("#wildfire_file_description").val(),
+      upload_from_url: jQuery("#upload_from").val() ,
+      wildfire_file_filename: jQuery("#wildfire_file_filename").val()
+    }, function() {
+      jQuery("#start_button").fadeTo("fast",1.0);
+      alert("Image Successfully Retrieved");
+    });
+    return true;
+  } 
   swfu.addPostParam("wildfire_file_folder", fold);
   swfu.addPostParam("wildfire_file_description", jQuery("#wildfire_file_description").val());
   swfu.startUpload();
