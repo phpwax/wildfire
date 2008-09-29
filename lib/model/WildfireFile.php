@@ -24,7 +24,7 @@ class WildfireFile extends WaxModel {
   }
   
   public function find_filter_images($filter, $limit = false) {
-    $params = array("conditions"=>"type LIKE '%image%' AND (filename LIKE '%$filter%' OR description LIKE '%$filter%')");
+    $params = array("conditions"=>"type LIKE '%image%' AND (id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
     if($limit) $params['limit']=$limit;
 	  return $this->find_all($params);
 	}
