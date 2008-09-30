@@ -1,0 +1,14 @@
+<div id="video_dialog" class="jqmWindow">
+  <h3>1. Enter Video ID:</h3>
+	<input type="text" name="vid_id" class="input_field" id="vid_id"/>
+  <h3>2. Select Service:</h3>
+    <p>
+      <select id="vid_type">
+       <option value="youtube">YouTube</option>
+       <option value="vimeo">Vimeo</option>
+       <option value="google">Google Video</option>
+      </select> 
+			<button onclick="cms_insert_video(document.getElementById('vid_type').value, document.getElementById('vid_id').value); return false;">Insert</button>
+    </p>
+  <a href="#" class="jqmClose">Close</a>
+</div>
