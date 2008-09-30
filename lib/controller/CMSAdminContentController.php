@@ -121,6 +121,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		//parent edit function - this handles the save etc
 		parent::edit();
 		$this->extra_content_partial = $this->render_partial("extra_content");
+		$this->flash_files = $files->flash_files();
 		$this->video_partial = $this->render_partial("apply_video");
 		$this->form = $this->render_partial("form");
 	}

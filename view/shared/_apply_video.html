@@ -1,23 +1,36 @@
 <div id="video_dialog" class="jqmWindow">
 	<div class="form_container">
 		<fieldset>
-	  <h3>1. Video Page URL:</h3>
-			<div class="medium">
+	  	<h3>Video Page URL:</h3>
+			<div class="large">
 				<input type="text" name="vid_id" class="input_field" id="vid_id"/>
 			</div>
 			<hr />
-			<h3>3. Width (in pixels)</h3>
+			<?if($flash_files && count($flash_files)):?>
+			<h3>Or Local Movie</h3>
+			<div class="large">
+				<select id="local_vid">
+					<option value=''>Select...</option>
+					<?foreach($flash_files as $file):?>
+					<option value="<?=$link->url?>"><?=$link->filename?></option>
+					<?endforeach?>
+				</select>
+			</div>
+			<?else:?>
+			<input type="hidden" name="local_vid" id="local_vid" value='' />
+			<?endif?>
+			<h3>Dimensions</h3>
 			<div class="medium">
+				<label for="vid_x">Width (px)</label>
 				<input type="text" name="vid_x" class="input_field" id="vid_x" value="425"/>
 			</div>
-			<hr />
-			<h3>4. Height (in pixels)</h3>
 			<div class="medium">
+				<label for="vid_y">Height (px)</label>
 				<input type="text" name="vid_y" class="input_field" id="vid_y" value="350"/>
 			</div>
 			<hr />
 			<div class="large">
-				<button onclick="cms_insert_video(document.getElementById('vid_id').value, document.getElementById('vid_x').value, document.getElementById('vid_y').value); return false;">Insert</button>
+				<button onclick="cms_insert_video(document.getElementById('vid_id').value, document.getElementById('vid_x').value, document.getElementById('vid_y').value, document.getElementById('local_vid').value); return false;">Insert</button>
 			</div>
 	
 		  <a href="#" class="jqmClose">Close</a>
