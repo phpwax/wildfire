@@ -722,8 +722,7 @@ class CmsFilesystem {
 
 
 
-  function deleteDir($dir)
-  {
+  function deleteDir($dir) {
      if (substr($dir, strlen($dir)-1, 1) != '/')
          $dir .= '/';
      if (is_dir($dir) && $handle = opendir($dir)){
@@ -747,8 +746,7 @@ class CmsFilesystem {
      return false;
   }
 
-  function get_size($path)
-     {
+  function get_size($path) {
      if(!is_dir($path)) return filesize($path);
      if ($handle = opendir("$path")) {
          $size = 0;
@@ -782,8 +780,7 @@ class CmsFilesystem {
 
   }
 
-  function secs_to_string ($secs, $long=false)
-  {
+  function secs_to_string ($secs, $long=false) {
   	$initsecs = $secs;
     // reset hours, mins, and secs we'll be using
     $hours = 0;
