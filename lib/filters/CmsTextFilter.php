@@ -104,7 +104,7 @@ class CmsTextFilter  {
 		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_\/]*)([&]*)(.*)<\/a>/u", $youtube, $text);
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $youtube, $text);
 
 		/*VIMEO*/
 		$vimeo ='<object width="$2" height="$3">
@@ -115,12 +115,12 @@ class CmsTextFilter  {
 							</embed>
 						</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_\/]*)([&]*)(.*)<\/a>/u", $vimeo, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_*)([&]*)(.*)<\/a>/u", $vimeo, $text);						
 
 		/*GOOGLE*/
 		$google = '<embed id="VideoPlayback" src="http://video.google.com/googleplayer.swf?docid=$6&hl=en&fs=true" width="$2" height="$3" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"> </embed>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_\/]*)([&]*)(.*)<\/a>/u", $google, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $google, $text);						
 
 		/*LOCAL*/
 		$local ='<object width="$2" height="$3">
