@@ -274,17 +274,16 @@ class CmsFilesystem {
 
   function fileDelete($fileid){
     $fileid = mysql_escape_string($fileid);
-    $fileinfo = $this->getFileInfo($fileid);
-
-    $query = "DELETE from wildfire_file where id=$fileid";
-    try {
-      $result = $this->query($query);
-      
-    } catch (Exception $e) {
-      echo "Problem with query";
-    }
-    unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
-    echo "File successfully deleted";
+		$model = new WildfireFile($fileid);
+		if($model->id) $mod = $model->delete();
+		else $mod = false;
+		if($mod){
+			$fileinfo = $this->getFileInfo($fileid);
+			unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
+	    echo "File successfully deleted";
+		}else{
+			echo "File delete failed!!";
+		}
     exit;
   }
 
