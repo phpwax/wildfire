@@ -179,8 +179,12 @@ function cms_insert_url(type) {
 	}
 }
 
-function cms_insert_video(url, width, height) {
-	theIframe.contentWindow.document.execCommand("inserthtml", false, "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
+function cms_insert_video(url, width, height, local) {
+	if(local.length > 0){
+		theIframe.contentWindow.document.execCommand("inserthtml", false, "<a href='"+url+"' rel='"+width+"px:"+height+"px'>LOCAL:"+local+"</a>");
+	}else{
+		theIframe.contentWindow.document.execCommand("inserthtml", false, "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
+	}
 	theWidgEditor.theToolbar.setState("Video", "on");
 
 }
