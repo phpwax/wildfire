@@ -122,6 +122,17 @@ class CmsTextFilter  {
 
 		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $google, $text);						
 
+		/*LOCAL*/
+		$local ='<object width="$2" height="$3">
+							<param name="allowfullscreen" value="true" />
+							<param name="allowscriptaccess" value="always" />
+							<param name="movie" value="$6" />
+							<embed src="$6" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$2" height="$3">
+							</embed>
+						</object>';
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">LOCAL:([a-zA-Z\-0-9_]*)<\/a>/u", $local, $text);						
+		
+		
 		return $text;
 	}
   
