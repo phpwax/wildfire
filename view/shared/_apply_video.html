@@ -1,0 +1,26 @@
+<div id="video_dialog" class="jqmWindow">
+	<div class="form_container">
+		<fieldset>
+	  <h3>1. Video Page URL:</h3>
+			<div class="medium">
+				<input type="text" name="vid_id" class="input_field" id="vid_id"/>
+			</div>
+			<hr />
+			<h3>3. Width (in pixels)</h3>
+			<div class="medium">
+				<input type="text" name="vid_x" class="input_field" id="vid_x" value="425"/>
+			</div>
+			<hr />
+			<h3>4. Height (in pixels)</h3>
+			<div class="medium">
+				<input type="text" name="vid_y" class="input_field" id="vid_y" value="350"/>
+			</div>
+			<hr />
+			<div class="large">
+				<button onclick="cms_insert_video(document.getElementById('vid_id').value, document.getElementById('vid_x').value, document.getElementById('vid_y').value); return false;">Insert</button>
+			</div>
+	
+		  <a href="#" class="jqmClose">Close</a>
+		</fieldset>
+	</div>
+</div>

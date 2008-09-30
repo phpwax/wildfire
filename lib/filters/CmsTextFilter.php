@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes"),
-    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "nice_quotes", "yt_video")
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "nice_quotes", "videos")
   );
   
   static public function add_filter($trigger, $method) {
@@ -44,7 +44,7 @@ class CmsTextFilter  {
   }
   
   static public function strip_attributes($text) {
-		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/", "<$1 $2 $3>", $text);
+		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/", "<$1 $2 $3\>", $text);
     return preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span|font)\s+([^>]*)>/", "<$1>", $text);
   }
   
@@ -97,6 +97,33 @@ class CmsTextFilter  {
     return preg_replace("/(\s{1})\\\"([^<>\\\"]*)\\\"/u", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
   }
   
+	static public function videos($text){
+		/*standard youtube*/
+		$youtube = '<object width="$2" height="$3">
+	    <param name="movie" value="http://www.youtube.com/v/$6"></param>
+	    <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
+	  </object>';
+
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $youtube, $text);
+
+		/*VIMEO*/
+		$vimeo ='<object width="$2" height="$3">
+							<param name="allowfullscreen" value="true" />
+							<param name="allowscriptaccess" value="always" />
+							<param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=$6&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" />
+							<embed src="http://vimeo.com/moogaloop.swf?clip_id=$6&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$2" height="$3">
+							</embed>
+						</object>';
+
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $vimeo, $text);						
+
+		/*GOOGLE*/
+		$google = '<embed id="VideoPlayback" src="http://video.google.com/googleplayer.swf?docid=$6&hl=en&fs=true" width="$2" height="$3" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"> </embed>';
+
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $google, $text);						
+
+		return $text;
+	}
   
   static public function yt_video($text) {
     $replace = '<object width="425" height="350">
@@ -105,6 +132,7 @@ class CmsTextFilter  {
     </object>';
     $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
     $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/", $replace, $text);
+    $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
     return preg_replace("/<!--yt_video-->([^\s<]*)/", $replace, $text);
   }
   
