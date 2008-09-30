@@ -26,7 +26,7 @@
 			</div>
 			<div class="medium">
 				<label for="vid_y">Height (px)</label>
-				<input type="text" name="vid_y" class="input_field" id="vid_y" value="350"/>
+				<input type="text" name="vid_y" class="input_field" id="vid_y" value="344"/>
 			</div>
 			<hr />
 			<div class="large">
@@ -37,3 +37,25 @@
 		</fieldset>
 	</div>
 </div>
+
+<script>
+$(document).ready(function(){
+	x = $('#vid_x').val();
+	y = $('#vid_y').val();	
+	vid = $('#vid_id').val();	
+	if(vid.indexOf('youtube')>0){
+		ratio=0.809;
+	}else if(vid.indexOf('google')>0){
+		ratio=0.815;
+	}else{
+		ratio=0.689;
+	}
+	
+	$('#vid_x').blur(function(){
+		x = $(this).val();
+		y = Math.round(x*ratio);
+		$('#vid_y').val(y);
+	});
+	
+});
+</script>
