@@ -26,6 +26,7 @@ widgToolbarItems.push("separator");
 
 widgToolbarItems.push("blockformat");
 widgToolbarItems.push("separator");
+widgToolbarItems.push("video");
 // widgToolbarItems.push("image");
 
 
@@ -847,6 +848,9 @@ function widgToolbar(theEditor)
 				this.addButton(this.theList.id + "ButtonLink", "widgButtonLink", "Hyperlink", "link");
 				
 				break;
+			case "video":
+				this.addButton(this.theList.id + "ButtonVideo", "widgButtonVideo", "Video", "video");
+				break;	
 				
 			case "unorderedlist":
 				this.addButton(this.theList.id + "ButtonUnordered", "widgButtonUnordered", "Unordered List", "insertunorderedlist");
@@ -1104,6 +1108,18 @@ function widgToolbarAction()
 			}
 			
 			break;
+		
+		
+			case "video":
+				if (this.parentNode.className.classExists("on")) {
+					theIframe.contentWindow.document.execCommand("Unlink", false, null);
+					theWidgEditor.theToolbar.setState("Link", "off");
+				} else {			  
+					
+	        $('#video_dialog').jqmShow();
+				}
+
+				break;
 			
 		case "image":
 			var theImage = prompt("Enter the location for this image:", "");

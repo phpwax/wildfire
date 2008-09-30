@@ -19,4 +19,3 @@ function inline_status_change(){
 		});
 	}
 }
-
