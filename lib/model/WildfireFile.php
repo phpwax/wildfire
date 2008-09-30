@@ -35,6 +35,10 @@ class WildfireFile extends WaxModel {
     else $params["conditions"] = "type LIKE '%image%'";
 	  return $this->find_all($params);
 	}
+	public function flash_files(){
+		$model = new WildfireFile();
+		return $model->filter("`filename` LIKE '%.swf'")->all();
+	}
 	
 	public function extension() {
 	  return ".".File::get_extension($this->filename);
