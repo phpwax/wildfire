@@ -731,6 +731,7 @@ updateMeta = function (meta) {
 		
 		var metaFlags = '<option label="Normal" value="normal" '+normalflag+' >Normal</option><option label="Hot" value="hot" '+hotflag+' >Hot</option><option label="Emergency" value="emergency" '+emergencyflag+'>Emergency</option>';
 		if(meta.image == '1') $('meta').innerHTML += '<div class="thumbbox"><a href="'+FC.URL+'?relay=getFile&fileid='+meta.id+'" ><img src="'+FC.URL+'?relay=getThumb&fileid='+meta.id+'" class="metaThumbnail" alt="" /></a></div><div style="text-align:center; padding:2px;">'+meta.resolution+'</div>';
+
 		$('meta').innerHTML += ' <table>
 															<tr>
 																<td class="l">Name</td>
@@ -754,7 +755,7 @@ updateMeta = function (meta) {
 															</tr>
 															<tr>
 																<td class="l">Rotate</td>
-																<td><a href="/admin/files/rotate/'+meta.id+'?angle=-90" class="rotate_left" onclick="rotate_image(rotate_left);return false;">left</a>&nbsp;<a href="/admin/files/rotate/'+meta.id+'?angle=90" class="rotate_right" onclick="rotate_image(rotate_right);return false;">right</a></td>
+																<td><a href="#" onclick="rotate_image('+meta.id+',-90);return false;">left</a>&nbsp;<a href="#" onclick="rotate_image('+meta.id+',90);return false;">right</a></td>
 															</tr>
 															<tr>
 																<td class="l">Flag</td>

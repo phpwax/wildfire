@@ -238,9 +238,7 @@ class CmsFilesystem {
   	$meta = "\"filename\": \"$fileinfo[filename]\",\"path\": \"$fileinfo[virtualpath]\",\"image\":$fileinfo[image],\"type\": \"$type\", \"date\": \"$fileinfo[date]\", \"downloads\": \"$fileinfo[downloads]\", \"description\": \"$fileinfo[description]\", \"flags\": \"$fileinfo[flags]\", \"type\": \"$fileinfo[type]\", \"size\": \"$fileinfo[size]\"";
   	if($imginfo = getimagesize($fileinfo['path'].'/'.$fileinfo['filename'])) {
   	  $meta.=', "resolution": "'.$imginfo[0].'x'.$imginfo[1].'px"';
-  	}else{
-			$meta.=",\"rotate\": \"not an image\"";
-		}
+  	}
   	$this->jsonAdd($meta);
   	echo $this->jsonReturn('getMeta');
   }
