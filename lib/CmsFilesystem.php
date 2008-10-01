@@ -600,10 +600,9 @@ class CmsFilesystem {
   function display_asset($path, $mime) {
     if(!is_readable($path)) return false;
   	$length=filesize($path);
-		$rand = mt_rand(1000,9999);
   	header("Content-Type: " . $mime."\n");
   	header("Content-Length: ".$length."\n");
-  	header("Content-disposition: inline; filename=".basename($path)."?rand=$rand\n");
+  	header("Content-disposition: inline; filename=".basename($path)."\n");
   	ob_end_clean();
   	$handle = fopen($path, "r");
   	  while (!feof($handle)) {
