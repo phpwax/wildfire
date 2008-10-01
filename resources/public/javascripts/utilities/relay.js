@@ -372,7 +372,7 @@ Directory.prototype = {
 	
 	rotate_image: function(fileid, angle){
 		href = '/admin/files/rotate/'+fileid+'?angle='+angle;
-		new Ajax.request(href, {onComplete:this.getMeta();});		
+		new Ajax.request(href, {onComplete:this.getMeta()});		
 		return false;
 	},
 	
