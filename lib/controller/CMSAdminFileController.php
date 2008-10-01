@@ -96,7 +96,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function crop(){
 		if($id = Request::get('id') ){
 			$this->model = new $this->model_class($id);
-			print_r($_REQUEST);exit;
+			//print_r($_REQUEST);exit;
 			if($data = Request::post('crop')){
 				$location = PUBLIC_DIR. $this->model->url();
 				echo $location;exit;
