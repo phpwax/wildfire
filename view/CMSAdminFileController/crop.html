@@ -5,12 +5,12 @@
  
  function selectChange(img, selection)
  {
-   $x1.text(selection.x1);
-   $y1.text(selection.y1);
-   $x2.text(selection.x2);
-   $y2.text(selection.y2);
-   $w.text(selection.width);
-   $h.text(selection.height);
+   $x1.val(selection.x1);
+   $y1.val(selection.y1);
+   $x2.val(selection.x2);
+   $y2.val(selection.y2);
+   $w.val(selection.width);
+   $h.val(selection.height);
  }
 
  $(document).ready(function () {
@@ -26,7 +26,7 @@
    $('img#wff').imgAreaSelect({ selectionOpacity: 0, onSelectChange: selectChange });
  });
 </script>
-
+<form action="" method="post" name="" >
 <div id="container">
 	<div id="content_window" class="clearfix">
     <div id="content_editor" class="clearfix">
@@ -38,21 +38,42 @@
 	</div>
 	
 	<fieldset id="content_options">	
-	  <p style="background: #eee; border: solid 1px #ddd; margin: 0; padding: 10px;">
-	   <b>Selection coordinates:</b><br />
-
-	   <b>X<sub>1</sub>:</b> <span id="x1"></span><br />
-	   <b>Y<sub>1</sub>:</b> <span id="y1"></span><br />
-	   <b>X<sub>2</sub>:</b> <span id="x2"></span><br />
-
-	   <b>Y<sub>2</sub>:</b> <span id="y2"></span><br />
-	   <br />
-	   <b>Selection dimensions:</b><br />
-	   <b>Width:</b> <span id="w"></span><br />
-	   <b>Height:</b> <span id="h"></span>
-
-	  </p>
+		<h3>Selection coordinates:</h3>
+		<div class="large">
+			<label>X<sub>1</sub></label>
+			<input type="text" id="x1" value="" disabled="disabled"/>
+		</div>
+		<hr />
+		<div class="large">
+	  	<label>Y<sub>1</sub>:</label>
+			<input type="text" id="y1" value="" disabled="disabled"/>
+		</div>
+		<hr />
+		<div class="large">
+	  	<label>X<sub>2</sub>:</label>
+			<input type="text" id="x2" value="" disabled="disabled"/>
+		</div>
+		<hr />	
+		<div class="large">
+	  	<label>Y<sub>2</sub>:</label>
+			<input type="text" id="y2" value="" disabled="disabled"/>
+		</div>
+		<hr />
+   	<h3>Selection dimensions:</h3>
+	  <div class="large">
+			<label>Width:</label>
+			<input type="text" value="" id="w" disabled="disabled" />
+		</div>
+		<hr />
+		<div class="large">
+	  	<label>Height:</label>
+			<input type="text" value="" id="h" disabled="disabled" />
+	  </div>
+		
 	 </fieldset>
+	<fieldset id="submit">
+     <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Crop" />
+   </fieldset>
 	
 </div>
-
+</form>
