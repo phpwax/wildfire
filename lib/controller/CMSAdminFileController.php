@@ -93,6 +93,13 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->save($this->model);
 	}
 	
+	public function crop(){
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			
+		}else exit;
+	}
+	
 	public function edit() {
 		$this->existing = true;
 		parent::edit();
