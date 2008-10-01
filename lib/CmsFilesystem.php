@@ -237,7 +237,6 @@ class CmsFilesystem {
   	else $type = "document";
   	$meta = "\"filename\": \"$fileinfo[filename]\",\"path\": \"$fileinfo[virtualpath]\",\"image\":$fileinfo[image],\"type\": \"$type\", \"date\": \"$fileinfo[date]\", \"downloads\": \"$fileinfo[downloads]\", \"description\": \"$fileinfo[description]\", \"flags\": \"$fileinfo[flags]\", \"type\": \"$fileinfo[type]\", \"size\": \"$fileinfo[size]\"";
   	if($imginfo = getimagesize($fileinfo['path'].'/'.$fileinfo['filename'])) {
-			$meta.=", \"rotate\": \"<a href='/admin/files/rotate/$fileid?angle=-90' class='rotate_left' onclick='rotate_image(\"rotate_left\");'>left</a>&nbsp;<a href='/admin/files/rotate/$fileid?angle=90' class='rotate_right' onclick='rotate_image(\"rotate_right\");'>right</a>\"";
   	  $meta.=', "resolution": "'.$imginfo[0].'x'.$imginfo[1].'px"';
   	}else{
 			$meta.=",\"rotate\": \"not an image\"";
