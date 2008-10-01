@@ -363,7 +363,7 @@ Directory.prototype = {
 		var json_data = response.responseText;		
 		eval("var jsonObject = ("+json_data+")");
 		if (jsonObject.bindings.length >= 1) {
-			var meta = { name: jsonObject.bindings[0].name, size: jsonObject.bindings[0].size, path: this.path};
+			var meta = { name: jsonObject.bindings[0].name, size: jsonObject.bindings[0].size, path: this.path, rotate: this.rotate};
 			updateMeta(meta);
 		}
 		else updateMeta({ ' ':'No Info to display'});	
