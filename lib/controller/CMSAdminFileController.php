@@ -58,6 +58,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function rotate(){
+		$this->use_layout=false;
 		if(Request::get('id') && Request::get('angle')){
 			$this->image = new WildfireFile(Request::get('id'));
 			$location = PUBLIC_DIR. $this->image->url();
