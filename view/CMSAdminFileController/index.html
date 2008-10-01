@@ -161,16 +161,12 @@ div#dashboard {
 <div class="clearfix"></div>
 
 <script>
-$(document).ready(function() {
-	rotate_image();
-});
-function rotate_image(){
-	if($('a.rotate').length){
-		$('a.rotate').click(function(){
-			link = $(this).attr('href');
-			$('#meta .thumbbox').load(link);
-			return false;
-		});
+
+function rotate_image(link){
+	if($('a.'+link).length){
+		href = $('a.'+link).attr('href');
+		$('#meta .thumbbox').load(href);
 	}
+	return false;
 }
 </script>
