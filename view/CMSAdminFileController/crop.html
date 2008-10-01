@@ -7,8 +7,6 @@
  {
    $x1.val(selection.x1);
    $y1.val(selection.y1);
-   $x2.val(selection.x2);
-   $y2.val(selection.y2);
    $w.val(selection.width);
    $h.val(selection.height);
  }
@@ -16,8 +14,7 @@
  $(document).ready(function () {
    $x1 = $('#x1');
    $y1 = $('#y1');
-   $x2 = $('#x2');
-   $y2 = $('#y2');
+
    $w = $('#w');
    $h = $('#h');
  });
@@ -49,16 +46,7 @@
 			<input type="text" id="y1" value="" disabled="disabled"/>
 		</div>
 		<hr />
-		<div class="large">
-	  	<label>X<sub>2</sub>:</label>
-			<input type="text" id="x2" value="" disabled="disabled"/>
-		</div>
-		<hr />	
-		<div class="large">
-	  	<label>Y<sub>2</sub>:</label>
-			<input type="text" id="y2" value="" disabled="disabled"/>
-		</div>
-		<hr />
+	
    	<h3>Selection dimensions:</h3>
 	  <div class="large">
 			<label>Width:</label>
