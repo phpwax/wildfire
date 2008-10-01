@@ -370,13 +370,7 @@ Directory.prototype = {
 	
 	},
 	
-	rotate_image: function(fileid, angle){
-		href = '/admin/files/rotate/'+fileid+'?angle='+angle;
-		alert(href);
-		var rimage = new Ajax.Request(href, {onComplete:this.getMeta()});		
-		return false;
-	},
-	
+		
 	nextChild: function(child) {
 		var pos = this.checkIfChild(child);
 		if(pos != this.children.length-1) this.children[pos+1].select();
@@ -749,6 +743,11 @@ updateMeta = function (meta) {
 }
 
 
+rotate_image = function(fileid, angle){
+	href = '/admin/files/rotate/'+fileid+'?angle='+angle;
+	var rimage = new Ajax.Request(href, {onComplete:FC.SELECTEDOBJECT.getMeta()});		
+	return false;
+}
 
 saveMeta = function () {
 	if(FC.SELECTEDOBJECT.type == 'directory') {
