@@ -84,9 +84,10 @@
 <script>
 $(document).ready(function(){
 	$('input.cropper').click(function(){
+		var pdata = new Array[x:$x1.val(), y: $y1.val(), w: $w.val(), h: $h.val()];
 		
 		$.post('/admin/files/crop/<?=$model->id?>', 
-					{'crop': [x:$x1.val(), y: $y1.val(), w: $w.val(), h: $h.val()]},
+					{pdata},
 					function(response){
 						$('div.image').html(response);
 					});
