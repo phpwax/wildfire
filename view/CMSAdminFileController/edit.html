@@ -88,6 +88,22 @@
 
 <script>
 $(document).ready(function(){
+	if($("#container").length) $("#container").tabs();
+	 $("#resizehandle").resizable({ 
+        handles: "s",
+        transparent: true, 
+        stop: function() {
+          var origheight=13;
+          var newheight = $("#resizehandle").height();
+          var addheight = newheight - origheight;
+          var iframeheight = $(".widgIframe").height();
+          var textareaheight = $("#cms_content_contentWidgTextarea").height();
+          $(".widgIframe").height(iframeheight + addheight);
+          $("#cms_content_contentWidgTextarea").height(textareaheight + addheight);
+          $("#resizehandle").height(13);
+        }
+    });
+	
 	$('input.cropper').click(function(){
 		var pdata = {'crop[x]':$x1.val(), 'crop[y]': $y1.val(), 'crop[w]': $w.val(), 'crop[h]': $h.val()};
 		
