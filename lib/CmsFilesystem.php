@@ -276,14 +276,9 @@ class CmsFilesystem {
     $fileid = mysql_escape_string($fileid);
 		$model = new WildfireFile($fileid);
 		if($model->id) $mod = $model->delete();
-		else $mod = false;
-		if($mod){
-			$fileinfo = $this->getFileInfo($fileid);
-			unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
-	    echo "File successfully deleted";
-		}else{
-			echo "File delete failed!!";
-		}
+		$fileinfo = $this->getFileInfo($fileid);
+		unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
+	  echo "File successfully deleted";
     exit;
   }
 
