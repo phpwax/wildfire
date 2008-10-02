@@ -1,21 +1,16 @@
 var swfu;
-
 function init_upload(){
   var settings = {
-		flash_url : "/swfupload_f9.swf",
-		upload_url: "/file_upload.php",	// Relative to the SWF file
+		flash_url: "/swfupload_f9.swf",
+		upload_url: "/file_upload.php",
 		post_params: {},
 		file_size_limit : "100 MB",
-		file_types : "*.*",
-		file_types_description : "All Files",
-		file_upload_limit : 100,
-		file_queue_limit : 100,
-		custom_settings : {
-			progressTarget : "fsUploadProgress",
-			cancelButtonId : "btnCancel"
-		},
+		file_types: "*.*",
+		file_types_description: "All Files",
+		file_upload_limit: 100,
+		file_queue_limit: 100,
+		custom_settings: {progressTarget : "fsUploadProgress", cancelButtonId : "btnCancel"},
 		debug: false,
-
 		// The event handler functions are defined in handlers.js
 		file_queued_handler : fileQueued,
 		file_queue_error_handler : fileQueueError,
@@ -25,10 +20,9 @@ function init_upload(){
 		upload_error_handler : uploadError,
 		upload_success_handler : uploadSuccess,
 		upload_complete_handler : uploadComplete,
-		queue_complete_handler : queueComplete	// Queue plugin event
+		queue_complete_handler : queueComplete
 	};
-
-	swfu = new SWFUpload(settings);
+ swfu = new SWFUpload(settings);
 }
 
    
@@ -44,7 +38,7 @@ function set_post_params(){
     jQuery.post("/file_upload", { 
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
-      upload_from_url: jQuery("#upload_from").val() ,
+      upload_from_url: jQuery("#upload_from").val(),
       wildfire_file_filename: jQuery("#wildfire_file_filename").val()
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);

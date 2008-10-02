@@ -710,6 +710,8 @@ li.pagination_link a {
     padding:7px 10px 0 0;
     font-size:75%;
     color:#989898;
+    width:200px;
+    background:white;
   }
   #quicksave span {
     margin-right:8px;

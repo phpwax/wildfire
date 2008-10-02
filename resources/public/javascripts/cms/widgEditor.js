@@ -524,7 +524,7 @@ widgEditor.prototype.initEdit = function()
 	catch (e)
 	{
 		/* setTimeout needed to counteract Mozilla bug whereby you can't immediately change designMode on newly created iframes */
-		setTimeout(function(){self.initEdit()}, 250);
+		setTimeout(function(){self.initEdit();}, 250);
 			
 		return false;
 	}
