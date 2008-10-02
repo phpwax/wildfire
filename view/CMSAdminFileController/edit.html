@@ -96,7 +96,7 @@ $(document).ready(function(){
 					pdata,
 					function(response){
 						$('div.image').html(response);
-						set_crop_image();
+						window.location.reload();
 					});
 		return false;
 	});
