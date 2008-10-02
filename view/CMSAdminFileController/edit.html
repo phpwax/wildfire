@@ -102,7 +102,6 @@ $(document).ready(function(){
 	});
 	
 	$('a.resize_image').click(function(){
-		alert('resizing...');		
 		href = $(this).attr('href');
 		$.get(href, function(response){
 			$('div.image').html(response);
@@ -111,7 +110,6 @@ $(document).ready(function(){
 	});
 	
 	$('a.rotate_image').click(function(){
-		alert('rotating...');
 		href = $(this).attr('href');
 		$.get(href, function(response){
 			$('div.image').html(response);
