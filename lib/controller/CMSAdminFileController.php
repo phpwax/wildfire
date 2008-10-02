@@ -60,8 +60,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function rotate(){
 		$this->use_layout=false;
 		if(Request::get('id') && Request::get('angle')){
-			$this->image = new WildfireFile(Request::get('id'));
-			$location = PUBLIC_DIR. $this->image->url();
+			$this->model = new WildfireFile(Request::get('id'));
+			$location = PUBLIC_DIR. $this->model->url();
 			File::rotate_image($location, $location, Request::get('angle') );			
 		}else exit;
 	}
@@ -72,7 +72,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if($data = Request::post('crop')){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
-				$this->redirect_to("/admin/files");
 			}
 		}else exit;
 	}
@@ -83,7 +82,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if($data = $_REQUEST['percent']){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::resize_image_extra($location, $location, $data);
-				$this->redirect_to("/admin/files");
 			}
 		}else exit;
 	}
@@ -118,8 +116,10 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	
 	public function edit() {
-		$this->existing = true;
-		parent::edit();
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			
+		}else exit;
 	}
 	
 	public function upload() {
