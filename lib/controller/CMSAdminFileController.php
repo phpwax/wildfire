@@ -80,7 +80,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public function resize(){
 		if($id = Request::get('id') ){
 			$this->model = new $this->model_class($id);
-			if($data = $_REQUEST['percent'])){
+			if($data = $_REQUEST['percent']){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::resize_image($location, $location, $data);
 				$this->redirect_to("/admin/files");
