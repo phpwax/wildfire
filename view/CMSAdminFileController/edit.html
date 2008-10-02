@@ -92,7 +92,7 @@ $(document).ready(function(){
 	
 	$('input.cropper').click(function(){
 		var pdata = {'crop[x]':$x1.val(), 'crop[y]': $y1.val(), 'crop[w]': $w.val(), 'crop[h]': $h.val()};
-		$('img#wff').imgAreaSelect({hide:true;})
+		$('img#wff').imgAreaSelect({hide:'true'});
 		$.post('/admin/files/crop/<?=$model->id?>', 
 					pdata,
 					function(response){
