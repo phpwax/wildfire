@@ -56,7 +56,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout="simple";
 	}
 	
-	
+	/** AJAX IMAGE EDITING **/
 	public function rotate(){
 		$this->use_layout=false;
 		if(Request::get('id') && Request::get('angle')){
@@ -65,8 +65,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 			File::rotate_image($location, $location, Request::get('angle') );			
 		}else exit;
 	}
-	
+	/** AJAX IMAGE EDITING **/	
 	public function crop(){
+		$this->use_layout=false;
 		if($id = Request::get('id') ){
 			$this->model = new $this->model_class($id);
 			if($data = Request::post('crop')){
@@ -75,8 +76,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 			}
 		}else exit;
 	}
-	
+	/** AJAX IMAGE EDITING **/	
 	public function resize(){
+		$this->use_layout=false;
 		if($id = Request::get('id') ){
 			$this->model = new $this->model_class($id);
 			if($data = $_REQUEST['percent']){
