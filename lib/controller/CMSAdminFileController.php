@@ -65,6 +65,29 @@ class CMSAdminFileController extends CMSAdminComponent {
 			File::rotate_image($location, $location, Request::get('angle') );			
 		}else exit;
 	}
+	
+	public function crop(){
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			if($data = Request::post('crop')){
+				$location = PUBLIC_DIR. $this->model->url();
+				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
+				$this->redirect_to("/admin/files");
+			}
+		}else exit;
+	}
+	
+	public function resize(){
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			if($data = $_REQUEST['percent'])){
+				$location = PUBLIC_DIR. $this->model->url();
+				File::resize_image($location, $location, $data);
+				$this->redirect_to("/admin/files");
+			}
+		}else exit;
+	}
+	
 	/**
 	 * admin area version of show image - outputs an image
 	 */	
@@ -93,16 +116,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->save($this->model);
 	}
 	
-	public function crop(){
-		if($id = Request::get('id') ){
-			$this->model = new $this->model_class($id);
-			if($data = Request::post('crop')){
-				$location = PUBLIC_DIR. $this->model->url();
-				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
-				$this->redirect_to("/admin/files");
-			}
-		}else exit;
-	}
 	
 	public function edit() {
 		$this->existing = true;
