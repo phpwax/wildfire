@@ -86,7 +86,7 @@ $(document).ready(function(){
 	$('input.cropper').click(function(){
 		
 		$.post('/admin/files/crop/<?=$model->id?>', 
-					{'crop[]': [x:$x1.val(), y: $y1.val(), w: $w.val(), h: $h.val()]},
+					{'crop': [x:$x1.val(), y: $y1.val(), w: $w.val(), h: $h.val()]},
 					function(response){
 						$('div.image').html(response);
 					});
