@@ -56,15 +56,38 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout="simple";
 	}
 	
-	
+	/** AJAX IMAGE EDITING **/
 	public function rotate(){
 		$this->use_layout=false;
 		if(Request::get('id') && Request::get('angle')){
-			$this->image = new WildfireFile(Request::get('id'));
-			$location = PUBLIC_DIR. $this->image->url();
+			$this->model = new WildfireFile(Request::get('id'));
+			$location = PUBLIC_DIR. $this->model->url();
 			File::rotate_image($location, $location, Request::get('angle') );			
 		}else exit;
 	}
+	/** AJAX IMAGE EDITING **/	
+	public function crop(){
+		$this->use_layout=false;
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			if($data = Request::post('crop')){
+				$location = PUBLIC_DIR. $this->model->url();
+				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
+			}
+		}else exit;
+	}
+	/** AJAX IMAGE EDITING **/	
+	public function resize(){
+		$this->use_layout=false;
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			if($data = $_REQUEST['percent']){
+				$location = PUBLIC_DIR. $this->model->url();
+				File::resize_image_extra($location, $location, $data);
+			}
+		}else exit;
+	}
+	
 	/**
 	 * admin area version of show image - outputs an image
 	 */	
@@ -93,9 +116,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->save($this->model);
 	}
 	
+	
 	public function edit() {
-		$this->existing = true;
-		parent::edit();
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			
+		}else exit;
 	}
 	
 	public function upload() {
