@@ -3,6 +3,7 @@
 <!--[if lte IE 7]>
   <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
 <![endif]-->
+<?=javascript_asset("cms","file")?>
 <?=javascript_asset("cms","cms_content")?>
 <script type="text/javascript">var content_page_id = <?=$model->id?>;</script>
 
@@ -70,3 +71,4 @@
 <?=preview_window($page->permalink, "preview_link", "preview_pane")?>
 
 <?=$link_partial?>
+<?=$video_partial?>

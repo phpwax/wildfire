@@ -10,6 +10,7 @@
       <span id="image_filter_folder">
         &nbsp;<?=select($image_model, "new_folder", $image_model->folder_options, array("id"=>"image_folder"), "Choose a folder")?>
         &nbsp;<a href="#" id="quick_upload_button">Upload Images</a>
+        &nbsp;&nbsp;<a href="#" id="upload_url_button">From URL</a>
       </span>
     </div>    
     
@@ -36,3 +37,4 @@
   
 </div>
 <div id="quick_upload_pane" class="jqmWindow"></div>
+<div id="upload_url_pane" class="jqmWindow"></div>

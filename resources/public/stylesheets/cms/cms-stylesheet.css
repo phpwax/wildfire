@@ -796,6 +796,7 @@ li.pagination_link a {
   border-top:1px solid #dedede;
   background:white;
   padding:0 10px 5px 20px;
+  min-height:12px;
 }
 
 #preview_pane {
@@ -1039,7 +1040,7 @@ li.pagination_link a {
 /****** Advanced Uploader Styling *******/
 
 .progressWrapper {
-	width: 327px;
+	width: 170px;
 	overflow: hidden;
 }
 
@@ -1080,11 +1081,12 @@ li.pagination_link a {
 	font-size: 8pt;
 	font-weight: 700;
 	color: #555;
-	width: 323px;
+	width: 170px;
 	height: 14px;
 	text-align: left;
 	white-space: nowrap;
 	overflow: hidden;
+	float:left;
 }
 
 .progressBarInProgress,
@@ -1092,9 +1094,10 @@ li.pagination_link a {
 .progressBarError {
 	font-size: 0;
 	width: 0%;
-	height: 2px;
-	background-color: blue;
-	margin-top: 2px;
+	height: 4px;
+	background-color: #666;
+	margin: 5px 0;
+	clear:both;
 }
 
 .progressBarComplete {
@@ -1111,7 +1114,7 @@ li.pagination_link a {
 
 .progressBarStatus {
 	margin-top: 2px;
-	width: 337px;
+	width: 170px;
 	font-size: 7pt;
 	font-family: Arial;
 	text-align: left;
@@ -1120,12 +1123,12 @@ li.pagination_link a {
 
 a.progressCancel {
 	font-size: 0;
-	display: block;
 	height: 14px;
 	width: 14px;
 	background-image: url(../../images/cms/trash.gif);
 	background-repeat: no-repeat;
 	float: right;
+	display:block;
 }
 
 a.progressCancel:hover {
@@ -1157,24 +1160,27 @@ a.progressCancel:hover {
 #fsUploadProgress {
   border:1px solid #BBBBBB;
   background:white;
-  width:360px !important;
+  width:180px !important;
   padding:15px 8px !important;
-  max-height:150px;
   overflow:auto;
+  height:100px;
 }
 #divStatus {
   background:#E1E1E1;
   color:black;
   font-weight:bold;
-  width:360px;
+  width:180px;
   padding:5px 8px;
   border:1px solid #BBBBBB;
   border-top:0;
   clear:both;
 }
 .progressContainer div {
-  display:inline;
-  padding-left:7px;
+  display:block;
+  margin:2px 7px;
+}
+#upload_url {
+  display:none;
 }
 /*** End uploader styling**********/
 

@@ -204,7 +204,7 @@ class CmsFilesystem {
   		  }
     	} else $this->error("directory doesnt exist $fullpath");
 
-    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `date` desc";
+    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `filename` ASC";
     	$result = $this->find($query);
       foreach($result as $files) {
         $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
@@ -274,17 +274,11 @@ class CmsFilesystem {
 
   function fileDelete($fileid){
     $fileid = mysql_escape_string($fileid);
-    $fileinfo = $this->getFileInfo($fileid);
-
-    $query = "DELETE from wildfire_file where id=$fileid";
-    try {
-      $result = $this->query($query);
-      
-    } catch (Exception $e) {
-      echo "Problem with query";
-    }
-    unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
-    echo "File successfully deleted";
+		$model = new WildfireFile($fileid);
+		$fileinfo = $this->getFileInfo($fileid);
+		unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
+		if($model->id) $mod = $model->delete();
+	  echo "File successfully deleted";
     exit;
   }
 
@@ -574,6 +568,8 @@ class CmsFilesystem {
   		$file1 = $fileinfo['path'].'/'.$fileinfo['filename'];
   		$file2 = $fileinfo['path']."/thumb_$fileid.jpg";
 
+			if(is_readable($file2)) unlink($file2);
+			
   		$code = "{$this->convertpath} \"$file1\" -render -flatten -resize ".$thumbsize."x".$thumbsize." \"$file2\"";
   		#echo "$code";
 
@@ -621,12 +617,18 @@ class CmsFilesystem {
     $tmp_name = $_FILES["upload"]["tmp_name"];
     $uploadfile = File::safe_file_save($userpath, basename($_FILES['upload']['name']));
     error_log($uploadfile);
-    move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile);
-  	if(isset($_GET['redir'])){
-  		header("location: $_GET[redir]");
-  	}
+    if(move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile)) {
+      chmod($userpath.'/'.$uploadfile, 0777);
+    	if(isset($_GET['redir'])){
+    		header("location: $_GET[redir]");
+    	}
+	  } else {
+	    header("HTTP/1.0 500 Internal Server Error");
+	    die("File upload error");
+	  }
     	
   }
+  
 
   function uploadAuth($path){
     $uploadDir = $this->uploadDir;

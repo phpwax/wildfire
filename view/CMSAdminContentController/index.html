@@ -20,13 +20,14 @@
     </tr>
   </thead>
   <tbody id="list_rows">
-    <?=$list?> 
+    <?=$list?>
+    <?if(count($all_rows)<1):?>
+      <tr><td>No items available</td></tr>
+    <?endif?>
   </tbody> 
 </table>
 
-<?if(count($all_rows)<1):?>
-  No items available
-<?endif?>
+
 <div id="bottom_pagination">
   <?=paginate_links($all_rows, "7")?>
 </div>

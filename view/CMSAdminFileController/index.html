@@ -1,8 +1,17 @@
+<link href="/stylesheets/cms/upload.css" rel="stylesheet" type="text/css" />
+
 <script src="/javascripts/utilities/prototype.js" type="text/javascript"></script>
 <script src="/javascripts/utilities/dragdrop.js" type="text/javascript"></script>
 <script src="/javascripts/utilities/effects.js" type="text/javascript"></script>
 <script src="/javascripts/utilities/search.js" type="text/javascript"></script>
 <script src="/javascripts/utilities/relay.js" type="text/javascript"></script>
+<script type="text/javascript" src="/javascripts/upload/swfupload.js"></script>
+<script type="text/javascript" src="/javascripts/upload/swfupload.queue.js"></script>
+<script type="text/javascript" src="/javascripts/upload/fileprogress.js"></script>
+<script type="text/javascript" src="/javascripts/upload/handlers.js"></script>
+<script type="text/javascript" src="/javascripts/cms/file.js"></script>
+
+
 
 <script type="text/javascript">
 	folderIcon = '/images/fs/mac_dir.png';
@@ -20,6 +29,10 @@
 	uploadCancel = '/images/fs/cancelupload.jpg';
 	uploadBtn = '/images/fs/upload.jpg';
 	
+</script>
+
+<script>
+    init_upload();  
 </script>
 
 <style type="text/css">
@@ -71,7 +84,6 @@ div#dashboard {
     	<li><a href="#" onclick="openAll(); return false">Open All</a></li>
     	<li><a href="#" onclick="closeAll(); return false">Close All</a></li>
     	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
-    	<li><a href="/admin/files/upload">Advanced Upload</a></li>
     	<li><a href="/admin/files/synchronise">File Synchronise</a></li>
     </ul>
   </div>
@@ -83,27 +95,24 @@ div#dashboard {
   	</div>
   	<div id="uploadcart" style="display:none;">
 		
-  		<div id="uploadstatus"><em>Destination</em> select a folder</div>
+  		<div id="uploadstatus"><em>Destination</em> <span id="dest">select a folder</span></div>
 		
-  		<form id="uploadForm" name="uploadForm" method="post" action="." enctype="multipart/form-data" onsubmit="return false" target='uploadiframe'>
-  			<div id="uploadQ">
-  				<table cellspacing="0" cellpadding="0">
-  					<tbody id="uploadFiles"></tbody>
-  				</table>
-  			</div>
-					
-  			<div id="uploadbuttons">
-  				<img src="/images/fs/addfile.jpg" class="addfile" id="uploadAdd" alt="choosefile" />
-  				<input id="fileUpload" class="fileupload" size="1" type="file" name="file[]" />
-  				<img class="upload" style="display:none" src="/images/fs/upload.jpg" id="uploadSubmit" onclick="uploadAuth();" />
-  			</div>
-			
-  			<div id="progress" style="display:none;">
-  				<div id="pgbg"></div><div id="pgfg"></div>
-  				<span id="pgpc">0.0%</span>
-  				<span id="pgsp">0.0 K/s</span>
-  				<span id="pgeta">0</span>
-  			</div>
+    	<form id="form1" action="" method="post" enctype="multipart/form-data">
+    	      <div class="flash" id="fsUploadProgress">
+
+        		</div>
+            <div id="divStatus">Click start to upload files</div>
+
+        		<fieldset>
+          	<input type="button" value="Add Files" onclick="swfu.selectFiles()" style="font-size: 8pt;" />
+      			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" />
+            
+      		  </fieldset>
+      		  <fieldset>
+        		  <?=large(text_area($model, "description", array("rows"=>"1"), "Optional Description"))?>
+      		  </fieldset>
+          <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); return false' />
+
 			
   			<input type="hidden" name="relay" value="fileUpload" style="display:none;" />
   			<input type="hidden" name="path" id="uploadPath" />
