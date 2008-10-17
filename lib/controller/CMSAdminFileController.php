@@ -16,6 +16,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public $filter_columns = array("filename", "caption");
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
+	
+	
+	public static $max_image_width = false;
 
 	/**
 	* this is used to call the parent and then reset the sub menu - as its not used for this controller

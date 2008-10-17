@@ -619,6 +619,9 @@ class CmsFilesystem {
     error_log($uploadfile);
     if(move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile)) {
       chmod($userpath.'/'.$uploadfile, 0777);
+			if(AdminFilesController::$max_image_width){
+				File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, true);
+			}
     	if(isset($_GET['redir'])){
     		header("location: $_GET[redir]");
     	}
