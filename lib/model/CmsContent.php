@@ -60,8 +60,12 @@ class CmsContent extends WaxModel {
 	
 	public function generate_url() {
 	  if(!$this->title) return false;
-	  $this->url = WXInflections::to_url($this->title);
+		//create the url from the title
+		$this->url = WXInflections::to_url($this->title);
+		//check to make sure the url does not clash with a section url (this would cause the content to be found as a section)
   	$this->avoid_section_url_clash();
+		//make sure the url is unique
+	  $this->url = $this->avoid_url_clash();
 	}
 	
 	
@@ -95,6 +99,14 @@ class CmsContent extends WaxModel {
 	public function avoid_section_url_clash() {
 	  $section = new CmsSection;
 	  if($section->filter(array('url'=>$this->url))->first() ) $this->url= $this->url."-info";
+	}
+	public function avoid_url_clash(){
+		$test_url = $original_url = $this->url;
+		$model = new CmsContent();
+		while($model->filter(array('url'=>$test_url) )->filter('id <> '.$this->id)->first() ){
+			$test_url = $original_url . '-'.mt_rand(0,99);
+		} 
+		return $test_url;
 	}
 	
 	public function find_related_in_section($params=false) {
