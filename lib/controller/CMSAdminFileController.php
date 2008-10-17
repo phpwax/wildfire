@@ -37,10 +37,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  if($_POST && $_POST['sync']=="go") {
 	    $fs = new CmsFilesystem;
 	    $scan = File::get_folders($fs->defaultFileStore.$fs->relativepath);
-	    foreach($scan as $folder) {
-	      $rel = str_replace($fs->defaultFileStore, "", $folder['path']);
-	      $fs->databaseSync($folder['path'], $rel);
-	    }
+			if(is_array($scan) ){
+	    	foreach($scan as $folder) {
+	      	$rel = str_replace($fs->defaultFileStore, "", $folder['path']);
+	      	$fs->databaseSync($folder['path'], $rel);
+	    	}
+			}
 	    exit;
 	  }
 	}
@@ -54,6 +56,37 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $this->use_layout="simple";
 	}
 	
+	/** AJAX IMAGE EDITING **/
+	public function rotate(){
+		$this->use_layout=false;
+		if(Request::get('id') && Request::get('angle')){
+			$this->model = new WildfireFile(Request::get('id'));
+			$location = PUBLIC_DIR. $this->model->url();
+			File::rotate_image($location, $location, Request::get('angle') );			
+		}else exit;
+	}
+	/** AJAX IMAGE EDITING **/	
+	public function crop(){
+		$this->use_layout=false;
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			if($data = Request::post('crop')){
+				$location = PUBLIC_DIR. $this->model->url();
+				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
+			}
+		}else exit;
+	}
+	/** AJAX IMAGE EDITING **/	
+	public function resize(){
+		$this->use_layout=false;
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			if($data = $_REQUEST['percent']){
+				$location = PUBLIC_DIR. $this->model->url();
+				File::resize_image_extra($location, $location, $data);
+			}
+		}else exit;
+	}
 	
 	/**
 	 * admin area version of show image - outputs an image
@@ -83,9 +116,12 @@ class CMSAdminFileController extends CMSAdminComponent {
 		$this->save($this->model);
 	}
 	
+	
 	public function edit() {
-		$this->existing = true;
-		parent::edit();
+		if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			
+		}else exit;
 	}
 	
 	public function upload() {
@@ -133,7 +169,7 @@ class CMSAdminFileController extends CMSAdminComponent {
     $files = $file->find_all();
     foreach($files as $file) {
       $new = new WildfireFile;
-      $s_path = rtrim(str_replace("public/files/", "", $file->path), "/" );
+      $s_path = rtrim(str_replace("public/","",strrchr($file->path,"public/files")), "/" );
       $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$s_path}%'" )->first();
       if($new_file->id)  {
         $new_file->oldid = $file->id;

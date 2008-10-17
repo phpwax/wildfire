@@ -274,17 +274,11 @@ class CmsFilesystem {
 
   function fileDelete($fileid){
     $fileid = mysql_escape_string($fileid);
-    $fileinfo = $this->getFileInfo($fileid);
-
-    $query = "DELETE from wildfire_file where id=$fileid";
-    try {
-      $result = $this->query($query);
-      
-    } catch (Exception $e) {
-      echo "Problem with query";
-    }
-    unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
-    echo "File successfully deleted";
+		$model = new WildfireFile($fileid);
+		$fileinfo = $this->getFileInfo($fileid);
+		unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
+		if($model->id) $mod = $model->delete();
+	  echo "File successfully deleted";
     exit;
   }
 
@@ -574,6 +568,8 @@ class CmsFilesystem {
   		$file1 = $fileinfo['path'].'/'.$fileinfo['filename'];
   		$file2 = $fileinfo['path']."/thumb_$fileid.jpg";
 
+			if(is_readable($file2)) unlink($file2);
+			
   		$code = "{$this->convertpath} \"$file1\" -render -flatten -resize ".$thumbsize."x".$thumbsize." \"$file2\"";
   		#echo "$code";
 

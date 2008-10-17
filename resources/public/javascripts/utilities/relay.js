@@ -370,6 +370,7 @@ Directory.prototype = {
 	
 	},
 	
+		
 	nextChild: function(child) {
 		var pos = this.checkIfChild(child);
 		if(pos != this.children.length-1) this.children[pos+1].select();
@@ -730,8 +731,8 @@ updateMeta = function (meta) {
 		}
 		
 		var metaFlags = '<option label="Normal" value="normal" '+normalflag+' >Normal</option><option label="Hot" value="hot" '+hotflag+' >Hot</option><option label="Emergency" value="emergency" '+emergencyflag+'>Emergency</option>';
-		if(meta.image == '1') $('meta').innerHTML += '<div class="thumbbox"><a href="'+FC.URL+'?relay=getFile&fileid='+meta.id+'" ><img src="'+FC.URL+'?relay=getThumb&fileid='+meta.id+'" class="metaThumbnail" alt="" /></a></div><div style="text-align:center; padding:2px;">'+meta.resolution+'</div>';
-		$('meta').innerHTML += ' <table><tr><td class="l">Name</td><td><input type="text" name="filename" onfocus="window.onkeypress=\'null\'"; id="metaFilename" value="'+meta.filename+'" /></td></tr><tr><td class="l">Kind</td><td>'+meta.type+'</td></tr><td class="l">Size</td><td>'+meta.size+'</td></tr><tr><td class="l">Date</td><td>'+meta.date+'</td></tr><tr><td class="l">Where</td><td><div style="width:115px; overflow:hidden"><a href="'+FC.SCRIPTSRC+'?path='+meta.path+'/'+meta.filename+'">'+path+' /'+meta.filename+'</a></div></td></tr><tr><td class="l">Flag</td><td><select id="metaFlag" name="metaFlag" id="metaFlag">'+metaFlags+'</select></td></tr><tr><tr><td class="l"><a href="#" onclick="saveMeta(); return false"><img src="'+saveIcon+'" alt="" /></a></td><td><textarea name="description" onfocus="window.onkeypress=\'null\'"; id="metaDesc">'+meta.description+'</textarea></td></tr></table>';
+		if(meta.image == '1') $('meta').innerHTML += '<div class="thumbbox"><a href="'+FC.URL+'?relay=getFile&fileid='+meta.id+'&rand='+Math.random()+'" ><img src="'+FC.URL+'?relay=getThumb&fileid='+meta.id+'&rand='+Math.random()+'" class="metaThumbnail" alt="" /></a></div><div style="text-align:center; padding:2px;">'+meta.resolution+'</div>';
+		$('meta').innerHTML += ' <table><tr><td class="l">Name</td><td><input type="text" name="filename" onfocus="window.onkeypress=\'null\'"; id="metaFilename" value="'+meta.filename+'" /></td></tr><tr><td class="l">Kind</td><td>'+meta.type+'</td></tr><tr><td class="l">Size</td><td>'+meta.size+'</td></tr><tr><td class="l">Date</td><td>'+meta.date+'</td></tr><tr><td class="l">Where</td><td><div style="width:115px; overflow:hidden"><a href="'+FC.SCRIPTSRC+'?path='+meta.path+'/'+meta.filename+'">'+path+' /'+meta.filename+'</a></div></td></tr><tr><td class="l">Edit</td><td><a href="/admin/files/edit/'+meta.id+'">edit me</a></td></tr><tr><td class="l">Flag</td><td><select id="metaFlag" name="metaFlag" id="metaFlag">'+metaFlags+'</select></td></tr><tr><td class="l"><a href="#" onclick="saveMeta(); return false"><img src="'+saveIcon+'" alt="" /></a></td><td><textarea name="description" onfocus="window.onkeypress=\'null\'"; id="metaDesc">'+meta.description+'</textarea></td></tr></table>';
 	}
 	else if (FC.SELECTEDOBJECT.virtual) {
 		$('meta').innerHTML = '<table><tr><td class="l">Name</td><td>'+meta.name+'</td></tr><tr><td class="l">Size</td><td>'+meta.size+'</td></tr></table>';
@@ -742,6 +743,16 @@ updateMeta = function (meta) {
 }
 
 
+rotate_image = function(fileid, angle){
+	href = '/admin/files/rotate/'+fileid+'?angle='+angle;
+	var rimage = new Ajax.Request(href, {onComplete:FC.SELECTEDOBJECT.getMeta()});		
+	return false;
+}
+resize_image = function(fileid, percent){
+	href = '/admin/files/resize/'+fileid+'?percent='+percent;
+	var rimage = new Ajax.Request(href, {onComplete:FC.SELECTEDOBJECT.getMeta()});		
+	return false;
+}
 
 saveMeta = function () {
 	if(FC.SELECTEDOBJECT.type == 'directory') {
@@ -1198,3 +1209,4 @@ windowLoader = function () {
 //Attach to the window loader
 
 window.onload = windowLoader;
+

@@ -163,6 +163,7 @@ function get_query_var(query, variable) {
 
 $(document).ready(function() {
   $('#link_dialog').jqm();
+  $('#video_dialog').jqm();
   $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload", onLoad:init_upload})
   $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url"})
 });
@@ -176,6 +177,16 @@ function cms_insert_url(type) {
 		theIframe.contentWindow.document.execCommand("CreateLink", false, theURL);
 		theWidgEditor.theToolbar.setState("Link", "on");
 	}
+}
+
+function cms_insert_video(url, width, height, local) {
+	if(local.length > 0){
+		theIframe.contentWindow.document.execCommand("inserthtml", false, "<a href='"+url+"' rel='"+width+"px:"+height+"px'>LOCAL:"+local+"</a>");
+	}else{
+		theIframe.contentWindow.document.execCommand("inserthtml", false, "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
+	}
+	theWidgEditor.theToolbar.setState("Video", "on");
+
 }
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
