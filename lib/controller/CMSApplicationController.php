@@ -45,6 +45,8 @@ class CmsApplicationController extends WXControllerBase{
 		}
 		//incremeant the page views counter
     if($this->is_page()) $this->cms_content->add_pageview();
+		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
+		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
 	}
 	/**
 	 * Using the route array this function:
