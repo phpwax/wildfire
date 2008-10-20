@@ -187,11 +187,17 @@ class CmsApplicationController extends WXControllerBase{
       $handle = fopen($file, 'x+'); 
       fwrite($handle, file_get_contents($url));
       fclose($handle);
+			$fname = $fs->defaultFileStore.$path."/".$filename;
+			chmod($fname, 0777);
+			$dimensions = getimagesize($fname);
+			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
+				File::resize_image($fname, $fname,AdminFilesController::$max_image_width, true);
+			}
       $fs->databaseSync($fs->defaultFileStore.$path, $path);
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
-      $newfile->save();
+      $newfile->save();	
       echo "Uploaded";
     } elseif($_FILES) {
         $path = $_POST['wildfire_file_folder'];
@@ -199,10 +205,16 @@ class CmsApplicationController extends WXControllerBase{
         $_FILES['upload'] = $_FILES["Filedata"];
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
+				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
+				chmod($fname, 0777);				
+				$dimensions = @getimagesize($fname);
+				if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
+					File::resize_image($fname,$fname,AdminFilesController::$max_image_width, true);
+				}
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
         $newfile->description = $_POST["wildfire_file_description"];
-        $newfile->save();
+        $newfile->save();				
         echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;
