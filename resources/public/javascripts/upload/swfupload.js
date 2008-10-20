@@ -101,7 +101,7 @@ SWFUpload.prototype.initSettings = function () {
 	this.ensureDefault("flash_color", "#FFFFFF");
 
 	// Debug Settings
-	this.ensureDefault("debug", true);
+	this.ensureDefault("debug", false);
 	this.settings.debug_enabled = this.settings.debug;	// Here to maintain v2 API
 	
 	// Event Handlers

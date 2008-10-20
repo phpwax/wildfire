@@ -14,7 +14,7 @@ function init_upload(){
 			progressTarget : "fsUploadProgress",
 			cancelButtonId : "btnCancel"
 		},
-		debug: false,
+		debug: true,
 
 		// The event handler functions are defined in handlers.js
 		file_queued_handler : fileQueued,
