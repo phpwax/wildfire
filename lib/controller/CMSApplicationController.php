@@ -199,6 +199,14 @@ class CmsApplicationController extends WXControllerBase{
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
       $newfile->save();	
+			//if both of these are set then attach the image to the doc!
+			if(Request::param('content_id') && Request::param('controller_string') && Request::param('join_field')){
+				$model_id = Request::param('content_id');
+				$class = Request::param('controller_string');
+				$field = Request::param('join_field');
+				$model = new $class($model_id);
+				$model->$field = $newfile;
+			}
       echo "Uploaded";
     } elseif($_FILES) {
         $path = $_POST['wildfire_file_folder'];
@@ -211,7 +219,15 @@ class CmsApplicationController extends WXControllerBase{
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
         $newfile->description = $_POST["wildfire_file_description"];
-        $newfile->save();				
+        $newfile->save();		
+				//if both of these are set then attach the image to the doc!
+				if(Request::param('content_id') && Request::param('controller_string') && Request::param('join_field')){
+					$model_id = Request::param('content_id');
+					$class = Request::param('controller_string');
+					$field = Request::param('join_field');
+					$model = new $class($model_id);
+					$model->$field = $newfile;
+				}
         echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;

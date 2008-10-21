@@ -612,8 +612,6 @@ class CmsFilesystem {
 
   function upload($dir){
 		$str="";
-		foreach($_REQUEST as $k=>$v) $str.="$k:$v\n";
-		WaxLog::log('error', '[request data]'.$str);
     $userpath = $this->defaultFileStore.$dir;
 
     $tmp_name = $_FILES["upload"]["tmp_name"];
