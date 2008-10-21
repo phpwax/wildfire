@@ -1,8 +1,6 @@
 var swfu;
 
 function init_upload(){
-	if(!controller_string) var controller_string = '';
-	if(!content_page_id) var content_page_id = '';
 	
   var settings = {
 		flash_url : "/swfupload_f9.swf",
@@ -46,8 +44,6 @@ function set_post_params(){
     return false;
   }
   if(!fold) var fold = jQuery("#wildfire_file_folder").val();
-	if(!content_page_id) var content_page_id = '';
-	if(!controller_string) var controller_string = '';
   if(jQuery("#upload_from").val().length >1) {
     jQuery.post("/file_upload.php?", { 
       wildfire_file_folder: fold, 
