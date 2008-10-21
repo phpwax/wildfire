@@ -51,7 +51,8 @@ function set_post_params(){
       upload_from_url: jQuery("#upload_from").val(),
       wildfire_file_filename: jQuery("#wildfire_file_filename").val(),
 			content_id: jQuery("#content_page_id").val(),
-			controller_string: jQuery("#content_page_type").val()
+			controller_string: jQuery("#content_page_type").val(),
+			join_field: jQuery("#join_field").val()
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);
       alert("Image Successfully Retrieved");
