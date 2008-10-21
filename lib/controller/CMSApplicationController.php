@@ -192,7 +192,7 @@ class CmsApplicationController extends WXControllerBase{
 			WaxLog::log('error', '[file name 1]'.$fname);
 			chmod($fname, 0777);
 			$dimensions = getimagesize($fname);
-			WaxLog::log('error', '[dimensions 1]'.implode('|', $dimensions));
+			WaxLog::log('error', '[dimensions 1]'.implode('|', $dimensions)."[max]".AdminFilesController::$max_image_width);
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
 				File::resize_image($fname, $fname,AdminFilesController::$max_image_width, true);
 			}
