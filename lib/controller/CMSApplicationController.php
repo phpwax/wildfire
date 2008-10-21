@@ -194,7 +194,8 @@ class CmsApplicationController extends WXControllerBase{
 			$dimensions = getimagesize($fname);
 			WaxLog::log('error', '[dimensions 1]'.implode('|', $dimensions)."[max]".AdminFilesController::$max_image_width);
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-				File::resize_image($fname, $fname,AdminFilesController::$max_image_width, true);
+				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, true);
+				if(!$flag) WaxLog::log('error', '[resize] FAIL');
 			}
       $fs->databaseSync($fs->defaultFileStore.$path, $path);
       $file = new WildfireFile;
@@ -214,7 +215,8 @@ class CmsApplicationController extends WXControllerBase{
 				$dimensions = @getimagesize($fname);
 				WaxLog::log('error', '[dimensions 2]'.implode('|', $dimensions)."[max]".AdminFilesController::$max_image_width);
 				if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-					File::resize_image($fname,$fname,AdminFilesController::$max_image_width, true);
+					$flag = File::resize_image($fname,$fname,AdminFilesController::$max_image_width, true);
+					if(!$flag) WaxLog::log('error', '[resize] FAIL');
 				}
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
