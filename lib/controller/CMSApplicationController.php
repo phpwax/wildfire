@@ -200,10 +200,10 @@ class CmsApplicationController extends WXControllerBase{
       $newfile->description = $_POST["wildfire_file_description"];
 			$newfile->save();	
 			//if these are set then attach the image to the doc!
-			if(Request::params('content_id') && Request::params('controller_string') && Request::params('join_field')){
-				$model_id = Request::params('content_id');
-				$class = Request::params('controller_string');
-				$field = Request::params('join_field');
+			if(Request::param('content_id') && Request::param('controller_string') && Request::param('join_field')){
+				$model_id = Request::param('content_id');
+				$class = Request::param('controller_string');
+				$field = Request::param('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
 				WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']'.'errors:'.implode("\n",$newfile->errors));
@@ -222,10 +222,10 @@ class CmsApplicationController extends WXControllerBase{
         $newfile->description = $_POST["wildfire_file_description"];
 				$newfile->save();		
 				//if these are set then attach the image to the doc!
-				if(Request::params('content_id') && Request::params('controller_string') && Request::params('join_field')){
-					$model_id = Request::params('content_id');
-					$class = Request::params('controller_string');
-					$field = Request::params('join_field');
+				if(Request::param('content_id') && Request::param('controller_string') && Request::param('join_field')){
+					$model_id = Request::param('content_id');
+					$class = Request::param('controller_string');
+					$field = Request::param('join_field');
 					$model = new $class($model_id);
 					$model->$field = $newfile;
 					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']'.'errors:'.implode("\n",$newfile->errors));
