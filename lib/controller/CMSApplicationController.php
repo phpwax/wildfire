@@ -210,14 +210,7 @@ class CmsApplicationController extends WXControllerBase{
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
 				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
-				WaxLog::log('error', '[file name 2]'.$fname);
 				chmod($fname, 0777);				
-				$dimensions = @getimagesize($fname);
-				WaxLog::log('error', '[dimensions 2]'.implode('|', $dimensions)."[max]".AdminFilesController::$max_image_width);
-				if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-					$flag = File::resize_image($fname,$fname,AdminFilesController::$max_image_width, true, true);
-					if(!$flag) WaxLog::log('error', '[resize] FAIL');
-				}
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
         $newfile->description = $_POST["wildfire_file_description"];

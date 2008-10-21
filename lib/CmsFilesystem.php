@@ -616,12 +616,13 @@ class CmsFilesystem {
 
     $tmp_name = $_FILES["upload"]["tmp_name"];
     $uploadfile = File::safe_file_save($userpath, basename($_FILES['upload']['name']));
-    error_log($uploadfile);
+		WaxLog::log('error', '[uploading] '.$uploadfile);
     if(move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile)) {
       chmod($userpath.'/'.$uploadfile, 0777);
 			$dimensions = getimagesize($userpath.'/'.$uploadfile);
+			WaxLog::log('error', '[dimensions] '.implode(":", $dimensions));
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-				$flag = File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, true, true);
+				$flag = File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, false, true);
 				if(!$flag) WaxLog::log('error', '[resize] FAIL');
 			}
     	if(isset($_GET['redir'])){
