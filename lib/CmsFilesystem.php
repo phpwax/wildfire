@@ -621,7 +621,7 @@ class CmsFilesystem {
       chmod($userpath.'/'.$uploadfile, 0777);
 			$dimensions = getimagesize($userpath.'/'.$uploadfile);
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-				$flag = File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, true);
+				$flag = File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, true, true);
 				if(!$flag) WaxLog::log('error', '[resize] FAIL');
 			}
     	if(isset($_GET['redir'])){
