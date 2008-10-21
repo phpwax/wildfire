@@ -189,8 +189,10 @@ class CmsApplicationController extends WXControllerBase{
       fwrite($handle, file_get_contents($url));
       fclose($handle);
 			$fname = $fs->defaultFileStore.$path."/".$filename;
+			WaxLog::log('error', '[file name 1]'.$fname);
 			chmod($fname, 0777);
 			$dimensions = getimagesize($fname);
+			WaxLog::log('error', '[dimensions 1]'.implode('|', $dimensions));
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
 				File::resize_image($fname, $fname,AdminFilesController::$max_image_width, true);
 			}
@@ -207,8 +209,10 @@ class CmsApplicationController extends WXControllerBase{
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
 				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
+				WaxLog::log('error', '[file name 2]'.$fname);
 				chmod($fname, 0777);				
 				$dimensions = @getimagesize($fname);
+				WaxLog::log('error', '[dimensions 2]'.implode('|', $dimensions));
 				if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
 					File::resize_image($fname,$fname,AdminFilesController::$max_image_width, true);
 				}
