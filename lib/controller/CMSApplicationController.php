@@ -229,9 +229,10 @@ class CmsApplicationController extends WXControllerBase{
 					$model_id = Request::post('content_id');
 					$class = Request::post('controller_string');
 					$field = Request::post('join_field');
+					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']');
 					$model = new $class($model_id);
 					$model->$field = $newfile;
-					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']'.'errors:'.implode("\n",$newfile->errors));
+					WaxLog::log('error', '[errors]'.implode("\n",$newfile->errors));
 				}
         echo "Uploaded";
     } else die("UPLOAD ERROR");
