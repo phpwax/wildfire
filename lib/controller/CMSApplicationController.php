@@ -213,18 +213,12 @@ class CmsApplicationController extends WXControllerBase{
         $newfile->description = $_POST["wildfire_file_description"];
 				$newfile->save();		
 				//if these are set then attach the image to the doc!
-				$str="";
-				foreach(Request::$post as $k=>$v) $str .= "$k:$v\n";
-				WaxLog::log('error', '[post]'. $str);
 				if($_POST['content_id'] && $_POST['model_string'] && $_POST['join_field'] ){
-					WaxLog::log('error', '[joining...]');
 					$model_id = Request::post('content_id');
 					$class = Inflections::camelize(Request::post('model_string'));
 					$field = Request::post('join_field');
 					$model = new $class($model_id);
-					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']');
 					$model->$field = $newfile;
-					WaxLog::log('error', '[errors]'.implode("\n",$newfile->errors));
 				}
         echo "Uploaded";
     } else die("UPLOAD ERROR");
