@@ -229,8 +229,8 @@ class CmsApplicationController extends WXControllerBase{
 					$model_id = Request::post('content_id');
 					$class = Request::post('controller_string');
 					$field = Request::post('join_field');
-					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']');
 					$model = new $class($model_id);
+					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']');
 					$model->$field = $newfile;
 					WaxLog::log('error', '[errors]'.implode("\n",$newfile->errors));
 				}
