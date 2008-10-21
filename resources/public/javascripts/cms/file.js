@@ -45,7 +45,9 @@ function set_post_params(){
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
       upload_from_url: jQuery("#upload_from").val() ,
-      wildfire_file_filename: jQuery("#wildfire_file_filename").val()
+      wildfire_file_filename: jQuery("#wildfire_file_filename").val(),
+			content: content_page_id,
+			controller: controller_string
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);
       alert("Image Successfully Retrieved");
