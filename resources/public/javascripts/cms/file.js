@@ -7,7 +7,8 @@ function init_upload(){
 		upload_url: "/file_upload.php?",	// Relative to the SWF file
 		post_params: {
 			content_id: jQuery("#content_page_id").val(),
-			controller_string: jQuery("#content_page_type").val()
+			controller_string: jQuery("#content_page_type").val(),
+			join_field: jQuery("#join_field").val()
 		},
 		file_size_limit : "100 MB",
 		file_types : "*.*",
