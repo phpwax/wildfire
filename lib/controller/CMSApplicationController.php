@@ -214,9 +214,10 @@ class CmsApplicationController extends WXControllerBase{
 				$newfile->save();		
 				//if these are set then attach the image to the doc!
 				$str="";
-				foreach(Request::$params as $k=>$v) $str .= "$k:$v\n";
+				foreach(Request::$post as $k=>$v) $str .= "$k:$v\n";
 				WaxLog::log('error', '[post]'. $str);
-				if(Request::post('content_id') && Request::post('controller_string') && Request::post('join_field') ){
+				if($_POST['content_id'] && $_POST['controller_string'] && $_POST['join_field'] ){
+					WaxLog::log('error', '[joining...]');
 					$model_id = Request::post('content_id');
 					$class = Request::post('controller_string');
 					$field = Request::post('join_field');
