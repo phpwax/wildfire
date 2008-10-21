@@ -199,8 +199,7 @@ class CmsApplicationController extends WXControllerBase{
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
 			$newfile->save();	
-			//if both of these are set then attach the image to the doc!
-			WaxLog::log('error', '[request data]'.implode("\n", $_POST));
+			//if these are set then attach the image to the doc!
 			if(Request::post('content_id') && Request::post('controller_string') && Request::post('join_field')){
 				$model_id = Request::post('content_id');
 				$class = Request::post('controller_string');
@@ -222,8 +221,7 @@ class CmsApplicationController extends WXControllerBase{
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
         $newfile->description = $_POST["wildfire_file_description"];
 				$newfile->save();		
-				//if both of these are set then attach the image to the doc!
-				WaxLog::log('error', '[request data]'.implode("\n", $_POST));
+				//if these are set then attach the image to the doc!
 				if(Request::post('content_id') && Request::post('controller_string') && Request::post('join_field')){
 					$model_id = Request::post('content_id');
 					$class = Request::post('controller_string');
