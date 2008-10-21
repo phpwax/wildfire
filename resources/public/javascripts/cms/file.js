@@ -6,8 +6,11 @@ function init_upload(){
 	
   var settings = {
 		flash_url : "/swfupload_f9.swf",
-		upload_url: "/file_upload.php?content_id="+content_page_id+"&controller_string="+controller_string,	// Relative to the SWF file
-		post_params: {},
+		upload_url: "/file_upload.php?",	// Relative to the SWF file
+		post_params: {
+			content_id: jQuery("#content_page_id").val(),
+			controller_string: jQuery("#content_page_type").val()
+		},
 		file_size_limit : "100 MB",
 		file_types : "*.*",
 		file_types_description : "All Files",
@@ -46,11 +49,13 @@ function set_post_params(){
 	if(!content_page_id) var content_page_id = '';
 	if(!controller_string) var controller_string = '';
   if(jQuery("#upload_from").val().length >1) {
-    jQuery.post("/file_upload?content_id="+content_page_id+"&controller_string="+controller_string, { 
+    jQuery.post("/file_upload.php?", { 
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
-      upload_from_url: jQuery("#upload_from").val() ,
-      wildfire_file_filename: jQuery("#wildfire_file_filename").val()
+      upload_from_url: jQuery("#upload_from").val(),
+      wildfire_file_filename: jQuery("#wildfire_file_filename").val(),
+			content_id: jQuery("#content_page_id").val(),
+			controller_string: jQuery("#content_page_type").val()
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);
       alert("Image Successfully Retrieved");

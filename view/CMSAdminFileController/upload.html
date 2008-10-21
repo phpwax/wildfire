@@ -32,6 +32,8 @@
         <hr />
         <?=medium(text_area($model, "description", array("rows"=>"3"), "Give these images an optional description"))?>
         <hr />
+				<input type="hidden" name="content_page_id" id="content_page_id" value="<?=$model->id?>" />
+				<input type="hidden" name="content_page_type" id="content_page_type" value="<?=$model->table?>" />				
         </fieldset>
       <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); swfu.startUpload(); return false' />
       
