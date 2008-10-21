@@ -7,7 +7,7 @@ function init_upload(){
 		upload_url: "/file_upload.php?",	// Relative to the SWF file
 		post_params: {
 			content_id: jQuery("#content_page_id").val(),
-			controller_string: jQuery("#content_page_type").val(),
+			model_string: jQuery("#content_page_type").val(),
 			join_field: jQuery("#join_field").val()
 		},
 		file_size_limit : "100 MB",
@@ -52,7 +52,7 @@ function set_post_params(){
       upload_from_url: jQuery("#upload_from").val(),
       wildfire_file_filename: jQuery("#wildfire_file_filename").val(),
 			content_id: jQuery("#content_page_id").val(),
-			controller_string: jQuery("#content_page_type").val(),
+			model_string: jQuery("#content_page_type").val(),
 			join_field: jQuery("#join_field").val()
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);

@@ -216,10 +216,10 @@ class CmsApplicationController extends WXControllerBase{
 				$str="";
 				foreach(Request::$post as $k=>$v) $str .= "$k:$v\n";
 				WaxLog::log('error', '[post]'. $str);
-				if($_POST['content_id'] && $_POST['controller_string'] && $_POST['join_field'] ){
+				if($_POST['content_id'] && $_POST['model_string'] && $_POST['join_field'] ){
 					WaxLog::log('error', '[joining...]');
 					$model_id = Request::post('content_id');
-					$class = Request::post('controller_string');
+					$class = Inflections::camelize(Request::post('model_string'));
 					$field = Request::post('join_field');
 					$model = new $class($model_id);
 					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']');
