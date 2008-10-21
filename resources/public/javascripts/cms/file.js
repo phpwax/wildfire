@@ -1,9 +1,12 @@
 var swfu;
 
 function init_upload(){
+	if(!controller_string) var controller_string = '';
+	if(!content_page_id) var content_page_id = '';
+	
   var settings = {
 		flash_url : "/swfupload_f9.swf",
-		upload_url: "/file_upload.php",	// Relative to the SWF file
+		upload_url: "/file_upload.php?content_id="+content_page_id+"&controller="+controller_string,	// Relative to the SWF file
 		post_params: {},
 		file_size_limit : "100 MB",
 		file_types : "*.*",
@@ -40,14 +43,14 @@ function set_post_params(){
     return false;
   }
   if(!fold) var fold = jQuery("#wildfire_file_folder").val();
+	if(!content_page_id) var content_page_id = '';
+	if(!controller_string) var controller_string = '';
   if(jQuery("#upload_from").val().length >1) {
-    jQuery.post("/file_upload", { 
+    jQuery.post("/file_upload?content_id="+content_page_id+"&controller="+controller_string, { 
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
       upload_from_url: jQuery("#upload_from").val() ,
-      wildfire_file_filename: jQuery("#wildfire_file_filename").val(),
-			content: content_page_id,
-			controller: controller_string
+      wildfire_file_filename: jQuery("#wildfire_file_filename").val()
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);
       alert("Image Successfully Retrieved");
