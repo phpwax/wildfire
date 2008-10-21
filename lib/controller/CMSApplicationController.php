@@ -176,7 +176,6 @@ class CmsApplicationController extends WXControllerBase{
   }
   
   public function file_upload() {
-		WaxLog::log('error', '[file upload] ... post:'.implode("\n", $_POST) . "\n\nfiles:".implode("\n", $_FILES) );
 	  if($url = $_POST["upload_from_url"]) {
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
@@ -189,12 +188,10 @@ class CmsApplicationController extends WXControllerBase{
       fwrite($handle, file_get_contents($url));
       fclose($handle);
 			$fname = $fs->defaultFileStore.$path."/".$filename;
-			WaxLog::log('error', '[file name 1]'.$fname);
 			chmod($fname, 0777);
 			$dimensions = getimagesize($fname);
-			WaxLog::log('error', '[dimensions 1]'.implode('|', $dimensions)."[max]".AdminFilesController::$max_image_width);
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, true, true);
+				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, false, true);
 				if(!$flag) WaxLog::log('error', '[resize] FAIL');
 			}
       $fs->databaseSync($fs->defaultFileStore.$path, $path);
