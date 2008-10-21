@@ -198,7 +198,7 @@ class CmsApplicationController extends WXControllerBase{
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
-      $newfile->save();	
+			$newfile->save();	
 			//if both of these are set then attach the image to the doc!
 			WaxLog::log('error', '[request data]'.implode("\n", $_POST));
 			if(Request::post('content_id') && Request::post('controller_string') && Request::post('join_field')){
@@ -207,6 +207,7 @@ class CmsApplicationController extends WXControllerBase{
 				$field = Request::post('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
+				WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']'.'errors:'.implode("\n",$newfile->errors));
 			}
       echo "Uploaded";
     } elseif($_FILES) {
@@ -220,7 +221,7 @@ class CmsApplicationController extends WXControllerBase{
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
         $newfile->description = $_POST["wildfire_file_description"];
-        $newfile->save();		
+				$newfile->save();		
 				//if both of these are set then attach the image to the doc!
 				WaxLog::log('error', '[request data]'.implode("\n", $_POST));
 				if(Request::post('content_id') && Request::post('controller_string') && Request::post('join_field')){
@@ -229,6 +230,7 @@ class CmsApplicationController extends WXControllerBase{
 					$field = Request::post('join_field');
 					$model = new $class($model_id);
 					$model->$field = $newfile;
+					WaxLog::log('error', '[model:'.$model->id.'image:'.$newfile->id.']'.'errors:'.implode("\n",$newfile->errors));
 				}
         echo "Uploaded";
     } else die("UPLOAD ERROR");
