@@ -177,7 +177,7 @@ class CmsApplicationController extends WXControllerBase{
   
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
-			WaxLog:log('error', 'running...'.$url);
+			WaxLog::log('error', 'running...'.$url);
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $filename = basename($url);
