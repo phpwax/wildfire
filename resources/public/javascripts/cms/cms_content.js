@@ -160,22 +160,17 @@ function get_query_var(query, variable) {
 }
 
 /******* Setup for the link modal window and quick upload window *******/
+var panel_close=function(hash) { hash.w.fadeOut('2000',function(){ hash.o.remove(); }); }; 
 
 $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 
 	if(!join_field) var join_field="images";
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel})
-  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url", onHide:refresh_image_panel})
+  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:panel_close});
+  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url", onHide:panel_close});
 });
-function refresh_image_panel(){
-	$("#quick_upload_pane").jqmHide();
-	$("#upload_url_pane").jqmHide();
-	$.get("../../attached_images/"+content_page_id, function(response){
-		$('#drop_zones').html(response);
-		});
-}
+
 
 function cms_insert_url(type) {
   if(type=='web') {
