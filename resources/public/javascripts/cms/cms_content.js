@@ -162,6 +162,7 @@ function get_query_var(query, variable) {
 /******* Setup for the link modal window and quick upload window *******/
 var panel_close=function(hash) {
 									console.log(hash.w); 
+									hash.w.jqmHide();
 								};
 								
 
