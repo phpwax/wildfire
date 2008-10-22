@@ -165,8 +165,8 @@ var refresh_image_panel= function(hash) {
 														$.get("../../attached_images/"+content_page_id, function(response){
 															$('#drop_zones').html(response);
 														});
-														console.log(hash.w); 
-														hash.w.jqmHide();
+														console.log(hash); 
+														hash.w.fadeOut('2000',function(){ hash.o.remove(); });
 													};
 													
 $(document).ready(function() {
