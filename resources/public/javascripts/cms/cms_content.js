@@ -165,11 +165,13 @@ $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	var refresh_image_panel = function(hash){
-		$('#drop_zones').html($.get("../../attached_images/"+content_page_id));
-		$('#quick_upload_button').jqmHide();
+		$.get("../../attached_images/"+content_page_id, function(response){
+			$('#drop_zones').html(response);
+			hash.w.fadeOut('2000',function(){ hash.o.remove(); });	
+			});		
 	};
 	if(!join_field) var join_field="images";
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload})
+  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel})
   $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url"})
 });
 
