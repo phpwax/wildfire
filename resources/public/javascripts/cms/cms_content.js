@@ -166,7 +166,11 @@ var refresh_image_panel= function(hash) {
 															$('#drop_zones').html(response);
 														});
 														console.log(hash); 
-														hash.w.fadeOut('2000',function(){ hash.o.remove(); });
+														hash.w.hide('fast',function(){ 
+																									if(hash.o.length){
+																										hash.o.remove(); 
+																									}
+																								});
 													};
 													
 $(document).ready(function() {
