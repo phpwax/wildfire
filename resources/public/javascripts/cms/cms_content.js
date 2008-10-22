@@ -160,12 +160,12 @@ function get_query_var(query, variable) {
 }
 
 /******* Setup for the link modal window and quick upload window *******/
-var panel_close=function(hash) { 
+var panel_close=function(hash) {
 									if(hash.w){
 										console.log(hash.w); 
-										hash.w.hide('slow',function(){ console.log(hash); });
+										hash.w.hide('slow');
 									}
-									});
+								};
 								
 
 $(document).ready(function() {
