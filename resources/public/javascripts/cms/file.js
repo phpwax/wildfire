@@ -1,4 +1,3 @@
-var swfu;
 function init_upload(){
   var settings = {
 		flash_url: "/swfupload_f9.swf",
@@ -22,8 +21,10 @@ function init_upload(){
 		upload_complete_handler : uploadComplete,
 		queue_complete_handler : queueComplete
 	};
- swfu = new SWFUpload(settings);
+  swfu = new SWFUpload(settings);
 }
+var swfu;
+
 
    
 function set_post_params(){
