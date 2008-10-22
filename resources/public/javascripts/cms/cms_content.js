@@ -160,7 +160,7 @@ function get_query_var(query, variable) {
 }
 
 /******* Setup for the link modal window and quick upload window *******/
-var panel_close=function(hash) { hash.w.hide('slow',function(){ if(hash.o.length){hash.o.remove();} }); }; 
+var panel_close=function(hash) { hash.w.hide('slow',function(){ console.log(hash); }); }; 
 
 $(document).ready(function() {
   $('#link_dialog').jqm();
