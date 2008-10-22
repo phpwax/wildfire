@@ -170,10 +170,8 @@ $(document).ready(function() {
   $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url", onHide:refresh_image_panel})
 });
 function refresh_image_panel(){
-	$("#quick_upload_pane").jqm();
 	$("#quick_upload_pane").jqmHide();
-	$("#upload_url_pane").hide();
-	$('.jqmOverlay').hide();
+	$("#upload_url_pane").jqmHide();
 	$.get("../../attached_images/"+content_page_id, function(response){
 		$('#drop_zones').html(response);
 		});
