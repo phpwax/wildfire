@@ -165,8 +165,8 @@ $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	var refresh_image_panel = function(hash){
-		$("#quick_upload_pane").jqmHide();
-		$("#upload_url_pane").jqmHide();
+		$("#quick_upload_pane").close();
+		$("#upload_url_pane").close();
 		$.get("../../attached_images/"+content_page_id, function(response){
 			$('#drop_zones').html(response);
 			});		
