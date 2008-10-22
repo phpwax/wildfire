@@ -187,11 +187,18 @@ class CmsApplicationController extends WXControllerBase{
       $handle = fopen($file, 'x+'); 
       fwrite($handle, file_get_contents($url));
       fclose($handle);
+			$fname = $fs->defaultFileStore.$path."/".$filename;
+			chmod($fname, 0777);
+			$dimensions = getimagesize($fname);
+			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
+				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, false, true);
+				if(!$flag) WaxLog::log('error', '[resize] FAIL');
+			}
       $fs->databaseSync($fs->defaultFileStore.$path, $path);
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
-      $newfile->save();
+			$newfile->save();	
       echo "Uploaded";
     } elseif($_FILES) {
         $path = $_POST['wildfire_file_folder'];
@@ -199,10 +206,20 @@ class CmsApplicationController extends WXControllerBase{
         $_FILES['upload'] = $_FILES["Filedata"];
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
+				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
+				chmod($fname, 0777);				
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
         $newfile->description = $_POST["wildfire_file_description"];
-        $newfile->save();
+				$newfile->save();		
+				//if these are set then attach the image to the doc!
+				if($_POST['content_id'] && $_POST['model_string'] && $_POST['join_field'] ){
+					$model_id = Request::post('content_id');
+					$class = Inflections::camelize(Request::post('model_string'));
+					$field = Request::post('join_field');
+					$model = new $class($model_id);
+					$model->$field = $newfile;
+				}
         echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;

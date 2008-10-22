@@ -162,12 +162,22 @@ function get_query_var(query, variable) {
 }
 
 /******* Setup for the link modal window and quick upload window *******/
-
+var refresh_image_panel= function(hash) {
+														$.get("../../attached_images/"+content_page_id, function(response){
+															$('#drop_zones').html(response);
+														});
+														$(hash.w).hide('fast');
+														if(hash.o.length){
+															$(hash.o).remove(); 
+														}													
+													};
+													
 $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload", onLoad:init_upload});
-  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url"});
+	if(!join_field) var join_field="images";
+  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel})
+  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url", onHide:refresh_image_panel})
 });
 
 

@@ -611,17 +611,16 @@ class CmsFilesystem {
   */
 
   function upload($dir){
-
+		$str="";
     $userpath = $this->defaultFileStore.$dir;
 
     $tmp_name = $_FILES["upload"]["tmp_name"];
     $uploadfile = File::safe_file_save($userpath, basename($_FILES['upload']['name']));
-    error_log($uploadfile);
     if(move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile)) {
       chmod($userpath.'/'.$uploadfile, 0777);
 			$dimensions = getimagesize($userpath.'/'.$uploadfile);
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-				File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, true);
+				$flag = File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, false, true);
 			}
     	if(isset($_GET['redir'])){
     		header("location: $_GET[redir]");

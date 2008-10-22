@@ -131,6 +131,9 @@ class CMSAdminFileController extends CMSAdminComponent {
    $this->use_layout=false;
 	}
 	public function quickupload() {
+		if($class = Request::get('model')){
+			if($id = Request::param("id")) $this->page = new $class($id);
+		}
     $this->use_layout="simple";
     $this->use_view="upload";
 	}
