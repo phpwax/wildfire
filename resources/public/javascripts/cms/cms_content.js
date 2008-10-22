@@ -169,7 +169,10 @@ var refresh_image_panel= function(hash) {
 														$(hash.w).hide('fast');
 														if(hash.o.length){
 															$(hash.o).remove(); 
-														}													
+														}			
+														//initialise all the gubbins
+														initialise_draggables();	
+														initialise_images();									
 													};
 													
 $(document).ready(function() {
