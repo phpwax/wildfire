@@ -167,8 +167,8 @@ $(document).ready(function() {
 	var refresh_image_panel = function(hash){
 		$.get("../../attached_images/"+content_page_id, function(response){
 			$('#drop_zones').html(response);
-			hash.w.fadeOut('2000',function(){ hash.o.remove(); });	
 			});		
+		hash.w.fadeOut('2000',function(){ hash.o.remove(); });		
 	};
 	if(!join_field) var join_field="images";
   $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel})
