@@ -57,6 +57,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function upload_url() {
 	  $this->use_layout="simple";
+		if($class = Request::get('model')){
+			if($id = Request::param("id")) $this->page = new $class($id);
+		}
 	}
 	
 	/** AJAX IMAGE EDITING **/
