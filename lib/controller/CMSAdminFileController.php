@@ -16,6 +16,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public $filter_columns = array("filename", "caption");
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
+	
+	
+	public static $max_image_width = false;
 
 	/**
 	* this is used to call the parent and then reset the sub menu - as its not used for this controller
@@ -54,6 +57,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function upload_url() {
 	  $this->use_layout="simple";
+		if($class = Request::get('model')){
+			if($id = Request::param("id")) $this->page = new $class($id);
+		}
 	}
 	
 	/** AJAX IMAGE EDITING **/
@@ -128,6 +134,9 @@ class CMSAdminFileController extends CMSAdminComponent {
    $this->use_layout=false;
 	}
 	public function quickupload() {
+		if($class = Request::get('model')){
+			if($id = Request::param("id")) $this->page = new $class($id);
+		}
     $this->use_layout="simple";
     $this->use_view="upload";
 	}

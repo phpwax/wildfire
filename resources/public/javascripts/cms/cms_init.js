@@ -16,4 +16,4 @@ $(document).ready(function() {
     $("#item_list_container").tableSorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-})
+});

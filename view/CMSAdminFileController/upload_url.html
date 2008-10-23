@@ -25,7 +25,9 @@
         <hr />
         </fieldset>
       <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); return false' />
-      
+      <input type="hidden" name="url_content_page_id" id="url_content_page_id" value="<?=$page->id?>" />
+			<input type="hidden" name="url_content_page_type" id="url_content_page_type" value="<?=$page->table?>" />				
+			<input type="hidden" name="url_join_field" id="url_join_field" value="<?=Request::get('join_field')?>" />
     </form>
     
     <form id="upload_url">

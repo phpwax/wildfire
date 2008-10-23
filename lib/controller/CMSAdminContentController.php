@@ -93,6 +93,16 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$image = new WildfireFile($this->param("image"));
 		$page->images->unlink($image);
 	}
+	
+	public function attached_images(){
+		$this->use_layout = false;
+		$this->page = $this->model = new $this->model_class(Request::get('id'));
+		if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+		$this->image_model = new WildfireFile;
+		//partials
+		$this->image_partial = $this->render_partial("page_images");
+	}
+	
 	/**
 	* the editing function... lets you change all the bits associated with the content record
 	* gets the record for the id passed (/admin/content/edit/ID)
