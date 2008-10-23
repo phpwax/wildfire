@@ -168,8 +168,8 @@ $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	if(!join_field) var join_field="images";
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel})
-  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onHide:refresh_image_panel})
+  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel});
+  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onHide:refresh_image_panel});
 });
 
 function refresh_image_panel(hash) {
@@ -194,7 +194,8 @@ function refresh_image_panel(hash) {
 		        );
 		  		}
 		  });
-		
+			$("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel});
+		  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onHide:refresh_image_panel});
     }
   });
 	$(hash.w).hide('fast');
