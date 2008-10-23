@@ -165,18 +165,6 @@ function get_query_var(query, variable) {
 													
 $(document).ready(function() {
 	
-	var refresh_image_panel= function(hash) {
-															$.get("../../attached_images/"+content_page_id, function(response){
-																$('#drop_zones').html(response);	
-																
-															});
-															$(hash.w).hide('fast');
-															if(hash.o.length){
-																$(hash.o).remove(); 
-															}			
-
-														};
-	
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	if(!join_field) var join_field="images";
@@ -184,6 +172,36 @@ $(document).ready(function() {
   $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onHide:refresh_image_panel})
 });
 
+function refresh_image_panel(hash) {
+
+	$.ajax({type: "get", url: "../../attached_images/"+content_page_id, 
+    complete: function(response){ 
+      $('#section-2').html(response.responseText); 
+      $.get("/admin/files/browse_images/1/", function(response){
+		    $("#image_list").html(response);
+		    initialise_images();
+		  });
+			$(".attached_image").Droppable(
+		  	{
+		  	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
+		  		ondrop:	function (drag) {
+		  			$.post("../../add_image/"+content_page_id, 
+						  {id: drag.id, order: $(this).attr("id").substr(8)},
+		          function(response) {
+		            $("#dropzone"+get_query_var("?" + this.data,'order')).html(response);
+		            initialise_images();
+		          }
+		        );
+		  		}
+		  });
+		
+    }
+  });
+	$(hash.w).hide('fast');
+	if(hash.o.length){
+		$(hash.o).remove(); 
+	}			
+}
 
 function cms_insert_url(type) {
   if(type=='web') {
