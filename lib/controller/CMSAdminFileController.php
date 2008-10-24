@@ -68,7 +68,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 		if(Request::get('id') && Request::get('angle')){
 			$this->model = new WildfireFile(Request::get('id'));
 			$location = PUBLIC_DIR. $this->model->url();
-			File::rotate_image($location, $location, Request::get('angle') );			
+			File::rotate_image($location, $location, Request::get('angle') );	
+			File::clear_image_cache($id);					
 		}else exit;
 	}
 	/** AJAX IMAGE EDITING **/	
@@ -79,6 +80,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if($data = Request::post('crop')){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
+				File::clear_image_cache($id);
 			}
 		}else exit;
 	}
@@ -90,6 +92,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if($data = $_REQUEST['percent']){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::resize_image_extra($location, $location, $data);
+				File::clear_image_cache($id);				
 			}
 		}else exit;
 	}
