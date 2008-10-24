@@ -97,7 +97,7 @@ $(document).ready(function(){
 	if($("#container").length) $("#container").tabs();
 	
 	$('input.cropper').click(function(){
-		var pdata = {'crop[x]':$x1.val(), 'crop[y]': $y1.val(), 'crop[w]': $w.val(), 'crop[h]': $h.val()};
+		var pdata = {'crop[x1]':$x1.val(), 'crop[y1]': $y1.val(),'crop[x2]':$x2.val(), 'crop[y2]': $y2.val(), 'crop[w]': $w.val(), 'crop[h]': $h.val()};
 		$.post('/admin/files/crop/<?=$model->id?>', 
 					pdata,
 					function(response){
