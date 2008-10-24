@@ -23,16 +23,20 @@
 	         	<img src="<?=$model->url?>" class="preview_image" id="wff" />
 						</div>
 						<script type="text/javascript">
-						 var $x1, $y1,$w, $h;
+						 var $x1, $y1,$x2, $y2;
 						 function selectChange(img, selection){
 						   $x1.val(selection.x1);
 						   $y1.val(selection.y1);
+							 $x2.val(selection.x2);
+						   $y2.val(selection.y2);
 						   $w.val(selection.width);
 						   $h.val(selection.height);
 						 }
 						 $(document).ready(function () {
 						   $x1 = $('#x1');
 						   $y1 = $('#y1');
+							 $x2 = $('#x2');
+						   $y2 = $('#y2');
 						   $w = $('#w');
 						   $h = $('#h');
 						 });
@@ -40,8 +44,10 @@
 						   set_crop_image();
 						 });
 						</script>
-						<input type="hidden" id="x1" value=""  name="crop[x]"/>
-						<input type="hidden" id="y1" value=""  name="crop[y]"/>
+						<input type="hidden" id="x1" value=""  name="crop[x1]"/>
+						<input type="hidden" id="y1" value=""  name="crop[y2]"/>
+						<input type="hidden" id="x1" value=""  name="crop[x1]"/>
+						<input type="hidden" id="y1" value=""  name="crop[y2]"/>
 						<input type="hidden" id="w" value=""  name="crop[w]"/>
 						<input type="hidden" id="h" value=""  name="crop[h]"/>						
 	        </fieldset>
