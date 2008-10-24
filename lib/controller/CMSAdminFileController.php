@@ -79,9 +79,6 @@ class CMSAdminFileController extends CMSAdminComponent {
 			$this->model = new $this->model_class($id);
 			if($data = Request::post('crop')){
 				$location = PUBLIC_DIR. $this->model->url();		
-				//$width = $data['x2'] - $data['x1'];
-				//$height = $data['y2'] - $data['y1'];
-				WaxLog::log('error', '[crop data]'.print_r($data,1));
 				File::crop_image($location, $location, $data['x1'], $data['y1'], $data['w'], $data['h']);
 				File::clear_image_cache($id);
 			}
