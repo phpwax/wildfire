@@ -232,7 +232,8 @@ $(document).ready(function() {
 
 function autosave_content() {
   var ed = document.getElementById("cms_content_content");
-	if(typeof ed !== 'undefined' && ed.id){
+	if(typeof ed !== 'undefined'){
+	  if(!ed.id) return false;
   	var wig = ed.widgEditorObject;
 	   if(wig.wysiwyg) {
 	     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
