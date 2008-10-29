@@ -233,6 +233,7 @@ $(document).ready(function() {
 function autosave_content() {
   var ed = document.getElementById("cms_content_content");
 	if(typeof ed !== 'undefined'){
+	  if(!ed) return false;
 	  if(!ed.id) return false;
   	var wig = ed.widgEditorObject;
 	   if(wig.wysiwyg) {
