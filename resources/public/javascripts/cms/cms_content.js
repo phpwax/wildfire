@@ -246,7 +246,7 @@ function autosave_content() {
 	            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	            type: "POST",
 	            processData: false,
-	            data: "content="+escape(wig.theInput.value), 
+	            data: "content="+encodeURI(wig.theInput.value), 
 	            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
 	    });
 	}
