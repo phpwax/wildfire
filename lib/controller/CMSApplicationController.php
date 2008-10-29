@@ -205,7 +205,7 @@ class CmsApplicationController extends WXControllerBase{
 			//if these are set then attach the image to the doc!
 			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
 				$model_id = Request::post('content_id');
-				$class = Inflections::camelize(Request::post('model_string'));
+				$class = Inflections::camelize(Request::post('model_string'), true);
 				$field = Request::post('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
