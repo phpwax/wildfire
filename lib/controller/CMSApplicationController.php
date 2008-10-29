@@ -177,6 +177,9 @@ class CmsApplicationController extends WXControllerBase{
   
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
+			$str="";
+			foreach($_POST as $k=>$v) $str .="$k:$v\n";
+			WaxLog::log('error', 'running...'.$str);
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $filename = basename($url);
@@ -198,7 +201,15 @@ class CmsApplicationController extends WXControllerBase{
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
-			$newfile->save();	
+			$newfile->save();
+			//if these are set then attach the image to the doc!
+			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
+				$model_id = Request::post('content_id');
+				$class = Inflections::camelize(Request::post('model_string'));
+				$field = Request::post('join_field');
+				$model = new $class($model_id);
+				$model->$field = $newfile;
+			}	
       echo "Uploaded";
     } elseif($_FILES) {
         $path = $_POST['wildfire_file_folder'];
@@ -213,7 +224,7 @@ class CmsApplicationController extends WXControllerBase{
         $newfile->description = $_POST["wildfire_file_description"];
 				$newfile->save();		
 				//if these are set then attach the image to the doc!
-				if($_POST['content_id'] && $_POST['model_string'] && $_POST['join_field'] ){
+				if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
 					$model_id = Request::post('content_id');
 					$class = Inflections::camelize(Request::post('model_string'));
 					$field = Request::post('join_field');
