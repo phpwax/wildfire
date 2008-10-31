@@ -170,6 +170,7 @@ function uploadComplete(file) {
 		document.getElementById(this.customSettings.cancelButtonId).disabled = true;
 	}
 	jQuery("#start_button").fadeTo("fast", 1.0);
+	reload_images();
   if(typeof updateAll!="undefined") updateAll(root);
 }
 
