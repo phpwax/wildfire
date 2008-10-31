@@ -1,53 +1,16 @@
-<script type="text/javascript">var content_page_id = <?=$model->id?>; var model_string = "<?=get_class($model)?>";var join_field="images";</script>
 
-
-<div id="image_browser_container">
-
-  <div id="image_browser" class="clearfix">
-	  <div id="drag_indicator">  
-	    <h4>Drag Images Here</h4>
-	    <?=image_asset("cms", "drag_pointer.gif")?>
-	  </div>
-    <div id="filter_block">
-      <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
-      <span id="image_filter_folder">
-        &nbsp;<?=select($image_model, "new_folder", $image_model->folder_options, array("id"=>"image_folder"), "Choose a folder")?>
-        &nbsp;<a href="#" id="quick_upload_button">Upload Images</a>
-        &nbsp;&nbsp;<a href="#" id="upload_url_button">From URL</a>
-      </span>
-    </div>    
-    
-    <div id="drop_zones">
-      <div id="droppables">
-        <?for($i=0; $i<$allowed_images; $i++):?>
-          <div id="dropzone<?=$i?>" class="attached_image">
-            <?if($img = $attached_images[$i]):?>
-              <img src="/admin/files/show_image/<?=$img->id?>/90<?=$img->extension?>">
-              <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_".$img->id, "class"=>"image_trash_icon"))?>
-            <?else:?>
-              <div class="empty_image_dropzone"></div>
-            <?endif?>
-          </div>
-        <?endfor?>
-      </div>
+<div id="droppables">
+  <?for($i=0; $i<$allowed_images; $i++):?>
+    <div id="dropzone<?=$i?>" class="attached_image">
+      <?if($img = $attached_images[$i]):?>
+        <img src="/admin/files/show_image/<?=$img->id?>/90<?=$img->extension?>">
+        <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_".$img->id, "class"=>"image_trash_icon"))?>
+      <?else:?>
+        <div class="empty_image_dropzone"></div>
+      <?endif?>
     </div>
-    <div id="image_list">
-      
-    </div>
-    <div class="clearfix"></div>
-  </div>
-  
-  
+  <?endfor?>
 </div>
-<div id="quick_upload_pane" class="jqmWindow"></div>
-<div id="upload_url_pane" class="jqmWindow"></div>
-<?=javascript_asset("jquery", "jquery.1.2.6")?>
-<?=javascript_asset("jquery", "jquery.modal")?>
-<?=javascript_asset("jquery", "jquery.interface")?>
-<?=javascript_asset("jquery", "jquery.form")?>
-<?=javascript_asset("jquery", "jquery.resize")?>
-<?=javascript_asset("jquery", "jquery.effects")?>
-<?=stylesheet_asset('jquery','jquery.modal')?>
-
+    
 
 
