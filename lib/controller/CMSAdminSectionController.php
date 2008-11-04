@@ -17,8 +17,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	* create the tree structure used for the drop down section selection
 	**/
 	public function controller_global() {
-		$this->tree_collection = $this->model->sections_as_collection();
-		if(count($this->tree_collection)) array_unshift($this->tree_collection, "None");
+	  $this->tree_collection = array("None");
+		foreach($this->model->sections_as_collection() as $id => $section) $this->tree_collection[$id] = $section;
 	}
 	/**
 	 * index page - list of all sections
