@@ -15,7 +15,10 @@ class CmsSection extends WaxTreeModel {
 	
 	public function tree($nodes = false){
     if($this->tree_array && !$nodes) return $this->tree_array;
-    if(!$nodes) $nodes = $this->roots;
+    if(!$nodes){
+      $this->cache_whole_tree();
+      $nodes = $this->roots;
+    }
     foreach($nodes as $node){
       $this->tree_array[] = $node;
       $this->tree($node->children);
