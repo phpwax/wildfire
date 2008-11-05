@@ -24,9 +24,12 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	 * index page - list of all sections
 	 */	
 	public function index() {
-		parent::index();
+	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
+		$this->set_order();
+		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->find_ordered_sections();
 		if(!$this->all_rows) $this->all_rows = array();
+		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
 
