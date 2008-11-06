@@ -18,6 +18,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	**/
 	public function controller_global() {
 	  $this->tree_collection = array("None");
+	  $sections_as_collection = $this->model->sections_as_collection();
 		foreach($this->model->sections_as_collection() as $id => $section) $this->tree_collection[$id] = $section;
 	}
 	/**
@@ -27,7 +28,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->find_ordered_sections();
+		$this->all_rows = $this->model->tree();
 		if(!$this->all_rows) $this->all_rows = array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
