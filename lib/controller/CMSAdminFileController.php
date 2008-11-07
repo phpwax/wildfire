@@ -151,9 +151,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $fs = new CmsFilesystem;
 	  $folder = $fs->relativePath;
 		if(!$folder) $folder ="files";
-	  $this->all_images = $model->filter(array("rpath"=>$folder))->order("filename ASC")->all();
+	  $this->all_images = $model->filter(array("status"=>"found","rpath"=>$folder))->order("filename ASC")->all();
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $model->clear()->filter(array("rpath"=>$_POST['filterfolder']))->order("filename ASC")->all();
+  	  $this->all_images = $model->clear()->filter(array("status"=>"found","rpath"=>$_POST['filterfolder']))->order("filename ASC")->all();
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
