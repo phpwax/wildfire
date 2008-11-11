@@ -143,7 +143,7 @@ class CmsContent extends WaxModel {
 		$attributes = $_POST["cms_extra_content"];
 		if(count($attributes)){
 			foreach($attributes as $name=>$value){
-				if($value){
+				if(isset($value)){
 					$model = $this->extra_content($name);
 					$model->name = $name;
 					$model->extra_content = $value;
