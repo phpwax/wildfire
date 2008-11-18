@@ -79,7 +79,7 @@ class CmsComment extends WaxModel {
     $total_matches = 0;
     $trash = array();
     // Count the regular links
-    preg_match_all("/<a[^>]*>[^<]*<\/a>/", $text, $trash);
+    preg_match_all("/<a[^>]*>[^<]*<\/a>/i", $text, $trash);
     $total_matches = count($trash[0]);
 
     // Check for common spam words
