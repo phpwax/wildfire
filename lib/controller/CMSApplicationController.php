@@ -171,6 +171,7 @@ class CmsApplicationController extends WXControllerBase{
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
   	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
+		WaxLog::log('error', 'file size:'.$size.' = '.$img_id);
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
