@@ -95,7 +95,7 @@ class CmsComment extends WaxModel {
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
     if($total_matches > 4) $this->status="2";
-    else $this->status="1";
+    elseif(!$this->status) $this->status="1";
   }
   
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
