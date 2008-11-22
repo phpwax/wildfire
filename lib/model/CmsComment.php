@@ -91,7 +91,7 @@ class CmsComment extends WaxModel {
       $word_matches = preg_match_all('/' . preg_quote($word) . '/i', $text, $trash);
       if($word_matches >0) $total_matches +=($word_matches *2);
     }
-    if(strlen($this->comment->author_name) > 20) $total_matches +=3;
+    if(strlen($this->comment->author_name) > 20) $total_matches +=4;
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
     if($total_matches > 4) $this->status="2";
