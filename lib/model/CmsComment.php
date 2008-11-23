@@ -11,8 +11,8 @@ class CmsComment extends WaxModel {
 	
 	public function setup(){
 		$this->define("attached_to", "ForeignKey", array('target_model'=>"CmsContent", 'col_name'=>"attached_id", 'editable'=>false) );
-		$this->define("author_name", "CharField", array('maxlength'=>255));
-		$this->define("author_email", "CharField", array('maxlength'=>255));
+		$this->define("author_name", "CharField", array('maxlength'=>255, "required"=>true));
+		$this->define("author_email", "CharField", array('maxlength'=>255, "required"=>true));
 		$this->define("author_website", "CharField", array('maxlength'=>255));	
 		$this->define("comment", "TextField");					
 		$this->define("author_ip", "CharField", array('maxlength'=>255, 'editable'=>false));				
@@ -79,7 +79,7 @@ class CmsComment extends WaxModel {
     $total_matches = 0;
     $trash = array();
     // Count the regular links
-    preg_match_all("/<a[^>]*>[^<]*<\/a>/", $text, $trash);
+    preg_match_all("/<a[^>]*>[^<]*<\/a>/i", $text, $trash);
     $total_matches = count($trash[0]);
 
     // Check for common spam words
@@ -91,10 +91,11 @@ class CmsComment extends WaxModel {
       $word_matches = preg_match_all('/' . preg_quote($word) . '/i', $text, $trash);
       if($word_matches >0) $total_matches +=($word_matches *2);
     }
+    if(strlen($this->author_name) > 20) $total_matches +=4;
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
-    if($total_matches > 4) $this->status="2";
-    else $this->status="1";
+    if($total_matches >= 4) $this->status="2";
+    elseif(!$this->status) $this->status="1";
   }
   
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
