@@ -992,70 +992,70 @@ function closeAll() {
 
 QFiles = new Array();
 
-var UploadManager = Class.create();
-UploadManager.prototype = {
-	initialize: function(element) {
-		this.uploadQ = $('uploadFiles');
-		this.buttons = $('uploadbuttons');
-		this.size = 1;
-		if(element) {
-			this.input = $(element);
-			this.id = element;
-			this.input.value != '' ? this.addToQ() : null;
-		}
-		else this.createElement();
-		this.input.onchange = this.addToQ.bind(this);
-	},
-	
-	createElement: function() {
-		this.id = 'upload'+ getRandom();
-		this.input = document.createElement('input');
-		this.input.type = 'file';
-		this.input.name = 'file[]';
-		this.input.size = this.size;
-		Element.addClassName(this.input, 'fileupload');
-		this.buttons.appendChild(this.input);
-
-	},
-	
-	addToQ: function() {
-		$('uploadQ').style.height = "auto";
-		this.QPOS = QFiles.length;
-		QFiles[this.QPOS] = this;
-		var reg = /(.+(\\|\/))?(.*)/;
-		var results = this.input.value.match(reg);
-		this.filename = results[3];		
-		this.row = document.createElement('tr');
-		this.row.id = 'r'+getRandom();				
-		this.name = document.createElement('td');
-		this.name.innerHTML = '<div class="fileUp">'+this.filename+'</div>';		
-		this.del = document.createElement('td');		
-		this.link = document.createElement('img');
-		this.link.onclick = this.clear.bind(this);
-		this.link.src = removeIcon;		
-		this.del.appendChild(this.link);
-		this.row.appendChild(this.name);
-		this.row.appendChild(this.del);
-		this.uploadQ.appendChild(this.row);		
-		Effect.Appear('uploadSubmit');
-		next = new UploadManager();
-	},
-	
-	clear: function() {
-		Element.remove(this.row);
-		Element.remove(this.input);
-		QFiles.splice(this.QPOS, 1);
-		if(QFiles.length == 0) {
-			 Effect.Fade('uploadSubmit');
-			 $('uploadQ').style.height = "28px";
-		}
-	},
-	
-	remove: function() {
-		Element.remove(this.row);
-		Element.remove(this.input);
-	}
-};
+// var UploadManager = Class.create();
+// UploadManager.prototype = {
+//  initialize: function(element) {
+//    this.uploadQ = $('uploadFiles');
+//    this.buttons = $('uploadbuttons');
+//    this.size = 1;
+//    if(element) {
+//      this.input = $(element);
+//      this.id = element;
+//      this.input.value != '' ? this.addToQ() : null;
+//    }
+//    else this.createElement();
+//    this.input.onchange = this.addToQ.bind(this);
+//  },
+//  
+//  createElement: function() {
+//    this.id = 'upload'+ getRandom();
+//    this.input = document.createElement('input');
+//    this.input.type = 'file';
+//    this.input.name = 'file[]';
+//    this.input.size = this.size;
+//    Element.addClassName(this.input, 'fileupload');
+//    this.buttons.appendChild(this.input);
+// 
+//  },
+//  
+//  addToQ: function() {
+//    $('uploadQ').style.height = "auto";
+//    this.QPOS = QFiles.length;
+//    QFiles[this.QPOS] = this;
+//    var reg = /(.+(\\|\/))?(.*)/;
+//    var results = this.input.value.match(reg);
+//    this.filename = results[3];   
+//    this.row = document.createElement('tr');
+//    this.row.id = 'r'+getRandom();        
+//    this.name = document.createElement('td');
+//    this.name.innerHTML = '<div class="fileUp">'+this.filename+'</div>';    
+//    this.del = document.createElement('td');    
+//    this.link = document.createElement('img');
+//    this.link.onclick = this.clear.bind(this);
+//    this.link.src = removeIcon;   
+//    this.del.appendChild(this.link);
+//    this.row.appendChild(this.name);
+//    this.row.appendChild(this.del);
+//    this.uploadQ.appendChild(this.row);   
+//    Effect.Appear('uploadSubmit');
+//    next = new UploadManager();
+//  },
+//  
+//  clear: function() {
+//    Element.remove(this.row);
+//    Element.remove(this.input);
+//    QFiles.splice(this.QPOS, 1);
+//    if(QFiles.length == 0) {
+//       Effect.Fade('uploadSubmit');
+//       $('uploadQ').style.height = "28px";
+//    }
+//  },
+//  
+//  remove: function() {
+//    Element.remove(this.row);
+//    Element.remove(this.input);
+//  }
+// };
 
 function getRandom() { return Math.round(Math.random()*1000); }
 function clearQ() {
@@ -1197,7 +1197,7 @@ windowLoader = function () {
 	root.getContents();
 	getQuery('path');
 	
-	new UploadManager('fileUpload');
+	//new UploadManager('fileUpload');
 	cart = new Cart('cart');
 	
 	setInterval("updateAll(root)", 60000);
