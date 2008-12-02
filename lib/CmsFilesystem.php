@@ -142,12 +142,12 @@ class CmsFilesystem {
   	$defaultFileStore = $this->defaultFileStore;
   	$this->jsonStart();
   	$terms = mysql_escape_string($terms);	
-  	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted`,match(filename,description) against(\"$terms\") as `rank` 
+  	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted` 
   	  FROM wildfire_file 
-  	  WHERE (match(filename,description) against(\"$terms\") 
-  	  OR (filename like \"%$terms%\" 
-  	  OR description like \"%$terms%\")) 
-  	  ORDER BY rank DESC";
+  	  WHERE  
+  	  (filename like \"%$terms%\" 
+  	  OR description like \"%$terms%\") 
+  	  ORDER BY filename DESC";
   	#echo $resourceq;
   	$toprank = 0.000001;
   	$all_files = $this->find($query);
