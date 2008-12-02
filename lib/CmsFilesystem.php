@@ -196,7 +196,7 @@ class CmsFilesystem {
     	  if ($dh = opendir($fullpath)) {
 					$files = array();
     		  while (($file = readdir($dh)) !== false) $files[]  = $file;
-					if(count($files)) natsort($files);
+					if(count($files)) natcasesort($files);
 					
 					foreach($files as $file){
     			  #echo "$file";
