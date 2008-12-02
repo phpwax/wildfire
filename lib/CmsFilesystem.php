@@ -208,7 +208,7 @@ class CmsFilesystem {
   		  }
     	} else $this->error("directory doesnt exist $fullpath");
 
-    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by lower(`filename`) ASC";
+    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by LOWER(`filename`) ASC";
     	$result = $this->find($query);
 			$dbfiles = array();
       foreach($result as $files){
