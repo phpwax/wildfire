@@ -232,7 +232,7 @@ class CMSHelper extends WXHelpers {
 				if(is_array($missing)){
 					$vals = array_values($missing);					
 					if($vals[0]>0 && ($i+1 == count($order) ) ) $string .="...";
-					elseif($vals[0]>0) $string .= "</".$type.">";
+					if($vals[0]>0) $string .= "</".$type.">";
 				}
 				$i++;
 			}			
