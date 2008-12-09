@@ -14,6 +14,7 @@ class CmsSection extends WaxTreeModel {
 	}
 	
 	public function before_save() {
+	  $this->introduction = CmsTextFilter::filter("before_save", $this->introduction);
 		$this->url = WXInflections::to_url($this->title);
 	}	
 	
