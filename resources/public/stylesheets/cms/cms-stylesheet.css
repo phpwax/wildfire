@@ -1219,8 +1219,9 @@ a.edit_me_img{
 }
 a.edit_img{
 	position:relative;
-	top:-16px;
+	top:-18px;
 	width:16px;
 	height:16px;
 	z-index:5;
+	border:1px solid #333;
 }
