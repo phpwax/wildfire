@@ -1,5 +1,6 @@
 <?=javascript_asset("jquery","jquery.tabs.min")?>
 <?=stylesheet_asset("jquery", "jquery.tabs")?>
+<?=javascript_asset("cms","cms_section")?>
 <!--[if lte IE 7]>
   <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
 <![endif]-->
@@ -16,7 +17,9 @@
         <fieldset id="wysiwyg">
           <?=large(simple_wysiwyg($model, "introduction"))?>
         </fieldset>
+				
       </div>
+			<div id="resizehandle"></div>
     </div>
 
     <fieldset id="content_options">
@@ -33,3 +36,8 @@
   </div>
 
 </div>
+
+<?=preview_window($page->permalink, "preview_link", "preview_pane")?>
+
+<?=$link_partial?>
+<?=$video_partial?>
