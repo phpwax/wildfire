@@ -826,6 +826,10 @@ li.pagination_link a {
   color:#444444;
   width:90%;
 }
+#files .img_crop_tool{
+	width:98%;
+	padding:10px 1%;
+}
 .form_container h3 {
   font-size:140%;
   margin:7px 0;
