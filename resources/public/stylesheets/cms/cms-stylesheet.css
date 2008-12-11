@@ -1207,3 +1207,11 @@ a.progressCancel:hover {
 /* Hide from IE Mac \*/
 .clearfix {display:block;}
 /* End hide from IE Mac */
+
+
+a.edit_me_img{
+	position:absolute;
+	display:block;
+	width:8px;
+	height:8px;
+}
