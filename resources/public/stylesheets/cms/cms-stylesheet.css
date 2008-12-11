@@ -1212,6 +1212,9 @@ a.progressCancel:hover {
 a.edit_me_img{
 	position:absolute;
 	display:block;
-	width:8px;
-	height:8px;
+	width:16px;
+	height:16px;
+	z-index:5;
+	top:-8px;
+	background:url('/images/cms/camera_edit.gif') no-repeat center center;
 }
