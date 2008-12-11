@@ -226,6 +226,10 @@ p{
 	margin-left:40px;
 	width:95%;
 }
+#files #content{
+	width:99%;
+	margin-left:0;
+}
 #filter_block{
 	padding:10px;
 	background-image: url(../../images/cms/widg_bg.gif);
