@@ -34,6 +34,7 @@ class CmsApplicationController extends WXControllerBase{
 		if($page = Request::get('page')) $this->this_page = $page;
 		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
 		//set the view
