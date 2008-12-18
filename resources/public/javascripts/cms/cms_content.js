@@ -230,7 +230,7 @@ $(document).ready(function() {
   $("#autosave").click(function(){autosave_content();});
   $("#autosave_disable").click(function(){ 
     clearInterval(autosaver); 
-    $("#autosave_status").remove();
+    $("#autosave_disable").remove();
     $("#autosave_status").html("Autosave Disabled");
   });
 });
