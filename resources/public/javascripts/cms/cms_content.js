@@ -228,7 +228,11 @@ $(document).ready(function() {
   var autosaver;
   autosaver = setInterval('autosave_content()',40000);
   $("#autosave").click(function(){autosave_content();});
-  $("#autosave_disable").click(function(){ clearInterval(autosaver);});
+  $("#autosave_disable").click(function(){ 
+    clearInterval(autosaver); 
+    $("#autosave_status").remove();
+    $("#autosave_status").html("Autosave Disabled");
+  });
 });
 
 function autosave_content() {
