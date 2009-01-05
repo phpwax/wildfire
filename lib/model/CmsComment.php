@@ -86,11 +86,13 @@ class CmsComment extends WaxModel {
     if(strlen($user_blocks = $this->config["filter"]) > 1) $user_blocks = explode(" ", $user_blocks);
     else $user_blocks = array();
     $words = array_merge(array('phentermine', 'viagra', 'cialis', 'vioxx', 'oxycontin', 'levitra', 'ambien', 'xanax', "porn", "porno",
-                   'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy", "buy", "online", "levitra", "[url=", "new.txt"), $user_blocks );
+                   'paxil', 'casino', 'slot-machine', 'texas-holdem', "pussy", "buy", "online", "levitra", "[url=", "new.txt", 'anal'), $user_blocks );
     foreach ($words as $word) {
       $word_matches = preg_match_all('/' . preg_quote($word) . '/i', $text, $trash);
       if($word_matches >0) $total_matches +=($word_matches *2);
     }
+		$word_count = explode(" ", $text);
+		if($word_count < 2) $total_matches +=4;
     if(strlen($this->author_name) > 20) $total_matches +=4;
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
