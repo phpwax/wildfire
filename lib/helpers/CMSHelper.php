@@ -223,19 +223,20 @@ class CMSHelper extends WXHelpers {
 						$counter[$tag_type] += 1;
 					}
 				}
+
+
 			}
 			$order = array_reverse($order);			
 			$i=0;
 			foreach($order as $type => $missing){
 				if(is_array($missing)){
-					if(count($counter) && ($i+1 == count($order) ) ) $string .="...";
-					$string .= "</".$type.">"; 
+					$vals = array_values($missing);					
+					if($vals[0]>0 && ($i+1 == count($order) ) ) $string .="...";
+					if($vals[0]>0) $string .= "</".$type.">";
 				}
 				$i++;
-			}
-			
+			}			
 		}elseif(count($chunk)>$word_limit) $string .= "...";
-
 		return $string;
   }
   	

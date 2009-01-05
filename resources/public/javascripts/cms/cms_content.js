@@ -146,6 +146,20 @@ function initialise_images() {
       initialise_images();
     });
   });
+
+	$(".attached_image").Droppable(
+  	{
+  	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
+  		ondrop:	function (drag) {
+  			$.post("../../add_image/"+content_page_id, 
+				  {id: drag.id, order: $(this).attr("id").substr(8)},
+          function(response) {
+            $("#dropzone"+get_query_var("?" + this.data,'order')).html(response);
+            initialise_images();
+          }
+        );
+  		}
+  });
   
 }
 
@@ -168,40 +182,25 @@ $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	if(!join_field) var join_field="images";
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel});
-  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onHide:refresh_image_panel});
+  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload});
+  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field});
 });
 
-function refresh_image_panel(hash) {
-
-	$.ajax({type: "get", url: "../../attached_images/"+content_page_id, 
-    complete: function(response){ 
-      $('#section-2').html(response.responseText); 
-      $.get("/admin/files/browse_images/1/", function(response){
-		    $("#image_list").html(response);
-		    initialise_images();
-		  });
-			$(".attached_image").Droppable(
-		  	{
-		  	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
-		  		ondrop:	function (drag) {
-		  			$.post("../../add_image/"+content_page_id, 
-						  {id: drag.id, order: $(this).attr("id").substr(8)},
-		          function(response) {
-		            $("#dropzone"+get_query_var("?" + this.data,'order')).html(response);
-		            initialise_images();
-		          }
-		        );
-		  		}
-		  });
-			$("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload, onHide:refresh_image_panel});
-		  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onHide:refresh_image_panel});
+function reload_images(){
+	$.post("/admin/files/browse_images",{filterfolder:$(this).val()},
+    function(response) { 
+      $("#image_list").html(response); 
+      initialise_images(); 
     }
-  });
-	$(hash.w).hide('fast');
-	if(hash.o.length){
-		$(hash.o).remove(); 
-	}			
+  );
+	$.get("../../attached_images/"+content_page_id,
+    function(response) { 
+      $("#drop_zones").html(response); 
+      initialise_images(); 
+    }
+  );
+	
+
 }
 
 function cms_insert_url(type) {
@@ -226,13 +225,21 @@ function cms_insert_video(url, width, height, local) {
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
 $(document).ready(function() {
-  setInterval('autosave_content()',40000);
+  var autosaver;
+  autosaver = setInterval('autosave_content()',40000);
   $("#autosave").click(function(){autosave_content();});
+  $("#autosave_disable").click(function(){ 
+    clearInterval(autosaver); 
+    $("#autosave_disable").remove();
+    $("#autosave_status").html("Autosave Disabled");
+  });
 });
 
 function autosave_content() {
   var ed = document.getElementById("cms_content_content");
-	if(ed.id){
+	if(typeof ed !== 'undefined'){
+	  if(!ed) return false;
+	  if(!ed.id) return false;
   	var wig = ed.widgEditorObject;
 	   if(wig.wysiwyg) {
 	     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
@@ -244,7 +251,7 @@ function autosave_content() {
 	            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	            type: "POST",
 	            processData: false,
-	            data: "content="+escape(wig.theInput.value), 
+	            data: "content="+encodeURIComponent(wig.theInput.value), 
 	            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
 	    });
 	}

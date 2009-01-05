@@ -226,6 +226,10 @@ p{
 	margin-left:40px;
 	width:95%;
 }
+#files #content{
+	width:99%;
+	margin-left:0;
+}
 #filter_block{
 	padding:10px;
 	background-image: url(../../images/cms/widg_bg.gif);
@@ -516,6 +520,7 @@ button.generic_button, div.generic_button {
  margin-right:10px;
  float:left;
 }
+
 button.generic_button span, div.generic_button a {
   background:url(../../images/cms/button_right.gif) no-repeat top right;
   display:block;
@@ -648,7 +653,7 @@ li.pagination_link a {
   #content_window {
     background:#F5F5F4;
   }
-  
+  .ui-tabs-hide { display: none; }
   #content_window .tabs-container {
     background:none;
     border:0;
@@ -824,6 +829,10 @@ li.pagination_link a {
   font-family:'Lucida Grande', Tahoma, sans-serif;
   color:#444444;
   width:90%;
+}
+#files .img_crop_tool{
+	width:98%;
+	padding:10px 1%;
 }
 .form_container h3 {
   font-size:140%;
@@ -1198,3 +1207,23 @@ a.progressCancel:hover {
 /* Hide from IE Mac \*/
 .clearfix {display:block;}
 /* End hide from IE Mac */
+
+
+a.edit_me_img{
+	position:absolute;
+	display:block;
+	width:12px;
+	height:12px;
+	z-index:5;
+	background:url('/images/cms/camera_edit.gif') no-repeat center center;
+}
+a.edit_img{
+	position:relative;
+	top:-18px;
+	width:12px;
+	height:12px;
+	z-index:5;
+}
+a.edit_img img{
+	border:1px solid #333;
+}

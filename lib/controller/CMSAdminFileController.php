@@ -68,7 +68,8 @@ class CMSAdminFileController extends CMSAdminComponent {
 		if(Request::get('id') && Request::get('angle')){
 			$this->model = new WildfireFile(Request::get('id'));
 			$location = PUBLIC_DIR. $this->model->url();
-			File::rotate_image($location, $location, Request::get('angle') );			
+			File::rotate_image($location, $location, Request::get('angle') );	
+			File::clear_image_cache($id);					
 		}else exit;
 	}
 	/** AJAX IMAGE EDITING **/	
@@ -77,8 +78,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 		if($id = Request::get('id') ){
 			$this->model = new $this->model_class($id);
 			if($data = Request::post('crop')){
-				$location = PUBLIC_DIR. $this->model->url();
-				File::crop_image($location, $location, $data['x'], $data['y'], $data['width'], $data['height']);
+				$location = PUBLIC_DIR. $this->model->url();		
+				File::crop_image($location, $location, $data['x1'], $data['y1'], $data['w'], $data['h']);
+				File::clear_image_cache($id);
 			}
 		}else exit;
 	}
@@ -90,6 +92,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 			if($data = $_REQUEST['percent']){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::resize_image_extra($location, $location, $data);
+				File::clear_image_cache($id);				
 			}
 		}else exit;
 	}
@@ -104,7 +107,9 @@ class CMSAdminFileController extends CMSAdminComponent {
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
-  	else $size = substr($size, 0, strrpos($size, "."));
+  	else{
+			if(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
+		}
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
@@ -148,9 +153,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $fs = new CmsFilesystem;
 	  $folder = $fs->relativePath;
 		if(!$folder) $folder ="files";
-	  $this->all_images = $model->filter(array("rpath"=>$folder))->order("filename ASC")->all();
+	  $this->all_images = $model->filter(array("status"=>"found","rpath"=>$folder))->order("filename ASC")->all();
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $model->clear()->filter(array("rpath"=>$_POST['filterfolder']))->order("filename ASC")->all();
+  	  $this->all_images = $model->clear()->filter(array("status"=>"found","rpath"=>$_POST['filterfolder']))->order("filename ASC")->all();
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}

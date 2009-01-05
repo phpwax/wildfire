@@ -142,18 +142,18 @@ class CmsFilesystem {
   	$defaultFileStore = $this->defaultFileStore;
   	$this->jsonStart();
   	$terms = mysql_escape_string($terms);	
-  	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted`,match(filename,description) against(\"$terms\") as `rank` 
+  	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted` 
   	  FROM wildfire_file 
-  	  WHERE (match(filename,description) against(\"$terms\") 
-  	  OR (filename like \"%$terms%\" 
-  	  OR description like \"%$terms%\")) 
-  	  ORDER BY rank DESC";
+  	  WHERE  
+  	  (filename like \"%$terms%\" 
+  	  OR description like \"%$terms%\") 
+  	  ORDER BY filename ASc";
   	#echo $resourceq;
   	$toprank = 0.000001;
   	$all_files = $this->find($query);
   	foreach($all_files as $files) {
   		if($toprank == 0.000001 and $files['rank'] != 0)$toprank = $files['rank'];
-  		$myrank = round(($files['rank']/$toprank)*3)+2;
+  		$myrank = 0;
   		$fileinfo = $this->getFileInfo($files['id']);
   		$this->jsonAdd("\"rank\":\"$myrank\",\"type\": \"file\", \"path\": \"$fileinfo[virtualpath]\",\"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
   		$results ++;
@@ -194,7 +194,11 @@ class CmsFilesystem {
     	$this->databaseSync($fullpath,$path);
     	if (is_dir($fullpath)) {
     	  if ($dh = opendir($fullpath)) {
-    		  while (($file = readdir($dh)) !== false) {
+					$files = array();
+    		  while (($file = readdir($dh)) !== false) $files[]  = $file;
+					if(count($files)) natcasesort($files);
+					
+					foreach($files as $file){
     			  #echo "$file";
     			  if($file != '.' && $file != '..' && filetype($fullpath . '/' . $file) == 'dir'){
     			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
@@ -204,9 +208,10 @@ class CmsFilesystem {
   		  }
     	} else $this->error("directory doesnt exist $fullpath");
 
-    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `filename` ASC";
+    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by LOWER(`filename`) ASC";
     	$result = $this->find($query);
-      foreach($result as $files) {
+			$dbfiles = array();
+      foreach($result as $files){
         $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
       }
     	$output .= $this->jsonReturn('getFolder');
@@ -498,6 +503,14 @@ class CmsFilesystem {
   	}else{
   		$type = exec("file --mime -b ".escapeshellarg("$folderpath/$filename"));
   	}
+  	
+  	//image resizing
+  	if(strpos($type, "image") === true){
+		  $dimensions = getimagesize("$folderpath/$filename");
+    	if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width))
+    		$flag = File::resize_image("$folderpath/$filename", "$folderpath/$filename",AdminFilesController::$max_image_width, false, true);
+	  }
+	  
   	$size = $this->get_size($folderpath.'/'.$filename);
   	$fileid = $this->fileid($folderpath,$filename);
   	while(!$this->checkId($fileid)){
@@ -613,15 +626,11 @@ class CmsFilesystem {
   function upload($dir){
 		$str="";
     $userpath = $this->defaultFileStore.$dir;
-
+    
     $tmp_name = $_FILES["upload"]["tmp_name"];
     $uploadfile = File::safe_file_save($userpath, basename($_FILES['upload']['name']));
     if(move_uploaded_file($tmp_name, $userpath.'/'.$uploadfile)) {
       chmod($userpath.'/'.$uploadfile, 0777);
-			$dimensions = getimagesize($userpath.'/'.$uploadfile);
-			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
-				$flag = File::resize_image($userpath.'/'.$uploadfile, $userpath.'/'.$uploadfile,AdminFilesController::$max_image_width, false, true);
-			}
     	if(isset($_GET['redir'])){
     		header("location: $_GET[redir]");
     	}

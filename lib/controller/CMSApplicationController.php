@@ -34,6 +34,7 @@ class CmsApplicationController extends WXControllerBase{
 		if($page = Request::get('page')) $this->this_page = $page;
 		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
 		//set the view
@@ -171,7 +172,8 @@ class CmsApplicationController extends WXControllerBase{
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
-  	else $size = substr($size, 0, strrpos($size, "."));
+  	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
+		WaxLog::log('error', 'file size:'.$size.' = '.$img_id);
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
@@ -206,7 +208,7 @@ class CmsApplicationController extends WXControllerBase{
 			//if these are set then attach the image to the doc!
 			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
 				$model_id = Request::post('content_id');
-				$class = Inflections::camelize(Request::post('model_string'));
+				$class = Inflections::camelize(Request::post('model_string'), true);
 				$field = Request::post('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
@@ -258,7 +260,8 @@ class CmsApplicationController extends WXControllerBase{
 	  else $type="list";
 	  $this->use_view="cms_".$type;		
 	  foreach($sections as $section) {
-	  	if($this->is_viewable("page/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
+	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
+	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
 	}

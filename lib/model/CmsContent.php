@@ -103,7 +103,8 @@ class CmsContent extends WaxModel {
 	public function avoid_url_clash(){
 		$test_url = $original_url = $this->url;
 		$model = new CmsContent();
-		while($model->filter(array('url'=>$test_url) )->filter('id <> '.$this->id)->first() ){
+		if($this->id) $model->filter('id <> '.$this->id);
+		while($model->filter(array('url'=>$test_url) )->first() ){
 			$test_url = $original_url . '-'.mt_rand(0,99);
 		} 
 		return $test_url;
@@ -142,11 +143,11 @@ class CmsContent extends WaxModel {
 		$attributes = $_POST["cms_extra_content"];
 		if(count($attributes)){
 			foreach($attributes as $name=>$value){
-				if($value){
+				if(isset($value) && strlen($value)>0){
 					$model = $this->extra_content($name);
 					$model->name = $name;
 					$model->extra_content = $value;
-					$model = $model->save();					
+					$model = $model->save();	
 					$this->more_content = $model;
 				}
 			}
