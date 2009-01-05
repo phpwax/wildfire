@@ -92,7 +92,9 @@ class CmsComment extends WaxModel {
       if($word_matches >0) $total_matches +=($word_matches *2);
     }
 		$word_count = explode(" ", $text);
+		$http_count = explode("http", $text);
 		if($word_count < 2) $total_matches +=4;
+		if($word_count > 0) $total_matches +=$http_count;		
     if(strlen($this->author_name) > 20) $total_matches +=4;
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
