@@ -14,7 +14,10 @@ class CampaignMonitorModel extends WaxModel {
 	//new var to setup save method
 	public $save_action = ".Create";
 	//new var for fetch prefix
-	public $get_action = ".Get";
+	public $get_action = ".Get";	
+	public $delete_action = false;
+	//this is a special action so you can switch the action called to select info	
+	public $select_action = false; 
 	//default limit  
 	public $limit = 20;
 	//mappings from xml name to col name
@@ -63,9 +66,15 @@ class CampaignMonitorModel extends WaxModel {
 	public function __get($name) {
 		if(is_array($this->get_action)){
 			foreach($this->get_action as $act){
-				if(substr_count($act, $name)) return $this->db->api($this,$act);
+				if(substr_count($act, $name)){
+					$this->row = $this->db->api($this,$act);
+					return $this;
+				}
 			}
-		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)) return $this->db->api($this, '.'.$name);
+		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
+			$this->row = $this->db->api($this, '.'.$name);
+			return $this;
+		}
 		return parent::__get($name);
   }
 
@@ -94,8 +103,11 @@ class CampaignMonitorModel extends WaxModel {
  		return $res;
   }
 
+ 	public function delete(){
+		return $this->db->delete($this);
+	}
+
 	//these dont do anything any more!
- 	public function delete() {return $this;}
  	public function order($order_by){return $this;}
 	public function random($limit){return $this;}
 	public function dates($start, $end) {}
@@ -110,18 +122,6 @@ class CampaignMonitorModel extends WaxModel {
 	public function page($page_number="1", $per_page=10){
 		return $this;
 	}
-
-
-  public function update( $id_list = array() ) {
-		$this->before_update();
-    $res = $this->db->update($this);
-    $res->after_update();
-    return $res;
-	}
-
-  public function insert() {
-    return $this->db->insert($this);
-  }
   //no join - so simple version  
  	public function set_attributes($array) {
 		foreach((array)$array as $k=>$v) {
@@ -130,10 +130,26 @@ class CampaignMonitorModel extends WaxModel {
 	  return $this;
 	}
  	
+	public function filter($filters) {
+ 	  if(is_string($filters)) return $this;
+ 	  else {
+      foreach((array)$filters as $key=>$filter) {
+        if(is_array($filter)) $this->filters[]= array( "name"=>$key, "operator"=>"in", "value"=>$filter);
+        else $this->filters[]= array("name"=>$key,"operator"=>"=", "value"=>$filter);
+      }
+    }
+    return $this;
+ 	}
 
 	//new function
 	public function child_node(){
 		return get_class($this);
+	}
+	public function before_select(){
+		if(!$this->Date){
+			$twoyearsago = gmmktime(01,01,01,date("m"), date("d"), date("Y")-2);
+			$this->Date = date("Y-m-d H:i:s", $twoyearsago);
+		}
 	}
  	
 }

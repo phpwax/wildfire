@@ -8,6 +8,7 @@ class Subscriber extends CampaignMonitorModel {
 	public $get_action = array("s.GetActive", 
 														 "s.GetBounced",
 														 "s.GetUnsubscribed");
+	public $delete_action = ".Unsubscribe";
 	public $rename_mappings = array('EmailAddress'=>"Email");
 	
 	public function setup(){
