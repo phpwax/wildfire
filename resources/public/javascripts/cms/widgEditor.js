@@ -45,7 +45,7 @@ widgSelectBlockOptions.push("<p>", "Paragraph");
 ** plain text blocks. Uses a double <br /> as a pargraph marker.
 */
 
-var widgInsertParagraphs = true;
+var widgInsertParagraphs = false;
 
 /* If widgAutoClean = true, when content is pasted into the WYSIWYG view, it
 ** will automatically be cleaned. If widgAutoClean = false, the user will be
@@ -341,6 +341,9 @@ widgEditor.prototype.cleanSource = function()
   theHTML = theHTML.replace(/<span><span>/g, "<span>");
 	theHTML = theHTML.replace(/<\/span><\/span>/g, "</span>");
   
+  /* Remove empty paragraphs */
+   theHTML = theHTML.replace(/(<p>)\s*<\/p>/g, "");
+	
 	
 	if (this.wysiwyg)
 	{
@@ -641,9 +644,7 @@ widgEditor.prototype.paragraphise = function()
 			if (theBody.childNodes[i].nodeName.isInlineName())
 			{
 				removedElements.push(theBody.childNodes[i].cloneNode(true));
-
 				theBody.removeChild(theBody.childNodes[i]);
-
 				i--;
 			}
 			else if (theBody.childNodes[i].nodeName.toLowerCase() == "br")
@@ -662,7 +663,6 @@ widgEditor.prototype.paragraphise = function()
 						if (removedElements.length > 0)
 						{
 							this.insertNewParagraph(removedElements, theBody.childNodes[i]);
-
 							removedElements = new Array();
 						}
 					}
@@ -1587,7 +1587,6 @@ String.prototype.validTags = function()
 		
 	return theString;
 };
-
 $(document).ready(function(){
   widgInit();
 });
