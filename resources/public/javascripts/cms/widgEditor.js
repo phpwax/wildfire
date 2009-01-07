@@ -293,7 +293,7 @@ widgEditor.prototype.cleanPaste = function()
 	}
 	
 	return true;
-}
+};
 
 
 
@@ -354,7 +354,7 @@ widgEditor.prototype.cleanSource = function()
 	this.theInput.value = theHTML;
 	
 	return true;
-}
+};
 
 
 
@@ -476,7 +476,7 @@ widgEditor.prototype.convertSPANs = function(theSwitch)
 	}
 	
 	return true;
-}
+};
 
 
 
@@ -507,7 +507,7 @@ widgEditor.prototype.detectPaste = function(e)
 	}
 
 	return true;
-}
+};
 
 
 
@@ -555,7 +555,7 @@ widgEditor.prototype.initEdit = function()
 	this.locked = false;
 
 	return true;	
-}
+};
 
 
 
@@ -581,7 +581,7 @@ widgEditor.prototype.insertNewParagraph = function(elementArray, succeedingEleme
 	}
 	
 	return true;
-}
+};
 
 
 
@@ -607,7 +607,7 @@ widgEditor.prototype.modifyFormSubmit = function()
 		theForm.onsubmit = function()
 		{
 			return self.updateWidgInput();
-		}
+		};
 	}
 	else
 	{
@@ -616,11 +616,11 @@ widgEditor.prototype.modifyFormSubmit = function()
 			self.updateWidgInput();
 
 			return oldOnsubmit();			
-		}
+		};
 	}
 
 	return true;
-}
+};
 
 
 
@@ -632,17 +632,7 @@ widgEditor.prototype.paragraphise = function()
 	{
 		var theBody = this.theIframe.contentWindow.document.getElementsByTagName("body")[0];
 
-		/* Remove all text nodes containing just whitespace */
-		for (var i = 0; i < theBody.childNodes.length; i++)
-		{
-			if (theBody.childNodes[i].nodeName.toLowerCase() == "#text" &&
-				theBody.childNodes[i].data.search(/^\s*$/) != -1)
-			{
-				theBody.removeChild(theBody.childNodes[i]);
-
-				i--;
-			}
-		}
+	
 
 		var removedElements = new Array();
 
@@ -714,7 +704,7 @@ widgEditor.prototype.paragraphise = function()
 	}
 	
 	return true;
-}
+};
 
 
 
@@ -732,7 +722,7 @@ widgEditor.prototype.refreshDisplay = function()
 	}
 
 	return true;
-}
+};
 
 
 
@@ -767,7 +757,7 @@ widgEditor.prototype.switchMode = function()
 	}
 			
 	return true;
-}
+};
 
 
 
@@ -792,7 +782,7 @@ widgEditor.prototype.updateWidgInput = function()
 	}
 
 	return true;
-}
+};
 
 
 
@@ -811,7 +801,7 @@ widgEditor.prototype.writeDocument = function(documentContent)
 	this.theIframe.contentWindow.document.close();
 	
 	return true;
-}
+};
 
 
 
@@ -888,7 +878,7 @@ function widgToolbar(theEditor)
 	}
 
 	return true;
-}
+};
 
 
 
@@ -916,12 +906,12 @@ widgToolbar.prototype.addButton = function(theID, theClass, theLabel, theAction)
 	this.theList.appendChild(menuItem);
 
 	return true;
-}
+};
 widgToolbar.prototype.addSeparator = function() {
   var separator = document.createElement("li");	
 	separator.className = "widgSeparator";
 	this.theList.appendChild(separator);
-}
+};
 
 
 
@@ -954,7 +944,7 @@ widgToolbar.prototype.addSelect = function(theID, theClass, theContentArray, the
 	this.theList.appendChild(menuItem);
 
 	return true;
-}
+};
 
 
 
@@ -986,7 +976,7 @@ widgToolbar.prototype.disable = function()
 	}
 	
 	return true;
-}
+};
 
 
 
@@ -1018,7 +1008,7 @@ widgToolbar.prototype.enable = function()
 	}
 	
 	return true;
-}
+};
 
 
 
@@ -1054,7 +1044,7 @@ widgToolbar.prototype.setState = function(theState, theStatus)
 	}
 			
 	return true;	
-}
+};
 
 
 
@@ -1224,7 +1214,7 @@ function widgToolbarAction()
 	}
 	
 	return false;	
-}
+};
 
 
 
@@ -1481,7 +1471,7 @@ String.prototype.addClass = function(theClass)
 	}
 	
 	return this;
-}
+};
 
 
 
@@ -1498,7 +1488,7 @@ String.prototype.classExists = function(theClass)
 	}
 	
 	return false;
-}
+};
 
 
 
@@ -1518,7 +1508,7 @@ String.prototype.isAcceptedElementName = function()
 	}
 	
 	return false;
-}
+};
 
 
 
@@ -1538,7 +1528,7 @@ String.prototype.isInlineName = function()
 	}
 	
 	return false;
-}
+};
 
 
 
@@ -1550,7 +1540,7 @@ String.prototype.removeClass = function(theClass)
 	var regExpression = new RegExp(regString);
 	
 	return this.replace(regExpression, "");
-}
+};
 
 
 
@@ -1566,7 +1556,7 @@ String.prototype.reverse = function()
 	}
 	
 	return theString;
-}
+};
 
 
 
@@ -1592,11 +1582,12 @@ String.prototype.validTags = function()
 		{
 			match = match.replace(/( [^=]+=)([^"][^ >]*)/g, "$1\"$2\"");
 			
-			return match;bla
+			return match;
 		});
 		
 	return theString;
-}
+};
+
 $(document).ready(function(){
   widgInit();
 });
