@@ -67,7 +67,9 @@ function set_post_params(){
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);
       alert("Image Successfully Retrieved");
-			reload_images();
+			if(typeof(reload_images)!='undefined'){
+				reload_images();
+			}
     });
     return true;
   } 
