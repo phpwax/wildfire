@@ -67,12 +67,12 @@ class CampaignMonitorModel extends WaxModel {
 		if(is_array($this->get_action)){
 			foreach($this->get_action as $act){
 				if(substr_count($act, $name)){
-					$this->row = $this->db->api($this,$act);
+					$this->row = $this->db->api($this, "get_action", $act);
 					return $this;
 				}
 			}
 		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
-			$this->row = $this->db->api($this, '.'.$name);
+			$this->row = $this->db->api($this, "get_action",'.'.$name);
 			return $this;
 		}
 		return parent::__get($name);

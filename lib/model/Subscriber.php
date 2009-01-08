@@ -5,9 +5,10 @@ class Subscriber extends CampaignMonitorModel {
 	public $primary_key="ListID";
   public $primary_type = "CharField";
 	public $save_action = ".Add";
-	public $get_action = array("s.GetActive", 
-														 "s.GetBounced",
-														 "s.GetUnsubscribed");
+	public $select_action = "s.GetActive";
+	public $get_action = array("s.GetActive" => "http", 
+														 "s.GetBounced" => "http",
+														 "s.GetUnsubscribed" => "http");
 	public $delete_action = ".Unsubscribe";
 	public $rename_mappings = array('EmailAddress'=>"Email");
 	
