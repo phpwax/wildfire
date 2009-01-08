@@ -12,9 +12,9 @@ class CampaignMonitorModel extends WaxModel {
   
   static public $adapter = "CampaignMonitorAdapter";
 	//new var to setup save method
-	public $save_action = ".Create";
+	public $save_action = false;
 	//new var for fetch prefix
-	public $get_action = ".Get";	
+	public $get_action = false;
 	public $delete_action = false;
 	//this is a special action so you can switch the action called to select info	
 	public $select_action = false; 
@@ -138,9 +138,22 @@ class CampaignMonitorModel extends WaxModel {
 	  return $this;
 	}
  	
+	public function first() {
+ 	  $this->limit = "1";
+ 	  $row = clone $this;
+ 	  $res = $this->db->select($row);
+ 	  if($res[0]) $row->row = $res[0];
+ 	  else $row = false;
+ 	  return $row;
+ 	}
+	public function all() {
+ 	  $res = $this->row = $this->db->select($this);
+ 	  return new WaxRecordset($this, $res);
+ 	}
+
 	public function filter($filters) {
  	  if(is_string($filters)) return $this;
- 	  elseif(is_array($filter)) {
+ 	  elseif(is_array($filters)) {
       foreach($filters as $key=>$filter) {
         if(!is_array($filter)) $this->filters[]= array("name"=>$key,"operator"=>"=", "value"=>$filter);
       }
@@ -149,7 +162,7 @@ class CampaignMonitorModel extends WaxModel {
  	}
 
 	//new function
-	public function child_node(){
+	public function child_node($call_method){
 		return get_class($this);
 	}
 	public function before_select(){

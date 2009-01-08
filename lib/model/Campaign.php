@@ -5,11 +5,11 @@ class Campaign extends CampaignMonitorModel {
 	public $primary_key="CampaignID";
   public $primary_type = "CharField";
 	public $delete_aciton = false;
-	public $get_action = array(".GetBounces", 
-														 ".GetLists",
-														 ".GetOpens",
-														 ".GetUnsubscribes",
-														 ".GetSummary");
+	public $get_action = array("Campaign.GetBounces", 
+														 "Campaign.GetLists",
+														 "Campaign.GetOpens",
+														 "Campaign.GetUnsubscribes",
+														 "Campaign.GetSummary");
 	public $rename_mappings = false;
 	
 	public function setup(){

@@ -100,10 +100,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 	//call the api to find everything
 		if($model->select_action) $model->row = $this->all_results = $this->api($model, "select_action");
 		else $model->row = $this->all_results =  $this->api($model, "get_action");
-		
-		print_r($this->all_results);
 		//if filters then check data
-		if(is_array($model->filters) && is_array($model->row)){
+		if(count($model->filters) && is_array($model->row)){
 			$res = array();
 			foreach($model->row as $data){ //loop round each record on the model
 				foreach($model->filters as $filter){ //compare to each filter
@@ -175,18 +173,18 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	public function setup_call(CampaignMonitorModel $model, $action, $field=false){
 		$this->call_method = false;
 		$action = $model->$action;
-		if($field && $model->$field) $url.=$field;
-		elseif(is_array($action) && isset($action[$field])){
-			$url.=$field;
+		if($field && $model->$field) $this->url.=$field;
+		elseif($field && is_array($action) && isset($action[$field])){ echo "@";
+			$this->url.=$field;
 			$this->call_method = $action[$field];
-		}elseif(is_array($action) ){ 
+		}elseif(is_array($action) ){
 			//get the keys
 			$keys = array_keys($action);
 			//if the key is not numeric (as in its a string - in this case the action to call)
 			if(!is_numeric($keys[0])){				
-				$url.=$keys[0]; //then add that to $url to be called
+				$this->url.=$keys[0]; //then add that to $url to be called
 				$this->call_method = $action[0]; //and set the call method to the value of first save action
-			}else $this->url .= $action[0]; //if the array key was a number then use the value and dont set a method
+			}else	$this->url .= $action[0]; //if the array key was a number then use the value and dont set a method
 		}else $this->url.=$action;
 		if(!$this->call_method) $this->call_method = "http";
 	}
@@ -200,7 +198,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
-		$this->url = $this->base_url.get_class($model);
+		$this->url = $this->base_url;
 		$this->setup_call($model, $action_type, $api_action);
 		$func=$this->call_method."_command";
 		if($api_action != "delete_action") $this->curl_post_arguments .= $this->query_string($model);
@@ -218,6 +216,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function http_command($url){
+		echo "http cmd...<br />";
 		$this->db = curl_init($url);
 		if($this->curl_post_arguments){
 			curl_setopt($this->db, CURLOPT_POST, true);	  	
@@ -258,9 +257,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$simple = simplexml_load_string($xml_str, "SimpleXMLElement", LIBXML_NOCDATA);
 		$res = array();
     if($child_node = $model->child_node($this->call_method)) {
-			print_r($simple);
-			$total = count($simple);
-      for($i=0; $i<$total; $i++) {
+      for($i=0; $i<=count($simple); $i++) {
         if($simple->{$child_node}[$i]){
 					$info = (array) $simple->{$child_node}[$i];
 					foreach($info as $field=>$val){
