@@ -309,7 +309,7 @@ class CmsFilesystem {
 
   function folderRename($path,$name,$newname){
 
-    $newname = mysql_escape_string($newname);
+    $newname = mysql_escape_string(str_replace(" ", '-',$newname));
     $name = mysql_escape_string($name);
     $path = mysql_escape_string($path);
 
@@ -371,7 +371,7 @@ class CmsFilesystem {
 
   function newFolder($name,$path){
   	$defaultFileStore = $this->defaultFileStore;
-  	$name = mysql_escape_string($name);
+  	$name = mysql_escape_string(str_replace(" ", "-", $name));
   	$path = mysql_escape_string($path);
   	$fullpath = $this->defaultFileStore.$path.'/'.$name;
   	$i = 1;
