@@ -75,8 +75,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
    * @param string $CampaignMonitorModel 
    * @return void
    */  
-  public function update(CampaignMonitorModel $model) {
-    return $this->insert($model); //no difference between save and update?
+  public function update($model) {
+    return $model;
   }
   /**
    * deletes if there is an action set - most parts of the api don't have a delete
@@ -97,10 +97,11 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
    */  
   public function select(CampaignMonitorModel $model) {
 		$model->before_select();  //before hook	
-		if(!$this->all_results){ //call the api to find everything
-			if($model->select_action) $model->row = $this->all_results = $this->api($model, "select_action");
-			else $model->row = $this->all_results =  $this->api($model, "get_action");
-		}
+	 	//call the api to find everything
+		if($model->select_action) $model->row = $this->all_results = $this->api($model, "select_action");
+		else $model->row = $this->all_results =  $this->api($model, "get_action");
+		
+		print_r($this->all_results);
 		//if filters then check data
 		if(is_array($model->filters) && is_array($model->row)){
 			$res = array();
@@ -199,22 +200,15 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
-		$this->url = $this->base_url.get_class($model);		
+		$this->url = $this->base_url.get_class($model);
 		$this->setup_call($model, $action_type, $api_action);
 		$func=$this->call_method."_command";
 		if($api_action != "delete_action") $this->curl_post_arguments .= $this->query_string($model);
 		else $this->curl_post_arguments .= $this->primary_key_string($model);
-		return $this->parse_xml($this->$func($this->url), $model);
+		if(method_exists($model, $func)) return $model->$func($this->url);
+		else return $this->parse_xml($this->$func($this->url), $model);
 	}
 	
-	/**
-	 * SOAP functions
-	 *
-	 * @param string $url 
-	 * @return void
-	 */	
-	protected function soap_command($url){}
-
 	/**
 	 * setup the curl session ready for transporting data
 	 * to the api
@@ -224,7 +218,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function http_command($url){
-		$this->db = curl_init($url);	
+		$this->db = curl_init($url);
 		if($this->curl_post_arguments){
 			curl_setopt($this->db, CURLOPT_POST, true);	  	
 	  	curl_setopt($this->db, CURLOPT_POSTFIELDS, $this->curl_post_arguments);
@@ -246,7 +240,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	private function curl_send(){
 		$exec =  curl_exec($this->db);		
 		$info = curl_getInfo($this->db);
-		print_r($exec);
 		if($info['http_code'] == 200){
 			if($this->return_curl_data) return $exec;
 			else return true;
@@ -261,10 +254,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	protected function parse_xml($xml_str, $model){
+
 		$simple = simplexml_load_string($xml_str, "SimpleXMLElement", LIBXML_NOCDATA);
 		$res = array();
     if($child_node = $model->child_node($this->call_method)) {
-      for($i=0; $i<$model->limit; $i++) {
+			print_r($simple);
+			$total = count($simple);
+      for($i=0; $i<$total; $i++) {
         if($simple->{$child_node}[$i]){
 					$info = (array) $simple->{$child_node}[$i];
 					foreach($info as $field=>$val){

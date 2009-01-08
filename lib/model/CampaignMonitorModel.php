@@ -96,16 +96,24 @@ class CampaignMonitorModel extends WaxModel {
 		$this->before_save();
 		if(!$this->validate) return false;
 		if($this->persistent) {
- 	    if($this->primval()) $res = $this->update();
- 	    else $res = $this->insert();
+			//as there is no update on this api - just run insert 	    
+ 	    $res = $this->insert();
  		}
  		$res->after_save();
  		return $res;
   }
 
+
  	public function delete(){
 		return $this->db->delete($this);
 	}
+	
+	public function update( $id_list = array() ) {
+    $this->before_update();
+    $res = $this->db->update($this);
+    $res->after_update();
+    return $res;
+  }
 
 	//these dont do anything any more!
  	public function order($order_by){return $this;}
@@ -132,10 +140,9 @@ class CampaignMonitorModel extends WaxModel {
  	
 	public function filter($filters) {
  	  if(is_string($filters)) return $this;
- 	  else {
-      foreach((array)$filters as $key=>$filter) {
-        if(is_array($filter)) $this->filters[]= array( "name"=>$key, "operator"=>"in", "value"=>$filter);
-        else $this->filters[]= array("name"=>$key,"operator"=>"=", "value"=>$filter);
+ 	  elseif(is_array($filter)) {
+      foreach($filters as $key=>$filter) {
+        if(!is_array($filter)) $this->filters[]= array("name"=>$key,"operator"=>"=", "value"=>$filter);
       }
     }
     return $this;
