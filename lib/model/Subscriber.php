@@ -1,4 +1,12 @@
 <?php
+/**
+ * This is a default subscriber model 
+ *
+ * eg for adding custom fields - $model->CustomFields = array('SubscriberCustomField' => array( array('Key' => "Bedrooms", 'Value'=>'3') ));
+ * @package default
+ * @author charles marshall
+ */
+
 
 class Subscriber extends CampaignMonitorModel {
 	

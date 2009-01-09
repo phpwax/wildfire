@@ -146,7 +146,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	public function query_string($model){
 		$query_string = "";
 		foreach($model->columns as $col=>$setup){
-				if($val = $model->$col)	$query_string .= $col.'='.$val.'&';
+				if($val = $model->$col && $col != "CustomFields")	$query_string .= $col.'='.$val.'&';
 		}
 	  return $query_string;
 	}
