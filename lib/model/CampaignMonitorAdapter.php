@@ -186,24 +186,24 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return void
 	 */
 	public function setup_call(CampaignMonitorModel $model, $action, $field=false){
-		$this->call_method = false;
-		$action = $model->$action;
-		if($field && $model->$field) $this->url.=$field;
-		elseif($field && is_array($action) && isset($action[$field])){
+		$this->call_method = false; //set to false
+		$action = $model->$action; //find the calls
+		if($field && $model->$field) $this->url.=$field; //if the field is passed in & exists on model
+		elseif($field && is_array($action) && isset($action[$field])){ //otherwise if the action is an array
 			$this->url.=$field;
 			$this->call_method = $action[$field];
-			if($this->call_method == "soap") $this->soap_method = $field;
-		}elseif(is_array($action) ){
+			if($this->call_method == "soap") $this->soap_method = $field; //set soap method
+		}elseif(is_array($action) ){ //array of actions
 			//get the keys
 			$keys = array_keys($action);
 			//if the key is not numeric (as in its a string - in this case the action to call)
 			if(!is_numeric($keys[0])){ 
 				$this->url.=$keys[0]; //then add that to $url to be called
 				$this->call_method = $action[$keys[0]]; //and set the call method to the value of first save action
-				if($this->call_method == "soap") $this->soap_method = $keys[0];
+				if($this->call_method == "soap") $this->soap_method = $keys[0]; //set soap method
 			}else $this->url .= $action[0]; //if the array key was a number then use the value and dont set a method
 		}else $this->url.=$action;
-		if(!$this->call_method) $this->call_method = "http";
+		if(!$this->call_method) $this->call_method = "http"; //no call method - default to http
 	}
 
 	/**
@@ -215,18 +215,17 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
-		$this->url = $this->base_url;
-		$this->setup_call($model, $action_type, $api_action);
-		$func=$this->call_method."_command";
-		if($this->call_method == "http"){
-			if($api_action != "delete_action" ) $this->curl_post_arguments .= $this->query_string($model);
+		$this->url = $this->base_url; //url starts off as base url
+		$this->setup_call($model, $action_type, $api_action); //get the url,call method etc setup
+		$func=$this->call_method."_command"; //function to use
+		if($this->call_method == "http"){ //if this is a http method create post args
+			if($api_action != "delete_action" ) $this->curl_post_arguments .= $this->query_string($model); //
 			else $this->curl_post_arguments .= $this->primary_key_string($model);
-		}elseif($this->call_method == "soap"){
+		}elseif($this->call_method == "soap") //if soap call the soap param creation
 			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));
-		}
-		if(method_exists($model, $func)) return $model->$func($this->url);		
-		elseif($this->call_method == "soap") return $this->parse_soap($this->$func($this->url, $model), $model);
-		else return $this->parse_xml($this->$func($this->url, $model), $model);
+		$parse_func = "parse_".$this->call_method; //parse_function	
+		if(method_exists($model, $func)) return $this->$parse_func($model->$func($this->url,$model),$model); //check if the model has an over riding function		
+		return $this->$parse_func($this->$func($this->url, $model), $model); //otherwise call the default one
 	}
 	
 	/**
@@ -265,36 +264,80 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			else return true;
 		}else return false;		
 	}
-
+	
+	/**
+	 * command to run for soap based functions - create the soap client
+	 * and return the result
+	 * @param string $url 
+	 * @param string $model 
+	 * @return mixed
+	 */	
 	private function soap_command($url, $model){
-		if(!$this->soap_method) return false;		
+		if(!$this->soap_method) return false;	//if no methods set the return false
+		//check if they have a silly alternative name for this api function call
 		if($model->soap_mappings && $model->soap_mappings[$this->soap_method]) $method = $model->soap_mappings[$this->soap_method]['send'];
-		else return false;
+		else $method = $this->soap_method;
+		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl);
 		return $client->__soapCall($method, array($this->soap_arguments) );
 	}
-
-	protected function parse_soap($results, $model){
-		
-		$return = $model->soap_mappings[$this->soap_method]['return'];
+	/**
+	 * Big nasty function to parse the information returned from the soap call
+	 * - looks for mapping for the node name returned by the call
+	 * - invert the mappings
+	 * - check something is returned
+	 * - check to see if the result is an array or just a model (convert to array if not)
+	 * - loop around the result array
+	 * -- loop over the model columns
+	 * --- and assign the value on the result to 
+	 * --- check if its the custom fields
+	 * ---- if it is then loop over it and assign the result back to an array with appropriate key val pairs
+	 * ---- this then makes the custom field var an array
+	 * - return all the results
+	 * @param string $results 
+	 * @param string $model 
+	 * @return mixed
+	 */	
+	protected function parse_soap($results, $model){	
+		//check model name mapping	
+		if($model->soap_mappings[$this->soap_method]['return']) $return = $model->soap_mappings[$this->soap_method]['return'];
+		else $return = $this->soap_method."Response";
 		$class = get_class($model);
+		//name mappings for when they aren't consistant!
 		$mappings= array_flip($model->rename_mappings);
 		$res = array();
 		
 		if($results->$return->enc_value->$class){	
-			$results = $results->$return->enc_value->$class;
-			if(!is_array($results)) $loop_over = array(0=>$results);
+			$results = $results->$return->enc_value->$class; //get the results
+			//make sure its an array
+			if(!is_array($results)) $loop_over = array(0=>$results); 
 			else $loop_over = $results;
 			//loop round all return objects
 			foreach($loop_over as $k=>$info){	
-				$objdata = array();
-				foreach($model->columns as $col=>$spec){
+				$objdata = array(); //tmp var for records
+				foreach($model->columns as $col=>$spec){ //go over the columns
+					//if the val is set, copy over
 					if($val = $info->$col) $objdata[$col]=$val;
+					//if the name is mapped then copy the mapped named value over to the correct name with the value
 					elseif($mappings[$col] && $info->{$mappings[$col]}) $objdata[$col]=$info->{$mappings[$col]};
+					//convert custom fields
+					if($col == "CustomFields" && $info->$col){
+						$values = array(); //array to store the result
+						$field = get_class($model)."CustomField"; //the model element to fetch
+						$data = $info->$col->$field; //the custom field data
+						if(is_array($data)){ //if its an array
+							foreach($data as $count => $custom_info){	//loop over and get the key value pairs
+								$key = $custom_info->Key;
+								$val = $custom_info->Value;
+								if($val) $values[$key] = $val; //if the value is set then assign it to val array
+							}
+						}elseif($data->Value) $values[$data->Key] = $data->Value; //copy val over 
+						if(count($values)) $objdata[$col] = $values; //if some data has been set then copy it back
+						else $objdata[$col] = false; //or set it to false
+					}
 				}
 				if(count($objdata)) $res[] = $objdata;
 			}
-
 		}
 		return $res;
 	}
@@ -306,7 +349,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @param string $model 
 	 * @return array
 	 */	
-	protected function parse_xml($xml_str, $model){
+	protected function parse_http($xml_str, $model){
 
 		$simple = simplexml_load_string($xml_str, "SimpleXMLElement", LIBXML_NOCDATA);
 		$res = array();
