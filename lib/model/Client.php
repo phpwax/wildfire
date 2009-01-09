@@ -5,7 +5,7 @@ class Client extends CampaignMonitorModel {
 	public $primary_key="ClientID";
   public $primary_type = "CharField";
 	public $delete_aciton = false;
-	
+	public $save_action = false;
 	public $get_action = array("Client.GetCampaigns",
  														 "Client.GetLists",
 														 "Client.GetSegments");

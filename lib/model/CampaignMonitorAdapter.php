@@ -7,8 +7,10 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	protected $timestamp = false;
 	protected $db_settings; 
 	
+	public $apikey;
   //new params for the api
 	public $base_url = false;
+	public $soap_wsdl = false;
 	public $url = false; //address to go to
 	//curl session details
 	public $curl_post_arguments = false; //post information
@@ -16,6 +18,9 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	public $max_retries = 3; //number of times to try connection
 	public $sync_prefix = "Client.Get"; //call to make to sync things
 	public $curl_headers = false;
+	
+	public $soap_arguments = false;
+	public $soap_method=false;
 	
 	public $call_method = false; //if your using http (curl) or soap
 	//an array of everything
@@ -36,6 +41,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
     if(!$db_settings['char_set']) $db_settings['char_set']='UTF-8';
     if(!$db_settings['header_accept']) $db_settings['header_accept']='application/x-www-form-urlencoded';
 		if(!$db_settings['max_retries']) $db_settings['max_retries']=3;
+		if(!$db_settinds['wsdl']) $db_settings['wsdl'] = $this->soap_wsdl = "http://oneblackbear2.createsend.com/api/api.asmx?wsdl";
 		//init a connection
     $this->db = $this->connect($db_settings);
 		//setup curl headers
@@ -44,7 +50,10 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//load vars from config file
 		if(Config::$initialised){			
 			$conf = Config::get("campaign_monitor");
-			if($this->apikey = $conf['ApiKey']) $this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+			if($this->apikey = $conf['ApiKey']){
+				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+				$this->soap_arguments['ApiKey'] = $this->apikey;
+			}
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
   }
   
@@ -141,6 +150,12 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		}
 	  return $query_string;
 	}
+	
+	public function cols_to_array($model){
+		$res = array();
+		foreach($model->columns as $name => $spec) $res[$name] = $model->$name;
+		return $res;
+	}
 	/**
 	 * takes the model and return the primary key in col=val string
 	 * @param string $model 
@@ -174,17 +189,19 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$this->call_method = false;
 		$action = $model->$action;
 		if($field && $model->$field) $this->url.=$field;
-		elseif($field && is_array($action) && isset($action[$field])){ echo "@";
+		elseif($field && is_array($action) && isset($action[$field])){
 			$this->url.=$field;
 			$this->call_method = $action[$field];
+			if($this->call_method == "soap") $this->soap_method = $field;
 		}elseif(is_array($action) ){
 			//get the keys
 			$keys = array_keys($action);
 			//if the key is not numeric (as in its a string - in this case the action to call)
-			if(!is_numeric($keys[0])){				
+			if(!is_numeric($keys[0])){ 
 				$this->url.=$keys[0]; //then add that to $url to be called
-				$this->call_method = $action[0]; //and set the call method to the value of first save action
-			}else	$this->url .= $action[0]; //if the array key was a number then use the value and dont set a method
+				$this->call_method = $action[$keys[0]]; //and set the call method to the value of first save action
+				if($this->call_method == "soap") $this->soap_method = $keys[0];
+			}else $this->url .= $action[0]; //if the array key was a number then use the value and dont set a method
 		}else $this->url.=$action;
 		if(!$this->call_method) $this->call_method = "http";
 	}
@@ -201,10 +218,15 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$this->url = $this->base_url;
 		$this->setup_call($model, $action_type, $api_action);
 		$func=$this->call_method."_command";
-		if($api_action != "delete_action") $this->curl_post_arguments .= $this->query_string($model);
-		else $this->curl_post_arguments .= $this->primary_key_string($model);
-		if(method_exists($model, $func)) return $model->$func($this->url);
-		else return $this->parse_xml($this->$func($this->url), $model);
+		if($this->call_method == "http"){
+			if($api_action != "delete_action" ) $this->curl_post_arguments .= $this->query_string($model);
+			else $this->curl_post_arguments .= $this->primary_key_string($model);
+		}elseif($this->call_method == "soap"){
+			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));
+		}
+		if(method_exists($model, $func)) return $model->$func($this->url);		
+		elseif($this->call_method == "soap") return $this->parse_soap($this->$func($this->url, $model), $model);
+		else return $this->parse_xml($this->$func($this->url, $model), $model);
 	}
 	
 	/**
@@ -215,8 +237,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @param string $url 
 	 * @return mixed
 	 */	
-	protected function http_command($url){
-		echo "http cmd...<br />";
+	protected function http_command($url, $model){
 		$this->db = curl_init($url);
 		if($this->curl_post_arguments){
 			curl_setopt($this->db, CURLOPT_POST, true);	  	
@@ -243,6 +264,39 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			if($this->return_curl_data) return $exec;
 			else return true;
 		}else return false;		
+	}
+
+	private function soap_command($url, $model){
+		if(!$this->soap_method) return false;		
+		if($model->soap_mappings && $model->soap_mappings[$this->soap_method]) $method = $model->soap_mappings[$this->soap_method]['send'];
+		else return false;
+		$client = new SoapClient($this->soap_wsdl);
+		return $client->__soapCall($method, array($this->soap_arguments) );
+	}
+
+	protected function parse_soap($results, $model){
+		
+		$return = $model->soap_mappings[$this->soap_method]['return'];
+		$class = get_class($model);
+		$mappings= array_flip($model->rename_mappings);
+		$res = array();
+		
+		if($results->$return->enc_value->$class){	
+			$results = $results->$return->enc_value->$class;
+			if(!is_array($results)) $loop_over = array(0=>$results);
+			else $loop_over = $results;
+			//loop round all return objects
+			foreach($loop_over as $k=>$info){	
+				$objdata = array();
+				foreach($model->columns as $col=>$spec){
+					if($val = $info->$col) $objdata[$col]=$val;
+					elseif($mappings[$col] && $info->{$mappings[$col]}) $objdata[$col]=$info->{$mappings[$col]};
+				}
+				if(count($objdata)) $res[] = $objdata;
+			}
+
+		}
+		return $res;
 	}
 
 	/**
@@ -302,5 +356,99 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 
 
 }
+
+/*** SOAP API CALLS 
+
+	Array
+	(
+	    [0] => Subscriber.AddWithCustomFieldsResponse AddSubscriberWithCustomFields(Subscriber.AddWithCustomFields $parameters)
+	    [1] => Subscriber.AddAndResubscribeWithCustomFieldsResponse AddAndResubscribeWithCustomFields(Subscriber.AddAndResubscribeWithCustomFields $parameters)
+	    [2] => Subscriber.AddResponse AddSubscriber(Subscriber.Add $parameters)
+	    [3] => Subscriber.AddAndResubscribeResponse AddAndResubscribe(Subscriber.AddAndResubscribe $parameters)
+	    [4] => Subscriber.UnsubscribeResponse Unsubscribe(Subscriber.Unsubscribe $parameters)
+	    [5] => Subscribers.GetActiveResponse GetSubscribers(Subscribers.GetActive $parameters)
+	    [6] => Subscribers.GetUnsubscribedResponse GetUnsubscribed(Subscribers.GetUnsubscribed $parameters)
+	    [7] => Subscribers.GetBouncedResponse GetBounced(Subscribers.GetBounced $parameters)
+	    [8] => Subscribers.GetSingleSubscriberResponse GetSingleSubscriber(Subscribers.GetSingleSubscriber $parameters)
+	    [9] => Subscribers.GetIsSubscribedResponse GetIsSubscribed(Subscribers.GetIsSubscribed $parameters)
+	    [10] => Client.GetCampaignsResponse GetClientCampaigns(Client.GetCampaigns $parameters)
+	    [11] => Client.GetListsResponse GetClientLists(Client.GetLists $parameters)
+	    [12] => Client.GetSegmentsResponse GetClientSegments(Client.GetSegments $parameters)
+	    [13] => Campaign.GetSubscriberClicksResponse GetSubscriberClicks(Campaign.GetSubscriberClicks $parameters)
+	    [14] => Campaign.GetOpensResponse GetCampaignOpens(Campaign.GetOpens $parameters)
+	    [15] => Campaign.GetBouncesResponse GetCampaignBounces(Campaign.GetBounces $parameters)
+	    [16] => Campaign.GetUnsubscribesResponse GetCampaignUnsubscribes(Campaign.GetUnsubscribes $parameters)
+	    [17] => Campaign.GetSummaryResponse GetCampaignSummary(Campaign.GetSummary $parameters)
+	    [18] => Campaign.GetListsResponse GetCampaignLists(Campaign.GetLists $parameters)
+	    [19] => User.GetClientsResponse GetClients(User.GetClients $parameters)
+	    [20] => User.GetSystemDateResponse GetSystemDate(User.GetSystemDate $parameters)
+	    [21] => Campaign.CreateResponse CreateCampaign(Campaign.Create $parameters)
+	    [22] => Campaign.SendResponse SendCampaign(Campaign.Send $parameters)
+	    [23] => Subscriber.AddWithCustomFieldsResponse AddSubscriberWithCustomFields(Subscriber.AddWithCustomFields $parameters)
+	    [24] => Subscriber.AddAndResubscribeWithCustomFieldsResponse AddAndResubscribeWithCustomFields(Subscriber.AddAndResubscribeWithCustomFields $parameters)
+	    [25] => Subscriber.AddResponse AddSubscriber(Subscriber.Add $parameters)
+	    [26] => Subscriber.AddAndResubscribeResponse AddAndResubscribe(Subscriber.AddAndResubscribe $parameters)
+	    [27] => Subscriber.UnsubscribeResponse Unsubscribe(Subscriber.Unsubscribe $parameters)
+	    [28] => Subscribers.GetActiveResponse GetSubscribers(Subscribers.GetActive $parameters)
+	    [29] => Subscribers.GetUnsubscribedResponse GetUnsubscribed(Subscribers.GetUnsubscribed $parameters)
+	    [30] => Subscribers.GetBouncedResponse GetBounced(Subscribers.GetBounced $parameters)
+	    [31] => Subscribers.GetSingleSubscriberResponse GetSingleSubscriber(Subscribers.GetSingleSubscriber $parameters)
+	    [32] => Subscribers.GetIsSubscribedResponse GetIsSubscribed(Subscribers.GetIsSubscribed $parameters)
+	    [33] => Client.GetCampaignsResponse GetClientCampaigns(Client.GetCampaigns $parameters)
+	    [34] => Client.GetListsResponse GetClientLists(Client.GetLists $parameters)
+	    [35] => Client.GetSegmentsResponse GetClientSegments(Client.GetSegments $parameters)
+	    [36] => Campaign.GetSubscriberClicksResponse GetSubscriberClicks(Campaign.GetSubscriberClicks $parameters)
+	    [37] => Campaign.GetOpensResponse GetCampaignOpens(Campaign.GetOpens $parameters)
+	    [38] => Campaign.GetBouncesResponse GetCampaignBounces(Campaign.GetBounces $parameters)
+	    [39] => Campaign.GetUnsubscribesResponse GetCampaignUnsubscribes(Campaign.GetUnsubscribes $parameters)
+	    [40] => Campaign.GetSummaryResponse GetCampaignSummary(Campaign.GetSummary $parameters)
+	    [41] => Campaign.GetListsResponse GetCampaignLists(Campaign.GetLists $parameters)
+	    [42] => User.GetClientsResponse GetClients(User.GetClients $parameters)
+	    [43] => User.GetSystemDateResponse GetSystemDate(User.GetSystemDate $parameters)
+	    [44] => Campaign.CreateResponse CreateCampaign(Campaign.Create $parameters)
+	    [45] => Campaign.SendResponse SendCampaign(Campaign.Send $parameters)
+	    [46] => Result AddSubscriber(string $ApiKey, string $ListID, string $Email, string $Name)
+	    [47] => Result AddAndResubscribe(string $ApiKey, string $ListID, string $Email, string $Name)
+	    [48] => Result Unsubscribe(string $ApiKey, string $ListID, string $Email)
+	    [49] => UNKNOWN GetSubscribers(string $ApiKey, string $ListID, string $Date)
+	    [50] => UNKNOWN GetUnsubscribed(string $ApiKey, string $ListID, string $Date)
+	    [51] => UNKNOWN GetBounced(string $ApiKey, string $ListID, string $Date)
+	    [52] => UNKNOWN GetSingleSubscriber(string $ApiKey, string $ListID, string $EmailAddress)
+	    [53] => UNKNOWN GetIsSubscribed(string $ApiKey, string $ListID, string $Email)
+	    [54] => UNKNOWN GetClientCampaigns(string $ApiKey, string $ClientID)
+	    [55] => UNKNOWN GetClientLists(string $ApiKey, string $ClientID)
+	    [56] => UNKNOWN GetClientSegments(string $ApiKey, string $ClientID)
+	    [57] => UNKNOWN GetSubscriberClicks(string $ApiKey, string $CampaignID)
+	    [58] => UNKNOWN GetCampaignOpens(string $ApiKey, string $CampaignID)
+	    [59] => UNKNOWN GetCampaignBounces(string $ApiKey, string $CampaignID)
+	    [60] => UNKNOWN GetCampaignUnsubscribes(string $ApiKey, string $CampaignID)
+	    [61] => UNKNOWN GetCampaignSummary(string $ApiKey, string $CampaignID)
+	    [62] => UNKNOWN GetCampaignLists(string $ApiKey, string $CampaignID)
+	    [63] => UNKNOWN GetClients(string $ApiKey)
+	    [64] => UNKNOWN GetSystemDate(string $ApiKey)
+	    [65] => Result SendCampaign(string $ApiKey, string $CampaignID, string $ConfirmationEmail, string $SendDate)
+	    [66] => Result AddSubscriber(string $ApiKey, string $ListID, string $Email, string $Name)
+	    [67] => Result AddAndResubscribe(string $ApiKey, string $ListID, string $Email, string $Name)
+	    [68] => Result Unsubscribe(string $ApiKey, string $ListID, string $Email)
+	    [69] => UNKNOWN GetSubscribers(string $ApiKey, string $ListID, string $Date)
+	    [70] => UNKNOWN GetUnsubscribed(string $ApiKey, string $ListID, string $Date)
+	    [71] => UNKNOWN GetBounced(string $ApiKey, string $ListID, string $Date)
+	    [72] => UNKNOWN GetSingleSubscriber(string $ApiKey, string $ListID, string $EmailAddress)
+	    [73] => UNKNOWN GetIsSubscribed(string $ApiKey, string $ListID, string $Email)
+	    [74] => UNKNOWN GetClientCampaigns(string $ApiKey, string $ClientID)
+	    [75] => UNKNOWN GetClientLists(string $ApiKey, string $ClientID)
+	    [76] => UNKNOWN GetClientSegments(string $ApiKey, string $ClientID)
+	    [77] => UNKNOWN GetSubscriberClicks(string $ApiKey, string $CampaignID)
+	    [78] => UNKNOWN GetCampaignOpens(string $ApiKey, string $CampaignID)
+	    [79] => UNKNOWN GetCampaignBounces(string $ApiKey, string $CampaignID)
+	    [80] => UNKNOWN GetCampaignUnsubscribes(string $ApiKey, string $CampaignID)
+	    [81] => UNKNOWN GetCampaignSummary(string $ApiKey, string $CampaignID)
+	    [82] => UNKNOWN GetCampaignLists(string $ApiKey, string $CampaignID)
+	    [83] => UNKNOWN GetClients(string $ApiKey)
+	    [84] => UNKNOWN GetSystemDate(string $ApiKey)
+	    [85] => Result SendCampaign(string $ApiKey, string $CampaignID, string $ConfirmationEmail, string $SendDate)
+	)
+****/
+
 
 ?>

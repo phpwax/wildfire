@@ -22,6 +22,7 @@ class CampaignMonitorModel extends WaxModel {
 	public $limit = 20;
 	//mappings from xml name to col name
 	public $rename_mappings = false;
+	public $soap_mappings = false;
 
  	function __construct($params=null) {
  		if(self::$adapter && !$this->db = new self::$adapter(self::$db_settings)) {
@@ -52,11 +53,14 @@ class CampaignMonitorModel extends WaxModel {
  	//no joins possbile so simple version of validate
  	public function validate() {
  	  foreach($this->columns as $column=>$setup) {
- 	    $field = new $setup[0]($column, $this, $setup[1]);
- 	    $field->validate();
- 	    if($field->errors) {
- 	      $this->errors[$column] = $field->errors;
-      }
+			if($column == "CustomFields"){}
+			else{
+ 	    	$field = new $setup[0]($column, $this, $setup[1]);
+ 	     	$field->validate();			
+	 	    if($field->errors) {
+	 	      $this->errors[$column] = $field->errors;
+	      }
+			}
  	  }
  	  if(count($this->errors)) return false;
  	  return true;
@@ -64,6 +68,11 @@ class CampaignMonitorModel extends WaxModel {
  	
  	//change the get to also see if its a requested api action
 	public function __get($name) {
+		if($this->rename_mappings && $this->rename_mappings[$name]) return $this->{$this->rename_mappings[$name]};
+		elseif($this->rename_mappings){
+			$flip = array_flip($this->rename_mappings);
+			if($flip[$name] && $this->{$flip[$name]}) return $this->{$flip[$name]};
+		}
 		if(is_array($this->get_action)){
 			foreach($this->get_action as $act){
 				if(substr_count($act, $name)){
@@ -143,7 +152,7 @@ class CampaignMonitorModel extends WaxModel {
  	  $row = clone $this;
  	  $res = $this->db->select($row);
  	  if($res[0]) $row->row = $res[0];
- 	  else $row = false;
+ 	  else $row->row = false;
  	  return $row;
  	}
 	public function all() {
