@@ -273,16 +273,12 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	private function soap_command($url, $model){
-		WaxLog::log('error', '[soap] start soap command');
 		if(!$this->soap_method) return false;	//if no methods set the return false
-		WaxLog::log('error', '[soap] run '.$this->soap_command);
 		//check if they have a silly alternative name for this api function call
 		if($model->soap_mappings && $model->soap_mappings[$this->soap_method]) $method = $model->soap_mappings[$this->soap_method]['send'];
 		else $method = $this->soap_method;
 		//call the client wsdl and then the soap function
-		WaxLog::log('error', '[soap] create soap client');
 		$client = new SoapClient($this->soap_wsdl);
-		WaxLog::log('error', '[soap] client created');
 		return $client->__soapCall($method, array($this->soap_arguments) );
 	}
 	/**
