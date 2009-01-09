@@ -273,12 +273,16 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	private function soap_command($url, $model){
+		echo "soap command..<br />";
 		if(!$this->soap_method) return false;	//if no methods set the return false
+		echo "  soap method $this->soap_method<br />";
 		//check if they have a silly alternative name for this api function call
 		if($model->soap_mappings && $model->soap_mappings[$this->soap_method]) $method = $model->soap_mappings[$this->soap_method]['send'];
 		else $method = $this->soap_method;
 		//call the client wsdl and then the soap function
+		echo "  creating soap client<br />";
 		$client = new SoapClient($this->soap_wsdl);
+		echo "  client created<br />";		
 		return $client->__soapCall($method, array($this->soap_arguments) );
 	}
 	/**
@@ -298,7 +302,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @param string $model 
 	 * @return mixed
 	 */	
-	protected function parse_soap($results, $model){	
+	protected function parse_soap($results, $model){
+		echo "  parsing result<br />";print_r($results);echo"<hr />";	
 		//check model name mapping	
 		if($model->soap_mappings[$this->soap_method]['return']) $return = $model->soap_mappings[$this->soap_method]['return'];
 		else $return = $this->soap_method."Response";
