@@ -1,12 +1,15 @@
 <?php
 
 /**
- * Base Database Class
- *
+ * API Class - does not implement:
+ * - page
+ * - limit
+ * - multilevel filter
+ * - search
+ * - string based filter
  * @package PHP-Wax
- * @author Ross Riley
+ * @author Charles Marshall
  * 
- * Allows models to be mapped to application objects
  **/
 class CampaignMonitorModel extends WaxModel {
   
@@ -23,6 +26,7 @@ class CampaignMonitorModel extends WaxModel {
 	//mappings from xml name to col name
 	public $rename_mappings = false;
 	public $soap_mappings = false;
+	public $primary_key_mappings = false;
 
  	function __construct($params=null) {
  		if(self::$adapter && !$this->db = new self::$adapter(self::$db_settings)) {
@@ -124,21 +128,27 @@ class CampaignMonitorModel extends WaxModel {
     return $res;
   }
 
+	public function offset($offset){
+		$this->offset = $offset;
+		return $this;
+	}
+	public function limit($limit){
+		$this->limit = $limit;
+		return $this; //need rewrite this
+	}
+	//take the page number, number to show per page, return paginated record set..
+	public function page($page_number="1", $per_page=10){return $this;}
 	//these dont do anything any more!
  	public function order($order_by){return $this;}
 	public function random($limit){return $this;}
 	public function dates($start, $end) {}
-	public function offset($offset){return $this;}
+
 	public function group($group_by){return $this;}
 	public function sql($query) {return $this;}
 	public function left_join($target){return $this;}
 	public function join_condition($conditions){return $this;}
 	
-	public function limit($limit){return $this;} //need rewrite this
-	//take the page number, number to show per page, return paginated record set..
-	public function page($page_number="1", $per_page=10){
-		return $this;
-	}
+	
   //no join - so simple version  
  	public function set_attributes($array) {
 		foreach((array)$array as $k=>$v) {
@@ -155,7 +165,7 @@ class CampaignMonitorModel extends WaxModel {
  	  else $row->row = false;
  	  return $row;
  	}
-	public function all() {
+	public function all() {		
  	  $res = $this->row = $this->db->select($this);
  	  return new WaxRecordset($this, $res);
  	}
@@ -171,7 +181,7 @@ class CampaignMonitorModel extends WaxModel {
  	}
 
 	//new function
-	public function child_node($call_method){
+	public function child_node($call_method, $api_called){
 		return get_class($this);
 	}
 	public function before_select(){
