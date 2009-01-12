@@ -16,7 +16,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	public $curl_post_arguments = false; //post information
 	public $return_curl_data = true; //return data from the curl session?
 	public $max_retries = 3; //number of times to try connection
-	public $sync_prefix = "Client.Get"; //call to make to sync things
 	public $curl_headers = false;
 	
 	public $soap_arguments = false;
@@ -75,6 +74,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return void
 	 */	
   public function insert(CampaignMonitorModel $model) {
+		if($model->save_to_db) parent::exec(parent::prepare(parent::insert_sql($model)), $model->row);
 		if($model->save_action)	return $this->api($model, "save_action");			
 		else return $model;
 	}
@@ -385,7 +385,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	}	
 	
 	
-	
 	/** FUNCTIONS FROM DB ADAPTOR - no used **/
 	//does nothing now
   public function group($model){ return "";}
@@ -393,28 +392,11 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
   public function order($model){return "";}
   public function limit($model){return "";}
 	//no longer used
-  public function syncdb(CampaignMonitorModel $model) { return "NO DB REQUIRED";}
-  protected function map_operator_value($operator, $value) {return "";}
-	//not sql based - these arent used
-	public function prepare($sql){}	
-  public function exec($pdo_statement, $bindings = array(), $swallow_errors=false){}
-  public function query($sql) {return $this;}
-  public function quote($string) {return $this;}  
-  public function random() {return "";}
-	public function left_join($model){return "";}
-  public function filter_sql($model){ return "";}
-  public function select_sql($model){ return "";}
-  public function insert_sql($model){ return "";}
-  public function update_sql($model){ return "";}  
-  public function delete_sql($model){ return "";}  
-  public function view_table(CampaignMonitorModel $model) { return " .. cannot check, remote api does not support this ..\n";}   
-  public function view_columns(CampaignMonitorModel $model) { return ".. no remote view ..\n";}
-  public function create_table(CampaignMonitorModel $model) {	return ".. no remote view ..\n";}
-  public function drop_table($table_name) { return ".. no drop allowed ..\n";}
-  public function column_sql(WaxModelField $field, WaxModel $model) {return "";}
-  public function add_column(WaxModelField $field, WaxModel $model, $swallow_errors=false) { return ".. no column adding allowed ..\n";}
-  public function alter_column(WaxModelField $field, WaxModel $model, $swallow_errors=false) {return ".. no column updated allowed ..\n";}
-
+  public function syncdb(CampaignMonitorModel $model) {
+		if($model->save_to_db) return parent::syncdb($model);
+		else return "NO DB REQUIRED";
+	}
+  
 
 }
 

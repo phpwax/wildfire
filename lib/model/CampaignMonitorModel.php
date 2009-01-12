@@ -27,6 +27,7 @@ class CampaignMonitorModel extends WaxModel {
 	public $rename_mappings = false;
 	public $soap_mappings = false;
 	public $primary_key_mappings = false;
+	public $save_to_db = false;
 
  	function __construct($params=null) {
  		if(self::$adapter && !$this->db = new self::$adapter(self::$db_settings)) {
@@ -72,25 +73,28 @@ class CampaignMonitorModel extends WaxModel {
  	
  	//change the get to also see if its a requested api action
 	public function __get($name) {
-		$db_action = false;
-		if($this->rename_mappings && $this->rename_mappings[$name]) return $this->{$this->rename_mappings[$name]};
+		if($this->rename_mappings && $this->row[$this->rename_mappings[$name]]) return $this->row[$this->rename_mappings[$name]];
 		elseif($this->rename_mappings){
 			$flip = array_flip($this->rename_mappings);
 			if($flip[$name] && $this->{$flip[$name]}) return $this->{$flip[$name]};
 		}
-		if(is_array($this->get_action)){
+		return parent::__get($name);
+  }
+	public function __call($func, $params){
+		$db_action = false;		
+		if(method_exists($this, $func)) return $this->{$func}($params);
+		elseif(is_array($this->get_action)){
 			foreach($this->get_action as $act){
-				if(substr_count($act, $name) ){
-					$this->row = $this->db->api($this, "get_action", $act);
-					return $this;
+				if(substr_count($act, $func) ){
+					$res = $this->row = $this->db->api($this, "get_action", $act);
+					return new WaxRecordset($this, $res);
 				}
 			}
 		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
 			$this->row = $this->db->api($this, "get_action",'.'.$name);
 			return $this;
 		}
-		return parent::__get($name);
-  }
+	}
 
 
   //no cache at the mo

@@ -12,6 +12,7 @@ class Campaign extends CampaignMonitorModel {
 														 "Campaign.GetUnsubscribes",
 														 "Campaign.GetSummary");
 	public $rename_mappings = false;
+	public $save_to_db = true;
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		

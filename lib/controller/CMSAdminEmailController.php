@@ -46,12 +46,10 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		if($this->model_class) {							
 			$this->model = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
 		  $this->model_name = WXInflections::underscore($this->model_class);
-		  if (!$this->scaffold_columns && is_array($this->model->column_info())) {
-        $this->scaffold_columns = array_keys($this->model->column_info());
-      }
 	  }
 		$this->sub_links["create"] = "Create New ". $this->display_name;
 		$this->sub_links["view_subscriber"] = "View Subscribers";
+		$this->sub_links["view_segments"] = "View Segments";
 		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
 	}
 	
@@ -73,7 +71,7 @@ class CMSAdminEmailController extends CMSAdminComponent {
 	  if(!$page = $this->param("page")) $page=1;		
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);	  
 		$this->display_action_name = 'List Campaigns';
-		$this->all_rows = $this->model->all();		
+		$this->all_rows = $this->model->all();	
 		$this->filter_block_partial ="";
 		$this->list = $this->render_partial("list");
 	}
@@ -81,11 +79,16 @@ class CMSAdminEmailController extends CMSAdminComponent {
 	
 
 	public function edit() {}
-	public function create(){}
+	public function create(){
+		$this->display_action_name = 'Create';
+		$this->model = new $this->model_class;		
+		if($save) $this->save($this->model);
+		$this->form = $this->render_partial("form");
+	}
 	
 	public function view_subscriber(){
-		$this->client_lists = $this->model->GetLists;
-		if(!$this->list_id = Request::param('list_id') ){
+		$this->client_lists = $this->model->GetLists();
+		if(!$this->list_id = Request::param('id') ){
 			$client_list = $this->client_lists->row[0];
 			$this->list_id = $client_list['ListID'];
 		}	
@@ -94,9 +97,7 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		$this->display_action_name = 'List Subs';
 		$this->subs_model	= new Subscriber($this->list_id);
 		$this->all_rows = $this->subs_model->all();
-		if(!$this->all_rows) $this->all_rows=array();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
+		if(!$this->all_rows) $this->all_rows=array();		
 
 		$this->use_view = "index";
 		$this->scaffold_columns = array(
@@ -104,6 +105,30 @@ class CMSAdminEmailController extends CMSAdminComponent {
 	    "Email" => array(),
 			"Date" => array()
 	  );
+		$this->drop_down_options = $this->client_lists->rowset;
+		$this->drop_down_cols = array('key'=>'ListID', 'val'=>'Name');
+		
+		$this->filter_block_partial = $this->render_partial("filter_block");
+		$this->list = $this->render_partial("list");
+	}
+	
+	
+	public function view_segments(){		
+		Session::set("list_refer", $_SERVER['REQUEST_URI']);
+		$this->set_order();
+		$this->display_action_name = 'List Seg';
+		$this->all_rows = $this->model->GetSegments();
+		if(!$this->all_rows) $this->all_rows=array();		
+		$this->use_view = "index";
+		$this->scaffold_columns = array(
+	    "ListID"   =>array('display'=>'Segment ID'),
+	    "Name" => array()
+	  );
+		$this->drop_down_options = false;
+		$this->drop_down_cols = false;
+		
+		$this->filter_block_partial = "";
+		$this->list = $this->render_partial("list");
 	}
 
 	
