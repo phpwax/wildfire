@@ -61,7 +61,7 @@ class Campaign extends CampaignMonitorModel {
 				}else{
 					$segs = array();
 					foreach($this->segments as $seg){
-						$exp = explode('~', $this->segments);
+						$exp = explode('~', $seg);
 						$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1] );
 					}
 					$this->ListSegments = array('List' => $segs);
