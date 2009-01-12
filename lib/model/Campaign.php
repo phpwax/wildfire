@@ -37,8 +37,8 @@ class Campaign extends CampaignMonitorModel {
 		$content->subject = $this->CampaignSubject;
 		$content->content = $this->content;
 		if($res = $content->save()){
+			$this->CampaignID = false;
 			$data = Request::param('campaign');
-			//array('SubscriberCustomField' => array( array('Key' => "Bedrooms", 'Value'=>'3') ));
 			if($this->lists = $data['lists']){
 				if(!is_array($this->lists)){
 					$this->SubscriberListIDs = array(array('int' => $this->lists) );
