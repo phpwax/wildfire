@@ -292,7 +292,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		else $method = $this->cm_api_method;
 		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl);
-		print_r(array($this->soap_arguments));
 		return $client->__soapCall($method, array($this->soap_arguments) );
 	}
 	/**
