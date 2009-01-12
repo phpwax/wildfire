@@ -92,6 +92,9 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		$this->mail_lists = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $lists->rowset);
 		$segments = $model->GetSegments();
 		$this->segments = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $segments->rowset);
+		$cont = new CmsContent("published");
+		$this->contents = $cont->all();
+
 
 		$this->form = $this->render_partial("form");
 	}
