@@ -320,10 +320,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
-		print_r($results);exit;
 		if($results->$return->enc_value->$class){	
 			$results = $results->$return->enc_value->$class; //get the results
-			echo "RESULTS:<br />";print_r($results);exit;
 			//make sure its an array
 			if(!is_array($results)) $loop_over = array(0=>$results); 
 			else $loop_over = $results;

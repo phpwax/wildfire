@@ -1,0 +1,74 @@
+<script type="text/javascript">var content_page_id = <?=$model->id?>; var model_string = "<?=get_class($model)?>";var join_field="images";</script>
+<?=javascript_asset("jquery","jquery.tabs.min")?>
+<?=stylesheet_asset("jquery", "jquery.tabs")?>
+<!--[if lte IE 7]>
+  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
+<![endif]-->
+<?=javascript_asset("cms","file")?>
+<?=javascript_asset("cms","cms_content")?>
+
+<div id="container">
+  <ul class="tabs-nav">
+    <li><a href="#section-1">Creating Site Email Campaign</a></li>
+  </ul>
+  
+  <div id="content_window" class="clearfix">
+    <div id="content_editor">
+      <div id="section-1" class="tabs-container">
+        <fieldset id="wysiwyg">
+          <?=large(simple_wysiwyg($model, "content", array(), false))?>
+        </fieldset>
+				
+      </div>
+			<div id="resizehandle"></div>
+    </div>
+
+    <fieldset id="content_options">
+		<input type="hidden" name="campaign[ClientID]" value="<?=$this->cm_conf['campaign_monitor_ClientID']?>"/>
+			<?=large(text_field($model, "CampaignName", array(), 'Campaign Name'))?>
+      <?=large(text_field($model, "CampaignSubject", array(), 'Subject'))?>
+    	<?=form_divider()?>
+			<?=large(text_field($model, "FromName", array(), 'From Name'))?>
+			<?=large(text_field($model, "FromEmail", array(), 'From Email'))?>			
+			<?=form_divider()?>			
+			<?=large(text_field($model, "ReplyTo", array(), 'Reply To Email'))?>	
+			<?=form_divider()?>			
+			<div class='large'>
+				<label>Lists</label>
+      	<select name="campaign[lists][]" class="input_field select_field" multiple='multiple' size='6'>
+				<?foreach($mail_lists as $list):?>
+					<option value="<?=$list['ListID']?>"><?=$list['Name']?></option>
+				<?endforeach?>
+				</select>
+			</div>
+			<?=form_divider()?>			
+			<div class='large'>
+				<label>Segments</label>
+      	<select name="campaign[segments][]" class="input_field select_field" multiple='multiple' size='6'>
+				<?foreach($segments as $list):?>
+					<option value="<?=$list['ListID']?>~<?=$list['Name']?>"><?=$list['Name']?></option>
+				<?endforeach?>
+				</select>
+			</div>
+			<?=form_divider()?>
+			<div class='large'>
+			<label>Choose content</label>
+			<select name="campaign[content_list][]" class="input_field select_field" multiple='multiple' size='6'>
+				<?foreach($contents as $item):?>
+					<option value="<?=$item->id?>"><?=$item->title?></option>
+				<?endforeach?>
+			</select>
+			</div>
+			
+    </fieldset>
+    <div class="clearfix"></div>
+    <fieldset id="submit">
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
+    </fieldset>
+  </div>
+
+</div>
+
+
+<?=$link_partial?>
+<?=$video_partial?>

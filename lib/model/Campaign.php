@@ -13,7 +13,7 @@ class Campaign extends CampaignMonitorModel {
 														 "Campaign.GetSummary");
 	public $rename_mappings = false;
 	public $save_to_db = true;
-	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResponse"));
+	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"));
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
