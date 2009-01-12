@@ -188,17 +188,23 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	public function setup_call(CampaignMonitorModel $model, $action, $field=false){
 		$this->call_method = false; //set to false
 		$action = $model->$action; //find the calls
-		if($field && $model->$field){
-			$this->cm_api_method = $model->$field;
-			$this->url.=$model->$field; //if the field is passed in & exists on model
-		}elseif($field && is_array($action) && isset($action[$field])){ //otherwise if the action is an array
+		if($field && is_array($action) && isset($action[$field])){ //otherwise if the action is an array
 			$this->url.=$field;
 			$this->call_method = $action[$field];
 			$this->cm_api_method = $field; //set api method
 		}elseif(is_array($action) ){ //array of actions
-			$keys = array_keys($action);			//get the keys
+			$keys = array_keys($action); //get the keys
+			$flipped = array_flip($action);
+			if($action[$field]){
+				$this->url.=$field; //then add that to $url to be called
+				$this->call_method = $action[$field]; //and set the call method to the value of first save action
+				$this->cm_api_method = $field; //set api method
+			}elseif($flipped[$field]){
+				$this->url.=$field; //then add that to $url to be called
+				$this->cm_api_method = $field; //set api method
+			}
 			//if the key is not numeric (as in its a string - in this case the action to call)
-			if(!is_numeric($keys[0])){ 
+			elseif(!is_numeric($keys[0])){ 
 				$this->url.=$keys[0]; //then add that to $url to be called
 				$this->call_method = $action[$keys[0]]; //and set the call method to the value of first save action
 				$this->cm_api_method = $keys[0]; //set api method
@@ -319,12 +325,14 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			//make sure its an array
 			if(!is_array($results)) $loop_over = array(0=>$results); 
 			else $loop_over = $results;
+			$columns = array_merge($model->columns, $model->rename_mappings);
 			//loop round all return objects
 			foreach($loop_over as $k=>$info){	
-				$objdata = array(); //tmp var for records
-				foreach($model->columns as $col=>$spec){ //go over the columns
+				$objdata = array(); //tmp var for records				
+				foreach($columns as $col=>$spec){ //go over the columns
+					if($info->$col && $model->rename_mappings[$col]) $objdata[$model->rename_mappings[$col]] = $info->$col;
 					//if the val is set, copy over
-					if($val = $info->$col) $objdata[$col]=$val;
+					elseif($val = $info->$col) $objdata[$col]=$val;
 					//if the name is mapped then copy the mapped named value over to the correct name with the value
 					elseif($mappings[$col] && $info->{$mappings[$col]}) $objdata[$col]=$info->{$mappings[$col]};
 					//convert custom fields

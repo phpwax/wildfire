@@ -72,6 +72,7 @@ class CampaignMonitorModel extends WaxModel {
  	
  	//change the get to also see if its a requested api action
 	public function __get($name) {
+		$db_action = false;
 		if($this->rename_mappings && $this->rename_mappings[$name]) return $this->{$this->rename_mappings[$name]};
 		elseif($this->rename_mappings){
 			$flip = array_flip($this->rename_mappings);
@@ -79,7 +80,7 @@ class CampaignMonitorModel extends WaxModel {
 		}
 		if(is_array($this->get_action)){
 			foreach($this->get_action as $act){
-				if(substr_count($act, $name)){
+				if(substr_count($act, $name) ){
 					$this->row = $this->db->api($this, "get_action", $act);
 					return $this;
 				}

@@ -10,7 +10,7 @@ class Client extends CampaignMonitorModel {
 	public $get_action = array("Client.GetCampaigns",
  														 "Client.GetLists",
 														 "Client.GetSegments");
-	public $rename_mappings = false;
+	public $rename_mappings = array('ListID'=>'ListID', 'Name'=>'Name');
 	public $primary_key_mappings = array('Client.GetCampaigns' => 'CampaignID');
 	
 	public function setup(){
@@ -22,7 +22,11 @@ class Client extends CampaignMonitorModel {
 	}
 	
 	public function child_node($call_method, $api_call){
-		return "Campaign";
+		switch($api_call){
+			case "Client.GetLists": return "List";break;
+			default: return "Campaign"; break;
+		}
+		
 	}	
 }
 
