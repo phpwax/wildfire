@@ -39,6 +39,14 @@ class Campaign extends CampaignMonitorModel {
 		if($res = $content->save()){
 			$this->CampaignID = false;
 			$data = Request::param('campaign');
+			if($data['content_list']){
+				if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
+				else $articles = $data['content_list'];
+				foreach($articles as $story_id){
+					$cont = new CmsContent($story_id);
+					$res->articles = $cont;
+				}
+			}
 			if($this->lists = $data['lists']){
 				if(!is_array($this->lists)){
 					$this->SubscriberListIDs = array(array('int' => $this->lists) );

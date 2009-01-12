@@ -181,13 +181,11 @@ class CmsApplicationController extends WXControllerBase{
 
 	public function emailcontent(){
 		$this->use_layout = false;
-		if(is_readable(PUBLIC_DIR."emails/head.".$this->use_format)) $this->email_head = file_get_contents(PUBLIC_DIR."emails/head.".$this->use_format);
-		else $this->email_head ="";
-		if(is_readable(PUBLIC_DIR."emails/foot.".$this->use_format)) $this->email_foot = file_get_contents(PUBLIC_DIR."emails/foot.".$this->use_format);
-		else $this->email_foot ="";
-		if($id = Request::param('id')){
-			$this->content = new CampaignContent($id);
-			
+		$this->server = "http://".$_SERVER['HTTP_HOST'];
+		if(!$this->use_format) $this->use_format = "html";
+		$path = VIEW_DIR."emailcontent.".$this->use_format;
+		if(is_readable($path)){
+			if($id = Request::param('id')) $this->content = new CampaignContent($id);			
 		}else $this->redirect_to('/');
 	}
   
