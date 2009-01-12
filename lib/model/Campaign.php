@@ -38,23 +38,16 @@ class Campaign extends CampaignMonitorModel {
 		$content->content = $this->content;
 		if($res = $content->save()){
 			$data = Request::param('campaign');
+			//array('SubscriberCustomField' => array( array('Key' => "Bedrooms", 'Value'=>'3') ));
 			if($this->lists = $data['lists']){
-				if(!is_array($this->lists)) $lists = array('0'=>$this->lists);
-				else $lists = $this->lists;
-				$this->SubscriberListIDs = array('int' => $lists);
-			}elseif($this->segments = $data['segments']){
-				if(!is_array($this->segments)){
-					$exp = explode("~", $this->segments);
-					$segments = array('List'=>array(array('ListID'=>$exp[0], 'Name'=>$exp[1]) ) );
-				}else{
-					$segs = array();
-					foreach($this->segments as $seg){
-						$exp = explode("~", $seg);
-						$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1]);
-					}
-					$segments = array('List'=>$segs);
+				if(!is_array($this->lists)){
+					$this->SubscriberListIDs = array(array('int' => $this->lists) );
+				}				
+			}elseif($this->segments = $data['segments']){								
+				if(!is_array($this->segments) ) {
+					$exp = explode('~', $this->segments);
+					$this->ListSegments = array('List' => array( array('ListID'=>$exp[0], 'Name'=>$exp[1] ) ) );
 				}
-				$this->ListSegments = $segments;
 			}
 			$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
 			$this->TextUrl .=".txt";
