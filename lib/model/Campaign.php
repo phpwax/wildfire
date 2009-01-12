@@ -39,6 +39,7 @@ class Campaign extends CampaignMonitorModel {
 		if($res = $content->save()){
 			$this->CampaignID = false;
 			$data = Request::param('campaign');
+			
 			if($data['content_list']){
 				if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
 				else $articles = $data['content_list'];
@@ -50,11 +51,20 @@ class Campaign extends CampaignMonitorModel {
 			if($this->lists = $data['lists']){
 				if(!is_array($this->lists)){
 					$this->SubscriberListIDs = array(array('int' => $this->lists) );
+				}else{
+					
 				}				
 			}elseif($this->segments = $data['segments']){								
 				if(!is_array($this->segments) ) {
 					$exp = explode('~', $this->segments);
 					$this->ListSegments = array('List' => array( array('ListID'=>$exp[0], 'Name'=>$exp[1] ) ) );
+				}else{
+					$segs = array();
+					foreach($this->segments as $seg){
+						$exp = explode('~', $this->segments);
+						$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1] );
+					}
+					$this->ListSegments = array('List' => $segs);
 				}
 			}
 			$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
