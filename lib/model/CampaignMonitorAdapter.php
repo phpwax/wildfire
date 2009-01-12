@@ -74,8 +74,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return void
 	 */	
   public function insert(CampaignMonitorModel $model) {
-		if($model->save_to_db) parent::exec(parent::prepare(parent::insert_sql($model)), $model->row);
-		if($model->save_action)	return $this->api($model, "save_action");			
+		if($model->save_action)	return $this->api($model, "save_action");
 		else return $model;
 	}
   /**
@@ -216,6 +215,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			$this->url.=$action;
 			$this->cm_api_method = $action;
 		}
+
 		if(!$this->call_method) $this->call_method = "http"; //no call method - default to http
 	}
 
@@ -286,12 +286,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	private function soap_command($url, $model){
-		if(!$this->cm_api_method) return false;	//if no methods set the return false
+		if(!$this->cm_api_method) return false;	//if no methods set the return false		
 		//check if they have a silly alternative name for this api function call
 		if($model->soap_mappings && $model->soap_mappings[$this->cm_api_method]) $method = $model->soap_mappings[$this->cm_api_method]['send'];
 		else $method = $this->cm_api_method;
 		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl);
+		print_r(array($this->soap_arguments));
 		return $client->__soapCall($method, array($this->soap_arguments) );
 	}
 	/**
@@ -319,9 +320,10 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
-		
+		print_r($results);exit;
 		if($results->$return->enc_value->$class){	
 			$results = $results->$return->enc_value->$class; //get the results
+			echo "RESULTS:<br />";print_r($results);exit;
 			//make sure its an array
 			if(!is_array($results)) $loop_over = array(0=>$results); 
 			else $loop_over = $results;
@@ -385,6 +387,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	}	
 	
 	
+	
 	/** FUNCTIONS FROM DB ADAPTOR - no used **/
 	//does nothing now
   public function group($model){ return "";}
@@ -392,11 +395,28 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
   public function order($model){return "";}
   public function limit($model){return "";}
 	//no longer used
-  public function syncdb(CampaignMonitorModel $model) {
-		if($model->save_to_db) return parent::syncdb($model);
-		else return "NO DB REQUIRED";
-	}
-  
+  public function syncdb(CampaignMonitorModel $model) { return "NO DB REQUIRED";}
+  protected function map_operator_value($operator, $value) {return "";}
+	//not sql based - these arent used
+	public function prepare($sql){}	
+  public function exec($pdo_statement, $bindings = array(), $swallow_errors=false){}
+  public function query($sql) {return $this;}
+  public function quote($string) {return $this;}  
+  public function random() {return "";}
+	public function left_join($model){return "";}
+  public function filter_sql($model){ return "";}
+  public function select_sql($model){ return "";}
+  public function insert_sql($model){ return "";}
+  public function update_sql($model){ return "";}  
+  public function delete_sql($model){ return "";}  
+  public function view_table(CampaignMonitorModel $model) { return " .. cannot check, remote api does not support this ..\n";}   
+  public function view_columns(CampaignMonitorModel $model) { return ".. no remote view ..\n";}
+  public function create_table(CampaignMonitorModel $model) {	return ".. no remote view ..\n";}
+  public function drop_table($table_name) { return ".. no drop allowed ..\n";}
+  public function column_sql(WaxModelField $field, WaxModel $model) {return "";}
+  public function add_column(WaxModelField $field, WaxModel $model, $swallow_errors=false) { return ".. no column adding allowed ..\n";}
+  public function alter_column(WaxModelField $field, WaxModel $model, $swallow_errors=false) {return ".. no column updated allowed ..\n";}
+
 
 }
 

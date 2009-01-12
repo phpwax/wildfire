@@ -13,6 +13,7 @@ class Campaign extends CampaignMonitorModel {
 														 "Campaign.GetSummary");
 	public $rename_mappings = false;
 	public $save_to_db = true;
+	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResponse"));
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
@@ -24,8 +25,43 @@ class Campaign extends CampaignMonitorModel {
 		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
 		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
 		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
-		$this->define("SubscriberListIDs", "TextField", array('maxlength'=>255, 'required'=>true) );
+		$this->define("SubscriberListIDs", "TextField");
+		$this->define("ListSegments", "TextField");		
+		$this->define("content", "TextField");
   }
+
+
+	public function before_save(){
+		$content = new CampaignContent;
+		$content->title = $this->CampaignName;
+		$content->subject = $this->CampaignSubject;
+		$content->content = $this->content;
+		if($res = $content->save()){
+			$data = Request::param('campaign');
+			if($this->lists = $data['lists']){
+				if(!is_array($this->lists)) $lists = array('0'=>$this->lists);
+				else $lists = $this->lists;
+				$this->SubscriberListIDs = array('int' => $lists);
+			}elseif($this->segments = $data['segments']){
+				if(!is_array($this->segments)){
+					$exp = explode("~", $this->segments);
+					$segments = array('List'=>array(array('ListID'=>$exp[0], 'Name'=>$exp[1]) ) );
+				}else{
+					$segs = array();
+					foreach($this->segments as $seg){
+						$exp = explode("~", $seg);
+						$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1]);
+					}
+					$segments = array('List'=>$segs);
+				}
+				$this->ListSegments = $segments;
+			}
+			$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
+			$this->TextUrl .=".txt";
+			return true;
+		}else return false;
+		
+	}
 }
 
 ?>

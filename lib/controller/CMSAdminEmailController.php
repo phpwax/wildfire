@@ -81,8 +81,18 @@ class CMSAdminEmailController extends CMSAdminComponent {
 	public function edit() {}
 	public function create(){
 		$this->display_action_name = 'Create';
-		$this->model = new $this->model_class;		
-		if($save) $this->save($this->model);
+		$model = $this->model;
+		$this->model = new Campaign($this->cm_conf['campaign_monitor_ClientID']);		
+		if($this->model->is_posted()){
+			$this->model = $this->model->handle_post();
+		}
+		
+		
+		$lists = $model->GetLists();
+		$this->mail_lists = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $lists->rowset);
+		$segments = $model->GetSegments();
+		$this->segments = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $segments->rowset);
+
 		$this->form = $this->render_partial("form");
 	}
 	
@@ -130,7 +140,9 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		$this->filter_block_partial = "";
 		$this->list = $this->render_partial("list");
 	}
-
+	
+	
+	
 	
 }
 ?>

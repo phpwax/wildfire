@@ -177,6 +177,9 @@ class CmsApplicationController extends WXControllerBase{
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
+
+
+	public function emailcontent(){}
   
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
@@ -292,6 +295,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array(), $params=array()) {
 	  return false;
 	}
+	
 	
 }
 

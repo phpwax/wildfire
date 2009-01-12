@@ -27,7 +27,6 @@ class CampaignMonitorModel extends WaxModel {
 	public $rename_mappings = false;
 	public $soap_mappings = false;
 	public $primary_key_mappings = false;
-	public $save_to_db = false;
 
  	function __construct($params=null) {
  		if(self::$adapter && !$this->db = new self::$adapter(self::$db_settings)) {
@@ -111,7 +110,7 @@ class CampaignMonitorModel extends WaxModel {
   *  is configured to be persistent.
   */
  	public function save() {
-		$this->before_save();
+		if(!$this->before_save()) return false;
 		if(!$this->validate) return false;
 		if($this->persistent) {
 			//as there is no update on this api - just run insert 	    
@@ -120,6 +119,13 @@ class CampaignMonitorModel extends WaxModel {
  		$res->after_save();
  		return $res;
   }
+ 	public function insert() {
+		$this->before_insert();
+	  $res = $this->db->insert($this);
+	  $this->row = $res->row;
+	  $this->after_insert();
+	  return $this;
+	 }
 
 
  	public function delete(){
@@ -195,6 +201,8 @@ class CampaignMonitorModel extends WaxModel {
 			$this->Date = date("Y-m-d H:i:s", $twoyearsago);
 		}
 	}
+	
+	public function before_save(){ return true;}
  	
 }
 ?>
