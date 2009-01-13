@@ -41,6 +41,7 @@ class Campaign extends CampaignMonitorModel {
 	 */	
 	public function before_save(){
 		if(!is_string($this->primval())){
+			echo "Running before SAVE<br />";
 			//new campaign content
 			$content = new CampaignContent;
 			$content->title = $this->CampaignName;
