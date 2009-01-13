@@ -45,14 +45,14 @@ widgSelectBlockOptions.push("<p>", "Paragraph");
 ** plain text blocks. Uses a double <br /> as a pargraph marker.
 */
 
-var widgInsertParagraphs = false;
+var widgInsertParagraphs = true;
 
 /* If widgAutoClean = true, when content is pasted into the WYSIWYG view, it
 ** will automatically be cleaned. If widgAutoClean = false, the user will be
 ** prompted as to whether they wish to clean the content.
 */
 
-var widgAutoClean = true;
+var widgAutoClean = false;
 
 /******************************************************************************
 **    END CONFIGURATION
