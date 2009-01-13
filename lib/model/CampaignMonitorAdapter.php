@@ -287,6 +287,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 */	
 	private function soap_command($url, $model){
 		if(!$this->cm_api_method) return false;	//if no methods set the return false		
+		print_r($this->soap_arguments);
 		//check if they have a silly alternative name for this api function call
 		if($model->soap_mappings && $model->soap_mappings[$this->cm_api_method]) $method = $model->soap_mappings[$this->cm_api_method]['send'];
 		else $method = $this->cm_api_method;
@@ -316,6 +317,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
 		$class = get_class($model);
+		print_r($results);
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
