@@ -84,7 +84,7 @@ class Campaign extends CampaignMonitorModel {
 				$this->TextUrl .=".txt";
 				return true;
 			}else return false;
-		}else {echo "PRIME:".$this->primval(); return true;}
+		}else return true;
 		
 	}
 	//error checking
@@ -97,7 +97,7 @@ class Campaign extends CampaignMonitorModel {
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			print_r($model);
+			print_r($model);	
 			//$res = $model->Send();		
 			exit;
 		}
