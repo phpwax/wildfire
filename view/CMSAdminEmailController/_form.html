@@ -32,7 +32,7 @@
 			<?=large(text_field($model, "FromEmail", array(), 'From Email'))?>			
 			<?=form_divider()?>			
 			<?=large(text_field($model, "ReplyTo", array(), 'Reply To Email'))?>	
-			<?$model->SendDate = gmmktime(5,1,0,date('m'), date('d')+1, date('Y') );?>
+			<?$model->SendDate = date("Y-m-d H:i:s",gmmktime(5,1,0,date('m'), date('d')+1, date('Y') ));?>
 			<?=large(datetime_select($model, "SendDate", array(), "Send Date"))?>
 			<?=form_divider()?>			
 						
