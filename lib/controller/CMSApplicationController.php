@@ -177,6 +177,17 @@ class CmsApplicationController extends WXControllerBase{
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
+
+
+	public function emailcontent(){
+		$this->use_layout = false;
+		$this->server = "http://".$_SERVER['HTTP_HOST'];
+		if(!$this->use_format) $this->use_format = "html";
+		$path = VIEW_DIR."emailcontent.".$this->use_format;
+		if(is_readable($path)){
+			if($id = Request::param('id')) $this->content = new CampaignContent($id);			
+		}else $this->redirect_to('/');
+	}
   
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
@@ -292,6 +303,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array(), $params=array()) {
 	  return false;
 	}
+	
 	
 }
 
