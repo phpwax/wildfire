@@ -53,10 +53,8 @@ class Campaign extends CampaignMonitorModel {
 				if(!is_array($this->lists)) $this->SubscriberListIDs = array(array('string' => $this->lists) );
 				else{
 					$lists = array();
-					foreach($this->lists as $list){
-						$lists[] = $list;
-					}
-					$this->SubscriberListIDs = array($list);
+					foreach($this->lists as $list) $lists[] = $list;
+					$this->SubscriberListIDs = $lists;
 				}				
 			}elseif($this->segments = $data['segments']){								
 				if(!is_array($this->segments) ) {
