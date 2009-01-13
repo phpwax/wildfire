@@ -323,6 +323,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
 		$class = get_class($model);
+		print_r($results);exit;
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
