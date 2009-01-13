@@ -40,7 +40,7 @@ class Campaign extends CampaignMonitorModel {
 	 * @return boolean
 	 */	
 	public function before_save(){
-		if(!$this->primval()){
+		if(!is_string($this->primval())){
 			//new campaign content
 			$content = new CampaignContent;
 			$content->title = $this->CampaignName;
