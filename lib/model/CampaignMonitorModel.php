@@ -203,6 +203,13 @@ class CampaignMonitorModel extends WaxModel {
 	}
 	
 	public function before_save(){ return true;}
+	
+	public function before_soap(){}
+	public function after_soap($raw_result){}
+	public function before_http(){}
+	public function after_http($raw_result){}
+	
+	public function after_api_result_parsed($parsed_result){}
  	
 }
 ?>

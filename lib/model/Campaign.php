@@ -30,18 +30,24 @@ class Campaign extends CampaignMonitorModel {
 		$this->define("content", "TextField");
   }
 
-
+	/**
+	 * before a campaign is saved we need to create content and translate the form
+	 * values for the lists and segments into multi dimensional arrays for the soap
+	 * call
+	 * @return boolean
+	 */	
 	public function before_save(){
+		//new campaign content
 		$content = new CampaignContent;
 		$content->title = $this->CampaignName;
 		$content->subject = $this->CampaignSubject;
 		$content->content = $this->content;
+		//if this saves ok then create joins and setup arrays for soap
 		if($res = $content->save()){
 			$this->CampaignID = false;
 			$data = Request::param('campaign');
-			if(!is_array($data)) $data = $this->rowset;
-			
-			if($data['content_list']){
+			if(!is_array($data)) $data = $this->rowset; //if no post data use the rowset of this model			
+			if($data['content_list']){ //join all the articles to the campaign_content
 				if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
 				else $articles = $data['content_list'];				
 				foreach($articles as $story_id){
@@ -49,14 +55,14 @@ class Campaign extends CampaignMonitorModel {
 					$res->articles = $cont;
 				}
 			}
-			if($this->lists = $data['lists']){
+			if($this->lists = $data['lists']){ //if listIds have been passed then create an array based on them
 				if(!is_array($this->lists)) $this->SubscriberListIDs = array(array('string' => $this->lists) );
 				else{
 					$lists = array();
 					foreach($this->lists as $list) $lists[] = $list;
 					$this->SubscriberListIDs = $lists;
 				}				
-			}elseif($this->segments = $data['segments']){								
+			}elseif($this->segments = $data['segments']){ //if segments are to be used then make complex array structure								
 				if(!is_array($this->segments) ) {
 					$exp = explode('~', $this->segments);
 					$this->ListSegments = array('List' => array( array('ListID'=>$exp[0], 'Name'=>$exp[1] ) ) );
@@ -69,6 +75,7 @@ class Campaign extends CampaignMonitorModel {
 					$this->ListSegments = array('List' => $segs);
 				}
 			}
+			//set the urls for this email
 			$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
 			$this->TextUrl .=".txt";
 			return true;
