@@ -50,11 +50,13 @@ class Campaign extends CampaignMonitorModel {
 				}
 			}
 			if($this->lists = $data['lists']){
-				if(!is_array($this->lists)) $this->SubscriberListIDs = array($this->lists);
+				if(!is_array($this->lists)) $this->SubscriberListIDs = array(array('string' => $this->lists) );
 				else{
 					$lists = array();
-					foreach($this->lists as $list) $lists[] = array($list);
-					$this->SubscriberListIDs = array($lists);
+					foreach($this->lists as $list){
+						$lists[] = $list;
+					}
+					$this->SubscriberListIDs = array($list);
 				}				
 			}elseif($this->segments = $data['segments']){								
 				if(!is_array($this->segments) ) {
