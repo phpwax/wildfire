@@ -83,7 +83,7 @@ class Campaign extends CampaignMonitorModel {
 		
 	}
 	
-	public function after_api_result_parsed($res){
+	public function after_soap($res){
 		 print_r($res);exit;
 	}
 }
