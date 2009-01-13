@@ -98,7 +98,7 @@ class Campaign extends CampaignMonitorModel {
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
 			print_r($model);	
-			//$res = $model->Send();		
+			$res = $model->Send();		
 			exit;
 		}
 	}
