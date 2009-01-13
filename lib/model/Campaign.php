@@ -84,8 +84,8 @@ class Campaign extends CampaignMonitorModel {
 	}
 	
 	public function after_soap($res){
+		print_r($res);exit;
 		$this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
-		print_r($this);exit;
 	}
 }
 
