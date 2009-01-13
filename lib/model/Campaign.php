@@ -23,7 +23,7 @@ class Campaign extends CampaignMonitorModel {
 		$this->define("CampaignSubject", "CharField", array('maxlength'=>255, 'required'=>true) );
 		$this->define("FromName", "CharField", array('maxlength'=>255, 'required'=>true) );	
 		$this->define("FromEmail", "EmailField", array('maxlength'=>255, 'required'=>true) );
-		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'required'=>true) )
+		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'required'=>true) );
 		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
 		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
 		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
