@@ -82,6 +82,10 @@ class Campaign extends CampaignMonitorModel {
 		}else return false;
 		
 	}
+	
+	public function after_api_result_parsed($res){
+		 print_r($res);exit;
+	}
 }
 
 ?>
