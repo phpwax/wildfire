@@ -41,7 +41,6 @@ class Campaign extends CampaignMonitorModel {
 	 */	
 	public function before_save(){
 		if(!is_string($this->primval())){
-			echo "Running before SAVE<br />";
 			//new campaign content
 			$content = new CampaignContent;
 			$content->title = $this->CampaignName;
@@ -92,19 +91,15 @@ class Campaign extends CampaignMonitorModel {
 	public function after_soap($res){
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
-			print_r($this);echo"<hr/>";print_r($this->errors);exit;
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
-			echo "CREATED OK";
 			$this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
 			$model = new Campaign($this->ClientID);
 			$model->CampaignID = $this->CampaignID;
-			$model->SendDate = $this->SendDate .":00";
+			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			echo "CALL SEND<br />";
-			$res = $model->Send();		
-			print_r($res);exit;
-		}else{
-			echo var_dump($res->{'Campaign.CreateResult'});exit;
+			print_r($model);
+			//$res = $model->Send();		
+			exit;
 		}
 	}
 }
