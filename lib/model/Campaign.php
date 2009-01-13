@@ -39,6 +39,7 @@ class Campaign extends CampaignMonitorModel {
 		if($res = $content->save()){
 			$this->CampaignID = false;
 			$data = Request::param('campaign');
+			if(!is_array($data)) $data = $this->rowset;
 			if($data['content_list']){
 				if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
 				else $articles = $data['content_list'];				
