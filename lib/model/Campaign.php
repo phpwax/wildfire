@@ -40,49 +40,51 @@ class Campaign extends CampaignMonitorModel {
 	 * @return boolean
 	 */	
 	public function before_save(){
-		//new campaign content
-		$content = new CampaignContent;
-		$content->title = $this->CampaignName;
-		$content->subject = $this->CampaignSubject;
-		$content->content = $this->content;
-		//if this saves ok then create joins and setup arrays for soap
-		if($res = $content->save()){
-			$this->CampaignID = false;
-			$data = Request::param('campaign');
-			if(!is_array($data)) $data = $this->rowset; //if no post data use the rowset of this model			
-			if($data['content_list']){ //join all the articles to the campaign_content
-				if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
-				else $articles = $data['content_list'];				
-				foreach($articles as $story_id){
-					$cont = new CmsContent($story_id);
-					$res->articles = $cont;
-				}
-			}
-			if($this->lists = $data['lists']){ //if listIds have been passed then create an array based on them
-				if(!is_array($this->lists)) $this->SubscriberListIDs = array(array('string' => $this->lists) );
-				else{
-					$lists = array();
-					foreach($this->lists as $list) $lists[] = $list;
-					$this->SubscriberListIDs = $lists;
-				}				
-			}elseif($this->segments = $data['segments']){ //if segments are to be used then make complex array structure								
-				if(!is_array($this->segments) ) {
-					$exp = explode('~', $this->segments);
-					$this->ListSegments = array('List' => array( array('ListID'=>$exp[0], 'Name'=>$exp[1] ) ) );
-				}else{
-					$segs = array();
-					foreach($this->segments as $seg){
-						$exp = explode('~', $seg);
-						$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1] );
+		if(!$this->primval()){
+			//new campaign content
+			$content = new CampaignContent;
+			$content->title = $this->CampaignName;
+			$content->subject = $this->CampaignSubject;
+			$content->content = $this->content;
+			//if this saves ok then create joins and setup arrays for soap
+			if($res = $content->save()){
+				$this->CampaignID = false;
+				$data = Request::param('campaign');
+				if(!is_array($data)) $data = $this->rowset; //if no post data use the rowset of this model			
+				if($data['content_list']){ //join all the articles to the campaign_content
+					if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
+					else $articles = $data['content_list'];				
+					foreach($articles as $story_id){
+						$cont = new CmsContent($story_id);
+						$res->articles = $cont;
 					}
-					$this->ListSegments = array('List' => $segs);
 				}
-			}
-			//set the urls for this email
-			$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
-			$this->TextUrl .=".txt";
-			return true;
-		}else return false;
+				if($this->lists = $data['lists']){ //if listIds have been passed then create an array based on them
+					if(!is_array($this->lists)) $this->SubscriberListIDs = array(array('string' => $this->lists) );
+					else{
+						$lists = array();
+						foreach($this->lists as $list) $lists[] = $list;
+						$this->SubscriberListIDs = $lists;
+					}				
+				}elseif($this->segments = $data['segments']){ //if segments are to be used then make complex array structure								
+					if(!is_array($this->segments) ) {
+						$exp = explode('~', $this->segments);
+						$this->ListSegments = array('List' => array( array('ListID'=>$exp[0], 'Name'=>$exp[1] ) ) );
+					}else{
+						$segs = array();
+						foreach($this->segments as $seg){
+							$exp = explode('~', $seg);
+							$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1] );
+						}
+						$this->ListSegments = array('List' => $segs);
+					}
+				}
+				//set the urls for this email
+				$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
+				$this->TextUrl .=".txt";
+				return true;
+			}else return false;
+		}else return true;
 		
 	}
 	//error checking
