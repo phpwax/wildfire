@@ -97,9 +97,7 @@ class Campaign extends CampaignMonitorModel {
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			print_r($model);	
 			$res = $model->Send();		
-			exit;
 		}
 	}
 }
