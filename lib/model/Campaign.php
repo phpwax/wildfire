@@ -10,7 +10,8 @@ class Campaign extends CampaignMonitorModel {
 														 "Campaign.GetLists",
 														 "Campaign.GetOpens",
 														 "Campaign.GetUnsubscribes",
-														 "Campaign.GetSummary");
+														 "Campaign.GetSummary",
+														 "Campaign.Send");
 	public $rename_mappings = false;
 	public $save_to_db = true;
 	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"));
@@ -25,6 +26,7 @@ class Campaign extends CampaignMonitorModel {
 		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
 		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
 		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
+		$this->define("SendData", "DateTimeField");				
 		$this->define("SubscriberListIDs", "TextField");
 		$this->define("ListSegments", "TextField");		
 		$this->define("content", "TextField");

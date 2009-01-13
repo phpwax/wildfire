@@ -59,6 +59,10 @@
 				<?endforeach?>
 			</select>
 			</div>
+			<?=form_divider()?>
+			<?$model->SendDate = gmmktime(5,1,0,date('m'), date('d')+1, date('Y') );?>
+			<?=large(datetime_select($model, "SendDate", array(), "Send Date"))?>
+			<?=form_divider()?>			
 			
     </fieldset>
     <div class="clearfix"></div>
