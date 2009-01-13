@@ -52,7 +52,7 @@ var widgInsertParagraphs = false;
 ** prompted as to whether they wish to clean the content.
 */
 
-var widgAutoClean = false;
+var widgAutoClean = true;
 
 /******************************************************************************
 **    END CONFIGURATION
