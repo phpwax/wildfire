@@ -38,7 +38,7 @@ class Campaign extends CampaignMonitorModel {
 		$content->content = $this->content;
 		if($res = $content->save()){
 			$this->CampaignID = false;
-			$data = Request::param('campaign');
+			if(!$data = Request::param('campaign')) $data = $this->rowset;
 			if($data['content_list']){
 				if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
 				else $articles = $data['content_list'];				
@@ -49,9 +49,13 @@ class Campaign extends CampaignMonitorModel {
 			}
 			if($this->lists = $data['lists']){
 				if(!is_array($this->lists)){
-					$this->SubscriberListIDs = array(array('int' => $this->lists) );
+					$this->SubscriberListIDs = array(array('string' => $this->lists) );
 				}else{
-					
+					$lists = array();
+					foreach($this->lists as $li){
+						$lists[] = array('string'=>$li);
+					}
+					$this->ListSegments = array('List' => $lists);
 				}				
 			}elseif($this->segments = $data['segments']){								
 				if(!is_array($this->segments) ) {
