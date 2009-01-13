@@ -41,17 +41,30 @@
 			<div class='large'>
 				<label>Lists</label>
       	<select name="campaign[lists][]" class="input_field select_field" multiple='multiple' size='6'>
+				<?$listsbyid = array();?>
 				<?foreach($mail_lists as $list):?>
+					<?$listsbyid[$list['ListID']] = $list['Name']?>
 					<option value="<?=$list['ListID']?>"><?=$list['Name']?></option>
 				<?endforeach?>
 				</select>
 			</div>
 			<?=form_divider()?>			
+			<?
+			$segs = array();
+			foreach($segments as $list){
+				$segs[$list['ListID']][] = array('name'=>$list['Name'], 'id'=> $list['ListID']);
+			}
+			?>
+			
 			<div class='large'>
 				<label>Segments</label>
       	<select name="campaign[segments][]" class="input_field select_field" multiple='multiple' size='6'>
-				<?foreach($segments as $list):?>
-					<option value="<?=$list['ListID']?>~<?=$list['Name']?>"><?=$list['Name']?></option>
+				<?foreach($segs as $key=>$group):?>
+					<optgroup label='<?=$listsbyid[$key]?>'>
+					<?foreach($group as $list):?>	
+					<option value="<?=$list['id']?>~<?=$list['name']?>"><?=$list['name']?></option>
+					<?endforeach?>
+					</optgroup>
 				<?endforeach?>
 				</select>
 			</div>
