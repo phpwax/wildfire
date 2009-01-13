@@ -82,7 +82,8 @@ class CMSAdminEmailController extends CMSAdminComponent {
 	public function create(){
 		$this->display_action_name = 'Create';
 		$model = $this->model;
-		$this->model = new Campaign($this->cm_conf['campaign_monitor_ClientID']);		
+		$this->model = new Campaign();		
+		$this->model->ClientID = $this->cm_conf['campaign_monitor_ClientID'];
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
 			if($this->model->primval() > 0){
