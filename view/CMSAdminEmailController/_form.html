@@ -32,7 +32,10 @@
 			<?=large(text_field($model, "FromEmail", array(), 'From Email'))?>			
 			<?=form_divider()?>			
 			<?=large(text_field($model, "ReplyTo", array(), 'Reply To Email'))?>	
+			<?$model->SendDate = gmmktime(5,1,0,date('m'), date('d')+1, date('Y') );?>
+			<?=large(datetime_select($model, "SendDate", array(), "Send Date"))?>
 			<?=form_divider()?>			
+						
 			<div class='large'>
 				<label>Lists</label>
       	<select name="campaign[lists][]" class="input_field select_field" multiple='multiple' size='6'>
@@ -60,10 +63,7 @@
 			</select>
 			</div>
 			<?=form_divider()?>
-			<?$model->SendDate = gmmktime(5,1,0,date('m'), date('d')+1, date('Y') );?>
-			<?=large(datetime_select($model, "SendDate", array(), "Send Date"))?>
-			<?=form_divider()?>			
-			
+		
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
