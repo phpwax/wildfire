@@ -85,7 +85,7 @@ class Campaign extends CampaignMonitorModel {
 				$this->TextUrl .=".txt";
 				return true;
 			}else return false;
-		}else return true;
+		}else {echo "PRIME:".$this->primval(); return true;}
 		
 	}
 	//error checking
