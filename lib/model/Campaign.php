@@ -22,7 +22,8 @@ class Campaign extends CampaignMonitorModel {
 		$this->define("CampaignName", "CharField", array('maxlength'=>255, 'required'=>true) );	
 		$this->define("CampaignSubject", "CharField", array('maxlength'=>255, 'required'=>true) );
 		$this->define("FromName", "CharField", array('maxlength'=>255, 'required'=>true) );	
-		$this->define("FromEmail", "CharField", array('maxlength'=>255, 'required'=>true) );
+		$this->define("FromEmail", "EmailField", array('maxlength'=>255, 'required'=>true) );
+		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'required'=>true) )
 		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
 		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
 		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
@@ -87,7 +88,13 @@ class Campaign extends CampaignMonitorModel {
 	//error checking
 	public function after_soap($res){
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message) $this->errors[$this->primary_key] = $errors;
-		else $this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
+		else{
+			$this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
+			$model = new Campaign($this->ClientID);
+			$model->CampaignID = $this->CampaignID;
+			$model->SendDate = $this->SendDate;
+			$model->ConfirmationEmail = $this->ConfirmationEmail;
+		}
 	}
 }
 

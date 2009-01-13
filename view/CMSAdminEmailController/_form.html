@@ -25,13 +25,15 @@
 
     <fieldset id="content_options">
 		<input type="hidden" name="campaign[ClientID]" value="<?=$this->cm_conf['campaign_monitor_ClientID']?>"/>
-			<?=large(text_field($model, "CampaignName", array(), 'Campaign Name'))?>
-      <?=large(text_field($model, "CampaignSubject", array(), 'Subject'))?>
+			<?=medium(text_field($model, "CampaignName", array(), 'Campaign Name'))?>
+      <?=medium(text_field($model, "CampaignSubject", array(), 'Subject'))?>
     	<?=form_divider()?>
-			<?=large(text_field($model, "FromName", array(), 'From Name'))?>
-			<?=large(text_field($model, "FromEmail", array(), 'From Email'))?>			
+			<?=medium(text_field($model, "FromName", array(), 'From Name'))?>
+			<?=medium(text_field($model, "FromEmail", array(), 'From Email'))?>			
 			<?=form_divider()?>			
-			<?=large(text_field($model, "ReplyTo", array(), 'Reply To Email'))?>	
+			<?=medium(text_field($model, "ReplyTo", array(), 'Reply To Email'))?>	
+			<?=medium(text_field($model, "ConfirmationEmail", array(), 'Confirmation Email'))?>	
+			<?=form_divider()?>			
 			<?$model->SendDate = date("Y-m-d H:i:s",gmmktime(5,1,0,date('m'), date('d')+1, date('Y') ));?>
 			<?=large(datetime_select($model, "SendDate", array(), "Send Date"))?>
 			<?=form_divider()?>			
