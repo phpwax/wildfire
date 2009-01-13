@@ -100,6 +100,8 @@ class Campaign extends CampaignMonitorModel {
 			echo "CALL SEND<br />";
 			$res = $model->Send();		
 			print_r($res);exit;
+		}else{
+			echo var_dump($res->{'Campaign.CreateResult'});exit;
 		}
 	}
 }
