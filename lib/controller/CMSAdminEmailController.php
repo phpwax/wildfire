@@ -85,8 +85,13 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		$this->model = new Campaign($this->cm_conf['campaign_monitor_ClientID']);		
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
-		}
-		
+			if($this->model->primval() > 0){
+				Session::add_message('Your campaign has been created!');
+				$this->redirect_to('/admin/email');
+			}else{
+				Session::add_message('There was an error creating you campaign:<br/> '. print_r($this->model->errors,1));
+			}
+		}		
 		
 		$lists = $model->GetLists();
 		$this->mail_lists = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $lists->rowset);
