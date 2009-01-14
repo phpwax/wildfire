@@ -240,10 +240,10 @@ class CMSHelper extends WXHelpers {
 		return $string;
   }
   	
-	public function abbr_date($date){
+	public function cms_short_date($date){
 		return date("d/m/y", strtotime($date));
 	}
-	public function full_date($date){
+	public function cms_full_date($date){
 		return date("nS F Y", strtotime($date));
 	}
 
