@@ -18,7 +18,7 @@ function init_upload(){
 					progressTarget : "fsUploadProgress",
 					cancelButtonId : "btnCancel"
 				},
-				debug: true,
+				debug: false,
 
 				// Button settings
 				button_image_url: "/images/cms/add_files_button.png",	// Relative to the Flash file
