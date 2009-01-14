@@ -60,7 +60,7 @@ function set_post_params(){
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
       upload_from_url: jQuery("#upload_from").val(),
-      wildfire_file_filename: jQuery("#wildfire_file_filename").val(),
+      wildfire_file_filename: jQuery("#wildfire_file_filename").val().replace(/ /g, ''),
 			content_id: jQuery("#url_content_page_id").val(),
 			model_string: jQuery("#url_content_page_type").val(),
 			join_field: jQuery("#url_join_field").val()

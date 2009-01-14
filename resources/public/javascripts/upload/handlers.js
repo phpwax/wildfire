@@ -80,7 +80,6 @@ function uploadStart(file) {
 		we can do is say we are uploading.
 		 */
 		console.log('handler uploadStart');
-		file.name = file.name.replace(/ /g, '');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setStatus("Uploading...");
 		progress.toggleCancel(true, this);
@@ -92,7 +91,6 @@ function uploadStart(file) {
 
 function uploadProgress(file, bytesLoaded, bytesTotal) {
 	try {
-		file.name = file.name.replace(/ /g, '');
 		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);		
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setProgress(percent);
@@ -104,7 +102,6 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 
 function uploadSuccess(file, serverData) {
 	try {
-		file.name = file.name.replace(/ /g, '');
 		console.log('handler uploadSuccess - ');console.log(file);console.log('------');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setComplete();
@@ -118,7 +115,6 @@ function uploadSuccess(file, serverData) {
 
 function uploadError(file, errorCode, message) {
 	try {
-		file.name = file.name.replace(/ /g, '');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setError();
 		progress.toggleCancel(false);
