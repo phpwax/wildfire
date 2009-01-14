@@ -851,6 +851,7 @@ SWFUpload.prototype.returnUploadStart = function (file) {
 
 SWFUpload.prototype.uploadProgress = function (file, bytesComplete, bytesTotal) {
 	file = this.unescapeFilePostParams(file);
+	file = file.replace(/ /i, "");	
 	this.queueEvent("upload_progress_handler", [file, bytesComplete, bytesTotal]);
 };
 
