@@ -92,7 +92,7 @@ function uploadStart(file) {
 function uploadProgress(file, bytesLoaded, bytesTotal) {
 	try {
 		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
-		console.log('handler uploadProgress - '+file);
+		console.log('handler uploadProgress - ');console.log(file);console.log('------');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setProgress(percent);
 		progress.setStatus("Uploading...");
@@ -103,7 +103,7 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 
 function uploadSuccess(file, serverData) {
 	try {
-		console.log('handler uploadSuccess - '+file);
+		console.log('handler uploadSuccess - ');console.log(file);console.log('------');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setComplete();
 		progress.setStatus("Complete.");
@@ -119,7 +119,7 @@ function uploadError(file, errorCode, message) {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setError();
 		progress.toggleCancel(false);
-		console.log('handler uploadError - '+file+' - code:'+errorCode);
+		console.log('handler uploadError - ');console.log(file);console.log('------');
 		switch (errorCode) {
 		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
 			progress.setStatus("Upload Error: " + message);
