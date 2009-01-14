@@ -856,6 +856,7 @@ SWFUpload.prototype.uploadProgress = function (file, bytesComplete, bytesTotal) 
 
 SWFUpload.prototype.uploadError = function (file, errorCode, message) {
 	file = this.unescapeFilePostParams(file);
+	file = file.replace(/ /i, "");
 	this.queueEvent("upload_error_handler", [file, errorCode, message]);
 };
 
