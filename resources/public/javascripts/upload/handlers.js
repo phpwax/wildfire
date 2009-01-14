@@ -79,7 +79,8 @@ function uploadStart(file) {
 		It's important to update the UI here because in Linux no uploadProgress events are called. The best
 		we can do is say we are uploading.
 		 */
-		console.log('handler uploadStart - '+file);
+		console.log('handler uploadStart');
+		file.name = file.name.replace(/ /g, '');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setStatus("Uploading...");
 		progress.toggleCancel(true, this);
@@ -92,7 +93,7 @@ function uploadStart(file) {
 function uploadProgress(file, bytesLoaded, bytesTotal) {
 	try {
 		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
-		console.log('handler uploadProgress - ');console.log(file);console.log('------');
+		file.name = file.name.replace(/ /g, '');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setProgress(percent);
 		progress.setStatus("Uploading...");
@@ -103,6 +104,7 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 
 function uploadSuccess(file, serverData) {
 	try {
+		file.name = file.name.replace(/ /g, '');
 		console.log('handler uploadSuccess - ');console.log(file);console.log('------');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setComplete();
