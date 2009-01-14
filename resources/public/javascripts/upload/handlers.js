@@ -92,8 +92,8 @@ function uploadStart(file) {
 
 function uploadProgress(file, bytesLoaded, bytesTotal) {
 	try {
-		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
 		file.name = file.name.replace(/ /g, '');
+		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);		
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setProgress(percent);
 		progress.setStatus("Uploading...");
@@ -118,6 +118,7 @@ function uploadSuccess(file, serverData) {
 
 function uploadError(file, errorCode, message) {
 	try {
+		file.name = file.name.replace(/ /g, '');
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setError();
 		progress.toggleCancel(false);
