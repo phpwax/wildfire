@@ -199,7 +199,7 @@ class CmsApplicationController extends WXControllerBase{
       $filename = basename($url);
       $ext = strtolower(array_pop(explode(".", $filename)));
       if($_POST["wildfire_file_filename"]) $filename = $_POST["wildfire_file_filename"].".".$ext;
-      $filename = File::safe_file_save($fs->defaultFileStore.$path, $filename);
+      $filename = $_POST["wildfire_file_filename"] = File::safe_file_save($fs->defaultFileStore.$path, $filename);
       $file = $fs->defaultFileStore.$path."/".$filename;
       $handle = fopen($file, 'x+'); 
       fwrite($handle, file_get_contents($url));
@@ -229,6 +229,7 @@ class CmsApplicationController extends WXControllerBase{
         $path = $_POST['wildfire_file_folder'];
         $fs = new CmsFilesystem;
         $_FILES['upload'] = $_FILES["Filedata"];
+				$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
 				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];

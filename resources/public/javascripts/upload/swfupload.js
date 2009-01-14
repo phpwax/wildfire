@@ -464,8 +464,7 @@ SWFUpload.prototype.callFlash = function (functionName, argumentArray) {
 	if (returnValue != undefined && typeof returnValue.post === "object") {
 		returnValue = this.unescapeFilePostParams(returnValue);
 	}
-	console.log('FLASH CALLED');console.log('FLASH FUNC:'+functionName);console.log(argumentArray);
-	console.log('returned:');console.log(returnValue);console.log(returnString);console.log('========');
+
 
 	return returnValue;
 };
@@ -498,7 +497,6 @@ SWFUpload.prototype.selectFiles = function () {
 // Public: startUpload starts uploading the first file in the queue unless
 // the optional parameter 'fileID' specifies the ID 
 SWFUpload.prototype.startUpload = function (fileID) {
-	console.log('calling flash...');console.log(fileID);
 	this.callFlash("StartUpload", [fileID]);
 };
 
