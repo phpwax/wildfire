@@ -448,10 +448,10 @@ SWFUpload.prototype.getSetting = function (name) {
 // bugs in the ExternalInterface library.
 SWFUpload.prototype.callFlash = function (functionName, argumentArray) {
 	argumentArray = argumentArray || [];
-	
+
 	var movieElement = this.getMovieElement();
 	var returnValue, returnString;
-
+	
 	// Flash's method if calling ExternalInterface methods (code adapted from MooTools).
 	try {
 		returnString = movieElement.CallFunction('<invoke name="' + functionName + '" returntype="javascript">' + __flash__argumentsToXML(argumentArray, 0) + '</invoke>');
@@ -464,6 +464,7 @@ SWFUpload.prototype.callFlash = function (functionName, argumentArray) {
 	if (returnValue != undefined && typeof returnValue.post === "object") {
 		returnValue = this.unescapeFilePostParams(returnValue);
 	}
+
 
 	return returnValue;
 };

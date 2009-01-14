@@ -35,7 +35,7 @@
 #operations form{float:right;margin:5px 10px 0 0;}
 #searchbar{width:128px;border:0;padding:3px 5px;}
 #searchbtn{}
-#filesystem{position:relative;top:10px;left:250px;}
+#filesystem{float:left;left:250px;position:relative;top:10px;width:700px;}
 #fileList,#searcharea{width:700px;float:left;margin-left:2px;display:inline;background:white;}
 #root{padding:0;margin:0;border:0;margin-bottom:100px;}
 .directory,.file{margin-left:15px;}

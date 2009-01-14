@@ -8,15 +8,12 @@
 	  b) passing the "zIndex" parameter. E.g.  (window).jqm({zIndex: 500}); */
 	
 .jqmWindow {
-    display: none;
-    
+    display: none;    
     position: fixed;
-    top: 17%;
-    left: 50%;
-    
+    top: 7%;
+    left: 50%;    
     margin-left: -300px;
-    width: 600px;
-    
+    width: 600px;    
     background-color: #EEE;
     color: #333;
     border: 1px solid black;

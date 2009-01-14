@@ -34,6 +34,7 @@ class CmsApplicationController extends WXControllerBase{
 		if($page = Request::get('page')) $this->this_page = $page;
 		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
 		//set the view
@@ -58,16 +59,17 @@ class CmsApplicationController extends WXControllerBase{
 	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
 	 */	
 	protected function find_contents_by_path(){
-		//need to replace this with request method, once thats been made
-		$stack = $this->route_array;
+		//use the full url params, minus the get array to create the stack to look though
+		$stack = array_diff_assoc(WaxUrl::$params, $_GET); //could do with using something other than $_GET
+		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
 		  $url = $this->set_formatting($url);
 			//only check numeric keys, ie not page or search terms && check its a section
-			if(is_numeric($key) && $this->find_section($url)){
+			if($this->find_section($url)){
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
-			}elseif(!is_numeric($key)) unset($stack[$key]);
+			}
 		}
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
@@ -175,6 +177,17 @@ class CmsApplicationController extends WXControllerBase{
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
+
+
+	public function emailcontent(){
+		$this->use_layout = false;
+		$this->server = "http://".$_SERVER['HTTP_HOST'];
+		if(!$this->use_format) $this->use_format = "html";
+		$path = VIEW_DIR."emailcontent.".$this->use_format;
+		if(is_readable($path)){
+			if($id = Request::param('id')) $this->content = new CampaignContent($id);			
+		}else $this->redirect_to('/');
+	}
   
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
@@ -186,7 +199,7 @@ class CmsApplicationController extends WXControllerBase{
       $filename = basename($url);
       $ext = strtolower(array_pop(explode(".", $filename)));
       if($_POST["wildfire_file_filename"]) $filename = $_POST["wildfire_file_filename"].".".$ext;
-      $filename = File::safe_file_save($fs->defaultFileStore.$path, $filename);
+      $filename = $_POST["wildfire_file_filename"] = File::safe_file_save($fs->defaultFileStore.$path, $filename);
       $file = $fs->defaultFileStore.$path."/".$filename;
       $handle = fopen($file, 'x+'); 
       fwrite($handle, file_get_contents($url));
@@ -216,6 +229,7 @@ class CmsApplicationController extends WXControllerBase{
         $path = $_POST['wildfire_file_folder'];
         $fs = new CmsFilesystem;
         $_FILES['upload'] = $_FILES["Filedata"];
+				$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
 				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
@@ -290,6 +304,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array(), $params=array()) {
 	  return false;
 	}
+	
 	
 }
 
