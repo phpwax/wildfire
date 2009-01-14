@@ -862,11 +862,13 @@ SWFUpload.prototype.uploadError = function (file, errorCode, message) {
 
 SWFUpload.prototype.uploadSuccess = function (file, serverData) {
 	file = this.unescapeFilePostParams(file);
+	file = file.replace(/ /i, "");
 	this.queueEvent("upload_success_handler", [file, serverData]);
 };
 
 SWFUpload.prototype.uploadComplete = function (file) {
 	file = this.unescapeFilePostParams(file);
+	file = file.replace(/ /i, "");
 	this.queueEvent("upload_complete_handler", file);
 };
 
