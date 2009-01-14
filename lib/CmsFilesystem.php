@@ -635,7 +635,7 @@ class CmsFilesystem {
     		header("location: $_GET[redir]");
     	}
 	  } else {
-	    header("HTTP/1.0 505 Internal Server Error");
+	    header("HTTP/1.0 500 Internal Server Error");
 	    die("File upload error");
 	  }
     	
