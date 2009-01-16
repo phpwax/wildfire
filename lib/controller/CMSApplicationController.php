@@ -48,6 +48,7 @@ class CmsApplicationController extends WXControllerBase{
     if($this->is_page()) $this->cms_content->add_pageview();
 		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
 		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
+		
 	}
 	/**
 	 * Using the route array this function:
@@ -66,7 +67,7 @@ class CmsApplicationController extends WXControllerBase{
 			//check the formatting - if found then it removes the extension
 		  $url = $this->set_formatting($url);
 			//only check numeric keys, ie not page or search terms && check its a section
-			if($this->find_section($url)){
+			if($this->find_section($url, $this->cms_section->id)){
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
 			}
@@ -85,8 +86,9 @@ class CmsApplicationController extends WXControllerBase{
 	 * @param String $url 
 	 * @return Boolean
 	 */	
-	protected function find_section($url){
+	protected function find_section($url, $parent=false){
 		$section = new CmsSection;
+		if($parent) $section->filter(array('parent_id'=>$parent));
 		$res = $section->filter(array('url'=>$url))->all();
 		if(count($res)==1){
 			$this->cms_section = $res[0];
