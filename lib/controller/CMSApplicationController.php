@@ -62,12 +62,14 @@ class CmsApplicationController extends WXControllerBase{
 	protected function find_contents_by_path(){
 		//use the full url params, minus the get array to create the stack to look though
 		$stack = array_diff_assoc(WaxUrl::$params, $_GET); //could do with using something other than $_GET
+		unset($stack['route']);
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
-		  $url = $this->set_formatting($url);
-			//only check numeric keys, ie not page or search terms && check its a section
-			if($this->find_section($url, $this->cms_section->id)){
+		  if($key == "format"){
+				$this->set_formatting($url);
+				unset($stack[$key]);
+			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
 			}
@@ -158,12 +160,8 @@ class CmsApplicationController extends WXControllerBase{
 	 * @param string $url 
 	 * @return string $url
 	 */	
-	protected function set_formatting($url){
-		if(strpos($url, ".")) {
-	    $format = substr(strrchr($url,"."), 1);
-	    $url = substr($url, 0, strrpos($url, "."));
-	    $this->use_format=$format;
-	  }
+	protected function set_formatting($url){		
+    $this->use_format=$url;
 		return $url;
 	}
 	
