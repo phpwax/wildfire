@@ -37,6 +37,7 @@ class CmsApplicationController extends WXControllerBase{
 		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
+		
 		//set the view
 		$this->pick_view();
 		//set the action
@@ -66,7 +67,7 @@ class CmsApplicationController extends WXControllerBase{
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
-		  if($key == "format"){
+		  if($key == "format"){				
 				$this->set_formatting($url);
 				unset($stack[$key]);
 			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
@@ -74,10 +75,12 @@ class CmsApplicationController extends WXControllerBase{
 				unset($stack[$key]);
 			}
 		}
+		
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
 		//otherwise this is a section, so find all content in the section
 		else $this->find_content(false);
+		
 	}
 	
 	/**
@@ -123,7 +126,6 @@ class CmsApplicationController extends WXControllerBase{
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
 		if($url){	
-			$url = $this->set_formatting($url); //remove & set the formatting...			
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($logged_in) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
@@ -270,7 +272,7 @@ class CmsApplicationController extends WXControllerBase{
 	  $sections = array_reverse($this->section_stack);
 	  if($this->is_page()) $type="page";
 	  else $type="list";
-	  $this->use_view="cms_".$type;		
+	  $this->use_view="cms_".$type;	
 	  foreach($sections as $section) {
 	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
 	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
