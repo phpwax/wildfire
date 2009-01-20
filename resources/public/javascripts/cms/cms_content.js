@@ -71,6 +71,8 @@ function delayed_image_filter(filter) {
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
 
+	if(showhtml) widgToolbarItems.push("htmlsource");
+	
   $("#image_filter").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
     t = setTimeout('delayed_image_filter($("#image_filter").val())', 400);
