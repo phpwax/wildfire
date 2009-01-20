@@ -50,7 +50,7 @@ class Campaign extends CampaignMonitorModel {
 			if($res = $content->save()){
 				$this->CampaignID = false;
 				$data = Request::param('campaign');
-				if(!is_array($data)) $data = $this->rowset; //if no post data use the rowset of this model			
+				if(!is_array($data)) $data = $this->row; //if no post data use the rowset of this model			
 				if($data['content_list']){ //join all the articles to the campaign_content
 					if(!is_array($data['content_list'])) $articles = array(0=>$data['content_list']);
 					else $articles = $data['content_list'];				
@@ -79,9 +79,12 @@ class Campaign extends CampaignMonitorModel {
 						$this->ListSegments = array('List' => $segs);
 					}
 				}
+				echo "SEGMENTS:<br/>";print_r($this->ListSegments);echo"<br /><br />";
 				//set the urls for this email
-				$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
-				$this->TextUrl .=".txt";
+				if(!$this->HtmlUrl) {
+					$this->HtmlUrl = $this->TextUrl ="http://"."fleetmilne.tbldigital.co.uk"."/emailcontent/".$res->id;
+					$this->TextUrl .=".txt";
+				}
 				return true;
 			}else return false;
 		}else return true;
