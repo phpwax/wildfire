@@ -180,7 +180,44 @@ class CmsApplicationController extends WXControllerBase{
     $img->show($size);
   }
 
+	/**
+	 * check to see if the cms_content var is indeed a page  
+	 * @return void
+	 * @author charles marshall
+	 */	
+	protected function is_page() {
+	  if($this->cms_content instanceof CmsContent) return true;
+	  return false;
+	}
+	/**
+	 * decides what view should be used - has a more to less specific priority
+	 * - cms_CONTENTURL_[list|page]
+	 * - cms_SECTIONNAME_[list|page]
+	 * - cms_[list|page]
+	 */	
+	protected function pick_view() {		
+	  $sections = array_reverse($this->section_stack);
+	  if($this->is_page()) $type="page";
+	  else $type="list";
+	  $this->use_view="cms_".$type;	
+	  foreach($sections as $section) {
+	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
+	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
+	  }
+		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
+	}
+	
+  /**
+   * check to see if admin is logged in
+   * @return boolean
+   */  
+  public function is_admin_logged_in(){
+		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
+		return $user->is_logged_in();
+	}
 
+
+	/** METHODS FOR CMS & CM INTERGRATION **/
 	public function emailcontent(){
 		$this->use_layout = false;
 		$this->server = "http://".$_SERVER['HTTP_HOST'];
@@ -252,43 +289,6 @@ class CmsApplicationController extends WXControllerBase{
     } else die("UPLOAD ERROR");
     exit;
 	}
-
-	/**
-	 * check to see if the cms_content var is indeed a page  
-	 * @return void
-	 * @author charles marshall
-	 */	
-	protected function is_page() {
-	  if($this->cms_content instanceof CmsContent) return true;
-	  return false;
-	}
-	/**
-	 * decides what view should be used - has a more to less specific priority
-	 * - cms_CONTENTURL_[list|page]
-	 * - cms_SECTIONNAME_[list|page]
-	 * - cms_[list|page]
-	 */	
-	protected function pick_view() {		
-	  $sections = array_reverse($this->section_stack);
-	  if($this->is_page()) $type="page";
-	  else $type="list";
-	  $this->use_view="cms_".$type;	
-	  foreach($sections as $section) {
-	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
-	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
-	  }
-		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
-	}
-	
-  /**
-   * check to see if admin is logged in
-   * @return boolean
-   */  
-  public function is_admin_logged_in(){
-		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
-		return $user->is_logged_in();
-	}
-
 
 	/**** OLD METHODS - WILL BE REMOVED SOON - FOR NOW RETURN FALSE ****/
 	protected function cms_check() {
