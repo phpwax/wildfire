@@ -46,8 +46,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//setup curl headers
 		$this->curl_headers[] = 'Content-Type: '.$db_settings['content_type'].'; charset='.$db_settings['char_set'];
     $this->curl_headers[] = 'Accept: '.$db_settings['header_accept'].'; charset='.$db_settings['char_set'];
-		//load vars from config file
-		if(Config::$initialised){			
+		//check for cms setting
+		if($api=$this->check_cms_api_key()){
+			$this->apikey = $api;
+			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+			$this->soap_arguments['ApiKey'] = $this->apikey;
+		//else load vars from config file
+		}elseif(Config::$initialised){			
 			$conf = Config::get("campaign_monitor");
 			if($this->apikey = $conf['ApiKey']){
 				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
@@ -67,6 +72,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
     return curl_init($db_settings['url']);
   }
 
+	private function check_cms_api_key(){
+		if(!class_exists("CmsConfiguration")) return false;
+		elseif($general = CmsConfiguration::get('general')){
+			if($general['campaign_monitor_apikey'] > 0) return $general['campaign_monitor_apikey'];
+			else return false;
+		}else return false;
+	}
 	/**
 	 * uses the model passed in to work out the the what command to call 
 	 * on the api to insert a new value - also works out to use soap or curl..
@@ -234,8 +246,9 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if($this->call_method == "http"){ //if this is a http method create post args
 			if($api_action != "delete_action" ) $this->curl_post_arguments .= $this->query_string($model); //
 			else $this->curl_post_arguments .= $this->primary_key_string($model);
-		}elseif($this->call_method == "soap") //if soap call the soap param creation
-			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));
+		}elseif($this->call_method == "soap"){//if soap call the soap param creation
+			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));			
+		}
 		$parse_func = "parse_".$this->call_method; //parse_function	
 		if(method_exists($model, $func)) $res=$this->$parse_func($model->$func($this->url,$model),$model); //check if the model has an over riding function		
 		else $res = $this->$parse_func($this->$func($this->url, $model), $model); //otherwise call the default one

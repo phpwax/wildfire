@@ -24,8 +24,7 @@ class Client extends CampaignMonitorModel {
 	public function child_node($call_method, $api_call){
 		switch($api_call){
 			case "Client.GetSegments":
-			case "Client.GetLists": return "List";break;
-			
+			case "Client.GetLists": return "List";break;			
 			default: return "Campaign"; break;
 		}
 		
