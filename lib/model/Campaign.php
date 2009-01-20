@@ -60,11 +60,11 @@ class Campaign extends CampaignMonitorModel {
 					}
 				}
 				if($this->lists = $data['lists']){ //if listIds have been passed then create an array based on them
-					if(!is_array($this->lists)) $this->SubscriberListIDs = array(array('string' => $this->lists) );
+					if(!is_array($this->lists)) $this->SubscriberListIDs = array('string'=>array($this->lists));
 					else{
 						$lists = array();
-						foreach($this->lists as $list) $lists[] = $list;
-						$this->SubscriberListIDs = $lists;
+						foreach($this->lists as $list) $lists[] = array($list);
+						$this->SubscriberListIDs = array('string'=>$lists);
 					}				
 				}elseif($this->segments = $data['segments']){ //if segments are to be used then make complex array structure								
 					if(!is_array($this->segments) ) {
@@ -79,12 +79,9 @@ class Campaign extends CampaignMonitorModel {
 						$this->ListSegments = array('List' => $segs);
 					}
 				}
-				echo "SEGMENTS:<br/>";print_r($this->ListSegments);echo"<br /><br />";
 				//set the urls for this email
-				if(!$this->HtmlUrl) {
-					$this->HtmlUrl = $this->TextUrl ="http://"."fleetmilne.tbldigital.co.uk"."/emailcontent/".$res->id;
-					$this->TextUrl .=".txt";
-				}
+				$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
+				$this->TextUrl .=".txt";
 				return true;
 			}else return false;
 		}else return true;
@@ -96,7 +93,8 @@ class Campaign extends CampaignMonitorModel {
 			$this->errors[$this->primary_key] = $errors;
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
 			$this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
-			$model = new Campaign($this->ClientID);
+			$model = new Campaign;
+			$model->ClientID = $this->ClientID;
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;

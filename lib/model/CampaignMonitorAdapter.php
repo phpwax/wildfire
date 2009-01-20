@@ -40,7 +40,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
     if(!$db_settings['char_set']) $db_settings['char_set']='UTF-8';
     if(!$db_settings['header_accept']) $db_settings['header_accept']='application/x-www-form-urlencoded';
 		if(!$db_settings['max_retries']) $db_settings['max_retries']=3;
-		if(!$db_settinds['wsdl']) $db_settings['wsdl'] = $this->soap_wsdl = "http://oneblackbear2.createsend.com/api/api.asmx?wsdl";
+		if(!$db_settings['wsdl']) $db_settings['wsdl'] = $this->soap_wsdl = "http://oneblackbear2.createsend.com/api/api.asmx?wsdl";
 		//init a connection
     $this->db = $this->connect($db_settings);
 		//setup curl headers
