@@ -58,7 +58,9 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
 				$this->soap_arguments['ApiKey'] = $this->apikey;
 			}
+			ini_set("soap.wsdl_cache_enabled", "0");
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
+		
   }
   
 	/**
@@ -310,9 +312,12 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if($model->soap_mappings && $model->soap_mappings[$this->cm_api_method]) $method = $model->soap_mappings[$this->cm_api_method]['send'];
 		else $method = $this->cm_api_method;
 		//call the client wsdl and then the soap function
-		$client = new SoapClient($this->soap_wsdl);
+		$client = new SoapClient($this->soap_wsdl, array('trace'=>true));
 		echo "SOAP ARGS:<br />";print_r($this->soap_arguments);echo"<br />";
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
+		echo "SOAP DATA SENT:<br />\n";
+		print_r($client->__getLastRequest());
+		echo "\n<br />";
 		$model->after_soap($res);
 		return $res;
 	}
