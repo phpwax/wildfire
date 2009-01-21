@@ -315,7 +315,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
 		WaxLog::log('error', '[SOAP RESULT]'.$client->__getLastResponse());
 		$model->after_soap($res);
-		WaxLog::log('error','[MODEL AFTER SOAP]'.print_r($model,1));
 		return $res;
 	}
 	/**
@@ -343,6 +342,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
+		WaxLog::log('error','[MODEL IN SOAP PARSE]'.print_r($model,1));
+		
 		if($results->$return->enc_value->$class){	
 			$results = $results->$return->enc_value->$class; //get the results
 			//make sure its an array
@@ -376,7 +377,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				}				
 				if(count($objdata)) $res[] = $objdata;
 			}
-		}
+		}elseif($mode)
 		$this->total_without_limits = count($res);
 		return $res;
 	}
