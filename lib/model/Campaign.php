@@ -18,15 +18,15 @@ class Campaign extends CampaignMonitorModel {
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
-		$this->define("CampaignID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
-		$this->define("CampaignName", "CharField", array('maxlength'=>255) );	
-		$this->define("CampaignSubject", "CharField", array('maxlength'=>255) );
-		$this->define("FromName", "CharField", array('maxlength'=>255) );	
-		$this->define("FromEmail", "EmailField", array('maxlength'=>255, 'blank'=>true) );
-		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'blank'=>true) );
-		$this->define("ReplyTo", "CharField", array('maxlength'=>255) );		
-		$this->define("HtmlUrl", "TextField", array('maxlength'=>255) );				
-		$this->define("TextUrl", "TextField", array('maxlength'=>255) );		
+		$this->define("CampaignID", "CharField", array('maxlength'=>255, 'editable'=>false, 'required'=>true) );		
+		$this->define("CampaignName", "CharField", array('maxlength'=>255, 'required'=>true) );	
+		$this->define("CampaignSubject", "CharField", array('maxlength'=>255, 'required'=>true) );
+		$this->define("FromName", "CharField", array('maxlength'=>255, 'required'=>true) );	
+		$this->define("FromEmail", "EmailField", array('maxlength'=>255, 'required'=>true) );
+		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'required'=>true) );
+		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
+		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
+		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
 		$this->define("SendDate", "DateTimeField");				
 		$this->define("SubscriberListIDs", "TextField");
 		$this->define("ListSegments", "TextField");		
@@ -89,8 +89,8 @@ class Campaign extends CampaignMonitorModel {
 	}
 	//error checking
 	public function after_soap($res){
-		WaxLog::log('error', '[AFTER SOAP]'. print_r($res,1)); 
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
+			WaxLog::log('error', '[AFTER SOAP]'. print_r($res,1)); 
 			$this->errors[$this->primary_key] = $errors;
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
 			$this->CampaignID = $res->{'Campaign.CreateResult'};			
