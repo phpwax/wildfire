@@ -79,6 +79,7 @@ class Campaign extends CampaignMonitorModel {
 						}
 						$this->ListSegments = array('List' => $segs);
 					}
+					WaxLog::log('error', '[SEGS]'.print_r($this->ListSegments,1));
 				}
 				//set the urls for this email
 				$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
