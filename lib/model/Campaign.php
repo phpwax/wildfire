@@ -99,7 +99,8 @@ class Campaign extends CampaignMonitorModel {
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			$res = $model->Send();		
+			WaxLog::log('error', '[AFTER SOAP]'. print_r($model, 1));
+			$res = $model->Send();	
 		}
 	}
 }
