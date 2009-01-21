@@ -11,10 +11,11 @@ class Campaign extends CampaignMonitorModel {
 														 "Campaign.GetOpens",
 														 "Campaign.GetUnsubscribes",
 														 "Campaign.GetSummary",
-														 "Campaign.SendCampaign" => 'soap');
+														 "Campaign.Send" => 'soap');
 	public $rename_mappings = false;
 	public $save_to_db = true;
-	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"));
+	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"),
+																'Campaign.Send'=>array('send'=>'SendCampaign', 'return'=>"Campaign.SendResponse"));
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
