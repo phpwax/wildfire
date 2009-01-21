@@ -254,6 +254,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$parse_func = "parse_".$this->call_method; //parse_function	
 		if(method_exists($model, $func)) $res=$this->$parse_func($model->$func($this->url,$model),$model); //check if the model has an over riding function		
 		else $res = $this->$parse_func($this->$func($this->url, $model), $model); //otherwise call the default one
+		WaxLog::log('error', '[SOAP RES]'. print_r($res,1));
 		$model->after_api_result_parsed($res);
 		return $res;
 	}
@@ -313,8 +314,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl, array('trace'=>true));
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
-		WaxLog::log('error', '[SOAP RESULT]'.$client->__getLastResponse());
-		WaxLog::log('error', '[SOAP RES]'.print_r($res,1));
 		$model->after_soap($res);
 		return $res;
 	}
@@ -343,7 +342,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
-		WaxLog::log('error','[MODEL IN SOAP PARSE]'.print_r($model,1));
 		
 		if($results->$return->enc_value->$class){	
 			$results = $results->$return->enc_value->$class; //get the results
@@ -378,7 +376,9 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				}				
 				if(count($objdata)) $res[] = $objdata;
 			}
-		}elseif($model->primval() && !count($res)) $res[$model->primary_key] = $model->primval();
+		}else{
+			WaxLog::log('errors', '[SOAP]'. print_r())
+		}
 		$this->total_without_limits = count($res);
 		return $res;
 	}
