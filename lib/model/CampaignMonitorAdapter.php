@@ -342,7 +342,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
-		
+		WaxLog::log('errors', '[SOAP RAW]'. print_r($results,1)); 
 		if($results->$return->enc_value->$class){	
 			$results = $results->$return->enc_value->$class; //get the results
 			//make sure its an array
@@ -376,8 +376,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				}				
 				if(count($objdata)) $res[] = $objdata;
 			}
-		}else{
-			WaxLog::log('errors', '[SOAP]'. print_r($model,1));
 		}
 		$this->total_without_limits = count($res);
 		return $res;
