@@ -252,12 +252,9 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));			
 		}
 		$parse_func = "parse_".$this->call_method; //parse_function	
-		WaxLog::log('error', '[API CALLING - '.$this->call_method.']'.$parse_func. " -- ".$this->cm_api_method);
 		if(method_exists($model, $func)) $results=$model->$func($this->url,$model); //check if the model has an over riding function		
 		else $results = $this->$func($this->url, $model); //otherwise call the default one
-		WaxLog::log('error', '['.$func.' RES]'. print_r($results,1));
 		$res = $this->$parse_func($results, $model);
-		WaxLog::log('error', '['.$parse_func.' PARSED RES]'. print_r($res,1));
 		$model->after_api_result_parsed($res);
 		return $res;
 	}
@@ -394,7 +391,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	protected function parse_http($xml_str, $model){
-		WaxLog::log('error', '[HTTP RAW]'. print_r($xml_str,1)); 
 		$prime = $model->primval();
 		$simple = simplexml_load_string($xml_str, "SimpleXMLElement", LIBXML_NOCDATA);
 		$res = array();
