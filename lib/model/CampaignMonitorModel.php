@@ -88,9 +88,14 @@ class CampaignMonitorModel extends WaxModel {
 		}
 		elseif(is_array($this->get_action)){
 			WaxLog::log('error', '[MODEL CHECK GET] '. $func);
-			foreach($this->get_action as $act){
-				if(substr_count($act, $func) ){
-					WaxLog::log('error', '[ADAPTOR CALL]'. $act);
+			foreach($this->get_action as $key => $act){
+				WaxLog::log('error', '[MODEL COMPARE] '. $act);
+				if(substr_count($act, $func)){
+					WaxLog::log('error', '[ADAPTOR CALL] '. $act);
+					$res = $this->row = $this->db->api($this, "get_action", $act);
+					return new WaxRecordset($this, $res);
+				}elseif	(substr_count($key, $func) || ){
+					WaxLog::log('error', '[ADAPTOR CALL BY KEY] '. $key);
 					$res = $this->row = $this->db->api($this, "get_action", $act);
 					return new WaxRecordset($this, $res);
 				}
