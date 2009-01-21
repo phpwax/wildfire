@@ -91,8 +91,9 @@ class CampaignMonitorModel extends WaxModel {
 					return new WaxRecordset($this, $res);
 				}elseif	(substr_count($key, $func)){
 					$res = $this->row = $this->db->api($this, "get_action", $key);
-					WaxLog::log('error', '[API RES]'.print_r($res,1));					
-					return new WaxRecordset($this, $res);
+					$set = new WaxRecordset($this, $res);
+					WaxLog::log('error', '[API RES]'.print_r($set,1));					
+					return $set;
 				}
 			}
 		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
