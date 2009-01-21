@@ -86,7 +86,11 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		$this->model->ClientID = $this->cm_conf['campaign_monitor_ClientID'];
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
-			$errors = implode("", Session::get('user_errors')). implode("", $this->model->errors);
+			$errors ="";
+			if(count(Session::get('user_errors'))) $errors .= implode("", Session::get('user_errors'));
+			else $errors .= Session::get('user_errors');
+			if(count($this->model->errors)) $errors .= implode("", $this->model->errors);			
+			
 			if(strlen($errors) > 0){
 				$errors .= ":";
 				foreach($this->model->errors as $k=> $val) $errors .= $val."<br />";
