@@ -174,7 +174,6 @@ widgEditor.prototype.cleanPaste = function()
 {
 	if (widgAutoClean)
 	{
-    alert("testing");
 		var matchedHead = "";
 		var matchedTail = "";
 		var newContent = this.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
@@ -237,7 +236,8 @@ widgEditor.prototype.cleanPaste = function()
 		{
 			return false;
 		}
-
+    console.log("testing");
+    
 		newContent = newContent.reverse();
 		newSnippet = newContent.substring(newContentStart, newContent.length - newContentFinish);
 		newSnippet = newSnippet.validTags();
