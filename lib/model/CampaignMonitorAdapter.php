@@ -257,8 +257,9 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));			
 		}
 		$parse_func = "parse_".$this->call_method; //parse_function	
-		if(method_exists($model, $func)) $res=$this->$parse_func($model->$func($this->url,$model),$model); //check if the model has an over riding function		
-		else $res = $this->$parse_func($this->$func($this->url, $model), $model); //otherwise call the default one
+		if(method_exists($model, $func)) $results=$model->$func($this->url,$model); //check if the model has an over riding function		
+		else $results = $this->$func($this->url, $model); //otherwise call the default one
+		$res = $this->$parse_func($results, $this->db_model);
 		$model->after_api_result_parsed($res);
 		$this->db_model = $model;
 		return $res;
