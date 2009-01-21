@@ -116,6 +116,7 @@ class CampaignMonitorModel extends WaxModel {
 			//as there is no update on this api - just run insert 	    
  	    $res = $this->insert();
  		}
+		WaxLog::log('error', '[AFTER SAVE]'.print_r($res,1));
  		$res->after_save();
  		return $res;
   }
