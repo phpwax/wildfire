@@ -172,8 +172,9 @@ function widgEditor(replacedTextareaID)
 /* Clean pasted content */
 widgEditor.prototype.cleanPaste = function()
 {
-	if (widgAutoClean && confirm("Would you like your paste to convert to plain text?"))
+	if (widgAutoClean)
 	{
+	  if(!confirm("Would you like your paste to convert to plain text?")) return true;
 		var matchedHead = "";
 		var matchedTail = "";
 		var newContent = this.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML;
