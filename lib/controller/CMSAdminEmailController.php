@@ -93,10 +93,10 @@ class CMSAdminEmailController extends CMSAdminComponent {
 			}else Session::add_message('There was an error creating you campaign.');
 		}		
 		
-		$lists = $model->GetLists();
+		/*$lists = $model->GetLists();
 		$this->mail_lists = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $lists->rowset);
 		$segments = $model->GetSegments();
-		$this->segments = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $segments->rowset);
+		$this->segments = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $segments->rowset);*/
 		$cont = new CmsContent("published");
 		$this->contents = $cont->all();
 
