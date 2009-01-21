@@ -244,8 +244,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
 		$this->url = $this->base_url; //url starts off as base url
 		$this->setup_call($model, $action_type, $api_action); //get the url,call method etc setup
-		$func=$this->call_method."_command"; //function to use
-		echo "calling: $func - $this->cm_api_method<br />";
+		$func=$this->call_method."_command"; //function to use	
 		if($this->call_method == "http"){ //if this is a http method create post args
 			if($api_action != "delete_action" ) $this->curl_post_arguments .= $this->query_string($model); //
 			else $this->curl_post_arguments .= $this->primary_key_string($model);
@@ -313,11 +312,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		else $method = $this->cm_api_method;
 		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl, array('trace'=>true));
-		echo "SOAP ARGS:<br />";print_r($this->soap_arguments);echo"<br />";
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
-		echo "SOAP DATA SENT:<br />\n";
-		print_r($client->__getLastRequest());
-		echo "\n<br />";
 		$model->after_soap($res);
 		return $res;
 	}
@@ -339,7 +334,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function parse_soap($results, $model){
-		echo "SOAP RESULT:<br />";print_r($results);echo"<br />";
 		//check model name mapping	
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
