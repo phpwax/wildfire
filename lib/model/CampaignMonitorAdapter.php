@@ -25,6 +25,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	//an array of everything
 	public $all_results = false;
 	
+	public $db_model=false;
 	/**
 	 * 	in the constructor you create the settings array start to create curl data
 	 *
@@ -107,6 +108,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
    * @return void
    */  
   public function delete(CampaignMonitorModel $model) {
+		$this->db_model = $model;
     if($model->delete_action) return $this->api($model, "delete_action");
 		else return $model;
   }
@@ -118,6 +120,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
    * @return void
    */  
   public function select(CampaignMonitorModel $model) {
+		$this->db_model = $model;
 		$model->before_select();  //before hook	
 	 	//call the api to find everything
 		if($model->select_action) $model->row = $this->all_results = $this->api($model, "select_action");
@@ -199,6 +202,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return void
 	 */
 	public function setup_call(CampaignMonitorModel $model, $action, $field=false){
+		$this->db_model = $model;
 		$this->call_method = false; //set to false
 		$action = $model->$action; //find the calls
 		if($field && is_array($action) && isset($action[$field])){ //otherwise if the action is an array
@@ -242,6 +246,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
+		$this->db_model = $model;
 		$this->url = $this->base_url; //url starts off as base url
 		$this->setup_call($model, $action_type, $api_action); //get the url,call method etc setup
 		$func=$this->call_method."_command"; //function to use	
@@ -255,6 +260,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if(method_exists($model, $func)) $res=$this->$parse_func($model->$func($this->url,$model),$model); //check if the model has an over riding function		
 		else $res = $this->$parse_func($this->$func($this->url, $model), $model); //otherwise call the default one
 		$model->after_api_result_parsed($res);
+		$this->db_model = $model;
 		return $res;
 	}
 	
@@ -282,6 +288,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			$i ++;
 		}
 		$model->after_http($res); //after http command
+		$this->db_model = $model;
 		return $res;
 	}
 	/**
@@ -315,7 +322,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
 		WaxLog::log('error', '[SOAP RESULT]'.$client->__getLastResponse());
 		$model->after_soap($res);
-		WaxLog::log('error','[MODEL AFTER SOAP]'.print_r($model,1));
+		$this->db_model = $model;
 		return $res;
 	}
 	/**
@@ -378,6 +385,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			}
 		}
 		$this->total_without_limits = count($res);
+		$this->db_model = $model;
 		return $res;
 	}
 
@@ -404,6 +412,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
       }      
     }
 		$this->total_without_limits = count($res);
+		$this->db_model = $model;
     return $res;
 	}	
 	
