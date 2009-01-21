@@ -88,7 +88,7 @@ class Campaign extends CampaignMonitorModel {
 		
 	}
 	//error checking
-	public function after_soap($res, $current_model){
+	public function after_soap($res){
 		WaxLog::log('error', '[SOAP PARSED RES]'. print_r($res,1));
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
