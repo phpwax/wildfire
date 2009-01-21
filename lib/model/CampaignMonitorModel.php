@@ -80,21 +80,16 @@ class CampaignMonitorModel extends WaxModel {
 		return parent::__get($name);
   }
 	public function __call($func, $params){
-		WaxLog::log('error', '[MODEL CALL] '. $func);
 		$db_action = false;		
 		if(method_exists($this, $func))	return $this->{$func}($params);
 		elseif(is_array($this->get_action)){
 			foreach($this->get_action as $key => $act){
 				if(substr_count($act, $func)){
 					$res = $this->row = $this->db->api($this, "get_action", $act);
-					$set = new WaxRecordset($this, $res);
-					WaxLog::log('error', '[API RES v- '.$act.']'.print_r($set,1));
-					return $set;
+					return new WaxRecordset($this, $res);
 				}elseif	(substr_count($key, $func)){
 					$res = $this->row = $this->db->api($this, "get_action", $key);
-					$set = new WaxRecordset($this, $res);
-					WaxLog::log('error', '[API RES k- '.$key.']'.print_r($set,1));					
-					return $set;
+					return new WaxRecordset($this, $res);
 				}
 			}
 		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
@@ -130,7 +125,6 @@ class CampaignMonitorModel extends WaxModel {
  	public function insert() {
 		$this->before_insert();
 	  $res = $this->db->insert($this);
-		WaxLog::log('error', '[INSERT RES]'.print_r($res,1));
 	  if(is_array($res)) $this->row = $res;
 		elseif($res->row) $this->row = $res->row;
 	  $this->after_insert();

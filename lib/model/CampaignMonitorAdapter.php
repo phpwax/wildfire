@@ -256,7 +256,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		else $results = $this->$func($this->url, $model); //otherwise call the default one
 		$res = $this->$parse_func($results, $model);
 		$model->after_api_result_parsed($res);
-		WaxLog::log('error', '[API RETURN '.$this->call_method.'-'.$this->cm_api_method.']'.print_r($res,1));
 		return $res;
 	}
 	
