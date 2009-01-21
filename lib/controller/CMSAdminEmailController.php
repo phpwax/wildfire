@@ -92,7 +92,7 @@ class CMSAdminEmailController extends CMSAdminComponent {
 				$this->redirect_to('/admin/email');
 			}else{
 				$errors = ":";
-				foreach($res->errors as $k=> $val) $errors .= $val."<br />";
+				foreach($this->model->errors as $k=> $val) $errors .= $val."<br />";
 				Session::add_message('There was an error creating you campaign.'.$errors);
 			}
 		}		
