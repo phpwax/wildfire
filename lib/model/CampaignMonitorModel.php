@@ -85,6 +85,7 @@ class CampaignMonitorModel extends WaxModel {
 		elseif(is_array($this->get_action)){
 			foreach($this->get_action as $act){
 				if(substr_count($act, $func) ){
+					WaxLog::log('error', '[MODEL CALL]'. $act);
 					$res = $this->row = $this->db->api($this, "get_action", $act);
 					return new WaxRecordset($this, $res);
 				}

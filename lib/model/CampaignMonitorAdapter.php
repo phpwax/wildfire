@@ -251,6 +251,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		}elseif($this->call_method == "soap"){//if soap call the soap param creation
 			$this->soap_arguments = array_merge($this->soap_arguments, $this->cols_to_array($model));			
 		}
+		WaxLog::log('error', '[API]'.$this->cm_api_method);
 		$parse_func = "parse_".$this->call_method; //parse_function	
 		if(method_exists($model, $func)) $results=$model->$func($this->url,$model); //check if the model has an over riding function		
 		else $results = $this->$func($this->url, $model); //otherwise call the default one
@@ -314,7 +315,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl, array('trace'=>true));
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
-		print_r($client->__getLastResponse());
+		WaxLog::log('error','[SOAP RESPONSE]'. print_r($client->__getLastResponse(),1));
 		$model->after_soap($res);
 		return $res;
 	}
