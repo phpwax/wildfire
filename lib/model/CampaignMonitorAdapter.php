@@ -377,7 +377,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				}				
 				if(count($objdata)) $res[] = $objdata;
 			}
-		}elseif(is_string($results->$return)) $res[][$model->primary_key] = $results->$return; 
+		}elseif(is_string($results->$return)) $res[$model->primary_key] = $results->$return; 
 		
 		$this->total_without_limits = count($res);
 		return $res;
