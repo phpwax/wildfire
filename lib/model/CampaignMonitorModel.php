@@ -82,26 +82,20 @@ class CampaignMonitorModel extends WaxModel {
 	public function __call($func, $params){
 		WaxLog::log('error', '[MODEL CALL] '. $func);
 		$db_action = false;		
-		if(method_exists($this, $func)){
-			WaxLog::log('error', '[MODEL FUNC EXISTS] '. $func);
-			return $this->{$func}($params);
-		}
+		if(method_exists($this, $func))	return $this->{$func}($params);
 		elseif(is_array($this->get_action)){
-			WaxLog::log('error', '[MODEL CHECK GET] '. $func);
 			foreach($this->get_action as $key => $act){
-				WaxLog::log('error', '[MODEL COMPARE] '. $act);
 				if(substr_count($act, $func)){
-					WaxLog::log('error', '[ADAPTOR CALL] '. $act);
 					$res = $this->row = $this->db->api($this, "get_action", $act);
+					WaxLog::log('error', '[API RES]'.print_r($res,1));
 					return new WaxRecordset($this, $res);
 				}elseif	(substr_count($key, $func)){
-					WaxLog::log('error', '[ADAPTOR CALL BY KEY] '. $key);
 					$res = $this->row = $this->db->api($this, "get_action", $key);
+					WaxLog::log('error', '[API RES]'.print_r($res,1));					
 					return new WaxRecordset($this, $res);
 				}
 			}
 		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
-			WaxLog::log('error', '[ADAPTOR CALL STR]'. $name);
 			$this->row = $this->db->api($this, "get_action",'.'.$name);
 			return $this;
 		}
