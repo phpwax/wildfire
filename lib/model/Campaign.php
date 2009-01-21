@@ -11,7 +11,7 @@ class Campaign extends CampaignMonitorModel {
 														 "Campaign.GetOpens",
 														 "Campaign.GetUnsubscribes",
 														 "Campaign.GetSummary",
-														 "Campaign.Send" => 'soap');
+														 "Campaign.SendCampaign" => 'soap');
 	public $rename_mappings = false;
 	public $save_to_db = true;
 	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"));
