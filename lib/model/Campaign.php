@@ -93,12 +93,13 @@ class Campaign extends CampaignMonitorModel {
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
-			$this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
+			$this->row['CampaignID'] = $res->{'Campaign.CreateResult'};			
 			$model = new Campaign;
 			$model->ClientID = $this->ClientID;
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
+			WaxLog::log('error', 'CAMP ID: '.$res->{'Campaign.CreateResult'});
 			$res = $model->Send();		
 		}
 	}
