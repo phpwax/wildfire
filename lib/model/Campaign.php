@@ -4,7 +4,7 @@ class Campaign extends CampaignMonitorModel {
 	
 	public $primary_key="CampaignID";
   public $primary_type = "CharField";
-	public $save_action = array('Campaign.Create');
+	public $save_action = array('Campaign.Create'=>'soap');
 	public $delete_aciton = false;
 	public $get_action = array("Campaign.GetBounces", 
 														 "Campaign.GetLists",
