@@ -90,7 +90,11 @@ class CMSAdminEmailController extends CMSAdminComponent {
 			if($this->model->primval() > 0){
 				Session::add_message('Your campaign has been created!');
 				$this->redirect_to('/admin/email');
-			}else Session::add_message('There was an error creating you campaign.');
+			}else{
+				$errors = "";
+				foreach($res->errors as $k=> $val) $errors .= $val."<br />";
+				Session::add_message('There was an error creating you campaign.'.$errors);
+			}
 		}		
 		
 		$lists = $model->GetLists();
