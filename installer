@@ -47,7 +47,9 @@ echo "Don't worry... nothing is being overwritten"."\n";
 echo "------------------------------------------------------------------------"."\n";
 system('mkdir -p '.CONTROLLER_DIR.'admin/');
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
+system("cp -iR ".PLUGIN_DIR."cms/view/emailcontent* ".VIEW_DIR);
 system("cp -i ".PLUGIN_DIR."cms/resources/public/swfupload_f9.swf ".PUBLIC_DIR);
+system("cp -i ".PLUGIN_DIR."cms/resources/public/swfupload.swf ".PUBLIC_DIR);
 echo "------------------------------------------------------------------------"."\n";
 
 
