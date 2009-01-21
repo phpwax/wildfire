@@ -172,7 +172,7 @@ function widgEditor(replacedTextareaID)
 /* Clean pasted content */
 widgEditor.prototype.cleanPaste = function()
 {
-	if (widgAutoClean || confirm("Do you wish to clean the HTML source of the content you just pasted?"))
+	if (widgAutoClean && confirm("Would you like your paste to convert to plain text?"))
 	{
 		var matchedHead = "";
 		var matchedTail = "";
