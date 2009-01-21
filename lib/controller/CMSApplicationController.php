@@ -34,8 +34,10 @@ class CmsApplicationController extends WXControllerBase{
 		if($page = Request::get('page')) $this->this_page = $page;
 		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
+		
 		//set the view
 		$this->pick_view();
 		//set the action
@@ -47,6 +49,7 @@ class CmsApplicationController extends WXControllerBase{
     if($this->is_page()) $this->cms_content->add_pageview();
 		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
 		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
+		
 	}
 	/**
 	 * Using the route array this function:
@@ -58,21 +61,26 @@ class CmsApplicationController extends WXControllerBase{
 	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
 	 */	
 	protected function find_contents_by_path(){
-		//need to replace this with request method, once thats been made
-		$stack = $this->route_array;
+		//use the full url params, minus the get array to create the stack to look though
+		$stack = array_diff_assoc(WaxUrl::$params, $_GET); //could do with using something other than $_GET
+		unset($stack['route']);
+		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
-		  $url = $this->set_formatting($url);
-			//only check numeric keys, ie not page or search terms && check its a section
-			if(is_numeric($key) && $this->find_section($url)){
+		  if($key == "format"){				
+				$this->set_formatting($url);
+				unset($stack[$key]);
+			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
-			}elseif(!is_numeric($key)) unset($stack[$key]);
+			}
 		}
+		
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
 		//otherwise this is a section, so find all content in the section
 		else $this->find_content(false);
+		
 	}
 	
 	/**
@@ -83,8 +91,9 @@ class CmsApplicationController extends WXControllerBase{
 	 * @param String $url 
 	 * @return Boolean
 	 */	
-	protected function find_section($url){
+	protected function find_section($url, $parent=false){
 		$section = new CmsSection;
+		if($parent) $section->filter(array('parent_id'=>$parent));
 		$res = $section->filter(array('url'=>$url))->all();
 		if(count($res)==1){
 			$this->cms_section = $res[0];
@@ -117,7 +126,6 @@ class CmsApplicationController extends WXControllerBase{
 		$content = new CmsContent();
 		$logged_in = $this->is_admin_logged_in();
 		if($url){	
-			$url = $this->set_formatting($url); //remove & set the formatting...			
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			if($logged_in) $res = $content->clear()->filter($filters)->all();
   		else $res = $content->scope("published")->filter($filters)->all();
@@ -154,12 +162,8 @@ class CmsApplicationController extends WXControllerBase{
 	 * @param string $url 
 	 * @return string $url
 	 */	
-	protected function set_formatting($url){
-		if(strpos($url, ".")) {
-	    $format = substr(strrchr($url,"."), 1);
-	    $url = substr($url, 0, strrpos($url, "."));
-	    $this->use_format=$format;
-	  }
+	protected function set_formatting($url){		
+    $this->use_format=$url;
 		return $url;
 	}
 	
@@ -175,6 +179,54 @@ class CmsApplicationController extends WXControllerBase{
   	$img = new WildfireFile($img_id);
     $img->show($size);
   }
+
+	/**
+	 * check to see if the cms_content var is indeed a page  
+	 * @return void
+	 * @author charles marshall
+	 */	
+	protected function is_page() {
+	  if($this->cms_content instanceof CmsContent) return true;
+	  return false;
+	}
+	/**
+	 * decides what view should be used - has a more to less specific priority
+	 * - cms_CONTENTURL_[list|page]
+	 * - cms_SECTIONNAME_[list|page]
+	 * - cms_[list|page]
+	 */	
+	protected function pick_view() {		
+	  $sections = array_reverse($this->section_stack);
+	  if($this->is_page()) $type="page";
+	  else $type="list";
+	  $this->use_view="cms_".$type;	
+	  foreach($sections as $section) {
+	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
+	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
+	  }
+		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
+	}
+	
+  /**
+   * check to see if admin is logged in
+   * @return boolean
+   */  
+  public function is_admin_logged_in(){
+		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
+		return $user->is_logged_in();
+	}
+
+
+	/** METHODS FOR CMS & CM INTERGRATION **/
+	public function emailcontent(){
+		$this->use_layout = false;
+		$this->server = "http://".$_SERVER['HTTP_HOST'];
+		if(!$this->use_format) $this->use_format = "html";
+		$path = VIEW_DIR."emailcontent.".$this->use_format;
+		if(is_readable($path)){
+			if($id = Request::param('id')) $this->content = new CampaignContent($id);			
+		}else $this->redirect_to('/');
+	}
   
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
@@ -186,7 +238,7 @@ class CmsApplicationController extends WXControllerBase{
       $filename = basename($url);
       $ext = strtolower(array_pop(explode(".", $filename)));
       if($_POST["wildfire_file_filename"]) $filename = $_POST["wildfire_file_filename"].".".$ext;
-      $filename = File::safe_file_save($fs->defaultFileStore.$path, $filename);
+      $filename = $_POST["wildfire_file_filename"] = File::safe_file_save($fs->defaultFileStore.$path, $filename);
       $file = $fs->defaultFileStore.$path."/".$filename;
       $handle = fopen($file, 'x+'); 
       fwrite($handle, file_get_contents($url));
@@ -216,6 +268,7 @@ class CmsApplicationController extends WXControllerBase{
         $path = $_POST['wildfire_file_folder'];
         $fs = new CmsFilesystem;
         $_FILES['upload'] = $_FILES["Filedata"];
+				$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
 				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
@@ -237,43 +290,6 @@ class CmsApplicationController extends WXControllerBase{
     exit;
 	}
 
-	/**
-	 * check to see if the cms_content var is indeed a page  
-	 * @return void
-	 * @author charles marshall
-	 */	
-	protected function is_page() {
-	  if($this->cms_content instanceof CmsContent) return true;
-	  return false;
-	}
-	/**
-	 * decides what view should be used - has a more to less specific priority
-	 * - cms_CONTENTURL_[list|page]
-	 * - cms_SECTIONNAME_[list|page]
-	 * - cms_[list|page]
-	 */	
-	protected function pick_view() {		
-	  $sections = array_reverse($this->section_stack);
-	  if($this->is_page()) $type="page";
-	  else $type="list";
-	  $this->use_view="cms_".$type;		
-	  foreach($sections as $section) {
-	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
-	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
-	  }
-		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
-	}
-	
-  /**
-   * check to see if admin is logged in
-   * @return boolean
-   */  
-  public function is_admin_logged_in(){
-		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
-		return $user->is_logged_in();
-	}
-
-
 	/**** OLD METHODS - WILL BE REMOVED SOON - FOR NOW RETURN FALSE ****/
 	protected function cms_check() {
 	 return false;
@@ -290,6 +306,7 @@ class CmsApplicationController extends WXControllerBase{
 	protected function get_content($options = array(), $params=array()) {
 	  return false;
 	}
+	
 	
 }
 

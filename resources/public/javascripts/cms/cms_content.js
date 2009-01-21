@@ -71,6 +71,8 @@ function delayed_image_filter(filter) {
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
 
+	if(showhtml) widgToolbarItems.push("htmlsource");
+	
   $("#image_filter").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
     t = setTimeout('delayed_image_filter($("#image_filter").val())', 400);
@@ -225,8 +227,14 @@ function cms_insert_video(url, width, height, local) {
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
 $(document).ready(function() {
-  setInterval('autosave_content()',40000);
+  var autosaver;
+  autosaver = setInterval('autosave_content()',40000);
   $("#autosave").click(function(){autosave_content();});
+  $("#autosave_disable").click(function(){ 
+    clearInterval(autosaver); 
+    $("#autosave_disable").remove();
+    $("#autosave_status").html("Autosave Disabled");
+  });
 });
 
 function autosave_content() {

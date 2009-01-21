@@ -3,7 +3,7 @@ function init_upload(){
 
 			var settings = {
 				flash_url : "/swfupload.swf",
-				upload_url: "file_upload",	// Relative to the SWF file
+				upload_url: "/file_upload.php",	// Relative to the SWF file
         post_params: {
     			content_id: jQuery("#content_page_id").val(),
     			model_string: jQuery("#content_page_type").val(),
@@ -67,7 +67,9 @@ function set_post_params(){
     }, function() {
       jQuery("#start_button").fadeTo("fast",1.0);
       alert("Image Successfully Retrieved");
-			reload_images();
+			if(typeof(reload_images)!='undefined'){
+				reload_images();
+			}
     });
     return true;
   } 

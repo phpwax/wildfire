@@ -34,6 +34,20 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->list = $this->render_partial("list");
 	}
 
+	/*new edit function - so include the link, video partials etc*/
+	public function edit() {
+		$this->page = new $this->model_class(WaxUrl::get("id"));
+		$files = new WildfireFile();
+		$this->all_links = $files->find_all_files();
+		$this->link_partial = $this->render_partial("apply_links");
+		//parent edit function - this handles the save etc
+		parent::edit();
+		$this->flash_files = $files->flash_files();
+		$this->video_partial = $this->render_partial("apply_video");
+		$this->form = $this->render_partial("form");
+	}
+
+
 }
 
 ?>
