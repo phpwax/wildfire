@@ -94,9 +94,9 @@ class CampaignMonitorModel extends WaxModel {
 					WaxLog::log('error', '[ADAPTOR CALL] '. $act);
 					$res = $this->row = $this->db->api($this, "get_action", $act);
 					return new WaxRecordset($this, $res);
-				}elseif	(substr_count($key, $func) || ){
+				}elseif	(substr_count($key, $func)){
 					WaxLog::log('error', '[ADAPTOR CALL BY KEY] '. $key);
-					$res = $this->row = $this->db->api($this, "get_action", $act);
+					$res = $this->row = $this->db->api($this, "get_action", $key);
 					return new WaxRecordset($this, $res);
 				}
 			}
