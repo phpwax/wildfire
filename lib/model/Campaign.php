@@ -4,14 +4,14 @@ class Campaign extends CampaignMonitorModel {
 	
 	public $primary_key="CampaignID";
   public $primary_type = "CharField";
-	public $save_action = array('Campaign.Create'=>"soap");
+	public $save_action = array('Campaign.Create');
 	public $delete_aciton = false;
 	public $get_action = array("Campaign.GetBounces", 
 														 "Campaign.GetLists",
 														 "Campaign.GetOpens",
 														 "Campaign.GetUnsubscribes",
 														 "Campaign.GetSummary",
-														 "Campaign.Send" => "soap");
+														 "Campaign.Send");
 	public $rename_mappings = false;
 	public $save_to_db = true;
 	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"));

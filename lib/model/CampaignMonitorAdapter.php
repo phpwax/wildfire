@@ -390,6 +390,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	protected function parse_http($xml_str, $model){
+		WaxLog::log('errors', '[HTTP RAW]'. print_r($xml_str,1)); 
 		$prime = $model->primval();
 		$simple = simplexml_load_string($xml_str, "SimpleXMLElement", LIBXML_NOCDATA);
 		$res = array();
