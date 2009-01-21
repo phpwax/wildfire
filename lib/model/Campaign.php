@@ -77,7 +77,7 @@ class Campaign extends CampaignMonitorModel {
 							$exp = explode('~', $seg);
 							$segs[] = array('ListID'=>$exp[0], 'Name'=>$exp[1] );
 						}
-						$this->ListSegments = array('List' => array($segs));
+						$this->ListSegments = array('List' => $segs);
 					}
 				}
 				//set the urls for this email
