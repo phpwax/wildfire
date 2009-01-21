@@ -94,6 +94,7 @@ class Campaign extends CampaignMonitorModel {
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
 			Session::add_error($errors);
+			WaxLog::log('error', '[SOAP ERR]'.print_r($errors,1));
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
 			$this->CampaignID = $res->{'Campaign.CreateResult'};			
 			$model = new Campaign;
