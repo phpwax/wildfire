@@ -80,10 +80,14 @@ class CampaignMonitorModel extends WaxModel {
 		return parent::__get($name);
   }
 	public function __call($func, $params){
-		WaxLog::log('error', '[MODEL CALL]'. $func);
+		WaxLog::log('error', '[MODEL CALL] '. $func);
 		$db_action = false;		
-		if(method_exists($this, $func)) return $this->{$func}($params);
+		if(method_exists($this, $func)){
+			WaxLog::log('error', '[MODEL FUNC EXISTS] '. $func);
+			return $this->{$func}($params);
+		}
 		elseif(is_array($this->get_action)){
+			WaxLog::log('error', '[MODEL CHECK GET] '. $func);
 			foreach($this->get_action as $act){
 				if(substr_count($act, $func) ){
 					WaxLog::log('error', '[ADAPTOR CALL]'. $act);
