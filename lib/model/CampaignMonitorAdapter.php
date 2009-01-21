@@ -338,7 +338,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function parse_soap($results, $model){
-		WaxLog::log('error', '[SOAP RAW]'. print_r($results,1)); 
 		//check model name mapping	
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
@@ -347,7 +346,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
 		if($results->$return->enc_value->$class){	
-			WaxLog::log('error', '[SOAP PARSING]'); 
 			$results = $results->$return->enc_value->$class; //get the results
 			//make sure its an array
 			if(!is_array($results)) $loop_over = array(0=>$results); 
@@ -380,7 +378,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				}				
 				if(count($objdata)) $res[] = $objdata;
 			}
-		}else WaxLog::log('error', '[SOAP NOT PARSING]'); 
+		}else WaxLog::log('error', '[SOAP NOT PARSING]'.print_r($model,1)); 
 		$this->total_without_limits = count($res);
 		return $res;
 	}

@@ -89,11 +89,12 @@ class Campaign extends CampaignMonitorModel {
 	}
 	//error checking
 	public function after_soap($res){
+		WaxLog::log('error', '[AFTER SOAP]'. print_r($res,1)); 
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
 			$this->CampaignID = $res->{'Campaign.CreateResult'};			
-			$model = new Campaign;
+			$model = new Campaign();
 			$model->ClientID = $this->ClientID;
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
