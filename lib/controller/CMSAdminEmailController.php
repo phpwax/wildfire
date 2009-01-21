@@ -84,13 +84,13 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		$model = $this->model;
 		$this->model = new Campaign();		
 		$this->model->ClientID = $this->cm_conf['campaign_monitor_ClientID'];
+		Session::unset_var('user_errors'); //remove old errors;
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
 			$errors ="";
 			if(count(Session::get('user_errors'))) $errors .= implode("", Session::get('user_errors'));
 			else $errors .= Session::get('user_errors');
 			if(count($this->model->errors)) $errors .= implode("", $this->model->errors);			
-			Session::unset_var('user_errors'); //remove old errors;
 			
 			if(strlen($errors) > 0){
 				$errors .= ":";
