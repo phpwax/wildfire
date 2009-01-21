@@ -100,7 +100,7 @@ class Campaign extends CampaignMonitorModel {
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			sleep(2);
+			sleep(2); //sleep is needed to give the api time to catch up; apparently its slow
 			$res = $model->Send();	
 			sleep(1);
 		}
