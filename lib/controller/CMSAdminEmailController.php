@@ -70,7 +70,6 @@ class CMSAdminEmailController extends CMSAdminComponent {
 	public function index() {
 	  if(!$page = $this->param("page")) $page=1;		
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);	  
-		$this->extra_operations = true;
 		$this->display_action_name = 'List Campaigns';
 		$this->all_rows = $this->model->all();	
 		$this->filter_block_partial ="";
@@ -106,22 +105,6 @@ class CMSAdminEmailController extends CMSAdminComponent {
 
 
 		$this->form = $this->render_partial("form");
-	}
-	
-	public function send(){
-		$model = $this->model;
-		$this->model = new Campaign();		
-		$this->model->ClientID = $this->cm_conf['campaign_monitor_ClientID'];
-		$this->model = $this->model->filter(array('CampaignID'=>Request::param('id') ))->first();
-		print_r($this->model);exit;
-		if($this->model->is_posted()){
-			$model = new Campaign;
-			$model->ClientID = $this->ClientID;
-			$model->CampaignID = $this->CampaignID;
-			$model->SendDate = $this->SendDate;
-			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			$res = $model->Send();
-		}
 	}
 	
 	public function view_subscriber(){

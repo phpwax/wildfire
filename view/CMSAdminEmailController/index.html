@@ -12,7 +12,7 @@
       <?foreach($scaffold_columns as $column=>$params):?>
         <th class="column"><?if($params['display']):?><?=$params['display']?><?else:?><?=humanize($column)?><?endif?></th>
       <?endforeach?> 
-			<?if($show_operations || $extra_operations):?>
+			<?if($show_operations):?>
 			 <th class="column">Operations</th>
 			<?endif?>
     </tr>
@@ -32,11 +32,7 @@
 		      <td class="column">
 		        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
 		        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
-		      </td>
-					<?elseif($extra_operations):?>
-					<td class="column">
-		        <div class="generic_button"><?=link_to("Send", array("action"=>"send", "id"=>$row->primval() ))?></div>
-		      </td>
+		      </td>					
 					<?endif?>
 		    </tr>
 		<?endforeach?>
