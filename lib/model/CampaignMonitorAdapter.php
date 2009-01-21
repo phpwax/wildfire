@@ -335,6 +335,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function parse_soap($results, $model){
+		WaxLog::log('errors', '[SOAP RAW]'. print_r($results,1)); 
 		//check model name mapping	
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
@@ -342,7 +343,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//name mappings for when they aren't consistant!
 		if(is_array($mappings)) $mappings= array_flip($model->rename_mappings);
 		$res = array();
-		WaxLog::log('errors', '[SOAP RAW]'. print_r($results,1)); 
 		if($results->$return->enc_value->$class){	
 			$results = $results->$return->enc_value->$class; //get the results
 			//make sure its an array
