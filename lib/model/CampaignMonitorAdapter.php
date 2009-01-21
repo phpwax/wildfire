@@ -378,7 +378,10 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				}				
 				if(count($objdata)) $res[] = $objdata;
 			}
-		}else WaxLog::log('error', '[SOAP NOT PARSING]'.print_r($model,1)); 
+		}else{
+			if(is_string($results->$return)) $res[][$model->primary_key] = $results->$return; 
+			WaxLog::log('error', '[SOAP NOT PARSING - '.$return.']'.print_r($model,1)); 
+		}
 		$this->total_without_limits = count($res);
 		return $res;
 	}
