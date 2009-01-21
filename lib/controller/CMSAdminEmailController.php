@@ -87,6 +87,7 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
 			WaxLog::log('error', '[POST RESULT]'.print_r($this->model->row,1));
+			WaxLog::log('error', '[PRIME]'.print_r($this->model->primval(),1));
 			if($this->model->primval() > 0){
 				Session::add_message('Your campaign has been created!');
 				$this->redirect_to('/admin/email');
