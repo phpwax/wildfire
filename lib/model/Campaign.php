@@ -18,15 +18,15 @@ class Campaign extends CampaignMonitorModel {
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
-		$this->define("CampaignID", "CharField", array('maxlength'=>255, 'editable'=>false, 'required'=>true) );		
-		$this->define("CampaignName", "CharField", array('maxlength'=>255, 'required'=>true) );	
-		$this->define("CampaignSubject", "CharField", array('maxlength'=>255, 'required'=>true) );
-		$this->define("FromName", "CharField", array('maxlength'=>255, 'required'=>true) );	
-		$this->define("FromEmail", "EmailField", array('maxlength'=>255, 'required'=>true) );
-		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'required'=>true) );
-		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
-		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
-		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
+		$this->define("CampaignID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
+		$this->define("CampaignName", "CharField", array('maxlength'=>255) );	
+		$this->define("CampaignSubject", "CharField", array('maxlength'=>255) );
+		$this->define("FromName", "CharField", array('maxlength'=>255) );	
+		$this->define("FromEmail", "EmailField", array('maxlength'=>255) );
+		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255) );
+		$this->define("ReplyTo", "CharField", array('maxlength'=>255) );		
+		$this->define("HtmlUrl", "TextField", array('maxlength'=>255) );				
+		$this->define("TextUrl", "TextField", array('maxlength'=>255) );		
 		$this->define("SendDate", "DateTimeField");				
 		$this->define("SubscriberListIDs", "TextField");
 		$this->define("ListSegments", "TextField");		
