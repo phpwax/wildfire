@@ -130,6 +130,7 @@ class CampaignMonitorModel extends WaxModel {
  	public function insert() {
 		$this->before_insert();
 	  $res = $this->db->insert($this);
+		WaxLog::log('error', '[INSERT RES]'.print_r($res,1));
 	  $this->row = $res->row;
 	  $this->after_insert();
 	  return $this;
