@@ -92,7 +92,7 @@ class CampaignMonitorModel extends WaxModel {
 				}
 			}
 		}elseif(is_string($this->get_action) && substr_count($this->get_action,$name)){
-			WaxLog::log('error', '[ADAPTOR CALL STR]'. $act);
+			WaxLog::log('error', '[ADAPTOR CALL STR]'. $name);
 			$this->row = $this->db->api($this, "get_action",'.'.$name);
 			return $this;
 		}
