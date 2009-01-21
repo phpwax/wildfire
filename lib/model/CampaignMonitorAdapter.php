@@ -377,7 +377,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				if(count($objdata)) $res[] = $objdata;
 			}
 		}else{
-			WaxLog::log('errors', '[SOAP]'. print_r())
+			WaxLog::log('errors', '[SOAP]'. print_r($model,1));
 		}
 		$this->total_without_limits = count($res);
 		return $res;
