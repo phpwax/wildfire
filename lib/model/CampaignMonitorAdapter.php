@@ -313,6 +313,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//call the client wsdl and then the soap function
 		$client = new SoapClient($this->soap_wsdl, array('trace'=>true));
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
+		WaxLog::log('error', '[SOAP REQUEST]'.$client->__getLastRequest());
 		WaxLog::log('error', '[SOAP RESULT]'.$client->__getLastResponse());
 		$model->after_soap($res);
 		return $res;
