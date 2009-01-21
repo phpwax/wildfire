@@ -92,6 +92,7 @@ class Campaign extends CampaignMonitorModel {
 	public function after_soap($res){
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
+			Session::add_error($errors);
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
 			$this->CampaignID = $res->{'Campaign.CreateResult'};			
 			$model = new Campaign;
@@ -99,7 +100,7 @@ class Campaign extends CampaignMonitorModel {
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			sleep(1);
+			sleep(2);
 			$res = $model->Send();	
 			sleep(1);
 		}
