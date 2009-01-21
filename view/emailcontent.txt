@@ -5,7 +5,7 @@
 <?foreach($content->articles as $article):?>
 <?=$article->title?>
 
-<?=word_truncation(strip_tags(str_ireplace("<p>", "\n\n",$article->content), 20));?>
+<?=word_truncation(strip_tags(str_ireplace("<p>", "\n\n",$article->content)), 20);?>
 
 
 Read more -> <?=$server?><?=$article->permalink?>
