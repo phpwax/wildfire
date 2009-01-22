@@ -87,10 +87,8 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		Session::unset_var('user_errors'); //remove old errors;
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
-			$errors ="";
-			if(count(Session::get('user_errors'))) $errors .= implode("", Session::get('user_errors'));
-			else $errors .= Session::get('user_errors');
-			if(count($this->model->errors)) $errors .= implode("", $this->model->errors);			
+			$errors ="";		
+			if(count($this->model->errors)) $errors .= "<br />".implode("<br />", $this->model->errors);			
 			
 			if(strlen($errors) > 0){
 				$errors .= ":";
