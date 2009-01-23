@@ -84,7 +84,6 @@ class WildfireFile extends WaxModel {
 		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
 		$extension = File::get_extension($this->filename);
 		$file = CACHE_DIR.$this->id."_".$size . ".".$extension;
-		error_log("Creating tmp: $file");
 		//slash any spaces
 		$source=preg_replace("/[\s]/", "\ ", $source);
     if(!is_readable($source)) error_log("FATAL IMAGE ERROR");

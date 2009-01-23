@@ -142,18 +142,18 @@ class CmsFilesystem {
   	$defaultFileStore = $this->defaultFileStore;
   	$this->jsonStart();
   	$terms = mysql_escape_string($terms);	
-  	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted`,match(filename,description) against(\"$terms\") as `rank` 
+  	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted` 
   	  FROM wildfire_file 
-  	  WHERE (match(filename,description) against(\"$terms\") 
-  	  OR (filename like \"%$terms%\" 
-  	  OR description like \"%$terms%\")) 
-  	  ORDER BY rank DESC";
+  	  WHERE  
+  	  (filename like \"%$terms%\" 
+  	  OR description like \"%$terms%\") 
+  	  ORDER BY filename ASc";
   	#echo $resourceq;
   	$toprank = 0.000001;
   	$all_files = $this->find($query);
   	foreach($all_files as $files) {
   		if($toprank == 0.000001 and $files['rank'] != 0)$toprank = $files['rank'];
-  		$myrank = round(($files['rank']/$toprank)*3)+2;
+  		$myrank = 0;
   		$fileinfo = $this->getFileInfo($files['id']);
   		$this->jsonAdd("\"rank\":\"$myrank\",\"type\": \"file\", \"path\": \"$fileinfo[virtualpath]\",\"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
   		$results ++;
@@ -194,7 +194,11 @@ class CmsFilesystem {
     	$this->databaseSync($fullpath,$path);
     	if (is_dir($fullpath)) {
     	  if ($dh = opendir($fullpath)) {
-    		  while (($file = readdir($dh)) !== false) {
+					$files = array();
+    		  while (($file = readdir($dh)) !== false) $files[]  = $file;
+					if(count($files)) natcasesort($files);
+					
+					foreach($files as $file){
     			  #echo "$file";
     			  if($file != '.' && $file != '..' && filetype($fullpath . '/' . $file) == 'dir'){
     			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
@@ -204,9 +208,10 @@ class CmsFilesystem {
   		  }
     	} else $this->error("directory doesnt exist $fullpath");
 
-    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by `filename` ASC";
+    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by LOWER(`filename`) ASC";
     	$result = $this->find($query);
-      foreach($result as $files) {
+			$dbfiles = array();
+      foreach($result as $files){
         $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
       }
     	$output .= $this->jsonReturn('getFolder');
@@ -304,7 +309,7 @@ class CmsFilesystem {
 
   function folderRename($path,$name,$newname){
 
-    $newname = mysql_escape_string($newname);
+    $newname = mysql_escape_string(str_replace(" ", '-',$newname));
     $name = mysql_escape_string($name);
     $path = mysql_escape_string($path);
 
@@ -366,7 +371,7 @@ class CmsFilesystem {
 
   function newFolder($name,$path){
   	$defaultFileStore = $this->defaultFileStore;
-  	$name = mysql_escape_string($name);
+  	$name = mysql_escape_string(str_replace(" ", "-", $name));
   	$path = mysql_escape_string($path);
   	$fullpath = $this->defaultFileStore.$path.'/'.$name;
   	$i = 1;

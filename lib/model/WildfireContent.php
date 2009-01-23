@@ -1,5 +1,5 @@
 <?php
-class WildfireContent extends CmsContent{
+class WildfireContent{
 	
 }
 ?>

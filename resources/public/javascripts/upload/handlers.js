@@ -90,8 +90,7 @@ function uploadStart(file) {
 
 function uploadProgress(file, bytesLoaded, bytesTotal) {
 	try {
-		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
-
+		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);		
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setProgress(percent);
 		progress.setStatus("Uploading...");
@@ -117,7 +116,6 @@ function uploadError(file, errorCode, message) {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setError();
 		progress.toggleCancel(false);
-
 		switch (errorCode) {
 		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
 			progress.setStatus("Upload Error: " + message);
@@ -170,7 +168,9 @@ function uploadComplete(file) {
 		document.getElementById(this.customSettings.cancelButtonId).disabled = true;
 	}
 	jQuery("#start_button").fadeTo("fast", 1.0);
-	reload_images();
+	if(typeof(reload_images)!='undefined'){
+		reload_images();
+	}
   if(typeof updateAll!="undefined") updateAll(root);
 }
 

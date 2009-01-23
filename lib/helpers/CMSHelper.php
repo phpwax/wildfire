@@ -232,7 +232,7 @@ class CMSHelper extends WXHelpers {
 				if(is_array($missing)){
 					$vals = array_values($missing);					
 					if($vals[0]>0 && ($i+1 == count($order) ) ) $string .="...";
-					elseif($vals[0]>0) $string .= "</".$type.">";
+					if($vals[0]>0) $string .= "</".$type.">";
 				}
 				$i++;
 			}			
@@ -240,5 +240,12 @@ class CMSHelper extends WXHelpers {
 		return $string;
   }
   	
+	public function cms_short_date($date){
+		return date("d/m/y", strtotime($date));
+	}
+	public function cms_full_date($date){
+		return date("nS F Y", strtotime($date));
+	}
+
 }
 ?>
