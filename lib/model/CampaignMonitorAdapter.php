@@ -46,13 +46,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//setup curl headers
 		$this->curl_headers[] = 'Content-Type: '.$db_settings['content_type'].'; charset='.$db_settings['char_set'];
     $this->curl_headers[] = 'Accept: '.$db_settings['header_accept'].'; charset='.$db_settings['char_set'];
-		//check for cms setting
-		if($api=$this->check_cms_api_key()){
-			$this->apikey = $api;
-			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
-			$this->soap_arguments['ApiKey'] = $this->apikey;
-		//else load vars from config file
-		}elseif(Config::$initialised){			
+
+		if(Config::$initialised){			
 			$conf = Config::get("campaign_monitor");
 			if($this->apikey = $conf['ApiKey']){
 				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
@@ -199,6 +194,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return void
 	 */
 	public function setup_call(CampaignMonitorModel $model, $action, $field=false){
+		//check for cms setting
+		if($api=$this->check_cms_api_key()){
+			$this->apikey = $api;
+			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+			$this->soap_arguments['ApiKey'] = $this->apikey;
+		}
+		
 		$this->call_method = false; //set to false
 		$action = $model->$action; //find the calls
 		if($field && is_array($action) && isset($action[$field])){ //otherwise if the action is an array
