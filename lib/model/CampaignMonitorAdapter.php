@@ -47,6 +47,12 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		$this->curl_headers[] = 'Content-Type: '.$db_settings['content_type'].'; charset='.$db_settings['char_set'];
     $this->curl_headers[] = 'Accept: '.$db_settings['header_accept'].'; charset='.$db_settings['char_set'];
 		ini_set("soap.wsdl_cache_enabled", "0");
+		if(Config::$initialised){			
+			$conf = Config::get("campaign_monitor");
+			if($this->apikey = $conf['ApiKey']){
+				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+				$this->soap_arguments['ApiKey'] = $this->apikey;
+			}
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
 		
   }
@@ -236,12 +242,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 			$this->apikey = $api;
 			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
 			$this->soap_arguments['ApiKey'] = $this->apikey;
-		}elseif(Config::$initialised){			
-			$conf = Config::get("campaign_monitor");
-			if($this->apikey = $conf['ApiKey']){
-				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
-				$this->soap_arguments['ApiKey'] = $this->apikey;
-			}
 		}
 				
 		$this->url = $this->base_url; //url starts off as base url
