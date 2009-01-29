@@ -293,7 +293,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	private function curl_send(){
 		$exec =  curl_exec($this->db);		
 		$info = curl_getInfo($this->db);
-		WaxLog::log('error', '[CURL CALL FINISHED]'. print_r($exec, 1));
 		if($info['http_code'] == 200){
 			if($this->return_curl_data) return $exec;
 			else return true;
@@ -314,10 +313,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		if($model->soap_mappings && $model->soap_mappings[$this->cm_api_method]) $method = $model->soap_mappings[$this->cm_api_method]['send'];
 		else $method = $this->cm_api_method;
 		//call the client wsdl and then the soap function
-		WaxLog::log('error', '[SOAP ARGS]'.print_r($this->soap_arguments,1));
 		$client = new SoapClient($this->soap_wsdl, array('trace'=>true));
 		$res = $client->__soapCall($method, array($this->soap_arguments) );
-		WaxLog::log('error', '[SOAP CALL FINISHED]'. print_r($res, 1));
 		$model->after_soap($res);
 		return $res;
 	}
@@ -339,7 +336,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function parse_soap($results, $model){
-		WaxLog::log('error', '[SOAP RES]'.print_r($results,1));
 		//check model name mapping	
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
