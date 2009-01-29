@@ -113,6 +113,7 @@ class CampaignMonitorModel extends WaxModel {
   *  is configured to be persistent.
   */
  	public function save() {
+		WaxLog::log('error', '[MODEL SAVE CALL]');
 		if(!$this->before_save()) return false;
 		if(!$this->validate) return false;
 		if($this->persistent) {
@@ -120,6 +121,7 @@ class CampaignMonitorModel extends WaxModel {
  	    $res = $this->insert();
  		}
  		$res->after_save();
+		WaxLog::log('error', '[MODEL SAVE CALL END]');
  		return $res;
   }
  	public function insert() {
