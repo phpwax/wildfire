@@ -33,6 +33,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @author charles marshall
 	 */
   public function __construct($db_settings=array()) {
+		WaxLog::log('error', '[API CONSTRUCT]');
     $this->db_settings = $db_settings;
     if($db_settings['url']=="none") return false;
 		if(!$db_settings['url']) $this->base_url = $this->url = $db_settings['url'] = 'http://api.createsend.com/api/api.asmx/';
@@ -54,7 +55,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				$this->soap_arguments['ApiKey'] = $this->apikey;
 			}
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
-		
+
   }
   
 	/**
