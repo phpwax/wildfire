@@ -70,7 +70,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		* work out the items to display - hide those temp files
 		**/
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order($this->default_order" DESC")->page($page, $this->list_limit);
+		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order($this->default_order." DESC")->page($page, $this->list_limit);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
