@@ -46,19 +46,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 		//setup curl headers
 		$this->curl_headers[] = 'Content-Type: '.$db_settings['content_type'].'; charset='.$db_settings['char_set'];
     $this->curl_headers[] = 'Accept: '.$db_settings['header_accept'].'; charset='.$db_settings['char_set'];
-		//check for cms setting
-		if($api=$this->check_cms_api_key()){
-			$this->apikey = $api;
-			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
-			$this->soap_arguments['ApiKey'] = $this->apikey;
-		//else load vars from config file
-		}elseif(Config::$initialised){			
+		ini_set("soap.wsdl_cache_enabled", "0");
+		if(Config::$initialised){			
 			$conf = Config::get("campaign_monitor");
 			if($this->apikey = $conf['ApiKey']){
 				$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
 				$this->soap_arguments['ApiKey'] = $this->apikey;
 			}
-			ini_set("soap.wsdl_cache_enabled", "0");
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
 		
   }
@@ -198,7 +192,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @param string $field 
 	 * @return void
 	 */
-	public function setup_call(CampaignMonitorModel $model, $action, $field=false){
+	public function setup_call(CampaignMonitorModel $model, $action, $field=false){		
+		
 		$this->call_method = false; //set to false
 		$action = $model->$action; //find the calls
 		if($field && is_array($action) && isset($action[$field])){ //otherwise if the action is an array
@@ -242,6 +237,13 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
+		//check for cms setting
+		if($api=$this->check_cms_api_key()){
+			$this->apikey = $api;
+			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+			$this->soap_arguments['ApiKey'] = $this->apikey;
+		}
+				
 		$this->url = $this->base_url; //url starts off as base url
 		$this->setup_call($model, $action_type, $api_action); //get the url,call method etc setup
 		$func=$this->call_method."_command"; //function to use	
