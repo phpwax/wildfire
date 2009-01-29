@@ -308,6 +308,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	private function soap_command($url, $model){
+		WaxLog::log('error', '[SOAP CALL]'.print_r($url,1));
 		if(!$this->cm_api_method) return false;	//if no methods set the return false	
 		$model->before_soap();	//before soap hook
 		//check if they have a silly alternative name for this api function call

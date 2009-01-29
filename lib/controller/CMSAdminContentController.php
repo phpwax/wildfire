@@ -60,10 +60,11 @@ class CMSAdminContentController extends CMSAdminComponent {
 		**/
 		$author_id = $this->current_user->id; 
 		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-		$auth_col = $this->auth_col;
-		$status_col = $this->status_col;
-		$temp_content = $this->model->filter(array("$auth_col"=>$author_id, "$status_col"=>3))->filter("`".$this->created_on_col."` < '$time'")->all();
-		if(count($temp_content)){
+		if($auth_col = $this->auth_col) $this->model->filter(array("$auth_col"=>$author_id));
+		if($status_col = $this->status_col) $this->model->filter(array("$status_col"=>3));
+		$temp_content = $this->model->filter("`".$this->created_on_col."` < '$time'")->all();
+		
+		if(count($temp_content) && $status_col){
 			foreach($temp_content as $content) $content->delete();
 		}
 		/**
