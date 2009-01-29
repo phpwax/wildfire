@@ -123,11 +123,13 @@ class CampaignMonitorModel extends WaxModel {
  		return $res;
   }
  	public function insert() {
+		WaxLog::log('error', '[MODEL INSERT CALL]');	
 		$this->before_insert();
 	  $res = $this->db->insert($this);
 	  if(is_array($res)) $this->row = $res;
 		elseif($res->row) $this->row = $res->row;
 	  $this->after_insert();
+		WaxLog::log('error', '[MODEL INSERT CALL END]');
 	  return $this;
 	 }
 
