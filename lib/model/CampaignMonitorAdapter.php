@@ -33,7 +33,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @author charles marshall
 	 */
   public function __construct($db_settings=array()) {
-		WaxLog::log('error', '[API CONSTRUCT]');
     $this->db_settings = $db_settings;
     if($db_settings['url']=="none") return false;
 		if(!$db_settings['url']) $this->base_url = $this->url = $db_settings['url'] = 'http://api.createsend.com/api/api.asmx/';
@@ -55,7 +54,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				$this->soap_arguments['ApiKey'] = $this->apikey;
 			}
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
-		WaxLog::log('error', '[API CONSTRUCT END]');
   }
   
 	/**
@@ -194,14 +192,12 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return void
 	 */
 	public function setup_call(CampaignMonitorModel $model, $action, $field=false){	
-		WaxLog::log('error', '[API SETUP CALL]'.print_r($action,1));	
 		//check for cms setting
 		if($api=$this->check_cms_api_key()){
 			$this->apikey = $api;
 			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
 			$this->soap_arguments['ApiKey'] = $this->apikey;
-		}
-		
+		}		
 		
 		$this->call_method = false; //set to false
 		$action = $model->$action; //find the calls
@@ -246,8 +242,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
-		WaxLog::log('error', '[API CALL]'.print_r($api_action,1));
-	
 				
 		$this->url = $this->base_url; //url starts off as base url
 		$this->setup_call($model, $action_type, $api_action); //get the url,call method etc setup
@@ -313,7 +307,6 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	private function soap_command($url, $model){
-		WaxLog::log('error', '[SOAP CALL]'.print_r($url,1));
 		if(!$this->cm_api_method) return false;	//if no methods set the return false	
 		$model->before_soap();	//before soap hook
 		//check if they have a silly alternative name for this api function call
