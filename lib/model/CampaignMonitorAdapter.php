@@ -293,6 +293,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	private function curl_send(){
 		$exec =  curl_exec($this->db);		
 		$info = curl_getInfo($this->db);
+		WaxLog::log('error', '[CURL CALL FINISHED]'. print_r($exec, 1));
 		if($info['http_code'] == 200){
 			if($this->return_curl_data) return $exec;
 			else return true;
