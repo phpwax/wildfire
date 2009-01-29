@@ -55,7 +55,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 				$this->soap_arguments['ApiKey'] = $this->apikey;
 			}
 		}else throw new WaxDbException("Cannot Initialise Campaign Monitor API", "Database Configuration Error");
-
+		WaxLog::log('error', '[API CONSTRUCT END]');
   }
   
 	/**
