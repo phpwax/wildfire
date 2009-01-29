@@ -115,7 +115,9 @@ class CampaignMonitorModel extends WaxModel {
  	public function save() {
 		WaxLog::log('error', '[MODEL SAVE CALL]');
 		if(!$this->before_save()) return false;
+		WaxLog::log('error', '[MODEL SAVE CALL - AFTER BS]');		
 		if(!$this->validate) return false;
+		WaxLog::log('error', '[MODEL SAVE CALL - AFTER VAL]');		
 		if($this->persistent) {
 			//as there is no update on this api - just run insert 	    
  	    $res = $this->insert();
