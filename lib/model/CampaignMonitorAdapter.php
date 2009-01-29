@@ -193,7 +193,15 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @param string $field 
 	 * @return void
 	 */
-	public function setup_call(CampaignMonitorModel $model, $action, $field=false){		
+	public function setup_call(CampaignMonitorModel $model, $action, $field=false){	
+		WaxLog::log('error', '[API SETUP CALL]'.print_r($action,1));	
+		//check for cms setting
+		if($api=$this->check_cms_api_key()){
+			$this->apikey = $api;
+			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
+			$this->soap_arguments['ApiKey'] = $this->apikey;
+		}
+		
 		
 		$this->call_method = false; //set to false
 		$action = $model->$action; //find the calls
@@ -239,12 +247,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
 		WaxLog::log('error', '[API CALL]'.print_r($api_action,1));
-		//check for cms setting
-		if($api=$this->check_cms_api_key()){
-			$this->apikey = $api;
-			$this->curl_post_arguments = "ApiKey=".$this->apikey.'&';
-			$this->soap_arguments['ApiKey'] = $this->apikey;
-		}
+	
 				
 		$this->url = $this->base_url; //url starts off as base url
 		$this->setup_call($model, $action_type, $api_action); //get the url,call method etc setup
