@@ -237,6 +237,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return array
 	 */	
 	public function api(CampaignMonitorModel $model, $action_type, $api_action=false){
+		WaxLog::log('error', '[API CALL]'.print_r($api_action,1));
 		//check for cms setting
 		if($api=$this->check_cms_api_key()){
 			$this->apikey = $api;
