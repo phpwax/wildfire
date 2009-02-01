@@ -22,7 +22,7 @@
   <tbody id="list_rows">
     <?=$list?>
     <?if(count($all_rows)<1):?>
-      <tr><td>No items available</td></tr>
+      <tr><td colspan='<?=(count($scaffold_columns)+2)?>'>No items available</td></tr>
     <?endif?>
   </tbody> 
 </table>
