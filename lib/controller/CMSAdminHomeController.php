@@ -24,7 +24,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	* @return String url to redirect to
 	**/
 	protected function process_login() {
-		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user"));
+		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user_cookie"));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
 		  $log = new WildfireLog;
 		  $log->action="login";
@@ -53,7 +53,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	* Clears the session data via a call to the auth object - effectively logging you out
 	**/
 	public function logout( ) {
-		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user"));
+		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user_cookie"));
 		$auth->logout();
 		$this->redirect_to($this->unauthorised_redirect);  	
 	}
