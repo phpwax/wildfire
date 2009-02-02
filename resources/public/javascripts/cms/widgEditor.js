@@ -52,7 +52,7 @@ var widgInsertParagraphs = true;
 ** prompted as to whether they wish to clean the content.
 */
 
-var widgAutoClean = false;
+var widgAutoClean = true;
 
 /******************************************************************************
 **    END CONFIGURATION
@@ -172,7 +172,7 @@ function widgEditor(replacedTextareaID)
 /* Clean pasted content */
 widgEditor.prototype.cleanPaste = function()
 {
-	if (widgAutoClean || confirm("Do you wish to clean the HTML source of the content you just pasted?"))
+	if (widgAutoClean)
 	{
 		var matchedHead = "";
 		var matchedTail = "";
@@ -236,7 +236,8 @@ widgEditor.prototype.cleanPaste = function()
 		{
 			return false;
 		}
-
+    console.log("testing");
+    
 		newContent = newContent.reverse();
 		newSnippet = newContent.substring(newContentStart, newContent.length - newContentFinish);
 		newSnippet = newSnippet.validTags();
@@ -331,7 +332,7 @@ widgEditor.prototype.cleanSource = function()
 	theHTML = theHTML.replace(/(<img [^>]+[^\/])>/g, "$1 />");
 	
 	/* Remove empty tags */
-	/* theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, ""); */
+	theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, ""); 
 
   /* Add extra hooks to h6 tags */
 	theHTML = theHTML.replace(/<h6>/g, "<h6><span>");

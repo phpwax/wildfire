@@ -81,11 +81,14 @@ class CampaignMonitorModel extends WaxModel {
   }
 	public function __call($func, $params){
 		$db_action = false;		
-		if(method_exists($this, $func)) return $this->{$func}($params);
+		if(method_exists($this, $func))	return $this->{$func}($params);
 		elseif(is_array($this->get_action)){
-			foreach($this->get_action as $act){
-				if(substr_count($act, $func) ){
+			foreach($this->get_action as $key => $act){
+				if(substr_count($act, $func)){
 					$res = $this->row = $this->db->api($this, "get_action", $act);
+					return new WaxRecordset($this, $res);
+				}elseif	(substr_count($key, $func)){
+					$res = $this->row = $this->db->api($this, "get_action", $key);
 					return new WaxRecordset($this, $res);
 				}
 			}
@@ -122,7 +125,8 @@ class CampaignMonitorModel extends WaxModel {
  	public function insert() {
 		$this->before_insert();
 	  $res = $this->db->insert($this);
-	  $this->row = $res->row;
+	  if(is_array($res)) $this->row = $res;
+		elseif($res->row) $this->row = $res->row;
 	  $this->after_insert();
 	  return $this;
 	 }

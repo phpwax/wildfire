@@ -246,6 +246,9 @@ class CMSHelper extends WXHelpers {
 	public function cms_full_date($date){
 		return date("nS F Y", strtotime($date));
 	}
+	public function cms_date_time($date){
+		return date("n F y @ H:i", strtotime($date));
+	}
 
 }
 ?>

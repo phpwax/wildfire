@@ -23,7 +23,9 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $extra_content_options = array(); //corresponding config for the fields
 	public $default_order = 'published';
 	public $default_direction = 'DESC';
-	
+	public $created_on_col = "date_created";
+	public $auth_col = "author_id";
+	public $status_col = "status";
 	
 	/**
 	* magic method to catch all if the action thats requested doesn't exist
@@ -40,7 +42,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$section = $section->filter(array('url'=>$this->action))->first();
 		if($section) $sect_id = $section->id;
 		else $sect_id = 1;
-		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id) )->order("published DESC")->page($page, 10);
+		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id) )->order($this->default_order." DESC")->page($page, 10);
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
@@ -58,15 +60,18 @@ class CMSAdminContentController extends CMSAdminComponent {
 		**/
 		$author_id = $this->current_user->id; 
 		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-		$temp_content = $this->model->filter(array('author_id'=>$author_id, 'status'=>3))->filter("`date_created` < '$time'")->all();
-		if(count($temp_content)){
+		if($auth_col = $this->auth_col) $this->model->filter(array("$auth_col"=>$author_id));
+		if($status_col = $this->status_col) $this->model->filter(array("$status_col"=>3));
+		$temp_content = $this->model->filter("`".$this->created_on_col."` < '$time'")->all();
+		
+		if(count($temp_content) && $status_col){
 			foreach($temp_content as $content) $content->delete();
 		}
 		/**
 		* work out the items to display - hide those temp files
 		**/
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order("published DESC")->page($page, $this->list_limit);
+		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order($this->default_order." DESC")->page($page, $this->list_limit);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}

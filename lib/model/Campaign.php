@@ -4,17 +4,18 @@ class Campaign extends CampaignMonitorModel {
 	
 	public $primary_key="CampaignID";
   public $primary_type = "CharField";
-	public $save_action = array('Campaign.Create'=>"soap");
+	public $save_action = array('Campaign.Create'=>'soap');
 	public $delete_aciton = false;
 	public $get_action = array("Campaign.GetBounces", 
 														 "Campaign.GetLists",
 														 "Campaign.GetOpens",
 														 "Campaign.GetUnsubscribes",
 														 "Campaign.GetSummary",
-														 "Campaign.Send");
+														 "Campaign.Send" => 'soap');
 	public $rename_mappings = false;
 	public $save_to_db = true;
-	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"));
+	public $soap_mappings = array('Campaign.Create'=>array('send'=>'CreateCampaign', 'return'=>"Campaign.CreateResult"),
+																'Campaign.Send'=>array('send'=>'SendCampaign', 'return'=>"Campaign.SendResponse"));
 	
 	public function setup(){
 		$this->define("ClientID", "CharField", array('maxlength'=>255, 'editable'=>false) );		
@@ -91,14 +92,18 @@ class Campaign extends CampaignMonitorModel {
 	public function after_soap($res){
 		if($errors = $res->{'Campaign.CreateResult'}->enc_value->Message){
 			$this->errors[$this->primary_key] = $errors;
+			Session::add_error($errors);
+			WaxLog::log('error', '[SOAP ERR]'.print_r($errors,1));
 		}elseif(is_string($res->{'Campaign.CreateResult'})){
-			$this->{$this->primary_key} = $res->{'Campaign.CreateResult'};
+			$this->CampaignID = $res->{'Campaign.CreateResult'};			
 			$model = new Campaign;
 			$model->ClientID = $this->ClientID;
 			$model->CampaignID = $this->CampaignID;
 			$model->SendDate = $this->SendDate;
 			$model->ConfirmationEmail = $this->ConfirmationEmail;
-			$res = $model->Send();		
+			sleep(3); //sleep is needed to give the api time to catch up; apparently its slow
+			$res = $model->Send();	
+			sleep(1);
 		}
 	}
 }
