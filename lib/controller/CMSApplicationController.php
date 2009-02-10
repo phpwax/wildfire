@@ -67,7 +67,7 @@ class CmsApplicationController extends WXControllerBase{
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
-		  if($key == "format"){				
+		  if($key === "format"){
 				$this->set_formatting($url);
 				unset($stack[$key]);
 			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
