@@ -211,7 +211,7 @@ class CmsApplicationController extends WXControllerBase{
    * @return boolean
    */  
   public function is_admin_logged_in(){
-		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
+		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user_cookie"));
 		return $user->is_logged_in();
 	}
 

@@ -26,7 +26,7 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		/**
 		* authentication
 		**/
-		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user"));
+		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		/**
