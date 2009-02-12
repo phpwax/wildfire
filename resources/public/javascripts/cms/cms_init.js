@@ -1,9 +1,13 @@
-function setup_preview(permalink, trigger_id, preview_pane) {
+function show_preview_window(permalink, preview_pane){
+  $('#'+preview_pane).jqm();
+  $('#'+preview_pane).jqmShow();
+  $('#'+preview_pane).html("<iframe src='"+permalink+"' width='100%' height='100%' border='0' />");
+}
+
+function setup_preview(l_permalink, trigger_id, l_preview_pane) {
   $(document).ready(function() {
     $('#'+trigger_id).click(function(){
-      $('#'+preview_pane).jqm();
-      $('#'+preview_pane).jqmShow();
-      $('#'+preview_pane).html("<iframe src='"+permalink+"' width='100%' height='100%' border='0' />");
+      show_preview_window(l_permalink, l_preview_pane);
     });
   });
 }
