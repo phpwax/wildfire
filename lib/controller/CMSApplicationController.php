@@ -61,13 +61,13 @@ class CmsApplicationController extends WXControllerBase{
 	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
 	 */	
 	protected function find_contents_by_path(){
-		//use the full url params, minus the get array to create the stack to look though
-		$stack = array_diff_assoc(WaxUrl::$params, $_GET); //could do with using something other than $_GET
+		//use the full url params to create the stack to look though
+		if(!$stack = WaxUrl::get("route_array")) $stack = $this->route_array; //use the WaxUrl route array, revert to old controller->route_array otherwise
 		unset($stack['route']);
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		foreach($stack as $key => $url){
 			//check the formatting - if found then it removes the extension
-		  if($key == "format"){				
+		  if($key === "format"){
 				$this->set_formatting($url);
 				unset($stack[$key]);
 			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
@@ -211,7 +211,7 @@ class CmsApplicationController extends WXControllerBase{
    * @return boolean
    */  
   public function is_admin_logged_in(){
-		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user"));
+		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user_cookie"));
 		return $user->is_logged_in();
 	}
 

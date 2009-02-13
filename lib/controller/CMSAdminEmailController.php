@@ -26,7 +26,7 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		/**
 		* authentication
 		**/
-		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user"));
+		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
 		if($this->current_user->usergroup==30) $this->is_admin=true;
 		/**
@@ -87,10 +87,8 @@ class CMSAdminEmailController extends CMSAdminComponent {
 		Session::unset_var('user_errors'); //remove old errors;
 		if($this->model->is_posted()){
 			$this->model = $this->model->handle_post();
-			$errors ="";
-			if(count(Session::get('user_errors'))) $errors .= implode("", Session::get('user_errors'));
-			else $errors .= Session::get('user_errors');
-			if(count($this->model->errors)) $errors .= implode("", $this->model->errors);			
+			$errors ="";		
+			if(count($this->model->errors)) $errors .= "<br />".implode("<br />", $this->model->errors);			
 			
 			if(strlen($errors) > 0){
 				$errors .= ":";

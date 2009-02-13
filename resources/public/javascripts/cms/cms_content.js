@@ -239,7 +239,7 @@ $(document).ready(function() {
   });
 });
 
-function autosave_content() {
+function autosave_content(show_preview_on_finish) {
   var ed = document.getElementById("cms_content_content");
 	if(typeof ed !== 'undefined'){
 	  if(!ed) return false;
@@ -256,9 +256,18 @@ function autosave_content() {
 	            type: "POST",
 	            processData: false,
 	            data: "content="+encodeURIComponent(wig.theInput.value), 
-	            success: function(response){$("#autosave_status").html("Automatically saved at "+response);} 
+	            success: function(response){
+	              if(show_preview_on_finish) show_preview_window(content_permalink, "preview_pane"); //needed to be able to show a preview after the save
+	              $("#autosave_status").html("Automatically saved at "+response);
+	            }
 	    });
 	}
 }
 
-
+/** save before preview **/
+$(document).ready(function() {
+  $('#preview_link').unbind( "click" )
+  $('#preview_link').click(function(){
+    autosave_content(true); //do an autosave and show the preview after
+  });
+});
