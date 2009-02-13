@@ -25,6 +25,8 @@ $(document).ready(function() {
           $("#resizehandle").height(13);
         }
     });
+    if(typeof showhtml =="undefined") showhtml=false;
+    if(typeof show_inline_images =="undefined") show_inline_images=false;
 });
 
 function initialise_draggables() {
@@ -70,7 +72,7 @@ function delayed_image_filter(filter) {
 
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
-
+	if(show_inline_images) widgToolbarItems.push("image");
 	if(showhtml) widgToolbarItems.push("htmlsource");
 	
   $("#image_filter").keyup(function() {

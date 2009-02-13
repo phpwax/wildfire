@@ -9,7 +9,7 @@ class CmsTextFilter  {
   
   
   static public $filters = array(
-    "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes"),
+    "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes", "inline_images"),
     "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video", "videos")
   );
   
@@ -234,6 +234,20 @@ class CmsTextFilter  {
 
   	return $content;
   }
-
-
+  
+  static public function inline_images($text) {
+    preg_match_all("/<img style=([^>]*) src=([^>]*) class=([^>]*inline_image[^>]*) alt=([^>]*)[^>]*>/", $text, $matches, PREG_SET_ORDER);
+    foreach($matches as $match) {
+      preg_match("/\/([0-9]*)\//", $match[2], $imageid);
+      $imageid = $imageid[1];
+      preg_match("/width:([\s\d]*)/", $match[1], $width);
+      $width = trim($width[1]);
+      if(strlen($width)>1) $text = str_replace($match[0], '<img src="/show_image/'.$imageid.'/'.$width.'.jpg" class='.$match[3].' alt='.$match[4].' />', $text);
+      $text = str_replace($match[0], '<img src='.$match[2].' class='.$match[3].' alt='.$match[4].' />', $text);
+    }
+    return $text;
+  }
+  
+  
+  
 } // END class 
