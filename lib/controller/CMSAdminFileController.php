@@ -175,6 +175,14 @@ class CMSAdminFileController extends CMSAdminComponent {
   public function preview() {
     $this->image = new $this->model_class(url('id'));
   }
+  
+  public function inline_image_edit() {
+    $this->use_layout=false;
+  }
+  
+  public function inline_browse() {
+    $this->browse_images();
+  }
 
 	/**
 	* Special conversion function - takes the details in the old cms switches it over the the new cms

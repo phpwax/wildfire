@@ -72,6 +72,12 @@
 	background-image: url(../../images/cms/widgeditor_button_video.gif);
 }
 
+.widgButtonImage
+{
+	background-image: url(../../images/cms/widgeditor_button_inline_image.gif);
+}
+
+
 .widgSource a
 {
 	background-image: url(../../images/cms/widgeditor_button_empty.gif);
