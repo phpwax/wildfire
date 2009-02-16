@@ -22,6 +22,7 @@ widgToolbarItems.push("italic");
 widgToolbarItems.push("hyperlink");
 widgToolbarItems.push("unorderedlist");
 widgToolbarItems.push("orderedlist");
+widgToolbarItems.push("hr");
 widgToolbarItems.push("separator");
 
 widgToolbarItems.push("blockformat");
@@ -320,17 +321,18 @@ widgEditor.prototype.cleanSource = function()
 	/* Remove style attribute inside any tag  - taken out for now - add back in if probs with copying and pasting from other sources*/ 
 	/* theHTML = theHTML.replace(/ style="[^"]*"/g, ""); */
 
-	/* Replace improper BRs */
+	/* Replace improper BRs and hrs */
 	theHTML = theHTML.replace(/<br>/g, "<br />");
+	theHTML = theHTML.replace(/<hr>/g, "<hr />");
 	
 	/* Remove BRs right before the end of blocks */
-	theHTML = theHTML.replace(/<br \/>\s*<\/(h1|h2|h3|h4|h5|h6|li|p|address|pre)/g, "</$1");
+	theHTML = theHTML.replace(/<br \/>\s*<\/(h1|h2|h3|h4|h5|h6|li|p|address|pre|div|hr)/g, "</$1");
 	
 	/* Replace improper IMGs */
 	theHTML = theHTML.replace(/(<img [^>]+[^\/])>/g, "$1 />");
 	
 	/* Remove empty tags */
-	theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, ""); 
+	// theHTML = theHTML.replace(/(<[^\/]>|<[^\/][^>]*[^\/]>)\s*<\/[^>]*>/g, ""); 
 
   /* Add extra hooks to h6 tags */
 	theHTML = theHTML.replace(/<h6>/g, "<h6><span>");
@@ -841,11 +843,14 @@ function widgToolbar(theEditor)
 				this.addButton(this.theList.id + "ButtonVideo", "widgButtonVideo", "Video", "video");
 				break;	
 				
-			case "unorderedlist":
-				this.addButton(this.theList.id + "ButtonUnordered", "widgButtonUnordered", "Unordered List", "insertunorderedlist");
-				
+			case "hr":
+				this.addButton(this.theList.id + "ButtonHr", "widgButtonHr", "Break", "inserthr");
 				break;
 				
+			case "unorderedlist":
+  			this.addButton(this.theList.id + "ButtonUnordered", "widgButtonUnordered", "Unordered List", "insertunorderedlist");
+  			break;	
+			
 			case "orderedlist":
 				this.addButton(this.theList.id + "ButtonOrdered", "widgButtonOrdered", "Ordered List", "insertorderedlist");
 				
@@ -1112,57 +1117,7 @@ function widgToolbarAction()
 			
 		case "image":
 		  show_inline_image_browser();
-		  
-			// //var theImage = prompt("Enter the location for this image:", "");
-			//       
-			//       if (theImage != null && theImage != "")
-			//       {
-			//         var theAlt = prompt("Enter the alternate text for this image:", "");
-			//         var theSelection = null;
-			//         var theRange = null;
-			//         
-			//         /* IE selections */
-			//         if (theIframe.contentWindow.document.selection)
-			//         {
-			//           /* Escape quotes in alt text */
-			//           theAlt = theAlt.replace(/"/g, "'");
-			//       
-			//           theSelection = theIframe.contentWindow.document.selection;
-			//           theRange = theSelection.createRange();
-			//           theRange.collapse(false);
-			//           theRange.pasteHTML("<img alt=\"" + theAlt + "\" src=\"" + theImage + "\" />");
-			//           
-			//           break;
-			//         }
-			//         /* Mozilla selections */
-			//         else
-			//         {
-			//           try
-			//           {
-			//             theSelection = theIframe.contentWindow.getSelection();
-			//           }
-			//           catch (e)
-			//           {
-			//             return false;
-			//           }
-			// 
-			//           theRange = theSelection.getRangeAt(0);
-			//           theRange.collapse(false);
-			//           
-			//           var theImageNode = theIframe.contentWindow.document.createElement("img");
-			//           
-			//           theImageNode.src = theImage;
-			//           theImageNode.alt = theAlt;
-			//           
-			//           theRange.insertNode(theImageNode);
-			//           
-			//           break;
-			//         }
-			//       }
-			//       else
-			//       {
-			//         return false;
-			//       }
+
 		case "italic":
   		theIframe.contentWindow.document.execCommand(this.action, false, null);
     	break;
@@ -1198,7 +1153,10 @@ function widgToolbarAction()
 			{
 				theWidgEditor.theToolbar.setState(theAction, "off");
 			}
-		break;
+		  break;
+		case "inserthr":
+		  theIframe.contentWindow.document.execCommand("inserthtml", false, "<hr />");
+		  break;
 		default:
 		  var custom_func = eval(this.action);
 		  return_val = custom_func();
@@ -1670,7 +1628,7 @@ function show_inline_image_browser() {
 
 function init_inline_image_select() {  
   $("#image_display .edit_img").remove();
-  $("#image_display div img").hover(function(){$(this).css("border", "2px solid #222")}, function(){ $(this).css("border","2px solid white")} );
+  $("#image_display div img").hover(function(){$(this).css("border", "2px solid #222");}, function(){ $(this).css("border","2px solid white");} );
   $("#image_display div img").click(function(){
     $("#image_meta input").removeAttr("disabled");
     $("#selected_image img").attr("src", "/show_image/"+$(this).parent().attr("id")+"/90.jpg");

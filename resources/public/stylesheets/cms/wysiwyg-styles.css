@@ -67,6 +67,10 @@
 {
 	background-image: url(../../images/cms/widgeditor_button_unordered.gif);
 }
+.widgButtonHr
+{
+	background-image: url(../../images/cms/widgeditor_button_hr.gif);
+}
 .widgButtonVideo
 {
 	background-image: url(../../images/cms/widgeditor_button_video.gif);
