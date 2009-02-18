@@ -21,4 +21,9 @@ class WildfireUser extends WaxModel {
 	  return $this->firstname." ".$this->surname;
 	}
 	
+	public function articles() {
+	  $content = new CmsContent("published");
+	  return $content->filter(array("author_id"=>$this->id))->all();
+	}
+	
 }
