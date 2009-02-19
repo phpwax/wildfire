@@ -131,9 +131,25 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function edit() {
 		if($id = Request::get('id') ){
+  	  $this->sub_links = array("copy"=>"Work on a copy");
 			$this->model = new $this->model_class($id);
 			
 		}else exit;
+	}
+	
+	public function copy() {
+	  if($id = Request::get('id') ){
+			$this->model = new $this->model_class($id);
+			$copy_file = File::safe_file_save(PUBLIC_DIR.$this->model->rpath."/", $this->model->filename);
+			$full_copy_file = PUBLIC_DIR.$this->model->rpath."/".$copy_file;
+			$file = PUBLIC_DIR.$this->model->rpath."/".$this->model->filename;
+			copy($file, $full_copy_file);
+      $fs = new CmsFilesystem;
+      $fs->databaseSync(PUBLIC_DIR.$this->model->rpath, $this->model->rpath);
+      $copy = new $this->model_class();
+      $copy = $copy->filter(array("rpath"=>$this->model->rpath, "filename"=>$copy_file))->first();
+      $this->redirect_to("/admin/files/edit/".$copy->id);
+		}
 	}
 	
 	public function upload() {
