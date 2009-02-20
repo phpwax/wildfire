@@ -1,5 +1,3 @@
-showhtml=true;
-
 function show_preview_window(permalink, preview_pane){
   $('#'+preview_pane).jqm();
   $('#'+preview_pane).jqmShow();

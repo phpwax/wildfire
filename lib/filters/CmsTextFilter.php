@@ -71,7 +71,7 @@ class CmsTextFilter  {
   
   
   static public function first_para_hook($text) {
-    return preg_replace("/<p>/u", "<p class='first_para'>", $text, 1);
+    return preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
   }
   
   static public function dots_to_hr($text) {
