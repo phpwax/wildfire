@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("videos")
+    "before_output"=> array("first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video")
   );
   
   static public function add_filter($trigger, $method) {
@@ -71,7 +71,7 @@ class CmsTextFilter  {
   
   
   static public function first_para_hook($text) {
-    return preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
+    return preg_replace("/<p>/u", "<p class='first_para'>", $text, 1);
   }
   
   static public function dots_to_hr($text) {
@@ -142,9 +142,9 @@ class CmsTextFilter  {
       <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" width="425" height="350"></embed>
     </object>';
     $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
-    $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/", $replace, $text);
+    $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/u", $replace, $text);
     $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
-    return preg_replace("/<!--yt_video-->([^\s<]*)/", $replace, $text);
+    return preg_replace("/<!--yt_video-->([^\s<]*)/u", $replace, $text);
   }
   
   static public function nl2p($pee, $br=true) {
