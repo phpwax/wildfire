@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("utf", "first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video", "videos")
+    "before_output"=> array("htmlentities", "first_para_hook", "no_widows", "ampersand_hook", "strip_slashes", "yt_video", "videos")
   );
   
   static public function add_filter($trigger, $method) {
@@ -34,6 +34,10 @@ class CmsTextFilter  {
   
   static public function utf($text) {
     return utf8_encode($text);
+  }
+  
+  static public function htmlentities($text) {
+    return htmlentities($text);
   }
   
   static public function correct_entities($text) {
