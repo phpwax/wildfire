@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("first_para_hook", "yt_video", "videos")
+    "before_output"=> array("first_para_hook")
   );
   
   static public function add_filter($trigger, $method) {
