@@ -9,8 +9,8 @@ class CmsTextFilter  {
   
   
   static public $filters = array(
-    "before_save"=>array("convert_chars", "correct_entities", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("reverse_entities", "first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos")
+    "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images"),
+    "before_output"=> array("clean_word","correct_entities", "first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos")
   );
   
   static public function add_filter($trigger, $method) {
@@ -43,12 +43,6 @@ class CmsTextFilter  {
   static public function correct_entities($text) {
 		$modified = str_replace("£", "&pound;", $text);
 		$modified = str_replace("€", "&euro;", $modified);
-    return $modified;
-  }
-  
-  static public function reverse_entities($text) {
-		$modified = str_replace( "&pound;","£", $text);
-		$modified = str_replace("&euro;","€", $modified);
     return $modified;
   }
   
