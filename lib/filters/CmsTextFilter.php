@@ -78,7 +78,7 @@ class CmsTextFilter  {
   
   
   static public function first_para_hook($text) {
-    return preg_replace("/<p>/u", "<p class='first_para'>", $text, 1);
+    return preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
   }
   
   static public function dots_to_hr($text) {
@@ -96,12 +96,12 @@ class CmsTextFilter  {
   }
   
   static public function ampersand_hook($text) {
-    $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/u";
+    $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
     return preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
   }
   
   static public function nice_quotes($text) {
-    return preg_replace("/(\s{1})\\\"([^<>\\\"]*)\\\"/u", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
+    return preg_replace("/(\s{1})\\\"([^<>\\\"]*)\\\"/", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
   }
   
 	static public function videos($text){
@@ -111,7 +111,7 @@ class CmsTextFilter  {
 		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $youtube, $text);
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $youtube, $text);
 
 		/*VIMEO*/
 		$vimeo ='<object width="$2" height="$3">
@@ -122,12 +122,12 @@ class CmsTextFilter  {
 							</embed>
 						</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_*)([&]*)(.*)<\/a>/u", $vimeo, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_*)([&]*)(.*)<\/a>/", $vimeo, $text);						
 
 		/*GOOGLE*/
 		$google = '<embed id="VideoPlayback" src="http://video.google.com/googleplayer.swf?docid=$6&hl=en&fs=true" width="$2" height="$3" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"> </embed>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/u", $google, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $google, $text);						
 
 		/*LOCAL*/
 		$local ='<object width="$2" height="$3">
@@ -137,7 +137,7 @@ class CmsTextFilter  {
 							<embed src="$4" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$2" height="$3">
 							</embed>
 						</object>';
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/u", $local, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);						
 		
 		
 		return $text;
@@ -148,10 +148,10 @@ class CmsTextFilter  {
       <param name="movie" value="http://www.youtube.com/v/$1"></param>
       <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" width="425" height="350"></embed>
     </object>';
-    $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
-    $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/u", $replace, $text);
-    $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/u", $replace, $text);
-    return preg_replace("/<!--yt_video-->([^\s<]*)/u", $replace, $text);
+    $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
+    $text = preg_replace("/<!--yt_video-->([a-zA-Z\-0-9_]*)<!--\/yt_video-->/", $replace, $text);
+    $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
+    return preg_replace("/<!--yt_video-->([^\s<]*)/", $replace, $text);
   }
   
   static public function nl2p($pee, $br=true) {
