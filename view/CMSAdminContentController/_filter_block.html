@@ -22,11 +22,12 @@
       <select name="section_view" onchange="location.href=section_browser.section_view.options[selectedIndex].value">
         <option value="/admin/content/">All sections</option>
         <?$section = new CmsSection?>
-        <?foreach($section->all() as $section):?>
+        <?foreach($section->tree() as $section):?>
 					<?
 					$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
 					$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
 					?>
+        
           <option value="/admin/content/<?=$section->url?>"><?=$tmp.$section->title?></option>
         <?endforeach?>
       </select>
