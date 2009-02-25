@@ -3,7 +3,7 @@
   <?for($i=0; $i<$allowed_images; $i++):?>
     <div id="dropzone<?=$i?>" class="attached_image">
       <?if($img = $attached_images[$i]):?>
-        <img src="/admin/files/show_image/<?=$img->id?>/90<?=$img->extension?>">
+        <img src="/show_image/<?=$img->id?>/90<?=$img->extension?>">
         <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_".$img->id, "class"=>"image_trash_icon"))?>
 				<a href="/admin/files/edit/<?=$img->id?>" class="edit_img"><?=image_asset("cms", "camera_edit.gif", array("id"=>"edit_image_".$img->id))?></a>
       <?else:?>
