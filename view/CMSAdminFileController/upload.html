@@ -35,7 +35,7 @@
 				<input type="hidden" name="content_page_type" id="content_page_type" value="<?=$page->table?>" />				
 				<input type="hidden" name="join_field" id="join_field" value="<?=Request::get('join_field')?>" />				
         </fieldset>
-      <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); swfu.startUpload(); return false' />
+      <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params();return false' />
       
     </form>
     
@@ -51,5 +51,5 @@
  
  
   <script>
-      init_upload();     
+  Event.observe( window, 'load', init_upload, false);
   </script>
