@@ -11,12 +11,10 @@
  
  
   <div id="advanced_uploader" class="clearfix">
-    <h2>Choose Your Files or <a href="#" id="url_upload">click to upload url</a></h2>
+    <h2>Choose Your Files</h2>
     <form id="form1" action="" method="post" enctype="multipart/form-data">
         <div id="flash_upload">
-          <div class="flash" id="fsUploadProgress">
- 
-          </div>
+          <div class="flash" id="fsUploadProgress"></div>
           <div id="divStatus">Click start to upload files</div>
         
           <fieldset>
@@ -37,13 +35,6 @@
         </fieldset>
       <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params();return false' />
       
-    </form>
-    
-    <form id="upload_url">
-      <fieldset>
-        <label for="upload_from">Enter URL to upload</label>
-        <input type="text" name="upload_from_url" id="upload_from" />
-      </fieldset>
     </form>
     
 
