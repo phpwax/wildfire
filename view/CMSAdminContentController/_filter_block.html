@@ -4,17 +4,23 @@
 	    <strong>Filter:</strong> <input type="text" id="filter_field" name="filter" />
 	  </form>
 	   <?$url_for = url_for(array("action"=>"filter"))?>
-  	  
-  	  <script>
-      $(document).ready(function(event) {
-        $("#filter_field").keyup(function() {
-          $.post("<?=$url_for?>",
-            {filter: $("#filter_field").val()}, 
-            function(response){ $("#list_rows").html(response);}
-          );
-        }); 
-      });
-    </script>
+		<script>
+		var itimer;
+	     $(document).ready(function(event) {
+	       $("#filter_field").keyup(function(e) {
+					if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
+						clearTimeout(itimer);
+						itimer = setTimeout("inlinefilter()", 800);
+					}
+	       }); 
+	     });
+			function inlinefilter(){				
+				$.post("<?=$url_for?>",
+	      	{filter: $("#filter_field").val()}, 
+	        function(response){ $("#list_rows").html(response);clearTimeout(itimer);}
+	        );
+			}
+	   </script>
 	</div>
 	<div id="section_filter">
     <form action="" name="section_browser">
