@@ -186,7 +186,11 @@ $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	if(!join_field) var join_field="images";
-  $("#quick_upload_pane").jqm({trigger:"#quick_upload_button", ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, onLoad:init_upload});
+  $("#quick_upload_pane").jqm({
+    trigger:"#quick_upload_button", 
+    ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, 
+    onLoad:init_upload
+  });
   $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field});
 });
 
@@ -266,7 +270,7 @@ function autosave_content(show_preview_on_finish) {
 
 /** save before preview **/
 $(document).ready(function() {
-  $('#preview_link').unbind( "click" )
+  $('#preview_link').unbind( "click" );
   $('#preview_link').click(function(){
     autosave_content(true); //do an autosave and show the preview after
   });

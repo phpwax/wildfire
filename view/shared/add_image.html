@@ -1,3 +1,3 @@
-<img src="/admin/files/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" />
+<img src="/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" />
 <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_$image->id", "class"=>"image_trash_icon"))?>
 <a href="/admin/files/edit/<?=$image->id?>" class="edit_img"><?=image_asset("cms", "camera_edit.gif", array("id"=>"edit_image_".$image->id))?></a>

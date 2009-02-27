@@ -1,7 +1,7 @@
 <div id="image_list_container">
   <?foreach($all_images as $image):?>
     <div id="<?=$image->id?>" class="drag_image">
-      <img src="/admin/files/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" />
+      <img src="/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" />
 			<a href="/admin/files/edit/<?=$image->id?>" class="edit_img"><?=image_asset("cms", "camera_edit.gif", array("id"=>"edit_image_".$image->id))?></a>
 			<br />
       <?=truncate($image->filename, 19)?>
