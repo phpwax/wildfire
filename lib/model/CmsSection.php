@@ -19,7 +19,7 @@ class CmsSection extends WaxTreeModel {
 	}	
 	
 	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
-		if(!$input) $input = $this->tree();
+		if(!$input) $input = $this->all();
 		$collection = array();
 		if(!$input) return $collection;
 		foreach($input as $item){
