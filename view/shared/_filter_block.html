@@ -6,14 +6,21 @@
 	   <?$url_for = url_for(array("action"=>"filter"))?>
   	  
   	  <script>
+			var itimer;
       $(document).ready(function(event) {
         $("#filter_field").keyup(function() {
-          $.post("<?=$url_for?>",
-            {filter: $("#filter_field").val()}, 
-            function(response){ $("#list_rows").html(response);}
-          );
+					clearTimeout(itimer);
+         itimer = setTimeout("inlinefilter()", 800);
         }); 
       });
+
+
+			function inlinefilter(){				
+				 $.post("<?=$url_for?>",
+            {filter: $("#filter_field").val()}, 
+            function(response){ $("#list_rows").html(response);clearTimeout(itimer);}
+          );
+			}
     </script>
 	</div>
 </div>
