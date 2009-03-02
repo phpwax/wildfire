@@ -1604,6 +1604,19 @@ function initialise_inline_image_edit() {
 
 
 
+var inline_image_filter_timer;
+
+function inline_image_filter_post(){
+  $.post("/admin/files/image_filter",
+    {filter: $("#filter_field").val()}, 
+    function(response){ 
+      $("#inline_image_browser #image_display").html(response);
+      init_inline_image_select();
+      clearTimeout(inline_image_filter_timer);
+    }
+  );
+}
+
 function show_inline_image_browser() {
   var image_browser = '<div id="inline_image_browser"><div id="inline_close_bar"><h3>Insert Image</h3><a id="inline_close" href="#">x</a></div></div>';
   $("body").append(image_browser);
@@ -1614,14 +1627,12 @@ function show_inline_image_browser() {
   $.get("/admin/files/inline_browse/1/", function(response){
     $("#inline_image_browser").append(response);
     init_inline_image_select();
-    $("#inline_image_browser #filter_field").keyup(function() {
-      $.post("/admin/files/image_filter",
-        {filter: $("#filter_field").val()}, 
-        function(response){ 
-          $("#inline_image_browser #image_display").html(response);
-          init_inline_image_select();
-        }
-      );
+    
+    $("#inline_image_browser #filter_field").keyup(function(e) {
+			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
+				clearTimeout(inline_image_filter_timer);
+				inline_image_filter_timer = setTimeout("inline_image_filter_post()", 800);
+			}
     });
   });
 }
