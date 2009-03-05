@@ -7,7 +7,7 @@
  * @author charles marshall
  */
 
-class CmsApplicationController extends WXControllerBase{
+class CMSApplicationController extends WXControllerBase{
   
   public $cms_section = false;	//Section object
   public $cms_content = false;  //this is either an array of the content or a single content record
