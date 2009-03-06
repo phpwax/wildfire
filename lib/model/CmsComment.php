@@ -63,9 +63,9 @@ class CmsComment extends WaxModel {
   }
   
   public function gravatar_url($size="50") {
-    $url = "http://www.gravatar.com/avatar.php?";
-    $url .= "gravatar_id=".md5(trim($this->author_email));
-    $url .= "&size=$size";
+    $url = "http://www.gravatar.com/avatar/";
+    $url .= md5(trim($this->author_email));
+    $url .= "?s=$size";
     $url .= "&default=http://".$_SERVER['HTTP_HOST']."/images/cms/default_avatar.gif";
     return $url;
   }
