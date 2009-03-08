@@ -166,7 +166,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function browse_images() {
 		$this->use_layout=false;
-	  $model = new WildfireFile;
+	  $model = new WildfireFile("available");
 	  $fs = new CmsFilesystem;
 	  $folder = $fs->relativePath;
 		if(!$folder) $folder ="files";

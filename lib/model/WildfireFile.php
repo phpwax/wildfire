@@ -24,6 +24,10 @@ class WildfireFile extends WaxModel {
 		$this->define("attached_to", "ManyToManyField", array('target_model'=>"CmsContent", 'editable'=>false));
   }
   
+  public function scope_available() {
+    $this->filter(array("status"=>"found"));
+  }
+  
   
   public function find_filter_images($filter, $limit = false) {
     $params = array("conditions"=>"type LIKE '%image%' AND (id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
