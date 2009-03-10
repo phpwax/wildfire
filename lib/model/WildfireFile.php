@@ -22,7 +22,10 @@ class WildfireFile extends WaxModel {
     $this->define("size", "IntegerField");
     $this->define("oldid", "IntegerField");
 		$this->define("attached_to", "ManyToManyField", array('target_model'=>"CmsContent", 'editable'=>false));
-		$this->filter(array("status"=>"found"));
+  }
+  
+  public function scope_available() {
+    $this->filter(array("status"=>"found"));
   }
   
   
