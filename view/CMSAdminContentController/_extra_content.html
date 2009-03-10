@@ -14,7 +14,7 @@
 					echo large(select($model->extra_content($content), $content, $opts['choices'] ) );
 					break;
         case "wysiwyg":
-          echo large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));;
+          echo '<fieldset id="wysiwyg">'.large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content))) .'</fieldset>';
           break;
         case "radiogroup":
           echo '<div class="large"><label>Rating</label>';
@@ -30,6 +30,6 @@
       }?>
     <?else:?>
     <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3", "value"=>stripslashes($model->extra_content_value($content))), humanize($content)))?>
-    <hr />
     <?endif?>
+    <hr />
   <?endforeach?>
