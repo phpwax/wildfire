@@ -166,7 +166,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	
 	public function browse_images() {
 		$this->use_layout=false;
-	  $model = new WildfireFile;
+	  $model = new WildfireFile("available");
 	  $fs = new CmsFilesystem;
 	  $folder = $fs->relativePath;
 		if(!$folder) $folder ="files";
@@ -183,7 +183,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	    $this->browse_images();
 	  } else {
       $this->use_layout=false;
-      $this->all_images = ($image = new WildfireFile) ? $image->find_filter_images($_POST['filter'], "30"): array();
+      $this->all_images = ($image = new WildfireFile("available")) ? $image->find_filter_images($_POST['filter'], "30"): array();
       $this->all_images_partial = $this->render_partial("list_all_images");
     }
   }
