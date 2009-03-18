@@ -39,17 +39,7 @@ class CmsSection extends WaxTreeModel {
 		return $this->section_types[$this->type];
 	}
 
-	protected function session_cache_get($name, $expire="18000") {
-		if(Session::get($name)) {
-			if(Session::get($name."_cache") > time()-$expire) return Session::get($name);
-		}
-		return false;
-	}
 
-	protected function session_cache_set($name, $value) {
-		Session::set($name, $value);
-		Session::set($name."_cache", time());
-	}
 }
 
 ?>
