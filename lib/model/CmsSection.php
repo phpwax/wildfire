@@ -17,38 +17,6 @@ class CmsSection extends WaxTreeModel {
 		$this->url = WXInflections::to_url($this->title);
 	}	
 
-	public function tree($nodes = false){
-		$model_class = get_class($this);
-		if($cache_tree = unserialize($this->session_cache_get("section_tree"))) {
-			return new RecursiveIteratorIterator(new WaxTreeRecordset($this, $cache_tree), RecursiveIteratorIterator::SELF_FIRST );
-		}else{
-			$new_tree = $this->build_tree($this->rows() );
-			$this->session_cache_set("section_tree", serialize($new_tree));
-			return new RecursiveIteratorIterator(new WaxTreeRecordset($this, $new_tree), RecursiveIteratorIterator::SELF_FIRST );
-		}
-	}
-
-	public function all() {
-		$res = $this->db->select($this);
-		return new WaxRecordset($this, $res);
-	}
-
-	public function build_tree($list) {
-		$lookup = array();
-		foreach( $list as $item ) {
-			$item['children'] = array();
-			$lookup[$item['id']] = $item;
-		}
-		$tree = array();
-		foreach( $lookup as $id => $foo ){
-			$item = &$lookup[$id];
-			if( $item['parent_id'] == 0 ) $tree[$id] = &$item;
-			elseif( isset( $lookup[$item['parent_id']] ) ) $lookup[$item['parent_id']]['children'][] = &$item;
-			else $tree['_orphans_'][$id] = &$item;
-		}
-		return array_values($tree);
-	}
-
 	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
 		if(!$input) $input = new WaxRecordset(new CmsSection(), $this->tree());
 		$collection = array();
