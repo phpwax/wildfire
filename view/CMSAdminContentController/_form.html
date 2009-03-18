@@ -49,7 +49,7 @@ var content_permalink="<?=$model->permalink?>";
     </div>
   
     <fieldset id="content_options">	
-      <?=medium(select($model, "cms_section_id", options_from_collection($model->sections(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
+      <?=medium(select($model, "cms_section_id", options_from_collection($model->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
       <?=medium(select($model, "status", $model->status_options))?>
     	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
     	<hr />
