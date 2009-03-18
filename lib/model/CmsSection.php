@@ -15,7 +15,6 @@ class CmsSection extends WaxTreeModel {
 
 	public function before_save() {
 		$this->url = WXInflections::to_url($this->title);
-		if($this->type == "") $this->type = 0;
 	}	
 
 	public function tree($nodes = false){
