@@ -336,7 +336,8 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
 	 * @return mixed
 	 */	
 	protected function parse_soap($results, $model){
-		//check model name mapping	
+		//check model name mapping
+		WaxLog::log('error', '[SOAP RES]'.print_r($results, 1));	
 		if($model->soap_mappings[$this->cm_api_method]['return']) $return = $model->soap_mappings[$this->cm_api_method]['return'];
 		else $return = $this->cm_api_method."Response";
 		$class = get_class($model);
