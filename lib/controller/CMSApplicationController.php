@@ -246,7 +246,7 @@ class CMSApplicationController extends WXControllerBase{
 			chmod($fname, 0777);
 			$dimensions = getimagesize($fname);
 			if($dimensions[2]=="tiff") {
-			  $command="mogrify ".escapeshellcmd($source)." -coalesce -colorspace RGB -format jpg";
+			  $command="mogrify ".escapeshellcmd($fname)." -coalesce -colorspace RGB -format jpg";
   			system($command);
   			rename($fname, str_replace(".tiff", ".jpg",$fname));
 			}
