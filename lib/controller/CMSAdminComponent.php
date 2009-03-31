@@ -118,12 +118,14 @@ class CMSAdminComponent extends WXControllerBase {
 	/**
 	* Create model item - has shared view cms/view/CONTROLLER/_form.html
 	*/
-	public function create($save=true) {
-		$this->display_action_name = 'Create';
-		$this->model = new $this->model_class;		
-		if($save) $this->save($this->model);
-		$this->form = $this->render_partial("form");
-	}
+  public function create($save=true) {
+  	$this->display_action_name = 'Create';
+  	$this->model = new $this->model_class;		
+  	$this->form = $this->render_partial("form");
+  	if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
+  	if($_POST['save'] && $save) $this->save($this->model, "edit");
+  	elseif($save) $this->save($this->model, Session::get("list_refer"));
+  }
 	
 	/**
 	* Edit model item in lightbox interface - has shared view cms/view/CONTROLLER/_form.html
@@ -166,8 +168,8 @@ class CMSAdminComponent extends WXControllerBase {
 	protected function save($model, $redirect_to=false, $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
 			if($model->update_attributes($_POST[$this->model_name]) ) {
-			  if($redirect_to =="edit") $redirect_to = "edit/".$model->id;
-			  elseif(!$redirect_to) $redirect_to="index";
+			  if($redirect_to == "edit") $redirect_to = "/$this->controller/edit/".$model->id;
+			  elseif(!$redirect_to) $redirect_to = "/$this->controller/index";
       	Session::add_message($this->display_name." ".$success);
       	$this->redirect_to($redirect_to);
 			}
