@@ -248,7 +248,7 @@ class CMSApplicationController extends WXControllerBase{
 			if($dimensions[2]=="TIFF" || $dimensions[2]=="TIF") {
 			  $command="mogrify ".escapeshellcmd($fname)." -coalesce -colorspace RGB -format jpg";
   			system($command);
-  			rename($fname, str_replace(strtolower($dimensions[2]), ".jpg",$fname));
+  			rename($fname, str_replace(".".strtolower($dimensions[2]), ".jpg",$fname));
 			}
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
 				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, false, true);
