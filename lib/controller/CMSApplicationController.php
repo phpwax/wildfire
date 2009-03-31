@@ -245,10 +245,16 @@ class CMSApplicationController extends WXControllerBase{
 			$fname = $fs->defaultFileStore.$path."/".$filename;
 			chmod($fname, 0777);
 			$dimensions = getimagesize($fname);
+			if($dimensions[2]=="tiff") {
+			  $command="mogrify ".escapeshellcmd($source)." -coalesce -colorspace RGB -format jpg";
+  			system($command);
+  			rename($fname, str_replace(".tiff", ".jpg",$fname));
+			}
 			if(AdminFilesController::$max_image_width && ($dimensions[0] > AdminFilesController::$max_image_width) ){
 				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, false, true);
 				if(!$flag) WaxLog::log('error', '[resize] FAIL');
 			}
+			
       $fs->databaseSync($fs->defaultFileStore.$path, $path);
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
