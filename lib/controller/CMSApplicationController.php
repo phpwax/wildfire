@@ -249,6 +249,7 @@ class CMSApplicationController extends WXControllerBase{
 				$flag = File::resize_image($fname, $fname,AdminFilesController::$max_image_width, false, true);
 				if(!$flag) WaxLog::log('error', '[resize] FAIL');
 			}
+			
       $fs->databaseSync($fs->defaultFileStore.$path, $path);
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$filename, "rpath"=>$path))->first();
@@ -271,6 +272,16 @@ class CMSApplicationController extends WXControllerBase{
         $fs->upload($path);
         $fs->databaseSync($fs->defaultFileStore.$path, $path);
 				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
+				if($dimensions = getimagesize($fname)) {
+				  if($dimensions[2]=="7" || $dimensions[2]=="8") {
+    			  WaxLog::log("error", "Detected TIFF Upload");
+    			  $command="mogrify ".escapeshellcmd($fname)." -colorspace RGB -format jpg";
+      			system($command);
+      			$newname = str_replace(".tiff", ".jpg",$fname);
+      			$newname = str_replace(".tif", ".jpg",$newname);
+      			rename($fname, $newname);
+    			}
+  			}
 				chmod($fname, 0777);				
         $file = new WildfireFile;
         $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
