@@ -75,7 +75,7 @@ class CMSApplicationController extends WXControllerBase{
 				unset($stack[$key]);
 			}
 		}
-		
+
 		//if theres something left in the stack, find the page
 		if(count($stack)) $this->find_content(end($stack));
 		//otherwise this is a section, so find all content in the section
@@ -85,7 +85,7 @@ class CMSApplicationController extends WXControllerBase{
 	
 	/**
 	 * Takes the url passed in and tries to find a section with a matching url
-	 * - if finds one, set the cms_seciton & return true
+	 * - if finds one, set the cms_section & return true
 	 * - if it finds more than one, then reverse stack, traverse back looking for matching parents & return true
 	 * - return false 
 	 * @param String $url 
