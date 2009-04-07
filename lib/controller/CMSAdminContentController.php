@@ -148,7 +148,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public function create() {
 		$model = new $this->model_class;
 		$model->status = 3;
-		$model->author_id = Session::get('wildfire_user');
+		$model->author_id = Session::get('wildfire_user_cookie');
 		$model->url = time();
 		$this->redirect_to("/admin/content/edit/".$model->save()->id."/");
 	}
