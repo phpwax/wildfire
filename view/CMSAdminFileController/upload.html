@@ -12,7 +12,7 @@
  
   <div id="advanced_uploader" class="clearfix">
     <h2>Choose Your Files</h2>
-    <form id="form1" action="" method="post" enctype="multipart/form-data">
+    <form id="form1" action="" method="post" enctype="multipart/form-data" onsubmit='set_post_params(); return false;'>
         <div id="flash_upload">
           <div class="flash" id="fsUploadProgress"></div>
           <div id="divStatus">Click start to upload files</div>
@@ -33,7 +33,7 @@
 				<input type="hidden" name="content_page_type" id="content_page_type" value="<?=$page->table?>" />				
 				<input type="hidden" name="join_field" id="join_field" value="<?=Request::get('join_field')?>" />				
         </fieldset>
-      <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params();return false' />
+      <input type="submit" value="Start Upload" id="start_button" onclick="" />
       
     </form>
     

@@ -7,20 +7,16 @@
 	<?=stylesheet_asset('cms','reset-fonts-grids')?>
 	<?=stylesheet_asset('cms','cms-stylesheet')?>
 	<?=stylesheet_asset('cms','cms_login')?>
+	<?=javascript_asset('jquery','jquery.1.2.6.js')?>
+	<?=javascript_asset('jquery','jquery.hint.js')?>
+	<?=javascript_asset('cms','cms_login')?>
   <title>Wildfire Web Content Manager Login</title>
 </head>
 
-<body>
+<body id="login">
   <div id="login_box">
-    <div id="heading-login">
-      <div id="logo">
-        <h6>Wildfire web content management</h6>
-      </div>
-
-    </div>
-
     <div id="login_area">
-		
+		  <div id="logo"><h6>Wildfire web content management</h6></div>
       <?=info_messages()?>
       <?=$content_for_layout?>
     </div>

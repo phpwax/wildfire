@@ -1,39 +1,42 @@
+body {
+  background:#ebebeb;
+}
 #login_box {
-  background:#1D3550 url(../../images/cms/login_box_top.gif) no-repeat left top;
-  width:298px;
+  background:#414141;
   margin:100px auto;
+  text-align:center;
 }
 
 #login_box #logo {
-  background:url(../../images/cms/cms_login_logo.gif) no-repeat center 20px;
-  width:298px;
-  height:80px;
+  background:url(../../images/cms/wildfire_login_logo.gif) no-repeat center 20px;
+  height:108px;
 }
 
 #login_box #login_area {
-  background:#1D3550 url(../../images/cms/login_box_bottom.gif) no-repeat left bottom;
   text-align:center;
-  width:258px;
   padding:0 10px;
   padding-bottom:15px;
+  width:300px;
+  margin:0 auto;
 }
-#login_box[id] #login_area {
-  width:278px;
+#login_box #login_area .form_container {
+  margin:0;
+  padding:0;
+  width:auto;
 }
+
 #login_box #login_area label {
   color:white;
   font-size:85%;
   margin:0;
 }
 .user_messages {
-  background:#E79D9D;
-  margin:3px 10px;
+  background:#d02c40;
+  margin:8px 40px 0 40px;
+  -webkit-border-radius:3px;
+  border:0;
+  color:white;
+  font-size:100%;
 }
-#login_box .form_container {
-  margin:3px;
-  padding:3px;
-  width:252px;
-}
-#login_box[id] .form_container {
-  width:286px;
-}
+
+

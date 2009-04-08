@@ -9,7 +9,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
   public $model;
 	public $model_name = "wildfire_user";
 	public $model_class = "WildfireUser";
-	public $display_name = "Home";
+	public $display_name = "Dashboard";
 	public $base_url;
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
@@ -17,6 +17,8 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	function __construct(){
 		parent::__construct();
 		$this->sub_links = array();
+		$this->sub_links["../content/create"] = "Create New Content";
+		$this->sub_links["../.."] = "View Site";
 	}
 	/**
 	* protected function that handles the actual db authentication check on first login
@@ -48,6 +50,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 		Session::unset_var('errors');
 		$this->use_layout = "login";
 		$this->redirect_url = Session::get('referrer');
+		$this->form = new LoginForm;
 	}
 	/**
 	* Clears the session data via a call to the auth object - effectively logging you out
@@ -61,12 +64,13 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	* home page - shows statistical summaries
 	**/
 	public function index() {
-	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_xml($li, 5, 'referrer') : array();
-	  $this->stat_search = ($li = CmsConfiguration::get("stat_search_url")) ? $this->parse_xml($li, 5, 'search') : array();
-	  $this->stat_dash = ($li = CmsConfiguration::get("stat_dash_url")) ? $this->parse_xml($li, 5, "visit_day") : array();
-	  $this->link_module = $this->render_partial("stat_links");
-	  $this->search_module = $this->render_partial("stat_search");
-	  $this->dash_module = $this->render_partial("stat_dash");
+	  $general_conf = CmsConfiguration::get("general");	  
+    $this->stats_site_id = $general_conf["statsid"];
+    $this->stat_search = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getKeywords&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
+	  $this->stat_links = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getWebsites&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
+ 	  unset($this->sub_links["index"]);
+ 	  $content = new CmsContent;
+ 	  $this->recent_content = $content->limit(7)->filter("status < 3")->order("id DESC")->all();
  	}
 	/**
 	* help pages - content is generated via partials (we really should write some more of these...)

@@ -9,7 +9,6 @@ var content_permalink="<?=$model->permalink?>";
   <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
 <![endif]-->
 <?=javascript_asset("cms","file")?>
-<?=javascript_asset("cms","cms_content")?>
   <div id="container">
     <div id="quicksave">
       <a href="#" id="autosave"><img src="/images/cms/cms_quick_save.gif" title="Quick Save" /></a>
@@ -28,7 +27,7 @@ var content_permalink="<?=$model->permalink?>";
     <div id="content_editor" class="clearfix">
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
-          <?=large(simple_wysiwyg($model, "content", array(), false))?>
+          <?=large(text_area($model, "content", array("class"=>"jqwysi"), false))?>
         </fieldset>
       </div>
       <div id="section-2" class="tabs-container">

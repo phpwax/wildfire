@@ -16,6 +16,9 @@ div, ul, ol {
 img{
 	border:0px;
 }
+html {
+  background:#414141;
+}
 body{
 	background:#EDEDED;
   text-align:left;
@@ -147,12 +150,11 @@ p{
   padding:6px 13px;
 }
 #sub-navigation-container ul li a {
-  color:#111111;
   line-height:265%;
   text-decoration:none;
+  color:white;
 }
 #sub-navigation-container ul li a:hover {
-  font-weight:bold;
   text-decoration:underline;
 }
 
@@ -162,13 +164,7 @@ p{
 #selected_nav a {
   background:#DEDEDE url(../../images/cms/cms-navigation-right-tab.gif) no-repeat right top;
 }
-.sub_nav_selected {
-  background:url(../../images/cms/nav_selected_pointer.gif) no-repeat center bottom;
-}
-.sub_nav_selected a {
-  font-weight:bold;
-  text-decoration:underline;
-}
+
 
 
 
@@ -225,6 +221,7 @@ p{
 	clear:both;
 	margin-left:40px;
 	width:95%;
+	margin-bottom:40px;
 }
 #files #content{
 	width:99%;
@@ -444,67 +441,26 @@ h4{
 }
 
 #footer {
-	color:#444444;
-	margin-top:60px;
-	background:url(../../images/cms/cms-footer-bg.gif) repeat-x;
-	padding:10px 40px 40px 40px;
-	text-align:right;
+	color:#e1e1e1;
+	background:#414141 url(../../images/cms/cms-footer-bg.gif) no-repeat bottom right;
+	padding:10px 40px 10px 40px;
 	font-size:85%;
+	border-bottom:2px solid #333;
 }
 #footer a {
-	color:#fbc700;
+	color:#e1e1e1;
 	font-weight:bold;
 	text-decoration:none;
 }
 #footer a:hover {
 	color:#92C905;
 }
-
-
-
-.cms_home_module {
-  width:30%;
-  margin:0;
-  padding:0;
-  float:left;
-  margin-right:25px;
-  font-size:77%;
-}
-.cms_home_module h3 {
-  background:#282828;
-  margin:0 !important;
-  padding:4px 15px;
-  color:white;
-  font-weight:normal;
-  border:0 !important;
-  margin-bottom:7px !important;
-}
-.cms_home_module p {
-  font-size:107%;
+#footer img {
+  vertical-align:middle;
 }
 
-.home_module_line, .graph_line {
-  padding:0;
-  margin:5px 0 5px 15px;
-  float:left;
-  width:30%;
-  border:0;
-}
-.bar_graph, .home_module_value {
-  background:url(../../images/cms/cms-stat-graph.gif) repeat-x;
-  height:9px;
-  float:left;
-  margin:5px 15px 5px 0;
-}
-.home_module_value {
-  background:none;
-}
-.graph_separator {
-  clear:both;
-  border-top:1px solid #D1D1D1;
-  margin:5px 15px;
-  padding:0;
-}
+
+
 #pagination li {
   float:left;
   margin-right:4px;
@@ -852,6 +808,7 @@ li.pagination_link a {
 .form_container fieldset label {
   margin:0 0 4px 0;
   display:block;
+  padding-bottom:5px;
 }
 
 .form_container fieldset .check_box_label,
@@ -884,9 +841,9 @@ li.pagination_link a {
 }
 
 .form_container fieldset .input_field {
-  width:98%;
   padding:3px 2px;
   clear:right;
+  margin-bottom:8px;
 }
 
 .form_container fieldset .select_field {
@@ -990,7 +947,7 @@ li.pagination_link a {
 #primary-navigation {
   float:left;
   font-size:100%;
-  margin:0 0 0 50px;
+  margin:0 0 0 30px;
 }
 #primary-navigation li {
   display:block;
@@ -1000,12 +957,17 @@ li.pagination_link a {
   line-height:55px;
 }
 #primary-navigation li a {
-  color:#E1E1E1;
-  text-shadow:#333333 1px 2px 0;
+  color:#222;
+  text-shadow:#e1e1e1 1px 1px 0;
   text-decoration:none;
 }
 #primary-navigation li.active {
-  background:url(../../images/cms/nav_highlight.gif) no-repeat bottom center;
+  background:#414141;
+  padding:0 10px;
+}
+#primary-navigation li.active a {
+  color:white;
+  text-shadow:none;
 }
 #cms_logo {
   float:left;
@@ -1013,8 +975,8 @@ li.pagination_link a {
 }
 
 #sub-navigation-container {
-  background:#f0f0f0 url(../../images/cms/subnav_bg.gif) repeat-x bottom center;
-  border-bottom:1px solid #989898;
+  background:#414141;
+  border-bottom:1px solid #000;
   padding-top:8px;
 }
 #submenu {
@@ -1028,22 +990,13 @@ li.pagination_link a {
 }
 #submenu li a {
   text-decoration:none;
-  color:#686868;
+  color:white;
   font-size:116%;
 }
 #submenu li a:hover {
-  text-decoration:none !important;
-  color:#262626;
-  font-weight:normal;
+  text-decoration:underline !important;
 }
-#submenu .sub_nav_selected a {
-  color:#1A1718;
-  font-weight:bold;
-}
-#submenu .sub_nav_selected {
-  border-bottom:4px solid #989898;
-  background:none;
-}
+
 
 
 /*** End Wildfire 1.0 Updates **********/
@@ -1226,4 +1179,113 @@ a.edit_img{
 }
 a.edit_img img{
 	border:1px solid #333;
+}
+
+/* Dashboard styles */
+#dashboard #page-container {
+  margin:0;
+}
+#dashboard #content {
+  width:auto;
+}
+#dashboard #statistics {
+  float:right;
+  background-color:#414141;
+  padding:3px 15px 20px 15px;
+  margin-top:-32px;
+}
+#dashboard #statistics h2 {
+  color:#d1d1d1;
+  font-size:161.6%;
+}
+#dashboard #statistics h3 {
+  color:#92c2e9;
+  border:0;
+  margin-left:0;
+  margin-top:15px;
+  margin-bottom:4px;
+}
+#dashboard #statistics {
+  color:#f1f1f1;
+}
+#dashboard #statistics a {
+  color:#b34744;
+}
+#dashboard #statistics a:hover {text-decoration:underline;}
+#dashboard #statistics .stat_count {
+  float:left;
+  width:27%;
+  font-size:77%;
+  padding:3px 0;
+}
+#dashboard #statistics .stat_label {
+  float:left;
+  width:65%;
+  font-size:77%;
+  padding:3px 0;
+  font-weight:normal;
+}
+#dashboard #quick_nav {
+  margin:20px 0;
+  background-color:white;
+  padding:10px 0;
+  width:250px;
+  float:left;
+  margin-top:0px;
+  
+}
+#dashboard #quick_nav h3 {
+  color:#2971a1;
+  border:0;
+  margin-bottom:4px;
+}
+#dashboard #quick_nav p {
+  color:#454546;
+  margin-top:0;
+}
+#dashboard #quick_nav #quick_search {
+  border-bottom:1px solid #ececeb;
+  padding:0 10px;
+  padding-bottom:15px;
+}
+#dashboard #quick_nav #quick_search img, #dashboard #quick_nav #quick_create img, #dashboard #quick_nav #quick_upload img {
+  float:left;
+  margin:0 10px 10px 0;
+}
+#dashboard .live_search {
+  background:url(../../images/cms/search_field_bg.gif) no-repeat center right;
+  border:1px solid #BBB;
+  padding:3px;
+  color:#444;
+}
+#dashboard #quick_nav #quick_create {
+  border-bottom:1px solid #ececeb;
+  padding:0 10px;
+  padding-bottom:15px;
+}
+#dashboard #quick_nav #quick_upload {
+  padding:0 10px;
+  padding-bottom:15px;
+}
+#dashboard #quick_nav #quick_create_title {
+  border:1px solid #BBB;
+  padding:3px;
+  color:#444;
+}
+#quick_create_submit {
+  margin-top:5px;
+}
+#dashboard #quick_nav a {
+  font-weight:normal;
+}
+#dashboard #quick_recent_content {
+  margin:0px 380px 20px 280px;
+  padding:10px;
+  background:white;
+  margin-top:30px;
+}
+#dashboard #quick_recent_content h3 {
+  color:#2971a1;
+  border:0;
+  margin-bottom:4px;
 }
