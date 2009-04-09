@@ -230,7 +230,6 @@ p{
 #filter_block{
 	padding:10px;
 	background-image: url(../../images/cms/widg_bg.gif);
-	border-top: 1px solid #ebebeb;
 	border-bottom: 1px solid #ebebeb;
 }
 #filter_block input{
@@ -289,13 +288,21 @@ h4{
 
 #image_browser_container, #category_browser_container {
   width:100%;
-  margin-top:1px;
 }
 
 #image_browser, #category_browser {
-  border:1px solid #d2d0d0;
   background:white;
 }
+#quick_upload_button, #upload_url_button {
+  background:url(../../images/cms/upload_image_icon.gif) no-repeat left center;
+  padding-left:18px;
+  color:#414141 !important;
+  font-size:93%;
+}
+#upload_url_button {
+  background:url(../../images/cms/upload_url_icon.gif) no-repeat left center;
+}
+
 
 #image_list, #category_list {
   padding:10px;
@@ -608,13 +615,13 @@ li.pagination_link a {
   
   #content_window {
     background:#F5F5F4;
-    margin-top:-1px;
   }
   .ui-tabs-hide { display: none; }
   #content_window .tabs-container {
     background:none;
     border:0;
     padding:0;
+    border-top:0;
   }
   #content_editor fieldset, #content_editor .large {
     margin:0;
@@ -630,8 +637,8 @@ li.pagination_link a {
   }
   .tabs-nav li {
     background:#8da7ca;
-    border-bottom:0;
-    padding:3px 8px;
+    border-bottom:1px solid #8da7ca;
+    padding:0px 8px;
     margin:0px 10px 0 0 !important;
     -webkit-border-top-left-radius:5px;
     -webkit-border-top-right-radius:5px;
@@ -639,7 +646,7 @@ li.pagination_link a {
     -moz-border-top-right-radius:5px;
   }
   li.tab_editable_title {
-    padding:0px 8px 0 3px;
+    padding:1px 8px 0 3px;
   }
   
   
@@ -650,15 +657,16 @@ li.pagination_link a {
   .tabs-nav li a {
     display:block;
     color:#FFF !important;
-    padding:13px 6px;
+    padding:13px 6px 12px 6px;
     font-size:100%;
     font-family:Arial;
   }
   li.tab_editable_title a {
-    padding:8px 6px;
+    padding:5px 6px 4px 6px;
   }
   .tabs-nav li:hover {
     background:#d4e5ed;
+    border-bottom:1px solid #d4e5ed;
   }
   .tabs-nav li:hover a {
     color:#414141 !important;
@@ -670,6 +678,8 @@ li.pagination_link a {
   .tabs-nav .ui-tabs-selected {
     background-color:white;
     border-bottom:1px solid white;
+    position:relative;
+    top:1px;
   }
   .tabs-nav .ui-tabs-selected a {
     color:#414141 !important;
@@ -705,18 +715,25 @@ li.pagination_link a {
   }
   #quicksave {
     float:right;
-    padding:0px 10px 0 0;
+    padding:10px 0px 0 0;
     font-size:75%;
     color:#989898;
-    width:200px;
+    width:280px;
     background:none;
+    text-align:right;
+    vertical-align:bottom;
   }
   #quicksave span {
-    margin-right:8px;
-    line-height:160%;
+    margin-left:8px;
+    float:right;
   }
   #quicksave a {
     float:right;
+    margin-left:6px;
+    vertical-align:bottom;
+  }
+  #quicksave a img {
+    vertical-align:text-bottom;
   }
 
 /****************/
