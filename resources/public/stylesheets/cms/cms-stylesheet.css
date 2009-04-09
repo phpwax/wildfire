@@ -608,6 +608,7 @@ li.pagination_link a {
   
   #content_window {
     background:#F5F5F4;
+    margin-top:-1px;
   }
   .ui-tabs-hide { display: none; }
   #content_window .tabs-container {
@@ -623,35 +624,71 @@ li.pagination_link a {
     width:100%;
   }
   .tabs-nav {
-    background:white;
-    color:#4f4f4f;
+    background:none;
     padding:0px !important;
+    border-bottom:1px solid #8da7ca;
   }
   .tabs-nav li {
-    background:#FFF;
+    background:#8da7ca;
     border-bottom:0;
-    padding:0 8px;
+    padding:3px 8px;
+    margin:0px 10px 0 0 !important;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -moz-border-top-left-radius:5px;
+    -moz-border-top-right-radius:5px;
   }
+  li.tab_editable_title {
+    padding:0px 8px 0 3px;
+  }
+  
+  
   .tabs-nav li input {
-    padding:2px 4px;
     width:250px;
+    padding:8px 6px;
   }
   .tabs-nav li a {
     display:block;
-    color:#4f4f4f !important;
-    padding:8px 6px;
+    color:#FFF !important;
+    padding:13px 6px;
     font-size:100%;
     font-family:Arial;
+  }
+  li.tab_editable_title a {
+    padding:8px 6px;
+  }
+  .tabs-nav li:hover {
+    background:#d4e5ed;
+  }
+  .tabs-nav li:hover a {
+    color:#414141 !important;
   }
   .tabs-nav li.tabs-selected a {
     color:#3F3C3C !important;
     font-size:107%;
-    border-bottom:3px solid #ebebeb;
+  }
+  .tabs-nav .ui-tabs-selected {
+    background-color:white;
+    border-bottom:1px solid white;
+  }
+  .tabs-nav .ui-tabs-selected a {
+    color:#414141 !important;
+    font-weight:bold;
   }
   
   input.generic_button {
    margin-right:10px;
   }
+  #content_title {
+    background:url(../../images/cms/content_edit_icon_off.gif) no-repeat right center;
+    padding:4px 26px 4px 0;
+  }
+  .ui-tabs-selected #content_title {
+    background:url(../../images/cms/content_edit_icon.gif) no-repeat right center;
+  }
+  
+  
+  
   #submit {
     padding:10px 20px;
     background:#f5f5f3;
@@ -668,11 +705,11 @@ li.pagination_link a {
   }
   #quicksave {
     float:right;
-    padding:7px 10px 0 0;
+    padding:0px 10px 0 0;
     font-size:75%;
     color:#989898;
     width:200px;
-    background:white;
+    background:none;
   }
   #quicksave span {
     margin-right:8px;

@@ -132,7 +132,15 @@ $(document).ready(function(event) {
     $("#image_list").html(response);
     initialise_images();
   });
-  $('.jqwysi').wymeditor();
+  $('.jqwysi').wymeditor({
+    skin: 'wildfire',
+    postInit: function(wym) {
+      wym.resizable();
+      $(".wym_tools_superscript").remove();
+      $(".wym_tools_subscript").remove();
+    }
+  });              
+          
   
 });
 
@@ -214,6 +222,8 @@ function reload_images(){
 
 }
 
+/***********  Content editor helpers to add functionality ***************/
+
 function cms_insert_url(type) {
   if(type=='web') {
     var theURL = prompt("Enter the URL for this link:", "http://");
@@ -278,4 +288,30 @@ $(document).ready(function() {
   $('#preview_link').click(function(){
     autosave_content(true); //do an autosave and show the preview after
   });
+});
+
+/****** Inline Edit for content title **************/
+$(document).ready(function() {
+  $("#content_title").hover(
+    function(){
+      $(this).css("background-color", "#fbf485");
+      $(this).bind("click.editable", function(){
+        el = '<input type="text" value="'+$("#content_title_label").text()+'" id="content_title_editing" />';
+        $(this).after(el);
+        $("#content_title").hide();
+        $("#content_title_editing").change(function(){
+          $("#cms_content_title").val($(this).val());
+        });
+        $("#content_title_editing").blur(function(){
+          $("#content_title").show();
+          $("#content_title_label").html($("#content_title_editing").val());
+          $("#content_title_editing").remove();
+        });
+        $("#content_title_editing").get(0).focus();
+      });
+    },
+    function(){
+      $(this).css("background-color", "transparent");
+      $(this).unbind("click.editable");
+    });
 });
