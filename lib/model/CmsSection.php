@@ -11,6 +11,7 @@ class CmsSection extends WaxTreeModel {
 		$this->define("introduction", "TextField");
 		$this->define("order", "IntegerField", array('maxlength'=>5) );
 		$this->define("url", "CharField", array('maxlength'=>255) );
+		$this->define("pages", "HasManyField", array('target_model'=>'CmsContent','editable'=>false));
 	}
 
 	public function before_save() {
