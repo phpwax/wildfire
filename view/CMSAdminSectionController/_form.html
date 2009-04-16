@@ -29,23 +29,12 @@
 			<?=form_divider()?>
 
 
-			<?if($allowed_default_page && $current_user->usegroup > 20):?>
+			<?if($allowed_default_page && $current_user->usergroup > 20):?>
 			<?
-			$mod = new CmsSection();
-			$sections = $mod->tree();
+			$pages = array(''=>'Please Select');
+			foreach($model->pages as $pg) $pages[$pg->primval] = $pg->title;
 			?>
-			<div class='large'>
-				<label>Default Page</label>
-				<select name="cms_section[default_page_id]" class="input_field select_field">
-				<?foreach($sections as $group):?>
-					<optgroup label='<?=$group->title?>'>
-					<?foreach($group->content as $item):?>
-					<option value="<?=$item->primval?>"><?=$item->title?></option>
-					<?endforeach?>
-					</optgroup>
-				<?endforeach?>
-				</select>
-			</div>
+			<?=large(select($model, "default_page_id", $pages, array(), "Default Page"))?>
 			<?endif?>
 
     </fieldset>
