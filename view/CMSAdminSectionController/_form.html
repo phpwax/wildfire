@@ -32,7 +32,7 @@
 			<?if($allowed_default_page && $current_user->usergroup > 20):?>
 			<?
 			$pages = array(''=>'Please Select');
-			foreach($model->pages as $pg) $pages[$pg->primval] = $pg->title;
+			foreach($model->content as $pg) $pages[$pg->primval] = $pg->title;
 			?>
 			<?=large(select($model, "default_page_id", $pages, array(), "Default Page"))?>
 			<?endif?>
