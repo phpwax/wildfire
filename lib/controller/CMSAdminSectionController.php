@@ -12,7 +12,7 @@ class CMSAdminSectionController extends CMSAdminComponent {
   );
   public $filter_columns = array("title");
 	public $order_by_columns = array("title","url");
-
+	public $allowed_default_page = false;
 	/**
 	* create the tree structure used for the drop down section selection
 	**/
