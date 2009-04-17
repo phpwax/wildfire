@@ -154,14 +154,15 @@ class CMSHelper extends WXHelpers {
 	 * page title helper - pass in cms_content, cms_section, site name, title separator and model field
 	 * to pull the text from
 	 */
-	public function page_title($page, $section, $name, $seperator = " - ", $field="title"){
-		return $this->make_title($page, $seperator, $field) . $this->make_title($section, $seperator, $field) . $name;
+	public function page_title($page, $section, $name, $seperator = " - ", $field="title", $supress=false){
+		return $this->make_title($page, $seperator, $field, $supress) . $this->make_title($section, $seperator, $field, $supress) . $name;
 	}	
 	/**
 	 * use the cms filter to tidy up the title text and if it has a parent section then append that as well
 	 */	
-	protected function make_title($info, $seperator = " - ", $field=""){
-		if($info->parent_id > 1) return CmsTextFilter::filter("before_output",html_entity_decode($info->$field) ) . $seperator . $this->make_title(new CmsSection($info->parent_id), $seperator ) ;
+	protected function make_title($info, $seperator = " - ", $field="", $supress = false){
+		if($info->$field == $supress || $info == $supress || $info->$field == $supress->$field) return "";
+		elseif($info->parent->primval) return CmsTextFilter::filter("before_output",html_entity_decode($info->$field) ) . $seperator. $this->make_title($info->parent, $seperator,$field, $supress ) ;
 		elseif($info->$field) return CmsTextFilter::filter("before_output", html_entity_decode($info->$field) ) . $seperator;
 		elseif(is_string($info)) return CmsTextFilter::filter("before_output",html_entity_decode($info)) . $seperator;
 		else return "";
