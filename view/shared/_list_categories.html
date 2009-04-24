@@ -1,13 +1,11 @@
-<div class="empty_cat_dropzone" id="cat_drop"></div>
 <script>var content_page_id=<?=$page->id?>;</script>
-<h4>Selected categories</h4>
   <?foreach($attached_categories as $attached):?>
-  <div class="clearfix">
-    <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>"><?=$attached->name?></div>
-    <span class="trash_cat">
-      <?=image_asset("cms", "trash.gif", array("id"=>"delete_category_button$attached->id", "class"=>"category_trash_button"))?>
-    </span>
-  </div>
+    <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>">
+      <?=$attached->name?>
+      <span class="trash_cat">
+        <?=image_asset("cms", "trash.gif", array("id"=>"delete_category_button$attached->id", "class"=>"category_trash_button"))?>
+      </span>
+    </div>
   <?endforeach?>
   <?if(!$attached_categories):?><p>No categories selected - drag and drop to add!</p><?endif?>
 <div class="clearfix"></div>

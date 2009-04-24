@@ -20,12 +20,14 @@ var content_permalink="<?=$model->permalink?>";
         <div id="content_title" class="editable">
           <span id="content_title_label"><?=$model->title?></span>
         </div>
-        <?=hidden_field($model, "title", array(), false)?>
+        <?=hidden_field($model, "title", array())?>
       </a></li>
       <li><a href="#section-2" id="image_tab_link">Add Image(s)</a></li>
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
         <li><a href="#section-3" id="cat_tab_link">Add Categories</a></li>
       <?endif?>
+      <li><a href="#section-4" id="more_tab_link">More Options</a></li>
+      
     </ul>
     
   <div id="content_window" class="clearfix">
@@ -33,6 +35,12 @@ var content_permalink="<?=$model->permalink?>";
       <div id="section-1" class="tabs-container">
         <fieldset id="wysiwyg">
           <?=large(text_area($model, "content", array("class"=>"jqwysi"), false))?>
+        </fieldset>
+        <div class="ui-resizable-handle ui-resizable-s" id="resizehandle"></div>
+        <fieldset class="content_options">	
+    			<?$section = new CmsSection?>
+          <?=small(select($model, "cms_section_id", options_from_collection($section->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
+          <?=small(select($model, "status", $model->status_options))?>
         </fieldset>
       </div>
       <div id="section-2" class="tabs-container">
@@ -49,23 +57,23 @@ var content_permalink="<?=$model->permalink?>";
         <?endif?>
       </div>
       <?endif?>
-      <div id="resizehandle"></div>
+      <div id="section-4" class="tabs-container">
+        <fieldset class="content_options">
+          <?=medium(datetime_select($model, "published", array(), "Date to be published"))?>
+          <?=medium(datetime_select($model, "expires", array(), "Date article expires"))?>
+          <hr />
+      	  <?if($edit_author):?>
+      	    <?=small(select($model, "author_id", $model->author_options, array(), "Author"))?>
+      	  <?endif?>
+      	  <hr />
+      	  <?if(count($extra_content)):?>
+            <?=$extra_content_partial?>
+          <?endif?>
+        </fieldset>
+      </div>
     </div>
   
-    <fieldset id="content_options">	
-			<?$section = new CmsSection?>
-      <?=medium(select($model, "cms_section_id", options_from_collection($section->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
-      <?=medium(select($model, "status", $model->status_options))?>
-    	<?=large(datetime_select($model, "published", array(), "Date to be published"))?>
-    	<hr />
-    	<?if($edit_author):?>
-    	  <?=medium(select($model, "author_id", $model->author_options, array(), "Author"))?>
-    	<?endif?>
-    	<hr />
-    	<?if(count($extra_content)):?>
-      <?=$extra_content_partial?>
-      <?endif?>
-    </fieldset>
+    
     <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />

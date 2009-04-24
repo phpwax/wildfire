@@ -2,13 +2,16 @@
     <tr id="row_<?=$row->id?>">
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
-					<span class="status_change_span">
 					<?if($column == 'title' && $row->is_published()):?>
-	          <a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft"><img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" /></a>
-	        <?elseif($column == 'title'):?>
-	        	<a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published"><span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" /></a>
+					  <span class="status_change_span">
+	          <a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft">
+	            <img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" />
+	          </a></span>
+	        <?elseif($column == 'title' && !$row->is_bublished()):?>
+	        	<span class="status_change_span"><a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published">
+	        	  <span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" /></a></span>
 	        <?endif?>
-					</span>
+					
           <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
           <?=$row->$column?>

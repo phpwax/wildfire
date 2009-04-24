@@ -14,18 +14,16 @@
   <div id="content_window" class="clearfix">
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
-        <fieldset id="wysiwyg">
-          <?=large(simple_wysiwyg($model, "introduction"))?>
-        </fieldset>
 				
       </div>
 			<div id="resizehandle"></div>
     </div>
 
-    <fieldset id="content_options">
-      <?=large(text_field($model, "title"))?>
-    	<?=form_divider()?>
-      <?=large(select($model, "parent_id", array_diff_key($tree_collection, array($model->primval=>"")), array(), "Parent Section"))?>
+    <fieldset class="content_options">
+      <?=medium(text_field($model, "title"))?>
+      <hr />
+      <?=small(select($model, "parent_id", array_diff_key($tree_collection, array($model->primval=>"")), array(), "Parent Section"))?>
+      <?=small(select($model, "default_page_id", options_from_collection($model->content, "id", "title", "None"), array(), "Default Content"))?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
@@ -38,6 +36,3 @@
 </div>
 
 <?=preview_window($page->permalink, "preview_link", "preview_pane")?>
-
-<?=$link_partial?>
-<?=$video_partial?>

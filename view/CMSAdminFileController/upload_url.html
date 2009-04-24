@@ -1,37 +1,39 @@
-<?=stylesheet_asset('cms','reset-fonts-grids')?>
- 
-<?=stylesheet_asset('cms','cms-stylesheet')?>
-<?=stylesheet_asset('cms','cms-overrides')?>
-
 <script type="text/javascript" src="/javascripts/cms/file.js"></script>
  
  
-  <div id="advanced_uploader" class="clearfix">
+  <div id="advanced_uploader" class="clearfix wf_dialog">
     <form id="form1" action="" method="post" enctype="multipart/form-data">
-      <h2>Upload Image From URL</h2>
-        <fieldset>
-          <div class="medium">
-            <label for="upload_from"><strong>Enter URL to upload</strong></label>
+
+        <fieldset id="upload_details">
+          <h3>Step 1</h3>
+          <p>Enter URL to fetch:</p>
+          <div class="large">
             <input class="input_field" type="text" name="upload_from_url" id="upload_from" />
           </div>
-          <?=medium(text_field($model, "filename", array(), "New Filename"))?>
+           <h3>Step 2</h3>
+           <p>Choose a new filename to save it with:</p>
+          <?=large(text_field($model, "filename", array(), false))?>
           
         </fieldset>
-        <fieldset>
-        <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to a folder?"))?>
-        <hr />
-        <?=medium(text_area($model, "description", array("rows"=>"3"), "Give these images an optional description"))?>
+        <fieldset id="upload_options">
+          <h3>Step 3</h3>
+          <p>Choose a folder to upload to.</p>
+          <?=large(select($model, "folder", $model->folder_options, array(), false))?>
+          <hr />
+          <h3>Step 4</h3>
+          <p>Add an optional description to your file:</p>
+          <?=large(text_area($model, "description", array("rows"=>"3"), false))?>
         <hr />
         </fieldset>
-      <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); return false' />
       <input type="hidden" name="url_content_page_id" id="url_content_page_id" value="<?=$page->id?>" />
 			<input type="hidden" name="url_content_page_type" id="url_content_page_type" value="<?=$page->table?>" />				
 			<input type="hidden" name="url_join_field" id="url_join_field" value="<?=Request::get('join_field')?>" />
+			<div class="clearfix"></div>
+      <h3>Step 5</h3>
+      <p>Start the upload.</p>
+      <input type="image" src="/images/cms/start_upload_button.png" onclick="set_post_params(); return false;" />
     </form>
     
-    <form id="upload_url">
-      
-    </form>
     
 
   </div>

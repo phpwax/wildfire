@@ -77,6 +77,7 @@
   			  var el = ele.clone().data("defText", eledef).data("defType","password").attr("type", "password");
           ele.after(el).remove();
           hint_blur(el);
+          el.eq(0).focus();
   			}
 			});
 	  };

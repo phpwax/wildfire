@@ -14,30 +14,41 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
-    $("#resizehandle").resizable({ 
-        handles: "s",
-        transparent: true, 
-        stop: function() {
-          var origheight=13;
-          var newheight = $("#resizehandle").height();
-          var addheight = newheight - origheight;
-          var iframeheight = $(".widgIframe").height();
-          var textareaheight = $("#cms_content_contentWidgTextarea").height();
-          $(".widgIframe").height(iframeheight + addheight);
-          $("#cms_content_contentWidgTextarea").height(textareaheight + addheight);
-          $("#resizehandle").height(13);
+    $("#link_dialog").dialog({autoOpen:false, width:"auto", height:"auto"});
+    $("#video_dialog").dialog({autoOpen:false, title:"Insert a Video"});
+    $("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
+    $("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
+    
+    $("#quick_upload_button").click(function(){
+      $("#quick_upload_pane").dialog("open");
+      $.ajax({
+        url: "/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, 
+        complete: function(response){
+          $("#quick_upload_pane").html(response.responseText); 
+          init_upload();
         }
+      });
     });
-    if(typeof showhtml =="undefined") showhtml=false;
-    if(typeof show_inline_images =="undefined") show_inline_images=false;
+    $("#upload_url_button").click(function(){
+      $("#upload_url_pane").dialog("open");
+      $.ajax({
+        url: "/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, 
+        complete: function(response){
+          $("#upload_url_pane").html(response.responseText); 
+          init_upload();
+        }
+      });
+    });
+    
+    
 });
 
 function initialise_draggables() {
-  $(".category_tag").draggable({opacity: 0.4, revert:true});
-  $("#cat_drop").droppable(
-  	{ accept: 'category_tag', hoverclass:	'dropzone_active', tolerance:	'pointer',
-  		ondrop:	function(drag) {
-  		  $.post("../../add_category/"+content_page_id,{id: drag.id},
+  $("#category_list .category_tag").draggable({opacity:0.5, revert:true, scroll:false, containment:'window', helper:'clone'});
+  $("#cat_dropzone").droppable(
+  	{ accept: '.category_tag', hoverClass:	'dropzone_active', tolerance:	'pointer',
+  		drop:	function(event, ui) {
+  		  $.post("../../add_category/"+content_page_id,{id: ui.draggable.attr("id")},
   		  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   	}
   });
@@ -75,8 +86,6 @@ function delayed_image_filter(filter) {
 
 /**** Setup for image drag and drop ******/
 $(document).ready(function(event) {
-	if(show_inline_images) widgToolbarItems.push("image");
-	if(showhtml) widgToolbarItems.push("htmlsource");
 	
   $("#image_filter").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
@@ -110,20 +119,6 @@ $(document).ready(function(event) {
     );
   });
   
-  /**** Initialise the image dropzones ***/
-  $(".attached_image").droppable(
-  	{
-  	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
-  		ondrop:	function (drag) {
-  			$.post("../../add_image/"+content_page_id, 
-				  {id: drag.id, order: $(this).attr("id").substr(8)},
-          function(response) {
-            $("#dropzone"+get_query_var("?" + this.data,'order')).html(response);
-            initialise_images();
-          }
-        );
-  		}
-  });
   
   
   
@@ -134,23 +129,37 @@ $(document).ready(function(event) {
   });
   $('.jqwysi').wymeditor({
     skin: 'wildfire',
+    stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
-      wym.resizable();
-      $(".wym_tools_superscript").remove();
-      $(".wym_tools_subscript").remove();
+      wym.wildfire(wym);
     }
   });              
           
   
 });
 
+function wym_button(name, title) {
+  var html = "<li class='wym_tools_"+name+"'>"
+              + "<a name='"+name+"' href='#'"
+              + title
+              + "</a></li>";
+  return html;
+}
+
+
 function initialise_images() {
-  $(".drag_image").draggable({ opacity: 	0.4, revert:true});
-  $(".image_trash_icon").click(function(){
+  $(".drag_image").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
+  $(".remove_image").click(function(){
     $.get("../../remove_image/"+content_page_id+"?image="+this.id.substr(13)+"&order="+this.parentNode.id.substr(8),function(response){
-      $("#dropzone"+get_query_var(this.url,'order')).html(response);
+      $("#drop_zones").html(response);
       initialise_images();
     });
+    return false;
+  });
+  $("#drop_zones").sortable({
+    change: function(event, ui) {
+      alert($("#drop_zones").sortable("serialize"));
+    }
   });
   
   /*** Setup image pagination ***/
@@ -162,18 +171,38 @@ function initialise_images() {
     });
   });
 
-	$(".attached_image").droppable(
+	$("#drop_zones").droppable(
   	{
-  	  accept: 'drag_image', hoverclass: 'dropzone_active', tolerance: 'pointer',
-  		ondrop:	function (drag) {
+  	  accept: '.drag_image', hoverClass:'dropzone_active', tolerance: 'pointer',
+  		drop:	function (event, ui) {
   			$.post("../../add_image/"+content_page_id, 
-				  {id: drag.id, order: $(this).attr("id").substr(8)},
+				  {id: ui.draggable.attr("id")},
           function(response) {
-            $("#dropzone"+get_query_var("?" + this.data,'order')).html(response);
+            $("#drop_zones").html(response);
             initialise_images();
+            return true;
           }
         );
   		}
+  });
+  
+  $(".url_image").click(function(){
+    $.get("/admin/files/image_urls/"+$(this).attr("id").replace("url_image_", ""), function(response){
+      $("<div>"+response+"</div>").dialog({title:"Image URL",width:700}).dialog("open");
+      
+    });
+  });
+  
+  $(".add_image").click(function(){
+    $.post("../../add_image/"+content_page_id, 
+		  {id: $(this).attr("id").replace("add_image_", "")},
+      function(response) {
+        $("#drop_zones").html(response);
+        initialise_images();
+        return true;
+      }
+    ); 
+   
   });
   
 }
@@ -197,12 +226,6 @@ $(document).ready(function() {
   $('#link_dialog').jqm();
   $('#video_dialog').jqm();
 	if(!join_field) var join_field="images";
-  $("#quick_upload_pane").jqm({
-    trigger:"#quick_upload_button", 
-    ajax:"/admin/files/quickupload/"+content_page_id+"?model="+model_string+"&join_field="+join_field, 
-    onLoad:init_upload
-  });
-  $("#upload_url_pane").jqm({trigger:"#upload_url_button", ajax:"/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field});
 });
 
 function reload_images(){
@@ -314,4 +337,40 @@ $(document).ready(function() {
       $(this).css("background-color", "transparent");
       $(this).unbind("click.editable");
     });
+});
+
+/***************************************************/
+/*     Ajax Progress Indication                    */
+/***************************************************/
+$(document).ready(function() { 
+	// Setup the ajax indicator
+	$("body").append('<div id="ajaxBusy"><p>Loading<br /><img src="/images/cms/indicator_dark.gif"></p></div>');
+	$('#ajaxBusy').css({
+		display:"none",
+		margin:"0",
+		position:"absolute",
+		background:"#333",
+		textAlign: "center",
+		fontSize: "100%",
+		color: "#999",
+		letterSpacing: "5px",
+		textTransform: "uppercase",
+		border: "1px solid #c1c1c1",
+		width:"200px",
+		height:"90px",
+		"-webkit-box-shadow": "5px 5px 5px #666",
+    "-moz-box-shadow": "5px 5px 5px #666",
+    lineHeight: "190%",
+    "-webkit-border-radius":"7px",
+    "-moz-border-radius":"7px"
+	});
+
+	// Ajax activity indicator bound 
+	// to ajax start/stop document events
+	$(document).ajaxStart(function(){ 
+		$('#ajaxBusy').show().centerScreen(); 
+	}).ajaxStop(function(){ 
+		$('#ajaxBusy').hide();
+	});
+	
 });

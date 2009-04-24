@@ -22,8 +22,8 @@ function init_upload(){
 
 				// Button settings
 				button_image_url: "/images/cms/add_files_button.png",	// Relative to the Flash file
-				button_width: "80",
-				button_height: "23",
+				button_width: "254",
+				button_height: "27",
 				button_placeholder_id: "spanButtonPlaceHolder",
 				button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
 				button_cursor: SWFUpload.CURSOR.HAND,

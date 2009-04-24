@@ -12,7 +12,7 @@ CMSApplication::register_module("content", array("display_name"=>"Content", "lin
 CMSApplication::register_module("comments", array("display_name"=>"Comments", "link"=>"/admin/comments/"));
 CMSApplication::register_module("files", array("display_name"=>"Files", "link"=>"/admin/files/"));
 CMSApplication::register_module("users", array("display_name"=>"CMS Users", "link"=>"/admin/users/"));
-CMSApplication::register_module("email", array("display_name"=>"Email", "link"=>"/admin/email/"));
+//CMSApplication::register_module("email", array("display_name"=>"Email", "link"=>"/admin/email/"));
 Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 ?>

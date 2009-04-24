@@ -68,6 +68,8 @@ class CMSAdminHomeController extends CMSAdminComponent {
     $this->stats_site_id = $general_conf["statsid"];
     $this->stat_search = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getKeywords&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
 	  $this->stat_links = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getWebsites&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
+    if($this->stat_links["result"]=="error") $this->stat_links = array();
+    if($this->stat_search["result"]=="error") $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
  	  $this->recent_content = $content->limit(7)->filter("status < 3")->order("id DESC")->all();

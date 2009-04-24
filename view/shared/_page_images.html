@@ -1,41 +1,42 @@
 <div id="image_browser_container">
 
   <div id="image_browser" class="clearfix">
-	  <div id="drag_indicator">  
-	    <h4>Drag Images Here</h4>
-	    <?=image_asset("cms", "drag_pointer.gif")?>
-	  </div>
     <div id="filter_block">
       <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
       <span id="image_filter_folder">
         &nbsp;<?=select($image_model, "new_folder", $image_model->folder_options, array("id"=>"image_folder"), "Choose a folder")?>
         &nbsp;<a href="#" id="quick_upload_button">Upload Images</a>
-        &nbsp;&nbsp;<a href="#" id="upload_url_button">From URL</a>
+        &nbsp;&nbsp;<a href="#" id="upload_url_button">Upload From URL</a>
       </span>
     </div>    
     
-    <div id="drop_zones">
-      <div id="droppables">
+    <div id="image_list"></div>
+    <div class="ui-resizable-handle ui-resizable-s" id="imageresizehandle"></div>
+    <div id="drop_zones" class="clearfix">
         <?for($i=0; $i<$allowed_images; $i++):?>
-          <div id="dropzone<?=$i?>" class="attached_image">
             <?if($img = $attached_images[$i]):?>
-              <img src="/show_image/<?=$img->id?>/90<?=$img->extension?>">
-							<a href="/admin/files/edit/<?=$img->id?>" class="edit_img"><?=image_asset("cms", "camera_edit.gif", array("id"=>"edit_image_".$img->id))?></a>
-              <?=image_asset("cms", "trash.gif", array("id"=>"delete_image_".$img->id, "class"=>"image_trash_icon"))?>
+              <div class="dropped_image" id="cimage_<?=$img->id?>">
+                <div class="image_place">
+                  <img src="<?=$img->permalink(120)?>" title="<?=$img->description?>" />
+                </div>
+                <div class="remove_image" id="delete_image_<?=$img->id?>">
+                  <a href="#">Remove</a>
+                </div>
+                <div class="edit_image" id="edit_image_<?=$img->id?>">
+                  <a href="/admin/files/edit/<?=$img->id?>">Edit</a>
+                </div>
+                <div class="url_image" id="url_image_<?=$img->id?>">
+                  <a href="#">Url</a>
+                </div>
+              </div>
             <?else:?>
-              <div class="empty_image_dropzone"></div>
+
             <?endif?>
-          </div>
         <?endfor?>
-      </div>
     </div>
-    <div id="image_list">
-      
-    </div>
-    <div class="clearfix"></div>
+    
   </div>
   
-  
 </div>
-<div id="quick_upload_pane" class="jqmWindow"></div>
-<div id="upload_url_pane" class="jqmWindow"></div>
+<div id="quick_upload_pane"></div>
+<div id="upload_url_pane"></div>

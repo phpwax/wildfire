@@ -196,6 +196,11 @@ class CMSAdminFileController extends CMSAdminComponent {
     $this->use_layout=false;
   }
   
+  public function image_urls() {
+    $this->use_layout=false;
+    $this->image = new WildfireFile(Request::get("id"));
+  }
+  
   public function inline_browse() {
     $this->browse_images();
   }

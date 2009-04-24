@@ -1,10 +1,18 @@
 <div id="image_list_container">
   <?foreach($all_images as $image):?>
     <div id="<?=$image->id?>" class="drag_image">
-      <img src="/show_image/<?=$image->id?>/90<?=$image->extension?>" title="<?=$image->caption?>" />
-			<a href="/admin/files/edit/<?=$image->id?>" class="edit_img"><?=image_asset("cms", "camera_edit.gif", array("id"=>"edit_image_".$image->id))?></a>
-			<br />
-      <?=truncate($image->filename, 19)?>
+      <div class="image_place">
+        <img src="<?=$image->permalink(135)?>" title="<?=$image->description?>" />
+      </div>
+      <div class="add_image" id="add_image_<?=$image->id?>">
+			  <a href="#">Add</a>
+			</div>
+      <div class="edit_image" id="edit_image_<?=$image->id?>">
+			  <a href="/admin/files/edit/<?=$image->id?>">Edit</a>
+			</div>
+			<div class="url_image" id="url_image_<?=$image->id?>">
+			  <a href="#">Url</a>
+			</div>
     </div>
   <?endforeach;?>
   <?if(empty($all_images)):?>

@@ -5,26 +5,26 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<?=stylesheet_asset('cms','reset-fonts-grids')?>
+	<link type="text/css" href="/stylesheets/jquery/css/smoothness/jquery-ui-1.7.1.custom.css" rel="Stylesheet" />	
+  
 	<?=stylesheet_asset('jquery','jquery.modal')?>
 	<?=stylesheet_asset('cms','cms-stylesheet')?>
-	<?=stylesheet_asset('cms','wysiwyg-styles')?>	
 	<?=stylesheet_asset('cms','cms-overrides')?>
 	<!--[if IE]>
 	  <?=stylesheet_asset('cms','ie_cms')?>
 	<![endif]-->
 	
-	<script src="http://www.google.com/jsapi"></script>
-  <script>
-    google.load("jquery", "1.2.6");
-    google.load("jqueryui", "1");
-  </script>
+  <?=javascript_asset("jquery", "jquery.1.3.2")?>
 	<?=javascript_asset("jquery", "jquery.tablesort")?>
+  <?=javascript_asset("jquery", "jquery-ui-1.7.1.custom.min")?>
 	<?=javascript_asset("jquery", "jquery.modal")?>
 	<?=javascript_asset("jquery", "jquery.hint")?>
-	<?=javascript_asset("cms", "widgEditor")?>
-	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/jquery.wymeditor.pack.js"></script>	 
-	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/plugins/resizable/jquery.wymeditor.resizable.js"></script>	 
-	<?=javascript_asset("", "widgEditor")?>
+	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/jquery.wymeditor.js"></script>	 
+	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/jquery.wymeditor.explorer.js"></script>	 
+	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/jquery.wymeditor.mozilla.js"></script>	 
+	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/jquery.wymeditor.opera.js"></script>	 
+	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/jquery.wymeditor.safari.js"></script>	 
+	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/plugins/wildfire/jquery.wymeditor.wildfire.js"></script>	 
 	<?=javascript_asset("cms", "cms_init")?>
 	<?=javascript_asset("cms", "wildfire_".strtolower(WXInflections::underscore($display_name)))?>
 	<?=javascript_asset("cms", "cms_application")?>

@@ -1,6 +1,6 @@
-<div id="link_dialog" class="jqmWindow">
+<div id="link_dialog">
   <h3>1. Enter an internet url</h3>
-  <p><a href="javascript:void(0)" onclick="cms_insert_url('web');">Click Here</a></p>
+  <p><a href="javascript:void(0)" id="insert_web_url">Click Here</a></p>
   <?if(count($all_links)):?>
   <h3>2. Link to one of your files</h3>
     <p>
@@ -9,8 +9,7 @@
         <?foreach($all_links as $link):?>
           <option value="<?=$link->url?>"><?=$link->filename?></option>
         <?endforeach?>
-      </select> <button onclick="cms_insert_url(document.getElementById('link_file').value); return false;">Insert</button>
+      </select> <button id="insert_local_url">Insert</button>
     </p>
   <?endif?>
-  <a href="#" class="jqmClose">Close</a>
 </div>

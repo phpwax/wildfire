@@ -17,9 +17,10 @@ function setup_preview(l_permalink, trigger_id, l_preview_pane) {
 /* JS Table initialisation for index.html */
 $(document).ready(function() {
   if($("#item_list_container").length) {
-    $("#item_list_container").tableSorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
+    $("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
+  $(".form_datepicker").datepicker();
 });
 
 
@@ -43,3 +44,18 @@ function inline_status_change(){
 		});
 	}
 }
+
+
+jQuery.fn.centerScreen = function(loaded) { 
+  var obj = this; 
+  if(!loaded) { 
+    obj.css('top', $(window).height()/2-this.height()/2); 
+    obj.css('left', $(window).width()/2-this.width()/2); 
+    $(window).resize(function() { obj.centerScreen(!loaded); }); 
+  } else { 
+    obj.stop(); 
+    obj.animate({ 
+      top: $(window).height()/2-this.height()/2, 
+      left: $(window).width()/2-this.width()/2}, 200, 'linear'); 
+  } 
+};

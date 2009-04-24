@@ -14,11 +14,16 @@
 					}
 	       }); 
 	     });
-			function inlinefilter(){				
+			function inlinefilter(){	
+			  $("#filter_field").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");		
 				$.post("<?=$url_for?>",
 	      	{filter: $("#filter_field").val()}, 
-	        function(response){ $("#list_rows").html(response);clearTimeout(itimer);}
-	        );
+	        function(response){ 
+	          $("#list_rows").html(response);
+	          clearTimeout(itimer);
+	          $("#filter_field").css("background", "white");
+	        }
+	      );
 			}
 	   </script>
 	</div>

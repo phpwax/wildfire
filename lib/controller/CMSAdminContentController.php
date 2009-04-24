@@ -81,11 +81,13 @@ class CMSAdminContentController extends CMSAdminComponent {
 	* - content id via url (/admin/content/add_image/id)
 	**/
 	public function add_image() {
-		$this->use_layout=false;
-		$this->page = new $this->model_class(Request::get('id'));
-		$file = new WildfireFile(Request::post('id'));
-		$this->page->images = $file;
-		$this->image = $file;
+	  $this->use_layout=false;
+	  $this->page = new $this->model_class(Request::get('id'));
+	  if(Request::post("id")) {
+		  $file = new WildfireFile(Request::post('id'));
+		  $this->page->images = $file;
+		  $this->image = $file;
+	  }
 	}
 	/**
 	* Ajax function - removes the association between the image & content whose details are passed in 
@@ -94,9 +96,9 @@ class CMSAdminContentController extends CMSAdminComponent {
 	**/
 	public function remove_image() {
 		$this->use_layout=false;
-		$page = new $this->model_class(Request::get('id'));
+		$this->page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
-		$page->images->unlink($image);
+		$this->page->images->unlink($image);
 	}
 	
 	public function attached_images(){
