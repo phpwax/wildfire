@@ -764,15 +764,21 @@ li.pagination_link a {
    margin-right:10px;
   }
   #content_title {
-    background:url(../../images/cms/content_edit_icon_off.gif) no-repeat right center;
-    padding:4px 26px 4px 0;
+    padding:4px 4px 4px 0;
   }
+  #content_title_edit {
+    background:url(../../images/cms/content_edit_icon_off.gif) no-repeat right center;
+    float:right;
+    padding:3px;
+    min-width:17px;
+  }
+
   #content_title_label {
     width:220px;
     overflow:hidden;
     text-transform:capitalize;
   }
-  .ui-tabs-selected #content_title {
+  .ui-tabs-selected #content_title_edit {
     background:url(../../images/cms/content_edit_icon.gif) no-repeat right center;
   }
   
