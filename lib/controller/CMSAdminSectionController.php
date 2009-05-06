@@ -1,6 +1,6 @@
 <?php
 
-class CMSAdminSectionController extends CMSAdminComponent {
+class CMSAdminSectionController extends AdminComponent {
 
   public $module_name = "sections";												
   public $model_class = 'CmsSection';

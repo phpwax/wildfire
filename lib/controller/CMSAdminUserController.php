@@ -4,7 +4,7 @@
  * @package PHP-WAX CMS
  */
 
-class CMSAdminUserController extends CMSAdminComponent {
+class CMSAdminUserController extends AdminComponent {
 
   public $module_name = "users";												
   public $model_class = 'WildfireUser';

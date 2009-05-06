@@ -4,7 +4,7 @@
 * @package PHP-WAX CMS
 */
 
-class CMSAdminHomeController extends CMSAdminComponent {
+class CMSAdminHomeController extends AdminComponent {
 	public $module_name = "home";												
   public $model;
 	public $model_name = "wildfire_user";

@@ -1,6 +1,6 @@
 <?php
 
-class CMSAdminEmailController extends CMSAdminComponent {
+class CMSAdminEmailController extends AdminComponent {
 	public $module_name = "email";											
 	public $model_class = 'Client';
 	public $model_name = "client";													
