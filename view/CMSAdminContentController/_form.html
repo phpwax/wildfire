@@ -18,6 +18,9 @@ var content_permalink="<?=$model->permalink?>";
     <ul class="tabs-nav">
       <li class="tab_editable_title"><a href="#section-1">
         <div id="content_title" class="editable">
+          <span id="content_title_edit">
+            
+          </span>
           <span id="content_title_label"><?=$model->title?></span>
         </div>
         <?=hidden_field($model, "title", array())?>

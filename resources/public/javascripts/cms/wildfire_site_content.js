@@ -315,12 +315,13 @@ $(document).ready(function() {
 
 /****** Inline Edit for content title **************/
 $(document).ready(function() {
-  $("#content_title").hover(
+  $("#content_title_edit").hover(
     function(){
-      $(this).css("background-color", "#fbf485");
+      var target = $(this).parent();
+      target.css("background-color", "#fbf485");
       $(this).bind("click.editable", function(){
         el = '<input type="text" value="'+$("#content_title_label").text()+'" id="content_title_editing" />';
-        $(this).after(el);
+        target.after(el);
         $("#content_title").hide();
         $("#content_title_editing").change(function(){
           $("#cms_content_title").val($(this).val());
@@ -334,7 +335,8 @@ $(document).ready(function() {
       });
     },
     function(){
-      $(this).css("background-color", "transparent");
+      var target = $(this).parent();
+      target.css("background-color", "transparent");
       $(this).unbind("click.editable");
     });
 });
