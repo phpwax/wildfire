@@ -4,7 +4,7 @@
 * @package PHP-WAX CMS
 */
 
-class CMSAdminFileController extends CMSAdminComponent {
+class CMSAdminFileController extends AdminComponent {
 	public $module_name = "files";												
   public $model;
 	public $model_class="WildfireFile";

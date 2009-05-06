@@ -3,7 +3,7 @@
  * controller for comments
  */
 
-class CMSAdminCommentController extends CMSAdminComponent {
+class CMSAdminCommentController extends AdminComponent {
 
   public $module_name = "comments";												
   public $model_class = 'CmsComment';

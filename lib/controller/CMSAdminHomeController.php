@@ -4,7 +4,7 @@
 * @package PHP-WAX CMS
 */
 
-class CMSAdminHomeController extends CMSAdminComponent {
+class CMSAdminHomeController extends AdminComponent {
 	public $module_name = "home";												
   public $model;
 	public $model_name = "wildfire_user";
@@ -66,8 +66,12 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	public function index() {
 	  $general_conf = CmsConfiguration::get("general");	  
     $this->stats_site_id = $general_conf["statsid"];
-    $this->stat_search = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getKeywords&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
-	  $this->stat_links = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getWebsites&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
+    if($this->stats_site_id){
+      $this->stat_search = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getKeywords&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
+	    $this->stat_links = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getWebsites&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
+    }else{
+      $this->stat_search = $this->stat_links = array();
+    }
     if($this->stat_links["result"]=="error") $this->stat_links = array();
     if($this->stat_search["result"]=="error") $this->stat_search = array();
  	  unset($this->sub_links["index"]);

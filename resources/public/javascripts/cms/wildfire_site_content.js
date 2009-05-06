@@ -320,6 +320,7 @@ $(document).ready(function() {
       var target = $(this).parent();
       target.css("background-color", "#fbf485");
       $(this).bind("click.editable", function(){
+        $(this).unbind("click.editable");
         el = '<input type="text" value="'+$("#content_title_label").text()+'" id="content_title_editing" />';
         target.after(el);
         $("#content_title").hide();
