@@ -3,7 +3,7 @@
  * admin section for categories - inherits methods from admin component
  */
 
-class CMSAdminCategoryController extends AdminComponent {
+class CMSAdminCategoryController extends CMSAdminComponent {
 
   public $module_name = "categories";												
   public $model_class = 'CmsCategory';
