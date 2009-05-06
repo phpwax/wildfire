@@ -16,7 +16,7 @@ div, ul, ol {
 img{
 	border:0px;
 }
-
+html {background:#EDEDED;}
 body{
 	background:#EDEDED;
   text-align:left;
@@ -511,8 +511,9 @@ h4{
 	padding:10px 40px 10px 40px;
 	font-size:85%;
 	border-bottom:2px solid #333;
-	position:static;
+	position:fixed;
 	bottom:0px;
+	width:100%;
 }
 #footer a {
 	color:#e1e1e1;
