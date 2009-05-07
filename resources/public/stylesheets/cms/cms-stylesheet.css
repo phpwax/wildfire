@@ -775,7 +775,6 @@ li.pagination_link a {
 
   #content_title_label {
     width:220px;
-    overflow:hidden;
     text-transform:capitalize;
   }
   .ui-tabs-selected #content_title_edit {
