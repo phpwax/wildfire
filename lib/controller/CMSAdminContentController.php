@@ -3,7 +3,7 @@
 * Content Controller
 * @package PHP-WAX CMS
 */
-class CMSAdminContentController extends CMSAdminComponent {
+class CMSAdminContentController extends AdminComponent {
 	public $module_name = "content";											
 	public $model_class = 'CmsContent';
 	public $model_name = "cms_content";													
