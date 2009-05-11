@@ -152,6 +152,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$model->status = 3;
 		$model->author_id = Session::get('wildfire_user_cookie');
 		$model->url = time();
+		if(Request::get("title")) $model->title = Request::get("title");
 		$this->redirect_to("/admin/content/edit/".$model->save()->id."/");
 	}
 	/**
@@ -215,6 +216,13 @@ class CMSAdminContentController extends CMSAdminComponent {
 		}else $this->redirect_to("/admin/home");
 	}
 	
+	public function search() {
+	  $this->use_layout=false;
+	  if($input = Request::post("input")) {
+	    $content = new CmsContent;
+	    $this->content_results = $content->search($input, array("title"=>"1.3", "content"=>"0.6"))->limit(5)->all();
+	  }
+	}
 	
 	
 }

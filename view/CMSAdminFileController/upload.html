@@ -1,7 +1,3 @@
-<?=stylesheet_asset('cms','reset-fonts-grids')?>
- 
-<?=stylesheet_asset('cms','cms-stylesheet')?>
-<?=stylesheet_asset('cms','cms-overrides')?>
  
 <script type="text/javascript" src="/javascripts/upload/swfupload.js"></script>
 <script type="text/javascript" src="/javascripts/upload/swfupload.queue.js"></script>
@@ -13,6 +9,7 @@
   <div id="advanced_uploader" class="clearfix wf_dialog">
     <form id="form1" action="" method="post" enctype="multipart/form-data" onsubmit='set_post_params(); return false;'>
         <div id="flash_upload">
+          <div id="uploadstatus"></div>
           <h3>Step 1</h3>
           <p>Tip: You can add multiple files if you wish.</p>
           <input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
@@ -45,8 +42,9 @@
         <div class="clearfix"></div>
         <h3>Step 5</h3>
         <p>Start the upload.</p>
-        <input type="image" src="/images/cms/start_upload_button.png" onclick="" />
-      
+        <input type="image" src="/images/cms/start_upload_button.png" />
+        <input type="hidden" name="relay" value="fileUpload" style="display:none;" />
+   			<input type="hidden" name="path" id="uploadPath" />
     </form>
     
 

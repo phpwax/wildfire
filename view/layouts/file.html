@@ -25,13 +25,12 @@
 		      </a>
 		    </li>
 			<?endforeach?>
-	    <li><a href="/admin/home/logout" id="logout">Logout</a></li>
+	    <li id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></li>
 	  </ul>
 	</div>
 	<?if($sub_links):?>
   	<div id="sub-navigation-container">
   		<ul id="submenu" class="clearfix">
-  		    <li<?if($action=="index"):?> class="sub_nav_selected"<?endif?>><?=link_to("Index", array("action"=>"index"))?></li>
   	      <?foreach($sub_links as $sub_link=>$text):?>
   	        <?$class=""?>
   	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
