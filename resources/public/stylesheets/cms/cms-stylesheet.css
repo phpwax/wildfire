@@ -1478,7 +1478,7 @@ a.edit_img img{
   float:right;
   margin-top:-4px;
 }
-.live_search_results span {padding:9px;}
+.live_search_results span {padding:9px;display:block;}
 .live_search_results li:hover {
   background:#e1e1e1;
 }
