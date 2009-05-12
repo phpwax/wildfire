@@ -48,14 +48,15 @@
     <h3>Quick Content Finder</h3>
     <p>Start typing and results will start to appear:</p>
     <form action="" method="get" accept-charset="utf-8">
-      <input type="text" value="Search" class="live_search" />
+      <input type="text" value="Search" class="live_search" id="live_search_field" />
+      <ul class="live_search_results"></ul>
     </form>
   </div>
   <div id="quick_create">
     <img src="/images/cms/quick_create_icon.gif" />
     <h3>Start Creating Content</h3>
-    <form action="" method="get" accept-charset="utf-8">
-      <input type="text" value="Title" id="quick_create_title" />
+    <form action="../content/create" method="get" accept-charset="utf-8">
+      <input type="text" value="Title" id="quick_create_title" name="title" />
       <input type="image" src="/images/cms/quick_create_button.gif" id="quick_create_submit" />
     </form>
   </div>

@@ -1166,11 +1166,11 @@ showError = function(text) {
 	$('error').innerHTML = "<p>" + text + "</p><a href=\"#\" class=\"close\" onclick=\"Effect.toggle('error', 'appear'); return false\" />close</a>";
 	Effect.Appear('error');
 	return false;
-}
+};
 
 showLogin = function() {
 	$('login').style.display = "block";
-}
+};
 
 
 
@@ -1192,6 +1192,7 @@ cart = null;
 root = null;
 
 windowLoader = function () {
+	search = new Search('searcharea');
 	root = new Directory('', '', false, $('fileList'));
 	
 	root.getContents();
@@ -1201,10 +1202,7 @@ windowLoader = function () {
 	cart = new Cart('cart');
 	
 	setInterval("updateAll(root)", 60000);
-	search = new Search('searcharea');
-	//Field.activate('searchbar');
-	
-}
+};
 
 //Attach to the window loader
 

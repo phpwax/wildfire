@@ -16,6 +16,7 @@ class CMSAdminFileController extends AdminComponent {
 	public $filter_columns = array("filename", "caption");
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
+	public $sub_links = array("synchronise"=>"File Synchronise");
 	
 	
 	public static $max_image_width = false;
@@ -25,7 +26,9 @@ class CMSAdminFileController extends AdminComponent {
 	**/
 	public function controller_global(){
 		parent::controller_global();
-		$this->sub_links = array();
+		unset($this->sub_links["index"]);
+		unset($this->sub_links["create"]);
+
 	}
 	
 	public function fs() {

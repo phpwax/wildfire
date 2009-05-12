@@ -48,14 +48,13 @@ var swfu;
 
    
 function set_post_params(){
-  jQuery("#start_button").fadeTo("fast",0.5);
   var fold = jQuery("#dest").html();
   if(fold == "select a folder") {
     alert("You must choose a folder first");
     return false;
   }
   if(!fold) var fold = jQuery("#wildfire_file_folder").val();
-  if(jQuery("#upload_from").val().length >1) {
+  if(jQuery("#upload_from").length && jQuery("#upload_from").val().length >1) {
     jQuery.post("/file_upload.php?", { 
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
