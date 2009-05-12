@@ -1,4 +1,8 @@
+<?if(count($content_results)):?>
   <span><strong>Content</strong></span>
-<?foreach($content_results as $result):?>
-  <li><div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$result->id))?></div><?=$result->title?></li>
-<?endforeach?>
+  <?foreach($content_results as $result):?>
+    <li><div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$result->id))?></div><?=$result->title?></li>
+  <?endforeach?>
+<?else:?>
+  <li><strong>No Results Found</strong></li>
+<?endif?>
