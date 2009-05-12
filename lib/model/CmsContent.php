@@ -1,7 +1,7 @@
 <?php
 
 class CmsContent extends WaxModel {
-  public $status_options = array("0"=>"Draft", "1"=>"Published");
+  public $status_options = array("0"=>"Draft", "1"=>"Published", "4"=>"Published with revisions pending"); // 3 = created but not saved, 4 = preview content, has been changed but not saved
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -29,6 +29,9 @@ class CmsContent extends WaxModel {
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
 		//category <-> attached_to
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true));
+		//master -> revisions (used for previews and languages)
+		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
+		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id"));
 	}
 	public function page_status() {
 		return $this->status_options[$this->status];
@@ -65,7 +68,7 @@ class CmsContent extends WaxModel {
 		//check to make sure the url does not clash with a section url (this would cause the content to be found as a section)
   	$this->avoid_section_url_clash();
 		//make sure the url is unique
-	  $this->url = $this->avoid_url_clash();
+	  if($this->status <> 4) $this->url = $this->avoid_url_clash();
 	}
 	
 	
@@ -104,9 +107,13 @@ class CmsContent extends WaxModel {
 	public function avoid_url_clash(){
 		$test_url = $original_url = $this->url;
 		$model = new CmsContent();
-		if($this->id) $model->filter('id <> '.$this->id);
-		while($model->filter(array('url'=>$test_url) )->first() ){
-			$test_url = $original_url . '-'.mt_rand(0,99);
+		if($this->primval) $model->filter($this->primary_key.' <> '.$this->primval);
+		$count = 0;
+		while($model->filter(array('url'=>$test_url, 'cms_section_id'=>$this->cms_section_id) )->first() ){
+			if($count == 0) $test_url = $original_url . '-'.date("Y-m-d");
+			elseif($count == 1) $test_url = $original_url . '-'.$this->primval;
+			else $test_url = $original_url . '-'.mt_rand(0,99);
+			$count++;
 		} 
 		return $test_url;
 	}

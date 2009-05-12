@@ -42,7 +42,7 @@ class CMSAdminContentController extends AdminComponent {
 		$section = $section->filter(array('url'=>$this->action))->first();
 		if($section) $sect_id = $section->id;
 		else $sect_id = 1;
-		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id) )->order($this->default_order." DESC")->page($page, 10);
+		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id,"status"=>array(1,2)))->order($this->default_order." DESC")->page($page, 10);
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
@@ -71,9 +71,16 @@ class CMSAdminContentController extends AdminComponent {
 		* work out the items to display - hide those temp files
 		**/
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order($this->default_order." DESC")->page($page, $this->list_limit);
+		$this->all_rows = $this->model->clear()->filter(array("status"=>array(1,2)))->order($this->default_order." DESC")->page($page, $this->list_limit);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
+	}
+	/**
+	* Ajax Filter list view
+	*/
+	public function filter() {
+	  $this->model->filter(array("status"=>array(1,2)));
+	  parent::filter();
 	}
 	/**
 	* Ajax function - associates the image whose id is posted in with the content record
@@ -117,7 +124,24 @@ class CMSAdminContentController extends AdminComponent {
 	* render the partials
 	*/
 	public function edit() {
-		$this->page = new $this->model_class(WaxUrl::get("id"));
+		//parent edit function - this handles the save etc
+		parent::edit();
+	  
+	  $model = new $this->model_class;
+		if(!($this->model = $model->filter(array("preview_master_id" => WaxUrl::get("id"), "status" => 4))->first())){
+		  $master = $model->clear()->filter(array($model->primary_key => WaxUrl::get("id")))->first();
+		  $preview = new $this->model_class;
+		  foreach($master->columns as $col => $params)
+		    $copy_attributes[$col] = $master->$col;
+		  $preview->update_attributes($copy_attributes);
+		  $preview->{$preview->primary_key} = false;
+		  $preview->status = 4;
+		  $preview->url = $master->url;
+		  $preview->master = $master;
+		  $preview->save();
+		  $this->model = $preview;
+		}
+		
 		//images
     if(!$this->attached_images = $this->page->images) $this->attached_images=array();
     
@@ -135,8 +159,6 @@ class CMSAdminContentController extends AdminComponent {
 		$files = new WildfireFile();
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
-		//parent edit function - this handles the save etc
-		parent::edit();
 		$this->extra_content_partial = $this->render_partial("extra_content");
 		$this->flash_files = $files->flash_files();
 		$this->video_partial = $this->render_partial("apply_video");

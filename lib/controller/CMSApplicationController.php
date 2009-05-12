@@ -7,7 +7,7 @@
  * @author charles marshall
  */
 
-class CMSApplicationController extends WXControllerBase{
+class CMSApplicationController extends WaxController{
   
   public $cms_section = false;	//Section object
   public $cms_content = false;  //this is either an array of the content or a single content record
@@ -32,6 +32,9 @@ class CMSApplicationController extends WXControllerBase{
 	protected function cms(){
 		//check if this is paginated
 		if($page = Request::get('page')) $this->this_page = $page;
+		//add preview bar to output
+		if(Request::get("preview"))
+		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
 		if(!$this->use_format) $this->use_format="html";
@@ -140,6 +143,10 @@ class CMSApplicationController extends WXControllerBase{
 			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
 			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
 		}
+		
+		if(Request::get("preview") && $this->cms_content){
+		  $this->cms_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first();
+		}
 	}
 	
 	/**
@@ -196,14 +203,29 @@ class CMSApplicationController extends WXControllerBase{
 	 */	
 	protected function pick_view() {		
 	  $sections = array_reverse($this->section_stack);
-	  if($this->is_page()) $type="page";
-	  else $type="list";
-	  $this->use_view="cms_".$type;	
+	  if($this->is_page()) $type = "page";
+	  else $type = "list";
+	  $this->use_view = "cms_".$type;	
 	  foreach($sections as $section) {
 	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
 	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
 	  }
 		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
+	}
+	
+	/**
+	 * this function adds a preview bar to the top of content, so that users won't be confused that their preview differs from the live content
+	 *
+	 * @param string $buffer_contents 
+	 * @return void
+	 * @author Sheldon
+	 */
+	public function add_preview_bar($buffer_contents){
+	  WaxTemplate::remove_response_filter("layout", "cms-preview-bar");
+	  $preview_bar = partial("../../plugins/cms/view/shared/_preview_bar", array(), "html");
+	  $buffer_contents = preg_replace("/(<\/head>)/",'<link type="text/css" href="/stylesheets/cms/preview-bar.css" rel="stylesheet" />$1', $buffer_contents);
+	  $buffer_contents = preg_replace("/(<body.*?>)/","$1".$preview_bar, $buffer_contents);
+	  return $buffer_contents;
 	}
 	
   /**
