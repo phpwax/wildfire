@@ -10,6 +10,7 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/jquery/jquery.imgareaselect-0.5.1.min.js\
  ${SRC_DIR}/cms/cms_init.js\
  ${SRC_DIR}/cms/wildfire_site_content.js\
+ ${SRC_DIR}/cms/wildfire_dashboard.js\
  ${SRC_DIR}/cms/file.js
  
 CSS_FILES = ${CSS_DIR}/cms/reset-fonts-grids.css\
