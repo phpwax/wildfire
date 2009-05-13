@@ -132,7 +132,6 @@ class CMSApplicationController extends WaxController{
 			if(!$logged_in) $content->scope("published");
 			else $content->filter(array("status" => array(0,1))); //published and unpublished, but not preview or untitled autosaved content
 			$this->cms_content = $content->filter($filters)->first();
-			print_r($content->filters); exit;
 			if(!($this->cms_content = $content->filter($filters)->first()))
 			  $this->cms_content = $content->clear()->filter(array('url'=>$url))->first();
 		  
