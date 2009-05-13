@@ -1464,8 +1464,8 @@ a.edit_img img{
   border:1px solid #E1E1E1;
   -webkit-box-shadow:3px 3px 5px #999;
   -moz-box-shadow:3px 3px 5px #999;
-  position:relative;
-  left:65px;
+  position:absolute;
+  left:115px;
   background:white;
   width:270px;
 }
