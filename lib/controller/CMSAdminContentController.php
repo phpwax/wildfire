@@ -156,7 +156,7 @@ class CMSAdminContentController extends AdminComponent {
 		if($this->model->is_posted()){
 		  $this->model = $master;
 	  	if($_POST['save']){
-	  	  $preview->save();
+	  	  if($preview->primval) $preview->save();
   		  $this->save($this->model, "/admin/content/edit/$master->primval");
   	  }else{
   		  if($preview->primval) $preview->delete();
