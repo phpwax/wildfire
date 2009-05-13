@@ -21,13 +21,19 @@ JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.2.6.js\
  ${SRC_DIR}/upload/swfupload.queue.js\
  ${SRC_DIR}/upload/fileprogress.js\
  ${SRC_DIR}/upload/handlers.js\
- ${SRC_DIR}/cms/file.js
+ ${SRC_DIR}/cms/file.js\
+ ${SRC_DIR}/utilities/prototype.js\
+ ${SRC_DIR}/utilities/dragdrop.js\
+ ${SRC_DIR}/utilities/effects.js\
+ ${SRC_DIR}/utilities/search.js\
+ ${SRC_DIR}/utilities/relay.js
  
 CSS_FILES = ${CSS_DIR}/cms/reset-fonts-grids.css\
  ${CSS_DIR}/cms/jquery-ui-1.7.1.custom.css\
  ${CSS_DIR}/cms/jquery.modal.css\
  ${CSS_DIR}/cms/cms-stylesheet.css\
- ${CSS_DIR}/cms/relay.css
+ ${CSS_DIR}/cms/relay.css\
+ ${CSS_DIR}/cms/upload.css
  
 
 WE = ${BUILD_DIR}/jquery.132.combined.js
