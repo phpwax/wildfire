@@ -12,7 +12,7 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/cms/wildfire_site_content.js\
  ${SRC_DIR}/cms/wildfire_dashboard.js\
  ${SRC_DIR}/cms/file.js\
- ${SRC_DIR}/jqwysi/build/jquery.wymeditor.min.js\
+ ${SRC_DIR}/jqwysi/build/jquery.wymeditor.js\
  ${SRC_DIR}/jqwysi/src/wymeditor/plugins/wildfire/jquery.wymeditor.wildfire.js
  
 JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.2.6.js\
