@@ -1923,7 +1923,7 @@ a.edit_img img{
   font-weight:normal;
 }
 #dashboard #quick_recent_content {
-  margin:0px 380px 20px 280px;
+  margin:0px 410px 20px 280px;
   padding:10px;
   background:white;
   margin-top:30px;
@@ -2099,7 +2099,7 @@ a.edit_img img{
 .add{position:absolute;top:4px;right:70px;}
 .date,.note{position:absolute !important;top:4px;z-index:20;left:50%;}
 .handle{width:auto;}
-#dashboard{width:290px;background:rgb(230,230,230);}
+#fs_body #dashboard{width:290px;background:rgb(230,230,230);}
 .label{cursor:pointer;border-bottom:1px solid #777;}
 #uploadcart,#downloadcart,#informationcart{position:relative;padding:12px;}
 #uploadcart,#downloadcart{border-bottom:4px solid white;}
