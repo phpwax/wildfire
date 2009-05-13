@@ -1,7 +1,7 @@
 <?php
 
 class CmsContent extends WaxModel {
-  public $status_options = array("0"=>"Draft", "1"=>"Published", "4"=>"Published with revisions pending"); // 3 = created but not saved, 4 = preview content, has been changed but not saved
+  public $status_options = array("0"=>"Draft", "1"=>"Published"); // 3 = created but not saved, 4 = preview content, has been changed but not saved
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -48,17 +48,15 @@ class CmsContent extends WaxModel {
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
-	  if($this->id) {
+	  if($this->id && $this->status == 1) {
 	    $class = get_class($this);
 	    $old_model = new $class($this->id);
-	    if($old_model->status < $this->status) $this->before_publish();
-	  }
-	  if(!$this->is_published() || is_numeric($this->url)) {
-	    $this->generate_url();
+	    if($old_model->status <> 1)
+  	    $this->before_publish();
 	  }
 	}
 	public function before_insert() {
-
+    if($this->status == 1) $this->before_publish();
 	}
 	
 	public function generate_url() {
@@ -177,7 +175,7 @@ class CmsContent extends WaxModel {
   public function scope_published() {
     $this->filter(array("status"=>"1"));
     $this->filter("(DATE_FORMAT(`published`, '%Y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%Y%m%d%H%i'))");
-    $this->order("UNIX_TIMESTAMP(published) DESC");
+    //$this->order("UNIX_TIMESTAMP(published) DESC");
   }
 
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/

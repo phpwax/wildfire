@@ -51,8 +51,7 @@ class CMSApplicationController extends WaxController{
 		//incremeant the page views counter
     if($this->is_page()) $this->cms_content->add_pageview();
 		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
-		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
-		
+		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;		
 	}
 	/**
 	 * Using the route array this function:
@@ -130,23 +129,24 @@ class CMSApplicationController extends WaxController{
 		$logged_in = $this->is_admin_logged_in();
 		if($url){	
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
-			if($logged_in) $res = $content->clear()->filter($filters)->all();
-  		else $res = $content->scope("published")->filter($filters)->all();
-			if(count($res) == 0) {
-			  if($logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
-			  else $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
-		  }
-			if($res->count() > 0) $this->cms_content = $res[0];
-			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+			if(!$logged_in) $content->scope("published");
+			else $content->filter(array("status" => array(0,1))); //published and unpublished, but not preview or untitled autosaved content
+			$this->cms_content = $content->filter($filters)->first();
+			print_r($content->filters); exit;
+			if(!($this->cms_content = $content->filter($filters)->first()))
+			  $this->cms_content = $content->clear()->filter(array('url'=>$url))->first();
+		  
+			if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
-			$filter = "`cms_section_id` = '".$this->cms_section->id."'";	
+			$filter = array('cms_section_id' => $this->cms_section->id);	
 			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
 			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
 		}
+		print_r($this->cms_content->filters); exit;
 		
-		if(Request::get("preview") && $this->cms_content){
-		  $this->cms_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first();
-		}
+		if(Request::get("preview") && $this->cms_content)
+		  if($preview_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first())
+		    $this->cms_content = $preview_content;
 	}
 	
 	/**
