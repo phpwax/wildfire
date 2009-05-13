@@ -80,7 +80,7 @@
 #uploadbuttons .addfile{position:absolute;top:0;right:0;z-index:1;cursor:pointer;}
 #uploadbuttons .fileupload{position:absolute;top:0;right:0px;-moz-opacity:0;filter:alpha(opacity:0);opacity:0;text-align:right;z-index:2;cursor:pointer;}
 #uploadbuttons .upload{position:absolute;top:0;left:0;z-index:3;cursor:pointer;}
-iframe{position:absolute;width:1px;height:1px;-moz-opacity:0;filter:alpha(opacity:0);opacity:0;}
+#fs_body iframe{position:absolute;width:1px;height:1px;-moz-opacity:0;filter:alpha(opacity:0);opacity:0;}
 #progress{position:relative;height:50px;width:220px;}
 #pgbg,#pgfg{position:absolute;top:10px;left:0;}
 #pgbg{width:180px;height:15px;background:url(/images/fs/prog_blank.png) top left no-repeat;}
@@ -99,7 +99,7 @@ span.virtual .del,span.virtual .ren,span.virtual .date,span.virtual .icon{displa
 #error .close{position:absolute;bottom:0;right:0;}
 #meta .thumbbox{width:100%;text-align:center;}
 /*// Behavior //*/
-.hover{border:2px solid rgb(131,165,199);}
+#fs_body .hover{border:2px solid rgb(131,165,199);}
 .selected,.selected .link{background:rgb(131,165,199) !important;}
 .hover>span,.hover>span .link{background:rgb(131,165,199) !important;}
 .selected .link,.selected .note,.selected .date{color:white !important;}

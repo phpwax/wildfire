@@ -2,7 +2,8 @@ var content_page_id;
 var model_string;
 var init_upload;
 $(document).ready(function() {
-    if($("#container").length) $("#container").tabs();
+    $("#container").tabs();
+    
     $("#page_tab_title").html($("#cms_content_title").val());
     $("#cms_content_title").keyup(function() {
       $("#page_tab_title").html($("#cms_content_title").val());
@@ -322,7 +323,7 @@ $(document).ready(function() {
       $(this).bind("click.editable", function(){
         $(this).unbind("click.editable");
         el = '<input type="text" value="'+$("#content_title_label").text()+'" id="content_title_editing" />';
-        target.after(el);
+        target.parent().after(el);
         $("#content_title").hide();
         $("#content_title_editing").change(function(){
           $("#cms_content_title").val($(this).val());

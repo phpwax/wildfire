@@ -3,12 +3,7 @@ var content_page_id = <?=$model->id?>; var model_string = "<?=get_class($model)?
 if(typeof(showhtml)=="undefined") var showhtml=<?if($current_user->usergroup>10):?>true;<?else:?>false;<?endif?>
 var content_permalink="<?=$model->permalink?>";
 </script>
-<?=javascript_asset("jquery","jquery.tabs.min")?>
-<?=stylesheet_asset("jquery", "jquery.tabs")?>
-<!--[if lte IE 7]>
-  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
-<![endif]-->
-<?=javascript_asset("cms","file")?>
+
   <div id="container">
     <div id="quicksave">
       <a href="#" id="autosave_disable"><img src="/images/cms/autosave_disable.gif" title="Disable AutoSave" /></a>
