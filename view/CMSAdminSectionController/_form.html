@@ -24,6 +24,8 @@
       <hr />
       <?=small(select($model, "parent_id", array_diff_key($tree_collection, array($model->primval=>"")), array(), "Parent Section"))?>
       <?=small(select($model, "default_page_id", options_from_collection($model->content, "id", "title", "None"), array(), "Default Content"))?>
+      <hr />
+      <?=large(text_area($model, "introduction", array(), "Introduction"))?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
