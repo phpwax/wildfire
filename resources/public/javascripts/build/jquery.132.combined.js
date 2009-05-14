@@ -478,7 +478,7 @@ $(document).ready(function() {
     $("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-  $(".form_datepicker").datepicker();
+  $(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
 });
 
 
@@ -651,6 +651,8 @@ $(document).ready(function(event) {
     skin: 'wildfire',
     stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
+      init_autosave(wym);
+      init_preview_button(wym);
       wym.wildfire(wym);
     }
   });              
@@ -788,50 +790,38 @@ function cms_insert_video(url, width, height, local) {
 }
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
-$(document).ready(function() {
+function init_autosave(wym){
   var autosaver;
-  autosaver = setInterval('autosave_content()',40000);
-  $("#autosave").click(function(){autosave_content();});
-  $("#autosave_disable").click(function(){ 
-    clearInterval(autosaver); 
+  autosaver = setInterval(function(){autosave_content(wym);},40000);
+  $("#autosave").click(function(){autosave_content(wym);});
+  $("#autosave_disable").click(function(){
+    clearInterval(autosaver);
     $("#autosave_disable").remove();
     $("#autosave_status").html("Autosave Disabled");
   });
-});
+}
 
-function autosave_content(show_preview_on_finish) {
-  return true;
-  var ed = document.getElementById("cms_content_content");
-	if(typeof ed !== 'undefined'){
-	  if(!ed) return false;
-	  if(!ed.id) return false;
-  	var wig = ed.widgEditorObject;
-	   if(wig.wysiwyg) {
-	     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
-	   } else {
-	     wig.theInput.value = wig.theTextarea.value.replace(/£/g, "&pound;");
-	   }
-	     $.ajax({ 
-	            url: "/admin/content/autosave/"+content_page_id, 
-	            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-	            type: "POST",
-	            processData: false,
-	            data: "content="+encodeURIComponent(wig.theInput.value), 
-	            success: function(response){
-	              if(show_preview_on_finish) show_preview_window(content_permalink, "preview_pane"); //needed to be able to show a preview after the save
-	              $("#autosave_status").html("Automatically saved at "+response);
-	            }
-	    });
-	}
+function autosave_content(wym) {
+  wym.update();
+  $.ajax({
+    global: false,
+    url: "/admin/content/autosave/"+content_page_id, 
+    beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
+    type: "POST",
+    processData: false,
+    data: "content="+encodeURIComponent($("#cms_content_content").val()), 
+    success: function(response){
+      $("#autosave_status").html("Automatically saved at "+response);
+    }
+  });
 }
 
 /** save before preview **/
-$(document).ready(function() {
-  $('#preview_link').unbind( "click" );
+function init_preview_button(wym) {
   $('#preview_link').click(function(){
-    autosave_content(true); //do an autosave and show the preview after
+    autosave_content(wym); //do an autosave before a preview
   });
-});
+}
 
 /****** Inline Edit for content title **************/
 $(document).ready(function() {
