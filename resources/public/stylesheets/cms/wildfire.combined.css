@@ -1195,12 +1195,12 @@ li.pagination_link a {
   #content #container .ui-tabs-nav li a {
     display:block;
     color:#FFF !important;
-    padding:13px 6px 12px 17px;
+    padding:12px 6px 11px 17px;
     font-size:93% !important;
     font-family:Arial;
   }
   #content #container li.tab_editable_title a {
-    padding:5px 6px 4px 6px;
+    padding:3px;
   }
   #content #container .ui-tabs-nav li:hover {
     background:#d4e5ed;
