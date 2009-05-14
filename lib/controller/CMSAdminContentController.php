@@ -140,6 +140,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$this->extra_content_partial = $this->render_partial("extra_content");
 		$this->flash_files = $files->flash_files();
 		$this->video_partial = $this->render_partial("apply_video");
+		$this->video_partial = $this->render_partial("wysi_tables");
 		$this->form = $this->render_partial("form");
 	}
 	/**
