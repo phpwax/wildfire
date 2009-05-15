@@ -535,7 +535,8 @@ $(document).ready(function() {
     });   
     initialise_draggables();
     $("#link_dialog").dialog({autoOpen:false, width:"auto", height:"auto"});
-    $("#video_dialog").dialog({autoOpen:false, title:"Insert a Video"});
+    $("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
+    $("#video_dialog").dialog({autoOpen:false, title:"Insert a Video", width:700, height:500});
     $("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
     $("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
     
@@ -571,6 +572,10 @@ function initialise_draggables() {
   		  $.post("../../add_category/"+content_page_id,{id: ui.draggable.attr("id")},
   		  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   	}
+  });
+  $("#category_list .category_tag").dblclick(function(){
+    $.post("../../add_category/"+content_page_id,{id: this.id},
+	  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   });
   $(".category_trash_button").click(function(){
     $.get("../../remove_category/"+content_page_id+"?cat="+this.id.substr(22),function(response){
