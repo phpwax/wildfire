@@ -151,15 +151,16 @@ class CMSAdminContentController extends AdminComponent {
 		}else{
 		  $this->model = $master;
 		}
-		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
+		
 		if($this->model->is_posted()){
-		  $this->model = $master;
-	  	if($_POST['save']){
-	  	  if($preview->primval) $preview->save();
-  		  $this->save($this->model, "/admin/content/edit/$master->primval");
-  	  }else{
-  		  if($preview->primval) $preview->delete();
+  		if($_POST['publish']){
   	    $this->save($this->model, Session::get("list_refer"));
+  		}elseif($_POST['close']){
+		    //delete the preview if it has no changes from the master
+		    if($preview->equals($master)) $preview->delete();
+  		  $this->redirect_to(Session::get("list_refer"));
+  	  }else{ //save button is default post, as it's the least destructive thing to do
+    	  $this->model->save(); //preview version save for published or draft save for unpublished
   	  }
     }
 

@@ -76,9 +76,9 @@ var content_permalink="<?=$model->permalink?>";
     <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
       <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
-      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Sublish" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Close" onclick="return confirm('Any changes will be lost')" />
-      <a href="#" id="preview_link"><img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" /></a>
+      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and close" />
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" onclick="return confirm('Any changes will be lost')" />
+      <a href="<?=$model->permalink?>?preview=1" target="_blank"><img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" /></a>
     </fieldset>
   </div>
   
