@@ -520,6 +520,7 @@ jQuery.fn.centerScreen = function(loaded) {
 var content_page_id;
 var model_string;
 var init_upload;
+var autosaver;
 $(document).ready(function() {
     $("#container").tabs();
     
@@ -657,6 +658,8 @@ $(document).ready(function(event) {
     stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
       wym.wildfire(wym);
+      autosaver = setInterval(function(){autosave_content(wym);},40000);
+      $("#autosave").click(function(){autosave_content(wym);});    
     }
   });              
           
@@ -794,40 +797,25 @@ function cms_insert_video(url, width, height, local) {
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
 $(document).ready(function() {
-  var autosaver;
-  autosaver = setInterval('autosave_content()',40000);
-  $("#autosave").click(function(){autosave_content();});
   $("#autosave_disable").click(function(){ 
     clearInterval(autosaver); 
-    $("#autosave_disable").remove();
     $("#autosave_status").html("Autosave Disabled");
   });
 });
 
-function autosave_content(show_preview_on_finish) {
-  return true;
-  var ed = document.getElementById("cms_content_content");
-	if(typeof ed !== 'undefined'){
-	  if(!ed) return false;
-	  if(!ed.id) return false;
-  	var wig = ed.widgEditorObject;
-	   if(wig.wysiwyg) {
-	     wig.theInput.value = wig.theIframe.contentWindow.document.getElementsByTagName("body")[0].innerHTML.replace(/£/g, "&pound;");
-	   } else {
-	     wig.theInput.value = wig.theTextarea.value.replace(/£/g, "&pound;");
-	   }
-	     $.ajax({ 
-	            url: "/admin/content/autosave/"+content_page_id, 
-	            beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-	            type: "POST",
-	            processData: false,
-	            data: "content="+encodeURIComponent(wig.theInput.value), 
-	            success: function(response){
-	              if(show_preview_on_finish) show_preview_window(content_permalink, "preview_pane"); //needed to be able to show a preview after the save
-	              $("#autosave_status").html("Automatically saved at "+response);
-	            }
-	    });
-	}
+function autosave_content(wym) {
+  wym.update();
+  $('#ajaxBusy').css({opacity:0});
+  $.ajax({ 
+	  url: "/admin/content/autosave/"+content_page_id, 
+	  beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
+	  type: "POST",
+    processData: false,
+    data: "content="+encodeURIComponent(wym.html()), 
+    success: function(response){
+      $("#autosave_status").html("Automatically saved at "+response);
+	  }
+	});
 }
 
 /** save before preview **/
