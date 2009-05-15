@@ -20,7 +20,7 @@ $(document).ready(function() {
     $("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-  $(".form_datepicker").datepicker();
+  $(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
 });
 
 

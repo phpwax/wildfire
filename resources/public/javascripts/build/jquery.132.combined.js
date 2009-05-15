@@ -478,7 +478,7 @@ $(document).ready(function() {
     $("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-  $(".form_datepicker").datepicker();
+  $(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
 });
 
 
@@ -657,6 +657,8 @@ $(document).ready(function(event) {
     skin: 'wildfire',
     stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
+      init_autosave(wym);
+      init_preview_button(wym);
       wym.wildfire(wym);
       autosaver = setInterval(function(){autosave_content(wym);},40000);
       $("#autosave").click(function(){autosave_content(wym);});    
@@ -819,12 +821,11 @@ function autosave_content(wym) {
 }
 
 /** save before preview **/
-$(document).ready(function() {
-  $('#preview_link').unbind( "click" );
+function init_preview_button(wym) {
   $('#preview_link').click(function(){
-    autosave_content(true); //do an autosave and show the preview after
+    autosave_content(wym); //do an autosave before a preview
   });
-});
+}
 
 /****** Inline Edit for content title **************/
 $(document).ready(function() {

@@ -1,0 +1,24 @@
+#wildfire_preview_bar:after {
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+#wildfire_preview_bar {display:inline-block;}
+/* Hide from IE Mac \*/
+#wildfire_preview_bar {display:block;}
+/* End hide from IE Mac */
+
+#wildfire_preview_bar{
+  float: left;
+  width: 100%;
+  background: red;
+  height: 20px;
+  position: absolute;
+  top: 0;
+}
+
+html{
+  padding-top: 20px !important;
+}
