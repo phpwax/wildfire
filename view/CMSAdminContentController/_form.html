@@ -1,6 +1,7 @@
 <script type="text/javascript">
-var content_page_id = <?=$model->id?>; var model_string = "<?=get_class($model)?>";var join_field="images";
-if(typeof(showhtml)=="undefined") var showhtml=<?if($current_user->usergroup>10):?>true;<?else:?>false;<?endif?>
+var content_page_id = <?=$model->id?>; 
+var model_string = "<?=get_class($model)?>";
+var join_field="images";
 var content_permalink="<?=$model->permalink?>";
 </script>
 
@@ -83,7 +84,7 @@ var content_permalink="<?=$model->permalink?>";
   
 </div>
 
-<?=preview_window($page->permalink, "preview_link", "preview_pane")?>
+<?=preview_window($model->permalink, "preview_link", "preview_pane")?>
 
 <?=$link_partial?>
 <?=$video_partial?>

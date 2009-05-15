@@ -151,7 +151,6 @@ class CMSAdminContentController extends AdminComponent {
 		}else{
 		  $this->model = $master;
 		}
-		
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
 		if($this->model->is_posted()){
 		  $this->model = $master;
@@ -186,6 +185,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->video_partial = $this->render_partial("apply_video");
 		$this->video_partial = $this->render_partial("wysi_tables");
 		$this->form = $this->render_partial("form");
+		
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
