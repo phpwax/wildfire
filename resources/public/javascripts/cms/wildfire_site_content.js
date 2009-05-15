@@ -1,6 +1,7 @@
 var content_page_id;
 var model_string;
 var init_upload;
+var autosaver;
 $(document).ready(function() {
     $("#container").tabs();
     
@@ -137,9 +138,10 @@ $(document).ready(function(event) {
     skin: 'wildfire',
     stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
-      init_autosave(wym);
       init_preview_button(wym);
       wym.wildfire(wym);
+      autosaver = setInterval(function(){autosave_content(wym);},40000);
+      $("#autosave").click(function(){autosave_content(wym);});    
     }
   });              
           
@@ -276,30 +278,27 @@ function cms_insert_video(url, width, height, local) {
 }
 
 /**** Auto Save Makes Sure Content Doesn't Get Lost *******/
-function init_autosave(wym){
-  var autosaver;
-  autosaver = setInterval(function(){autosave_content(wym);},40000);
-  $("#autosave").click(function(){autosave_content(wym);});
-  $("#autosave_disable").click(function(){
-    clearInterval(autosaver);
-    $("#autosave_disable").remove();
+$(document).ready(function() {
+  $("#autosave_disable").click(function(){ 
+    clearInterval(autosaver); 
     $("#autosave_status").html("Autosave Disabled");
   });
-}
+});
 
 function autosave_content(wym) {
   wym.update();
-  $.ajax({
-    global: false,
-    url: "/admin/content/autosave/"+content_page_id, 
-    beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
-    type: "POST",
+  $('#ajaxBusy').css({opacity:0});
+  $.ajax({ 
+	  url: "/admin/content/autosave/"+content_page_id, 
+	  beforeSend: function(){$("#quicksave").effect("pulsate", { times: 3 }, 1000);},
+	  type: "POST",
     processData: false,
-    data: "content="+encodeURIComponent($("#cms_content_content").val()), 
+    data: "content="+encodeURIComponent(wym.html()), 
     success: function(response){
       $("#autosave_status").html("Automatically saved at "+response);
-    }
-  });
+      $('#ajaxBusy').css({opacity:1});
+	  }
+	});
 }
 
 /** save before preview **/

@@ -9,7 +9,7 @@
 	<!--[if IE]>
 	  <?=stylesheet_asset('cms','ie_cms')?>
 	<![endif]-->
-	
+
   <?=javascript_asset("build", "jquery.132.combined.min")?>
 	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/build/jquery.wymeditor.min.js"></script>	 
 	<script type="text/javascript" charset="utf-8" src="/javascripts/jqwysi/src/wymeditor/plugins/wildfire/jquery.wymeditor.wildfire.js"></script>	 
@@ -21,6 +21,8 @@
 <body id="<?=strtolower(WXInflections::underscore($display_name))?>">
 	<div id="header-container">
 		<div id="cms_logo"><a href="/admin/home"><img src="/images/cms/cms_wildfire-logo.gif" /></a></div>
+		<div id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></div>
+    
 		<ul id="primary-navigation" class="clearfix">
 		  <?foreach($all_modules as $name=>$values):?>
 		    <li<?if($name == $module_name) echo " class='active'";?>>
@@ -29,7 +31,6 @@
 		      </a>
 		    </li>
 			<?endforeach?>
-	    <li id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></li>
 	  </ul>
 	</div>
 	<?if($sub_links):?>

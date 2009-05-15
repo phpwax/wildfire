@@ -139,7 +139,7 @@ class CMSAdminContentController extends AdminComponent {
   		  $copy_attributes = array_diff_key($copy_attributes,array($this->model->primary_key => false)); //take out ID
 
     	  $preview = new $this->model_class;
-    	  $preview = $preview->save();
+    	  $preview->save();
   		  $preview->update_attributes($copy_attributes);
   		  $preview->status = 4;
   		  $preview->url = $master->url;
@@ -186,6 +186,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->video_partial = $this->render_partial("apply_video");
 		$this->video_partial = $this->render_partial("wysi_tables");
 		$this->form = $this->render_partial("form");
+		
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
