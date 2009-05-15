@@ -141,7 +141,6 @@ class CMSApplicationController extends WaxController{
 			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
 			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
 		}
-		print_r($this->cms_content->filters); exit;
 		
 		if(Request::get("preview") && $this->cms_content)
 		  if($preview_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first())
