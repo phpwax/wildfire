@@ -843,7 +843,7 @@ li.pagination_link a {
     text-align:right;
     vertical-align:bottom;
     position:relative;
-    z-index:2000;
+    z-index:99;
   }
   #quicksave span {
     margin-left:8px;
@@ -1487,7 +1487,7 @@ a.edit_img img{
   border:0;
   margin-bottom:4px;
 }
-#logout_button {float:right; margin:0px;}
+#logout_button {float:right; margin:10px 30px 0 0;}
 
 .live_search_results {
   display:none;

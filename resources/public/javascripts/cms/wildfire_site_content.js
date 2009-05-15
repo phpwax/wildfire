@@ -138,7 +138,6 @@ $(document).ready(function(event) {
     skin: 'wildfire',
     stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
-      init_autosave(wym);
       init_preview_button(wym);
       wym.wildfire(wym);
       autosaver = setInterval(function(){autosave_content(wym);},40000);
@@ -297,6 +296,7 @@ function autosave_content(wym) {
     data: "content="+encodeURIComponent(wym.html()), 
     success: function(response){
       $("#autosave_status").html("Automatically saved at "+response);
+      $('#ajaxBusy').css({opacity:1});
 	  }
 	});
 }
