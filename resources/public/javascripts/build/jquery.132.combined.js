@@ -891,7 +891,7 @@ $(document).ready(function() {
 		$('#ajaxBusy').hide();
 	});
 	$(document).ajaxError(function(){ 
-  	$('#ajaxError').hide();
+  	$('#ajaxBusy').hide();
   });
 	
 });
