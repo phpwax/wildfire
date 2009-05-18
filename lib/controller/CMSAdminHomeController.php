@@ -11,6 +11,7 @@ class CMSAdminHomeController extends AdminComponent {
 	public $model_class = "WildfireUser";
 	public $display_name = "Dashboard";
 	public $base_url;
+	public $modal_preview = false;
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/

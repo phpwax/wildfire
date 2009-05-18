@@ -2309,16 +2309,18 @@ function queueComplete(numFilesUploaded) {
 	status.innerHTML = numFilesUploaded + " file" + (numFilesUploaded === 1 ? "" : "s") + " uploaded.";
 }
 function init_upload(){
+	if(jQuery("#content_page_id").val()) {
+	  var post_parameters = {
+	    content_id: jQuery("#content_page_id").val(),
+		  model_string: jQuery("#content_page_type").val(),
+		  join_field: jQuery("#join_field").val()
+		};
+	} else var post_parameters = {};
 	
-
 			var settings = {
 				flash_url : "/swfupload.swf",
 				upload_url: "/file_upload.php",	// Relative to the SWF file
-        post_params: {
-    			content_id: jQuery("#content_page_id").val(),
-    			model_string: jQuery("#content_page_type").val(),
-    			join_field: jQuery("#join_field").val()
-    		},				
+        post_params: post_parameters,				
     		file_size_limit : "100 MB",
 				file_types : "*.*",
 				file_types_description : "All Files",
