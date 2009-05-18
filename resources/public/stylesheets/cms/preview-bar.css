@@ -11,14 +11,24 @@
 /* End hide from IE Mac */
 
 #wildfire_preview_bar{
+  background-image:url(/images/cms/cms_header-bg.gif);
   float: left;
   width: 100%;
-  background: red;
-  height: 20px;
+  height: 40px;
   position: absolute;
   top: 0;
 }
 
+#wildfire_preview_bar #wildfire_preview_logo{
+  margin: 4px 20px 0 8px;
+  float: left;
+}
+
+#wildfire_preview_bar p{
+  margin: 12px;
+  padding: 0;
+}
+
 html{
-  padding-top: 20px !important;
+  padding-top: 40px !important;
 }
