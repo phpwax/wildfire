@@ -127,6 +127,7 @@ class CMSAdminContentController extends AdminComponent {
 		if(!$this->id) $this->id = $this->route_array[0];
 		
     $master = new $this->model_class($this->id);
+    if($master->status == 4) $this->redirect_to("/admin/content/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
 	  $preview = new $this->model_class;
 	  
 	  //preview revision - create a copy of the content if needed or use the existing copy
