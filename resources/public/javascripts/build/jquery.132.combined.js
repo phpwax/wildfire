@@ -888,7 +888,9 @@ $(document).ready(function() {
 		$('#ajaxBusy').show().centerScreen(); 
 	}).ajaxStop(function(){ 
 		$('#ajaxBusy').hide();
-	});
+	}).ajaxError(function(){ 
+  	$('#ajaxError').hide();
+  });
 	
 });
 $(document).ready(function() {
