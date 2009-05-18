@@ -35,7 +35,7 @@
         <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink?>">View Post</a></div>
         <?else:?><div class="generic_button"><a href="#" id="preview_<?=$row->id?>">Preview</a></div><?endif?>
 				
-				<?=preview_window($row->permalink, "preview_".$row->id, "preview_pane")?>
+				<?=preview_window($row->permalink."?preview=1", "preview_".$row->id, "preview_pane")?>
       </td>
     </tr>
 <?endforeach?>
