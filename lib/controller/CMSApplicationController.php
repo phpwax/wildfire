@@ -125,12 +125,13 @@ class CMSApplicationController extends WaxController{
 	 */	
 	protected function find_content($url){
 		$content = new CmsContent();
+		$content->order("UNIX_TIMESTAMP(published) DESC");
+    
 		$logged_in = $this->is_admin_logged_in();
 		if($url){	
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			
 			if($logged_in) $access_filter = array("status" => array(0,1)); //published and unpublished, but not preview or untitled autosaved content
-			else $content->scope("published");
 	    
 	    if(!($this->cms_content = $content->filter($access_filter)->filter($filters)->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->filter($access_filter)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
