@@ -1,1 +1,20 @@
-<?=$image_partial?>
+<?for($i=0; $i<$allowed_images; $i++):?>
+    <?if($id = $attached_images[$i]->id):?>
+      <div class="dropped_image" id="cimage_<?=$id?>">
+        <div class="image_place">
+          <img src="<?=$attached_images[$i]->permalink(120)?>" title="<?=$attached_images[$i]->description?>" />
+        </div>
+        <div class="remove_image" id="delete_image_<?=$id?>">
+          <a href="#">Remove</a>
+        </div>
+        <div class="edit_image" id="edit_image_<?=$id?>">
+          <a href="/admin/files/edit/<?=$id?>">Edit</a>
+        </div>
+        <div class="url_image" id="url_image_<?=$id?>">
+          <a href="#">Url</a>
+        </div>
+      </div>
+    <?else:?>
+
+    <?endif?>
+<?endfor?>
