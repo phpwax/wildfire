@@ -1172,8 +1172,28 @@ li.pagination_link a {
 #submenu li a:hover {
   text-decoration:underline !important;
 }
-
-
+#sub-navigation-container #quick_search {
+  float:right;
+  color:white;
+  margin-right:30px;
+}
+#sub-navigation-container #quick_search #live_search_field {
+  background:#FFF url(../../images/cms/search_field_bg.gif) no-repeat center right;
+  border:1px solid #BBB;
+  padding:3px;
+  color:#444;
+}
+#sub-navigation-container #quick_search .live_search_results {
+  right:30px;
+  left:auto;
+  color:#444;
+}
+#sub-navigation-container #quick_search ul li {
+  float:none;
+  color:#444;
+  padding:9px;
+}
+#sub-navigation-container #quick_search .live_search_results div a {line-height:100%;}
 
 /*** End Wildfire 1.0 Updates **********/
 
@@ -1512,6 +1532,8 @@ a.edit_img img{
 .live_search_results li:hover {
   background:#e1e1e1;
 }
+
+#dashboard #sub-navigation-container #quick_search {display:none;}
 /**** Inline image browser styles *******/
 
 #inline_image_browser {

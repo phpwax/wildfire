@@ -1,46 +1,48 @@
 <div id="statistics">
-  <h2>Your Site's Performance</h2>
-  <?if($current_user->id < 4):?>
-  <h3>Recent Visits and Page Views</h3>
-    <object type="application/x-shockwave-flash" data="http://stats.oneblackbear.com/libs/open-flash-chart/open-flash-chart.swf" width="350px" height="150px" id="stats">
-  	  <param name="allowScriptAccess" value="sameDomain" />
-  	  <param name="quality" value="high" />
-  	  <param name="bgcolor" value="#444" />
-  	  <param name="wmode" value="transparent" /> 
-  	  <param name="name" value="VisitsSummarygetLastUniqueVisitorsGraphChart_swf">
-  	  <param name="movie" value="http://stats.oneblackbear.com/libs/open-flash-chart/open-flash-chart.swf" /> 
-  	  <param name="flashvars" value="data=http%3A%2F%2Fstats.oneblackbear.com%2Findex.php%3Fmodule%3DVisitsSummary%26action%3DgetLastUniqueVisitorsGraph%26idSite%3D<?=$stats_site_id?>%26period%3Dday%26date%3Dlast10%26viewDataTable%3DgenerateDataChartEvolution%26token_auth=ae290d98aa13255678682381827a6862">
-      <a title="You must install the Flash Plugin for your Browser in order to view this movie"  href="http://www.adobe.com/products/flashplayer/"><img src="http://www.adobe.com/images/shared/product_mnemonics/50x50/flash_player_50x50.gif" alt="placeholder for flash movie" /></a>
-  	</object>
+  <?if($can_see_stats):?>
+    <h2>Your Site's Performance</h2>
+  
+    <h3>Recent Visits and Page Views</h3>
+      <object type="application/x-shockwave-flash" data="http://stats.oneblackbear.com/libs/open-flash-chart/open-flash-chart.swf" width="350px" height="150px" id="stats">
+    	  <param name="allowScriptAccess" value="sameDomain" />
+    	  <param name="quality" value="high" />
+    	  <param name="bgcolor" value="#444" />
+    	  <param name="wmode" value="transparent" /> 
+    	  <param name="name" value="VisitsSummarygetLastUniqueVisitorsGraphChart_swf">
+    	  <param name="movie" value="http://stats.oneblackbear.com/libs/open-flash-chart/open-flash-chart.swf" /> 
+    	  <param name="flashvars" value="data=http%3A%2F%2Fstats.oneblackbear.com%2Findex.php%3Fmodule%3DVisitsSummary%26action%3DgetLastUniqueVisitorsGraph%26idSite%3D<?=$stats_site_id?>%26period%3Dday%26date%3Dlast10%26viewDataTable%3DgenerateDataChartEvolution%26token_auth=ae290d98aa13255678682381827a6862">
+        <a title="You must install the Flash Plugin for your Browser in order to view this movie"  href="http://www.adobe.com/products/flashplayer/"><img src="http://www.adobe.com/images/shared/product_mnemonics/50x50/flash_player_50x50.gif" alt="placeholder for flash movie" /></a>
+    	</object>
     
-  <?endif?>
-  <div class="clearfix"></div>
+    <div class="clearfix"></div>
   
   
-  <h3>Recent Incoming Links</h3>
-  <?if(count($stat_links)):?>
-    <?foreach($stat_links as $link):?>
-      <div class="stat_count"><strong><?=$link["nb_visits"]?></strong> links from</div>
-      <div class="stat_label"><a href="http://<?=$link["label"]?>"><?=urldecode($link["label"])?></a></div>
-      <div class="graph_separator"></div>
-    <?endforeach?>
+    <h3>Recent Incoming Links</h3>
+    <?if(count($stat_links)):?>
+      <?foreach($stat_links as $link):?>
+        <div class="stat_count"><strong><?=$link["nb_visits"]?></strong> links from</div>
+        <div class="stat_label"><a href="http://<?=$link["label"]?>"><?=urldecode($link["label"])?></a></div>
+        <div class="graph_separator"></div>
+      <?endforeach?>
+      <?else:?>
+        <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent incoming links will appear here shortly.</p>
+      <?endif?>
+  
+    <div class="clearfix"></div>
+    <h3>Recent Search Referrals</h3>
+    <?if(count($stat_search)):?>
+      <?foreach($stat_search as $search):?>
+        <div class="stat_count"><strong><?=$search["nb_visits"]?></strong> searches: </div>
+        <div class="stat_label">
+          <a href="http://google.com/search?q=<?=$search["label"]?>"><?=urldecode($search['label'])?></a>
+        </div>
+        <div class="graph_separator"></div>
+      <?endforeach?>
     <?else:?>
-      <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent incoming links will appear here shortly.</p>
+      <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent search engine referrals will appear here shortly.</p>  
     <?endif?>
-  
-  <div class="clearfix"></div>
-  <h3>Recent Search Referrals</h3>
-  <?if(count($stat_search)):?>
-    <?foreach($stat_search as $search):?>
-      <div class="stat_count"><strong><?=$search["nb_visits"]?></strong> searches: </div>
-      <div class="stat_label">
-        <a href="http://google.com/search?q=<?=$search["label"]?>"><?=urldecode($search['label'])?></a>
-      </div>
-      <div class="graph_separator"></div>
-    <?endforeach?>
-  <?else:?>
-    <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent search engine referrals will appear here shortly.</p>  
   <?endif?>
+  
 </div>
 <div id="quick_nav">
   <div id="quick_search">

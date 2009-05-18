@@ -110,8 +110,8 @@ class CMSAdminContentController extends AdminComponent {
 	
 	public function attached_images(){
 		$this->use_layout = false;
-		$this->page = $this->model = new $this->model_class(Request::get('id'));
-		if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+		$this->model = new $this->model_class(Request::get('id'));
+		if(!$this->attached_images = $this->model->images) $this->attached_images=array();
 		$this->image_model = new WildfireFile;
 		//partials
 		$this->image_partial = $this->render_partial("page_images");
@@ -180,10 +180,10 @@ class CMSAdminContentController extends AdminComponent {
     }
 
 		//images
-    if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+    if(!$this->attached_images = $this->model->images) $this->attached_images=array();
     
 		//categories assocaited
-		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		//all categories
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();
