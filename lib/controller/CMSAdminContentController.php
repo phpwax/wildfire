@@ -114,7 +114,6 @@ class CMSAdminContentController extends AdminComponent {
 		if(!$this->attached_images = $this->model->images) $this->attached_images=array();
 		$this->image_model = new WildfireFile;
 		//partials
-		$this->image_partial = $this->render_partial("page_images");
 	}
 	
 	/**

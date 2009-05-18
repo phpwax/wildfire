@@ -370,7 +370,7 @@ $(document).ready(function() {
 	}).ajaxStop(function(){ 
 		$('#ajaxBusy').hide();
 	}).ajaxError(function(){ 
-  	$('#ajaxBusy').hide();
+  	$('#ajaxError').hide();
   });
 	
 });
