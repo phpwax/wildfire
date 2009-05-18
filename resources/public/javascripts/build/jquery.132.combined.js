@@ -886,9 +886,11 @@ $(document).ready(function() {
 	// to ajax start/stop document events
 	$(document).ajaxStart(function(){ 
 		$('#ajaxBusy').show().centerScreen(); 
-	}).ajaxStop(function(){ 
+	});
+	$(document).ajaxStop(function(){ 
 		$('#ajaxBusy').hide();
-	}).ajaxError(function(){ 
+	});
+	$(document).ajaxError(function(){ 
   	$('#ajaxError').hide();
   });
 	
