@@ -140,7 +140,7 @@ class CMSAdminContentController extends AdminComponent {
 
     	  $preview = new $this->model_class;
     	  $preview->save();
-  		  $preview->update_attributes($copy_attributes);
+  		  $preview->set_attributes($copy_attributes);
   		  $preview->status = 4;
   		  $preview->url = $master->url;
   		  $preview->master = $master->primval;
@@ -154,13 +154,28 @@ class CMSAdminContentController extends AdminComponent {
 		
 		if($this->model->is_posted()){
   		if($_POST['publish']){
-  	    $this->save($this->model, Session::get("list_refer"));
+  		  if($master->status != 1){
+  		    $master->set_attributes($_POST[$this->model_name]);
+  		    $master->status = 1;
+  		    $master->save();
+  		    $this->redirect_to("/admin/content/edit/".$master->id."/");
+	      }else{
+  		    $preview->set_attributes($_POST[$this->model_name]);
+  		    $preview->status = 4;
+  		    $preview->save();
+          $preview->status = 1; //set status to published, it's still 4 in the database, but will be saved as 1 overwriting the current master
+    		  foreach($preview->columns as $col => $params)
+    		    if($preview->$col) $copy_attributes[$col] = $preview->$col;
+    		  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"status","master"))); //take out ID and status
+    		  $master->update_attributes($copy_attributes);
+	      }
   		}elseif($_POST['close']){
 		    //delete the preview if it has no changes from the master
 		    if($preview->equals($master)) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-    	  $this->model->save(); //preview version save for published or draft save for unpublished
+  	    if($this->model === $preview) $_POST[$this->model_name]['status'] = 4;
+    	  $this->save($this->model, "/admin/content/edit/".$master->id."/"); //preview version save for published or draft save for unpublished
   	  }
     }
 

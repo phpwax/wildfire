@@ -60,7 +60,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function generate_url() {
-	  if(!$this->title) return false;
+	  if((!$this->title) || ($this->status == 4)) return false;
 		//create the url from the title
 		$this->url = WXInflections::to_url($this->title);
 		//check to make sure the url does not clash with a section url (this would cause the content to be found as a section)
