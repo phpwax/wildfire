@@ -110,8 +110,8 @@ class CMSAdminContentController extends AdminComponent {
 	
 	public function attached_images(){
 		$this->use_layout = false;
-		$this->page = $this->model = new $this->model_class(Request::get('id'));
-		if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+		$this->model = new $this->model_class(Request::get('id'));
+		if(!$this->attached_images = $this->model->images) $this->attached_images=array();
 		$this->image_model = new WildfireFile;
 		//partials
 		$this->image_partial = $this->render_partial("page_images");

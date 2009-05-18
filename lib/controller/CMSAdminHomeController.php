@@ -109,6 +109,20 @@ class CMSAdminHomeController extends AdminComponent {
   
   public function can_see_stats() { return true;}
   
+  public function test() {
+    $dom = new DOMDocument();
+    $login = 'analytics@oneblackbear.com';
+    $password = 'onebb228010';
+    $id = '4775376';
+    
+    $api = new GoogleAnalytics();
+    if($api->login($login, $password)) {
+    	echo "login success\n";
+    	$api->load_accounts();
+    	$this->page_data = $api->data($id, 'ga:pageTitle,ga:pagePath', 'ga:pageviews,ga:uniquePageviews');
+    } else echo "login failed\n";
+  }
+  
 }
 
 ?>
