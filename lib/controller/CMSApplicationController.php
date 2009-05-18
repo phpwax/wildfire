@@ -130,7 +130,7 @@ class CMSApplicationController extends WaxController{
 			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
 			
 			if($logged_in) $access_filter = array("status" => array(0,1)); //published and unpublished, but not preview or untitled autosaved content
-			else $access_filter = array("status" => 1);
+			else $content->scope("published");
 	    
 	    if(!($this->cms_content = $content->filter($access_filter)->filter($filters)->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->filter($access_filter)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
