@@ -179,51 +179,7 @@ class CmsContent extends WaxModel {
     $this->order("UNIX_TIMESTAMP(published) DESC");
   }
 
-	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
-	/*not sure if or where this is used - cant seem to find it so now returns false*/
-	public function find_with_extra_content($name, $params=array()) {
-		return false;
-  }
-	public function is_section($url) {
-		$section = new CmsSection;
-    if($section->filter(array('url'=>$url))->first()) return true;
-    return false;
-  }
-	//these will be replaced by 'scoping'
-	public function published_content($url, $section, $params=array()) {
-		return array();
-		/*
-		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
-	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
-	  else $params['conditions'] = $condition;
-	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
-	  if($this->is_section($url)) {
-	    $params['conditions'].=" AND cms_section_id=$section";
-	    if($res = $this->find_all($params)) return $res;
-	  }
-	  if(is_array($section)) {
-	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
-	    return $this->find_all($params);
-	  }
-	  if(strlen($url)>0) {
-	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    if($res = $this->find($params)) return $res;
-	  }
-	  $params['conditions'].=" AND cms_section_id=$section";
-	  if($res = $this->find_all($params)) return $res;
-	
-	  return array();
-		*/
-	}
-	public function all_content($url, $section, $params=false) {
-		return array();
-		/*
-		if(!$params['order']) $params['order'] = "published DESC";
-	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
-	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
-	  return array();
-		*/
-  }
+
 
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}
