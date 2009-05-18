@@ -221,9 +221,9 @@ class CMSApplicationController extends WaxController{
 	 * @return void
 	 * @author Sheldon
 	 */
-	public function add_preview_bar($buffer_contents){
+	public function add_preview_bar($buffer_contents, $template = false){
 	  WaxTemplate::remove_response_filter("layout", "cms-preview-bar");
-	  $preview_bar = partial("../../plugins/cms/view/shared/_preview_bar", array(), "html");
+	  $preview_bar = partial("../../plugins/cms/view/shared/_preview_bar", $template, "html");
 	  $buffer_contents = preg_replace("/(<\/head>)/",'<link type="text/css" href="/stylesheets/cms/preview-bar.css" rel="stylesheet" />$1', $buffer_contents);
 	  $buffer_contents = preg_replace("/(<body.*?>)/","$1".$preview_bar, $buffer_contents);
 	  return $buffer_contents;
