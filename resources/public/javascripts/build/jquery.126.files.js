@@ -5062,7 +5062,7 @@ Directory.prototype = {
 		}				
 		this.parentElement.appendChild(this.element);	
 		if(!this.isRoot && !this.readonly){
-			if(!this.virtual) new Draggable(this.element.id, {revert:true, handle:'handle'});
+			if(!this.virtual) new Draggable(this.element.id, {revert:true, handle:'handle', scroll:"fileList"});
 			Droppables.add(this.element.id, { accept: FC.TYPES, hoverclass: 'hover', onDrop: this.moveTo.bind(this) });
 			this.resetHierarchy();
 		}

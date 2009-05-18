@@ -139,3 +139,4 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
   width:auto;
 }
 #uploadcart #fsUploadProgress {height:60px;}
+#fileList {height:100%;overflow:auto;}

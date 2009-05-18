@@ -165,10 +165,10 @@ class CMSAdminContentController extends AdminComponent {
     }
 
 		//images
-    if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+    if(!$this->attached_images = $this->model->images) $this->attached_images=array();
     
 		//categories assocaited
-		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		//all categories
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();

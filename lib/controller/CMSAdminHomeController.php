@@ -77,6 +77,7 @@ class CMSAdminHomeController extends AdminComponent {
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
  	  $this->recent_content = $content->limit(7)->filter("status < 3")->order("id DESC")->all();
+ 	  $this->can_see_stats = $this->can_see_stats();
  	}
 	/**
 	* help pages - content is generated via partials (we really should write some more of these...)
@@ -105,6 +106,9 @@ class CMSAdminHomeController extends AdminComponent {
     }
     return $simple;
   }
+  
+  public function can_see_stats() { return true;}
+  
 }
 
 ?>

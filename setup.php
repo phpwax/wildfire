@@ -4,6 +4,7 @@
 */
 
 define("CMS_VERSION", "0.5-devel");
+define("CMS_DIR", dirname(__FILE__));
 CMSApplication::register_module("home", array("display_name"=>"Dashboard", "link"=>"/admin/home/"));
 CMSApplication::register_module("settings", array("display_name"=>"Settings", "link"=>"/admin/settings/"));
 CMSApplication::register_module("sections", array("display_name"=>"Site Sections", "link"=>"/admin/sections/"));
