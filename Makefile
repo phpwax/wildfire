@@ -11,6 +11,10 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/cms/cms_init.js\
  ${SRC_DIR}/cms/wildfire_site_content.js\
  ${SRC_DIR}/cms/wildfire_dashboard.js\
+ ${SRC_DIR}/upload/swfupload.js\
+ ${SRC_DIR}/upload/swfupload.queue.js\
+ ${SRC_DIR}/upload/fileprogress.js\
+ ${SRC_DIR}/upload/handlers.js\
  ${SRC_DIR}/cms/file.js
  
 JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.2.6.js\
