@@ -43,8 +43,9 @@ class CmsContent extends WaxModel {
 	public function section_name() {
 		return $this->section->title;
 	}
-
+	
 	public function before_save() {
+	  if(!$this->published) $this->published = date("Y-m-d H:i:s");
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
