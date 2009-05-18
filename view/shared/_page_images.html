@@ -15,6 +15,7 @@
     <div id="drop_zones" class="clearfix">
         <?for($i=0; $i<$allowed_images; $i++):?>
             <?if($img = $attached_images[$i]):?>
+              <?error_log(print_r($img,1))?>
               <div class="dropped_image" id="cimage_<?=$img->id?>">
                 <div class="image_place">
                   <img src="<?=$img->permalink(120)?>" title="<?=$img->description?>" />
