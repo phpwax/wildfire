@@ -21,7 +21,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $edit_author = false; 
 	public $extra_content = array(); //extra content fields - runs off the cms_extra_content table
 	public $extra_content_options = array(); //corresponding config for the fields
-	public $default_order = 'id';
+	public $default_order = 'published';
 	public $default_direction = 'DESC';
 	public $created_on_col = "date_created";
 	public $auth_col = "author_id";
