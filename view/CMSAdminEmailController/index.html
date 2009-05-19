@@ -1,0 +1,48 @@
+<!-- Dependencies --> 
+<?=javascript_asset("jquery", "jquery.tablesort")?>
+
+<div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
+
+<?=$filter_block_partial?>
+
+
+<table id="item_list_container" class="sortable">
+  <thead>
+    <tr id="list_heading">
+      <?foreach($scaffold_columns as $column=>$params):?>
+        <th class="column"><?if($params['display']):?><?=$params['display']?><?else:?><?=humanize($column)?><?endif?></th>
+      <?endforeach?> 
+			<?if($show_operations):?>
+			 <th class="column">Operations</th>
+			<?endif?>
+    </tr>
+  </thead>
+  <tbody id="list_rows">
+    <?foreach($all_rows as $row):?>
+		    <tr id="row-<?=$row->primval()?>">
+		      <?foreach($scaffold_columns as $column=>$params):?>
+		        <td class="column">
+		          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
+		          <?else:?>
+		          <?=$row->$column?>
+		          <?endif;?>
+		        </td>
+		      <?endforeach?>
+					<?if($show_operations):?>
+		      <td class="column">
+		        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+		        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+		      </td>					
+					<?endif?>
+		    </tr>
+		<?endforeach?>
+    <?if(count($all_rows)<1):?>
+      <tr><td>No items available</td></tr>
+    <?endif?>
+  </tbody> 
+</table>
+
+
+<div id="bottom_pagination">
+  <?=paginate_links($all_rows, "2")?>
+</div>

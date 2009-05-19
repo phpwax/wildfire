@@ -1,0 +1,11 @@
+<script>var content_page_id=<?=$model->id?>;</script>
+  <?foreach($attached_categories as $attached):?>
+    <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>">
+      <?=$attached->name?>
+      <span class="trash_cat">
+        <?=image_asset("cms", "trash.gif", array("id"=>"delete_category_button$attached->id", "class"=>"category_trash_button"))?>
+      </span>
+    </div>
+  <?endforeach?>
+  <?if(!$attached_categories):?><p>No categories selected - drag and drop to add!</p><?endif?>
+<div class="clearfix"></div>

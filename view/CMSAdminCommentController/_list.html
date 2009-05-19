@@ -1,0 +1,19 @@
+<?foreach($all_rows as $row):?>
+  <?if($row->status !="1") $class="spam"; else $class="notspam";?>
+    <tr class="<?=$class?>">
+      <td class="column"><?=$row->author_name?></td>
+      <td class="column comment_column"><?=strip_tags($row->comment, "<a>")?></td>
+      <td class="column"><?=$row->time_ago?> ago</td>
+      <td class="column">
+        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <div class="generic_button"><a href="<?=$row->attached_to->permalink?>">View Post</a></div>
+        <?if($row->status=="1"):?>
+          <div class="generic_button"><?=link_to("Mark as Spam", array("action"=>"spam", "id"=>$row->id))?></div>
+        <?else:?>
+          <div class="generic_button"><?=link_to("Approve", array("action"=>"approve", "id"=>$row->id))?></div>
+        <?endif?>
+        <div class="clearfix"></div>
+      </td>
+    </tr>
+<?endforeach?>

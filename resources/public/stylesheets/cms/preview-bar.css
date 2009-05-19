@@ -1,0 +1,34 @@
+#wildfire_preview_bar:after {
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+#wildfire_preview_bar {display:inline-block;}
+/* Hide from IE Mac \*/
+#wildfire_preview_bar {display:block;}
+/* End hide from IE Mac */
+
+#wildfire_preview_bar{
+  background-image:url(/images/cms/cms_header-bg.gif);
+  float: left;
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  top: 0;
+}
+
+#wildfire_preview_bar #wildfire_preview_logo{
+  margin: 4px 20px 0 8px;
+  float: left;
+}
+
+#wildfire_preview_bar p{
+  margin: 12px;
+  padding: 0;
+}
+
+html{
+  padding-top: 40px !important;
+}

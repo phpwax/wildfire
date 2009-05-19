@@ -1,0 +1,34 @@
+<form action="" method="post" id="settings_form">
+  <table>
+    <thead>
+      <tr>
+        <th>Comments Options</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tr>
+      <td><label>Comments Enabled for Sections</label></td>
+      <td class="option_cell">
+        <?foreach($all_cms_sections as $section):?>
+            <?$check=false?>
+            <?if(!is_array($mods = $comments["enabled_sections"])) $mods = array()?>
+            <?if(array_key_exists($section->id, $mods)) $check=true;?>
+            <?=check_box_tag($section->id, "1", $check, array("name"=>"comments[enabled_sections][".$section->id."]", "id"=>"section_".$section->id), false)?>
+            <label for="section_<?=$section->id?>"><?=$section->title?></label><br />
+        <?endforeach?>
+      </td>
+    </tr>
+   
+    <tr>
+      <td><label for="filter">Filter Comments For:</label></td>
+      <td>
+        <textarea id="filter" name="comments[filter]" rows="5", cols="50"><?=$comments["filter"]?></textarea>
+        <p>A list of words that will trigger comments to be marked as spam. Separate with a space.</p>
+      </td>
+    </tr>
+    <tr class="footer">
+      <td><input type="submit" value="Update Options" /></td>
+      <td></td>
+    </tr>
+  </table>
+</form>

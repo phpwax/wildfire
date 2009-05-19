@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<?=javascript_asset("build", "jquery.126.files")?>
+
+	<?=stylesheet_asset('cms','wildfire.combined.min')?>
+	<?=stylesheet_asset('cms','cms-overrides')?>
+	<title>Content Management System</title>
+</head>
+
+<body id="<?=strtolower(WXInflections::underscore($display_name))?>">
+	<div id="header-container">
+		<div id="cms_logo"><a href="/admin/home"><img src="/images/cms/cms_wildfire-logo.gif" /></a></div>
+		<div id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></div>
+		<ul id="primary-navigation" class="clearfix">
+		  <?foreach($all_modules as $name=>$values):?>
+		    <li<?if($name == $module_name) echo " class='active'";?>>
+		      <a href="<?=$values['link']?>">
+		        <?=$values['display_name']?>
+		      </a>
+		    </li>
+			<?endforeach?>
+	  </ul>
+	</div>
+	<?if($sub_links):?>
+  	<div id="sub-navigation-container">
+  		<ul id="submenu" class="clearfix">
+  	      <?foreach($sub_links as $sub_link=>$text):?>
+  	        <?$class=""?>
+  	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
+  	  	    <li class="<?=$class?>"><?=link_to($text, array("action"=>$sub_link))?></li>
+  	  	  <?endforeach;?>
+  		</ul>
+  	</div>
+	<?endif;?>
+	<div id="page-container" class="clearfix">
+  		
+		<div id="content">
+	  	<?=info_messages()?>
+	  	<?=$content_for_layout?>
+		</div>
+	</div>
+	<div id="footer">Powered by <a href="http://php-wax.com/">PHP-WAX CMS</a> build <?=constant("CMS_VERSION")?></div>
+	<div class="jqmWindow" id="preview_pane">
+  Loading please wait...
+  </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<script src="/javascripts/utilities/prototype.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+	folderIcon = '/images/fs/mac_dir.png';
+	fileIcon = '/images/fs/mac_file.png';
+	collapsed = '/images/fs/collapsed.png';
+	expanded = '/images/fs/expanded.png';
+	spinnerIcon = '/images/fs/spinner_blue.gif';
+	deleteIcon = '/images/fs/delete.png';
+	saveIcon = '/images/fs/savebtn.jpg';
+	addIcon = '';
+	removeIcon = '/images/fs/bullet_delete.png';
+	renameIcon = '';
+	vcollapsed = '/images/fs/virtual-collapsed.png';
+	vexpanded = '/images/fs/virtual-expanded.png';
+	uploadCancel = '/images/fs/cancelupload.jpg';
+	uploadBtn = '/images/fs/upload.jpg';
+</script>
+
+
+<style type="text/css">
+#dashboard {
+	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
+  position: relative; left: 10px; top: 135px;
+}
+#fs_body > div#dashboard {
+  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
+  position: fixed;
+}
+<style type="text/css">
+#dashboard {
+	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
+  position: relative; left: 40px; top: 135px;
+}
+#fs_body > div#dashboard {
+  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
+  position: fixed;
+}
+</style>
+<!--[if gte IE 5.5]>
+<![if lt IE 7]>
+<style type="text/css">
+div#dashboard {
+  /* IE5.5+/Win - this is more specific than the IE 5.0 version */
+  left: expression( ( 25 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' ) ;
+  top: expression( ( 124 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' ) ;
+}
+</style>
+<![endif]>
+<![endif]-->
+
+<div id="fs_body">
+
+  <div id="dashboard">
+    
+    <div id="informationcart">
+      <h2>File Information</h2>
+   		<div id="meta"><p>No file selected</p></div>
+   	</div>
+    
+   	<div id="uploadcart">
+   	  <h2>Upload Files</h2>
+
+
+        <div id="advanced_uploader" class="clearfix wf_dialog">
+          <form id="form1" action="" method="post" enctype="multipart/form-data" onsubmit='set_post_params(); return false;'>
+              <div id="flash_upload">
+                <div id="uploadstatus"></div>
+                <h3>Step 1</h3>
+                <p>Tip: You can add multiple files if you wish.</p>
+                <input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
+                <h3>Step 2</h3>
+                <p>Below are the files that are pending, you may add more if you wish:</p>
+                <div class="flash" id="fsUploadProgress"></div>
+                <div id="divStatus">
+
+                </div>
+
+                <fieldset>
+                <input id="btnCancel" type="image" src="/images/cms/clear_files_button.png" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" />
+                </fieldset>
+              </div>
+              <fieldset id="upload_options">
+              <h3>Step 3</h3>
+              <p>Add an optional description to your files:</p>
+              <?=large(text_area($model, "description", array("rows"=>"5", "cols"=>"50"), false))?>
+              </fieldset>
+              <div class="clearfix"></div>
+              <h3>Step 4</h3>
+              <p>Start the upload.</p>
+              <input type="image" src="/images/cms/start_upload_button.png" onclick="" />
+              <input type="hidden" name="relay" value="fileUpload" style="display:none;" />
+         			<input type="hidden" name="path" id="uploadPath" />
+          </form>
+
+
+        </div>
+   	</div>
+
+   	
+  </div>
+
+  <div id="operations">
+    <script type="text/javascript" charset="utf-8">
+      console.log(search);
+    </script>
+    <form onsubmit="search.start(); return false">
+      <input type="text" name="searchbar" id="searchbar" value="" />
+      <input type="image" src="/images/fs/file_search.png" id="searchbtn" alt="Search" />
+    </form>
+    <ul>
+    	<li><a href="#" onclick="newFolder(); return false">Create Folder</a></li>
+    	<li><a href="#" onclick="download(); return false">Download File</a></li>
+    	<li><a href="#" onclick="openAll(); return false">Open All</a></li>
+    	<li><a href="#" onclick="closeAll(); return false">Close All</a></li>
+    	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
+    </ul>
+  </div>
+
+ 
+  <div id="filesystem">
+  	<div id="searcharea"></div>
+  	<div id="fileList"></div>
+  </div>
+
+
+
+
+</div>
+<div class="clearfix"></div>
+
+<script type="text/javascript">
+Event.observe( window, 'load', init_upload, false);
+</script>

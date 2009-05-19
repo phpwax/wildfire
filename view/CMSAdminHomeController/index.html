@@ -1,0 +1,97 @@
+<div id="statistics">
+  <?if($can_see_stats):?>
+    <h2>Your Site's Performance</h2>
+  
+    <h3>Recent Visits and Page Views</h3>
+      <object type="application/x-shockwave-flash" data="http://stats.oneblackbear.com/libs/open-flash-chart/open-flash-chart.swf" width="350px" height="150px" id="stats">
+    	  <param name="allowScriptAccess" value="sameDomain" />
+    	  <param name="quality" value="high" />
+    	  <param name="bgcolor" value="#444" />
+    	  <param name="wmode" value="transparent" /> 
+    	  <param name="name" value="VisitsSummarygetLastUniqueVisitorsGraphChart_swf">
+    	  <param name="movie" value="http://stats.oneblackbear.com/libs/open-flash-chart/open-flash-chart.swf" /> 
+    	  <param name="flashvars" value="data=http%3A%2F%2Fstats.oneblackbear.com%2Findex.php%3Fmodule%3DVisitsSummary%26action%3DgetLastUniqueVisitorsGraph%26idSite%3D<?=$stats_site_id?>%26period%3Dday%26date%3Dlast10%26viewDataTable%3DgenerateDataChartEvolution%26token_auth=ae290d98aa13255678682381827a6862">
+        <a title="You must install the Flash Plugin for your Browser in order to view this movie"  href="http://www.adobe.com/products/flashplayer/"><img src="http://www.adobe.com/images/shared/product_mnemonics/50x50/flash_player_50x50.gif" alt="placeholder for flash movie" /></a>
+    	</object>
+    
+    <div class="clearfix"></div>
+  
+  
+    <h3>Recent Incoming Links</h3>
+    <?if(count($stat_links)):?>
+      <?foreach($stat_links as $link):?>
+        <div class="stat_count"><strong><?=$link["nb_visits"]?></strong> links from</div>
+        <div class="stat_label"><a href="http://<?=$link["label"]?>"><?=urldecode($link["label"])?></a></div>
+        <div class="graph_separator"></div>
+      <?endforeach?>
+      <?else:?>
+        <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent incoming links will appear here shortly.</p>
+      <?endif?>
+  
+    <div class="clearfix"></div>
+    <h3>Recent Search Referrals</h3>
+    <?if(count($stat_search)):?>
+      <?foreach($stat_search as $search):?>
+        <div class="stat_count"><strong><?=$search["nb_visits"]?></strong> searches: </div>
+        <div class="stat_label">
+          <a href="http://google.com/search?q=<?=$search["label"]?>"><?=urldecode($search['label'])?></a>
+        </div>
+        <div class="graph_separator"></div>
+      <?endforeach?>
+    <?else:?>
+      <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent search engine referrals will appear here shortly.</p>  
+    <?endif?>
+  <?endif?>
+  
+</div>
+<div id="quick_nav">
+  <div id="quick_search">
+    <img src="/images/cms/quick_search_icon.gif" />
+    <h3>Quick Content Finder</h3>
+    <p>Start typing and results will start to appear:</p>
+    <form action="" method="get" accept-charset="utf-8">
+      <input type="text" value="Search" class="live_search" id="live_search_field" />
+      <ul class="live_search_results"></ul>
+    </form>
+  </div>
+  <div id="quick_create">
+    <img src="/images/cms/quick_create_icon.gif" />
+    <h3>Start Creating Content</h3>
+    <form action="../content/create" method="get" accept-charset="utf-8">
+      <input type="text" value="Title" id="quick_create_title" name="title" />
+      <input type="image" src="/images/cms/quick_create_button.gif" id="quick_create_submit" />
+    </form>
+  </div>
+  <div id="quick_upload">
+    <a href="/admin/files/"><img src="/images/cms/quick_upload_icon.gif" />
+    <h3>Start Uploading Files</h3>
+    <p>Click here to upload upload images, documents and other files.</p>
+    </a>
+  </div>
+</div>
+<div id="quick_content_column">
+  <div id="quick_recent_content">
+    <h3>Recent Content</h3>
+    <table id="item_list_container" class="sortable">
+      <tbody id="list_rows">
+        <?foreach($recent_content as $row):?>
+          <tr id="row_<?=$row->id?>">
+            <td class="column">
+              <span class="status_change_span">
+    					<?if($row->is_published()):?>
+    	          <a href="/admin/content/status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="Published"><img src="/images/cms/icon_published.gif" width="12" class="status_icon" /></a>
+    	        <?else:?>
+    	        	<a href="/admin/content/status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="Draft"><span><img src="/images/cms/icon_draft.gif" width="12" class="status_icon" /></a>
+    	        <?endif?>
+    					</span>
+              <?=link_to($row->title, array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?>
+            </td>
+            <td class="column last">        
+              <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
+            </td>
+          </tr>
+        <?endforeach?>
+      </tbody> 
+    </table>
+  </div>
+</div>

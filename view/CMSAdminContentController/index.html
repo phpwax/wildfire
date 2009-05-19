@@ -1,0 +1,30 @@
+<div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
+
+<?=$filter_block_partial?>
+
+
+<table id="item_list_container" class="sortable">
+  <thead>
+    <tr id="list_heading">
+      <?foreach($scaffold_columns as $column=>$params):?>
+        <th class="column">
+          <?if(!$params["display"]) echo humanize($column);
+          else echo $params["display"]?>
+      </th>
+      <?endforeach?> 
+      <th class="nosortcolumn">Categories</th>
+      <th class="nosortcolumn">Operations</th>
+    </tr>
+  </thead>
+  <tbody id="list_rows">
+    <?=$list?>
+    <?if(count($all_rows)<1):?>
+      <tr><td colspan='<?=(count($scaffold_columns)+2)?>'>No items available</td></tr>
+    <?endif?>
+  </tbody> 
+</table>
+
+
+<div id="bottom_pagination">
+  <?=paginate_links($all_rows, "7")?>
+</div>

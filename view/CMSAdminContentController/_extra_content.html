@@ -1,0 +1,38 @@
+  <?foreach($extra_content as $content):?>
+    <?if(is_array($opts = $extra_content_options[$content])):?>
+      <?switch($opts['type']) {
+        case "text_field": 
+          echo large(text_field($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content)));
+          break;
+        case "text_area": 
+          echo large(text_area($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content)), "rows"=>"4"), humanize($content)));
+          break;
+				case "datetime_select":
+					echo medium(datetime_select($model->extra_content($content), $content, $opts['choices'] ) );
+					break;
+				case "date_select":
+  			  echo medium(date_select($model, $content, array(), humanize($content) ) );
+  				break;
+				case "select":
+					echo large(select($model->extra_content($content), $content, $opts['choices'] ) );
+					break;
+        case "wysiwyg":
+          echo '<fieldset id="wysiwyg">'.large(simple_wysiwyg($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content))), humanize($content))) .'</fieldset>';
+          break;
+        case "radiogroup":
+          echo '<div class="large"><label>Rating</label>';
+          foreach($opts["choices"] as $choice) {
+            if($model->extra_content_value($content)==$choice) $checked=true;
+            else $checked = false;
+            echo radio_button_tag("cms_extra_content[rating]", $choice, $checked, array("class"=>"rating"), false);
+            echo $choice;
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+          }
+          echo '</div>';
+          break;
+      }?>
+    <?else:?>
+    <?=large(text_area($model->extra_content($content), $content, array("rows"=>"3", "value"=>stripslashes($model->extra_content_value($content))), humanize($content)))?>
+    <?endif?>
+    <hr />
+  <?endforeach?>

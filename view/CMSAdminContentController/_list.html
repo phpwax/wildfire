@@ -1,0 +1,41 @@
+<?foreach($all_rows as $row):?>
+    <tr id="row_<?=$row->id?>">
+      <?foreach($scaffold_columns as $column=>$params):?>
+        <td class="column">
+					<?if($column == 'title' && $row->is_published()):?>
+					  <span class="status_change_span">
+	          <a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft">
+	            <img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" />
+	          </a></span>
+	        <?elseif($column == 'title' && !$row->is_bublished()):?>
+	        	<span class="status_change_span"><a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published">
+	        	  <span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" /></a></span>
+	        <?endif?>
+					
+          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
+          <?else:?>
+          <?=$row->$column?>
+          <?endif;?>
+        </td>
+      <?endforeach?>
+      <td class="column">
+        <?$cats = 0?>
+        <?foreach($row->categories as $cat):?>
+          <?if($cats < 3):?>
+            <span class="category_label"><?=truncate($cat->name, 18)?> &nbsp;&nbsp;</span> 
+          <?else:?>
+            ...<?break?>
+          <?endif?>
+          <?$cats++?>
+        <?endforeach?>
+      </td>
+      <td class="column last">        
+        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink?>">View Post</a></div>
+        <?else:?><div class="generic_button"><a href="#" id="preview_<?=$row->id?>">Preview</a></div><?endif?>
+				
+				<?=preview_window($row->permalink."?preview=1", "preview_".$row->id, "preview_pane")?>
+      </td>
+    </tr>
+<?endforeach?>

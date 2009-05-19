@@ -1,0 +1,27 @@
+<?$host = "http://".$_SERVER["HTTP_HOST"]?>
+<div class="wf_dialog">
+  <form>
+    <fieldset>
+  
+    <h3>Original File</h3>
+    <p>Link to original file.</p>
+    <div class="large"><input type="text" value="<?=$host.$image->url()?>" class="input_field" /></div>
+    <hr />
+    <h3>Thumbnail Version</h3>
+    <p>Link to version approx. 50 pixels wide.</p>
+    <div class="large"><input type="text" value="<?=$host.$image->permalink(50)?>"class="input_field" /></div>
+    <hr />
+    <h3>Small Version</h3>
+    <p>Link to version approx. 200 pixels wide.</p>
+    <div class="large"><input type="text" value="<?=$host.$image->permalink(200)?>" class="input_field" /></div>
+    <hr />
+    <h3>Medium Version</h3>
+    <p>Link to version approx. 500 pixels wide.</p>
+    <div class="large"><input type="text" value="<?=$host.$image->permalink(500)?>" class="input_field" /></div>
+    <hr />
+    <h3>Large Version</h3>
+    <p>Link to version approx. 700 pixels wide.</p>
+    <div class="large"><input type="text" value="<?=$host.$image->permalink(700)?>" class="input_field" /></div>
+    </fieldset>
+  </form>
+</div>

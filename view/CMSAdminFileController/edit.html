@@ -1,0 +1,139 @@
+<?=javascript_asset("jquery","jquery.tabs.min")?>
+<?=stylesheet_asset("jquery", "jquery.tabs")?>
+<!--[if lte IE 7]>
+  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
+<![endif]-->
+<?=javascript_asset("jquery","jquery.imgareaselect-0.5.1.min.js")?>
+
+<form action="" class="form_container img_crop_tool" method="post" enctype="multipart/form-data" id="content_edit_form">
+	<div id="container">
+    <ul class="tabs-nav">
+      <li><a href="#section-1">Crop</a></li>
+      <li><a href="#section-2" id="image_tab_link">Resize</a></li>
+      <li><a href="#section-3" id="cat_tab_link">Rotate</a></li>
+    </ul>
+
+		<div id="content_window" class="clearfix">
+	    <div id="content_editor" class="clearfix">
+		
+				<div id="section-1" class="tabs-container">
+	        <fieldset>
+						<div class="image">
+	         	<img src="<?=$model->url?>" class="preview_image" id="wff" />
+						</div>
+						<script type="text/javascript">
+						 var $x1, $y1,$w, $h;
+						 function selectChange(img, selection){
+						   $x1.val(selection.x1);
+						   $y1.val(selection.y1);
+						   $w.val(selection.width);
+						   $h.val(selection.height);
+						 }
+						 $(document).ready(function () {
+						   $x1 = $('#x1');
+						   $y1 = $('#y1');
+						   $w = $('#w');
+						   $h = $('#h');
+						 });
+						 $(window).load(function () {
+						   set_crop_image();
+						 });
+						</script>
+						<input type="hidden" id="x1" value=""  name="crop[x]"/>
+						<input type="hidden" id="y1" value=""  name="crop[y]"/>
+						<input type="hidden" id="w" value=""  name="crop[w]"/>
+						<input type="hidden" id="h" value=""  name="crop[h]"/>						
+	        </fieldset>
+					<fieldset id="submit">
+				     <input type="image" class="generic_button areyousure cropper" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="crop[save]" value="Crop" />
+				   </fieldset>
+	      </div>
+		
+				<div id="section-2" class="tabs-container">
+	        <fieldset>
+						<fieldset id="submit">
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=90" class="resize_image">90%</a>&nbsp;
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=80" class="resize_image">80%</a>&nbsp;
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=70" class="resize_image">70%</a>&nbsp;
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=60" class="resize_image">60%</a>&nbsp;				
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=50" class="resize_image">50%</a>&nbsp;				
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=40" class="resize_image">40%</a>&nbsp;				
+				     <a href="/admin/files/resize/<?=$model->id?>?percent=30" class="resize_image">30%</a>				
+				   </fieldset>
+						<div class="image">
+	         		<img src="<?=$model->url?>" class="preview_image" id="resizer" />
+						</div>
+						<fieldset id="submit">
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=90" class="resize_image">90%</a>&nbsp;
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=80" class="resize_image">80%</a>&nbsp;
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=70" class="resize_image">70%</a>&nbsp;
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=60" class="resize_image">60%</a>&nbsp;				
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=50" class="resize_image">50%</a>&nbsp;				
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=40" class="resize_image">40%</a>&nbsp;				
+					     <a href="/admin/files/resize/<?=$model->id?>?percent=30" class="resize_image">30%</a>				
+					   </fieldset>												
+	        </fieldset>
+					
+	      </div>
+				
+				
+				<div id="section-3" class="tabs-container">
+					<fieldset id="submit">
+			     <a href="/admin/files/rotate/<?=$model->id?>?angle=-90" class="rotate_image">left</a>&nbsp;
+			     <a href="/admin/files/rotate/<?=$model->id?>?angle=90" class="rotate_image">right</a>&nbsp;				
+			   	</fieldset>
+	        <fieldset>
+						<div class="image">
+	         		<img src="<?=$model->url?>" class="preview_image" id="rotator" />
+						</div>
+												
+	        </fieldset>
+					<fieldset id="submit">
+				     <a href="/admin/files/rotate/<?=$model->id?>?angle=-90" class="rotate_image">left</a>&nbsp;
+				     <a href="/admin/files/rotate/<?=$model->id?>?angle=90" class="rotate_image">right</a>&nbsp;				
+				   </fieldset>
+	      </div>
+			</div>
+		</div>
+</form>
+
+
+<script>
+$(document).ready(function(){
+	if($("#container").length) $("#container").tabs();
+	
+	$('input.cropper').click(function(){
+		var pdata = {'crop[x1]':$x1.val(), 'crop[y1]': $y1.val(), 'crop[w]': $w.val(), 'crop[h]': $h.val()};
+		$.post('/admin/files/crop/<?=$model->id?>', 
+					pdata,
+					function(response){
+						$('div.image').html(response);
+						window.location.reload();
+					});
+		return false;
+	});
+	
+	$('a.resize_image').click(function(){
+		href = $(this).attr('href');
+		$.get(href, function(response){
+			$('div.image').html(response);
+			set_crop_image();			
+		});	
+		return false;	
+	});
+	
+	$('a.rotate_image').click(function(){
+		href = $(this).attr('href');
+		$.get(href, function(response){
+			$('div.image').html(response);
+			set_crop_image();			
+		});	
+		return false;	
+	})
+	
+});
+
+function set_crop_image(){
+	$('img#wff').imgAreaSelect({ selectionOpacity: 0, onSelectChange: selectChange });
+}
+</script>

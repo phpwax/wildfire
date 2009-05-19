@@ -1,0 +1,66 @@
+<style>
+  .cms_settings_module {
+    float:left;
+    width:30%;
+    margin:0 0 20px 0;
+  }
+  .cms_settings_module h3 {
+    margin:10px 0 !important;
+  }
+  
+</style>
+<form action="" method="post" class="form_container">
+
+<div class="cms_home_module">  
+      <fieldset>
+        <?=form_heading("General Information")?>
+        <?=large(text_area_tag("address[address]", $address , array(),"Enter Address"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[postcode]", $postcode , array(),"Enter Postcode"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[email_address]", $email , array(),"Enter Email Address"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[phone_number]", $phone , array(),"Enter Phone Number"))?>
+        <?=form_divider()?>
+				<?=large(text_field_tag("address[fax_number]", $fax , array(),"Enter Fax Number"))?>
+        <?=form_divider()?>
+				<? if($current_user->username == $super_user):?>
+        	<?=large(text_field_tag("google_key", $google_key , array(),"Enter Google Key"))?>
+	        <?=form_divider()?>
+	        <?=form_divider()?>
+	        <?=large(text_field_tag("super_user", $super_user , array(),"Super User (username)"))?>
+	        <?=form_divider()?>
+				<? endif;?>
+      </fieldset>
+</div>
+<? if($current_user->username == $super_user):?>
+<div class="cms_home_module">
+    <fieldset>
+      <?=form_heading("Statistics URLs")?>
+      <?=large(text_field_tag("stat_dash_url", $stat_visit, array(),"Enter Visits URL"))?>
+      <?=form_divider()?>
+      <?=large(text_field_tag("stat_link_url", $stat_refer, array(),"Enter Referrers URL"))?>
+      <?=form_divider()?>
+      <?=large(text_field_tag("stat_search_url", $stat_search, array(),"Search Statistics URL"))?>
+      <?=form_divider()?>
+    </fieldset>
+</div>
+<? endif;?>
+
+<? if($current_user->username == $super_user):?>
+<div class="cms_home_module">
+    <fieldset>
+      <?=form_heading("Enable/Disable Modules")?>
+      <?foreach($all_cms_modules as $name=>$settings):?>
+        <?$check=false?>
+        <?if(array_key_exists($name, $config_modules)) $check=true;?>
+        <?=large(check_box_tag($name, "1", $check, array("name"=>"modules[".$name."]", "id"=>"modules_".$name)))?>
+      <?endforeach?>
+    </fieldset>
+</div>
+<? endif;?>
+<div class="clearfix"></div>
+<?=small(submit_tag("Update Settings"))?>
+</form>
+
+

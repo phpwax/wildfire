@@ -1,0 +1,16 @@
+<?foreach($all_rows as $row):?>
+    <tr id="row-<?=$row->id?>">
+      <?foreach($scaffold_columns as $column=>$params):?>
+        <td class="column">
+          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
+          <?else:?>
+          <?=$row->$column?>
+          <?endif;?>
+        </td>
+      <?endforeach?>
+      <td class="column">
+        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+      </td>
+    </tr>
+<?endforeach?>

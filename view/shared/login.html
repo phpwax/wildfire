@@ -1,0 +1,9 @@
+<form action="" name="loginForm" method="post" class="form_container">
+  <fieldset>
+    <?foreach($form->elements as $el):?>
+	    <?=$el->render()?>
+	  <?endforeach?>
+	  <hr />
+	  <input type="image" src="/images/cms/login_button.gif" />
+	</fieldset>
+</form>

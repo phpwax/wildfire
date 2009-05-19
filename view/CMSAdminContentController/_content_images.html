@@ -1,0 +1,16 @@
+<?foreach($page->images as $image):?>
+<div class="dropped_image" id="cimage_<?=$img->id?>">
+  <div class="image_place">
+    <img src="<?=$image->permalink(120)?>" title="<?=$image->description?>" />
+  </div>
+  <div class="remove_image" id="delete_image_<?=$image->id?>">
+    <a href="#">Remove</a>
+  </div>
+  <div class="edit_image" id="edit_image_<?=$image->id?>">
+    <a href="/admin/files/edit/<?=$image->id?>">Edit</a>
+  </div>
+  <div class="url_image" id="url_image_<?=$image->id?>">
+    <a href="#">Url</a>
+  </div>
+</div>
+<?endforeach?>

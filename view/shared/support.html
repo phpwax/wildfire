@@ -1,0 +1,70 @@
+<style>
+	#helpdoc{
+		width:70%;
+		float:left;
+		padding-left:15px;
+		padding-right:15px;
+	}
+	#contact-us{
+		width:25%;
+		float:left;
+	}
+	.guide-block{
+		margin-top:15px;
+		border-top:1px dashed #ccc;
+		padding-top:10px;
+		font-size:115%;
+	}
+	#helpdoc ul li{
+		list-style-type: disc;
+	}
+	#helpdoc ul.wysiwyg-guide{
+		list-style:none;
+	}
+	#helpdoc ul.wysiwyg-guide li{
+		margin-left:30px;
+		list-style-type:none;
+		list-style:none;
+	}
+	#helpdoc ul.wysiwyg-guide li ul li{
+		margin-left:30px;
+		list-style-type:square;
+		padding-top:0px;
+	}
+	#helpdoc ul.wysiwyg-guide li p{
+		margin:0px;
+		clear:both;
+	}
+	#helpdoc ul.wysiwyg-guide li{
+		padding-top:10px;
+	}
+	.wysiwyg-icon{
+		height:25px;
+		overflow:hidden;
+		float:left;
+		margin-right:10px;
+	}
+	h5 {
+	  font-size:100%;
+	  margin-top:25px;
+	  font-weight:bold;
+	}
+</style>
+<div id="helpdoc">
+	<h3>User Guide</h3>
+	<ol>
+	<?foreach($guides as $title=>$info):?>
+		<li><a href="#guide-<?= $title?>"><?= ucfirst($title)?></a></li>
+	<?endforeach?>
+	</ol>
+	<div class="guide-block">
+		<h4>Introduction</h4>
+		<p>We've put together a quick how-to guide for each of the modules in the Wildfire Content Management System (CMS). To flick to a module How-To, click the relevant heading in the list above.</p>
+	</div>
+	<? foreach($guides as $title=>$info):?>
+		<div class="guide-block">
+			<h4><a href="#guide-<?= $title?>" name="guide-<?= $title?>"><?= ucfirst($title)?></a></h4>
+			<?= $info?>
+		</div>
+	<? endforeach?>
+</div>

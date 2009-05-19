@@ -1,0 +1,42 @@
+<div id="image_browser_container">
+
+  <div id="image_browser" class="clearfix">
+    <div id="filter_block">
+      <input type="text" id="image_filter" name="filter" size="20" value="Filter" />
+      <span id="image_filter_folder">
+        &nbsp;<?=select($image_model, "new_folder", $image_model->folder_options, array("id"=>"image_folder"), "Choose a folder")?>
+        &nbsp;<a href="#" id="quick_upload_button">Upload Images</a>
+        &nbsp;&nbsp;<a href="#" id="upload_url_button">Upload From URL</a>
+      </span>
+    </div>    
+    
+    <div id="image_list"></div>
+    <div class="ui-resizable-handle ui-resizable-s" id="imageresizehandle"></div>
+    <div id="drop_zones" class="clearfix">
+        <?for($i=0; $i<$allowed_images; $i++):?>
+            <?if($id = $attached_images[$i]->id):?>
+              <div class="dropped_image" id="cimage_<?=$id?>">
+                <div class="image_place">
+                  <img src="<?=$attached_images[$i]->permalink(120)?>" title="<?=$attached_images[$i]->description?>" />
+                </div>
+                <div class="remove_image" id="delete_image_<?=$id?>">
+                  <a href="#">Remove</a>
+                </div>
+                <div class="edit_image" id="edit_image_<?=$id?>">
+                  <a href="/admin/files/edit/<?=$id?>">Edit</a>
+                </div>
+                <div class="url_image" id="url_image_<?=$id?>">
+                  <a href="#">Url</a>
+                </div>
+              </div>
+            <?else:?>
+
+            <?endif?>
+        <?endfor?>
+    </div>
+    
+  </div>
+  
+</div>
+<div id="quick_upload_pane"></div>
+<div id="upload_url_pane"></div>

@@ -1,0 +1,20 @@
+<div id="category_browser_container">
+  <div id="category_browser" class="clearfix">
+    <div id="filter_block">
+      <input type="text" id="category_filter" name="filter" size="20" value="Filter" />
+      <label for="new_cat">Make a new category</label><br />
+      <input type="text" value="" name="new_cat" id="new_cat" />
+      <a href="#" id="new_cat_create">Create</a>
+    </div>
+    
+    <div id="category_list" class="clearfix">
+      <?=$cat_list?>
+    </div>
+    <div class="ui-resizable-handle ui-resizable-s" id="catresizehandle"></div>
+    
+    <div id="cat_dropzone">
+      <?=$cat_partial?>
+    </div>
+    
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<p>Probably the most used module in the CMS, all CMS controlled content is added here.</p>
+<h5>List View</h5>
+<p>The default page when clicking the Content Sections tab is a list view. At the top of the page is a Filter, typing text in this input box filters the list below, for example: typing 'ne' will list all items containing the characters 'ne'. Alongside the 'Filter' is an 'Order By' select box, select a field to reorder the list below. Below the filter box is an select box which, when selected, lists content items by there assigned sections, the list will update on selection.  Below the the section select box is a list of Content items, to the right of each item are the options to 'Edit', 'Delete' and 'View'. The Edit button will take you to the Edit Form, clicking the 'Delete' option will ask you to confirm before removing the item. The View button will take you through to a view of the content on the public site.</p>
+<h5>Create/Edit View</h5>
+<p>Selecting the 'Create New Site Content' or the 'Edit' button next to a list item takes you to the same form, although the 'Edit' WYSIWYG editor gives you two additional options.</p>
+<ul>
+	<li><strong>Title:</strong> Content title, the url for the item is auto generated from this title e.g. 'My New News Item' will have the url '/my-new-news-item'.</li>
+	<li><strong>Choose a Section:</strong> Assign a content item to a section of the site, for example 'News'.</li>
+	<li><strong>Status:</strong> Draft - item will not appear on the site, or Published - item will appear on the site.</li>
+	<li><strong>Date to be Published:</strong> This sets a future date for an item to be published, 'Status' must also be set to published for this to work.</li>
+	<li>
+		<strong>Content:</strong> What You See Is What You Get (WYSIWYG) editor. This allow basic text formatting. See the following list.
+		<ul class="wysiwyg-guide">
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_bold.gif')?></div><strong>Bold</strong></p>
+				<p><em>To add formatting</em> - Highlight desired text, click the 'Bold' icon.</p>
+				<p><em>To remove formatting</em> - Highlight desired bold text, click the 'Bold' icon.</p>
+			</li>
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_italic.gif')?></div><strong>Italic</strong></p>
+				<p><em>To add formatting</em> - Highlight desired text, click the 'Italic' icon.</p>
+				<p><em>To remove formatting</em> - Highlight desired italic text, click the 'Italic' icon.</p>
+			</li>
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_link.gif')?></div><strong>Link</strong></p>
+				<p><em>To add formatting</em> - Highlight desired text, click the 'Link' icon. A popup will appear:</p>
+					<ul>
+						<li>Option 1, if you want to enter a link to another website select the 'click here', this will guide you through a series of windows allowing you to enter a url and title for the link.</li>
+						<li>Option 2, (only available if documents have been uploaded via the Files module) this allows you to link through to an item by selecting it from the pulldown menu.</li>
+					</ul>
+				<p><em>To remove formatting</em> - Highlight desired link text, click the 'Link' icon.</p>
+			</li>
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_unordered.gif')?></div><strong>Bullet List</strong></p>
+				<p><em>To add formatting</em> - Highlight desired text - normally over multiple lines, click the 'Bullet List' icon.</p>
+				<p><em>To remove formatting</em> - Highlight desired list text - normally over multiple lines, click the 'Bullet List' icon.</p>
+			</li>
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_ordered.gif')?></div><strong>Numbered List</strong></p>
+				<p><em>To add formatting</em> - Highlight desired text - normally over multiple lines, click the 'Numbered List' icon.</p>
+				<p><em>To remove formatting</em> - Highlight desired list text - normally over multiple lines, click the 'Numbered List' icon.</p>
+			</li>
+			<li>
+				<p><strong>Change Block Text</strong>, predefined text formatting for headings, sub-headings and quotes.</p>
+				<p><em>To add formatting</em> - Highlight desired text - select the relevant option from the pulldown list.</p>
+				<p><em>To remove formatting</em> - Highlight desired list text - select the 'paragraph' option form the pulldown list.</p>
+			</li>
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_image.gif')?></div><strong>Add Image -<em> ONLY AVAILABLE ONCE AN ITEM HAS BEEN SAVED</em></strong></p>
+				<p><em>To add an image</em> - Click the 'Add Image' icon, a popup appears.  The popup lists all images loaded via the 'Files' module. Simply drag the image from the list to one of the empty place holders on the right-hand side.  The application will decide how the image is displayed in relation to the content on the public site.</p>
+				<p><em>To remove an image</em> - Click the 'Add Image' icon, a popup appears. Simply drag it from the right-hand side place holder back to the list on the left.</p>
+			</li>
+			<li>
+				<p><div class="wysiwyg-icon"><?= image_asset('cms', 'widgeditor_button_cat.gif')?></div><strong>Select Category -<em> ONLY AVAILABLE ONCE AN ITEM HAS BEEN SAVED</em></strong></p>
+				<p><em>To assign content to a category</em> - Click the 'Select Category' icon, a popup appears.  The popup lists all categories loaded via the 'Category' module. Select the relevant categories using the checkboxes next to each category title and click 'Update Categories'.</p>
+				<p><em>To remove relationship to a category</em> - Click the 'Select Category' icon, a popup appears.  Uncheck the box next to each of the selected categories and click 'Update Categories'.</p>
+			</li>
+		</ul>
+	</li>
+</ul>

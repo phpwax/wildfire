@@ -1,0 +1,15 @@
+<div id="link_dialog">
+  <h3>1. Enter an internet url</h3>
+  <p><a href="javascript:void(0)" id="insert_web_url">Click Here</a></p>
+  <?if(count($all_links)):?>
+  <h3>2. Link to one of your files</h3>
+    <p>
+      <label for="link_file">Select a file</label><br />
+      <select id="link_file">
+        <?foreach($all_links as $link):?>
+          <option value="<?=$link->url?>"><?=$link->filename?></option>
+        <?endforeach?>
+      </select> <button id="insert_local_url">Insert</button>
+    </p>
+  <?endif?>
+</div>

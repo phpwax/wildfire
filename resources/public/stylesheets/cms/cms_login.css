@@ -1,0 +1,42 @@
+body, html {
+  background:#ebebeb;
+}
+#login_box {
+  background:#414141;
+  margin:100px auto;
+  text-align:center;
+}
+
+#login_box #logo {
+  background:url(../../images/cms/wildfire_login_logo.gif) no-repeat center 20px;
+  height:108px;
+}
+
+#login_box #login_area {
+  text-align:center;
+  padding:0 10px;
+  padding-bottom:15px;
+  width:300px;
+  margin:0 auto;
+}
+#login_box #login_area .form_container {
+  margin:0;
+  padding:0;
+  width:auto;
+}
+
+#login_box #login_area label {
+  color:white;
+  font-size:85%;
+  margin:0;
+}
+.user_messages {
+  background:#d02c40;
+  margin:8px 40px 0 40px;
+  -webkit-border-radius:3px;
+  border:0;
+  color:white;
+  font-size:100%;
+}
+
+
