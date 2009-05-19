@@ -52,7 +52,7 @@ class CmsContent extends WaxModel {
 	  if($this->id && $this->status == 1) {
 	    $class = get_class($this);
 	    $old_model = new $class($this->id);
-	    if($old_model->status <> 1)
+	    if($old_model->status == 0 || $old_model->status==3) 
   	    $this->before_publish();
 	  }
 	}
