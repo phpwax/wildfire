@@ -111,7 +111,8 @@ class CmsTextFilter  {
 		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $youtube, $text);
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)([^>]*)<\/a>/", $youtube, $text);
+		
 
 		/*VIMEO*/
 		$vimeo ='<object width="$2" height="$3">
@@ -242,15 +243,17 @@ class CmsTextFilter  {
   }
   
   static public function inline_images($text) {
-    preg_match_all("/<img style=([^>]*) src=([^>]*) class=([^>]*inline_image[^>]*) alt=([^>]*)[^>]*>/", $text, $matches, PREG_SET_ORDER);
+    
+    preg_match_all("/<img src|class|alt|height|width=(.*?)* >/", $text, $matches, PREG_SET_ORDER);
+    print_r($matches); exit;
     foreach($matches as $match) {
-      preg_match("/\/([0-9]*)\//", $match[2], $imageid);
+      preg_match("/\/([0-9]*)\//", $match[1], $imageid);
       $imageid = $imageid[1];
-      preg_match("/width:([\s\d]*)/", $match[1], $width);
-      $width = trim($width[1]);
-      if(strlen($width)>1) $text = str_replace($match[0], '<img src="/show_image/'.$imageid.'/'.$width.'.jpg" class='.$match[3].' alt='.$match[4].' />', $text);
-      $text = str_replace($match[0], '<img src='.$match[2].' class='.$match[3].' alt='.$match[4].' />', $text);
+      $width = trim($match[6], '"');
+      $text = str_replace($match[0], '<img src="/show_image/'.$imageid.'/'.$width.'.jpg" class='.$match[2].' alt='.str_replace("alt=", "",$match[3]).' />', $text);
     }
+    
+    
     return $text;
   }
   
