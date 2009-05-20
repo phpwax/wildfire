@@ -16,7 +16,7 @@ class OpenFlashChart {
     $this->elements[]=$options;
   }
   
-  public function add_y_legend($text, $style="{font-size: 20px; color:#333; font-family: Verdana; text-align: center;}") {
+  public function add_y_legend($text, $style="{font-size: 15px; color:#333; font-family: Verdana; text-align: center;}") {
     $this->y_legend=array("text"=>$text,"style"=>$style);
   }
   
@@ -26,6 +26,10 @@ class OpenFlashChart {
   
   public function add_y_axis($options=array()) {
     $this->y_axis = $options;
+  }
+  
+  public function add_value($name, $value) {
+    $this->$name = $value;
   }
   
   public function render() {

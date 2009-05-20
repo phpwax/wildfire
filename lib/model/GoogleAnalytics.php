@@ -44,6 +44,8 @@ class GoogleAnalytics {
 	 */
 	public $accounts;
 	
+
+	
 	/**
 	 * Logs into the Google Analytics API and sets $this->auth to the authorisation token returned
 	 *
@@ -111,10 +113,10 @@ class GoogleAnalytics {
 			trigger_error('Badly formatted request to the Google Analytics API; check your profile id is in the format ga:12345, dates are correctly formatted and the dimensions and metrics are correct', E_USER_WARNING);
 		}
 		elseif($info['http_code'] == 401) {
-			trigger_error('Unauthorized request to the Google Analytics API', E_USER_WARNING);
+			trigger_error('Unauthorized request to the Google Analytics API', E_USER_ERROR);
 		}
 		else {
-			trigger_error("Unknown error when accessing the Google Analytics API, HTTP STATUS {$info['http_code']}", E_USER_WARNING);
+			trigger_error("Unknown error when accessing the Google Analytics API, HTTP STATUS {$info['http_code']}", E_USER_ERROR);
 		}
 		return $return;
 		
