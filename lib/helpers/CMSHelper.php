@@ -160,8 +160,8 @@ class CMSHelper extends WXHelpers {
 	/**
 	 * use the cms filter to tidy up the title text and if it has a parent section then append that as well
 	 */	
-	protected function make_title($info, $seperator = " - ", $field=""){
-		if($info->parent_id > 1) return CmsTextFilter::filter("before_output",html_entity_decode($info->$field) ) . $seperator . $this->make_title(new CmsSection($info->parent_id), $seperator ) ;
+	protected function make_title($info, $seperator = " - ", $field="title"){
+		if($info->parent_id > 1) return CmsTextFilter::filter("before_output",html_entity_decode($info->$field) ) . $seperator . $this->make_title(new CmsSection($info->parent_id), $seperator, $field ) ;
 		elseif($info->$field) return CmsTextFilter::filter("before_output", html_entity_decode($info->$field) ) . $seperator;
 		elseif(is_string($info)) return CmsTextFilter::filter("before_output",html_entity_decode($info)) . $seperator;
 		else return "";
