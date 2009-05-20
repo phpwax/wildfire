@@ -159,15 +159,9 @@ class CMSAdminContentController extends AdminComponent {
   		    $master->save();
   		    Session::add_message($this->display_name." "."Successfully Published");
   		    $this->redirect_to("/admin/content/");
-	      }else{
-  		    $preview->set_attributes($_POST[$this->model_name]);
-  		    $preview->status = 4;
-  		    $preview->save();
-    		  foreach($preview->columns as $col => $params)
-    		    if($preview->$col) $copy_attributes[$col] = $preview->$col;
-    		  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"status","master"))); //take out ID and status
-    		  $master->update_attributes($copy_attributes);
-  		    Session::add_message($this->display_name." "."Successfully Published");
+	      }else{  		    
+	        $this->update_master($preview, $master);
+	        Session::add_message($this->display_name." "."Successfully Published");
   		    $this->redirect_to("/admin/content/");
 	      }
   		}elseif($_POST['close']){
@@ -175,8 +169,17 @@ class CMSAdminContentController extends AdminComponent {
 		    if($preview->equals($master)) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($this->model === $preview) $_POST[$this->model_name]['status'] = 4;
-    	  $this->save($this->model, "/admin/content/edit/".$master->id."/"); //preview version save for published or draft save for unpublished
+  	    if($this->model === $preview){
+    	    if($_POST[$this->model_name]['status'] == 0){
+  	        $this->update_master($preview, $master);
+  	        $preview->delete();
+    	    }else{
+    	      $_POST[$this->model_name]['status'] = 4;
+        	  $this->save($this->model, "/admin/content/edit/".$master->id."/");
+    	    }
+  	    }else{
+      	  $this->save($this->model, "/admin/content/edit/".$master->id."/");
+  	    }
   	  }
     }
 
@@ -203,6 +206,15 @@ class CMSAdminContentController extends AdminComponent {
 		$this->table_partial = $this->render_partial("wysi_tables");
 		$this->form = $this->render_partial("form");
 		
+	}
+	private function update_master($preview, $master){
+    $preview->set_attributes($_POST[$this->model_name]);
+    $preview->status = 4;
+    $preview->save();
+	  foreach($preview->columns as $col => $params)
+	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
+	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"status","master"))); //take out ID and status
+	  $master->update_attributes($copy_attributes);
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content

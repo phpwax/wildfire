@@ -1,5 +1,5 @@
 <?php
 class AdminFilesController extends CMSAdminFileController {
-  public $access = 0;
+  public static $access = 0;
 }
 ?>
