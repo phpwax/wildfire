@@ -157,7 +157,8 @@ class CMSAdminContentController extends AdminComponent {
   		    $master->set_attributes($_POST[$this->model_name]);
   		    $master->status = 1;
   		    $master->save();
-  		    $this->redirect_to("/admin/content/edit/".$master->id."/");
+  		    Session::add_message($this->display_name." "."Successfully Published");
+  		    $this->redirect_to("/admin/content/");
 	      }else{
   		    $preview->set_attributes($_POST[$this->model_name]);
   		    $preview->status = 4;
@@ -166,6 +167,8 @@ class CMSAdminContentController extends AdminComponent {
     		    if($preview->$col) $copy_attributes[$col] = $preview->$col;
     		  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"status","master"))); //take out ID and status
     		  $master->update_attributes($copy_attributes);
+  		    Session::add_message($this->display_name." "."Successfully Published");
+  		    $this->redirect_to("/admin/content/");
 	      }
   		}elseif($_POST['close']){
 		    //delete the preview if it has no changes from the master
