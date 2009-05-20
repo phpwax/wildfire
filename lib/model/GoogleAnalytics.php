@@ -110,7 +110,7 @@ class GoogleAnalytics {
 			$return = $output;
 		}
 		elseif($info['http_code'] == 400) {
-			trigger_error('Badly formatted request to the Google Analytics API; check your profile id is in the format ga:12345, dates are correctly formatted and the dimensions and metrics are correct', E_USER_WARNING);
+			trigger_error('Badly formatted request to the Google Analytics API; check your profile id is in the format ga:12345, dates are correctly formatted and the dimensions and metrics are correct', E_USER_ERROR);
 		}
 		elseif($info['http_code'] == 401) {
 			trigger_error('Unauthorized request to the Google Analytics API', E_USER_ERROR);

@@ -231,10 +231,7 @@ function get_query_var(query, variable) {
 
 /******* Setup for the link modal window and quick upload window *******/
 													
-$(document).ready(function() {
-	
-  $('#link_dialog').jqm();
-  $('#video_dialog').jqm();
+$(document).ready(function() {	
 	if(!join_field) var join_field="images";
 });
 

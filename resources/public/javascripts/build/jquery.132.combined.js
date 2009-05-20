@@ -750,10 +750,7 @@ function get_query_var(query, variable) {
 
 /******* Setup for the link modal window and quick upload window *******/
 													
-$(document).ready(function() {
-	
-  $('#link_dialog').jqm();
-  $('#video_dialog').jqm();
+$(document).ready(function() {	
 	if(!join_field) var join_field="images";
 });
 
@@ -896,10 +893,11 @@ $(document).ready(function() {
 	
 });
 $(document).ready(function() {
+  $("#dashboard #sub-navigation-container #quick_search").remove();
   $("#quick_search form input, #quick_create form input").hint();
   $("#live_search_field").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
-    t = setTimeout('live_search($("#live_search_field").val())', 400);
+    t = setTimeout(function(){live_search($("#live_search_field").val());}, 400);
   });
   $(".live_search_results").hover(function(){}, function(){
     s = setTimeout('live_search_close()', 800);
