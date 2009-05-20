@@ -243,9 +243,8 @@ class CmsTextFilter  {
   }
   
   static public function inline_images($text) {
-    
-    preg_match_all("/<img src|class|alt|height|width=(.*?)* >/", $text, $matches, PREG_SET_ORDER);
-    print_r($matches); exit;
+    $matches=array();
+    //preg_match_all("/<img src|class|alt|height|width=(.*?)* >/", $text, $matches, PREG_SET_ORDER);
     foreach($matches as $match) {
       preg_match("/\/([0-9]*)\//", $match[1], $imageid);
       $imageid = $imageid[1];
