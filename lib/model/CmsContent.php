@@ -1,7 +1,6 @@
 <?php
 
 class CmsContent extends WaxModel {
-  public $status_options = array("0"=>"Draft", "1"=>"Published"); // 3 = created but not saved, 4 = preview content, has been changed but not saved
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -33,6 +32,12 @@ class CmsContent extends WaxModel {
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id"));
 	}
+	
+	public function status_options() {
+	  if($this->status ==4) return array("0"=>"Draft", "4"=>"Published");
+	  else return array("0"=>"Draft", "1"=>"Published");
+	}
+	
 	public function page_status() {
 		return $this->status_options[$this->status];
 	}
@@ -134,32 +139,28 @@ class CmsContent extends WaxModel {
   /***** Finders for dealing with the extra_content table ******/
 	public function extra_content($name) {
 	  $model = $this;
-	  if($this->status == 4) $model = $model->master;
-		$content = $model->more_content;
-		if($content){
-			$found = $content->filter(array('name'=>$name))->first();
-			if($found && $found->id) return $found;
-		}		
-		$extra = new CmsExtraContent;
-		$extra->setConstraint("cms_content_id", $model->id);
-		return $extra;		
+	  if($model->status ==4) $model = $model->master;
+    $content = $model->more_content->filter(array('name'=>$name))->first();
+    if($content->id) return $content;
+    else return $model->more_content->create(array("name"=>$name));
   }
+  
 	public function extra_content_value($name) {
 	  $model = $this;
-	  if($this->status == 4) $model = $model->master;
+	  if($model->status==4) $model = $model->master;
 		return CmsTextFilter::filter("before_output", $model->more_content->filter(array('name'=>$name))->first()->extra_content);
   }
 	
 	public function save_extra_content() {
+	  $model = $this;
+	  if($model->status ==4) $model = $model->master;
 		$attributes = $_POST["cms_extra_content"];
 		if(count($attributes)){
 			foreach($attributes as $name=>$value){
 				if(isset($value) && strlen($value)>0){
 					$model = $this->extra_content($name);
-					$model->name = $name;
 					$model->extra_content = $value;
 					$model = $model->save();	
-					$this->more_content = $model;
 				}
 			}
 		}

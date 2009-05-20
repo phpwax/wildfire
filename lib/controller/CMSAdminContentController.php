@@ -147,7 +147,6 @@ class CMSAdminContentController extends AdminComponent {
   		  $preview->save();
 	    }
       $this->model = $preview;
-      $this->model->status = 1; //set status to published, it's still 4 in the database, but will be saved as 1 overwriting the current master
 		}else{
 		  $this->model = $master;
 		}
@@ -163,7 +162,6 @@ class CMSAdminContentController extends AdminComponent {
   		    $preview->set_attributes($_POST[$this->model_name]);
   		    $preview->status = 4;
   		    $preview->save();
-          $preview->status = 1; //set status to published, it's still 4 in the database, but will be saved as 1 overwriting the current master
     		  foreach($preview->columns as $col => $params)
     		    if($preview->$col) $copy_attributes[$col] = $preview->$col;
     		  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"status","master"))); //take out ID and status

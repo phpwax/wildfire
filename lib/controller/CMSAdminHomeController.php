@@ -110,19 +110,52 @@ class CMSAdminHomeController extends AdminComponent {
   
   public function can_see_stats() { return true;}
   
-  public function test() {
-    $dom = new DOMDocument();
-    $login = 'analytics@oneblackbear.com';
-    $password = 'onebb228010';
-    $id = '4775376';
-    
+  public function visitor_data() {
     $api = new GoogleAnalytics();
-    if($api->login($login, $password)) {
-    	echo "login success\n";
+    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
     	$api->load_accounts();
-    	$this->page_data = $api->data($id, 'ga:pageTitle,ga:pagePath', 'ga:pageviews,ga:uniquePageviews');
-    } else echo "login failed\n";
+    	$this->visit_data = $api->data(Config::get("analytics/id"), 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+    	$chart = new OpenFlashChart();
+    	$chart->add_title("");
+    	$labels = array();
+    	$visits = array();
+    	foreach($this->visit_data as $visit=>$data) $labels[]=date("D j",strtotime(key($data)));
+    	foreach($this->visit_data as $visit=>$data) {
+    	  $visits[]=array("value"=>(int)$data[key($data)]["ga:visitors"],"tip"=>"#val# visits");
+    	  $raw_visits[]=(int)$data[key($data)]["ga:visitors"];
+    	}
+    	$raw_visits = array_reverse($raw_visits);
+      $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) )));
+      $chart->add_y_axis(array("stroke"=>4,"min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
+      $chart->add_y_legend("Unique Visitors");
+      $chart->add_element(array(
+        "values"=>array_reverse($visits), 
+        "type"=>"line", 
+        "text"=>"Visits", 
+        "colour"=>"#111",
+        "dot-style"=>array(
+          "type"=>"solid-dot",
+          "dot-size"=>3,
+          "halo-size"=>2,
+          "colour"=>"#3D5C56"
+        ),
+        "font-size"=>9
+      ));
+      $chart->add_value("bg_colour","#FFFFFF");
+      echo $chart->render(); exit;
+    } else throw new WaxException("Failed Connection To Google Analytics");
   }
+  
+  public function pageview_data() {
+    $api = new GoogleAnalytics();
+    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    	$api->load_accounts();
+    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:pagePath, ga:pageTitle', 'ga:visits');
+    	print_r($this->pages_data); exit;
+    	
+    } else throw new WaxException("Failed Connection To Google Analytics");
+  }
+  
   
 }
 
