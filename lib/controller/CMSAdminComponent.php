@@ -17,7 +17,7 @@ class CMSAdminComponent extends WaxController {
 	public $model;	//the actuall database model to use
 	protected $model_class; //the class name - ie CmsContent
 	public $model_name;	//the db table name - ie cms_content
-	protected $access = "0"; //the required access level
+	public static $access = 0; //the required access level
 	protected $unauthorised_redirect="/admin/home/login"; //where to go to if user is not authorised
 	protected $authorised_redirect="/admin/home/"; //default location on successfull auth
 	protected $unauthorised_message="Please login to continue"; //status message
@@ -56,7 +56,7 @@ class CMSAdminComponent extends WaxController {
 		**/
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->configure_modules();
-		$this->all_modules = CMSApplication::get_modules(true);
+		$this->all_modules = CMSApplication::get_modules(true, $this->current_user->usergroup);
 		if(!array_key_exists($this->module_name,CMSApplication::get_modules())){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -240,5 +240,6 @@ class CMSAdminComponent extends WaxController {
 		foreach($model_desc as $field) $desc[] = $field['Field'];
 		return $desc;
 	}
+	
 }
 ?>
