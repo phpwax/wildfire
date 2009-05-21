@@ -69,11 +69,11 @@ class CMSAdminHomeController extends AdminComponent {
     $this->stats_site_id = $general_conf["statsid"];
     if($this->stats_site_id){
       $this->stat_search = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getKeywords&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
-	    $this->stat_links = unserialize(file_get_contents("http://stats.oneblackbear.com/index.php?module=API&method=Referers.getWebsites&idSite=". $this->stats_site_id."&period=week&date=yesterday&format=PHP&token_auth=ae290d98aa13255678682381827a6862"));
     }else{
       $this->stat_search = $this->stat_links = array();
     }
-    if($this->stat_links["result"]=="error") $this->stat_links = array();
+    $this->stat_links = $this->pageview_data();
+    if(!$this->stat_links) $this->stat_links = array();
     if($this->stat_search["result"]=="error") $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
@@ -150,10 +150,30 @@ class CMSAdminHomeController extends AdminComponent {
     $api = new GoogleAnalytics();
     if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
     	$api->load_accounts();
-    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:pagePath, ga:pageTitle', 'ga:visits');
+    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:source,ga:referralPath', 'ga:visits');
+    	foreach($this->pages_data as $source=>$pages) {
+    	  foreach($pages as $page=>$visits) {
+    	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".$source.str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
+    	  }
+    	}
+    	krsort($subs);
+      return $subs;
+    } else return false;
+  }
+  
+  public function searchrefer_data() {
+    $api = new GoogleAnalytics();
+    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    	$api->load_accounts();
+    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:keyword', 'ga:visits');
+    	array_shift($this->pages_data);
     	print_r($this->pages_data); exit;
-    	
-    } else throw new WaxException("Failed Connection To Google Analytics");
+    	foreach($this->pages_data as $source=>$count) {
+    	  
+    	}
+    	krsort($subs);
+      return $subs;
+    } else return false;
   }
   
   
