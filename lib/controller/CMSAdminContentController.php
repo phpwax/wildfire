@@ -305,7 +305,7 @@ class CMSAdminContentController extends AdminComponent {
 	  $this->use_layout=false;
 	  if($input = Request::post("input")) {
 	    $content = new CmsContent;
-	    $this->content_results = $content->search($input, array("title"=>"1.3", "content"=>"0.6"))->limit(7)->order("published DESC")->all();
+	    $this->content_results = $content->search($input, array("title"=>"1.3", "content"=>"0.6"))->filter("status=1 OR status=0")->limit(7)->order("published DESC")->all();
 	  }
 	}
 	
