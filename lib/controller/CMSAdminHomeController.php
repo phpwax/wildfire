@@ -132,7 +132,7 @@ class CMSAdminHomeController extends AdminComponent {
         "values"=>array_reverse($visits), 
         "type"=>"line", 
         "text"=>"Visits", 
-        "colour"=>"#111",
+        "colour"=>"#111111",
         "dot-style"=>array(
           "type"=>"solid-dot",
           "dot-size"=>3,
