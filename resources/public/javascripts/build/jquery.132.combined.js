@@ -474,11 +474,11 @@ function setup_preview(l_permalink, trigger_id, l_preview_pane) {
 
 /* JS Table initialisation for index.html */
 $(document).ready(function() {
-  if($("#item_list_container").length) {
+  if($("#item_list_container")) {
     $("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-  $(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
+  if($(".form_datepicker")) $(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
 });
 
 
@@ -488,7 +488,7 @@ $(document).ready(function() {
 
 
 function inline_status_change(){
-	if($('.status_change').length){	
+	if($('.status_change')){	
 		$('.status_change').click(function(){
 			current_status = $(this).attr('rel');
 			dest = $(this).attr('href');
@@ -837,7 +837,6 @@ $(document).ready(function() {
         $("#content_title").hide();
         $("#content_title_editing").change(function(){
 					var form_field_id = $('#content_title').attr('rel');
-					console.log(form_field_id)
           $("#"+form_field_id).val($(this).val());
         });
         $("#content_title_editing").blur(function(){
