@@ -17,7 +17,7 @@ class CMSAdminComponent extends WaxController {
 	public $model;	//the actuall database model to use
 	protected $model_class; //the class name - ie CmsContent
 	public $model_name;	//the db table name - ie cms_content
-	public static $access = 0; //the required access level
+	protected $access = 0; //the required access level
 	protected $unauthorised_redirect="/admin/home/login"; //where to go to if user is not authorised
 	protected $authorised_redirect="/admin/home/"; //default location on successfull auth
 	protected $unauthorised_message="Please login to continue"; //status message
