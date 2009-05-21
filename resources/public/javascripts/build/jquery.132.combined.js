@@ -2384,6 +2384,7 @@ function set_post_params(){
   } 
   swfu.addPostParam("wildfire_file_folder", fold);
   swfu.addPostParam("wildfire_file_description", jQuery("#wildfire_file_description").val());
+  alert("About to start upload description: "+jQuery("#wildfire_file_description").val());
   swfu.startUpload();
 }
 
