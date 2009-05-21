@@ -134,7 +134,7 @@ function setup_preview(l_permalink, trigger_id, l_preview_pane) {
 
 /* JS Table initialisation for index.html */
 $(document).ready(function() {
-  if($("#item_list_container").length) {
+  if($("#item_list_container")) {
     $("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
