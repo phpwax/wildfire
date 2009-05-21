@@ -132,7 +132,7 @@ class CMSAdminContentController extends AdminComponent {
 		if(!$this->id) $this->id = $this->route_array[0];
 		
     $master = new $this->model_class($this->id);
-    if($master->status == 4) $this->redirect_to("/admin/content/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
+    if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
 	  $preview = new $this->model_class;
 	  
 	  //preview revision - create a copy of the content if needed or use the existing copy
@@ -163,11 +163,11 @@ class CMSAdminContentController extends AdminComponent {
   		    $master->status = 1;
   		    $master->save();
   		    Session::add_message($this->display_name." "."Successfully Published");
-  		    $this->redirect_to("/admin/content/");
+  		    $this->redirect_to("/admin/$this->module_name/");
 	      }else{  		    
 	        $this->update_master($preview, $master);
 	        Session::add_message($this->display_name." "."Successfully Published");
-  		    $this->redirect_to("/admin/content/");
+  		    $this->redirect_to("/admin/$this->module_name/");
 	      }
   		}elseif($_POST['close']){
 		    //delete the preview if it has no changes from the master
@@ -180,10 +180,10 @@ class CMSAdminContentController extends AdminComponent {
   	        $preview->delete();
     	    }else{
     	      $_POST[$this->model_name]['status'] = 4;
-        	  $this->save($this->model, "/admin/content/edit/".$master->id."/");
+        	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
     	    }
   	    }else{
-      	  $this->save($this->model, "/admin/content/edit/".$master->id."/");
+      	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
   	    }
   	  }
     }

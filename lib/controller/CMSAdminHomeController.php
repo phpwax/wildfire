@@ -71,7 +71,7 @@ class CMSAdminHomeController extends AdminComponent {
     if(!$this->stat_search) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
- 	  $this->recent_content = $content->limit(7)->filter("status < 3")->order("id DESC")->all();
+ 	  $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
  	  $this->can_see_stats = $this->can_see_stats();
  	}
 	/**
@@ -166,6 +166,11 @@ class CMSAdminHomeController extends AdminComponent {
     	}
       return $subs;
     } else return false;
+  }
+  
+  public function test() {
+    echo(Config::get("poo/rubbish"));
+    exit;
   }
   
   
