@@ -30,9 +30,9 @@
     <h3>Recent Search Referrals</h3>
     <?if(count($stat_search)):?>
       <?foreach($stat_search as $search):?>
-        <div class="stat_count"><strong><?=$search["nb_visits"]?></strong> searches: </div>
+        <div class="stat_count"><strong><?=$search["count"]?></strong> searches: </div>
         <div class="stat_label">
-          <a href="http://google.com/search?q=<?=$search["label"]?>"><?=urldecode($search['label'])?></a>
+          <a href="<?=$search["link"]?>"><?=$search['keyword']?></a>
         </div>
         <div class="graph_separator"></div>
       <?endforeach?>

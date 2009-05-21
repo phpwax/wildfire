@@ -1413,7 +1413,7 @@ a.edit_img img{
 #dashboard #statistics {
   float:right;
   background-color:#414141;
-  padding:3px 15px 20px 15px;
+  padding:3px 15px 40px 15px;
   margin-top:-32px;
 }
 #dashboard #statistics h2 {
@@ -1522,6 +1522,7 @@ a.edit_img img{
   left:115px;
   background:white;
   width:270px;
+  z-index:100;
 }
 .live_search_results li {
   padding:9px;
