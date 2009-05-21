@@ -127,7 +127,7 @@ class CMSAdminHomeController extends AdminComponent {
     	$raw_visits = array_reverse($raw_visits);
       $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) ,"colour"=>"#E1E1E1","size"=>9),"colour"=>"#D1D1D1","grid-colour"=>"#333333","stroke"=>1,"font-size"=>9  ));
       $chart->add_y_axis(array("labels"=>array("colour"=>"#E1E1E1","size"=>9),"stroke"=>1,"font-size"=>9,"colour"=>"#D1D1D1","grid-colour"=>"#333333","min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
-      $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#E1E1E1;text-align: center;}");
+      $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#999999;text-align: center;}");
       $chart->add_element(array(
         "values"=>array_reverse($visits), 
         "type"=>"line", 
