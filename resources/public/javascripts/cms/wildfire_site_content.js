@@ -317,7 +317,9 @@ $(document).ready(function() {
         target.parent().after(el);
         $("#content_title").hide();
         $("#content_title_editing").change(function(){
-          $("#cms_content_title").val($(this).val());
+					var form_field_id = $('#content_title').attr('rel');
+					console.log(form_field_id)
+          $("#"+form_field_id).val($(this).val());
         });
         $("#content_title_editing").blur(function(){
           $("#content_title").show();
