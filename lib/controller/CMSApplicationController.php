@@ -289,6 +289,8 @@ class CMSApplicationController extends WaxController{
 			}	
       echo "Uploaded";
     } elseif($_FILES) {
+      error_log("Starting File upload");
+      error_log(print_r($_POST,1));
         $path = $_POST['wildfire_file_folder'];
         $fs = new CmsFilesystem;
         $_FILES['upload'] = $_FILES["Filedata"];
