@@ -147,16 +147,15 @@ class CMSAdminComponent extends WaxController {
 	*/
 	public function filter() {
 	  $this->use_layout=false;
-	  if($_POST['filter']=="") {
-	    $this->index();
-	    return true;
+	  if($_POST['filter']) {
+  		$conditions = "";
+  	  if($this->filter_columns) {
+  	    foreach($this->filter_columns as $filter) $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
+  	    $conditions = ltrim($conditions, "OR");
+      }
+      $this->model->filter($conditions);
 	  }
-		$conditions = "";
-	  if($this->filter_columns) {
-	    foreach($this->filter_columns as $filter) $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
-	    $conditions = ltrim($conditions, "OR");
-    }
-	  $this->all_rows = $this->model->filter($conditions)->order($this->get_order())->limit(30)->all();
+	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
 		$this->list = $this->render_partial("list");
 	}
 

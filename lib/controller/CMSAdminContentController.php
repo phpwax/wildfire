@@ -80,6 +80,11 @@ class CMSAdminContentController extends AdminComponent {
 	*/
 	public function filter() {
 	  $this->model->filter(array("status"=>array(0,1)));
+	  if(Request::post("section")){
+	    $section = new CmsSection(Request::post("section"));
+	    foreach($section->tree() as $section) $section_ids[] = $section->primval;
+	    $this->model->filter(array("cms_section_id"=>$section_ids));
+    }
 	  parent::filter();
 	}
 	/**
