@@ -6,6 +6,10 @@
  *
 /*--------------------------------------------------------------------------*/
 
+jQuery.noConflict();
+
+
+
 var Prototype = {
   Version: '1.4.0',
   ScriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',

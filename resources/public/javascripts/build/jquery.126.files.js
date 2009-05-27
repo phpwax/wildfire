@@ -1403,7 +1403,6 @@ function queueComplete(numFilesUploaded) {
 	var status = document.getElementById("divStatus");
 	status.innerHTML = numFilesUploaded + " file" + (numFilesUploaded === 1 ? "" : "s") + " uploaded.";
 }
-jQuery.noConflict();
 function init_upload(){
 	if(jQuery("#content_page_id").val()) {
 	  var post_parameters = {
@@ -1492,6 +1491,10 @@ function set_post_params(){
  *  For details, see the Prototype web site: http://prototype.conio.net/
  *
 /*--------------------------------------------------------------------------*/
+
+jQuery.noConflict();
+
+
 
 var Prototype = {
   Version: '1.4.0',
