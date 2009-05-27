@@ -36,7 +36,7 @@
 #searchbar{width:100px;padding:3px 5px;}
 #searchbtn{}
 #filesystem{float:left;left:250px;position:relative;top:10px;width:700px;}
-#fileList,#searcharea{width:700px;float:left;margin-left:2px;display:inline;background:white;}
+#fileList,#searcharea{width:550px;float:left;margin-left:2px;display:inline;background:white;}
 #root{padding:0;margin:0;border:0;margin-bottom:100px;}
 .directory,.file{margin-left:15px;}
 .directory{border:2px solid white;}
@@ -119,9 +119,8 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
 #fs_body {
   width:1030px;
 }
-#fs_body #dashboard {float:right; position:static !important;}
 #fs_body #filesystem {float:left; position:static; padding:0px; width:600px;}
-#fs_body #operations {background:white;width:660px; margin-top:-10px;padding:5px 20px;height:60px;}
+#fs_body #operations {background:white;width:513px; margin-top:-10px;padding:5px 20px;height:60px;}
 #operations form input {vertical-align:middle;}
 #fs_body #dashboard #uploadcart, #fs_body #dashboard #informationcart {
   background:white;
@@ -140,3 +139,15 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
 }
 #uploadcart #fsUploadProgress {height:60px;}
 #fileList {height:100%;overflow:auto;}
+#fs_body #informationcart {
+  position:fixed;
+  left:560px;
+  top:95px;
+  width:210px;
+}
+#fs_body #uploadcart {
+  position:fixed;
+  left:800px;
+  top:95px;
+  width:260px;
+}

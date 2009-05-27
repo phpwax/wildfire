@@ -1198,9 +1198,6 @@ windowLoader = function () {
 	root.getContents();
 	getQuery('path');
 	
-	//new UploadManager('fileUpload');
-	cart = new Cart('cart');
-	
 	setInterval("updateAll(root)", 60000);
 };
 

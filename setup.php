@@ -16,4 +16,3 @@ CMSApplication::register_module("users", array("display_name"=>"CMS Users", "lin
 //CMSApplication::register_module("email", array("display_name"=>"Email", "link"=>"/admin/email/", 'auth_level'=>30));
 Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
-?>

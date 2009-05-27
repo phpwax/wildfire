@@ -1,3 +1,4 @@
+jQuery.noConflict();
 function init_upload(){
 	if(jQuery("#content_page_id").val()) {
 	  var post_parameters = {
