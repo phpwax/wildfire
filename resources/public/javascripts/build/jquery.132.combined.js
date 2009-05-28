@@ -882,7 +882,8 @@ $(document).ready(function() {
 
 	// Ajax activity indicator bound 
 	// to ajax start/stop document events
-	$(document).ajaxStart(function(){ 
+	$(document).ajaxStart(function(ajaxevent){ 
+	  console.log(ajaxevent);
 		$('#ajaxBusy').show().centerScreen(); 
 	});
 	$(document).ajaxStop(function(){ 

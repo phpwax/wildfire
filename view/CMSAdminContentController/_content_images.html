@@ -1,3 +1,6 @@
+<?if(!count($page_images)):?>
+  <h2>Drag Images Here</h2>
+<?endif?>
 <?foreach($page->images as $image):?>
 <div class="dropped_image" id="cimage_<?=$img->id?>">
   <div class="image_place">

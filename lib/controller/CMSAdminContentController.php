@@ -253,10 +253,10 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function add_category() {
 	  $this->use_layout=false;
-		$this->page = new $this->model_class(WaxUrl::get("id"));
+		$this->model = new $this->model_class(WaxUrl::get("id"));
 		$category = new CmsCategory(substr($_POST["id"], 4));
-		$this->page->categories = $category;
-		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$this->model->categories = $category;
+		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");
@@ -267,10 +267,10 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function remove_category() {
 		$this->use_layout=false;
-		$this->page = new $this->model_class(WaxUrl::get("id"));
+		$this->model = new $this->model_class(WaxUrl::get("id"));
 		$category = new CmsCategory(Request::get("cat"));
-		$this->page->categories->unlink($category);
-    if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$this->model->categories->unlink($category);
+    if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");	
