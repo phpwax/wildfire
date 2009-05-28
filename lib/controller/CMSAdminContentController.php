@@ -174,8 +174,8 @@ class CMSAdminContentController extends AdminComponent {
 		    if($preview->equals($master)) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($this->model === $preview){
-    	    if($_POST[$this->model_name]['status'] == 0){
+  	    if($this->model->equals($preview)){
+    	    if($_POST[$this->model_name]['status'] === 0){
   	        $this->update_master($preview, $master);
   	        $preview->delete();
     	    }else{
@@ -245,6 +245,8 @@ class CMSAdminContentController extends AdminComponent {
 		else $model->title = "Enter Your Title Here";
 		$this->redirect_to("/admin/content/edit/".$model->save()->id."/");
 	}
+
+	
 	/**
 	* Ajax function - associates a category with a content record
 	* creates a view with resulting info
