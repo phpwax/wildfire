@@ -309,10 +309,11 @@ class CMSAdminContentController extends AdminComponent {
 	}
 	
 	public function search() {
+	  $this->content_results = array();
+	  $this->model->filter(array("status"=>array(0,1)));
 	  $this->use_layout=false;
 	  if($input = Request::post("input")) {
-	    $content = new CmsContent;
-	    $this->content_results = $content->search($input, array("title"=>"1.3", "content"=>"0.6"))->filter("(status=1 OR status=0)")->limit(7)->order("published DESC")->all();
+	    $this->content_results = $this->model->filter("title LIKE '%$input%'")->order("published DESC")->limit(8)->all();
 	  }
 	}
 	
