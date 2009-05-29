@@ -159,7 +159,7 @@ class CMSAdminContentController extends AdminComponent {
 		if($this->model->is_posted()){
   		if($_POST['publish']){
   		  if($master->status != 1){
-  		    $master->set_attributes($_POST[$this->model_name]);
+  		    $master->set_attributes($_POST[$master->table]);
   		    $master->status = 1;
   		    $master->save();
   		    Session::add_message($this->display_name." "."Successfully Published");
@@ -175,11 +175,11 @@ class CMSAdminContentController extends AdminComponent {
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
   	    if($this->model->equals($preview)){
-    	    if($_POST[$this->model_name]['status'] === 0){
+    	    if($_POST[$this->model->table]['status'] == 0){
   	        $this->update_master($preview, $master);
   	        $preview->delete();
     	    }else{
-    	      $_POST[$this->model_name]['status'] = 4;
+    	      $_POST[$this->model->table]['status'] = 4;
         	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
     	    }
   	    }else{
@@ -218,7 +218,8 @@ class CMSAdminContentController extends AdminComponent {
     $preview->save();
 	  foreach($preview->columns as $col => $params)
 	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
-	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"status","master"))); //take out ID and status
+	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master"))); //take out ID and status
+	  if($copy_attributes['status'] == 4) $copy_attributes['status'] = 1;
 	  $master->update_attributes($copy_attributes);
 	}
 	/**
