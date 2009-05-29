@@ -164,7 +164,7 @@ class CMSAdminContentController extends AdminComponent {
   		    $master->save();
   		    Session::add_message($this->display_name." "."Successfully Published");
   		    $this->redirect_to("/admin/$this->module_name/");
-	      }else{  		    
+	      }else{
 	        $this->update_master($preview, $master);
 	        Session::add_message($this->display_name." "."Successfully Published");
   		    $this->redirect_to("/admin/$this->module_name/");
@@ -213,7 +213,7 @@ class CMSAdminContentController extends AdminComponent {
 		
 	}
 	private function update_master($preview, $master){
-    $preview->set_attributes($_POST[$this->model_name]);
+    $preview->set_attributes($_POST[$preview->table]);
     $preview->status = 4;
     $preview->save();
 	  foreach($preview->columns as $col => $params)
