@@ -136,7 +136,6 @@ class CMSAdminContentController extends AdminComponent {
     $master = new $this->model_class($this->id);
     if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
 	  $preview = new $this->model_class;
-	  
 	  //preview revision - create a copy of the content if needed or use the existing copy
 		if($master->status == 1){
 		  if(!($preview = $preview->filter(array("preview_master_id" => WaxUrl::get("id"), "status" => 4))->first())){
@@ -144,8 +143,8 @@ class CMSAdminContentController extends AdminComponent {
   		  foreach($master->columns as $col => $params)
   		    if($master->$col) $copy_attributes[$col] = $master->$col;
   		  $copy_attributes = array_diff_key($copy_attributes,array($this->model->primary_key => false)); //take out ID
-
     	  $preview = new $this->model_class;
+				$preview->status = 4;
     	  $preview->save();
   		  $preview->set_attributes($copy_attributes);
   		  $preview->status = 4;
