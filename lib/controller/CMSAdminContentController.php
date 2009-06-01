@@ -95,6 +95,7 @@ class CMSAdminContentController extends AdminComponent {
 	public function add_image() {
 	  $this->use_layout=false;
 	  $this->page = new $this->model_class(Request::get('id'));
+		$this->join_name = "images";
 	  if(Request::post("id")) {
 		  $file = new WildfireFile(Request::post('id'));
 		  $this->page->images = $file;
@@ -107,6 +108,7 @@ class CMSAdminContentController extends AdminComponent {
 	* - content id via url (/admin/content/remove_image/ID)
 	**/
 	public function remove_image() {
+		$this->join_name = "images";
 		$this->use_layout=false;
 		$this->page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
