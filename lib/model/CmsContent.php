@@ -113,7 +113,7 @@ class CmsContent extends WaxModel {
 		$model = new CmsContent();
 		if($this->primval) $model->filter($this->primary_key.' <> '.$this->primval);
 		$count = 0;
-		while($model->filter(array('url'=>$test_url, 'cms_section_id'=>$this->cms_section_id) )->first() ){
+		while($model->filter(array('url'=>$test_url, 'cms_section_id'=>$this->cms_section_id)->filter('status <> 4') )->first() ){
 			if($count == 0) $test_url = $original_url . '-'.date("Y-m-d");
 			elseif($count == 1) $test_url = $original_url . '-'.$this->primval;
 			else $test_url = $original_url . '-'.mt_rand(0,99);
