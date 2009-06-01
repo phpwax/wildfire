@@ -76,7 +76,7 @@
           <tr id="row_<?=$row->id?>">
             <td class="column">
               <span class="status_change_span">
-    					<?if($row->is_published()):?>
+    					<?if($row->status == 1):?>
     	          <a href="/admin/content/status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="Published"><img src="/images/cms/icon_published.gif" width="12" class="status_icon" /></a>
     	        <?else:?>
     	        	<a href="/admin/content/status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="Draft"><span><img src="/images/cms/icon_draft.gif" width="12" class="status_icon" /></a>
