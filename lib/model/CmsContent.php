@@ -83,7 +83,7 @@ class CmsContent extends WaxModel {
 	public function before_publish() {
 	  $this->generate_url();
   	$this->ping_technorati();
-  	if(strtotime($this->published) < time()) {
+  	if(strtotime($this->published) < time() && $this->status != 4) {
   	  $this->published = date("Y-m-d H:i:s");
   	}
 	}
