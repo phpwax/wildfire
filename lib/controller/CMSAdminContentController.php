@@ -164,16 +164,15 @@ class CMSAdminContentController extends AdminComponent {
   		    $master->set_attributes($_POST[$master->table]);
   		    $master->status = 1;
   		    $master->save();
-  		    Session::add_message($this->display_name." "."Successfully Published");
-  		    $this->redirect_to("/admin/$this->module_name/");
 	      }else{
 	        $this->update_master($preview, $master);
-	        Session::add_message($this->display_name." "."Successfully Published");
-  		    $this->redirect_to("/admin/$this->module_name/");
+	        if($preview->primval) $preview->delete();
 	      }
+		    Session::add_message($this->display_name." "."Successfully Published");
+		    $this->redirect_to("/admin/$this->module_name/");
   		}elseif($_POST['close']){
 		    //delete the preview if it has no changes from the master
-		    if($preview->equals($master)) $preview->delete();
+		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
   	    if($this->model->equals($preview)){
