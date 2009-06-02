@@ -142,7 +142,12 @@ class CmsContent extends WaxModel {
 	  if($model->status ==4) $model = $model->master;
     $content = $model->more_content->filter(array('name'=>$name))->first();
     if($content->id) return $content;
-    else return $model->more_content->create(array("name"=>$name));
+    else{
+			$extra = new CmsExtraContent;
+			$extra->name = $name;
+			$extra->cms_content_id = $this->primval;
+			return $extra;
+		}
   }
   
 	public function extra_content_value($name) {

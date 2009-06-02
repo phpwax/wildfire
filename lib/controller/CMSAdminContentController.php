@@ -95,6 +95,7 @@ class CMSAdminContentController extends AdminComponent {
 	public function add_image() {
 	  $this->use_layout=false;
 	  $this->page = new $this->model_class(Request::get('id'));
+		$this->join_name = "images";
 	  if(Request::post("id")) {
 		  $file = new WildfireFile(Request::post('id'));
 		  $this->page->images = $file;
@@ -107,6 +108,7 @@ class CMSAdminContentController extends AdminComponent {
 	* - content id via url (/admin/content/remove_image/ID)
 	**/
 	public function remove_image() {
+		$this->join_name = "images";
 		$this->use_layout=false;
 		$this->page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
@@ -134,7 +136,6 @@ class CMSAdminContentController extends AdminComponent {
     $master = new $this->model_class($this->id);
     if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
 	  $preview = new $this->model_class;
-	  
 	  //preview revision - create a copy of the content if needed or use the existing copy
 		if($master->status == 1){
 		  if(!($preview = $preview->filter(array("preview_master_id" => WaxUrl::get("id"), "status" => 4))->first())){
@@ -142,8 +143,8 @@ class CMSAdminContentController extends AdminComponent {
   		  foreach($master->columns as $col => $params)
   		    if($master->$col) $copy_attributes[$col] = $master->$col;
   		  $copy_attributes = array_diff_key($copy_attributes,array($this->model->primary_key => false)); //take out ID
-
     	  $preview = new $this->model_class;
+				$preview->status = 4;
     	  $preview->save();
   		  $preview->set_attributes($copy_attributes);
   		  $preview->status = 4;
@@ -162,29 +163,22 @@ class CMSAdminContentController extends AdminComponent {
   		    $master->set_attributes($_POST[$master->table]);
   		    $master->status = 1;
   		    $master->save();
-  		    Session::add_message($this->display_name." "."Successfully Published");
-  		    $this->redirect_to("/admin/$this->module_name/");
 	      }else{
 	        $this->update_master($preview, $master);
-	        Session::add_message($this->display_name." "."Successfully Published");
-  		    $this->redirect_to("/admin/$this->module_name/");
+	        if($preview->primval) $preview->delete();
 	      }
+		    Session::add_message($this->display_name." "."Successfully Published");
+		    $this->redirect_to("/admin/$this->module_name/");
   		}elseif($_POST['close']){
 		    //delete the preview if it has no changes from the master
-		    if($preview->equals($master)) $preview->delete();
+		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($this->model->equals($preview)){
-    	    if($_POST[$this->model->table]['status'] == 0){
-  	        $this->update_master($preview, $master);
-  	        $preview->delete();
-    	    }else{
-    	      $_POST[$this->model->table]['status'] = 4;
-        	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
-    	    }
-  	    }else{
-      	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
-  	    }
+  	    if($_POST[$this->model->table]['status'] == 0){
+          $this->update_master($preview, $master);
+          if($preview->primval) $preview->delete();
+          $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
+  	    }else $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
   	  }
     }
 
@@ -218,8 +212,7 @@ class CMSAdminContentController extends AdminComponent {
     $preview->save();
 	  foreach($preview->columns as $col => $params)
 	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
-	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master"))); //take out ID and status
-	  if($copy_attributes['status'] == 4) $copy_attributes['status'] = 1;
+	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
 	  $master->update_attributes($copy_attributes);
 	}
 	/**
