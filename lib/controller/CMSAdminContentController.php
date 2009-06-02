@@ -175,17 +175,11 @@ class CMSAdminContentController extends AdminComponent {
 		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($this->model->equals($preview)){
-    	    if($_POST[$this->model->table]['status'] == 0){
-  	        $this->update_master($preview, $master);
-  	        $preview->delete();
-    	    }else{
-    	      $_POST[$this->model->table]['status'] = 4;
-        	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
-    	    }
-  	    }else{
-      	  $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
-  	    }
+  	    if($_POST[$this->model->table]['status'] == 0){
+          $this->update_master($preview, $master);
+          if($preview->primval) $preview->delete();
+          $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
+  	    }else $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
   	  }
     }
 
@@ -219,8 +213,7 @@ class CMSAdminContentController extends AdminComponent {
     $preview->save();
 	  foreach($preview->columns as $col => $params)
 	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
-	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master"))); //take out ID and status
-	  if($copy_attributes['status'] == 4) $copy_attributes['status'] = 1;
+	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
 	  $master->update_attributes($copy_attributes);
 	}
 	/**
