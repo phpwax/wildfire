@@ -174,7 +174,7 @@ class CMSAdminContentController extends AdminComponent {
 		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($_POST[$this->model->table]['status'] == 0){
+  	    if($preview->primval && $_POST[$this->model->table]['status'] == 0){
           $this->update_master($preview, $master);
           if($preview->primval) $preview->delete();
           $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
