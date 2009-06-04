@@ -1486,7 +1486,7 @@ function set_post_params(){
 
 
 jQuery(document).scroll(function() {
-  jQuery("#infocart").verticalCenter();
+  jQuery("#informationcart").verticalCenter();
 });
 
 jQuery.fn.verticalCenter = function(loaded) { 
