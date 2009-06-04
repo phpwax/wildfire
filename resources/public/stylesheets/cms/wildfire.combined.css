@@ -2220,9 +2220,11 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
   top:95px;
   width:210px;
 }
-#fs_body #uploadcart {
-  position:fixed;
-  left:800px;
-  top:95px;
-  width:260px;
+#fs_body #dashboard {
+  float:left;
 }
+#fs_body #uploadcart {
+  width:260px;
+  margin-left:200px !important;
+}
+#fs_body #filesystem {float:left;}

@@ -78,21 +78,3 @@ function set_post_params(){
   swfu.addPostParam("wildfire_file_description", jQuery("#wildfire_file_description").val());
   swfu.startUpload();
 }
-
-jQuery(document).scroll(function() {
-  jQuery("#uploadcart").verticalCenter();
-});
-
-jQuery.fn.verticalCenter = function(loaded) { 
-  var obj = this; 
-  if(!loaded) { 
-    obj.css('top', jQuery(window).height()/2-this.height()/2); 
-    jQuery(window).resize(function() { obj.centerScreen(!loaded); }); 
-  } else { 
-    obj.stop(); 
-    obj.animate({ 
-      top: jQuery(window).height()/2-this.height()/2}, 200, 'linear'); 
-  } 
-};
-
-
