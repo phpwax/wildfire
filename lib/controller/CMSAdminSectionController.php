@@ -52,6 +52,17 @@ class CMSAdminSectionController extends AdminComponent {
 		$this->form = $this->render_partial("form");
 	}
 
+	/**
+	 * ajax filter function - takes the incoming string, matches against columns 
+	 * and outputs view of the matching data
+	 */	
+	public function filters() {
+	  $this->use_layout = false;
+	  $sect = new CmsSection();
+  	$this->all_sections = $sect->filter("title LIKE '%$fil%'")->tree();
+  	$this->use_view = "_section_list";
+  	$this->all_sections_partial = $this->render_partial("section_list");
+	}
 
 }
 

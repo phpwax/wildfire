@@ -1,0 +1,13 @@
+<?if(count($all_sections)):?>
+    <?foreach($all_sections as $section):?>
+      <div class="section_tag section_select_tag_indent_<?=$section->get_level?>" id="tag_<?=$section->id?>">
+      <?if(in_array($section->title,array('News', 'Events', 'Wildlife sightings'))):?>
+        <?=$section->parent->title." ".$section->title?>
+      <?else:?>
+        <?=$section->title?>
+      <?endif?>
+      </div>
+    <?endforeach?>
+<?else:?>
+  <p>No sections setup yet</p>
+<?endif?>

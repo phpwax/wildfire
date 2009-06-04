@@ -15,7 +15,8 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/upload/swfupload.queue.js\
  ${SRC_DIR}/upload/fileprogress.js\
  ${SRC_DIR}/upload/handlers.js\
- ${SRC_DIR}/cms/file.js
+ ${SRC_DIR}/cms/file.js\
+ ${SRC_DIR}/cms/wildfire_users.js
  
 JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/upload/swfupload.js\

@@ -11,6 +11,7 @@ class WildfireUser extends WaxModel {
     $this->define("email", "CharField");
     $this->define("password", "CharField", array("required"=>true));
     $this->define("usergroup", "CharField");
+    $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
   }
 	
 	public function role_text() {

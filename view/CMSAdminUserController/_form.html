@@ -1,32 +1,47 @@
-<div id="container">
-  <ul class="tabs-nav">
-    <li><a href="#section-1">Editing User</a></li>
-  </ul>
-  
-  <div id="content_window" class="clearfix">
-    <div id="content_editor">
-      <div id="section-1" class="tabs-container">
-				
-      </div>
-    </div>
+<?if($model->id):?>
+  <script type="text/javascript">
+  var content_page_id = <?=$model->id?>;
+  </script>
+<?endif?>
 
-    <fieldset class="content_options">
-      <?=large(text_field($model, "username"))?>
-    	<hr />
-      <?=large(text_field($model, "email"))?>
-      <hr />
-      <?=large(text_field($model, "firstname"))?>
-      <hr />
-      <?=large(text_field($model, "surname"))?>
-      <hr />
-      <?=large(text_field($model, "password"))?>
-    </fieldset>
-    <div class="clearfix"></div>
-    <fieldset id="submit">
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
-    </fieldset>
+<div id="container">
+  
+  <ul class="tabs-nav">
+    <li><a href="#section-1">User Details</a></li>
+    <?if($model->id):?>
+    <li><a href="#section-2">Section Permissions</a></li>
+    <?endif?>
+  </ul>
+
+  <div id="content_window" class="clearfix">
+    <div id="section-1" class="tabs-container">
+      <fieldset id="content_options">
+        <?=large(text_field($model, "username"))?>
+      	<hr />
+        <?=large(text_field($model, "email"))?>
+        <hr />
+        <?=large(text_field($model, "firstname"))?>
+        <hr />
+        <?=large(text_field($model, "surname"))?>
+        <hr />
+        <?=large(text_field($model, "password"))?>
+        <?if($current_user->usergroup >= 20):?>
+        <hr />
+        <?=large(select($model, "usergroup", $model->role_options, array(), "Role"))?>
+        <?endif?>
+      </fieldset>
+      <div class="clearfix"></div>
+      <fieldset id="submit">
+        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
+        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
+        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
+      </fieldset>
+    </div>
+    <?if($model->id):?>
+    <div id="section-2" class="tabs-container">
+      <?=$apply_sections_partial?>
+    </div>
+    <?endif?>
   </div>
 
 </div>
