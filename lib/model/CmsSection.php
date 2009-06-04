@@ -41,7 +41,10 @@ class CmsSection extends WaxTreeModel {
 		return $this->section_types[$this->type];
 	}
 
-
+  public function published_content(){
+    $content = new CmsContent();
+    return $content->filter(array($this->get_col("content")->join_field => $this->primval, "status" => array(0,1)))->all();
+  }
 }
 
 ?>

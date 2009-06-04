@@ -15,7 +15,7 @@
       <?=medium(text_field($model, "title"))?>
       <hr />
       <?=small(select($model, "parent_id", array_diff_key($tree_collection, array($model->primval=>"")), array(), "Parent Section"))?>
-      <?=small(select($model, "default_page_id", options_from_collection($model->content, "id", "title", "None"), array(), "Default Content"))?>
+      <?=small(select($model, "default_page_id", options_from_collection($model->published_content, "id", "title", "None"), array(), "Default Content"))?>
       <hr />
       <?=large(text_area($model, "introduction", array(), "Introduction"))?>
     </fieldset>
