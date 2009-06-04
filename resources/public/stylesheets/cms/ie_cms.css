@@ -1,3 +1,7 @@
 #container, #content_window {
   width:100%;
 }
+
+#footer {
+  position:static;
+}
