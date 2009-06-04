@@ -150,8 +150,10 @@ class CMSAdminHomeController extends AdminComponent {
     	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
     	  }
     	}
-    	krsort($subs);
-      return $subs;
+			if(count($subs)){
+				krsort($subs);
+				return $subs;
+			}else return array();
     } else return false;
   }
   
