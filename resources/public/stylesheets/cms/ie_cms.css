@@ -5,3 +5,7 @@
 #footer {
   position:static;
 }
+
+#fs_body #dashboard {
+  width:450px;
+}
