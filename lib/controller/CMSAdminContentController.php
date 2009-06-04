@@ -58,20 +58,19 @@ class CMSAdminContentController extends AdminComponent {
 		*	- now using the date_created field to make sure that only files older than an hour created by the logged in user will be deleted. 
 		*	This is should avoid any accidental deletion of temp records that are still being worked on.
 		**/
-		$author_id = $this->current_user->id; 
-		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-		if($auth_col = $this->auth_col) $this->model->filter(array("$auth_col"=>$author_id));
-		if($status_col = $this->status_col) $this->model->filter(array("$status_col"=>3));
-		$temp_content = $this->model->filter("`".$this->created_on_col."` < '$time'")->all();
-		
-		if(count($temp_content) && $status_col){
-			foreach($temp_content as $content) $content->delete();
+	  if($status_col){
+  		$clear_tmp_model = clone $this->model;
+  		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
+  		if($this->auth_col) $clear_tmp_model->filter(array("$this->auth_col"=>$this->current_user->id));
+  		if($this->status_col) $clear_tmp_model->filter(array("$this->status_col"=>3));
+  		$clear_tmp_model->filter("`".$this->created_on_col."` < '$time'");
+			foreach($clear_tmp_model->all() as $tmp_content) $tmp_content->delete();
 		}
 		/**
 		* work out the items to display - hide those temp files
 		**/
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->clear()->filter(array("status"=>array(0,1)))->order($this->default_order." ".$this->default_direction)->page($page, $this->list_limit);
+		$this->all_rows = $this->model->filter(array("status"=>array(0,1)))->order($this->default_order." ".$this->default_direction)->page($page, $this->list_limit);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
