@@ -5,7 +5,12 @@
 #footer {
   position:static;
 }
-
+#fs_body {
+  width:100%;
+}
 #fs_body #dashboard {
-  width:450px;
+  width:570px;
+}
+#fs_body #informationcart {
+  float:left;
 }
