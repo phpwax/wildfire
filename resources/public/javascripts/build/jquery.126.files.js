@@ -1484,6 +1484,23 @@ function set_post_params(){
   swfu.startUpload();
 }
 
+jQuery(document).scroll(function() {
+  jQuery("#uploadcart").verticalCenter();
+});
+
+jQuery.fn.verticalCenter = function(loaded) { 
+  var obj = this; 
+  if(!loaded) { 
+    obj.css('top', jQuery(window).height()/2-this.height()/2); 
+    jQuery(window).resize(function() { obj.centerScreen(!loaded); }); 
+  } else { 
+    obj.stop(); 
+    obj.animate({ 
+      top: jQuery(window).height()/2-this.height()/2}, 200, 'linear'); 
+  } 
+};
+
+
 /*  Prototype JavaScript framework, version 1.4.0
  *  (c) 2005 Sam Stephenson <sam@conio.net>
  *

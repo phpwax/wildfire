@@ -1348,7 +1348,7 @@ a.progressCancel:hover {
   background:white;
   padding:15px 8px !important;
   overflow:auto;
-  height:100px;
+  height:40px;
   width:244px;
 }
 #divStatus {
