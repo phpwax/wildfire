@@ -375,6 +375,18 @@ h4{
   width:100px;
   margin-top:15px;
 }
+.section_list_tag{
+  clear: none;
+}
+.section_select_tag_indent_1{margin-left: 10px;}
+.section_select_tag_indent_2{margin-left: 20px;}
+.section_select_tag_indent_3{margin-left: 30px;}
+.section_select_tag_indent_4{margin-left: 40px;}
+.section_select_tag_indent_5{margin-left: 50px;}
+.section_select_tag_indent_6{margin-left: 60px;}
+.section_select_tag_indent_7{margin-left: 70px;}
+.section_select_tag_indent_8{margin-left: 80px;}
+.section_select_tag_indent_9{margin-left: 90px;}
 
 
 .drag_image, .drop_image, .dropped_image {
