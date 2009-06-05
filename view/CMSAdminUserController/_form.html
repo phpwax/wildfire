@@ -8,7 +8,7 @@
   
   <ul class="tabs-nav">
     <li><a href="#section-1">User Details</a></li>
-    <?if($model->id):?>
+    <?if($model->id && ($current_user->usergroup >= 30 || ($current_user->id != $model->id))):?>
     <li><a href="#section-2">Section Permissions</a></li>
     <?endif?>
   </ul>
@@ -25,11 +25,9 @@
         <?=large(text_field($model, "surname"))?>
         <hr />
         <?=large(text_field($model, "password"))?>
-        <?if($current_user->usergroup >= 20):?>
         <hr />
         <?foreach($current_user->role_options as $key => $value) if($key <= $current_user->usergroup) $limited_role_options[$key] = $value?>
         <?=large(select($model, "usergroup", $limited_role_options, array(), "Role"))?>
-        <?endif?>
       </fieldset>
       <div class="clearfix"></div>
       <fieldset id="submit">
@@ -38,7 +36,7 @@
         <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
       </fieldset>
     </div>
-    <?if($model->id):?>
+    <?if($model->id && ($current_user->usergroup >= 30 || ($current_user->id != $model->id))):?>
     <div id="section-2" class="tabs-container">
       <?=$apply_sections_partial?>
     </div>
