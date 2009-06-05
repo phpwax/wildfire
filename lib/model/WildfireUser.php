@@ -37,10 +37,7 @@ class WildfireUser extends WaxModel {
 	
 	public function allowed_sections_model(){
 	  $sections = new CmsSection();
-		if($this->usergroup < 20){
-		  if($allowed_section_ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$allowed_section_ids));
-		  else $sections->filter('0 = 1');
-	  }
+		if($ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$ids));
   	return $sections;
 	}
 }
