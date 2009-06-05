@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var content_page_id = <?=$model->id?>; 
+var content_page_id = <?=$model->id?>;
 var model_string = "<?=get_class($model)?>";
 var join_field="images";
 var content_permalink="<?=$model->permalink?>";
@@ -37,8 +37,7 @@ var content_permalink="<?=$model->permalink?>";
         </fieldset>
         <div class="ui-resizable-handle ui-resizable-s" id="resizehandle"></div>
         <fieldset class="content_options">	
-    			<?$section = new CmsSection?>
-          <?=small(select($model, "cms_section_id", options_from_collection($section->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
+          <?=small(select($model, "cms_section_id", options_from_collection($current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
           <?=small(select($model, "status", $model->status_options))?>
         </fieldset>
       </div>

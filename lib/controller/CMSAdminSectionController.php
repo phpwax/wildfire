@@ -17,6 +17,7 @@ class CMSAdminSectionController extends AdminComponent {
 	* create the tree structure used for the drop down section selection
 	**/
 	public function controller_global() {
+	  $this->model = $this->current_user->allowed_sections_model;
 		$this->tree_collection = array("None");
 		foreach($this->model->tree() as $section){
 			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);

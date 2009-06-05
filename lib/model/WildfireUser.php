@@ -26,18 +26,21 @@ class WildfireUser extends WaxModel {
 	  $content = new CmsContent("published");
 	  return $content->filter(array("author_id"=>$this->id))->all();
 	}
-	/**
-	 * this function returns not just the associated sections, but also all sections under those
-	 *
-	 * @return Iterator with sections
-	 * @author Sheldon Els
-	 */
-	public function allowed_sections_tree(){
-	  $sections = new CmsSection();
+
+	public function allowed_sections_ids(){
+	  $allowed_section_ids = array();
 	  foreach($this->allowed_sections as $section)
 	    foreach($section->tree() as $sub_section)
 	      $allowed_section_ids[] = $sub_section->primval;
-	  return $sections->filter(array("id"=>$allowed_section_ids))->tree();
+  	return $allowed_section_ids;
 	}
 	
+	public function allowed_sections_model(){
+	  $sections = new CmsSection();
+		if($this->current_user->usergroup < 20){
+		  if($allowed_section_ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$allowed_section_ids));
+		  else $sections->filter('0 = 1');
+	  }
+  	return $sections;
+	}
 }

@@ -5,20 +5,12 @@
 	  </form>
 	   <?$url_for = url_for(array("action"=>"filter"))?>
 	</div>
-	<div id="section_filter">
+  <div id="section_filter">
     <form action="" name="section_browser">
       <strong>View by section: </strong>
       <select name="section_view" id="section_view" onchange="inlinefilter();">
         <option value="0">All sections</option>
-        <?$section = new CmsSection?>
-        <?foreach($section->tree() as $section):?>
-  				<?
-  				$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
-  				$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
-  				?>
-
-          <option value="<?=$section->id?>"><?=$tmp.$section->title?></option>
-        <?endforeach?>
+        <?=options_for_select(options_from_collection($current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;"))?>
       </select>
     </form>
   </div>
@@ -32,7 +24,7 @@
 				}
        }); 
      });
-		function inlinefilter(){
+		function inlinefilter(){	
 		  $("#filter_field").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");		
 			$.post("<?=$url_for?>",
       	{filter: $("#filter_field").val(), section: $("#section_view").val()}, 

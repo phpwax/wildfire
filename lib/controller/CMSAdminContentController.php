@@ -27,6 +27,10 @@ class CMSAdminContentController extends AdminComponent {
 	public $auth_col = "author_id";
 	public $status_col = "status";
 	
+	public function controller_global(){
+	  $this->model->filter(array("cms_section_id"=>$this->current_user->allowed_sections_ids));
+	}
+	
 	/**
 	* magic method to catch all if the action thats requested doesn't exist
 	* this function is used for the section filter drop down; which creates a url like /admin/content/section-url
