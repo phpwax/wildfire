@@ -28,7 +28,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $status_col = "status";
 	
 	public function controller_global(){
-	  $this->model->filter(array("cms_section_id"=>$this->current_user->allowed_sections_ids));
+	  if($this->current_user->usergroup < 20) $this->model->filter(array("cms_section_id"=>$this->current_user->allowed_sections_ids));
 	}
 	
 	/**
