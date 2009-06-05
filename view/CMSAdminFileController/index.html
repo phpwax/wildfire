@@ -16,38 +16,24 @@
 </script>
 
 
-<style type="text/css">
-#dashboard {
-	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
-  position: relative; left: 10px; top: 135px;
-}
-#fs_body > div#dashboard {
-  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
-  position: fixed;
-}
-<style type="text/css">
-#dashboard {
-	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
-  position: relative; left: 40px; top: 135px;
-}
-#fs_body > div#dashboard {
-  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
-  position: fixed;
-}
-</style>
-<!--[if gte IE 5.5]>
-<![if lt IE 7]>
-<style type="text/css">
-div#dashboard {
-  /* IE5.5+/Win - this is more specific than the IE 5.0 version */
-  left: expression( ( 25 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' ) ;
-  top: expression( ( 124 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' ) ;
-}
-</style>
-<![endif]>
-<![endif]-->
-
 <div id="fs_body">
+  
+  <div id="filesystem">
+    <div id="operations">
+      <form onsubmit="search.start(); return false">
+        <input type="text" name="searchbar" id="searchbar" value="" />
+        <input type="image" src="/images/fs/file_search.png" id="searchbtn" alt="Search" />
+      </form>
+      <ul>
+      	<li><a href="#" onclick="newFolder(); return false">Create Folder</a></li>
+      	<li><a href="#" onclick="download(); return false">Download File</a></li>
+      	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
+      </ul>
+    </div>
+  	<div id="searcharea"></div>
+  	<div id="fileList"></div>
+  </div>
+  
 
   <div id="dashboard">
     
@@ -98,23 +84,9 @@ div#dashboard {
    	
   </div>
 
-  <div id="operations">
-    <form onsubmit="search.start(); return false">
-      <input type="text" name="searchbar" id="searchbar" value="" />
-      <input type="image" src="/images/fs/file_search.png" id="searchbtn" alt="Search" />
-    </form>
-    <ul>
-    	<li><a href="#" onclick="newFolder(); return false">Create Folder</a></li>
-    	<li><a href="#" onclick="download(); return false">Download File</a></li>
-    	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
-    </ul>
-  </div>
+  
 
  
-  <div id="filesystem">
-  	<div id="searcharea"></div>
-  	<div id="fileList"></div>
-  </div>
 
 
 

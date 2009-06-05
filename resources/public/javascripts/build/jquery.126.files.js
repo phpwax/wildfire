@@ -1484,8 +1484,9 @@ function set_post_params(){
   swfu.startUpload();
 }
 
+
 jQuery(document).scroll(function() {
-  jQuery("#uploadcart").verticalCenter();
+  jQuery("#informationcart").verticalCenter();
 });
 
 jQuery.fn.verticalCenter = function(loaded) { 
@@ -1499,8 +1500,6 @@ jQuery.fn.verticalCenter = function(loaded) {
       top: jQuery(window).height()/2-this.height()/2}, 200, 'linear'); 
   } 
 };
-
-
 /*  Prototype JavaScript framework, version 1.4.0
  *  (c) 2005 Sam Stephenson <sam@conio.net>
  *

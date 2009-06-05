@@ -1,3 +1,16 @@
 #container, #content_window {
   width:100%;
 }
+
+#footer {
+  position:static;
+}
+#fs_body {
+  width:100% !important;
+}
+#fs_body #dashboard {
+  width:570px !important;
+}
+#fs_body #informationcart {
+  float:left;
+}

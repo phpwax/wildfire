@@ -79,8 +79,9 @@ function set_post_params(){
   swfu.startUpload();
 }
 
+
 jQuery(document).scroll(function() {
-  jQuery("#uploadcart").verticalCenter();
+  jQuery("#informationcart").verticalCenter();
 });
 
 jQuery.fn.verticalCenter = function(loaded) { 
@@ -94,5 +95,3 @@ jQuery.fn.verticalCenter = function(loaded) {
       top: jQuery(window).height()/2-this.height()/2}, 200, 'linear'); 
   } 
 };
-
-
