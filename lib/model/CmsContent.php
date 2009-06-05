@@ -31,10 +31,18 @@ class CmsContent extends WaxModel {
 		//master -> revisions (used for previews and languages)
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id"));
+		$this->define("language", "IntegerField");
 	}
 	
+	/**
+	 * Status options:
+	 * 0 = draft, 1 = published, 3 = created but not saved, 4 = preview, 5 = other language draft, 6 = other language published
+	 *
+	 * @return array
+	 */
 	public function status_options() {
-	  if($this->status ==4) return array("0"=>"Draft", "4"=>"Published");
+	  if($this->status == 4) return array("0"=>"Draft", "4"=>"Published");
+	  elseif(in_array($this->status,array(5,6))) return array("5"=>"Draft", "6"=>"Published");
 	  else return array("0"=>"Draft", "1"=>"Published");
 	}
 	

@@ -374,3 +374,11 @@ $(document).ready(function() {
   });
 	
 });
+
+/** langauge dropdown **/
+$(document).ready(function(){
+  $('#cms_content_language').change(function(){
+    var orig = window.location.href.split("?");
+    window.location.replace(orig[0]+"?lang="+$(this).val());
+  });
+});

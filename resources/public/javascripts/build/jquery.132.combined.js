@@ -893,7 +893,14 @@ $(document).ready(function() {
   });
 	
 });
-$(document).ready(function() {
+
+/** langauge dropdown **/
+$(document).ready(function(){
+  $('#cms_content_language').change(function(){
+    var orig = window.location.href.split("?");
+    window.location.replace(orig[0]+"?lang="+$(this).val());
+  });
+});$(document).ready(function() {
   $("#dashboard #sub-navigation-container #quick_search").remove();
   $("#quick_search form input, #quick_create form input").hint();
   $("#live_search_field").keyup(function() {
