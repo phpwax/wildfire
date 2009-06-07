@@ -145,13 +145,13 @@ class CMSAdminContentController extends AdminComponent {
     $master = new $this->model_class($this->id);
     if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
     if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language);
-
+    
     if($lang_id) $master = $this->get_language_model($master, $lang_id);
 
 	  $preview = new $this->model_class;
 	  //preview revision - create a copy of the content if needed or use the existing copy
-		if($master->status == 1){
-		  if(!($preview = $preview->filter(array("preview_master_id" => WaxUrl::get("id"), "status" => 4))->first())){
+		if(($master->status == 1) || ($master->status == 6)){
+		  if(!($preview = $preview->filter(array("preview_master_id" => $master->primval, "status" => 4))->first())){
 		    //if a preview entry doesn't exist create one
   		  foreach($master->columns as $col => $params)
   		    if($master->$col) $copy_attributes[$col] = $master->$col;
@@ -172,9 +172,10 @@ class CMSAdminContentController extends AdminComponent {
 		
 		if($this->model->is_posted()){
   		if($_POST['publish']){
-  		  if($master->status != 1){
+  		  if(($master->status == 0) || ($master->status == 5)){
   		    $master->set_attributes($_POST[$master->table]);
-  		    $master->status = 1;
+  		    if($master->status == 5) $master->status = 6;
+  		    else $master->status = 1;
   		    $master->save();
 	      }else{
 	        $this->update_master($preview, $master);
@@ -187,7 +188,7 @@ class CMSAdminContentController extends AdminComponent {
 		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($preview->primval && $_POST[$this->model->table]['status'] == 0){
+  	    if($preview->primval && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
           $this->update_master($preview, $master);
           if($preview->primval) $preview->delete();
           $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
@@ -251,8 +252,7 @@ class CMSAdminContentController extends AdminComponent {
 	    //if a lang entry doesn't exist create one
 		  foreach($master->columns as $col => $params)
 		    if($master->$col) $copy_attributes[$col] = $master->$col;
-		  //print_r($copy_attributes); exit;
-		  $copy_attributes = array_diff_key($copy_attributes,array($master->primary_key => false)); //take out ID
+		  $copy_attributes = array_diff_key($copy_attributes,array($master->primary_key=>false,'revisions'=>false)); //take out ID and revisions
 		  
   	  $lang = new $this->model_class;
   	  $lang->save();
