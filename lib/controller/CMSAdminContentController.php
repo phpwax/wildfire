@@ -26,6 +26,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $created_on_col = "date_created";
 	public $auth_col = "author_id";
 	public $status_col = "status";
+	public $modal_preview = false;
 	
 	public function controller_global(){
     if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
