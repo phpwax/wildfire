@@ -26,6 +26,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $created_on_col = "date_created";
 	public $auth_col = "author_id";
 	public $status_col = "status";
+	public $modal_preview = false;
 	public $languages = array(0=>"english");
 	
 	public function controller_global(){

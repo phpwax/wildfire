@@ -8,6 +8,7 @@ function setup_preview(l_permalink, trigger_id, l_preview_pane) {
   $(document).ready(function() {
     $('#'+trigger_id).click(function(){
       show_preview_window(l_permalink, l_preview_pane);
+      return false;
     });
   });
 }
