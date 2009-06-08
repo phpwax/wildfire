@@ -226,8 +226,8 @@ class CMSAdminContentController extends AdminComponent {
 	 * @author Sheldon
 	 */
 	public function delete(){
-	  parent::delete();
 	  $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
+	  parent::delete();
 	}
 	/**
 	* create function - this now makes a temporary record in the database with a status of 3
