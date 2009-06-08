@@ -2,7 +2,8 @@
 
 class WildfireUser extends WaxModel {
   
-  public $role_options = array("10"=>"content editor", "20"=>"site administrator", "30"=>"root");
+  public $role_options = array("0"=>"user", "10"=>"editor", "20"=>"publisher", "30"=>"administrator");
+  public $identifier = "fullname";
     
   public function setup() {
     $this->define("username", "CharField", array("required"=>true, "unique"=>true));
@@ -13,6 +14,7 @@ class WildfireUser extends WaxModel {
     $this->define("usergroup", "CharField");
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
   }
+
 	
 	public function role_text() {
 	  return $this->role_options[$this->usergroup];

@@ -2,6 +2,7 @@ var content_page_id;
 var model_string;
 var init_upload;
 var autosaver;
+if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 $(document).ready(function() {
     $("#container").tabs();
     
@@ -43,7 +44,7 @@ $(document).ready(function() {
       });
     });
     
-    
+  
 });
 
 function initialise_draggables() {
@@ -110,7 +111,7 @@ $(document).ready(function(event) {
   });
   $("#category_filter").blur(function(){if($(this).val() =="") {$(this).val('Filter');} });
   $("#wildfire_file_new_folder").change(function(t){
-    $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
+    $.post(file_browser_location,{filterfolder:$(this).val()},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
@@ -118,7 +119,7 @@ $(document).ready(function(event) {
     );
   });
   $("#view_all_button").click(function(){
-    $.post("/admin/files/browse_images",{},
+    $.post(file_browser_location,{},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
@@ -130,7 +131,7 @@ $(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  $.get("/admin/files/browse_images/1/", function(response){
+  $.get(file_browser_location+"/1/", function(response){
     $("#image_list").html(response);
     initialise_images();
   });
@@ -141,7 +142,14 @@ $(document).ready(function(event) {
       init_preview_button(wym);
       wym.wildfire(wym);
       autosaver = setInterval(function(){autosave_content(wym);},40000);
-      $("#autosave").click(function(){autosave_content(wym);});    
+      $("#autosave").click(function(){autosave_content(wym);});
+      var handlesel = $(".ui-resizable-handle");
+      $(".wym_box").resizable({
+        handles: "s"
+      });
+      $(".wym_box").css("height", "250px");
+      $(".wym_area_main, .wym_iframe, iframe").css("height","100%"); 
+      $(".wym_iframe").css("height","91%"); 
     }
   });              
           
@@ -175,7 +183,7 @@ function initialise_images() {
   /*** Setup image pagination ***/
   
   $(".paginate_images").click(function(){
-    $.get("/admin/files/browse_images/"+this.id.substr(12),{},function(response){
+    $.get(file_browser_location+"/"+this.id.substr(12),{},function(response){
       $("#image_list").html(response);
       initialise_images();
     });
@@ -236,7 +244,7 @@ $(document).ready(function() {
 });
 
 function reload_images(){
-	$.post("/admin/files/browse_images",{filterfolder:$(this).val()},
+	$.post(file_browser_location,{filterfolder:$(this).val()},
     function(response) { 
       $("#image_list").html(response); 
       initialise_images(); 
