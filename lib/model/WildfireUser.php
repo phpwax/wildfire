@@ -2,12 +2,8 @@
 
 class WildfireUser extends WaxModel {
   
-<<<<<<< HEAD:lib/model/WildfireUser.php
   public $role_options = array("0"=>"user", "10"=>"editor", "20"=>"publisher", "30"=>"administrator");
   public $identifier = "fullname";
-=======
-  public $role_options = array("10"=>"content editor", "20"=>"site administrator", "30"=>"root");
->>>>>>> ea429046c3c5e5a99e862bd88a72f364cb581c6a:lib/model/WildfireUser.php
     
   public function setup() {
     $this->define("username", "CharField", array("required"=>true, "unique"=>true));
