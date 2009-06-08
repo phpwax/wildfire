@@ -18,6 +18,7 @@ class CMSApplicationController extends WaxController{
 	public $this_page = 1;	//the current page number
   public $crumbtrail = array();	//a pre built crumb trail
 	public $force_image_width = false;
+	public $languages = array(0=>"english");
 	
 	//default action when content/section is found
 	public function cms_content() {}
@@ -128,27 +129,34 @@ class CMSApplicationController extends WaxController{
 		$content->order("UNIX_TIMESTAMP(published) DESC");
     
 		$logged_in = $this->is_admin_logged_in();
-		if($url){	
-			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
-			
-			if($logged_in) $access_filter = array("status" => array(0,1)); //published and unpublished, but not preview or untitled autosaved content
+		if($url){
+			if($logged_in) $access_filter = array("status" => array(0,1));
+	    else $access_filter = array("status" => 1);
 	    
-	    if(!($this->cms_content = $content->filter($access_filter)->filter($filters)->first())) //first look inside the section
+	    if(!($this->cms_content = $content->filter($access_filter)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->filter($access_filter)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
 		  
-			if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+		  //print_r(Session::get("wildfire_language_id")); exit;
+		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
+  			if($logged_in) $access_filter = array("status" => array(5,6));
+  	    else $access_filter = array("status" => 6);
+	      $lang_content = $content->clear()->filter($access_filter)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
+	      if($lang_content) $this->cms_content = $lang_content;
+		  }
+		  
+  		if(Request::get("preview") && $this->cms_content){
+  		  if($preview_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first()){
+  		    $this->master_content = $this->cms_content;
+  		    $this->cms_content = $preview_content;
+  	    }
+      }
+
+		  if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
-			$filter = array('cms_section_id' => $this->cms_section->id);	
+			$filter = array('cms_section_id' => $this->cms_section->id);
 			if(!$this->this_page) $this->cms_content = $content->filter(array("status" => 1))->filter($filter)->all();
 			else $this->cms_content = $content->filter(array("status" => 1))->filter($filter)->page($this->this_page, $this->per_page);
 		}
-
-		if(Request::get("preview") && $this->cms_content){
-		  if($preview_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first()){
-		    $this->master_content = $this->cms_content;
-		    $this->cms_content = $preview_content;
-	    }
-    }
 	}
 	
 	/**
@@ -176,6 +184,13 @@ class CMSApplicationController extends WaxController{
 		return $url;
 	}
 	
+	public function change_language() {
+	 $lang_id = Request::get("id");
+	 if($this->languages[$lang_id]) Session::set("wildfire_language_id",$lang_id);
+	 if($this->referrer) $this->redirect_to($this->referrer);
+	 else $this->redirect_to("/");
+	}
+	
 	public function show_image() {
 	  $options = Request::get("params");
 	  $img_id = Request::get("id");
@@ -199,20 +214,45 @@ class CMSApplicationController extends WaxController{
 	}
 	/**
 	 * decides what view should be used - has a more to less specific priority
-	 * - cms_CONTENTURL_[list|page]
-	 * - cms_SECTIONNAME_[list|page]
-	 * - cms_[list|page]
+	 * also switches the layout to a language specific one, if it exists
+	 * - cms_CONTENTURL_[list|page][_language]
+	 * - cms_SECTIONNAME_[list|page][_language]
+	 * - cms_[list|page][_language]
 	 */	
 	protected function pick_view() {		
 	  $sections = array_reverse($this->section_stack);
 	  if($this->is_page()) $type = "page";
 	  else $type = "list";
-	  $this->use_view = "cms_".$type;	
+	  $this->use_view = "cms_".$type;
+	  //if languages exist check for generics with language attached
+	  if($has_language = (count($this->langauges > 1)) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id]){
+	    $language_suffix = "_".$this->languages[$lang_id];
+	    if(!$this->use_format && $this->is_viewable($this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
+	  	if($this->is_viewable($this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
+	    if(!$this->use_format && $this->is_viewable($this->controller."/".$this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
+	  	if($this->is_viewable($this->controller."/".$this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
+    }
+	  
 	  foreach($sections as $section) {
-	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
-	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
+	    $view = "cms_".$section."_".$type;
+	    $check_view = $this->controller."/".$view;
+	    if(!$this->use_format && $this->is_viewable($check_view)) $this->use_view = $view;
+	  	if($this->is_viewable($check_view, $this->use_format)) $this->use_view = $view;
+  		if($has_language){
+  	    if(!$this->use_format && $this->is_viewable($check_view.$language_suffix)) $this->use_view = $view.$language_suffix;
+  	  	if($this->is_viewable($check_view.$language_suffix, $this->use_format)) $this->use_view = $view.$language_suffix;
+  	  }
 	  }
-		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
+
+		if($this->is_page() && $this->is_viewable($this->controller."/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view = "cms_".$this->cms_content->url."_".$type;
+		if($has_language){
+  		if($this->is_page() && $this->is_viewable($this->controller."/cms_".$this->cms_content->url."_".$type.$language_suffix,$this->use_format) ) $this->use_view = "cms_".$this->cms_content->url."_".$type.$language_suffix;
+  	}
+  	
+		if($has_language){
+      if(!$this->use_format && is_readable(VIEW_DIR."layouts/".$this->use_layout."_".$this->languages[$lang_id])) $this->use_layout .= "_".$this->languages[$lang_id];
+  	  if(is_readable(VIEW_DIR."layouts/".$this->use_layout."_".$this->languages[$lang_id].".".$this->use_format)) $this->use_layout .= "_".$this->languages[$lang_id];
+	  }
 	}
 	
 	/**
