@@ -131,7 +131,7 @@ $(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  $.get("/admin/files/browse_images/1/", function(response){
+  $.get(file_browser_location+"/1/", function(response){
     $("#image_list").html(response);
     initialise_images();
   });
@@ -176,7 +176,7 @@ function initialise_images() {
   /*** Setup image pagination ***/
   
   $(".paginate_images").click(function(){
-    $.get("/admin/files/browse_images/"+this.id.substr(12),{},function(response){
+    $.get(file_browser_location+"/"+this.id.substr(12),{},function(response){
       $("#image_list").html(response);
       initialise_images();
     });
