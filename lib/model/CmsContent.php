@@ -6,22 +6,22 @@ class CmsContent extends WaxModel {
 		$this->define("title", "CharField", array('maxlength'=>255) );
 		$this->define("excerpt", "TextField");
 		$this->define("content", "TextField");
-		$this->define("status", "IntegerField", array('maxlength'=>2));
+		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", 
+		  "choices"=>array(0=>"Draft",1=>"Published",3=>"Temporary",4=>"Preview")));
 		$this->define("published", "DateTimeField");
 		$this->define("expires", "DateTimeField");
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-		$this->define("sort", "IntegerField", array('maxlength'=>3));
-		$this->define("pageviews", "IntegerField", array('maxlength'=>11));
-		$this->define("url", "CharField", array('maxlength'=>255));
-		//used in conversion
-		$this->define("oldid", "IntegerField");
+		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
+		$this->define("pageviews", "IntegerField", array('maxlength'=>11, "editable"=>false));
+		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
+
 		//images
 		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true));
 		//section
-		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection','editable'=>false));
+		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		//author
-		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id",'editable'=>false));
+		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id", "identifier"=>"fullname"));
 		//more_content <-> content
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id",'editable'=>false, "eager_loading"=>true));
 		//comments <-> attached_to
@@ -30,7 +30,7 @@ class CmsContent extends WaxModel {
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true));
 		//master -> revisions (used for previews and languages)
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
-		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id"));
+		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
 	}
 	
 	public function status_options() {

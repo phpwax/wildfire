@@ -562,7 +562,7 @@ $(document).ready(function() {
       });
     });
     
-    
+  
 });
 
 function initialise_draggables() {
@@ -660,7 +660,14 @@ $(document).ready(function(event) {
       init_preview_button(wym);
       wym.wildfire(wym);
       autosaver = setInterval(function(){autosave_content(wym);},40000);
-      $("#autosave").click(function(){autosave_content(wym);});    
+      $("#autosave").click(function(){autosave_content(wym);});
+      var handlesel = $(".ui-resizable-handle");
+      $(".wym_box").resizable({
+        handles: "s"
+      });
+      $(".wym_box").css("height", "250px");
+      $(".wym_area_main, .wym_iframe, iframe").css("height","100%"); 
+      $(".wym_iframe").css("height","91%"); 
     }
   });              
           
