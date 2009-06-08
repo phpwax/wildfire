@@ -18,7 +18,7 @@ class CMSAdminSectionController extends AdminComponent {
 	**/
 	public function controller_global() {
 	  $this->model = $this->current_user->allowed_sections_model;
-		$this->tree_collection = array("None");
+		if(!$this->current_user->allowed_sections_ids) $this->tree_collection = array("None");
 		foreach($this->model->tree() as $section){
 			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
 			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);

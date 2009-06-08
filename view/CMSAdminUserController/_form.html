@@ -27,7 +27,8 @@
         <?=large(text_field($model, "password"))?>
         <?if($current_user->usergroup >= 20):?>
         <hr />
-        <?=large(select($model, "usergroup", $model->role_options, array(), "Role"))?>
+        <?foreach($current_user->role_options as $key => $value) if($key <= $current_user->usergroup) $limited_role_options[$key] = $value?>
+        <?=large(select($model, "usergroup", $limited_role_options, array(), "Role"))?>
         <?endif?>
       </fieldset>
       <div class="clearfix"></div>
