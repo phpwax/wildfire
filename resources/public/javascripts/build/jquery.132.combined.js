@@ -521,6 +521,7 @@ var content_page_id;
 var model_string;
 var init_upload;
 var autosaver;
+if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 $(document).ready(function() {
     $("#container").tabs();
     
@@ -629,7 +630,7 @@ $(document).ready(function(event) {
   });
   $("#category_filter").blur(function(){if($(this).val() =="") {$(this).val('Filter');} });
   $("#wildfire_file_new_folder").change(function(t){
-    $.post("/admin/files/browse_images",{filterfolder:$(this).val()},
+    $.post(file_browser_location,{filterfolder:$(this).val()},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
@@ -637,7 +638,7 @@ $(document).ready(function(event) {
     );
   });
   $("#view_all_button").click(function(){
-    $.post("/admin/files/browse_images",{},
+    $.post(file_browser_location,{},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
@@ -755,7 +756,7 @@ $(document).ready(function() {
 });
 
 function reload_images(){
-	$.post("/admin/files/browse_images",{filterfolder:$(this).val()},
+	$.post(file_browser_location,{filterfolder:$(this).val()},
     function(response) { 
       $("#image_list").html(response); 
       initialise_images(); 
