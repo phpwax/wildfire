@@ -173,7 +173,7 @@ class CMSAdminContentController extends AdminComponent {
 		
 		if($this->model->is_posted()){
   		if($_POST['publish']){
-  		  if(($master->status == 0) || ($master->status == 5)){
+  		  if(($master->status != 1) && ($master->status != 6)){
   		    $master->set_attributes($_POST[$master->table]);
   		    if($master->status == 5) $master->status = 6;
   		    else $master->status = 1;
