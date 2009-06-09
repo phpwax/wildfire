@@ -3,7 +3,7 @@
 * Content Controller
 * @package PHP-WAX CMS
 */
-class CMSAdminContentController extends CMSAdminComponent {
+class CMSAdminContentController extends AdminComponent {
 	public $module_name = "content";											
 	public $model_class = 'CmsContent';
 	public $model_name = "cms_content";													
@@ -26,6 +26,12 @@ class CMSAdminContentController extends CMSAdminComponent {
 	public $created_on_col = "date_created";
 	public $auth_col = "author_id";
 	public $status_col = "status";
+	public $modal_preview = false;
+	public $languages = array(0=>"english");
+	
+	public function controller_global(){
+    if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
+	}
 	
 	/**
 	* magic method to catch all if the action thats requested doesn't exist
@@ -42,7 +48,7 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$section = $section->filter(array('url'=>$this->action))->first();
 		if($section) $sect_id = $section->id;
 		else $sect_id = 1;
-		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id) )->order($this->default_order." DESC")->page($page, 10);
+		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id,"status"=>array(0,1)))->order($this->default_order." DESC")->page($page, 10);
 		$this->filter_block_partial = $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
 	}
@@ -58,22 +64,33 @@ class CMSAdminContentController extends CMSAdminComponent {
 		*	- now using the date_created field to make sure that only files older than an hour created by the logged in user will be deleted. 
 		*	This is should avoid any accidental deletion of temp records that are still being worked on.
 		**/
-		$author_id = $this->current_user->id; 
-		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
-		if($auth_col = $this->auth_col) $this->model->filter(array("$auth_col"=>$author_id));
-		if($status_col = $this->status_col) $this->model->filter(array("$status_col"=>3));
-		$temp_content = $this->model->filter("`".$this->created_on_col."` < '$time'")->all();
-		
-		if(count($temp_content) && $status_col){
-			foreach($temp_content as $content) $content->delete();
+	  if($status_col){
+  		$clear_tmp_model = clone $this->model;
+  		$time = date("Y-m-d H:i:s", mktime( date("H")-1, 0, 0, date("m"), date("d"), date("Y") ) );
+  		if($this->auth_col) $clear_tmp_model->filter(array("$this->auth_col"=>$this->current_user->id));
+  		if($this->status_col) $clear_tmp_model->filter(array("$this->status_col"=>3));
+  		$clear_tmp_model->filter("`".$this->created_on_col."` < '$time'");
+			foreach($clear_tmp_model->all() as $tmp_content) $tmp_content->delete();
 		}
 		/**
 		* work out the items to display - hide those temp files
 		**/
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->clear()->filter("`status` <> '3' ")->order($this->default_order." DESC")->page($page, $this->list_limit);
+		$this->all_rows = $this->model->filter(array("status"=>array(0,1)))->order($this->default_order." ".$this->default_direction)->page($page, $this->list_limit);
 		$this->filter_block_partial .= $this->render_partial("filter_block");
 		$this->list = $this->render_partial("list");
+	}
+	/**
+	* Ajax Filter list view
+	*/
+	public function filter() {
+	  $this->model->filter(array("status"=>array(0,1)));
+	  if(Request::post("section")){
+	    $section = new CmsSection(Request::post("section"));
+	    foreach($section->tree() as $section) $section_ids[] = $section->primval;
+	    $this->model->filter(array("cms_section_id"=>$section_ids));
+    }
+	  parent::filter();
 	}
 	/**
 	* Ajax function - associates the image whose id is posted in with the content record
@@ -81,11 +98,14 @@ class CMSAdminContentController extends CMSAdminComponent {
 	* - content id via url (/admin/content/add_image/id)
 	**/
 	public function add_image() {
-		$this->use_layout=false;
-		$this->page = new $this->model_class(Request::get('id'));
-		$file = new WildfireFile(Request::post('id'));
-		$this->page->images = $file;
-		$this->image = $file;
+	  $this->use_layout=false;
+	  $this->page = new $this->model_class(Request::get('id'));
+		$this->join_name = "images";
+	  if(Request::post("id")) {
+		  $file = new WildfireFile(Request::post('id'));
+		  $this->page->images = $file;
+		  $this->image = $file;
+	  }
 	}
 	/**
 	* Ajax function - removes the association between the image & content whose details are passed in 
@@ -93,19 +113,19 @@ class CMSAdminContentController extends CMSAdminComponent {
 	* - content id via url (/admin/content/remove_image/ID)
 	**/
 	public function remove_image() {
+		$this->join_name = "images";
 		$this->use_layout=false;
-		$page = new $this->model_class(Request::get('id'));
+		$this->page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
-		$page->images->unlink($image);
+		$this->page->images->unlink($image);
 	}
 	
 	public function attached_images(){
 		$this->use_layout = false;
-		$this->page = $this->model = new $this->model_class(Request::get('id'));
-		if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+		$this->model = new $this->model_class(Request::get('id'));
+		if(!$this->attached_images = $this->model->images) $this->attached_images=array();
 		$this->image_model = new WildfireFile;
 		//partials
-		$this->image_partial = $this->render_partial("page_images");
 	}
 	
 	/**
@@ -115,12 +135,73 @@ class CMSAdminContentController extends CMSAdminComponent {
 	* render the partials
 	*/
 	public function edit() {
-		$this->page = new $this->model_class(WaxUrl::get("id"));
+	  $this->id = WaxUrl::get("id");
+		if(!$this->id) $this->id = $this->route_array[0];
+
+		if(($lang_id = Request::get("lang")) && (!$this->languages[$lang_id])){
+	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
+	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
+    }
+
+    $master = new $this->model_class($this->id);
+    if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
+    if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language);
+    
+    if($lang_id) $master = $this->get_language_model($master, $lang_id);
+
+	  $preview = new $this->model_class;
+	  //preview revision - create a copy of the content if needed or use the existing copy
+		if(($master->status == 1) || ($master->status == 6)){
+		  if(!($preview = $preview->filter(array("preview_master_id" => $master->primval, "status" => 4))->first())){
+		    //if a preview entry doesn't exist create one
+  		  foreach($master->columns as $col => $params)
+  		    if($master->$col) $copy_attributes[$col] = $master->$col;
+  		  $copy_attributes = array_diff_key($copy_attributes,array($this->model->primary_key => false)); //take out ID
+    	  $preview = new $this->model_class;
+				$preview->status = 4;
+    	  $preview->save();
+  		  $preview->set_attributes($copy_attributes);
+  		  $preview->status = 4;
+  		  $preview->url = $master->url;
+  		  $preview->master = $master->primval;
+  		  $preview->save();
+	    }
+      $this->model = $preview;
+		}else{
+		  $this->model = $master;
+		}
+		
+		if($this->model->is_posted()){
+  		if($_POST['publish']){
+  		  if(($master->status != 1) && ($master->status != 6)){
+  		    $master->set_attributes($_POST[$master->table]);
+  		    if($master->status == 5) $master->status = 6;
+  		    else $master->status = 1;
+  		    $master->save();
+	      }else{
+	        $this->update_master($preview, $master);
+	        if($preview->primval) $preview->delete();
+	      }
+		    Session::add_message($this->display_name." "."Successfully Published");
+		    $this->redirect_to("/admin/$this->module_name/");
+  		}elseif($_POST['close']){
+		    //delete the preview if it has no changes from the master
+		    if($preview->equals($master) && $preview->primval) $preview->delete();
+  		  $this->redirect_to(Session::get("list_refer"));
+  	  }else{ //save button is default post, as it's the least destructive thing to do
+  	    if($preview->primval && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
+          $this->update_master($preview, $master);
+          if($preview->primval) $preview->delete();
+          $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
+  	    }else $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
+  	  }
+    }
+
 		//images
-    if(!$this->attached_images = $this->page->images) $this->attached_images=array();
+    if(!$this->attached_images = $this->model->images) $this->attached_images=array();
     
 		//categories assocaited
-		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		//all categories
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();
@@ -133,12 +214,67 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$files = new WildfireFile();
 		$this->all_links = $files->find_all_files();
 		$this->link_partial = $this->render_partial("apply_links");
-		//parent edit function - this handles the save etc
-		parent::edit();
 		$this->extra_content_partial = $this->render_partial("extra_content");
 		$this->flash_files = $files->flash_files();
 		$this->video_partial = $this->render_partial("apply_video");
+		$this->table_partial = $this->render_partial("wysi_tables");
 		$this->form = $this->render_partial("form");
+		
+	}
+	/**
+	 * update the master with the preview's details, every field is updated except primary key and status
+	 *
+	 * @param string $preview 
+	 * @param string $master 
+	 * @return WaxModel - updated master
+	 */
+	private function update_master($preview, $master){
+    $preview->set_attributes($_POST[$preview->table]);
+    $preview->status = 4;
+    $preview->save();
+	  foreach($preview->columns as $col => $params)
+	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
+	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
+	  return $master->update_attributes($copy_attributes);
+	}
+	/**
+	 * get the other language model for a master - creates one if it doesn't exist
+	 *
+	 * @param string $master 
+	 * @param integer $lang_id 
+	 * @return WaxModel - new language model
+	 */
+	private function get_language_model($master, $lang_id){
+	  $model = new $this->model_class;
+    if($lang_model = $model->filter(array('preview_master_id'=>$master->primval,'language'=>$lang_id))->first()){
+      return $lang_model;
+    }else{
+	    Session::add_message("A {$this->languages[$lang_id]} version of this content has been created. The {$this->languages[0]} content was copied into it for convenience.");
+	    //if a lang entry doesn't exist create one
+		  foreach($master->columns as $col => $params)
+		    if($master->$col) $copy_attributes[$col] = $master->$col;
+		  $copy_attributes = array_diff_key($copy_attributes,array($master->primary_key=>false,'revisions'=>false)); //take out ID and revisions
+		  
+  	  $lang = new $this->model_class;
+  	  $lang->save();
+		  $lang->set_attributes($copy_attributes);
+		  $lang->status = 5;
+		  $lang->url = $master->url;
+		  $lang->master = $master->primval;
+		  $lang->language = $lang_id;
+		  $lang->save();
+		  return $lang;
+    }
+	}
+	/**
+	 * delete function - cleans up any preview content for the deleted content
+	 *
+	 * @return void
+	 * @author Sheldon
+	 */
+	public function delete(){
+	  $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
+	  parent::delete();
 	}
 	/**
 	* create function - this now makes a temporary record in the database with a status of 3
@@ -150,18 +286,22 @@ class CMSAdminContentController extends CMSAdminComponent {
 		$model->status = 3;
 		$model->author_id = Session::get('wildfire_user_cookie');
 		$model->url = time();
+		if(Request::get("title")) $model->title = Request::get("title");
+		else $model->title = "Enter Your Title Here";
 		$this->redirect_to("/admin/content/edit/".$model->save()->id."/");
 	}
+
+	
 	/**
 	* Ajax function - associates a category with a content record
 	* creates a view with resulting info
 	**/
 	public function add_category() {
 	  $this->use_layout=false;
-		$this->page = new $this->model_class(WaxUrl::get("id"));
+		$this->model = new $this->model_class(WaxUrl::get("id"));
 		$category = new CmsCategory(substr($_POST["id"], 4));
-		$this->page->categories = $category;
-		if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$this->model->categories = $category;
+		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");
@@ -172,10 +312,10 @@ class CMSAdminContentController extends CMSAdminComponent {
 	**/
 	public function remove_category() {
 		$this->use_layout=false;
-		$this->page = new $this->model_class(WaxUrl::get("id"));
+		$this->model = new $this->model_class(WaxUrl::get("id"));
 		$category = new CmsCategory(Request::get("cat"));
-		$this->page->categories->unlink($category);
-    if(!$this->attached_categories = $this->page->categories) $this->attached_categories= array();
+		$this->model->categories->unlink($category);
+    if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");	
@@ -213,6 +353,14 @@ class CMSAdminContentController extends CMSAdminComponent {
 		}else $this->redirect_to("/admin/home");
 	}
 	
+	public function search() {
+	  $this->content_results = array();
+	  $this->model->filter(array("status"=>array(0,1)));
+	  $this->use_layout=false;
+	  if($input = Request::post("input")) {
+	    $this->content_results = $this->model->filter("title LIKE '%$input%'")->order("published DESC")->limit(8)->all();
+	  }
+	}
 	
 	
 }

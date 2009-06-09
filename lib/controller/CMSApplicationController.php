@@ -7,7 +7,7 @@
  * @author charles marshall
  */
 
-class CMSApplicationController extends WXControllerBase{
+class CMSApplicationController extends WaxController{
   
   public $cms_section = false;	//Section object
   public $cms_content = false;  //this is either an array of the content or a single content record
@@ -18,6 +18,7 @@ class CMSApplicationController extends WXControllerBase{
 	public $this_page = 1;	//the current page number
   public $crumbtrail = array();	//a pre built crumb trail
 	public $force_image_width = false;
+	public $languages = array(0=>"english");
 	
 	//default action when content/section is found
 	public function cms_content() {}
@@ -32,6 +33,9 @@ class CMSApplicationController extends WXControllerBase{
 	protected function cms(){
 		//check if this is paginated
 		if($page = Request::get('page')) $this->this_page = $page;
+		//add preview bar to output
+		if(Request::get("preview"))
+		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		//method exists check
 		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
 		if(!$this->use_format) $this->use_format="html";
@@ -48,8 +52,7 @@ class CMSApplicationController extends WXControllerBase{
 		//incremeant the page views counter
     if($this->is_page()) $this->cms_content->add_pageview();
 		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
-		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
-		
+		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;		
 	}
 	/**
 	 * Using the route array this function:
@@ -122,23 +125,37 @@ class CMSApplicationController extends WXControllerBase{
 	 * @param string $url 
 	 */	
 	protected function find_content($url){
-
 		$content = new CmsContent();
+		$content->order("UNIX_TIMESTAMP(published) DESC");
+    
 		$logged_in = $this->is_admin_logged_in();
-		if($url){	
-			$filters = array('url'=>$url, 'cms_section_id'=>$this->cms_section->id);
-			if($logged_in) $res = $content->clear()->filter($filters)->all();
-  		else $res = $content->scope("published")->filter($filters)->all();
-			if(count($res) == 0) {
-			  if($logged_in) $res = $content->clear()->filter(array('url'=>$url))->all();
-			  else $res = $content->clear()->scope("published")->filter(array('url'=>$url))->all();
+		if($url){
+			if($logged_in) $access_filter = array("status" => array(0,1));
+	    else $access_filter = array("status" => 1);
+	    
+	    if(!($this->cms_content = $content->filter($access_filter)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
+			  $this->cms_content = $content->clear()->filter($access_filter)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
+		  
+		  //print_r(Session::get("wildfire_language_id")); exit;
+		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
+  			if($logged_in) $access_filter = array("status" => array(5,6));
+  	    else $access_filter = array("status" => 6);
+	      $lang_content = $content->clear()->filter($access_filter)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
+	      if($lang_content) $this->cms_content = $lang_content;
 		  }
-			if($res->count() > 0) $this->cms_content = $res[0];
-			else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+		  
+  		if(Request::get("preview") && $this->cms_content){
+  		  if($preview_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first()){
+  		    $this->master_content = $this->cms_content;
+  		    $this->cms_content = $preview_content;
+  	    }
+      }
+
+		  if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
-			$filter = "`cms_section_id` = '".$this->cms_section->id."'";	
-			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
-			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
+			$filter = array('cms_section_id' => $this->cms_section->id);
+			if(!$this->this_page) $this->cms_content = $content->filter(array("status" => 1))->filter($filter)->all();
+			else $this->cms_content = $content->filter(array("status" => 1))->filter($filter)->page($this->this_page, $this->per_page);
 		}
 	}
 	
@@ -167,6 +184,13 @@ class CMSApplicationController extends WXControllerBase{
 		return $url;
 	}
 	
+	public function change_language() {
+	 $lang_id = Request::get("id");
+	 if($this->languages[$lang_id]) Session::set("wildfire_language_id",$lang_id);
+	 if($this->referrer) $this->redirect_to($this->referrer);
+	 else $this->redirect_to("/");
+	}
+	
 	public function show_image() {
 	  $options = Request::get("params");
 	  $img_id = Request::get("id");
@@ -190,20 +214,60 @@ class CMSApplicationController extends WXControllerBase{
 	}
 	/**
 	 * decides what view should be used - has a more to less specific priority
-	 * - cms_CONTENTURL_[list|page]
-	 * - cms_SECTIONNAME_[list|page]
-	 * - cms_[list|page]
+	 * also switches the layout to a language specific one, if it exists
+	 * - cms_CONTENTURL_[list|page][_language]
+	 * - cms_SECTIONNAME_[list|page][_language]
+	 * - cms_[list|page][_language]
 	 */	
 	protected function pick_view() {		
 	  $sections = array_reverse($this->section_stack);
-	  if($this->is_page()) $type="page";
-	  else $type="list";
-	  $this->use_view="cms_".$type;	
+	  if($this->is_page()) $type = "page";
+	  else $type = "list";
+	  $this->use_view = "cms_".$type;
+	  //if languages exist check for generics with language attached
+	  if($has_language = (count($this->langauges > 1)) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id]){
+	    $language_suffix = "_".$this->languages[$lang_id];
+	    if(!$this->use_format && $this->is_viewable($this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
+	  	if($this->is_viewable($this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
+	    if(!$this->use_format && $this->is_viewable($this->controller."/".$this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
+	  	if($this->is_viewable($this->controller."/".$this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
+    }
+	  
 	  foreach($sections as $section) {
-	    if(!$this->use_format && $this->is_viewable($this->controller."/cms_".$section."_".$type)) $this->use_view = "cms_".$section."_".$type;
-	  	if($this->is_viewable($this->controller."/cms_".$section."_".$type, $this->use_format)) $this->use_view = "cms_".$section."_".$type;
+	    $view = "cms_".$section."_".$type;
+	    $check_view = $this->controller."/".$view;
+	    if(!$this->use_format && $this->is_viewable($check_view)) $this->use_view = $view;
+	  	if($this->is_viewable($check_view, $this->use_format)) $this->use_view = $view;
+  		if($has_language){
+  	    if(!$this->use_format && $this->is_viewable($check_view.$language_suffix)) $this->use_view = $view.$language_suffix;
+  	  	if($this->is_viewable($check_view.$language_suffix, $this->use_format)) $this->use_view = $view.$language_suffix;
+  	  }
 	  }
-		if($this->is_page() && $this->is_viewable("page/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view =  "cms_".$this->cms_content->url."_".$type;
+
+		if($this->is_page() && $this->is_viewable($this->controller."/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view = "cms_".$this->cms_content->url."_".$type;
+		if($has_language){
+  		if($this->is_page() && $this->is_viewable($this->controller."/cms_".$this->cms_content->url."_".$type.$language_suffix,$this->use_format) ) $this->use_view = "cms_".$this->cms_content->url."_".$type.$language_suffix;
+  	}
+  	
+		if($has_language){
+      if(!$this->use_format && is_readable(VIEW_DIR."layouts/".$this->use_layout."_".$this->languages[$lang_id])) $this->use_layout .= "_".$this->languages[$lang_id];
+  	  if(is_readable(VIEW_DIR."layouts/".$this->use_layout."_".$this->languages[$lang_id].".".$this->use_format)) $this->use_layout .= "_".$this->languages[$lang_id];
+	  }
+	}
+	
+	/**
+	 * this function adds a preview bar to the top of content, so that users won't be confused that their preview differs from the live content
+	 *
+	 * @param string $buffer_contents 
+	 * @return void
+	 * @author Sheldon
+	 */
+	public function add_preview_bar($buffer_contents, $template = false){
+	  WaxTemplate::remove_response_filter("layout", "cms-preview-bar");
+	  $preview_bar = partial("../../plugins/cms/view/shared/_preview_bar", $template, "html");
+	  $buffer_contents = preg_replace("/(<\/head>)/",'<link type="text/css" href="/stylesheets/cms/preview-bar.css" rel="stylesheet" />$1', $buffer_contents);
+	  $buffer_contents = preg_replace("/(<body.*?>)/","$1".$preview_bar, $buffer_contents);
+	  return $buffer_contents;
 	}
 	
   /**
@@ -265,6 +329,8 @@ class CMSApplicationController extends WXControllerBase{
 			}	
       echo "Uploaded";
     } elseif($_FILES) {
+      error_log("Starting File upload");
+      error_log(print_r($_POST,1));
         $path = $_POST['wildfire_file_folder'];
         $fs = new CmsFilesystem;
         $_FILES['upload'] = $_FILES["Filedata"];

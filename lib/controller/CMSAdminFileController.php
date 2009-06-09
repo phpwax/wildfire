@@ -4,7 +4,7 @@
 * @package PHP-WAX CMS
 */
 
-class CMSAdminFileController extends CMSAdminComponent {
+class CMSAdminFileController extends AdminComponent {
 	public $module_name = "files";												
   public $model;
 	public $model_class="WildfireFile";
@@ -16,6 +16,7 @@ class CMSAdminFileController extends CMSAdminComponent {
 	public $filter_columns = array("filename", "caption");
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
+	public $sub_links = array("synchronise"=>"File Synchronise");
 	
 	
 	public static $max_image_width = false;
@@ -25,7 +26,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	**/
 	public function controller_global(){
 		parent::controller_global();
-		$this->sub_links = array();
+		unset($this->sub_links["index"]);
+		unset($this->sub_links["create"]);
+
 	}
 	
 	public function fs() {
@@ -170,9 +173,9 @@ class CMSAdminFileController extends CMSAdminComponent {
 	  $fs = new CmsFilesystem;
 	  $folder = $fs->relativePath;
 		if(!$folder) $folder ="files";
-	  $this->all_images = $model->filter(array("status"=>"found","rpath"=>$folder))->order("filename ASC")->all();
+	  $this->all_images = $model->filter(array("status"=>"found","rpath"=>$folder))->filter("type LIKE '%image%'")->order("filename ASC")->all();
   	if($_POST['filterfolder']) {
-  	  $this->all_images = $model->clear()->filter(array("status"=>"found","rpath"=>$_POST['filterfolder']))->order("filename ASC")->all();
+  	  $this->all_images = $model->clear()->filter(array("status"=>"found","rpath"=>$_POST['filterfolder']))->filter("type LIKE '%image%'")->order("filename ASC")->all();
   	}
     $this->all_images_partial = $this->render_partial("list_all_images");  
 	}
@@ -194,6 +197,11 @@ class CMSAdminFileController extends CMSAdminComponent {
   
   public function inline_image_edit() {
     $this->use_layout=false;
+  }
+  
+  public function image_urls() {
+    $this->use_layout=false;
+    $this->image = new WildfireFile(Request::get("id"));
   }
   
   public function inline_browse() {

@@ -10,14 +10,14 @@
 Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 
-class CMSAdminComponent extends WXControllerBase {
+class CMSAdminComponent extends WaxController {
 
 	public $all_modules = array(); //all available modules for this user
 	public $module_name = null;	//the name of this module										
 	public $model;	//the actuall database model to use
 	protected $model_class; //the class name - ie CmsContent
 	public $model_name;	//the db table name - ie cms_content
-	protected $access = "0"; //the required access level
+	protected $access = 0; //the required access level
 	protected $unauthorised_redirect="/admin/home/login"; //where to go to if user is not authorised
 	protected $authorised_redirect="/admin/home/"; //default location on successfull auth
 	protected $unauthorised_message="Please login to continue"; //status message
@@ -56,7 +56,7 @@ class CMSAdminComponent extends WXControllerBase {
 		**/
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->configure_modules();
-		$this->all_modules = CMSApplication::get_modules(true);
+		$this->all_modules = CMSApplication::get_modules(true, $this->current_user->usergroup);
 		if(!array_key_exists($this->module_name,CMSApplication::get_modules())){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -147,16 +147,15 @@ class CMSAdminComponent extends WXControllerBase {
 	*/
 	public function filter() {
 	  $this->use_layout=false;
-	  if($_POST['filter']=="") {
-	    $this->index();
-	    return true;
+	  if($_POST['filter']) {
+  		$conditions = "";
+  	  if($this->filter_columns) {
+  	    foreach($this->filter_columns as $filter) $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
+  	    $conditions = ltrim($conditions, "OR");
+      }
+      $this->model->filter($conditions);
 	  }
-		$conditions = "";
-	  if($this->filter_columns) {
-	    foreach($this->filter_columns as $filter) $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
-	    $conditions = ltrim($conditions, "OR");
-    }
-	  $this->all_rows = $this->model->filter($conditions)->order($this->get_order())->limit(30)->all();
+	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
 		$this->list = $this->render_partial("list");
 	}
 
@@ -167,8 +166,8 @@ class CMSAdminComponent extends WXControllerBase {
 	*/
 	protected function save($model, $redirect_to=false, $success = "Successfully Saved") {
 		if( $model->is_posted() ) {
-			if($model->update_attributes($_POST[$this->model_name]) ) {
-			  if($redirect_to == "edit") $redirect_to = "/$this->controller/edit/".$model->id;
+			if($model->update_attributes($_POST[$this->model->table]) ) {
+			  if($redirect_to == "edit") $redirect_to = "/$this->controller/edit/".$model->id."/";
 			  elseif(!$redirect_to) $redirect_to = "/$this->controller/index";
       	Session::add_message($this->display_name." ".$success);
       	$this->redirect_to($redirect_to);
@@ -240,5 +239,6 @@ class CMSAdminComponent extends WXControllerBase {
 		foreach($model_desc as $field) $desc[] = $field['Field'];
 		return $desc;
 	}
+	
 }
 ?>

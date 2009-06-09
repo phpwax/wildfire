@@ -1,17 +1,3 @@
-<link href="/stylesheets/cms/upload.css" rel="stylesheet" type="text/css" />
-
-<script src="/javascripts/utilities/prototype.js" type="text/javascript"></script>
-<script src="/javascripts/utilities/dragdrop.js" type="text/javascript"></script>
-<script src="/javascripts/utilities/effects.js" type="text/javascript"></script>
-<script src="/javascripts/utilities/search.js" type="text/javascript"></script>
-<script src="/javascripts/utilities/relay.js" type="text/javascript"></script>
-<script type="text/javascript" src="/javascripts/upload/swfupload.js"></script>
-<script type="text/javascript" src="/javascripts/upload/swfupload.queue.js"></script>
-<script type="text/javascript" src="/javascripts/upload/fileprogress.js"></script>
-<script type="text/javascript" src="/javascripts/upload/handlers.js"></script>
-<script type="text/javascript" src="/javascripts/cms/file.js"></script>
-
-
 <script type="text/javascript">
 	folderIcon = '/images/fs/mac_dir.png';
 	fileIcon = '/images/fs/mac_file.png';
@@ -30,124 +16,77 @@
 </script>
 
 
-<style type="text/css">
-	@import url(/stylesheets/cms/relay.css);
-</style>
-<style type="text/css">
-#dashboard {
-	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
-  position: relative; left: 10px; top: 135px;
-}
-#fs_body > div#dashboard {
-  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
-  position: fixed;
-}
-<style type="text/css">
-#dashboard {
-	/* Netscape 4, IE 4.x-5.0/Win and other lesser browsers will use this */
-  position: relative; left: 40px; top: 135px;
-}
-#fs_body > div#dashboard {
-  /* used by Opera 5+, Netscape6+/Mozilla, Konqueror, Safari, OmniWeb 4.5+, iCab, ICEbrowser */
-  position: fixed;
-}
-</style>
-<!--[if gte IE 5.5]>
-<![if lt IE 7]>
-<style type="text/css">
-div#dashboard {
-  /* IE5.5+/Win - this is more specific than the IE 5.0 version */
-  left: expression( ( 25 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' ) ;
-  top: expression( ( 124 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' ) ;
-}
-</style>
-<![endif]>
-<![endif]-->
-
 <div id="fs_body">
-
-
-
-  <div id="operations" class="clearfix">
-    <form onsubmit="search.start(); return false">
-      <input type="text" name="searchbar" id="searchbar" value="" />
-      <input type="button" value="&nbsp;&nbsp;Search&nbsp;&nbsp;" id="searchbtn" alt="Search" onclick="search.start()" />
-    </form>
-    <ul>
-    	<li><a href="#" onclick="newFolder(); return false">Create Folder</a></li>
-    	<li><a href="#" onclick="download(); return false">Download File</a></li>
-    	<li><a href="#" onclick="openAll(); return false">Open All</a></li>
-    	<li><a href="#" onclick="closeAll(); return false">Close All</a></li>
-    	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
-    	<li><a href="/admin/files/synchronise">File Synchronise</a></li>
-    </ul>
-  </div>
-
-  <div id="dashboard">
-  	<div style="position:relative;">
-  		<img src="/images/fs/uploadtitle.gif" class="label" alt="Upload" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');" />
-  		<div id="uploadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('uploadcart'); Element.toggle('uploadcartclose');"><img src="/images/fs/close.gif" /></div>
-  	</div>
-  	<div id="uploadcart" style="display:none;">
-		
-  		<div id="uploadstatus"><em>Destination</em> <span id="dest">select a folder</span></div>
-		
-    	<form id="form1" action="" method="post" enctype="multipart/form-data">
-    	      <div class="flash" id="fsUploadProgress">
-
-        		</div>
-            <div id="divStatus">Click start to upload files</div>
-
-        		<fieldset>
-          	<input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
-      			<input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" />
-            
-      		  </fieldset>
-      		  <fieldset>
-        		  <?=large(text_area($model, "description", array("rows"=>"1"), "Optional Description"))?>
-      		  </fieldset>
-          <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params(); return false' />
-
-			
-  			<input type="hidden" name="relay" value="fileUpload" style="display:none;" />
-  			<input type="hidden" name="path" id="uploadPath" />
-  		</form>	
-
-  		<iframe id="uploadiframe" name="uploadiframe">iframe</iframe>
-	
-  	</div>
-  	<div style="position:relative;">
-  		<div id="downloadcartclose" style="display:none; position:absolute; top:3px; right:5px; color:#333; cursor:pointer;" onclick="Element.toggle('downloadcart'); Element.toggle('downloadcartclose');"><img src="/images/fs/close.gif" /></div>
-  	</div>		
-  	<div id="downloadcart"  style="display:none;">
-		
-  			<div id="cart">
-  				<div id="carthelper">Drag files here</div>
-  			</div>
-  			<div id="cartbtn">
-  				<img src="/images/fs/emailto.jpg" class="emailto" onclick="cart.showEmail(); return false" alt="Email To" />
-  				<img src="/images/fs/download.jpg" class="downloadsubmit" onclick="cart.download(); return false" alt="Download Cart" />
-		
-  				<table id="emailform" style="display:none;">
-  					<tr><td colspan="2">Email the contents of your cart:</td></tr>
-  					<tr><td>To:</td><td><input type="text" id="emailFormTo" value="Type email address" /></td></tr>
-  					<tr><td>From:</td><td><input type="text" id="emailFormFrom" value="Type your email address" /></td></tr>
-  					<tr><td></td><td><textarea id="emailFormMessage">Type Message here</textarea></td></tr>
-  					<tr><td> <td align="right"><img src="/images/fs/sendEmail.jpg" alt="Send Email" onclick="cart.download()" /></td></tr>
-  				</table>
-  				<div id="emailconfirm" style="display:none; text-align:center;">Email Sent</div>
-  			</div>
-  	</div>
-  	<img src="/images/fs/informationtitle.gif" class="label" alt="File Information" />
-  	<div id="informationcart">
-  		<div id="meta"><p>No file selected</p></div>
-  	</div>
-	
-  </div>
+  
   <div id="filesystem">
+    <div id="operations">
+      <form onsubmit="search.start(); return false">
+        <input type="text" name="searchbar" id="searchbar" value="" />
+        <input type="image" src="/images/fs/file_search.png" id="searchbtn" alt="Search" />
+      </form>
+      <ul>
+      	<li><a href="#" onclick="newFolder(); return false">Create Folder</a></li>
+      	<li><a href="#" onclick="download(); return false">Download File</a></li>
+      	<li><a href="#" onclick="updateAll(root); return false">Update</a></li>
+      </ul>
+    </div>
   	<div id="searcharea"></div>
   	<div id="fileList"></div>
   </div>
+  
+
+  <div id="dashboard">
+    
+    <div id="informationcart">
+      <h2>File Information</h2>
+   		<div id="meta"><p>No file selected</p></div>
+   	</div>
+    
+   	<div id="uploadcart">
+   	  <h2>Upload Files</h2>
+
+
+        <div id="advanced_uploader" class="clearfix wf_dialog">
+          <form id="form1" action="" method="post" enctype="multipart/form-data" onsubmit='set_post_params(); return false;'>
+              <div id="flash_upload">
+                <div id="uploadstatus"></div>
+                <h3>Step 1</h3>
+                <p>Tip: You can add multiple files if you wish.</p>
+                <input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
+                <h3>Step 2</h3>
+                <p>Below are the files that are pending, you may add more if you wish:</p>
+                <div class="flash" id="fsUploadProgress"></div>
+                <div id="divStatus">
+
+                </div>
+
+                <fieldset>
+                <input id="btnCancel" type="image" src="/images/cms/clear_files_button.png" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" />
+                </fieldset>
+              </div>
+              <fieldset id="upload_options">
+              <h3>Step 3</h3>
+              <p>Add an optional description to your files:</p>
+              <?=large(text_area($model, "description", array("rows"=>"3", "cols"=>"50"), false))?>
+              </fieldset>
+              <div class="clearfix"></div>
+              <h3>Step 4</h3>
+              <p>Start the upload.</p>
+              <input type="image" src="/images/cms/start_upload_button.png" onclick="" />
+              <input type="hidden" name="relay" value="fileUpload" style="display:none;" />
+         			<input type="hidden" name="path" id="uploadPath" />
+          </form>
+
+
+        </div>
+   	</div>
+
+   	
+  </div>
+
+  
+
+ 
 
 
 

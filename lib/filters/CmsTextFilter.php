@@ -107,11 +107,12 @@ class CmsTextFilter  {
 	static public function videos($text){
 		/*standard youtube*/
 		$youtube = '<object width="$2" height="$3">
-		  <param name="movie" value="http://www.youtube.com/v/$6"></param>
+		  <param name="movie" value="http://www.youtube.com/v/$6" />
 		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $youtube, $text);
+		$text = preg_replace("/<a href=\"([^\"]*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)youtube(.*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*<\/a>/", $youtube, $text);
+		
 
 		/*VIMEO*/
 		$vimeo ='<object width="$2" height="$3">
@@ -242,15 +243,25 @@ class CmsTextFilter  {
   }
   
   static public function inline_images($text) {
-    preg_match_all("/<img style=([^>]*) src=([^>]*) class=([^>]*inline_image[^>]*) alt=([^>]*)[^>]*>/", $text, $matches, PREG_SET_ORDER);
-    foreach($matches as $match) {
-      preg_match("/\/([0-9]*)\//", $match[2], $imageid);
-      $imageid = $imageid[1];
-      preg_match("/width:([\s\d]*)/", $match[1], $width);
-      $width = trim($width[1]);
-      if(strlen($width)>1) $text = str_replace($match[0], '<img src="/show_image/'.$imageid.'/'.$width.'.jpg" class='.$match[3].' alt='.$match[4].' />', $text);
-      $text = str_replace($match[0], '<img src='.$match[2].' class='.$match[3].' alt='.$match[4].' />', $text);
+    $matches=array();
+    preg_match_all("/<img([^>]*class=\"inline_image[^>]*)>/", $text, $matches, PREG_SET_ORDER);
+
+    foreach($matches as $match) {      
+      preg_match("/width=\"([0-9]*)\"/", $match[0], $width);
+      $width = $width[1];
+      if($width) {
+        $new_img = preg_replace("/(.*show_image\/[0-9]*\/)([0-9]*)(.*)/", "\${1}$width\\3", $match[0]);
+        error_log("New Image Code: $new_img");
+        $new_img = preg_replace("/width=\"[0-9]*\"/", "", $new_img);
+        error_log("After Filter 1: $new_img");
+        $new_img = preg_replace("/height=\"[0-9]*\"/", "", $new_img);
+        error_log("After Filter 2: $new_img");
+        error_log("Now Searching For ".$match[0]);
+        $text = str_replace($match[0], $new_img, $text);
+      }
     }
+    
+    
     return $text;
   }
   

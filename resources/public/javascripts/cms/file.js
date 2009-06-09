@@ -1,14 +1,16 @@
 function init_upload(){
+	if(jQuery("#content_page_id").val()) {
+	  var post_parameters = {
+	    content_id: jQuery("#content_page_id").val(),
+		  model_string: jQuery("#content_page_type").val(),
+		  join_field: jQuery("#join_field").val()
+		};
+	} else var post_parameters = {};
 	
-
 			var settings = {
 				flash_url : "/swfupload.swf",
 				upload_url: "/file_upload.php",	// Relative to the SWF file
-        post_params: {
-    			content_id: jQuery("#content_page_id").val(),
-    			model_string: jQuery("#content_page_type").val(),
-    			join_field: jQuery("#join_field").val()
-    		},				
+        post_params: post_parameters,				
     		file_size_limit : "100 MB",
 				file_types : "*.*",
 				file_types_description : "All Files",
@@ -22,8 +24,8 @@ function init_upload(){
 
 				// Button settings
 				button_image_url: "/images/cms/add_files_button.png",	// Relative to the Flash file
-				button_width: "80",
-				button_height: "23",
+				button_width: "254",
+				button_height: "27",
 				button_placeholder_id: "spanButtonPlaceHolder",
 				button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
 				button_cursor: SWFUpload.CURSOR.HAND,
@@ -48,14 +50,13 @@ var swfu;
 
    
 function set_post_params(){
-  jQuery("#start_button").fadeTo("fast",0.5);
   var fold = jQuery("#dest").html();
   if(fold == "select a folder") {
     alert("You must choose a folder first");
     return false;
   }
   if(!fold) var fold = jQuery("#wildfire_file_folder").val();
-  if(jQuery("#upload_from").val().length >1) {
+  if(jQuery("#upload_from").length && jQuery("#upload_from").val().length >1) {
     jQuery.post("/file_upload.php?", { 
       wildfire_file_folder: fold, 
       wildfire_file_description: jQuery("#wildfire_file_description").val(),
@@ -78,3 +79,19 @@ function set_post_params(){
   swfu.startUpload();
 }
 
+
+jQuery(document).scroll(function() {
+  jQuery("#informationcart").verticalCenter();
+});
+
+jQuery.fn.verticalCenter = function(loaded) { 
+  var obj = this; 
+  if(!loaded) { 
+    obj.css('top', jQuery(window).height()/2-this.height()/2); 
+    jQuery(window).resize(function() { obj.centerScreen(!loaded); }); 
+  } else { 
+    obj.stop(); 
+    obj.animate({ 
+      top: jQuery(window).height()/2-this.height()/2}, 200, 'linear'); 
+  } 
+};

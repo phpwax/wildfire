@@ -1,11 +1,3 @@
-<?=javascript_asset("jquery","jquery.tabs.min")?>
-<?=stylesheet_asset("jquery", "jquery.tabs")?>
-<?=javascript_asset("cms","cms_section")?>
-<!--[if lte IE 7]>
-  <?=stylesheet_asset("jquery", "jquery.tabs-ie")?>
-<![endif]-->
-
-
 <div id="container">
   <ul class="tabs-nav">
     <li><a href="#section-1">Editing Site Section</a></li>
@@ -14,29 +6,18 @@
   <div id="content_window" class="clearfix">
     <div id="content_editor">
       <div id="section-1" class="tabs-container">
-        <fieldset id="wysiwyg">
-          <?=large(simple_wysiwyg($model, "introduction"))?>
-        </fieldset>
 				
       </div>
 			<div id="resizehandle"></div>
     </div>
 
-    <fieldset id="content_options">
-      <?=large(text_field($model, "title"))?>
-    	<?=form_divider()?>
-      <?=large(select($model, "parent_id", array_diff_key($tree_collection, array($model->primval=>"")), array(), "Parent Section"))?>
-			<?=form_divider()?>
-
-
-			<?if($allowed_default_page && $current_user->usergroup > 20):?>
-			<?
-			$pages = array(''=>'Please Select');
-			foreach($model->content as $pg) $pages[$pg->primval] = $pg->title;
-			?>
-			<?=large(select($model, "default_page_id", $pages, array(), "Default Page"))?>
-			<?endif?>
-
+    <fieldset class="content_options">
+      <?=medium(text_field($model, "title"))?>
+      <hr />
+      <?=small(select($model, "parent_id", array_diff_key($tree_collection, array($model->primval=>"")), array(), "Parent Section"))?>
+      <?=small(select($model, "default_page_id", options_from_collection($model->published_content, "id", "title", "None"), array(), "Default Content"))?>
+      <hr />
+      <?=large(text_area($model, "introduction", array(), "Introduction"))?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
@@ -47,8 +28,3 @@
   </div>
 
 </div>
-
-<?=preview_window($page->permalink, "preview_link", "preview_pane")?>
-
-<?=$link_partial?>
-<?=$video_partial?>

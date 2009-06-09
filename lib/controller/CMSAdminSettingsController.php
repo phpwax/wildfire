@@ -4,7 +4,7 @@
 * @package PHP-WAX CMS
 */
 
-class CMSAdminSettingsController extends CMSAdminComponent {
+class CMSAdminSettingsController extends AdminComponent {
 	public $module_name = "settings";												
   public $model;
 	public $model_name = "cms_configuration";

@@ -85,7 +85,7 @@ class WildfireFile extends WaxModel {
 	 * NOTE: this function exits
 	 * @param string $size 
 	 */	
-	public function show($size=110){
+	public function show($size=110, $compress = false){
 		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
 		$extension = File::get_extension($this->filename);
 		$file = CACHE_DIR.$this->id."_".$size . ".".$extension;
@@ -105,7 +105,7 @@ class WildfireFile extends WaxModel {
 			}
 		}
     if(!is_file($file) || !is_readable($file)) {
-      File::resize_image($source, $file, $size);
+      File::resize_image($source, $file, $size, $compression);
     }
 		if($this->image = File::display_image($file) ) {
 			return true;

@@ -25,18 +25,18 @@
 #uploadQ td{color:rgb(34,34,34);font-size:8.5pt;}
 #carthelper{color:rgb(96,98,99);}
 #searchresults .file .link,span.search em,span.search .del{color:rgb(82,129,38);font-style:normal;}
-#searchbar{font-size:8pt;text-align:right;}
+#searchbar{}
 #emailform td{color:rgb(96,98,99);font-size:8pt;}
 /*// Structure //*/
 #head{width:865px;height:100px;position:absolute;top:8px;left:16px;}
 #head .logo{position:absolute;left:35px;}
 #head ul{position:absolute;top:49px;right:35px;list-style:none;margin:0;padding:0;}
 #head li{float:left;padding:0 0 0 14px;}
-#operations form{float:right;margin:5px 10px 0 0;}
-#searchbar{width:128px;border:0;padding:3px 5px;}
+#operations form{float:left;margin:5px 10px 0 0;}
+#searchbar{width:100px;padding:3px 5px;}
 #searchbtn{}
 #filesystem{float:left;left:250px;position:relative;top:10px;width:700px;}
-#fileList,#searcharea{width:700px;float:left;margin-left:2px;display:inline;background:white;}
+#fileList,#searcharea{width:550px;float:left;margin-left:2px;display:inline;background:white;}
 #root{padding:0;margin:0;border:0;margin-bottom:100px;}
 .directory,.file{margin-left:15px;}
 .directory{border:2px solid white;}
@@ -53,9 +53,9 @@
 .add{position:absolute;top:4px;right:70px;}
 .date,.note{position:absolute !important;top:4px;z-index:20;left:50%;}
 .handle{width:auto;}
-#dashboard{margin-top:-10px;width:223px;background:rgb(230,230,230);}
+#fs_body #dashboard{width:290px;background:rgb(230,230,230);}
 .label{cursor:pointer;border-bottom:1px solid #777;}
-#uploadcart,#downloadcart,#informationcart{position:relative;width:188px;padding:12px 18px;}
+#uploadcart,#downloadcart,#informationcart{position:relative;padding:12px;}
 #uploadcart,#downloadcart{border-bottom:4px solid white;}
 #meta td{padding-top:5px;}
 #meta input,#meta textarea,#meta select{border:1px solid #ddd;}
@@ -80,7 +80,7 @@
 #uploadbuttons .addfile{position:absolute;top:0;right:0;z-index:1;cursor:pointer;}
 #uploadbuttons .fileupload{position:absolute;top:0;right:0px;-moz-opacity:0;filter:alpha(opacity:0);opacity:0;text-align:right;z-index:2;cursor:pointer;}
 #uploadbuttons .upload{position:absolute;top:0;left:0;z-index:3;cursor:pointer;}
-iframe{position:absolute;width:1px;height:1px;-moz-opacity:0;filter:alpha(opacity:0);opacity:0;}
+#fs_body iframe{position:absolute;width:1px;height:1px;-moz-opacity:0;filter:alpha(opacity:0);opacity:0;}
 #progress{position:relative;height:50px;width:220px;}
 #pgbg,#pgfg{position:absolute;top:10px;left:0;}
 #pgbg{width:180px;height:15px;background:url(/images/fs/prog_blank.png) top left no-repeat;}
@@ -99,7 +99,7 @@ span.virtual .del,span.virtual .ren,span.virtual .date,span.virtual .icon{displa
 #error .close{position:absolute;bottom:0;right:0;}
 #meta .thumbbox{width:100%;text-align:center;}
 /*// Behavior //*/
-.hover{border:2px solid rgb(131,165,199);}
+#fs_body .hover{border:2px solid rgb(131,165,199);}
 .selected,.selected .link{background:rgb(131,165,199) !important;}
 .hover>span,.hover>span .link{background:rgb(131,165,199) !important;}
 .selected .link,.selected .note,.selected .date{color:white !important;}
@@ -113,11 +113,43 @@ div.dragging .link{z-index:9999;}
 div.dragging .del,div.dragging .ren,div.dragging .add,div.dragging .date{display:none !important;}
 div.dragging span,div.dragging .link{background:transparent !important;color:black !important;}
 #searchresults .selected .link{color:white;}
-#operations{background:#666666;}
 #operations li{float:left;margin:13px;list-style:none;font-size:12px !important;}
 #operations li a{color:white;}
-.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
-.clearfix{display:inline-block;}
-/* Hide from IE Mac \*/
-.clearfix{display:block;}
-/* End hide from IE Mac */
+
+#fs_body {
+  width:1030px;
+}
+#fs_body #filesystem {float:left; position:static; padding:0px; width:600px;}
+#fs_body #operations {background:white;width:513px; margin-top:-10px;padding:5px 20px;height:60px;}
+#operations form input {vertical-align:middle;}
+#fs_body #dashboard #uploadcart, #fs_body #dashboard #informationcart {
+  background:white;
+  margin:5px 0;
+  -webkit-border-radius:5px;
+}
+#operations li a {color:#414141;}
+#uploadcart h3 {
+  border:0;
+  margin:0;
+  font-size:93%;
+}
+#uploadcart h2, #informationcart h2 {font-size:161.6%; margin:5px 0;padding:0;}
+#uploadcart #flash_upload {
+  width:auto;
+}
+#uploadcart #fsUploadProgress {height:60px;}
+#fileList {height:100%;overflow:auto;}
+#fs_body #informationcart {
+  position:fixed;
+  left:560px;
+  top:95px;
+  width:210px;
+}
+#fs_body #dashboard {
+  float:left;
+}
+#fs_body #uploadcart {
+  width:260px;
+  margin-left:200px !important;
+}
+#fs_body #filesystem {float:left;}

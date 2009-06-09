@@ -1,4 +1,4 @@
-<div id="video_dialog" class="jqmWindow">
+<div id="video_dialog">
 	<div class="form_container">
 		<fieldset>
 	  	<h3>Video Page URL:</h3>
@@ -30,10 +30,9 @@
 			</div>
 			<hr />
 			<div class="large">
-				<button onclick="cms_insert_video(document.getElementById('vid_id').value, document.getElementById('vid_x').value, document.getElementById('vid_y').value, document.getElementById('local_vid').value); return false;">Insert</button>
+				<button id="insert_video_button" onclick="cms_insert_video(document.getElementById('vid_id').value, document.getElementById('vid_x').value, document.getElementById('vid_y').value, document.getElementById('local_vid').value); return false;">Insert</button>
 			</div>
 	
-		  <a href="#" class="jqmClose">Close</a>
 		</fieldset>
 	</div>
 </div>

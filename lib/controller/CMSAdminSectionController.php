@@ -1,6 +1,6 @@
 <?php
 
-class CMSAdminSectionController extends CMSAdminComponent {
+class CMSAdminSectionController extends AdminComponent {
 
   public $module_name = "sections";												
   public $model_class = 'CmsSection';
@@ -17,7 +17,8 @@ class CMSAdminSectionController extends CMSAdminComponent {
 	* create the tree structure used for the drop down section selection
 	**/
 	public function controller_global() {
-		$this->tree_collection = array("None");
+	  $this->model = $this->current_user->allowed_sections_model;
+		if(!$this->current_user->allowed_sections_ids) $this->tree_collection = array("None");
 		foreach($this->model->tree() as $section){
 			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
 			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
@@ -52,6 +53,17 @@ class CMSAdminSectionController extends CMSAdminComponent {
 		$this->form = $this->render_partial("form");
 	}
 
+	/**
+	 * ajax filter function - takes the incoming string, matches against columns 
+	 * and outputs view of the matching data
+	 */	
+	public function filters() {
+	  $this->use_layout = false;
+	  $sect = new CmsSection();
+  	$this->all_sections = $sect->filter("title LIKE '%$fil%'")->tree();
+  	$this->use_view = "_section_list";
+  	$this->all_sections_partial = $this->render_partial("section_list");
+	}
 
 }
 

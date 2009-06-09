@@ -8,8 +8,11 @@
           echo large(text_area($model->extra_content($content), $content, array("value"=>stripslashes($model->extra_content_value($content)), "rows"=>"4"), humanize($content)));
           break;
 				case "datetime_select":
-					echo large(datetime_select($model->extra_content($content), $content, $opts['choices'] ) );
+					echo medium(datetime_select($model->extra_content($content), $content, $opts['choices'] ) );
 					break;
+				case "date_select":
+  			  echo medium(date_select($model, $content, array(), humanize($content) ) );
+  				break;
 				case "select":
 					echo large(select($model->extra_content($content), $content, $opts['choices'] ) );
 					break;

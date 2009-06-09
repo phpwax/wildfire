@@ -4,19 +4,22 @@
 * @package PHP-WAX CMS
 */
 
-class CMSAdminHomeController extends CMSAdminComponent {
+class CMSAdminHomeController extends AdminComponent {
 	public $module_name = "home";												
   public $model;
 	public $model_name = "wildfire_user";
 	public $model_class = "WildfireUser";
-	public $display_name = "Home";
+	public $display_name = "Dashboard";
 	public $base_url;
+	public $modal_preview = false;
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
 	function __construct(){
 		parent::__construct();
 		$this->sub_links = array();
+		$this->sub_links["../content/create"] = "Create New Content";
+		$this->sub_links["../.."] = "View Site";
 	}
 	/**
 	* protected function that handles the actual db authentication check on first login
@@ -48,6 +51,7 @@ class CMSAdminHomeController extends CMSAdminComponent {
 		Session::unset_var('errors');
 		$this->use_layout = "login";
 		$this->redirect_url = Session::get('referrer');
+		$this->form = new LoginForm;
 	}
 	/**
 	* Clears the session data via a call to the auth object - effectively logging you out
@@ -60,13 +64,15 @@ class CMSAdminHomeController extends CMSAdminComponent {
 	/**
 	* home page - shows statistical summaries
 	**/
-	public function index() {
-	  $this->stat_links = ($li = CmsConfiguration::get("stat_link_url")) ? $this->parse_xml($li, 5, 'referrer') : array();
-	  $this->stat_search = ($li = CmsConfiguration::get("stat_search_url")) ? $this->parse_xml($li, 5, 'search') : array();
-	  $this->stat_dash = ($li = CmsConfiguration::get("stat_dash_url")) ? $this->parse_xml($li, 5, "visit_day") : array();
-	  $this->link_module = $this->render_partial("stat_links");
-	  $this->search_module = $this->render_partial("stat_search");
-	  $this->dash_module = $this->render_partial("stat_dash");
+	public function index() {    
+    $this->stat_links = $this->pageview_data();
+    if(!$this->stat_links) $this->stat_links = array();
+    $this->stat_search = $this->searchrefer_data();
+    if(!$this->stat_search) $this->stat_search = array();
+ 	  unset($this->sub_links["index"]);
+ 	  $content = new CmsContent;
+ 	  $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
+ 	  $this->can_see_stats = $this->can_see_stats();
  	}
 	/**
 	* help pages - content is generated via partials (we really should write some more of these...)
@@ -95,6 +101,81 @@ class CMSAdminHomeController extends CMSAdminComponent {
     }
     return $simple;
   }
+  
+  public function can_see_stats() { return true;}
+  
+  public function visitor_data() {
+    $api = new GoogleAnalytics();
+    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    	$api->load_accounts();
+    	$this->visit_data = $api->data(Config::get("analytics/id"), 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+    	$chart = new OpenFlashChart();
+    	$chart->add_title("");
+    	$labels = array();
+    	$visits = array();
+    	foreach($this->visit_data as $visit=>$data) $labels[]=date("D j",strtotime(key($data)));
+    	foreach($this->visit_data as $visit=>$data) {
+    	  $visits[]=array("value"=>(int)$data[key($data)]["ga:visitors"],"tip"=>"#val# visits");
+    	  $raw_visits[]=(int)$data[key($data)]["ga:visitors"];
+    	}
+    	$raw_visits = array_reverse($raw_visits);
+      $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) ,"colour"=>"#E1E1E1","size"=>9),"colour"=>"#D1D1D1","grid-colour"=>"#333333","stroke"=>1,"font-size"=>9  ));
+      $chart->add_y_axis(array("labels"=>array("colour"=>"#E1E1E1","size"=>9),"stroke"=>1,"font-size"=>9,"colour"=>"#D1D1D1","grid-colour"=>"#333333","min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
+      $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#999999;text-align: center;}");
+      $chart->add_element(array(
+        "values"=>array_reverse($visits), 
+        "type"=>"line", 
+        "text"=>"Visits", 
+        "colour"=>"#a3ce44",
+        "dot-style"=>array(
+          "type"=>"solid-dot",
+          "dot-size"=>3,
+          "halo-size"=>2,
+          "colour"=>"#e76f34"
+        ),
+        "font-size"=>9
+      ));
+      $chart->add_value("bg_colour","#414141");
+      echo $chart->render(); exit;
+    } else throw new WaxException("Failed Connection To Google Analytics");
+  }
+  
+  public function pageview_data() {
+    $api = new GoogleAnalytics();
+    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    	$api->load_accounts();
+    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:source,ga:referralPath', 'ga:visits');
+    	foreach($this->pages_data as $source=>$pages) {
+    	  foreach($pages as $page=>$visits) {
+    	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
+    	  }
+    	}
+			if(count($subs)){
+				krsort($subs);
+				return $subs;
+			}else return array();
+    } else return false;
+  }
+  
+  public function searchrefer_data() {
+    $api = new GoogleAnalytics();
+    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    	$api->load_accounts();
+    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:keyword', 'ga:visits');
+    	array_shift($this->pages_data);
+    	foreach($this->pages_data as $source=>$count) {
+    	  $subs[]=array("link"=>"http://google.com?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
+    	}
+      return $subs;
+    } else return false;
+  }
+  
+  public function test() {
+    echo(Config::get("poo/rubbish"));
+    exit;
+  }
+  
+  
 }
 
 ?>

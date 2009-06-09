@@ -1,40 +1,46 @@
-<?=stylesheet_asset('cms','reset-fonts-grids')?>
  
-<?=stylesheet_asset('cms','cms-stylesheet')?>
-<?=stylesheet_asset('cms','cms-overrides')?>
- 
-<script type="text/javascript" src="/javascripts/upload/swfupload.js"></script>
-<script type="text/javascript" src="/javascripts/upload/swfupload.queue.js"></script>
-<script type="text/javascript" src="/javascripts/upload/fileprogress.js"></script>
-<script type="text/javascript" src="/javascripts/upload/handlers.js"></script>
-<script type="text/javascript" src="/javascripts/cms/file.js"></script>
+<script type="text/javascript" src="/javascripts/build/jquery.126.files.min.js"></script>
  
  
-  <div id="advanced_uploader" class="clearfix">
-    <h2>Choose Your Files</h2>
-    <form id="form1" action="" method="post" enctype="multipart/form-data">
+  <div id="advanced_uploader" class="clearfix wf_dialog">
+    <form id="form1" action="" method="post" enctype="multipart/form-data" onsubmit='set_post_params(); return false;'>
         <div id="flash_upload">
+          <div id="uploadstatus"></div>
+          <h3>Step 1</h3>
+          <p>Tip: You can add multiple files if you wish.</p>
+          <input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
+          <h3>Step 2</h3>
+          <p>Below are the files that are pending, you may add more if you wish:</p>
           <div class="flash" id="fsUploadProgress"></div>
-          <div id="divStatus">Click start to upload files</div>
+          <div id="divStatus">
+            
+          </div>
         
           <fieldset>
-          	<input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
-          <input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
+          <input id="btnCancel" type="image" src="/images/cms/clear_files_button.png" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="font-size: 8pt;" />
           <hr />
 
           </fieldset>
         </div>
-        <fieldset>
-        <?=medium(select($model, "folder", $model->folder_options, array(), "Upload to a folder?"))?>
+        <fieldset id="upload_options">
+        <h3>Step 3</h3>
+        <p>Choose a folder to upload to.</p>
+        <?=large(select($model, "folder", $model->folder_options, array(), false))?>
         <hr />
-        <?=medium(text_area($model, "description", array("rows"=>"3"), "Give these images an optional description"))?>
+        <h3>Step 4</h3>
+        <p>Add an optional description to your files:</p>
+        <?=large(text_area($model, "description", array("rows"=>"5", "cols"=>"50"), false))?>
         <hr />
 				<input type="hidden" name="content_page_id" id="content_page_id" value="<?=$page->id?>" />
 				<input type="hidden" name="content_page_type" id="content_page_type" value="<?=$page->table?>" />				
 				<input type="hidden" name="join_field" id="join_field" value="<?=Request::get('join_field')?>" />				
         </fieldset>
-      <input type="submit" value="Start Upload" id="start_button" onclick='set_post_params();return false' />
-      
+        <div class="clearfix"></div>
+        <h3>Step 5</h3>
+        <p>Start the upload.</p>
+        <input type="image" src="/images/cms/start_upload_button.png" />
+        <input type="hidden" name="relay" value="fileUpload" style="display:none;" />
+   			<input type="hidden" name="path" id="uploadPath" />
     </form>
     
 

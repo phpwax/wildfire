@@ -1,0 +1,7 @@
+<?if(count($all_sections)):?>
+    <?foreach($all_sections as $section):?>
+      <div class="section_tag section_select_tag_indent_<?=$section->get_level?>" id="tag_<?=$section->id?>"><?=$section->title?></div>
+    <?endforeach?>
+<?else:?>
+  <p>No sections setup yet</p>
+<?endif?>

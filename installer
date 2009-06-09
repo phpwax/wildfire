@@ -32,7 +32,7 @@ if(get_response("Would you like to setup a default admin and siteadmin user")) {
     $siteadmin_pass = get_answer("Please choose an site administrator password: ");
     if(strlen($siteadmin_pass)< 6) echo "Password too short... try again."."\n";
   }
-	$pdo->query("INSERT INTO wildfire_user (username, password, usergroup) VALUES('siteadmin', '$siteadmin_pass' , '10')");
+	$pdo->query("INSERT INTO wildfire_user (username, password, usergroup) VALUES('siteadmin', '$siteadmin_pass' , '20')");
 	$pdo->query("INSERT INTO cms_configuration (name, value) VALUES('super_user','admin')");
   echo "...Users 'admin' and 'siteadmin' created"."\n";
 }
@@ -48,8 +48,6 @@ echo "------------------------------------------------------------------------".
 system('mkdir -p '.CONTROLLER_DIR.'admin/');
 system("cp -iR ".PLUGIN_DIR."cms/resources/app/controller/admin/Admin* ".CONTROLLER_DIR."admin/");
 system("cp -iR ".PLUGIN_DIR."cms/view/emailcontent.* ".VIEW_DIR);
-system("cp -i ".PLUGIN_DIR."cms/resources/public/swfupload_f9.swf ".PUBLIC_DIR);
-system("cp -i ".PLUGIN_DIR."cms/resources/public/swfupload.swf ".PUBLIC_DIR);
 echo "------------------------------------------------------------------------"."\n";
 
 

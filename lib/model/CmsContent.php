@@ -1,35 +1,53 @@
 <?php
 
 class CmsContent extends WaxModel {
-  public $status_options = array("0"=>"Draft", "1"=>"Published");
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
 		$this->define("excerpt", "TextField");
 		$this->define("content", "TextField");
-		$this->define("status", "IntegerField", array('maxlength'=>2));
+		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", 
+		  "choices"=>array(0=>"Draft",1=>"Published",3=>"Temporary",4=>"Preview")));
 		$this->define("published", "DateTimeField");
 		$this->define("expires", "DateTimeField");
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-		$this->define("sort", "IntegerField", array('maxlength'=>3));
-		$this->define("pageviews", "IntegerField", array('maxlength'=>11));
-		$this->define("url", "CharField", array('maxlength'=>255));
-		//used in conversion
-		$this->define("oldid", "IntegerField");
+		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
+		$this->define("pageviews", "IntegerField", array('maxlength'=>11, "editable"=>false));
+		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
+
 		//images
 		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true));
 		//section
-		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection','editable'=>false));
+		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		//author
-		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id",'editable'=>false));
+		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id", "identifier"=>"fullname"));
 		//more_content <-> content
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id",'editable'=>false, "eager_loading"=>true));
 		//comments <-> attached_to
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
 		//category <-> attached_to
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true));
+		//master -> revisions (used for previews and languages)
+		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
+		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
+		$this->define("language", "IntegerField");
 	}
+	
+	/**
+	 * Status options:
+	 * 0 = draft, 1 = published, 3 = created but not saved, 4 = preview, 5 = other language draft, 6 = other language published
+	 *
+	 * @return array
+	 */
+	public function status_options() {
+	  if($this->status == 4){
+	    if($this->language) return array("5"=>"Draft", "4"=>"Published");
+	    else return array("0"=>"Draft", "4"=>"Published");
+    }elseif($this->status == 5 || $this->status == 6) return array("5"=>"Draft", "6"=>"Published");
+	  else return array("0"=>"Draft", "1"=>"Published");
+	}
+	
 	public function page_status() {
 		return $this->status_options[$this->status];
 	}
@@ -40,26 +58,25 @@ class CmsContent extends WaxModel {
 	public function section_name() {
 		return $this->section->title;
 	}
-
+	
 	public function before_save() {
+	  if(!$this->published) $this->published = date("Y-m-d H:i:s");
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
-	  if($this->id) {
+	  if($this->id && ($this->status == 1 || $this->status == 6)) {
 	    $class = get_class($this);
 	    $old_model = new $class($this->id);
-	    if($old_model->status < $this->status) $this->before_publish();
-	  }
-	  if(!$this->is_published() || is_numeric($this->url)) {
-	    $this->generate_url();
+	    if($old_model->status == 0 || $old_model->status == 3 || $old_model->status == 5) 
+  	    $this->before_publish();
 	  }
 	}
 	public function before_insert() {
-
+    if($this->status == 1) $this->before_publish();
 	}
 	
 	public function generate_url() {
-	  if(!$this->title) return false;
+	  if((!$this->title) || ($this->status == 4) || ($this->status == 5) || ($this->status == 6)) return false;
 		//create the url from the title
 		$this->url = WXInflections::to_url($this->title);
 		//check to make sure the url does not clash with a section url (this would cause the content to be found as a section)
@@ -76,7 +93,7 @@ class CmsContent extends WaxModel {
 	public function before_publish() {
 	  $this->generate_url();
   	$this->ping_technorati();
-  	if(strtotime($this->published) < time()) {
+  	if(strtotime($this->published) < time() && $this->status != 4) {
   	  $this->published = date("Y-m-d H:i:s");
   	}
 	}
@@ -106,7 +123,7 @@ class CmsContent extends WaxModel {
 		$model = new CmsContent();
 		if($this->primval) $model->filter($this->primary_key.' <> '.$this->primval);
 		$count = 0;
-		while($model->filter(array('url'=>$test_url, 'cms_section_id'=>$this->cms_section_id) )->first() ){
+		while($model->filter(array('url'=>$test_url, 'cms_section_id'=>$this->cms_section_id))->filter('status <> 4')->first() ){
 			if($count == 0) $test_url = $original_url . '-'.date("Y-m-d");
 			elseif($count == 1) $test_url = $original_url . '-'.$this->primval;
 			else $test_url = $original_url . '-'.mt_rand(0,99);
@@ -131,29 +148,34 @@ class CmsContent extends WaxModel {
   }
   /***** Finders for dealing with the extra_content table ******/
 	public function extra_content($name) {
-		$content = $this->more_content;
-		if($content){
-			$found = $content->filter(array('name'=>$name))->first();
-			if($found && $found->id) return $found;
-		}		
-		$extra = new CmsExtraContent;
-		$extra->setConstraint("cms_content_id", $this->id);
-		return $extra;		
+	  $model = $this;
+	  if($model->status ==4) $model = $model->master;
+    $content = $model->more_content->filter(array('name'=>$name))->first();
+    if($content->id) return $content;
+    else{
+			$extra = new CmsExtraContent;
+			$extra->name = $name;
+			$extra->cms_content_id = $this->primval;
+			return $extra;
+		}
   }
+  
 	public function extra_content_value($name) {
-		return CmsTextFilter::filter("before_output", $this->more_content->filter(array('name'=>$name))->first()->extra_content);
+	  $model = $this;
+	  if($model->status==4) $model = $model->master;
+		return CmsTextFilter::filter("before_output", $model->more_content->filter(array('name'=>$name))->first()->extra_content);
   }
 	
 	public function save_extra_content() {
+	  $model = $this;
+	  if($model->status ==4) $model = $model->master;
 		$attributes = $_POST["cms_extra_content"];
 		if(count($attributes)){
 			foreach($attributes as $name=>$value){
 				if(isset($value) && strlen($value)>0){
 					$model = $this->extra_content($name);
-					$model->name = $name;
 					$model->extra_content = $value;
 					$model = $model->save();	
-					$this->more_content = $model;
 				}
 			}
 		}
@@ -177,51 +199,7 @@ class CmsContent extends WaxModel {
     $this->order("UNIX_TIMESTAMP(published) DESC");
   }
 
-	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
-	/*not sure if or where this is used - cant seem to find it so now returns false*/
-	public function find_with_extra_content($name, $params=array()) {
-		return false;
-  }
-	public function is_section($url) {
-		$section = new CmsSection;
-    if($section->filter(array('url'=>$url))->first()) return true;
-    return false;
-  }
-	//these will be replaced by 'scoping'
-	public function published_content($url, $section, $params=array()) {
-		return array();
-		/*
-		$condition = "`status`=1 AND (DATE_FORMAT(`published`, '%y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%y%m%d%H%i'))";
-	  if($params['conditions']) $params['conditions'].=" AND ".$condition;
-	  else $params['conditions'] = $condition;
-	  if(!$params['order']) $params['order'] = "UNIX_TIMESTAMP(published) DESC";
-	  if($this->is_section($url)) {
-	    $params['conditions'].=" AND cms_section_id=$section";
-	    if($res = $this->find_all($params)) return $res;
-	  }
-	  if(is_array($section)) {
-	    $params["conditions"].=" AND cms_section_id IN(".implode(",",$section).")";
-	    return $this->find_all($params);
-	  }
-	  if(strlen($url)>0) {
-	    $params['conditions'].=" AND url='$url' AND cms_section_id=$section";
-	    if($res = $this->find($params)) return $res;
-	  }
-	  $params['conditions'].=" AND cms_section_id=$section";
-	  if($res = $this->find_all($params)) return $res;
-	
-	  return array();
-		*/
-	}
-	public function all_content($url, $section, $params=false) {
-		return array();
-		/*
-		if(!$params['order']) $params['order'] = "published DESC";
-	  if(strlen($url)>1 && $res = $this->find_by_url_and_cms_section_id($url, $section, $params)) return $res;
-	  if($this->is_section($url) && $res = $this->find_all_by_cms_section_id($section, $params)) return $res;
-	  return array();
-		*/
-  }
+
 
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}

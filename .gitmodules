@@ -1,0 +1,3 @@
+[submodule "resources/public/javascripts/jqwysi"]
+	path = resources/public/javascripts/jqwysi
+	url = git://github.com/oneblackbear/jqwysi.git

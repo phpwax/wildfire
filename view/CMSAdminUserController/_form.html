@@ -1,25 +1,46 @@
+<?if($model->id):?>
+  <script type="text/javascript">
+  var content_page_id = <?=$model->id?>;
+  </script>
+<?endif?>
 
 <div id="container">
   
-  <div id="content_window" class="clearfix">
+  <ul class="tabs-nav">
+    <li><a href="#section-1">User Details</a></li>
+    <?if($model->id && ($current_user->usergroup >= 30 || ($current_user->id != $model->id))):?>
+    <li><a href="#section-2">Section Permissions</a></li>
+    <?endif?>
+  </ul>
 
-    <fieldset id="content_options">
-      <?=large(text_field($model, "username"))?>
-    	<hr />
-      <?=large(text_field($model, "email"))?>
-      <hr />
-      <?=large(text_field($model, "firstname"))?>
-      <hr />
-      <?=large(text_field($model, "surname"))?>
-      <hr />
-      <?=large(text_field($model, "password"))?>
-    </fieldset>
-    <div class="clearfix"></div>
-    <fieldset id="submit">
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
-      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
-    </fieldset>
+  <div id="content_window" class="clearfix">
+    <div id="section-1" class="tabs-container">
+      <fieldset id="content_options">
+        <?=large(text_field($model, "username"))?>
+      	<hr />
+        <?=large(text_field($model, "email"))?>
+        <hr />
+        <?=large(text_field($model, "firstname"))?>
+        <hr />
+        <?=large(text_field($model, "surname"))?>
+        <hr />
+        <?=large(text_field($model, "password"))?>
+        <hr />
+        <?foreach($current_user->role_options as $key => $value) if($key <= $current_user->usergroup) $limited_role_options[$key] = $value?>
+        <?=large(select($model, "usergroup", $limited_role_options, array(), "Role"))?>
+      </fieldset>
+      <div class="clearfix"></div>
+      <fieldset id="submit">
+        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
+        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
+        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
+      </fieldset>
+    </div>
+    <?if($model->id && ($current_user->usergroup >= 30 || ($current_user->id != $model->id))):?>
+    <div id="section-2" class="tabs-container">
+      <?=$apply_sections_partial?>
+    </div>
+    <?endif?>
   </div>
 
 </div>
