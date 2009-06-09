@@ -29,8 +29,7 @@ class CMSAdminUserController extends AdminComponent {
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     
-    $sect = new CmsSection();
-		$this->all_sections = $sect->tree();
+		$this->all_sections = $this->current_user->allowed_sections_model()->tree();
 		$this->list_sections_partial = $this->render_partial("list_sections");
 		$this->section_list_partial = $this->render_partial("section_list");
 		$this->apply_sections_partial = $this->render_partial("apply_sections");

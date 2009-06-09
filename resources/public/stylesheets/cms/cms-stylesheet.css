@@ -876,6 +876,11 @@ li.pagination_link a {
   #quicksave a img {
     vertical-align:text-bottom;
   }
+  #lang_picker{
+    position: relative;
+    float: right;
+    z-index: 99;
+  }
 
 /****************/
 #table_markup {

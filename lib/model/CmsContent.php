@@ -31,10 +31,20 @@ class CmsContent extends WaxModel {
 		//master -> revisions (used for previews and languages)
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
+		$this->define("language", "IntegerField");
 	}
 	
+	/**
+	 * Status options:
+	 * 0 = draft, 1 = published, 3 = created but not saved, 4 = preview, 5 = other language draft, 6 = other language published
+	 *
+	 * @return array
+	 */
 	public function status_options() {
-	  if($this->status ==4) return array("0"=>"Draft", "4"=>"Published");
+	  if($this->status == 4){
+	    if($this->language) return array("5"=>"Draft", "4"=>"Published");
+	    else return array("0"=>"Draft", "4"=>"Published");
+    }elseif($this->status == 5 || $this->status == 6) return array("5"=>"Draft", "6"=>"Published");
 	  else return array("0"=>"Draft", "1"=>"Published");
 	}
 	
@@ -54,10 +64,10 @@ class CmsContent extends WaxModel {
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
 	  $this->content =  CmsTextFilter::filter("before_save", $this->content);
-	  if($this->id && $this->status == 1) {
+	  if($this->id && ($this->status == 1 || $this->status == 6)) {
 	    $class = get_class($this);
 	    $old_model = new $class($this->id);
-	    if($old_model->status == 0 || $old_model->status==3) 
+	    if($old_model->status == 0 || $old_model->status == 3 || $old_model->status == 5) 
   	    $this->before_publish();
 	  }
 	}
@@ -66,13 +76,13 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function generate_url() {
-	  if((!$this->title) || ($this->status == 4)) return false;
+	  if((!$this->title) || ($this->status == 4) || ($this->status == 5) || ($this->status == 6)) return false;
 		//create the url from the title
 		$this->url = WXInflections::to_url($this->title);
 		//check to make sure the url does not clash with a section url (this would cause the content to be found as a section)
   	$this->avoid_section_url_clash();
 		//make sure the url is unique
-	  if($this->status <> 4) $this->url = $this->avoid_url_clash();
+	  $this->url = $this->avoid_url_clash();
 	}
 	
 	

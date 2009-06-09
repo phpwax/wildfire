@@ -26,6 +26,8 @@ class CMSAdminContentController extends AdminComponent {
 	public $created_on_col = "date_created";
 	public $auth_col = "author_id";
 	public $status_col = "status";
+	public $modal_preview = false;
+	public $languages = array(0=>"english");
 	
 	public function controller_global(){
     if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
@@ -135,13 +137,22 @@ class CMSAdminContentController extends AdminComponent {
 	public function edit() {
 	  $this->id = WaxUrl::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
-		
+
+		if(($lang_id = Request::get("lang")) && (!$this->languages[$lang_id])){
+	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
+	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
+    }
+
     $master = new $this->model_class($this->id);
     if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
+    if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language);
+    
+    if($lang_id) $master = $this->get_language_model($master, $lang_id);
+
 	  $preview = new $this->model_class;
 	  //preview revision - create a copy of the content if needed or use the existing copy
-		if($master->status == 1){
-		  if(!($preview = $preview->filter(array("preview_master_id" => WaxUrl::get("id"), "status" => 4))->first())){
+		if(($master->status == 1) || ($master->status == 6)){
+		  if(!($preview = $preview->filter(array("preview_master_id" => $master->primval, "status" => 4))->first())){
 		    //if a preview entry doesn't exist create one
   		  foreach($master->columns as $col => $params)
   		    if($master->$col) $copy_attributes[$col] = $master->$col;
@@ -162,9 +173,10 @@ class CMSAdminContentController extends AdminComponent {
 		
 		if($this->model->is_posted()){
   		if($_POST['publish']){
-  		  if($master->status != 1){
+  		  if(($master->status != 1) && ($master->status != 6)){
   		    $master->set_attributes($_POST[$master->table]);
-  		    $master->status = 1;
+  		    if($master->status == 5) $master->status = 6;
+  		    else $master->status = 1;
   		    $master->save();
 	      }else{
 	        $this->update_master($preview, $master);
@@ -177,7 +189,7 @@ class CMSAdminContentController extends AdminComponent {
 		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
   	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($preview->primval && $_POST[$this->model->table]['status'] == 0){
+  	    if($preview->primval && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
           $this->update_master($preview, $master);
           if($preview->primval) $preview->delete();
           $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
@@ -209,14 +221,50 @@ class CMSAdminContentController extends AdminComponent {
 		$this->form = $this->render_partial("form");
 		
 	}
+	/**
+	 * update the master with the preview's details, every field is updated except primary key and status
+	 *
+	 * @param string $preview 
+	 * @param string $master 
+	 * @return WaxModel - updated master
+	 */
 	private function update_master($preview, $master){
     $preview->set_attributes($_POST[$preview->table]);
     $preview->status = 4;
     $preview->save();
 	  foreach($preview->columns as $col => $params)
-	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
+	    $copy_attributes[$col] = $preview->$col;
 	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
-	  $master->update_attributes($copy_attributes);
+	  return $master->update_attributes($copy_attributes);
+	}
+	/**
+	 * get the other language model for a master - creates one if it doesn't exist
+	 *
+	 * @param string $master 
+	 * @param integer $lang_id 
+	 * @return WaxModel - new language model
+	 */
+	private function get_language_model($master, $lang_id){
+	  $model = new $this->model_class;
+    if($lang_model = $model->filter(array('preview_master_id'=>$master->primval,'language'=>$lang_id))->first()){
+      return $lang_model;
+    }else{
+	    Session::add_message("A {$this->languages[$lang_id]} version of this content has been created. The {$this->languages[0]} content was copied into it for convenience.");
+	    //if a lang entry doesn't exist create one
+		  foreach($master->columns as $col => $params)
+		    if($master->$col) $copy_attributes[$col] = $master->$col;
+		  $copy_attributes = array_diff_key($copy_attributes,array($master->primary_key=>false,'revisions'=>false)); //take out ID and revisions
+		  
+  	  $lang = new $this->model_class;
+  	  $lang->save();
+		  $lang->set_attributes($copy_attributes);
+		  $lang->status = 5;
+		  $lang->url = $master->url;
+		  $lang->master = $master->primval;
+		  $lang->language = $lang_id;
+		  $lang->save();
+		  return $lang;
+    }
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
@@ -225,8 +273,8 @@ class CMSAdminContentController extends AdminComponent {
 	 * @author Sheldon
 	 */
 	public function delete(){
-	  parent::delete();
 	  $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
+	  parent::delete();
 	}
 	/**
 	* create function - this now makes a temporary record in the database with a status of 3
