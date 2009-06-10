@@ -1,22 +1,9 @@
-#container, #content_window {
-  width:100%;
-}
-
-#footer {
-  position:static;
-}
-#fs_body {
-  width:100% !important;
-}
-#fs_body #dashboard {
-  width:570px !important;
-}
-#fs_body #informationcart {
-  float:left;
-}
-#statistics{
-	width:22% !important;
-}
+#container, #content_window {width:100%;}
+#footer{position:static;}
+#fs_body{width:100% !important;}
+#fs_body #dashboard {width:570px !important;}
+#fs_body #informationcart {float:left;}
+#statistics{width:22% !important;}
 #top_pagiation{
 	width:12% !important;
 	padding-right:2.7% !important;
