@@ -40,6 +40,13 @@ var content_permalink="<?=$model->permalink?>";
         <fieldset class="content_options">	
           <?=small(select($model, "cms_section_id", options_from_collection($current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
           <?=small(select($model, "status", $model->status_options))?>
+						<?if(count($languages) > 1):?>
+				    <div id="lang_picker">
+				    	<form id="langauge_form" action="">
+				        <?=select($model, "language", $languages)?>
+				  	  </form>
+				    </div>
+				    <?endif?>
         </fieldset>
       </div>
       <div id="section-2" class="tabs-container">
@@ -68,13 +75,7 @@ var content_permalink="<?=$model->permalink?>";
       	  <?if(count($extra_content)):?>
             <?=$extra_content_partial?>
           <?endif?>
-					<?if(count($languages) > 1):?>
-			    <div id="lang_picker">
-			    	<form id="langauge_form" action="">
-			        <?=select($model, "language", $languages)?>
-			  	  </form>
-			    </div>
-			    <?endif?>
+				
 					
         </fieldset>
       </div>
