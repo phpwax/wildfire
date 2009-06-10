@@ -19,7 +19,7 @@ class CmsContent extends WaxModel {
 		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
 
 		//images
-		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true));
+		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order"));
 		//section
 		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		//author

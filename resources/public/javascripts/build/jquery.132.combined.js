@@ -734,6 +734,7 @@ function initialise_images() {
     });
   });
   
+  $(".add_image").unbind("click");
   $(".add_image").click(function(){
     $.post("../../add_image/"+content_page_id, 
 		  {id: $(this).attr("id").replace("add_image_", "")},
