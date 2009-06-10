@@ -1177,6 +1177,9 @@ li.pagination_link a {
   
   #content_window {
     background:#F5F5F4;
+		float:left;
+		width:100%;
+		clear:both;
   }
   .ui-tabs-hide { display: none; }
   #content_window .tabs-container {
