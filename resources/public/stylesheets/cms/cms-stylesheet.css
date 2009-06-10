@@ -1182,7 +1182,7 @@ li.pagination_link a {
 }
 #submenu {
   margin:0 2% 0 2%;
-  width:95%;
+  width:60%;
 }
 #submenu li {
   float:left;
@@ -1201,6 +1201,8 @@ li.pagination_link a {
   float:right;
   color:white;
   margin-right:30px;
+	width:25%;
+	text-align:right;
 }
 #sub-navigation-container #quick_search #live_search_field {
   background:#FFF url(../../images/cms/search_field_bg.gif) no-repeat center right;
@@ -1647,3 +1649,4 @@ a.edit_img img{
   font-size:100% !important;
   text-decoration:none;
 }
+div.wym_area_top{height:35px !important;}
