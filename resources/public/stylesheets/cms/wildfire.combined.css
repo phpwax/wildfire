@@ -1031,8 +1031,7 @@ button.generic_button span, div.generic_button a {
 PAGINATION STYLES
 *****************/
 .pagination {
-  margin:15px 0;
-  padding-bottom:15px;
+  padding:10px 0;
 }
 .pagination li.pagination_link {
   float:left;
