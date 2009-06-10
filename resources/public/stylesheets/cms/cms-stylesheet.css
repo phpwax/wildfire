@@ -91,7 +91,7 @@ hr {
 table {
 	border-collapse:collapse;
 	margin-top:15px;
-	width:100%;
+	width:auto;
 }
 th {
 	background-color:#333333;
