@@ -1146,10 +1146,8 @@ li.pagination_link a {
 }
 
 #primary-navigation {
-  float:left;
   font-size:100%;
-  margin:0 0 0 30px;
-	width:70%;
+  margin:0 100px 0 140px;
 }
 #primary-navigation li {
   display:block;
