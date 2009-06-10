@@ -304,7 +304,7 @@ function autosave_content(wyms) {
     processData: false,
     data: $('#content_edit_form').serialize(),
     success: function(response){
-      $("#autosave_status").html("Automatically saved at "+response);
+      $("#autosave_status").html("Saved at "+response);
       $('#ajaxBusy').css({opacity:1});
 	  }
 	});
