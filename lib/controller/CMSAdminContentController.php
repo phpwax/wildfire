@@ -233,7 +233,7 @@ class CMSAdminContentController extends AdminComponent {
     $preview->status = 4;
     $preview->save();
 	  foreach($preview->columns as $col => $params)
-	    if($preview->$col) $copy_attributes[$col] = $preview->$col;
+	    $copy_attributes[$col] = $preview->$col;
 	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
 	  return $master->update_attributes($copy_attributes);
 	}
@@ -338,7 +338,7 @@ class CMSAdminContentController extends AdminComponent {
 	  $this->use_layout=false;
 	  $this->use_view=false;
 	  $content = new $this->model_class($this->param("id"));
-	  $content->update_attributes(array("content"=>$_POST["content"]));
+	  $content->update_attributes($_POST["cms_content"]);
 	  echo date("H:i:s");
 	  exit;
 	}	

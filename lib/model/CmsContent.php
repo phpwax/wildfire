@@ -6,6 +6,7 @@ class CmsContent extends WaxModel {
 		$this->define("title", "CharField", array('maxlength'=>255) );
 		$this->define("excerpt", "TextField");
 		$this->define("content", "TextField");
+		
 		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", 
 		  "choices"=>array(0=>"Draft",1=>"Published",3=>"Temporary",4=>"Preview")));
 		$this->define("published", "DateTimeField");
@@ -13,6 +14,7 @@ class CmsContent extends WaxModel {
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
+		$this->define("language", "IntegerField");
 		$this->define("pageviews", "IntegerField", array('maxlength'=>11, "editable"=>false));
 		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
 
@@ -31,7 +33,6 @@ class CmsContent extends WaxModel {
 		//master -> revisions (used for previews and languages)
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
-		$this->define("language", "IntegerField");
 	}
 	
 	/**
@@ -195,7 +196,8 @@ class CmsContent extends WaxModel {
   
   public function scope_published() {
     $this->filter(array("status"=>"1"));
-    $this->filter("(DATE_FORMAT(`published`, '%Y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%Y%m%d%H%i'))");
+    $this->filter("DATE_FORMAT(`published`, '%Y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%Y%m%d%H%i')");
+    $this->filter("(DATE_FORMAT(`expires`, '%Y%m%d%H%i') <=  DATE_FORMAT(`published`, '%Y%m%d%H%i') OR DATE_FORMAT(`expires`, '%Y%m%d%H%i') >=  DATE_FORMAT(`published`, '%Y%m%d%H%i') AND DATE_FORMAT(`expires`, '%Y%m%d%H%i') >=  DATE_FORMAT(NOW(),'%Y%m%d%H%i'))");
     $this->order("UNIX_TIMESTAMP(published) DESC");
   }
 
