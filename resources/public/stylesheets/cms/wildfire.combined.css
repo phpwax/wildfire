@@ -2095,7 +2095,7 @@ a.edit_img img{
   font-size:100% !important;
   text-decoration:none;
 }
-/* @import url("/stylesheets/cms/reset-fonts-grids.css");*/
+div.wym_area_top{height:35px !important;}/* @import url("/stylesheets/cms/reset-fonts-grids.css");*/
 #fs_body img{border:0;behavior:url("/stylesheets/cms/pngbehavior.htc");}
 #fs_body *{-moz-outline:0;}
 #fs_body td{vertical-align:top;}
