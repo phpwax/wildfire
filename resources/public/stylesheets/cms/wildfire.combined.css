@@ -1070,12 +1070,12 @@ li.pagination_link a {
 
 /********* New Content Styles **********/
 
-#content_editor #wysiwyg {
+#content_editor .wysiwyg {
   width:100%;
   margin:0;
   padding:0;
 }
-#content_editor #wysiwyg .large {
+#content_editor .wysiwyg .large {
   width:100%;
   margin:0;
   padding:0;
