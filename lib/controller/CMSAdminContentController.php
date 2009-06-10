@@ -338,7 +338,7 @@ class CMSAdminContentController extends AdminComponent {
 	  $this->use_layout=false;
 	  $this->use_view=false;
 	  $content = new $this->model_class($this->param("id"));
-	  $content->update_attributes(array("content"=>$_POST["content"]));
+	  $content->update_attributes($_POST["cms_content"]);
 	  echo date("H:i:s");
 	  exit;
 	}	
