@@ -337,9 +337,13 @@ class CMSAdminContentController extends AdminComponent {
 	public function autosave() {
 	  $this->use_layout=false;
 	  $this->use_view=false;
-	  $content = new $this->model_class($this->param("id"));
-	  $content->update_attributes($_POST["cms_content"]);
-	  echo date("H:i:s");
+	  $content = new $this->model_class(Request::get("id"));
+	  if($content->primval) {
+	    $content->update_attributes($_POST["cms_content"]);
+	    echo date("H:i:s");
+	  }else{
+	    throw new WXRoutingException('Tried to save in a non-existing database entry!', "Page not found", '404');
+	  }
 	  exit;
 	}	
 	
