@@ -746,7 +746,7 @@ li.pagination_link a {
     padding:0px !important;
     border-bottom:1px solid #8da7ca;
 		float:left;
-		width:80%;
+		width:84%;
   }
   #content #container .ui-tabs-nav li {
     background:#8da7ca;
@@ -861,7 +861,7 @@ li.pagination_link a {
     padding:10px 0px 0 0;
     font-size:75%;
     color:#989898;
-    width:7%;
+    width:6%;
     background:none;
     text-align:right;
     vertical-align:bottom;
@@ -881,7 +881,7 @@ li.pagination_link a {
   }
   #lang_picker{
     float: right;
-		width:12%;
+		width:10%;
   }
 
 /****************/
