@@ -1460,6 +1460,7 @@ a.edit_img img{
   width:27%;
   font-size:77%;
   padding:3px 0;
+	clear:left;
 }
 #dashboard #statistics .stat_label {
   float:left;
