@@ -34,4 +34,5 @@
 	padding:10px 4% !important;
 }
 .generic_button a{display:block;}
-#item_list_container{width:100%! important;}
+#item_list_container{width:100%;}
+#quick_recent_content #item_list_container{width:auto !important;}
