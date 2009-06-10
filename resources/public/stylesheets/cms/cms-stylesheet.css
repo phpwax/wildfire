@@ -865,7 +865,6 @@ li.pagination_link a {
     background:none;
     text-align:right;
     vertical-align:bottom;
-    z-index:99;
   }
   #quicksave span {
     margin-left:8px;

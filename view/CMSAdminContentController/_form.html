@@ -11,13 +11,7 @@ var content_permalink="<?=$model->permalink?>";
       <a href="#" id="autosave"><img src="/images/cms/cms_quick_save.gif" title="Quick Save" /></a>
       <span id="autosave_status">Autosave Running</span>
     </div>
-    <?if(count($languages) > 1):?>
-    <div id="lang_picker">
-    	<form id="langauge_form" action="">
-        <?=select($model, "language", $languages)?>
-  	  </form>
-    </div>
-    <?endif?>
+    
     <ul class="tabs-nav<?if(count($languages) > 1):?> with_languages<?endif?>">
       <li class="tab_editable_title"><a href="#section-1">
         <div id="content_title" class="clearfix editable" rel='cms_content_title'>
@@ -74,6 +68,14 @@ var content_permalink="<?=$model->permalink?>";
       	  <?if(count($extra_content)):?>
             <?=$extra_content_partial?>
           <?endif?>
+					<?if(count($languages) > 1):?>
+			    <div id="lang_picker">
+			    	<form id="langauge_form" action="">
+			        <?=select($model, "language", $languages)?>
+			  	  </form>
+			    </div>
+			    <?endif?>
+					
         </fieldset>
       </div>
     </div>
