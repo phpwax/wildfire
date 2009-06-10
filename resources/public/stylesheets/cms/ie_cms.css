@@ -21,6 +21,9 @@
 	width:12% !important;
 	padding-right:3% !important;
 }
+#top_pagiation .pagination{
+	padding:10px 0 !important;
+}
 #filter_block{
 	width:81% !important;
 	padding:10px 2% !important;
