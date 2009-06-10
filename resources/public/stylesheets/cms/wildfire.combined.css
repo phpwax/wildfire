@@ -1587,7 +1587,8 @@ li.pagination_link a {
 
 /**** Wildfire 1.0 Updated Style ********/
 #header-container {
-  background: #a8a7a7 url(../../images/cms/cms_header-bg.gif) top left repeat-x;
+	border-top:2px solid #9a9a9a;
+  background: #c1c1c0 url(../../images/cms/cms_header-bg.gif) bottom left repeat-x;
   padding:0;
   padding-left:10px;
 }
