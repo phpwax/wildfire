@@ -953,6 +953,7 @@ li.pagination_link a {
 #top_pagiation {
   float:right;
   padding-right:25px;
+	background: white url('../../images/cms/widg_bg.gif') repeat-x top left;
 }
 #bottom_pagination {
   border-top:1px solid #dedede;
