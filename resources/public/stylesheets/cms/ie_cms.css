@@ -19,6 +19,7 @@
 #footer{
 	width:92% !important;
 	padding:10px 4% !important;
+	position:static;
 }
 .generic_button a{display:block;}
 #quick_recent_content #item_list_container{width:auto !important;}
