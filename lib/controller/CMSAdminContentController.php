@@ -303,7 +303,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->model->categories = $category;
 		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
-		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->order("id ASC")->all() ) $this->all_categories=array();		
 		$this->cat_partial = $this->render_partial("list_categories");
 	}
 	/**
