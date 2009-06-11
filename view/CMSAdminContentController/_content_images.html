@@ -2,7 +2,7 @@
   <h2>Drag Images Here</h2>
 <?else:?>
 	<?foreach($page->$join_name as $image):?>
-	<div class="dropped_image" id="cimage_<?=$img->id?>">
+	<div class="dropped_image" id="cimage_<?=$image->id?>">
 	  <div class="image_place">
 	    <img src="<?=$image->permalink(135)?>" title="<?=$image->description?>" />
 	  </div>
