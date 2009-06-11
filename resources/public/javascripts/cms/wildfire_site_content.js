@@ -197,7 +197,7 @@ function initialise_images() {
   	  accept: '.drag_image', hoverClass:'dropzone_active', tolerance: 'pointer',
   		drop:	function (event, ui) {
   			$.post("../../add_image/"+content_page_id, 
-				  {id: ui.draggable.attr("id")},
+				  {id: ui.draggable.attr("id"), order: $('.dropped_image').size()},
           function(response) {
             $("#drop_zones").html(response);
             initialise_images();
@@ -217,7 +217,7 @@ function initialise_images() {
   $(".add_image").unbind("click");
   $(".add_image").click(function(){
     $.post("../../add_image/"+content_page_id, 
-		  {id: $(this).attr("id").replace("add_image_", "")},
+		  {id: $(this).attr("id").replace("add_image_", ""), order: $('.dropped_image').size()},
       function(response) {
         $("#drop_zones").html(response);
         initialise_images();

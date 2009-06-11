@@ -102,21 +102,9 @@ class CMSAdminContentController extends AdminComponent {
 	  $this->page = new $this->model_class(Request::get('id'));
 		$this->join_name = "images";
 	  if(Request::post("id")) {
-		  $file = new WildfireFile(Request::post('id'));
-		  $all_current_images = $this->page->images;
-		  foreach($all_current_images as $current_image)
-		    if($current_image->primval == $file->primval)
-		      $dontadd = true;
-		  if(!$dontadd){
-  		  $images_join_col = $this->page->get_col("images");
-  		  $images_join = $images_join_col->join_model;
-  		  $images_join->{$this->page->table."_".$this->page->primary_key} = $this->page->primval;
-  		  $images_join->{$file->table."_".$file->primary_key} = $file->primval;
-  		  $images_join->join_order = count($all_current_images);
-  		  $images_join->save();
-        WaxModel::unset_cache($this->model_class, $this->join_name);
-	    }
-		  $this->image = $file;
+		  $this->image = new WildfireFile(Request::post('id'));
+		  $this->image->join_order = Request::post('order');
+		  $this->page->images = $this->image;
 	  }
 	}
 	/**
