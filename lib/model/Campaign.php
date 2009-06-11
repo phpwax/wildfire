@@ -81,8 +81,8 @@ class Campaign extends CampaignMonitorModel {
 					}
 				}
 				//set the urls for this email
-				$this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
-				$this->TextUrl .=".txt";
+				if(!$this->HtmlUrl) $this->HtmlUrl = $this->TextUrl ="http://".$_SERVER['HTTP_HOST']."/emailcontent/".$res->id;
+				if(!$this->TextUrl) $this->TextUrl .=".txt";
 				return true;
 			}else return false;
 		}else return true;
