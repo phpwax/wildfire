@@ -1,16 +1,24 @@
-#container, #content_window {
-  width:100%;
+#container, #content_window {width:100%;}
+#footer{position:static;}
+#fs_body{width:100% !important;}
+#fs_body #dashboard {width:570px !important;}
+#fs_body #informationcart {float:left;}
+#statistics{width:22% !important;}
+#top_pagiation{
+	width:12% !important;
+	padding-right:2.7% !important;
+}
+#top_pagiation .pagination{
+	padding:10px 0 !important;
+}
+#filter_block{
+	width:81% !important;
+	padding:10px 2% !important;
 }
 
-#footer {
-  position:static;
+#footer{
+	width:92% !important;
+	padding:10px 4% !important;
 }
-#fs_body {
-  width:100% !important;
-}
-#fs_body #dashboard {
-  width:570px !important;
-}
-#fs_body #informationcart {
-  float:left;
-}
+.generic_button a{display:block;}
+#quick_recent_content #item_list_container{width:auto !important;}

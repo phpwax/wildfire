@@ -103,7 +103,19 @@ class CMSAdminContentController extends AdminComponent {
 		$this->join_name = "images";
 	  if(Request::post("id")) {
 		  $file = new WildfireFile(Request::post('id'));
-		  $this->page->images = $file;
+		  $all_current_images = $this->page->images;
+		  foreach($all_current_images as $current_image)
+		    if($current_image->primval == $file->primval)
+		      $dontadd = true;
+		  if(!$dontadd){
+  		  $images_join_col = $this->page->get_col("images");
+  		  $images_join = $images_join_col->join_model;
+  		  $images_join->{$this->page->table."_".$this->page->primary_key} = $this->page->primval;
+  		  $images_join->{$file->table."_".$file->primary_key} = $file->primval;
+  		  $images_join->join_order = count($all_current_images);
+  		  $images_join->save();
+        WaxModel::unset_cache($this->model_class, $this->join_name);
+	    }
 		  $this->image = $file;
 	  }
 	}
@@ -337,9 +349,13 @@ class CMSAdminContentController extends AdminComponent {
 	public function autosave() {
 	  $this->use_layout=false;
 	  $this->use_view=false;
-	  $content = new $this->model_class($this->param("id"));
-	  $content->update_attributes(array("content"=>$_POST["content"]));
-	  echo date("H:i:s");
+	  $content = new $this->model_class(Request::get("id"));
+	  if($content->primval) {
+	    $content->update_attributes($_POST["cms_content"]);
+	    echo date("H:i:s");
+	  }else{
+	    throw new WXRoutingException('Tried to save in a non-existing database entry!', "Page not found", '404');
+	  }
 	  exit;
 	}	
 	
