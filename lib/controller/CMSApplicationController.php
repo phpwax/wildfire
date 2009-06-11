@@ -126,31 +126,26 @@ class CMSApplicationController extends WaxController{
 	 */	
 	protected function find_content($url){
 		$content = new CmsContent();
-		$content->order("UNIX_TIMESTAMP(published) DESC");
     
-		$logged_in = $this->is_admin_logged_in();
 		if($url){
-			if($logged_in) $access_filter = array("status" => array(0,1));
-	    else $access_filter = array("status" => 1);
-	    
-	    if(!($this->cms_content = $content->filter($access_filter)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
-			  $this->cms_content = $content->clear()->filter($access_filter)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
+	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
+			  $this->cms_content = $content->clear()->scope("published")->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
 		  
 		  //print_r(Session::get("wildfire_language_id")); exit;
 		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
   			if($logged_in) $access_filter = array("status" => array(5,6));
   	    else $access_filter = array("status" => 6);
-	      $lang_content = $content->clear()->filter($access_filter)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
+	      $lang_content = $content->clear()->scope("published")->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
 	      if($lang_content) $this->cms_content = $lang_content;
 		  }
 		  
-  		if(Request::get("preview") && $this->cms_content){
-  		  if($preview_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval,"status"=>4))->first()){
-  		    $this->master_content = $this->cms_content;
-  		    $this->cms_content = $preview_content;
-  	    }
+  		if(Request::get("preview") && $this->is_admin_logged_in()){
+  		  if($cms_content) {
+  		    $this->cms_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval))->first();
+  		  } else {
+  		    $this->cms_content = $content->clear()->filter(array("status"=>array(0,1,4),"url"=>$url))->order("status DESC")->first();
+  		  }
       }
-
 		  if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
 			$filter = array('cms_section_id' => $this->cms_section->id);
@@ -158,6 +153,7 @@ class CMSApplicationController extends WaxController{
 			else $this->cms_content = $content->filter(array("status" => 1))->filter($filter)->page($this->this_page, $this->per_page);
 		}
 	}
+	
 	
 	/**
 	 * this function creates an internal crumb trail array, can be used for navigation etc
