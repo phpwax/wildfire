@@ -11,8 +11,8 @@ class CmsComment extends WaxModel {
 	
 	public function setup(){
 		$this->define("attached_to", "ForeignKey", array('target_model'=>"CmsContent", 'col_name'=>"attached_id", 'editable'=>false) );
-		$this->define("author_name", "CharField", array('maxlength'=>255, "required"=>true));
-		$this->define("author_email", "CharField", array('maxlength'=>255, "required"=>true));
+		$this->define("author_name", "CharField", array('maxlength'=>255, "required"=>true, 'blank'=>false));
+		$this->define("author_email", "CharField", array('maxlength'=>255, "required"=>true, 'blank'=>false));
 		$this->define("author_website", "CharField", array('maxlength'=>255));	
 		$this->define("comment", "TextField");					
 		$this->define("author_ip", "CharField", array('maxlength'=>255, 'editable'=>false));				
