@@ -207,8 +207,9 @@ class CmsFilesystem {
     		  closedir($dh);
   		  }
     	} else $this->error("directory doesnt exist $fullpath");
-
+      
     	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by LOWER(`filename`) ASC";
+    	WaxLog::log("info", "[DB] ".$query);
     	$result = $this->find($query);
 			$dbfiles = array();
       foreach($result as $files){
@@ -493,6 +494,7 @@ class CmsFilesystem {
   function databaseUpdate($folderpath,$filename,$realitivePath){
   	$fileid = $this->fileid($folderpath,$filename);
   	$query = "UPDATE wildfire_file set filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",status=\"found\" where id=$fileid";
+    WaxLog::log("info", "[DB] ".$query);
     $this->query($query);
     
   }
@@ -516,7 +518,8 @@ class CmsFilesystem {
   	while(!$this->checkId($fileid)){
   		$fileid++;
   	}
-  	$query = "INSERT INTO wildfire_file set id=\"$fileid\",filename=\"$filename\",path=\"$folderpath\",rpath=\"$realitivePath\",type=\"$type\",size=\"$size\", status=\"found\", flags=\"normal\"";
+  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status,flags) VALUES ($fileid,'$filename','$folderpath','$realitivePath','$type','$size','found', 'normal')";
+    WaxLog::log("info", "[DB] ".$query);
     try {
       $res = $this->query($query);
     } catch (Exception $e) {

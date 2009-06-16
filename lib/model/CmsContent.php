@@ -100,7 +100,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function permalink() {
-	  if(!$this->section) return $this->url;
+	  if(!$this->section) return "/".$this->url;
 		$section = new CmsSection($this->cms_section_id);
 		return $section->permalink."/".$this->url;
 	}
@@ -196,9 +196,9 @@ class CmsContent extends WaxModel {
   
   public function scope_published() {
     $this->filter(array("status"=>"1"));
-    $this->filter("DATE_FORMAT(`published`, '%Y%m%d%H%i') <=  DATE_FORMAT(NOW(),'%Y%m%d%H%i')");
-    $this->filter("(DATE_FORMAT(`expires`, '%Y%m%d%H%i') <=  DATE_FORMAT(`published`, '%Y%m%d%H%i') OR DATE_FORMAT(`expires`, '%Y%m%d%H%i') >=  DATE_FORMAT(`published`, '%Y%m%d%H%i') AND DATE_FORMAT(`expires`, '%Y%m%d%H%i') >=  DATE_FORMAT(NOW(),'%Y%m%d%H%i'))");
-    $this->order("UNIX_TIMESTAMP(published) DESC");
+    $this->filter("published", date("Y-m-d H:i:s"), "<=");
+    $this->filter("(`expires` <=  `published` OR (`expires` >=  `published` AND `expires` >= ? ))", date("Y-m-d H:i:s"), "raw");
+    $this->order("published DESC");
   }
 
 
