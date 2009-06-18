@@ -327,7 +327,16 @@ $(document).ready(function() {
       $(this).bind("click.editable", function(){
         $(this).unbind("click.editable");
         el = '<input type="text" value="'+$("#content_title_label").text()+'" id="content_title_editing" />';
+        elsave = $("<a href='#' id='content_edit_save'><img src='/images/cms/cms_quick_save.gif'</a>");
         target.parent().after(el);
+        $("#content_title_editing").before(elsave);
+        $("#content_edit_save").css({position:"relative",left:"255px",top:"10px",width:"0px",cursor:"pointer"});
+        elsave.click(function(){
+          $("#content_title").show();
+          $("#content_title_label").html($("#content_title_editing").val());
+          $("#content_title_editing").remove();
+          $(this).remove();
+        });
         $("#content_title").hide();
         $("#content_title_editing").change(function(){
 					var form_field_id = $('#content_title').attr('rel');
@@ -337,6 +346,7 @@ $(document).ready(function() {
           $("#content_title").show();
           $("#content_title_label").html($("#content_title_editing").val());
           $("#content_title_editing").remove();
+          $("#content_edit_save").remove();
         });
         $("#content_title_editing").get(0).focus();
       });
