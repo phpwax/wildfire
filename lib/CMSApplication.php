@@ -30,7 +30,7 @@ class CMSApplication {
 		else{
 			$modules = self::$modules;
 			foreach($modules as $name => $settings){
-				if($settings['dont_display'] || ($settings['auth_level'] > $usergroup )) unset($modules[$name]);
+				if($settings['dont_display'] || ($settings['auth_level'] >= $usergroup )) unset($modules[$name]);
 			}
 			return $modules;
 		}
