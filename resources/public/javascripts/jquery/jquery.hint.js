@@ -60,29 +60,42 @@
 			// Handles password fields by creating a clone that's a text field.
 			if(ele.attr("type")=="password") {
 			  var eledef = ele.data("defText");
-			  var el = ele.clone().data("defType", "password").data("defText", eledef).attr("type", "text");
-        ele.after(el).remove();
+        var el = $('<input type="text"/>');
+        el.attr( 'name', ele.attr('name') );
+        el.attr( 'size', ele.attr('size') );
+        el.attr( 'class', ele.attr('class') );
+        el.val( ele.val() );
+        el.data("defType", "password").data("defText", eledef);
+        ele.replaceWith(el);
         var ele = el;
 		  }
 			hint_focus(ele);
 			hint_blur(ele);
 	  };
 	  function hint_focus(ele){ 
-	    ele.bind("focus.hint",function(){
+	    ele.bind("focus.hint",function(ele){
+        var ele = $(this);
 	      if(ele.val() == ele.data("defText")) { ele.val(""); }
 				// add the focus class, remove changed_class
 				ele.addClass(defaults.focus_class).removeClass(defaults.changed_class);
 	      if(ele.data("defType")=="password") {
-	        var eledef = ele.data("defText");
-  			  var el = ele.clone().data("defText", eledef).data("defType","password").attr("type", "password");
-          ele.after(el).remove();
-          hint_blur(el);
-          el.eq(0).focus();
+  			  var eledef = ele.data("defText");
+          var el = $('<input type="password"/>');
+          el.attr( 'name', ele.attr('name') );
+          el.attr( 'size', ele.attr('size') );
+          el.attr( 'class', ele.attr('class') );
+          el.val( ele.val() );
+          el.data("defType", "password").data("defText", eledef);
+          ele.replaceWith(el);
+          var ele = el;
+          ele.focus();
+          hint_blur(ele);
   			}
 			});
 	  };
 	  function hint_blur(ele){ 
 	    ele.bind("blur.hint",function(){
+        var ele = $(this);
 	      if(ele.val() == "") { ele.val(ele.data("defText")); }
 				// remove focus_class, add changed_class.
 				ele.removeClass(defaults.focus_class);
@@ -90,9 +103,14 @@
 					else { ele.removeClass(defaults.changed_class); }
 				if(ele.data("defType")=="password" && ele.val()==ele.data("defText")) {
 				  var eledef = ele.data("defText");
-				  var el = ele.clone().data("defText", eledef).data("defType", "password").attr("type", "text");
-          ele.after(el);
-          ele.remove();
+          var el = $('<input type="text"/>');
+          el.attr( 'name', ele.attr('name') );
+          el.attr( 'size', ele.attr('size') );
+          el.attr( 'class', ele.attr('class') );
+          el.val( ele.val() );
+          el.data("defType", "password").data("defText", eledef);
+          ele.replaceWith(el);
+          var ele = el;
           hint_focus(el);
 				}
 	    });

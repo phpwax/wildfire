@@ -18,12 +18,6 @@ class CMSAdminSectionController extends AdminComponent {
 	**/
 	public function controller_global() {
 	  $this->model = $this->current_user->allowed_sections_model;
-		if(!$this->current_user->allowed_sections_ids) $this->tree_collection = array("None");
-		foreach($this->model->tree() as $section){
-			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
-			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
-			$this->tree_collection[$section->id] = $tmp.$section->title;
-		}
 	}
 
 	/**
@@ -42,15 +36,18 @@ class CMSAdminSectionController extends AdminComponent {
 
 	/*new edit function - so include the link, video partials etc*/
 	public function edit() {
-		$this->page = new $this->model_class(WaxUrl::get("id"));
-		$files = new WildfireFile();
-		$this->all_links = $files->find_all_files();
-		$this->link_partial = $this->render_partial("apply_links");
-		//parent edit function - this handles the save etc
+    $model = new $this->model_class(WaxUrl::get("id"));
+		$this->possible_parents = array("None");
+		$remove_ids = array();
+		foreach($model->tree() as $section) $remove_ids[] = $section->id; //only the subtree of the current node
+		foreach($this->model->tree() as $section){ //all sections
+		  if(!in_array($section->id, $remove_ids)){
+  			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
+  			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
+  			$this->possible_parents[$section->id] = $tmp.$section->title;
+		  }
+		}
 		parent::edit();
-		$this->flash_files = $files->flash_files();
-		$this->video_partial = $this->render_partial("apply_video");
-		$this->form = $this->render_partial("form");
 	}
 
 	/**
