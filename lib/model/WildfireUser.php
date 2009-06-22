@@ -50,7 +50,7 @@ class WildfireUser extends WaxModel {
 	  
     $data = $this->permissions->filter($filter)->all();
 	  if($this->permissions && $data && $data->count()) return $data;
-	  elseif($this->permissions) return false;
+	  elseif($this->permissions) return array();
 	  else return true;
 	}
 }

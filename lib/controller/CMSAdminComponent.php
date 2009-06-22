@@ -227,13 +227,12 @@ class CMSAdminComponent extends WaxController {
 	**/
 	protected function configure_modules() {	 
 	  $modules = array();
-	  if($this->current_user && $this->current_user->primval && $this->current_user->usergroup < 30){
-	    foreach(CMSApplication::$modules as $name => $settings){
+	  if($this->current_user && $this->current_user->primval){
+      foreach(CMSApplication::$modules as $name => $settings){
 	      if($this->current_user->access($name, "VIEW") || $name == "home") $modules[$name] = $settings;
-	    }
-	    return $modules;
-	  }else return CMSApplication::$modules;  
-	  
+	    }	    
+	  }
+	  return $modules;
 	}
 	/**
 	* uses the models description function to get an array of fields
