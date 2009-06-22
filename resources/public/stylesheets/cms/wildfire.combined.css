@@ -733,11 +733,11 @@ h4{
 	margin-left:15px;
 }
 
-#image_browser_container, #category_browser_container, #section_browser_container {
+#image_browser_container, #category_browser_container, #section_browser_container, #permission_browser_container {
   width:100%;
 }
 
-#image_browser, #category_browser, #section_browser {
+#image_browser, #category_browser, #section_browser, #permission_browser{
   background:white;
 }
 #quick_upload_button, #upload_url_button {
@@ -751,7 +751,7 @@ h4{
 }
 
 
-#image_list, #category_list, #section_list {
+#image_list, #category_list, #section_list, #permission_list {
   padding:10px;
   float:none;
   overflow:auto;
@@ -771,7 +771,7 @@ h4{
   color:#999999;
   padding:4px;
 }
-#drop_zones, #cat_dropzone, #sect_dropzone {
+#drop_zones, #cat_dropzone, #sect_dropzone, #permission_dropzone{
   padding:8px 30px;
   background:#d4e5ed;
   border-left:1px solid #d2d0d0;
@@ -780,12 +780,12 @@ h4{
 }
 
 
-#cat_dropzone h4, #sect_dropzone h4 {
+#cat_dropzone h4, #sect_dropzone h4, #permission_dropzone h4 {
   margin:20px 0 10px 0;
   font-weight:bold;
   font-size:100%;
 }
-.category_tag, .section_tag {
+.category_tag, .section_tag, .permission_tag {
   float:left;
   background:rgb(212, 229, 237);
   color:#111;
@@ -800,16 +800,16 @@ h4{
   clear:left;
 }
 
-#cat_dropzone .category_tag, #sect_dropzone .section_tag {
+#cat_dropzone .category_tag, #sect_dropzone .section_tag, #permission_dropzone .permission_tag{
   background:#c73639;
   margin-right:8px;
 }
 
-#category_list .category_tag:hover, #section_list .section_tag:hover {
+#category_list .category_tag:hover, #section_list .section_tag:hover, #permission_list .permission_tag{
   cursor:move;
   background:#aecddb;
 }
-.category_list_tag, .section_list_tag {
+.category_list_tag, .section_list_tag, .permission_list_tag {
   margin:3px 0;
 }
 .trash_cat img, .trash_sect img {

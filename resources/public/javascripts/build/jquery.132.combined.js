@@ -587,20 +587,26 @@ $(document).ready(function() {
 });
 
 function initialise_draggables() {
-  $("#category_list .category_tag").draggable({opacity:0.5, revert:true, scroll:false, containment:'window', helper:'clone'});
+  $("#category_list .category_tag, #permission_list .permission_tag").draggable({opacity:0.5, revert:true, scroll:false, containment:'window', helper:'clone'});
   $("#cat_dropzone").droppable(
-  	{ accept: '.category_tag', hoverClass:	'dropzone_active', tolerance:	'pointer',
+  	{ accept: '.category_tag, .permission_tag', hoverClass:	'dropzone_active', tolerance:	'pointer',
   		drop:	function(event, ui) {
-  		  $.post("../../add_category/"+content_page_id,{id: ui.draggable.attr("id")},
+  		  if(ui.draggable.hasClass('permission_tag')) var end_url = "../../add_permission/";
+  		  else var end_url = "../../add_category/";
+  		  $.post(end_url+content_page_id,{tagid: ui.draggable.attr("id"), id:ui.draggable.attr("id")},
   		  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   	}
   });
-  $("#category_list .category_tag").dblclick(function(){
-    $.post("../../add_category/"+content_page_id,{id: this.id},
+  $("#category_list .category_tag, #permission_list .permission_tag").dblclick(function(){
+    if($(this).hasClass('permission_tag')) var end_url = "../../add_permission/";
+  	else var end_url = "../../add_category/";
+    $.post(end_url+content_page_id,{tagid: this.id, id:this.id},
 	  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   });
   $(".category_trash_button").click(function(){
-    $.get("../../remove_category/"+content_page_id+"?cat="+this.id.substr(22),function(response){
+    if($(this).hasClass('permission_tag')) var end_url = "../../remove_permission/";
+  	else var end_url = "../../remove_category/";
+    $.get(end_url+content_page_id+"?cat="+this.id.substr(22),function(response){
       $("#cat_dropzone").html(response); initialise_draggables();
     });
   });

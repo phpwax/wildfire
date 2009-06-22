@@ -1,0 +1,7 @@
+<?if(count($all_permissions)):?>
+  <?foreach($all_permissions as $permission):?>
+    <div class="permission_tag" id="tag_<?=$permission['module_name']?>_<?=$permission['operation']?>_<?=$model->primval?>"><?=$permission['module_name']?> (<?=$permission['operation']?>)</div>
+  <?endforeach?>
+<?else:?>
+<p>No permissions setup yet</p>
+<?endif?>
