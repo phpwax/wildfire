@@ -1,0 +1,10 @@
+#content_editor .content_options label {
+  margin:0 0 4px 0;
+  display:block;
+  padding-bottom:5px;
+}
+#content_editor .content_options .check_box_label, #content_editor .content_options .radio_button_label {
+display:inline;
+line-height:2.5em;
+padding-right:15px;
+}

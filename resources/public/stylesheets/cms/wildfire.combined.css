@@ -1158,9 +1158,6 @@ li.pagination_link a {
     float:left;
     background:url(../../images/cms/cms_cform_divider.gif) no-repeat center right;
   }
-  .content_options .medium {
-    width:18%;
-  }
   .content_options .select_field, .content_options .input_field {
     font-size:85% !important;
   }
@@ -1172,7 +1169,7 @@ li.pagination_link a {
     width:12%;
     padding:3px 2px;
   }
-  .content_options .multiple_datetime_select #cms_content_published_year {
+  .content_options .multiple_datetime_select .date_select_year{
     width:18%;
     padding:3px 2px;
     margin-right:15px;
@@ -2105,7 +2102,7 @@ a.edit_img img{
   text-decoration:none;
 }
 div.wym_area_top{height:35px !important;}
-#section-2{float:left; width:100%;}/* @import url("/stylesheets/cms/reset-fonts-grids.css");*/
+#section-2, #section-4{float:left; width:100%;}/* @import url("/stylesheets/cms/reset-fonts-grids.css");*/
 #fs_body img{border:0;behavior:url("/stylesheets/cms/pngbehavior.htc");}
 #fs_body *{-moz-outline:0;}
 #fs_body td{vertical-align:top;}
