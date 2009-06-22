@@ -11,7 +11,7 @@ class CMSAdminSettingsController extends AdminComponent {
 	public $model_class = "CmsConfiguration";
 	public $display_name = "Settings";
 	public $sub_links = array("index"=>"General");
-	public $admin_options = array("modules");
+	public $admin_options = array();
 	public $default_options = array("comments");
 	
 	/**
