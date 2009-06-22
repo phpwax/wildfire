@@ -14,7 +14,7 @@
   	        <?endif?>
 	        <?endif?>
 					
-          <?if($params["link"]):?> <?=link_to(truncate($row->$column, 60), array("action"=>"edit", "id"=>$row->id))?>
+          <?if($params["link"]):?> <?=link_to(substr($row->$column, 35), array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
           <?=$row->$column?>
           <?endif;?>

@@ -13,6 +13,7 @@ class WildfireUser extends WaxModel {
     $this->define("password", "CharField", array("required"=>true));
     $this->define("usergroup", "CharField");
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
+    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission'));    
   }
 
 	

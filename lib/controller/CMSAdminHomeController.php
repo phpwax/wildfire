@@ -27,7 +27,7 @@ class CMSAdminHomeController extends AdminComponent {
 	* @return String url to redirect to
 	**/
 	protected function process_login() {
-		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user_cookie"));
+		$auth = new WaxAuthDb(array("db_table"=>$this->model_name, "session_key"=>"wildfire_user_cookie", 'encrypt'=>false));
 		if( $auth->verify($_POST['username'], $_POST['password'])){
 		  $log = new WildfireLog;
 		  $log->action="login";
