@@ -1,5 +1,7 @@
 <?if(count($all_permissions)):?>
-  <?foreach($all_permissions as $permission):?>
+<?$mod_name = "";?>
+  <?foreach($all_permissions as $count => $permission):?>
+    <?if($mod_name != $permission['module_name']):?><div class="clearfix"></div><?$mod_name = $permission['module_name']?><?endif?>
     <div class="permission_tag" id="tag_<?=$permission['module_name']?>_<?=$permission['operation']?>_<?=$model->primval?>"><?=$permission['module_name']?> (<?=$permission['operation']?>)</div>
   <?endforeach?>
 <?else:?>

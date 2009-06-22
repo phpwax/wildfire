@@ -352,7 +352,7 @@ h4{
   clear:left;
 }
 
-#cat_dropzone .category_tag, #sect_dropzone .section_tag, #permission_dropzone .permission_tag{
+#cat_dropzone .category_tag, #sect_dropzone .section_tag, #cat_dropzone .permission_list_tag{
   background:#c73639;
   margin-right:8px;
 }

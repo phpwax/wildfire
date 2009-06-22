@@ -603,10 +603,15 @@ function initialise_draggables() {
     $.post(end_url+content_page_id,{tagid: this.id, id:this.id},
 	  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
   });
-  $(".category_trash_button").click(function(){
-    if($(this).hasClass('permission_tag')) var end_url = "../../remove_permission/";
-  	else var end_url = "../../remove_category/";
-    $.get(end_url+content_page_id+"?cat="+this.id.substr(22),function(response){
+  $(".category_trash_button, .permission_trash_button").click(function(){
+    if($(this).hasClass('permission_trash_button')){
+      var end_url = "../../remove_permission/";
+      var rid = this.id.replace("delete_permission_button_", "");
+  	}else{
+  	  var end_url = "../../remove_category/";
+  	  var rid = this.id.substr(22)
+	  }
+    $.get(end_url+content_page_id+"?cat="+rid,function(response){
       $("#cat_dropzone").html(response); initialise_draggables();
     });
   });

@@ -43,7 +43,7 @@ class CMSAdminUserController extends AdminComponent {
       }
     }
     
-    if(!$this->existing_permissions = $this->current_user->permissions) $this->existing_permissions = array();
+    if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
 		$this->exisiting_modules_partial = $this->render_partial("list_modules");
 		$this->list_modules_partial = $this->render_partial("module_list");		
     $this->permissions_partial = $this->render_partial("modules");
@@ -83,30 +83,30 @@ class CMSAdminUserController extends AdminComponent {
 	
 	public function add_permission(){
 	  $this->use_layout=$this->use_view=false;
+	  $this->model = new $this->model_class(WaxUrl::get("id"));
 	  $model = new CmsPermission;
     list($prefix, $module, $operation, $user_id) = explode("_",Request::param('tagid'));
+   
     if($found = $model->filter("module_name", $module)->filter("operation", $operation)->first()) $found->delete();
     $model->clear();
     $model->module_name = $module;
-    $model->operation = $opartion;
+    $model->operation = $operation;
     if($saved = $model->save()){
       $user = new $this->model_class($user_id);
       $user->permissions = $saved;
     }
-    if(!$this->existing_permissions = $this->current_user->permissions) $this->existing_permissions = array();
+
+    if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
     $this->use_view = "_list_modules";
 	}
 	
 	public function remove_permission(){
 	  $this->use_layout=$this->use_view=false;
-	  $model = new CmsPermission;
-    list($prefix, $module, $operation, $user_id) = explode("_",Request::param('tagid'));
-    if($found = $model->filter("module_name", $module)->filter("operation", $operation)->first()){      
-      $user = new $this->model_class($user_id);
-      $user->permissions->unlink($found);
-      $found->delete();
-    }
-    if(!$this->existing_permissions = $this->current_user->permissions) $this->existing_permissions = array();
+	  $this->model = new $this->model_class(WaxUrl::get("id"));
+	  $model = new CmsPermission(Request::param('cat'));
+	  $this->model->permissions->unlink($model);
+	  $model->delete();	  
+    if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
     $this->use_view = "_list_modules";
 	  
 	}
