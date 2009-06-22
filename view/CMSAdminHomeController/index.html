@@ -43,6 +43,7 @@
   
 </div>
 <div id="quick_nav">
+  <?if(($content_permissions && $content_permissions['EDIT']) || !is_array($content_permissions)):?>
   <div id="quick_search">
     <img src="/images/cms/quick_search_icon.gif" />
     <h3>Quick Content Finder</h3>
@@ -52,6 +53,8 @@
       <ul class="live_search_results"></ul>
     </form>
   </div>
+  <?endif?>
+  <?if(($content_permissions && $content_permissions['CREATE']) || !is_array($content_permissions)):?>      
   <div id="quick_create">
     <img src="/images/cms/quick_create_icon.gif" />
     <h3>Start Creating Content</h3>
@@ -60,6 +63,7 @@
       <input type="image" src="/images/cms/quick_create_button.gif" id="quick_create_submit" />
     </form>
   </div>
+  <?endif?>
   <div id="quick_upload">
     <a href="/admin/files/"><img src="/images/cms/quick_upload_icon.gif" />
     <h3>Start Uploading Files</h3>
@@ -84,8 +88,12 @@
     					</span>
               <?=link_to($row->title, array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?>
             </td>
-            <td class="column last">        
+            <td class="column last">
+              <?if($content_permissions && $content_permissions['EDIT']):?>      
               <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
+              <?elseif(!is_array($content_permissions)):?>
+              <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
+              <?endif?>
             </td>
           </tr>
         <?endforeach?>

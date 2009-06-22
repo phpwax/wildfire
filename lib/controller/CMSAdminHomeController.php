@@ -12,14 +12,23 @@ class CMSAdminHomeController extends AdminComponent {
 	public $display_name = "Dashboard";
 	public $base_url;
 	public $modal_preview = false;
+	
+	public $content_permissions = false;
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
 	function __construct(){
 		parent::__construct();
+    if($this->current_user->primval){
+      $content_permissions = $this->current_user->access("content");
+      if(is_array($permissions->rowset)){
+        foreach($permissions->rowset as $field => $info) $this->content_permissions[$info['operation']] = $this->module_name; 
+      }
+    }
 		$this->sub_links = array();
 		$this->sub_links["../content/create"] = "Create New Content";
 		$this->sub_links["../.."] = "View Site";
+		if(is_array($this->content_permissions) && !isset($this->content_permissions['CREATE'])) unset($this->sub_links["../content/create"]);
 	}
 	/**
 	* protected function that handles the actual db authentication check on first login

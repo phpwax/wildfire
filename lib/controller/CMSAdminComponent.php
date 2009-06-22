@@ -42,7 +42,7 @@ class CMSAdminComponent extends WaxController {
 	public $filter_columns = null; //columns to use by the filter
 	public $order_by_columns = array();	
 	
-	public $permissions = array();
+	public $permissions = false;
 	/** 
 	* Construct method, initialises authentication, default model and menu items
 	**/
