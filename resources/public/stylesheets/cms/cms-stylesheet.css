@@ -721,7 +721,7 @@ li.pagination_link a {
     width:12%;
     padding:3px 2px;
   }
-  .content_options .multiple_datetime_select #cms_content_published_year, .content_options .multiple_datetime_select #cms_content_expires_year{
+  .content_options .multiple_datetime_select .date_select_year{
     width:18%;
     padding:3px 2px;
     margin-right:15px;
