@@ -41,6 +41,8 @@ class CMSAdminComponent extends WaxController {
 	public $scaffold_columns = null;
 	public $filter_columns = null; //columns to use by the filter
 	public $order_by_columns = array();	
+	
+	public $permissions = array();
 	/** 
 	* Construct method, initialises authentication, default model and menu items
 	**/
@@ -55,9 +57,14 @@ class CMSAdminComponent extends WaxController {
 		* module setup
 		**/
 		$this->before_filter("all", "check_authorised", array("login"));
-		$this->configure_modules();
-		$this->all_modules = CMSApplication::get_modules(true, $this->current_user->usergroup);
-		if(!array_key_exists($this->module_name,CMSApplication::get_modules())){
+		$this->all_modules = $this->configure_modules();
+    if($this->current_user && $this->module_name != "home"){
+      $permissions = $this->current_user->access($this->module_name);
+      if(is_array($permissions->rowset)){
+        foreach($permissions->rowset as $field => $info) $this->permissions[$info['operation']] = $this->module_name; 
+      }
+    }
+		if(!array_key_exists($this->module_name,$this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
@@ -215,16 +222,15 @@ class CMSAdminComponent extends WaxController {
 	/**
 	* creates the module listing - filters on user level
 	**/
-	protected function configure_modules() {
-	  $config = CmsConfiguration::get("modules");
-	  if(!is_array($mods = $config["enabled_modules"]) ) $mods = array(); 
-	  if($mods && $this->current_user->usergroup != "30") {
-	    foreach(CMSApplication::get_modules() as $module=>$values) {
-        if(!array_key_exists($module, $mods)) {
-          CMSApplication::unregister_module($module);
-        }
-      }
-	  }
+	protected function configure_modules() {	 
+	  $modules = array();
+	  if($this->current_user && $this->current_user->primval && $this->current_user->usergroup < 30){
+	    foreach(CMSApplication::$modules as $name => $settings){
+	      if($this->current_user->access($name, "VIEW") || $name == "home") $modules[$name] = $settings;
+	    }
+	    return $modules;
+	  }else return CMSApplication::$modules;  
+	  
 	}
 	/**
 	* uses the models description function to get an array of fields

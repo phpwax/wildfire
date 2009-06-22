@@ -9,7 +9,7 @@ class CmsPermission extends WaxModel{
 	
 	public function setup(){
 	  $this->define("module_name", "CharField", array('maxlength'=>255) );
-	  $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser'));	  
+	  $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>'wildfire_user_id'));	  
 	  $this->define("operation", "CharField", array('choices'=>self::$operations, 'widget'=>'SelectInput'));	  	  
 	}
 		

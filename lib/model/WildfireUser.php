@@ -13,7 +13,7 @@ class WildfireUser extends WaxModel {
     $this->define("password", "CharField", array("required"=>true));
     $this->define("usergroup", "CharField");
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
-    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission'));    
+    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'col_name'=>'wildfire_user_id'));    
   }
 
 	
@@ -44,10 +44,13 @@ class WildfireUser extends WaxModel {
   	return $sections;
 	}
 	
-	public function access($module_name, $operation){
-    $data = $this->permissions(array("module_name"=>$module_name, 'operation'=>$operation));	  
-	  if($this->permissions && $this->permissions->count() && $data->count()) return true;
-	  elseif($this->permissions && $this->permissions->count()) return false;
+	public function access($module_name, $operation=""){
+	  if($operation) $filter = array("module_name"=>$module_name, 'operation'=>$operation);
+	  else $filter = array("module_name"=>$module_name);
+	  
+    $data = $this->permissions->filter($filter)->all();
+	  if($this->permissions && $data && $data->count()) return $data;
+	  elseif($this->permissions) return false;
 	  else return true;
 	}
 }
