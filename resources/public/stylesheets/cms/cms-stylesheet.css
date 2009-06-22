@@ -669,6 +669,7 @@ li.pagination_link a {
   height:13px;
   width:100%;
   cursor:s-resize;
+  z-index:999;
 }
   
   .content_options {
