@@ -26,7 +26,7 @@
         <hr />
         <?=large(text_field($model, "password"))?>
         <hr />
-        <?foreach($current_user->role_options as $key => $value) if($key <= $current_user->usergroup) $limited_role_options[$key] = $value?>
+        <?foreach($current_user->role_options as $key => $value) if($key <= $current_user->usergroup && $model->role_options[$key]) $limited_role_options[$key] = $model->role_options[$key]?>
         <?=large(select($model, "usergroup", $limited_role_options, array(), "Role"))?>
       </fieldset>
       <div class="clearfix"></div>
