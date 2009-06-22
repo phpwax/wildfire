@@ -1,0 +1,30 @@
+<div id="permission_browser_container">
+  <div id="permission_browser" class="clearfix">
+    <div id="permission_dropzone">
+
+    <script>var content_page_id=<?=$model->id?>;</script>
+    <h4>Current Permissions</h4>
+      <?foreach($existing_permissions as $k=>$module):?>
+        <div class="permission_tag permission_list_tag" id="tag_<?=$section->id?>">
+          <?=$module->module_name." (".$module->operation.")"?>
+          <span class="trash_sect">
+            <?=image_asset("cms", "trash.gif", array("id"=>"delete_permission_button$k", "class"=>"section_trash_button"))?>
+          </span>
+        </div>
+      <?endforeach?>
+      <?if(count($existing_permissions) == 0):?><p>No permissions - <strong>this user has access to everything!</strong></p><?endif?>
+    <div class="clearfix"></div>
+    
+    </div>
+    <div id="permission_list" class="clearfix">
+      <?if(count($all_permissions)):?>
+        <?foreach($all_permissions as $permission):?>
+          <div class="permission_tag" id="tag_<?=$permission['module_name']?>_<?=$permission['operation']?>"><?=$permission['module_name']?> (<?=$permission['operation']?>)</div>
+        <?endforeach?>
+      <?else:?>
+        <p>No permissions setup yet</p>
+      <?endif?>
+    </div>
+    
+  </div>
+</div>

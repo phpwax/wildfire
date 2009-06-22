@@ -33,7 +33,18 @@ class CMSAdminUserController extends AdminComponent {
 		$this->list_sections_partial = $this->render_partial("list_sections");
 		$this->section_list_partial = $this->render_partial("section_list");
 		$this->apply_sections_partial = $this->render_partial("apply_sections");
-
+		
+    $all_modules = CMSApplication::$modules;
+    $operations = CmsPermission::$operations;
+    $this->all_permissions =array();
+    foreach($all_modules as $name => $info){
+      foreach($operations as $key => $data) $this->all_permissions[] = array('module_name'=>$name, 'operation'=>$key);
+    }
+    
+    if(!$this->existing_permissions = $this->current_user->permissions) $this->existing_permissions = array();
+    $this->permissions_partial = $this->render_partial("modules");
+		
+    
 		$this->form = $this->render_partial("form");
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
 		if($_POST['save']) $this->save($this->model, "edit");
@@ -65,5 +76,16 @@ class CMSAdminUserController extends AdminComponent {
 		$this->all_sections = $sect->all();
 		$this->use_view = "_list_sections";
 	}
+	
+	public function add_permission(){
+	  
+	}
+	
+	public function remove_permission(){
+	  
+	  
+	}
+	
+	
 }
 ?>

@@ -9,7 +9,8 @@
   <ul class="tabs-nav">
     <li><a href="#section-1">User Details</a></li>
     <?if($model->id && ($current_user->usergroup >= 30 || ($current_user->id != $model->id))):?>
-    <li><a href="#section-2">Section Permissions</a></li>
+    <li><a href="#section-2">Sections</a></li>
+    <li><a href="#section-3">Modules</a></li>    
     <?endif?>
   </ul>
 
@@ -39,6 +40,9 @@
     <?if($model->id && ($current_user->usergroup >= 30 || ($current_user->id != $model->id))):?>
     <div id="section-2" class="tabs-container">
       <?=$apply_sections_partial?>
+    </div>
+    <div id="section-3" class="tabs-container">
+      <?=$permissions_partial?>
     </div>
     <?endif?>
   </div>
