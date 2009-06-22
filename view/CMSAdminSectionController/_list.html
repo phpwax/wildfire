@@ -11,8 +11,17 @@
         </td>
       <?endforeach?>
       <td class="column">
-        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
-        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <?if(is_array($permissions)):?>
+          <?if(isset($permissions['EDIT'])):?>
+          <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+          <?endif?>
+          <?if(isset($permissions['DELETE'])):?>
+          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+          <?endif?>
+        <?else:?>
+          <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>          
+        <?endif?>
       </td>
     </tr>
 <?endforeach?>

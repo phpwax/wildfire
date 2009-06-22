@@ -79,6 +79,9 @@ class CMSAdminComponent extends WaxController {
       }
 	  }
 		$this->sub_links["create"] = "Create New ". $this->display_name;
+		
+		if(is_array($this->permissions) && !isset($this->permissions['CREATE'])) unset($this->sub_links["create"]);
+		
 		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
 	}
 
