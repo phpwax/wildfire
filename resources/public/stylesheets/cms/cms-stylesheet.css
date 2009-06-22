@@ -1414,12 +1414,21 @@ a.progressCancel:hover {
 
 
 a.edit_me_img{
-	position:absolute;
 	display:block;
-	width:12px;
+	width:183px;
 	height:12px;
-	z-index:5;
-	background:url('/images/cms/camera_edit.gif') no-repeat center center;
+	text-align:center;
+  color:#f1f1f1 !important;
+  background:#524e50;
+  padding:6px 5px;
+  text-transform:uppercase;
+  margin:1px 4px;
+  margin-left:8px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+}
+a.edit_me_img:hover {
+  background:#999;
 }
 a.edit_img{
 	position:relative;
