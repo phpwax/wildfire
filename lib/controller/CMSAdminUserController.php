@@ -111,6 +111,46 @@ class CMSAdminUserController extends AdminComponent {
 	  
 	}
 	
+	public function convert_to_v3(){
+	  $this->use_view = $this->use_layout = false;
+	  $registered = CMSApplication::$modules;
+	  $module = new CmsModule;
+	  foreach($registered as $name=>$settings){
+	    $found = $module->clear()->filter("name", $name)->first();
+	    if(!$found->primval){
+	      $cms_module = new CmsModule;
+	      $cms_module->name = $name;
+	      $cms_module->save();
+	    }
+	  }
+	  
+    echo "Setting up users<br />";
+    $user = new $this->model_class;
+    $config = CmsConfiguration::get('modules');
+    $module = $module_model = new CmsModule;
+    $modules = $config['enabled_modules'];
+    
+    foreach($modules as $name => $row){
+      echo "MODULE: $name<br />";       
+      foreach(CmsModule::$operations as $op=>$eng){
+        if($op != "ADMIN"){
+          $found = $module_model->clear()->filter("name", $name)->first();
+	        if($found->primval){
+	          foreach($user->clear()->filter("usergroup", "30", "<")->all() as $user){
+              echo "&nbsp;&nbsp;&nbsp;$op<br />";
+	            $found->operation = $op;
+	            $user->permissions = $found;
+	            $user->save();
+            }
+          }
+        }          
+      }
+    }
+    
+    
+	  
+	}
+	
 	
 }
 ?>

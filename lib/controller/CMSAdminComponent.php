@@ -57,13 +57,8 @@ class CMSAdminComponent extends WaxController {
 		* module setup
 		**/
 		$this->before_filter("all", "check_authorised", array("login"));
-		$this->all_modules = $this->configure_modules();
-    if($this->current_user && $this->module_name != "home"){
-      $permissions = $this->current_user->access($this->module_name);
-      if(is_array($permissions->rowset)){
-        foreach($permissions->rowset as $field => $info) $this->permissions[$info['operation']] = $this->module_name; 
-      }
-    }
+		$this->all_modules = $this->configure_modules();    
+		
 		if(!array_key_exists($this->module_name,$this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -111,10 +106,11 @@ class CMSAdminComponent extends WaxController {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html 
 	*/
 	public function index( ) {
+	  $this->warning_messages();
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
-
+    
 		$this->all_rows = $this->model->order($this->get_order())->page($this->this_page,$this->list_limit);
 		if(!$this->all_rows) $this->all_rows=array();
 		$this->filter_block_partial = $this->render_partial("filter_block");
@@ -223,16 +219,17 @@ class CMSAdminComponent extends WaxController {
 		else return "{$this->default_order} {$this->default_direction}";
 	}
 	/**
-	* creates the module listing - filters on user level
+	* new version - uses the permission system to look if you have VIEW
+	* access to this module. I
 	**/
 	protected function configure_modules() {	 
 	  $modules = array();
-	  if($this->current_user && $this->current_user->primval){
+	  if($this->current_user && $this->current_user->primval && $this->current_user->access() ){
       foreach(CMSApplication::$modules as $name => $settings){
 	      if($this->current_user->access($name, "VIEW") || $name == "home") $modules[$name] = $settings;
 	    }	    
-	  }
-	  return $modules;
+	    return $modules;
+	  }else return CMSApplication::$modules;	  
 	}
 	/**
 	* uses the models description function to get an array of fields
@@ -242,6 +239,14 @@ class CMSAdminComponent extends WaxController {
 		$model_desc = $this->model->describe();
 		foreach($model_desc as $field) $desc[] = $field['Field'];
 		return $desc;
+	}
+	
+	protected function warning_messages(){
+	  $viewed = CmsConfiguration::get('shown_cms_warnings');
+	  if(CMS_VERSION == "v3" && !$viewed && $this->current_user->primval){
+	    Session::add_message("Don't forget to convert all cms users to the new <a href='/admin/users/convert_to_v3'>permissions system</a>!");
+	  }
+	  
 	}
 	
 }

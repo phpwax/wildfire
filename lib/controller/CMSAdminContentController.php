@@ -56,6 +56,7 @@ class CMSAdminContentController extends AdminComponent {
 	* main listing page - paginated
 	**/
 	public function index() {
+	  $this->warning_messages();
 	  if(!$page = $this->param("page")) $page=1;
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 	  
