@@ -38,7 +38,7 @@ class CMSAdminUserController extends AdminComponent {
     $operations = CmsPermission::$operations;
     $this->all_permissions =array();
     foreach($all_modules as $name => $info){
-      if($name != "home"){
+      if($name != "home" && $name != "settings"){
         foreach($operations as $key => $data) $this->all_permissions[] = array('module_name'=>$name, 'operation'=>$key);
       }
     }

@@ -80,13 +80,9 @@ class CMSAdminComponent extends WaxController {
 	* @return boolean or redirect on fail
 	*/
   public function check_authorised() {
-    if($this->current_user) {
-			if($this->access=="0") {
-				return true;
-			}
-			if($this->current_user->usergroup >= $this->access) {
-				return true;
-			}
+    if($this->current_user){
+      if($this->current_user->usergroup >= 20) return true;
+			else return $this->current_user->access($this->module_name, 'VIEW');
 		}
 		Session::add_message($this->unauthorised_message);
 		$this->redirect_to($this->unauthorised_redirect);

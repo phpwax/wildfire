@@ -43,4 +43,11 @@ class WildfireUser extends WaxModel {
 		if($ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$ids));
   	return $sections;
 	}
+	
+	public function access($module_name, $operation){
+    $data = $this->permissions(array("module_name"=>$module_name, 'operation'=>$operation));	  
+	  if($this->permissions && $this->permissions->count() && $data->count()) return true;
+	  elseif($this->permissions && $this->permissions->count()) return false;
+	  else return true;
+	}
 }
