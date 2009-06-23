@@ -151,7 +151,6 @@ $(document).ready(function(event) {
     skin: 'wildfire',
     stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
     postInit: function(wym) {
-      init_preview_button(wym);
       wym.wildfire(wym);
       wym_editors.push(wym);
       var handlesel = $(".ui-resizable-handle");
@@ -305,7 +304,7 @@ $(document).ready(function() {
   });
 });
 
-function autosave_content(wyms) {
+function autosave_content(wyms, after_save) {
   for(var i in wyms)
 		wyms[i].update();
   $('#ajaxBusy').css({opacity:0});
@@ -318,16 +317,51 @@ function autosave_content(wyms) {
     success: function(response){
       $("#autosave_status").html("Saved at "+response);
       $('#ajaxBusy').css({opacity:1});
+      if(typeof(after_save) == "function") after_save();
 	  }
 	});
 }
 
-/** save before preview **/
-function init_preview_button(wym) {
-  $('#preview_link').click(function(){
-    autosave_content(wym_editors); //do an autosave before a preview
-  });
+function open_modal_preview(url){
+	$('body').append('<div id="modal_preview_window"><iframe src="" /></div>');
+	$('#modal_preview_window').dialog({
+	  autoOpen:false,
+	  width:(0.9 * $(window).width()),
+	  height:(0.9 * $(window).height()),
+	  modal:true,
+	  close: function(event, ui){
+	    $(this).remove();
+	  }
+	});
+
+	$('#modal_preview_window iframe').attr('src', '').attr('src', url).load(function(){
+		$('#modal_preview_window').dialog('open');
+		$('#modal_preview_window iframe').css({'width':'100%','height':'98%','border':'none'});
+	});
 }
+
+/** list view content preview modals **/
+$(document).ready(function(){
+  $('a.modal_preview').click(function(){
+    open_modal_preview($(this).attr("href"));
+    return false;
+  });
+});
+
+/** save before preview **/
+$(document).ready(function(){
+  $('#preview_link').unbind("click").click(function(){
+    var preview_but = $(this);
+    autosave_content(wym_editors, function(){ //do an autosave before a preview
+      if(preview_but.hasClass("modal_preview")){
+        open_modal_preview(preview_but.attr("href"))
+      }else{
+        window.open(preview_but.attr("href"));
+      }
+    });
+    return false;
+  });
+});
 
 /****** Inline Edit for content title **************/
 $(document).ready(function() {

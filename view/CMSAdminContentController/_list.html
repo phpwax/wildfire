@@ -41,9 +41,7 @@
         <?endif?>        
             
         <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink?>">View Post</a></div>
-        <?else:?><div class="generic_button"><a href="#" id="preview_<?=$row->id?>">Preview</a></div><?endif?>
-				
-				<?=preview_window($row->permalink."?preview=1", "preview_".$row->id, "preview_pane")?>
+        <?else:?><div class="generic_button"><a href="<?=$row->permalink?>?preview=1" target="_blank" id="preview_<?=$row->id?>"<?=$modal_preview?' class="modal_preview" ':''?>>Preview</a></div><?endif?>
       </td>
     </tr>
 <?endforeach?>
