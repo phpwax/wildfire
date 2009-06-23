@@ -1414,19 +1414,6 @@ li.pagination_link a {
   min-height:12px;
 }
 
-#preview_pane {
-  margin:0;
-  top: 15px;
-  left: 15px;    
-  width: 95%;
-  height:90%;
-  background-color:white;
-  z-index:100000;
-}
-#preview_pane iframe {
-  border:0;
-}
-
 .comment_column {
   width:40%;
 }
