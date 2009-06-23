@@ -222,7 +222,7 @@ class CMSAdminComponent extends WaxController {
 	}
 	/**
 	* new version - uses the permission system to look if you have VIEW
-	* access to this module. I
+	* access to this module.
 	**/
 	protected function configure_modules() {	 
 	  $modules = array();
