@@ -294,7 +294,7 @@ $(document).ready(function() {
   });
 });
 
-function autosave_content(wyms) {
+function autosave_content(wyms, after_save) {
   for(var i in wyms)
 		wyms[i].update();
   $('#ajaxBusy').css({opacity:0});
@@ -307,6 +307,7 @@ function autosave_content(wyms) {
     success: function(response){
       $("#autosave_status").html("Saved at "+response);
       $('#ajaxBusy').css({opacity:1});
+      if(typeof(after_save) == "function") after_save();
 	  }
 	});
 }
