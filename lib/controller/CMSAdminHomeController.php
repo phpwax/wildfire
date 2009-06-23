@@ -19,12 +19,12 @@ class CMSAdminHomeController extends AdminComponent {
 	**/
 	function __construct(){
 		parent::__construct();
+		
     if($this->current_user->primval){
       $content_permissions = $this->current_user->access("content");
-      if(is_array($permissions->rowset)){
-        foreach($permissions->rowset as $field => $info) $this->content_permissions[$info['operation']] = $this->module_name; 
-      }
+      foreach($content_permissions->rowset as $row) $this->content_permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
     }
+    
 		$this->sub_links = array();
 		$this->sub_links["../content/create"] = "Create New Content";
 		$this->sub_links["../.."] = "View Site";

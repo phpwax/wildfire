@@ -59,10 +59,15 @@ class CMSAdminComponent extends WaxController {
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->all_modules = $this->configure_modules();    
 		
-		if(!array_key_exists($this->module_name,$this->all_modules)){
+		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
+		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
+		  foreach($this->current_user->access($this->module_name) as $row){
+        $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
+		  }
+	  }
 		/**
 		* model instanciation
 		**/
@@ -74,7 +79,6 @@ class CMSAdminComponent extends WaxController {
       }
 	  }
 		$this->sub_links["create"] = "Create New ". $this->display_name;
-		
 		if(is_array($this->permissions) && !isset($this->permissions['CREATE'])) unset($this->sub_links["create"]);
 		
 		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
@@ -225,10 +229,10 @@ class CMSAdminComponent extends WaxController {
 	protected function configure_modules() {	 
 	  $modules = array();
 	  $access_keys = array_flip(CmsPermission::$operations);
-	  if($this->current_user && $this->current_user->primval && $this->current_user->access() ){
+	  if($this->current_user && $this->current_user->primval && $this->current_user->permissions->count()){
       foreach(CMSApplication::$modules as $name => $settings){
 	      if($this->current_user->access($name, $access_keys['VIEW']) || $name == "home") $modules[$name] = $settings;
-	    }	    
+	    }
 	    return $modules;
 	  }else return CMSApplication::$modules;	  
 	}
