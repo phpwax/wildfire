@@ -176,6 +176,10 @@ class CMSAdminComponent extends WaxController {
 			  elseif(!$redirect_to) $redirect_to = "/$this->controller/index";
       	Session::add_message($this->display_name." ".$success);
       	$this->redirect_to($redirect_to);
+			}elseif(count($model->errors)){
+			  foreach($model->errors as $errors){
+			    foreach($errors as $err) Session::add_error($err);
+		    }
 			}
     }
  		return false;

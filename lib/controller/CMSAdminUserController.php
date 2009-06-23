@@ -23,6 +23,15 @@ class CMSAdminUserController extends AdminComponent {
 	  parent::controller_global();
 	}
 
+  public function create(){
+    //find the required fields and give them default values
+		foreach($this->model->columns as $name=>$values){
+			if($values[1] && ($values[1]['required'] || !$values[1]['blank']) && !$values[1]['target_model']) $this->model->$name = $values[1]['default'];
+		}
+		$saved = $this->model->save();
+		$this->redirect_to("/admin/users/edit/".$saved->primval);
+  }
+  
 	public function edit() {
 		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
 	  $this->id = WaxUrl::get("id");

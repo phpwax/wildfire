@@ -6,11 +6,11 @@ class WildfireUser extends WaxModel {
   public $identifier = "fullname";
     
   public function setup() {
-    $this->define("username", "CharField", array("required"=>true, "unique"=>true));
+    $this->define("username", "CharField", array("required"=>true, "blank"=>false,"unique"=>true, 'default'=>'Enter Username Here'));
     $this->define("firstname", "CharField");
     $this->define("surname", "CharField");
     $this->define("email", "CharField");
-    $this->define("password", "CharField", array("required"=>true));    
+    $this->define("password", "CharField");    
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
     
     $this->define("permissions", "ManyToManyField", array('target_model' => 'CmsPermission', 'join_model_class'=>"WaxModelPermissionsJoin", 'eager_loading'=>true));    
