@@ -19,7 +19,6 @@ class CMSAdminUserController extends AdminComponent {
 	public $order_by_columns = array("username","email");
 	
 	public function controller_global(){
-	  $this->model->filter("usergroup <= ".$this->current_user->usergroup);
 	  parent::controller_global();
 	}
 
@@ -29,7 +28,7 @@ class CMSAdminUserController extends AdminComponent {
 			if($values[1] && ($values[1]['required'] || !$values[1]['blank']) && !$values[1]['target_model']) $this->model->$name = $values[1]['default'];
 		}
 		$saved = $this->model->save();
-		$this->redirect_to("/admin/users/edit/".$saved->primval);
+		$this->redirect_to("/admin/users/edit/".$saved->primval."/");
   }
   
 	public function edit() {
@@ -48,7 +47,7 @@ class CMSAdminUserController extends AdminComponent {
     $this->all_permissions = $permissions->filter("module", "settings", "!=")->filter("module", "home", "!=")->all();
     
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
-		$this->exisiting_modules_partial = $this->render_partial("list_modules");
+    $this->exisiting_modules_partial = $this->render_partial("list_modules");
 		$this->list_modules_partial = $this->render_partial("module_list");		
     $this->permissions_partial = $this->render_partial("modules");
 		

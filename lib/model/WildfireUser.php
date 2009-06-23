@@ -19,6 +19,25 @@ class WildfireUser extends WaxModel {
     $this->define("usergroup", "CharField");
   }
 
+  public function before_save(){
+    if(!$this->usergroup) $this->usergroup = 10;
+  }
+  
+  public function after_insert(){
+    echo "INSERTED!";exit;
+    $all_mods = array('home'=>CMSApplication::$modules['home'],'content'=>CMSApplication::$modules['content'], 'files'=>CMSApplication::$modules['files']);
+    $permission = new CmsPermission;
+    foreach($all_mods as $module=>$info){
+      foreach(CmsPermission::$operations as $key=>$op){
+        if($found = $permission->clear()->filter("module", $module)->filter("operation", $key)->first()){          
+          $found->allowed = 1;
+          $this->permissions = $found;
+          $this->save();
+        }
+      }
+    }
+
+  }
 	
 	public function role_text() {
 	  return $this->role_options[$this->usergroup];
