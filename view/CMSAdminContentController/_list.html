@@ -5,17 +5,24 @@
           <?if($column == 'title'):?>
   					<?if($row->status == 1):?>
   					  <span class="status_change_span">
-  	          <?if($permissions['EDIT']):?><a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft"><?endif?>
-  	            <img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" />
+  	          <?if($permissions['EDIT']):?>
+  	          <a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft">
+  	          <?endif?>
+  	          <img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" />
   	          <?if($permissions['EDIT']):?></a><?endif?>
   	          </span>
   	        <?else:?>
-  	        	<span class="status_change_span"><a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published">
-  	        	  <span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" /></a></span>
+  	        	<span class="status_change_span">
+  	        	  <?if($permissions['EDIT']):?>
+  	        	  <a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published">
+  	        	  <?endif?>
+  	        	  <span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" />
+  	        	  <?if($permissions['EDIT']):?></a><?endif?>
+  	        	  </span>
   	        <?endif?>
 	        <?endif?>
 					
-          <?if($params["link"] && $permissions['EDIT']):?> <?=link_to(substr($row->$column, 35), array("action"=>"edit", "id"=>$row->id))?>
+          <?if($params["link"] && $permissions['EDIT']):?> <?=link_to(substr($row->$column, 0,35), array("action"=>"edit", "id"=>$row->primval))?>
           <?else:?>
           <?=$row->$column?>
           <?endif;?>

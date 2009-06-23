@@ -19,6 +19,7 @@ class CMSAdminUserController extends AdminComponent {
 	public $order_by_columns = array("username","email");
 	
 	public function controller_global(){
+	  $this->model->filter("usergroup", $this->current_user->usergroup, "<=");
 	  parent::controller_global();
 	}
 
@@ -47,6 +48,11 @@ class CMSAdminUserController extends AdminComponent {
     $this->all_permissions = $permissions->filter("module", "settings", "!=")->filter("module", "home", "!=")->all();
     
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
+    elseif($this->existing_permissions && $this->existing_permissions->count()){
+      $ids = array();
+      foreach($this->existing_permissions as $perm) $ids[] = $perm->primval;
+      $this->existing_permissions = $permissions->clear()->filter(array("id"=> $ids))->order('module')->all();
+    }
     $this->exisiting_modules_partial = $this->render_partial("list_modules");
 		$this->list_modules_partial = $this->render_partial("module_list");		
     $this->permissions_partial = $this->render_partial("modules");
@@ -97,6 +103,12 @@ class CMSAdminUserController extends AdminComponent {
     }
 
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
+    elseif($this->existing_permissions && $this->existing_permissions->count()){
+      $ids = array();
+      foreach($this->existing_permissions as $perm) $ids[] = $perm->primval;
+      $this->existing_permissions = $permissions->clear()->filter(array("id"=> $ids))->order('module')->all();
+    }
+    
     $this->use_view = "_list_modules";
 	}
 	
@@ -106,6 +118,11 @@ class CMSAdminUserController extends AdminComponent {
 	  $model = new CmsPermission(Request::param('cat'));
 	  $this->model->permissions->unlink($model);
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
+    elseif($this->existing_permissions && $this->existing_permissions->count()){
+      $ids = array();
+      foreach($this->existing_permissions as $perm) $ids[] = $perm->primval;
+      $this->existing_permissions = $permissions->clear()->filter(array("id"=> $ids))->order('module')->all();
+    }
     $this->use_view = "_list_modules";
 	  
 	}

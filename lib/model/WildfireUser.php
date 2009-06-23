@@ -24,15 +24,16 @@ class WildfireUser extends WaxModel {
   }
   
   public function after_insert(){
-    echo "INSERTED!";exit;
-    $all_mods = array('home'=>CMSApplication::$modules['home'],'content'=>CMSApplication::$modules['content'], 'files'=>CMSApplication::$modules['files']);
+    $all_mods = array('content'=>CMSApplication::$modules['content'], 'files'=>CMSApplication::$modules['files']);
     $permission = new CmsPermission;
     foreach($all_mods as $module=>$info){
       foreach(CmsPermission::$operations as $key=>$op){
-        if($found = $permission->clear()->filter("module", $module)->filter("operation", $key)->first()){          
-          $found->allowed = 1;
-          $this->permissions = $found;
-          $this->save();
+        if($op != "ADMIN"){
+          if($found = $permission->clear()->filter("module", $module)->filter("operation", $key)->first()){          
+            $found->allowed = 1;
+            $this->permissions = $found;
+            $this->save();
+          }
         }
       }
     }
