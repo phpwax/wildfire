@@ -13,7 +13,7 @@ class WildfireUser extends WaxModel {
     $this->define("password", "CharField", array("required"=>true));    
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
     
-    $this->define("permissions", "ManyToManyField", array('target_model' => 'CmsModule', 'join_model_class'=>"WaxModelPermissionsJoin", 'eager_loading'=>true));    
+    $this->define("permissions", "ManyToManyField", array('target_model' => 'CmsPermission', 'join_model_class'=>"WaxModelPermissionsJoin", 'eager_loading'=>true));    
     
     //deprecated - replaced by permissions
     $this->define("usergroup", "CharField");
@@ -47,16 +47,14 @@ class WildfireUser extends WaxModel {
   	return $sections;
 	}
 	
-	/*public function access($module_name="", $operation=""){
+	public function access($module_name="", $operation=""){
 	  if($module_name || $operation){
-	    if($operation) $filter = array('operation'=>$operation);
-	    if($module_name) $filter = array("name"=>$module_name);	  
-      $data = $this->permissions->filter($filter)->all();
-    }else $data = $this->permissions;
-	  if($this->permissions && $data && $data->count()) return $data;
-	  elseif($this->permissions) return array();
-	  else return true;
+      $filters = array();
+      if($module_name) $filters['module'] = $module_name;
+      if($operation) $filters['operation'] = $operation;      
+	    return $this->permissions($filters);
+	  }elseif($this->permissions && $this->permissions->count()) return $this->permissions;
+	  else return false; 
 	}
 	
-	public function add_permissions($modules=array(), $operations){}*/
 }

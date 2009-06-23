@@ -2,13 +2,13 @@
 <h4>Current Permissions</h4>
 <?$mod_name = "";$count=0?>
   <?foreach($existing_permissions as $k=>$module):?>
-    <?if($count==0){$mod_name = $module->module_name;}?>
-    <?if($mod_name != $module->module_name):?>
+    <?if($count==0){$mod_name = $module->module;}?>
+    <?if($mod_name != $module->module):?>
     <div class="clearfix"></div>
-    <?$mod_name = $module->module_name?>
+    <?$mod_name = $module->module?>
     <?endif?>
     <div class="permission_tag permission_list_tag" id="tag_<?=$module->primval?>">
-      <?=$module->module_name." (".$module->operation.")"?>
+      <?=$module->module." (".$module->operation().")"?>
       <span class="trash_sect">
         <?=image_asset("cms", "trash.gif", array("id"=>"delete_permission_button_{$module->primval}", "class"=>"permission_trash_button "))?>
       </span>

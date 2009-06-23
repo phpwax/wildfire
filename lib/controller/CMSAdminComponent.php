@@ -224,9 +224,10 @@ class CMSAdminComponent extends WaxController {
 	**/
 	protected function configure_modules() {	 
 	  $modules = array();
+	  $access_keys = array_flip(CmsPermission::$operations);
 	  if($this->current_user && $this->current_user->primval && $this->current_user->access() ){
       foreach(CMSApplication::$modules as $name => $settings){
-	      if($this->current_user->access($name, "VIEW") || $name == "home") $modules[$name] = $settings;
+	      if($this->current_user->access($name, $access_keys['VIEW']) || $name == "home") $modules[$name] = $settings;
 	    }	    
 	    return $modules;
 	  }else return CMSApplication::$modules;	  
@@ -242,11 +243,14 @@ class CMSAdminComponent extends WaxController {
 	}
 	
 	protected function warning_messages(){
-	  $viewed = CmsConfiguration::get('shown_cms_warnings');
-	  if(CMS_VERSION == "v3" && !$viewed && $this->current_user->primval){
-	    Session::add_message("Don't forget to convert all cms users to the new <a href='/admin/users/convert_to_v3'>permissions system</a>!");
-	  }
-	  
+	  if($this->current_user->primval && $this->current_user->username == "admin"){	    
+	    switch(CMS_VERSION){
+	      case "v3":
+	        if(CmsConfiguration::get('cms_warning_permissions') != 1) Session::add_message("Don't forget to convert all cms users to the new <a href='/admin/users/convert_to_v3'>permissions system</a>!");	        
+	      break;
+	      default: echo CMS_VERSION; exit;break;
+	    }
+    }	  
 	}
 	
 }

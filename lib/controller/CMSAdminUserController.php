@@ -35,13 +35,8 @@ class CMSAdminUserController extends AdminComponent {
 		$this->apply_sections_partial = $this->render_partial("apply_sections");
 		
     $all_modules = CMSApplication::$modules;
-    $operations = CmsPermission::$operations;
-    $this->all_permissions =array();
-    foreach($all_modules as $name => $info){
-      if($name != "home" && $name != "settings"){
-        foreach($operations as $key => $data) $this->all_permissions[] = array('module_name'=>$name, 'operation'=>$key);
-      }
-    }
+    $permissions = new CmsPermission;
+    $this->all_permissions = $permissions->filter("module", "settings", "!=")->filter("module", "home", "!=")->all();
     
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
 		$this->exisiting_modules_partial = $this->render_partial("list_modules");
@@ -83,17 +78,14 @@ class CMSAdminUserController extends AdminComponent {
 	
 	public function add_permission(){
 	  $this->use_layout=$this->use_view=false;
-	  $this->model = new $this->model_class(WaxUrl::get("id"));
-	  $model = new CmsPermission;
-    list($prefix, $module, $operation, $user_id) = explode("_",Request::param('tagid'));
-   
-    if($found = $model->filter("module_name", $module)->filter("operation", $operation)->first()) $found->delete();
-    $model->clear();
-    $model->module_name = $module;
-    $model->operation = $operation;
-    if($saved = $model->save()){
-      $user = new $this->model_class($user_id);
-      $user->permissions = $saved;
+	  $this->model = new $this->model_class(WaxUrl::get("id"));	  
+    list($prefix, $module_id) = explode("_",Request::param('tagid'));
+    $found = new CmsPermission($module_id);
+    if($found->primval){
+      $user = new $this->model_class(WaxUrl::get("id"));
+      $found->allowed = 1;
+      $user->permissions = $found;
+      $user->save();
     }
 
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
@@ -105,50 +97,51 @@ class CMSAdminUserController extends AdminComponent {
 	  $this->model = new $this->model_class(WaxUrl::get("id"));
 	  $model = new CmsPermission(Request::param('cat'));
 	  $this->model->permissions->unlink($model);
-	  $model->delete();	  
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
     $this->use_view = "_list_modules";
 	  
 	}
 	
+	/**
+	 * conversion routine to new permissions based system
+	 */	
 	public function convert_to_v3(){
 	  $this->use_view = $this->use_layout = false;
-	  $registered = CMSApplication::$modules;
-	  $module = new CmsModule;
-	  foreach($registered as $name=>$settings){
-	    $found = $module->clear()->filter("name", $name)->first();
-	    if(!$found->primval){
-	      $cms_module = new CmsModule;
-	      $cms_module->name = $name;
-	      $cms_module->save();
-	    }
-	  }
 	  
-    echo "Setting up users<br />";
     $user = new $this->model_class;
-    $config = CmsConfiguration::get('modules');
-    $module = $module_model = new CmsModule;
-    $modules = $config['enabled_modules'];
-    
+    $modules = $registered = CMSApplication::$modules;   
+    $permission = new CmsPermission; 
     foreach($modules as $name => $row){
-      echo "MODULE: $name<br />";       
-      foreach(CmsModule::$operations as $op=>$eng){
-        if($op != "ADMIN"){
-          $found = $module_model->clear()->filter("name", $name)->first();
-	        if($found->primval){
-	          foreach($user->clear()->filter("usergroup", "30", "<")->all() as $user){
-              echo "&nbsp;&nbsp;&nbsp;$op<br />";
-	            $found->operation = $op;
-	            $user->permissions = $found;
-	            $user->save();
-            }
-          }
-        }          
+      foreach(CmsPermission::$operations as $key=>$op){
+        if(!$found = $permission->clear()->filter("module", $name)->first()){
+          $perm = new CmsPermission;
+          $perm->module = $name;
+          $perm->operation = $key;
+          $perm->save();        
+        }
       }
     }
     
-    
-	  
+    $config = CmsConfiguration::get('modules');
+    $registered = $config['enabled_modules'];
+    $user_model = new $this->model_class;
+    $permission = new CmsPermission;
+    foreach($user_model->clear()->filter("usergroup", "30", "<")->all() as $user){
+      foreach($registered as $module=>$info){
+        foreach(CmsPermission::$operations as $key=>$op){
+          if($op != "ADMIN"){
+            if($found = $permission->clear()->filter("module", $module)->filter("operation", $key)->first()){          
+              $found->allowed = 1;
+              $user->permissions = $found;
+              $user->save();
+            }
+          }
+        }
+      }
+    }
+    CmsConfiguration::set('cms_warning_permissions', 1);
+    Session::add_message('cms users have been converted...');
+    $this->redirect_to("/admin/home/");
 	}
 	
 	

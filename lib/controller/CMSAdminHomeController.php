@@ -74,6 +74,7 @@ class CMSAdminHomeController extends AdminComponent {
 	* home page - shows statistical summaries
 	**/
 	public function index() {    
+	  $this->warning_messages();
     $this->stat_links = $this->pageview_data();
     if(!$this->stat_links) $this->stat_links = array();
     $this->stat_search = $this->searchrefer_data();
