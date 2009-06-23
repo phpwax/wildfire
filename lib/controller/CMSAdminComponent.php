@@ -57,7 +57,8 @@ class CMSAdminComponent extends WaxController {
 		* module setup
 		**/
 		$this->before_filter("all", "check_authorised", array("login"));
-		$this->all_modules = $this->configure_modules();    
+		$this->all_modules = $this->configure_modules();
+		$this->menu_modules = $this->configure_modules('SHOW IN MENU');
 		
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
@@ -224,12 +225,12 @@ class CMSAdminComponent extends WaxController {
 	* new version - uses the permission system to look if you have VIEW
 	* access to this module.
 	**/
-	protected function configure_modules() {	 
+	protected function configure_modules($operation_index='VIEW') {	 
 	  $modules = array();
 	  $access_keys = array_flip(CmsPermission::$operations);
 	  if($this->current_user && $this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
       foreach(CMSApplication::$modules as $name => $settings){
-	      if($this->current_user->access($name, $access_keys['VIEW']) || $name == "home") $modules[$name] = $settings;
+	      if($this->current_user->access($name, $access_keys[$operation_index]) || $name == "home") $modules[$name] = $settings;
 	    }
 	    return $modules;
 	  }else return array('home' => CMSApplication::$modules['home'], 'users'=>CMSApplication::$modules['users']);	  

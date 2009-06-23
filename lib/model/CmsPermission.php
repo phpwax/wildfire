@@ -5,7 +5,7 @@
  */
 class CmsPermission extends WaxModel{
 	
-	public static $operations = array('CREATE', 'VIEW', 'EDIT', 'DELETE', 'ADMIN');
+	public static $operations = array('CREATE', 'VIEW', 'EDIT', 'DELETE', 'ADMIN', 'SHOW IN MENU');
 	
 	public function setup(){
 	  $this->define("module", "CharField", array('maxlength'=>255) );
