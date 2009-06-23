@@ -64,9 +64,7 @@ class CMSAdminComponent extends WaxController {
 			$this->redirect_to('/admin/home/index');
 		}
 		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
-		  foreach($this->current_user->access($this->module_name) as $row){
-        $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
-		  }
+		  foreach($this->current_user->access($this->module_name) as $row) $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
 	  }
 		/**
 		* model instanciation
@@ -229,12 +227,12 @@ class CMSAdminComponent extends WaxController {
 	protected function configure_modules() {	 
 	  $modules = array();
 	  $access_keys = array_flip(CmsPermission::$operations);
-	  if($this->current_user && $this->current_user->primval){
+	  if($this->current_user && $this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
       foreach(CMSApplication::$modules as $name => $settings){
 	      if($this->current_user->access($name, $access_keys['VIEW']) || $name == "home") $modules[$name] = $settings;
 	    }
 	    return $modules;
-	  }else return CMSApplication::$modules;	  
+	  }else return array('home' => CMSApplication::$modules['home'], 'users'=>CMSApplication::$modules['users']);	  
 	}
 	/**
 	* uses the models description function to get an array of fields

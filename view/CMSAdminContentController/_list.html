@@ -15,7 +15,7 @@
   	        <?endif?>
 	        <?endif?>
 					
-          <?if($params["link"]):?> <?=link_to(substr($row->$column, 35), array("action"=>"edit", "id"=>$row->id))?>
+          <?if($params["link"] && $permissions['EDIT']):?> <?=link_to(substr($row->$column, 35), array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
           <?=$row->$column?>
           <?endif;?>
@@ -33,17 +33,12 @@
         <?endforeach?>
       </td>
       <td class="column last">    
-        <?if(is_array($permissions)):?>
-          <?if(isset($permissions['EDIT'])):?>
+        <?if($permissions['EDIT']):?>
           <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
-          <?endif?>
-          <?if(isset($permissions['DELETE'])):?>
-          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
-          <?endif?>
-        <?else:?>
-          <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
-          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>          
         <?endif?>
+        <?if($permissions['DELETE']):?>
+          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <?endif?>        
             
         <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink?>">View Post</a></div>
         <?else:?><div class="generic_button"><a href="#" id="preview_<?=$row->id?>">Preview</a></div><?endif?>

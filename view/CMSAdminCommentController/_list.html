@@ -5,19 +5,14 @@
       <td class="column comment_column"><?=strip_tags($row->comment, "<a>")?></td>
       <td class="column"><?=$row->time_ago?> ago</td>
       <td class="column">
-        <?if(is_array($permissions)):?>
-          <?if(isset($permissions['EDIT'])):?>
-          <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
-          <?endif?>
-          <?if(isset($permissions['DELETE'])):?>
-          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
-          <?endif?>
-        <?else:?>
-          <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
-          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>          
+        <?if($permissions['EDIT']):?>
+        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+        <?endif?>
+        <?if($permissions['DELETE']):?>
+        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
         <?endif?>
         <div class="generic_button"><a href="<?=$row->attached_to->permalink?>">View Post</a></div>
-        <?if($row->status=="1"):?>
+        <?if($row->status=="1" && $permissions['EDIT']):?>
           <div class="generic_button"><?=link_to("Mark as Spam", array("action"=>"spam", "id"=>$row->id))?></div>
         <?else:?>
           <div class="generic_button"><?=link_to("Approve", array("action"=>"approve", "id"=>$row->id))?></div>
