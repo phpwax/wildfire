@@ -45,7 +45,7 @@ class CMSAdminUserController extends AdminComponent {
 		
     $all_modules = CMSApplication::$modules;
     $permissions = new CmsPermission;
-    $this->all_permissions = $permissions->filter("module", "settings", "!=")->filter("module", "home", "!=")->all();
+    $this->all_permissions = $permissions->filter("module", "settings", "!=")->filter("module", "home", "!=")->order('module')->all();
     
     if(!$this->existing_permissions = $this->model->permissions) $this->existing_permissions = array();
     elseif($this->existing_permissions && $this->existing_permissions->count()){
@@ -106,7 +106,7 @@ class CMSAdminUserController extends AdminComponent {
     elseif($this->existing_permissions && $this->existing_permissions->count()){
       $ids = array();
       foreach($this->existing_permissions as $perm) $ids[] = $perm->primval;
-      $this->existing_permissions = $permissions->clear()->filter(array("id"=> $ids))->order('module')->all();
+      $this->existing_permissions = $found->clear()->filter(array("id"=> $ids))->order('module')->all();
     }
     
     $this->use_view = "_list_modules";
@@ -121,7 +121,7 @@ class CMSAdminUserController extends AdminComponent {
     elseif($this->existing_permissions && $this->existing_permissions->count()){
       $ids = array();
       foreach($this->existing_permissions as $perm) $ids[] = $perm->primval;
-      $this->existing_permissions = $permissions->clear()->filter(array("id"=> $ids))->order('module')->all();
+      $this->existing_permissions = $model->clear()->filter(array("id"=> $ids))->order('module')->all();
     }
     $this->use_view = "_list_modules";
 	  

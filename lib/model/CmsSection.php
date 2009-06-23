@@ -44,7 +44,9 @@ class CmsSection extends WaxTreeModel {
 
   public function published_content(){
     $content = new CmsContent();
-    return $content->filter(array($this->get_col("content")->join_field => $this->primval, "status" => array(0,1)))->all();
+    $ids = array($this->primval);
+    foreach($this->tree() as $node) $ids[] = $node->primval;    
+    return $content->filter(array('cms_section_id' => $ids, "status" => array(0,1)))->all();
   }
 }
 
