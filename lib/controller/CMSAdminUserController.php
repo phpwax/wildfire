@@ -113,7 +113,7 @@ class CMSAdminUserController extends AdminComponent {
     $permission = new CmsPermission; 
     foreach($modules as $name => $row){
       foreach(CmsPermission::$operations as $key=>$op){
-        if(!$found = $permission->clear()->filter("module", $name)->first()){
+        if(!$found = $permission->clear()->filter("module", $name)->filter("operation", $key)->first()){
           $perm = new CmsPermission;
           $perm->module = $name;
           $perm->operation = $key;
