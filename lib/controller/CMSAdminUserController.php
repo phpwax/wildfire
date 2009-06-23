@@ -152,11 +152,11 @@ class CMSAdminUserController extends AdminComponent {
     $user_model = new $this->model_class;
     $permission = new CmsPermission;
     foreach($user_model->clear()->all() as $user){
-      if($user->usergroup == 30) $all_mods = CMSApplication::$modules;
+      if($user->usergroup >= 30) $all_mods = CMSApplication::$modules;
       else $all_mods = $registered;
       foreach($all_mods as $module=>$info){
         foreach(CmsPermission::$operations as $key=>$op){
-          if($op != "ADMIN"){
+          if(($user->usergroup < 30 && $op != "ADMIN") || ($user->usergroup >= 30)){
             if($found = $permission->clear()->filter("module", $module)->filter("operation", $key)->first()){          
               $found->allowed = 1;
               $user->permissions = $found;
