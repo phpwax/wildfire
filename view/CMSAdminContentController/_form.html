@@ -87,14 +87,11 @@ var content_permalink="<?=$model->permalink?>";
       <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
       <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_publish.gif")?>" name="publish" value="Publish" />
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_close.gif")?>" name="close" value="Close" />
-      <a href="<?=$this->model->permalink?>?preview=1" target="_blank" id="preview_link"><img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" /></a>
+      <a href="<?=$this->model->permalink?>?preview=1" target="_blank" id="preview_link"<?=$modal_preview?' class="modal_preview" ':''?>><img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" /></a>
     </fieldset>
   </div>
   
 </div>
-<?if($modal_preview):?>
-  <?=preview_window($model->permalink."?preview=1", "preview_link", "preview_pane")?>
-<?endif?>
 
 <?=$link_partial?>
 <?=$video_partial?>
