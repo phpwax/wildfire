@@ -50,7 +50,8 @@ class CMSAdminFileController extends AdminComponent {
 	      	$fs->databaseSync($folder['path'], $rel);
 	    	}
 			}
-	    exit;
+			Session::add_message('Files have been synchronised!');
+			$this->redirect_to("/admin/files/");
 	  }
 	}
 	
