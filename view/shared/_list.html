@@ -2,7 +2,7 @@
     <tr id="row-<?=$row->id?>">
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
-          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
+          <?if($params["link"] && $permissions['EDIT']):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
           <?=$row->$column?>
           <?endif;?>
