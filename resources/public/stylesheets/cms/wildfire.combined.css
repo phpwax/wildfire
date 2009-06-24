@@ -1236,7 +1236,7 @@ li.pagination_link a {
   }
 
   #content_title_label {
-    width:260px;
+    width:200px;
     overflow:hidden;
     text-transform:capitalize;
     max-height:15px;
