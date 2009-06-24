@@ -17,7 +17,6 @@ class CMSAdminHomeController extends AdminComponent {
 	public $analytics_email = false;
 	public $analytics_password = false;	
 	public $analytics_id = false;
-	
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
@@ -27,8 +26,10 @@ class CMSAdminHomeController extends AdminComponent {
 		$this->analytics_password = Config::get("analytics/password");
 		$this->analytics_id = Config::get("analytics/id");
     if($this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
-      $content_permissions = $this->current_user->access("content");      
-      foreach($content_permissions->rowset as $row) $this->content_permissions[CmsPermission::$operations[$row['operation']]] = $row['allowed'];
+      $content_permissions = $this->current_user->access("content");    
+      if(count($content_permissions)){  
+        foreach($content_permissions->rowset as $row) $this->content_permissions[CmsPermission::$operations[$row['operation']]] = $row['allowed'];
+      }
     }
 		$this->sub_links = array();
 		$this->sub_links["../content/create"] = "Create New Content";
@@ -84,7 +85,8 @@ class CMSAdminHomeController extends AdminComponent {
     if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
- 	  $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
+ 	  if($this->content_permissions['VIEW']) $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
+    else $this->recent_content = array();
  	  $this->can_see_stats = $this->can_see_stats();
  	}
 	/**
