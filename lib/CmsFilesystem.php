@@ -200,10 +200,8 @@ class CmsFilesystem {
 					
 					foreach($files as $file){
             $typ = filetype($fullpath . '/' . $file);
-    			  if($file != '.' && $file != '..' &&  ($typ == 'dir' || $typ == "link")){
-    			    
-    			    if($typ == 'link') $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"".rtrim(str_replace(PUBLIC_DIR, "", readlink($path."/".$file)), "/")."\"");
-    			    else $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
+    			  if($file != '.' && $file != '..' &&  ($typ == 'dir' || $typ == "link")){    			    
+    			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
     				}
     			}
     		  closedir($dh);
@@ -273,7 +271,7 @@ class CmsFilesystem {
     $file = new WildfireFile($fileid);
     if($file->primval){
       $path = $file->path.$file->filename;
-      if(!is_link($path)){
+      if(!$this->is_link($path)){
         $fileid = mysql_escape_string($fileid);
         $filename = mysql_escape_string($filename);
         $filename = str_replace("\\","",$filename);
@@ -286,15 +284,25 @@ class CmsFilesystem {
     }
     
   }
-
+  function is_link($file){
+    $is_link = false;
+    $path = "";
+    foreach(explode("/", $file) as $part){
+      $path .= $part;
+      if(filetype($path) == "link") $is_link= true;
+      $path .= "/";
+    }
+    return $is_link;  
+  }
+  
   function fileDelete($fileid){
     $fileid = mysql_escape_string($fileid);
 		$model = new WildfireFile($fileid);
 		$fileinfo = $this->getFileInfo($fileid);
-		if(!is_link($fileinfo['path'].'/'.$fileinfo['filename'])){
+		if(!$this->is_link($fileinfo['path'].'/'.$fileinfo['filename'])){
 		  unlink($fileinfo['path'].'/'.$fileinfo['filename']) || $this->error('file error');
 		  if($model->id) $mod = $model->delete();
-	  }		
+	  }
 	  echo "File successfully deleted";
     exit;
   }
@@ -305,7 +313,7 @@ class CmsFilesystem {
     $file = new WildfireFile($fileid);
     if($file->primval){
       $path = $file->path.$file->filename;
-      if(!is_link($path)){  
+      if(!$this->is_link($path)){  
   	    $fileid = mysql_escape_string($fileid);	
   	    $path = str_replace("//","/",$path);
       	$path = str_replace("..","",$path);
@@ -332,7 +340,7 @@ class CmsFilesystem {
     $currentPath = $this->defaultFileStore.$path.'/'.$name;
     $newPath = $this->defaultFileStore.$path.'/'.$newname;
 
-    if(is_dir($currentPath) && !is_dir($newPath) && !is_link($currentPath)){
+    if(is_dir($currentPath) && !is_dir($newPath) && !$this->is_link($currentPath)){
 
   	  if(rename($currentPath,$newPath)){
   	    $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path/$newname\" where path=\"$currentPath\"";
@@ -357,7 +365,7 @@ class CmsFilesystem {
     $userPath = $this->defaultFileStore.$path.'/'.$name;
   	$userNewPath = $this->defaultFileStore.$newpath.'/'.$name;
       
-  	if(is_dir($userPath) && !is_dir($userNewPath) && !is_link($currentPath)){
+  	if(is_dir($userPath) && !is_dir($userNewPath) && !$this->is_link($currentPath)){
 		
   		if(rename($userPath,$userNewPath)){
   		  $query = "UPDATE wildfire_file set path=\"$userNewPath\",rpath=\"$newpath/$name\" where path=\"$userPath\"";
@@ -373,7 +381,7 @@ class CmsFilesystem {
   function folderDelete($folder){
     $folder = mysql_escape_string($folder);
     $deleteDir = $this->defaultFileStore.$folder;	
-    if(!is_link($deleteDir)){  	  
+    if(!$this->is_link($deleteDir)){  	  
   		if($this->deleteDir($deleteDir)){
   			$query = "DELETE from wildfire_file where path like \"$deleteDir\%\"";
   			$result = $this->query($query);
@@ -436,9 +444,11 @@ class CmsFilesystem {
 
   function databaseSync($folderpath,$realitivePath=''){
     // get files from $folderpath and put them in array
-    if (is_dir($folderpath)) {
+    $basepath = rtrim($folderpath, "/");
+    if (is_dir($folderpath) && filetype($basepath) != "link" ) {
       if ($dh = opendir($folderpath)) {
          while (($file = readdir($dh)) !== false) {
+           $file = rtrim($file);
            if($file != '.' && $file != '..' && filetype($folderpath . '/' . $file) == 'file' && substr($file,0,1) != '.'){
              $fileid = $this->fileid($folderpath,$file);
   		   $files[$file] = array($fileid,'exist');
