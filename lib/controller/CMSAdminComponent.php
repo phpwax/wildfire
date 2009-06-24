@@ -43,10 +43,16 @@ class CMSAdminComponent extends WaxController {
 	public $order_by_columns = array();	
 	
 	public $permissions = false;
+	public $perm_operations = array('create', 'exists', 'edit', 'delete', 'admin', 'view');
+	
+	function __construct($initialise = true) {
+	  if($initialise) $this->initialise();
+	}
+	
 	/** 
-	* Construct method, initialises authentication, default model and menu items
+	* initialises authentication, default model and menu items
 	**/
-	function __construct() {
+	public function initialise() {
 		/**
 		* authentication
 		**/
