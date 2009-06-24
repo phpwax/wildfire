@@ -201,7 +201,9 @@ class CmsFilesystem {
 					foreach($files as $file){
             $typ = filetype($fullpath . '/' . $file);
     			  if($file != '.' && $file != '..' &&  ($typ == 'dir' || $typ == "link")){
-    			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
+    			    
+    			    if($typ == 'link') $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"".rtrim(str_replace(PUBLIC_DIR, "", readlink($path."/".$file)), "/")."\"");
+    			    else $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
     				}
     			}
     		  closedir($dh);
