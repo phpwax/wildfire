@@ -199,8 +199,8 @@ class CmsFilesystem {
 					if(count($files)) natcasesort($files);
 					
 					foreach($files as $file){
-    			  #echo "$file";
-    			  if($file != '.' && $file != '..' && filetype($fullpath . '/' . $file) == 'dir'){
+            $typ = filetype($fullpath . '/' . $file);
+    			  if($file != '.' && $file != '..' &&  ($typ == 'dir' || $typ == "link")){
     			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
     				}
     			}
