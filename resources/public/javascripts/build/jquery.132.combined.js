@@ -511,15 +511,19 @@ function initialise_draggables() {
   		  if(ui.draggable.hasClass('permission_tag')) var end_url = "../../add_permission/";
   		  else var end_url = "../../add_category/";
   		  $.post(end_url+content_page_id,{tagid: ui.draggable.attr("id"), id:ui.draggable.attr("id")},
-  		  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
+  		  function(response){  $("#cat_dropzone").html(response);  init_deletes(); });
   	}
   });
   $("#category_list .category_tag, #permission_list .permission_tag").dblclick(function(){
     if($(this).hasClass('permission_tag')) var end_url = "../../add_permission/";
   	else var end_url = "../../add_category/";
     $.post(end_url+content_page_id,{tagid: this.id, id:this.id},
-	  function(response){  $("#cat_dropzone").html(response); initialise_draggables();  });
+	  function(response){  $("#cat_dropzone").html(response); init_deletes(); });
   });
+  init_deletes();
+}
+
+function init_deletes(){
   $(".category_trash_button, .permission_trash_button").click(function(){
     if($(this).hasClass('permission_trash_button')){
       var end_url = "../../remove_permission/";
@@ -529,7 +533,7 @@ function initialise_draggables() {
   	  var rid = this.id.substr(22)
 	  }
     $.get(end_url+content_page_id+"?cat="+rid,function(response){
-      $("#cat_dropzone").html(response); initialise_draggables();
+      $("#cat_dropzone").html(response); init_deletes();
     });
   });
 }
