@@ -14,12 +14,18 @@ class CMSAdminHomeController extends AdminComponent {
 	public $modal_preview = false;
 	
 	public $content_permissions = false;
+	public $analytics_email = false;
+	public $analytics_password = false;	
+	public $analytics_id = false;
+	
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
 	function __construct(){
 		parent::__construct();
-		
+		$this->analytics_email = Config::get("analytics/email");
+		$this->analytics_password = Config::get("analytics/password");
+		$this->analytics_id = Config::get("analytics/id");
     if($this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
       $content_permissions = $this->current_user->access("content");      
       foreach($content_permissions->rowset as $row) $this->content_permissions[CmsPermission::$operations[$row['operation']]] = $row['allowed'];
@@ -73,11 +79,9 @@ class CMSAdminHomeController extends AdminComponent {
 	* home page - shows statistical summaries
 	**/
 	public function index() {    
-	  $this->warning_messages();
-    $this->stat_links = $this->pageview_data();
-    if(!$this->stat_links) $this->stat_links = array();
-    $this->stat_search = $this->searchrefer_data();
-    if(!$this->stat_search) $this->stat_search = array();
+    $this->warning_messages();
+    if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
+    if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
  	  $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
@@ -115,9 +119,9 @@ class CMSAdminHomeController extends AdminComponent {
   
   public function visitor_data() {
     $api = new GoogleAnalytics();
-    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    if($api->login($this->analytics_email, $this->analytics_password)) {
     	$api->load_accounts();
-    	$this->visit_data = $api->data(Config::get("analytics/id"), 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+    	$this->visit_data = $api->data($this->analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
     	$chart = new OpenFlashChart();
     	$chart->add_title("");
     	$labels = array();
@@ -151,14 +155,16 @@ class CMSAdminHomeController extends AdminComponent {
   
   public function pageview_data() {
     $api = new GoogleAnalytics();
-    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    if(!$this->analytics_email || !$this->analytics_password) return false;
+    if($api->login($this->analytics_email, $this->analytics_password)) {
     	$api->load_accounts();
-    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:source,ga:referralPath', 'ga:visits');
+    	$this->pages_data = $api->data($this->analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
     	foreach($this->pages_data as $source=>$pages) {
     	  foreach($pages as $page=>$visits) {
     	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
     	  }
     	}
+
 			if(count($subs)){
 				krsort($subs);
 				return $subs;
@@ -168,20 +174,15 @@ class CMSAdminHomeController extends AdminComponent {
   
   public function searchrefer_data() {
     $api = new GoogleAnalytics();
-    if($api->login(Config::get("analytics/email"), Config::get("analytics/password"))) {
+    if($api->login($this->analytics_email, $this->analytics_password)) {
     	$api->load_accounts();
-    	$this->pages_data = $api->data(Config::get("analytics/id"), 'ga:keyword', 'ga:visits');
+    	$this->pages_data = $api->data($this->analytics_id, 'ga:keyword', 'ga:visits');
     	array_shift($this->pages_data);
     	foreach($this->pages_data as $source=>$count) {
-    	  $subs[]=array("link"=>"http://google.com?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
+    	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
     	}
       return $subs;
     } else return false;
-  }
-  
-  public function test() {
-    echo(Config::get("poo/rubbish"));
-    exit;
   }
   
   

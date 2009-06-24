@@ -52,21 +52,20 @@ class CMSAdminComponent extends WaxController {
 		**/
 		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
-		if($this->current_user->usergroup==30) $this->is_admin=true;
 		/**
 		* module setup
-		**/
-		$this->before_filter("all", "check_authorised", array("login"));
+		**/		
 		$this->all_modules = $this->configure_modules();
 		$this->menu_modules = $this->configure_modules('SHOW IN MENU');
-		
+	
+		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
+		  foreach($this->current_user->access($this->module_name) as $row) $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
+	  }
+	  $this->before_filter("all", "check_authorised", array("login"));
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
-		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
-		  foreach($this->current_user->access($this->module_name) as $row) $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
-	  }
 		/**
 		* model instanciation
 		**/
@@ -88,10 +87,7 @@ class CMSAdminComponent extends WaxController {
 	* @return boolean or redirect on fail
 	*/
   public function check_authorised() {
-    if($this->current_user){
-      if($this->current_user->usergroup >= 20) return true;
-			else return $this->current_user->access($this->module_name, 'VIEW');
-		}
+    if($this->current_user) return $this->current_user->access($this->module_name, 'VIEW');
 		Session::add_message($this->unauthorised_message);
 		$this->redirect_to($this->unauthorised_redirect);
   }
