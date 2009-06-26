@@ -67,16 +67,16 @@ class WildfireUser extends WaxModel {
   	return $sections;
 	}
 	
-	public function access($module_name="", $operation=""){
-	  if($module_name || $operation){
+	public function access($class="", $operation=""){
+	  if($class || $operation){
       $filters = array();
-      if($module_name) $filters['module'] = $module_name;
+      if($class) $filters['class'] = $class;
       if($operation) $filters['operation'] = $operation;      
 	    $data = $this->permissions($filters);
 	    if($data && $data->count()) return $data;
 	    else return array();
 	  }elseif($this->permissions && $this->permissions->count()) return $this->permissions;
-	  else return false; 
+	  else return array();
 	}
 	
 }
