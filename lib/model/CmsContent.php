@@ -71,6 +71,7 @@ class CmsContent extends WaxModel {
 	    if($old_model->status == 0 || $old_model->status == 3 || $old_model->status == 5) 
   	    $this->before_publish();
 	  }
+	  if(!$this->expires) $this->expires = date("Y-m-d H:i:s", strtotime("+1 year"));
 	}
 	public function before_insert() {
     if($this->status == 1) $this->before_publish();
