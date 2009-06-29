@@ -11,9 +11,7 @@ class CMSApplicationController extends WaxController{
   
   public $cms_section = false;	//Section object
   public $cms_content = false;  //this is either an array of the content or a single content record
-  public $content_table = "cms_content"; // Which table to search for content
   public $section_stack = array(); //array of all section found
-  public $section_id = 1; //default seciton id
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
   public $crumbtrail = array();	//a pre built crumb trail
