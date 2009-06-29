@@ -15,8 +15,9 @@ class CMSApplicationController extends WaxController{
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
   public $crumbtrail = array();	//a pre built crumb trail
-	public $force_image_width = false;
 	public $languages = array(0=>"english");
+	public $content_model = "CmsContent";
+	public $section_model = "CmsSection";
 	
 	//default action when content/section is found
 	public function cms_content() {}
@@ -93,7 +94,7 @@ class CMSApplicationController extends WaxController{
 	 * @return Boolean
 	 */	
 	protected function find_section($url, $parent=false){
-		$section = new CmsSection;
+		$section = new $this->section_model;
 		if($parent) $section->filter(array('parent_id'=>$parent));
 		$res = $section->filter(array('url'=>$url))->all();
 		if(count($res)==1){
@@ -123,7 +124,7 @@ class CMSApplicationController extends WaxController{
 	 * @param string $url 
 	 */	
 	protected function find_content($url){
-		$content = new CmsContent();
+		$content = new $this->content_model;
     
 		if($url){
 	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
@@ -203,7 +204,7 @@ class CMSApplicationController extends WaxController{
 	 * @author charles marshall
 	 */	
 	protected function is_page() {
-	  if($this->cms_content instanceof CmsContent) return true;
+	  if($this->cms_content instanceof $this->content_model) return true;
 	  return false;
 	}
 	/**
