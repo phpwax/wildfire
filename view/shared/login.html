@@ -1,6 +1,6 @@
 <form action="" name="loginForm" method="post" class="form_container">
   <fieldset>
-    <?foreach($form->elements as $el):?>
+    <?foreach($form as $el):?>
 	    <?=$el->render()?>
 	  <?endforeach?>
 	  <hr />
