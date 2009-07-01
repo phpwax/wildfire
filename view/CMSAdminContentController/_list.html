@@ -31,13 +31,11 @@
           <?$cats++?>
         <?endforeach?>
       </td>
-      <td class="column last">        
+      <td class="column last">
         <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
         <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
         <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink?>">View Post</a></div>
-        <?else:?><div class="generic_button"><a href="#" id="preview_<?=$row->id?>">Preview</a></div><?endif?>
-				
-				<?=preview_window($row->permalink."?preview=1", "preview_".$row->id, "preview_pane")?>
+        <?else:?><div class="generic_button"><a href="<?=$row->permalink?>?preview=1" target="_blank" id="preview_<?=$row->id?>"<?=$modal_preview?' class="modal_preview" ':''?>>Preview</a></div><?endif?>
       </td>
     </tr>
 <?endforeach?>

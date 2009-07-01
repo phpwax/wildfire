@@ -721,7 +721,7 @@ li.pagination_link a {
     width:12%;
     padding:3px 2px;
   }
-  .content_options .multiple_datetime_select #cms_content_published_year {
+  .content_options .multiple_datetime_select .date_select_year{
     width:18%;
     padding:3px 2px;
     margin-right:15px;
@@ -964,19 +964,6 @@ li.pagination_link a {
   background:white;
   padding:0 10px 5px 20px;
   min-height:12px;
-}
-
-#preview_pane {
-  margin:0;
-  top: 15px;
-  left: 15px;    
-  width: 95%;
-  height:90%;
-  background-color:white;
-  z-index:100000;
-}
-#preview_pane iframe {
-  border:0;
 }
 
 .comment_column {

@@ -12,6 +12,7 @@ class CMSApplicationController extends WaxController{
   public $cms_section = false;	//Section object
   public $cms_content = false;  //this is either an array of the content or a single content record
   public $content_table = "cms_content"; // Which table to search for content
+  public $content_model = "CmsContent"; // Which table to search for content  
   public $section_stack = array(); //array of all section found
   public $section_id = 1; //default seciton id
 	public $per_page = 5;	//number of content items to list per page
@@ -125,7 +126,7 @@ class CMSApplicationController extends WaxController{
 	 * @param string $url 
 	 */	
 	protected function find_content($url){
-		$content = new CmsContent();
+		$content = new $this->content_model();
     
 		if($url){
 	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
@@ -205,7 +206,7 @@ class CMSApplicationController extends WaxController{
 	 * @author charles marshall
 	 */	
 	protected function is_page() {
-	  if($this->cms_content instanceof CmsContent) return true;
+	  if($this->cms_content instanceof $this->content_model) return true;
 	  return false;
 	}
 	/**
