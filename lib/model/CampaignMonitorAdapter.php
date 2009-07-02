@@ -418,7 +418,7 @@ class CampaignMonitorAdapter extends WaxDbAdapter {
   public function order($model){return "";}
   public function limit($model){return "";}
 	//no longer used
-  public function syncdb(CampaignMonitorModel $model) { return "NO DB REQUIRED";}
+  public function syncdb(CampaignMonitorModel $model) { return false;}
   protected function map_operator_value($operator, $value) {return "";}
 	//not sql based - these arent used
 	public function prepare($sql){}	

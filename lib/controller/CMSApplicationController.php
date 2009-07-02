@@ -124,7 +124,7 @@ class CMSApplicationController extends WaxController{
 	 * @param string $url 
 	 */	
 	protected function find_content($url){
-		$content = new $this->content_model;
+		$content = new $this->content_model();
     
 		if($url){
 	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
