@@ -42,7 +42,7 @@ class WildfireFile extends WaxModel {
 	}
 	public function flash_files(){
 		$model = new WildfireFile();
-		return $model->filter("`filename` LIKE '%.swf'")->all();
+		return $model->filter(array("status"=>"found"))->filter("`filename` LIKE '%.swf'")->all();
 	}
 	
 	public function extension() {
@@ -50,7 +50,8 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function find_all_files() {
-	  return $this->clear()->filter("type NOT LIKE '%image%'")->all();
+		$model = new WildfireFile();
+	  return $model->filter(array("status"=>"found"))->filter("type NOT LIKE '%image%'")->all();
 	}
 	
 	public function url() {
