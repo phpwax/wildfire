@@ -248,15 +248,13 @@ class CmsTextFilter  {
 
     foreach($matches as $match) {      
       preg_match("/width=\"([0-9]*)\"/", $match[0], $width);
+      preg_match("/WIDTH:\s*([0-9]*)/", $match[0], $width);
       $width = $width[1];
       if($width) {
         $new_img = preg_replace("/(.*show_image\/[0-9]*\/)([0-9]*)(.*)/", "\${1}$width\\3", $match[0]);
-        error_log("New Image Code: $new_img");
         $new_img = preg_replace("/width=\"[0-9]*\"/", "", $new_img);
-        error_log("After Filter 1: $new_img");
         $new_img = preg_replace("/height=\"[0-9]*\"/", "", $new_img);
-        error_log("After Filter 2: $new_img");
-        error_log("Now Searching For ".$match[0]);
+        $new_img = preg_replace("/(style=\"[0-9A-Za-z\s:;]*)\"/", "", $new_img);
         $text = str_replace($match[0], $new_img, $text);
       }
     }
