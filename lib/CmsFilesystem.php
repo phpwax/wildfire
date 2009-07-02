@@ -549,9 +549,10 @@ class CmsFilesystem {
     }
     
     
-
-  	chmod($folderpath . '/' . $filename,0755);
-  	touch($folderpath . '/' . $filename,$fileid);
+    if(is_readable($folderpath . '/' . $filename)){
+  	  chmod($folderpath . '/' . $filename,0777);
+  	  touch($folderpath . '/' . $filename,$fileid);
+	  }
   }
 
   function checkId($id){
