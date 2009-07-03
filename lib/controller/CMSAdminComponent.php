@@ -250,7 +250,7 @@ class CMSAdminComponent extends WaxController {
 	}
 	
 	protected function warning_messages(){
-	  if($this->current_user->primval && $this->current_user->username == "admin"){	    
+	  if($this->current_user->primval){
 	    switch(CMS_VERSION){
 	      case "v3":
 	        if(CmsConfiguration::get('cms_warning_permissions') != 1) Session::add_message("Don't forget to convert all cms users to the new <a href='/admin/users/convert_to_v3'>permissions system</a>!");	        
