@@ -8,7 +8,7 @@ function init_upload(){
 	} else var post_parameters = {};
 	
 			var settings = {
-				flash_url : "/swfupload.swf",
+				flash_url : "/images/swfupload.swf",
 				upload_url: "/file_upload.php",	// Relative to the SWF file
         post_params: post_parameters,				
     		file_size_limit : "100 MB",
