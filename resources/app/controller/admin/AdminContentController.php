@@ -1,6 +1,3 @@
 <?php
-class AdminContentController extends CMSAdminContentController {
-  
-  
-}
+class AdminContentController extends CMSAdminContentController {}
 ?>

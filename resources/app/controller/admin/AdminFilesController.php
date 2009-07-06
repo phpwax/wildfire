@@ -1,5 +1,3 @@
 <?php
-class AdminFilesController extends CMSAdminFileController {
-  public static $access = 0;
-}
+class AdminFilesController extends CMSAdminFileController {}
 ?>
