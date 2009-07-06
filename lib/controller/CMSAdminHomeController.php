@@ -59,14 +59,49 @@ class CMSAdminHomeController extends AdminComponent {
 	}
 	/**
 	* public action to handle the login posted data
-	**/			
+	**/
 	public function login() {
+	  $users_model = new $this->model_class;
+	  if(!count($users_model->all())) $this->redirect_to($this->no_users_redirect);
 		if(count($_POST)>0) $this->redirect_to($this->process_login() );
 		Session::set( 'timestamp', time() );
 		Session::unset_var('errors');
 		$this->use_layout = "login";
 		$this->redirect_url = Session::get('referrer');
 		$this->form = new LoginForm;
+	}
+	public function install(){
+	  $users_model = new $this->model_class;
+	  if(count($users_model->all())) $this->redirect_to($this->unauthorised_redirect);
+	  $this->use_layout = "login";
+	  $this->form = new InstallForm();
+	  if($this->form->save()){
+	    $new_user = new $this->model_class;
+	    $new_user->username = $this->form->username->value;
+	    $new_user->password = $this->form->password->value;
+	    if($new_user->save()){
+	      $permission = new CmsPermission;
+        foreach(CMSApplication::$modules as $name => $row){
+          foreach(CmsPermission::$operations as $key=>$op){
+            if(!$found = $permission->clear()->filter("module", $name)->filter("operation", $key)->first()){
+              $perm = new CmsPermission;
+              $perm->module = $name;
+              $perm->operation = $key;
+              $perm->save();
+              $perm->allowed = 1;
+              $new_user->permissions = $perm;
+            }
+          }
+        }
+      }
+      $_POST['username'] = $new_user->username;
+      $_POST['password'] = $new_user->password;
+      CmsConfiguration::set('cms_warning_permissions', 1);
+	    $this->redirect_to($this->process_login());
+	  }else{
+  	  Session::unset_var('user_messages');
+  	  Session::add_message($this->no_users_message);
+	  }
 	}
 	/**
 	* Clears the session data via a call to the auth object - effectively logging you out

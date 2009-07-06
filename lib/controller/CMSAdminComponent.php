@@ -20,6 +20,8 @@ class CMSAdminComponent extends WaxController {
 	protected $access = 0; //the required access level
 	protected $unauthorised_redirect="/admin/home/login"; //where to go to if user is not authorised
 	protected $authorised_redirect="/admin/home/"; //default location on successfull auth
+	protected $no_users_redirect="/admin/home/install"; //default location when no users exist in the database
+	protected $no_users_message="No users detected. Please provide user details for an administrator."; //default location when no users exist in the database
 	protected $unauthorised_message="Please login to continue"; //status message
 	public $current_user=false; //the currently logged in 
 	public $auth_database_table="wildfire_user"; //the database table to use for authentication
@@ -61,7 +63,7 @@ class CMSAdminComponent extends WaxController {
 		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
 		  foreach($this->current_user->access($this->module_name) as $row) $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
 	  }
-	  $this->before_filter("all", "check_authorised", array("login"));
+	  $this->before_filter("all", "check_authorised", array("login","install"));
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
