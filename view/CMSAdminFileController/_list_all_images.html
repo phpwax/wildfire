@@ -2,7 +2,7 @@
   <?foreach($all_images as $image):?>
     <div id="<?=$image->id?>" class="drag_image">
       <div class="image_place">
-        <img src="<?=$image->permalink(135)?>" title="<?=$image->description?>" />
+        <img src="<?=$image->permalink(135)?>" title="<?=$image->filename?>" alt="<?=$image->description?>"/>
       </div>
       <div class="add_image" id="add_image_<?=$image->id?>">
 			  <a href="#">Add</a>
