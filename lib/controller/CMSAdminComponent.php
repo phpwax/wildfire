@@ -239,7 +239,7 @@ class CMSAdminComponent extends WaxController {
 	      if($this->current_user->access($name, $access_keys[$operation_index]) || $name == "home") $modules[$name] = $settings;
 	    }
 	    return $modules;
-	  }else return array('home' => CMSApplication::$modules['home'], 'users'=>CMSApplication::$modules['users']);	  
+	  }else return array('home' => CMSApplication::$modules['home']);
 	}
 	/**
 	* uses the models description function to get an array of fields
