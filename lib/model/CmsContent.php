@@ -200,6 +200,7 @@ class CmsContent extends WaxModel {
     $this->filter("published", date("Y-m-d H:i:s"), "<=");
     $this->filter("(`expires` <=  `published` OR (`expires` >=  `published` AND `expires` >= ? ))", date("Y-m-d H:i:s"), "raw");
     $this->order("published DESC");
+    return $this;
   }
 
 
