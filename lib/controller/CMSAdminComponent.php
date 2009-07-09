@@ -63,7 +63,7 @@ class CMSAdminComponent extends WaxController {
 		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
 		  foreach($this->current_user->access($this->module_name) as $row) $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
 	  }
-	  $this->before_filter("all", "check_authorised", array("login","install"));
+	  if(!in_array(WaxUrl::get("action"),array("login","install"))) $this->check_authorised();
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -239,7 +239,7 @@ class CMSAdminComponent extends WaxController {
 	      if($this->current_user->access($name, $access_keys[$operation_index]) || $name == "home") $modules[$name] = $settings;
 	    }
 	    return $modules;
-	  }else return array('home' => CMSApplication::$modules['home'], 'users'=>CMSApplication::$modules['users']);	  
+	  }else return array('home' => CMSApplication::$modules['home']);
 	}
 	/**
 	* uses the models description function to get an array of fields
