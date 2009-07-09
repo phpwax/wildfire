@@ -120,8 +120,10 @@ class CMSAdminHomeController extends AdminComponent {
     if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
- 	  if($this->content_permissions['VIEW']) $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
-    else $this->recent_content = array();
+ 	  if($this->content_permissions['VIEW']){
+ 	    if($ids = $this->current_user->allowed_sections_ids) $content->filter(array("cms_section_id"=>$ids));
+ 	    $this->recent_content = $content->scope_published()->limit(10)->all();
+ 	  }else $this->recent_content = array();
  	  $this->can_see_stats = $this->can_see_stats();
  	}
 	/**
