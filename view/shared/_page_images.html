@@ -17,7 +17,7 @@
             <?if($id = $attached_images[$i]->id):?>
               <div class="dropped_image" id="cimage_<?=$id?>">
                 <div class="image_place">
-                  <img src="<?=$attached_images[$i]->permalink(135)?>" title="<?=$attached_images[$i]->description?>" />
+                  <img src="<?=$attached_images[$i]->permalink(135)?>" title="<?=$attached_images[$i]->filename?>" alt="<?=$attached_images[$i]->description?>"/>
                 </div>
                 <div class="remove_image" id="delete_image_<?=$id?>">
                   <a href="#">Remove</a>

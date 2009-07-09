@@ -1946,7 +1946,7 @@ a.edit_img img{
   border:0;
   margin-bottom:4px;
 }
-#logout_button {float:right; margin:10px 30px 0 0; width:63px;}
+#logout_button, #help_button {float:right; margin:16px 18px 0 0; width:63px;}
 
 .live_search_results {
   display:none;

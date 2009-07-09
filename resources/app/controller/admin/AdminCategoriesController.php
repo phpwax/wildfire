@@ -1,5 +1,3 @@
 <?php
-class AdminCategoriesController extends CMSAdminCategoryController {  
-  
-}
+class AdminCategoriesController extends CMSAdminCategoryController {}
 ?>

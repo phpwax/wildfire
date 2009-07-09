@@ -42,9 +42,7 @@ var content_permalink="<?=$model->permalink?>";
           <?=small(select($model, "status", $model->status_options))?>
 						<?if(count($languages) > 1):?>
 				    <div id="lang_picker">
-				    	<form id="langauge_form" action="">
-				        <?=select($model, "language", $languages)?>
-				  	  </form>
+			        <?=select($model, "language", $languages)?>
 				    </div>
 				    <?endif?>
         </fieldset>
