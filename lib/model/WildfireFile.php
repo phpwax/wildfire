@@ -62,7 +62,7 @@ class WildfireFile extends WaxModel {
 		$dir = $fs->defaultFileStore.$fs->relativepath;
 		$options = content_tag("option", "Your Folder", array("value"=>$fs->relativepath));
 		$folders = File::get_folders($dir);
-		array_multisort($folders, SORT_STRING);
+		natsort($folders);
 		if(is_array($folders)){
   		foreach($folders as $folder) {
   	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
