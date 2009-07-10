@@ -1,5 +1,5 @@
 <div id="statistics">
-  <?if($can_see_stats):?>
+  <?if($current_user->access($module_name,"stats")):?>
     <h2>Your Site's Performance</h2>
   
     <h3>Recent Visits and Page Views</h3>

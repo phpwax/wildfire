@@ -775,6 +775,11 @@ h4{
 .category_list_tag, .section_list_tag, .permission_list_tag {
   margin:3px 0;
 }
+#permission_browser label, #permission_browser select{
+  float: right;
+  clear: right;
+  margin: 10px;
+}
 .trash_cat img, .trash_sect img {
   padding:2px 0 0 2px;
 }

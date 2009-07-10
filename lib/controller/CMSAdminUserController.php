@@ -49,6 +49,8 @@ class CMSAdminUserController extends AdminComponent {
     }
     
     $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
+    $this->all_users = new $this->model_class;
+    $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->all();
     
     $this->exisiting_modules_partial = $this->render_partial("list_modules");
 		$this->list_modules_partial = $this->render_partial("module_list");		
@@ -108,6 +110,22 @@ class CMSAdminUserController extends AdminComponent {
 	  if(!($cat = Request::param('cat'))) return;
 	  $model = new CmsPermission($cat);
 	  $model->delete();
+	}
+	
+	public function copy_permissions_from(){
+	  $this->use_layout = false;
+    $this->use_view = "_list_modules";
+	  $this->model = new $this->model_class(WaxUrl::get("id"));
+	  $copy_from = new $this->model_class(WaxUrl::get("copy_from"));
+	  if(!$copy_from->primval) return;
+	  $this->model->permissions->delete();
+	  foreach($copy_from->permissions as $old_perm){
+      $permission = new CmsPermission;
+      $permission->class = $old_perm->class;
+      $permission->operation = $old_perm->operation;
+      $permission->allowed = true;
+      $permission->user = $this->model; //foreign key triggers save
+	  }
 	}
 	
 	/**

@@ -18,13 +18,15 @@ class CMSAdminHomeController extends AdminComponent {
 	public $analytics_password = false;	
 	public $analytics_id = false;
 	
+	public $permissions = array("stats");
+	
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
   function __construct($initialise = true) {
     parent::__construct($initialise);
     if($initialise) $this->initialise();
-    $this->permissions = array(); //home controller needs to be there, so we don't allow set/unset on it
+    $this->permissions = array_diff($this->permissions, array("menu","enabled")); //home controller needs to be there, so we don't allow set/unset on it
   }
 	
 	private function initialise(){
@@ -120,11 +122,10 @@ class CMSAdminHomeController extends AdminComponent {
     if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
- 	  if($this->content_permissions['VIEW']){
+ 	  if($this->current_user->access("content","view")){
  	    if($ids = $this->current_user->allowed_sections_ids) $content->filter(array("cms_section_id"=>$ids));
  	    $this->recent_content = $content->scope_published()->limit(10)->all();
  	  }else $this->recent_content = array();
- 	  $this->can_see_stats = $this->can_see_stats();
  	}
 	/**
 	* help pages - content is generated via partials (we really should write some more of these...)
@@ -154,77 +155,79 @@ class CMSAdminHomeController extends AdminComponent {
     return $simple;
   }
   
-  public function can_see_stats() { return true;}
-  
   public function visitor_data() {
-    $api = new GoogleAnalytics();
-    if($api->login($this->analytics_email, $this->analytics_password)) {
-    	$api->load_accounts();
-    	$this->visit_data = $api->data($this->analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
-    	$chart = new OpenFlashChart();
-    	$chart->add_title("");
-    	$labels = array();
-    	$visits = array();
-    	foreach($this->visit_data as $visit=>$data) $labels[]=date("D j",strtotime(key($data)));
-    	foreach($this->visit_data as $visit=>$data) {
-    	  $visits[]=array("value"=>(int)$data[key($data)]["ga:visitors"],"tip"=>"#val# visits");
-    	  $raw_visits[]=(int)$data[key($data)]["ga:visitors"];
-    	}
-    	$raw_visits = array_reverse($raw_visits);
-      $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) ,"colour"=>"#E1E1E1","size"=>9),"colour"=>"#D1D1D1","grid-colour"=>"#333333","stroke"=>1,"font-size"=>9  ));
-      $chart->add_y_axis(array("labels"=>array("colour"=>"#E1E1E1","size"=>9),"stroke"=>1,"font-size"=>9,"colour"=>"#D1D1D1","grid-colour"=>"#333333","min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
-      $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#999999;text-align: center;}");
-      $chart->add_element(array(
-        "values"=>array_reverse($visits), 
-        "type"=>"line", 
-        "text"=>"Visits", 
-        "colour"=>"#a3ce44",
-        "dot-style"=>array(
-          "type"=>"solid-dot",
-          "dot-size"=>3,
-          "halo-size"=>2,
-          "colour"=>"#e76f34"
-        ),
-        "font-size"=>9
-      ));
-      $chart->add_value("bg_colour","#414141");
-      echo $chart->render(); exit;
-    } else throw new WaxException("Failed Connection To Google Analytics");
+    if($this->current_user->access($module_name,"stats")){
+      $api = new GoogleAnalytics();
+      if($api->login($this->analytics_email, $this->analytics_password)) {
+      	$api->load_accounts();
+      	$this->visit_data = $api->data($this->analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+      	$chart = new OpenFlashChart();
+      	$chart->add_title("");
+      	$labels = array();
+      	$visits = array();
+      	foreach($this->visit_data as $visit=>$data) $labels[]=date("D j",strtotime(key($data)));
+      	foreach($this->visit_data as $visit=>$data) {
+      	  $visits[]=array("value"=>(int)$data[key($data)]["ga:visitors"],"tip"=>"#val# visits");
+      	  $raw_visits[]=(int)$data[key($data)]["ga:visitors"];
+      	}
+      	$raw_visits = array_reverse($raw_visits);
+        $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) ,"colour"=>"#E1E1E1","size"=>9),"colour"=>"#D1D1D1","grid-colour"=>"#333333","stroke"=>1,"font-size"=>9  ));
+        $chart->add_y_axis(array("labels"=>array("colour"=>"#E1E1E1","size"=>9),"stroke"=>1,"font-size"=>9,"colour"=>"#D1D1D1","grid-colour"=>"#333333","min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
+        $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#999999;text-align: center;}");
+        $chart->add_element(array(
+          "values"=>array_reverse($visits), 
+          "type"=>"line", 
+          "text"=>"Visits", 
+          "colour"=>"#a3ce44",
+          "dot-style"=>array(
+            "type"=>"solid-dot",
+            "dot-size"=>3,
+            "halo-size"=>2,
+            "colour"=>"#e76f34"
+          ),
+          "font-size"=>9
+        ));
+        $chart->add_value("bg_colour","#414141");
+        echo $chart->render(); exit;
+      } else throw new WaxException("Failed Connection To Google Analytics");
+    } else throw new WaxException("No Access To Google Analytics");
   }
   
   public function pageview_data() {
-    $api = new GoogleAnalytics();
-    if(!$this->analytics_email || !$this->analytics_password) return false;
-    if($api->login($this->analytics_email, $this->analytics_password)) {
-    	$api->load_accounts();
-    	$this->pages_data = $api->data($this->analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
-    	foreach($this->pages_data as $source=>$pages) {
-    	  foreach($pages as $page=>$visits) {
-    	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
-    	  }
-    	}
+    if($this->current_user->access($module_name,"stats")){
+      $api = new GoogleAnalytics();
+      if(!$this->analytics_email || !$this->analytics_password) return false;
+      if($api->login($this->analytics_email, $this->analytics_password)) {
+      	$api->load_accounts();
+      	$this->pages_data = $api->data($this->analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
+      	foreach($this->pages_data as $source=>$pages) {
+      	  foreach($pages as $page=>$visits) {
+      	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
+      	  }
+      	}
 
-			if(count($subs)){
-				krsort($subs);
-				return $subs;
-			}else return array();
-    } else return false;
+  			if(count($subs)){
+  				krsort($subs);
+  				return $subs;
+  			}else return array();
+      } else return false;
+    } else throw new WaxException("No Access To Google Analytics");
   }
   
   public function searchrefer_data() {
-    $api = new GoogleAnalytics();
-    if($api->login($this->analytics_email, $this->analytics_password)) {
-    	$api->load_accounts();
-    	$this->pages_data = $api->data($this->analytics_id, 'ga:keyword', 'ga:visits');
-    	array_shift($this->pages_data);
-    	foreach($this->pages_data as $source=>$count) {
-    	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
-    	}
-      return $subs;
-    } else return false;
+    if($this->current_user->access($module_name,"stats")){
+      $api = new GoogleAnalytics();
+      if($api->login($this->analytics_email, $this->analytics_password)) {
+      	$api->load_accounts();
+      	$this->pages_data = $api->data($this->analytics_id, 'ga:keyword', 'ga:visits');
+      	array_shift($this->pages_data);
+      	foreach($this->pages_data as $source=>$count) {
+      	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
+      	}
+        return $subs;
+      } else return false;
+    } else throw new WaxException("No Access To Google Analytics");
   }
-  
-  
 }
 
 ?>

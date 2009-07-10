@@ -473,6 +473,12 @@ $(document).ready(function() {
       return false;
     });   
     initialise_draggables();
+    if($("#copy_permissions_from").length > 0) $("#copy_permissions_from").change(function(){
+      $.get("../../copy_permissions_from/"+content_page_id+"?copy_from="+$(this).val(),function(response){
+        $("#cat_dropzone").html(response); init_deletes();
+      });
+      return false;
+    });
     $("#link_dialog").dialog({autoOpen:false, width:"auto", height:"auto"});
     $("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
     $("#video_dialog").dialog({autoOpen:false, title:"Insert a Video", width:700, height:500});

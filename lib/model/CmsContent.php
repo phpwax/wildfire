@@ -146,7 +146,7 @@ class CmsContent extends WaxModel {
   }
 	public function author_options() {
 		$user = new WildfireUser;
-		return options_from_collection($user->filter('usergroup > 9')->all(), "id", "fullname");
+		return options_from_collection($user->all(), "id", "fullname");
   }
   /***** Finders for dealing with the extra_content table ******/
 	public function extra_content($name) {
