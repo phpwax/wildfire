@@ -689,11 +689,9 @@ function initialise_images() {
 		  {id: $(this).attr("id").replace("add_image_", ""), order: $('.dropped_image').size()},
       function(response) {
         $("#drop_zones").html(response);
-        initialise_images();
-        return true;
-      }
-    ); 
-   
+        initialise_images();        
+    }); 
+    return false;
   });
   
 }
