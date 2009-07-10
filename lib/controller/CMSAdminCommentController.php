@@ -17,6 +17,7 @@ class CMSAdminCommentController extends AdminComponent {
   public $filter_columns = array("author_name");
   public $default_order = "time";
 	public $default_direction="DESC";
+	public $permissions = array("create","edit","delete","admin");
   
 	/**
 	 * add a new sub nav option

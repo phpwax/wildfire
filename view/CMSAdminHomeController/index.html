@@ -43,7 +43,7 @@
   
 </div>
 <div id="quick_nav">
-  <?if($content_permissions['EDIT']):?>
+  <?if($current_user->access("content","edit")):?>
   <div id="quick_search">
     <img src="/images/cms/quick_search_icon.gif" />
     <h3>Quick Content Finder</h3>
@@ -54,7 +54,7 @@
     </form>
   </div>
   <?endif?>
-  <?if($content_permissions['CREATE']):?>      
+  <?if($current_user->access("content","create")):?>      
   <div id="quick_create">
     <img src="/images/cms/quick_create_icon.gif" />
     <h3>Start Creating Content</h3>
@@ -81,23 +81,23 @@
             <td class="column">
               <span class="status_change_span">
     					<?if($row->status == 1):?>
-    	          <?if($content_permissions['EDIT']):?><a href="/admin/content/status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="Published"><?endif?>
+    	          <?if($current_user->access("content","edit")):?><a href="/admin/content/status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="Published"><?endif?>
     	            <img src="/images/cms/icon_published.gif" width="12" class="status_icon" />
-    	          <?if($content_permissions['EDIT']):?></a><?endif?>
+    	          <?if($current_user->access("content","edit")):?></a><?endif?>
     	        <?else:?>
-    	        	<?if($content_permissions['EDIT']):?><a href="/admin/content/status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="Draft"><?endif?>
+    	        	<?if($current_user->access("content","edit")):?><a href="/admin/content/status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="Draft"><?endif?>
     	        	  <img src="/images/cms/icon_draft.gif" width="12" class="status_icon" />
-    	        	<?if($content_permissions['EDIT']):?></a><?endif?>
+    	        	<?if($current_user->access("content","edit")):?></a><?endif?>
     	        <?endif?>
     					</span>
-    					<?if($content_permissions['EDIT']):?>
+    					<?if($current_user->access("content","edit")):?>
               <?=link_to($row->title, array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?>
               <?else:?>
               <?=$row->title?>
               <?endif?>
             </td>
             <td class="column last">
-              <?if($content_permissions['EDIT']):?>      
+              <?if($current_user->access("content","edit")):?>      
               <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
               <?elseif(!is_array($content_permissions)):?>
               <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>

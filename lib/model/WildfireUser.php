@@ -2,7 +2,6 @@
 
 class WildfireUser extends WaxModel {
   
-  public $role_options = array("0"=>"user", "10"=>"editor", "20"=>"publisher", "30"=>"administrator");
   public $identifier = "fullname";
     
   public function setup() {
@@ -10,40 +9,12 @@ class WildfireUser extends WaxModel {
     $this->define("firstname", "CharField");
     $this->define("surname", "CharField");
     $this->define("email", "CharField");
-    $this->define("password", "CharField");    
+    $this->define("password", "CharField");
+    
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
-    
-    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'target_field'));
-    
-    //deprecated - replaced by permissions
-    $this->define("usergroup", "CharField");
+    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class'));
   }
 
-  public function before_save(){
-    if(!$this->usergroup) $this->usergroup = 10;
-  }
-  
-  public function after_insert(){
-    $all_mods = array('content'=>CMSApplication::$modules['content'], 'files'=>CMSApplication::$modules['files']);
-    $permission = new CmsPermission;
-    foreach($all_mods as $module=>$info){
-      foreach(CmsPermission::$operations as $key=>$op){
-        if($op != "ADMIN"){
-          if($found = $permission->clear()->filter("module", $module)->filter("operation", $key)->first()){          
-            $found->allowed = 1;
-            $this->permissions = $found;
-            $this->save();
-          }
-        }
-      }
-    }
-
-  }
-	
-	public function role_text() {
-	  return $this->role_options[$this->usergroup];
-	}
-	
 	public function fullname() {
 	  return $this->firstname." ".$this->surname;
 	}
@@ -66,17 +37,21 @@ class WildfireUser extends WaxModel {
 		if($ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$ids));
   	return $sections;
 	}
-	
-	public function access($class="", $operation=""){
-	  if($class || $operation){
-      $filters = array();
-      if($class) $filters['class'] = $class;
-      if($operation) $filters['operation'] = $operation;      
-	    $data = $this->permissions($filters);
-	    if($data && $data->count()) return $data;
-	    else return array();
-	  }elseif($this->permissions && $this->permissions->count()) return $this->permissions;
-	  else return array();
+  
+  /**
+   * permission check for this user
+   * 
+   * @return Boolean if both class and operation are supplied, rowset of defined permissions if either or both are left out
+   */
+	public function access($class = false, $operation = false){
+    if($class) $filters['class'] = $class;
+    if($operation) $filters['operation'] = $operation;
+    $ret = $this->permissions($filters);
+    if($class && $operation){
+      foreach($ret as $permission)
+        if($permission->allowed) return true;
+        else return false;
+	  }else return $ret;
 	}
 	
 }

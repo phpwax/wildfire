@@ -42,40 +42,35 @@ class CMSAdminComponent extends WaxController {
 	**/
 	public $scaffold_columns = null;
 	public $filter_columns = null; //columns to use by the filter
-	public $order_by_columns = array();	
+	public $order_by_columns = array();
 	
-	public $permissions = false;
+	//default permissions on each module, view and menu are separate to allow you to get lists of things without showing that module in the menu structure
+	public $base_permissions = array("enabled","menu");
+	public $permissions = array();
 	
 	function __construct($initialise = true) {
+	  $this->permissions = array_merge($this->base_permissions,$this->permissions);
 	  if($initialise) $this->initialise();
 	}
 	
 	/** 
 	* initialises authentication, default model and menu items
 	**/
-	public function initialise() {
-		/**
-		* authentication
-		**/
+	private function initialise() {
+
 		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
-		/**
-		* module setup
-		**/		
+
 		$this->all_modules = $this->configure_modules();
-		$this->menu_modules = $this->configure_modules('SHOW IN MENU');
+		$this->menu_modules = $this->configure_modules('menu');
 	
-		if($this->module_name != "home" && $this->current_user && $this->current_user->permissions->count()){
-		  foreach($this->current_user->access($this->module_name) as $row) $this->permissions[CmsPermission::$operations[$row->operation]] = $row->allowed;
-	  }
 	  if(!in_array(WaxUrl::get("action"),array("login","install"))) $this->check_authorised();
+		
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
-		/**
-		* model instanciation
-		**/
+		
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = WXInflections::underscore($this->model_class);
@@ -83,8 +78,8 @@ class CMSAdminComponent extends WaxController {
         $this->scaffold_columns = array_keys($this->model->column_info());
       }
 	  }
-		$this->sub_links["create"] = "Create New ". $this->display_name;
-		if(is_array($this->permissions) && !isset($this->permissions['CREATE'])) unset($this->sub_links["create"]);
+	  
+		if($this->current_user && $this->current_user->access($this->module_name,"create")) $this->sub_links["create"] = "Create New ". $this->display_name;
 		
 		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
 	}
@@ -233,18 +228,17 @@ class CMSAdminComponent extends WaxController {
 		else return "{$this->default_order} {$this->default_direction}";
 	}
 	/**
-	* new version - uses the permission system to look if you have VIEW
-	* access to this module.
+	* uses the permission system to look if you have access to perform the passed in operation
+	* @return array - a list of modules you have access to for that operation
 	**/
-	protected function configure_modules($operation_index='VIEW') {	 
-	  $modules = array();
-	  $access_keys = array_flip(CmsPermission::$operations);
-	  if($this->current_user && $this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
+	protected function configure_modules($operation = "enabled") {
+	  $modules = array('home' => CMSApplication::$modules['home']); //add the home module by default
+	  if($this->current_user && $this->current_user->primval){
       foreach(CMSApplication::$modules as $name => $settings){
-	      if($this->current_user->access($name, $access_keys[$operation_index]) || $name == "home") $modules[$name] = $settings;
+	      if($this->current_user->access($name, $operation)) $modules[$name] = $settings;
 	    }
-	    return $modules;
-	  }else return array('home' => CMSApplication::$modules['home']);
+	  }
+	  return $modules;
 	}
 	/**
 	* uses the models description function to get an array of fields

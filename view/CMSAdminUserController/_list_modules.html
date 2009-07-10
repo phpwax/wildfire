@@ -1,19 +1,17 @@
 <script>var content_page_id=<?=$model->id?>;</script>
 <h4>Current Permissions</h4>
-<?$mod_name = "";$count=0?>
-  <?foreach($existing_permissions as $k=>$module):?>
-    <?if($count==0){$mod_name = $module->module;}?>
-    <?if($mod_name != $module->module):?>
-    <div class="clearfix"></div>
-    <?$mod_name = $module->module?>
-    <?endif?>
-    <div class="permission_tag permission_list_tag" id="tag_<?=$module->primval?>">
-      <?=$module->module." (".$module->operation().")"?>
+<?if(count($perms = $model->permissions)):?>
+<?$class_name = "";?>
+  <?foreach($perms as $permission):?>
+    <?if($class_name != $permission->class):?><div class="clearfix"></div><?$class_name = $permission->class?><?endif?>
+    <div class="permission_tag permission_list_tag" id="tag_applied_<?=$permission->class?>_<?=$permission->operation?>">
+      <?=$permission->class." (".$permission->operation.")"?>
       <span class="trash_sect">
-        <?=image_asset("cms", "trash.gif", array("id"=>"delete_permission_button_{$module->primval}", "class"=>"permission_trash_button "))?>
+        <?=image_asset("cms", "trash.gif", array("id"=>"delete_permission_button_{$permission->primval}", "class"=>"permission_trash_button "))?>
       </span>
     </div>
-    <?$count++?>
   <?endforeach?>
-  <?if(count($existing_permissions) == 0):?><p>No permissions - <strong>this user has access to everything!</strong></p><?endif?>
+<?else:?>
+  <p>No permissions - <strong>this user has access to everything!</strong></p>
+<?endif?>
 <div class="clearfix"></div>

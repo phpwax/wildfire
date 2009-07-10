@@ -17,24 +17,23 @@ class CMSAdminHomeController extends AdminComponent {
 	public $analytics_email = false;
 	public $analytics_password = false;	
 	public $analytics_id = false;
+	
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
-	function __construct(){
-		parent::__construct();
+  function __construct($initialise = true) {
+    parent::__construct($initialise);
+    if($initialise) $this->initialise();
+    $this->permissions = array(); //home controller needs to be there, so we don't allow set/unset on it
+  }
+	
+	private function initialise(){
 		$this->analytics_email = Config::get("analytics/email");
 		$this->analytics_password = Config::get("analytics/password");
 		$this->analytics_id = Config::get("analytics/id");
-    if($this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
-      $content_permissions = $this->current_user->access("content");    
-      if(count($content_permissions)){  
-        foreach($content_permissions->rowset as $row) $this->content_permissions[CmsPermission::$operations[$row['operation']]] = $row['allowed'];
-      }
-    }
 		$this->sub_links = array();
-		$this->sub_links["../content/create"] = "Create New Content";
+		if($this->current_user && $this->current_user->access("content","create")) $this->sub_links["../content/create"] = "Create New Content";
 		$this->sub_links["../.."] = "View Site";
-		if(is_array($this->content_permissions) && !isset($this->content_permissions['CREATE'])) unset($this->sub_links["../content/create"]);
 	}
 	/**
 	* protected function that handles the actual db authentication check on first login
@@ -70,6 +69,7 @@ class CMSAdminHomeController extends AdminComponent {
 		$this->redirect_url = Session::get('referrer');
 		$this->form = new LoginForm;
 	}
+	
 	public function install(){
 	  $users_model = new $this->model_class;
 	  if(count($users_model->all())) $this->redirect_to($this->unauthorised_redirect);
@@ -81,16 +81,16 @@ class CMSAdminHomeController extends AdminComponent {
 	    $new_user->password = $this->form->password->value;
 	    if($new_user->save()){
 	      $permission = new CmsPermission;
-        foreach(CMSApplication::$modules as $name => $row){
-          foreach(CmsPermission::$operations as $key=>$op){
-            if(!$found = $permission->clear()->filter("module", $name)->filter("operation", $key)->first()){
-              $perm = new CmsPermission;
-              $perm->module = $name;
-              $perm->operation = $key;
-              $perm->save();
-              $perm->allowed = 1;
-              $new_user->permissions = $perm;
-            }
+        foreach(CMSApplication::$modules as $name => $module_options){
+          $controller_class = WaxUrl::route_controller(trim($module_options['link'],"/"));
+          $controller_class = Inflections::slashcamelize($controller_class, true)."Controller";
+          $controller = new $controller_class(false); //instantiate classes without intialising them
+          foreach($controller->permissions as $operation){
+            $perm = new CmsPermission;
+            $perm->class = $name;
+            $perm->operation = $operation;
+            $perm->allowed = 1;
+            $perm->user = $new_user; //foreign key triggers a save
           }
         }
       }
