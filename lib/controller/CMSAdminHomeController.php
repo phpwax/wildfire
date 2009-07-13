@@ -115,7 +115,10 @@ class CMSAdminHomeController extends AdminComponent {
     $user_model = new $this->model_class;
     $permission = new CmsPermission;
     foreach($user_model->clear()->all() as $user){
-      if($user->usergroup < 30 && $registered) $all_mods = $registered;
+      if($user->usergroup < 30 && $registered){
+        $all_mods = array();
+        foreach($registered as $name => $set) $all_mods[$name] = CMSApplication::$modules[$name];
+      }
       else $all_mods = CMSApplication::$modules;
       foreach($all_mods as $name => $module_options){
         if($module_options['auth_level'] > $user->usergroup) continue; //skip permissions that users have no "access" to
