@@ -126,7 +126,7 @@ class CMSAdminHomeController extends AdminComponent {
           $perm->class = $name;
           $perm->operation = $operation;
           $perm->allowed = 1;
-          $perm->user = $new_user; //foreign key triggers a save
+          $perm->user = $user; //foreign key triggers a save
         }
       }
     }
