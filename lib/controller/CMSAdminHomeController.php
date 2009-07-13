@@ -118,6 +118,7 @@ class CMSAdminHomeController extends AdminComponent {
       if($user->usergroup < 30 && $registered) $all_mods = $registered;
       else $all_mods = CMSApplication::$modules;
       foreach($all_mods as $name => $module_options){
+        if($module_options['auth_level'] > $user->usergroup) continue; //skip permissions that users have no "access" to
         $controller_class = WaxUrl::route_controller(trim($module_options['link'],"/"));
         $controller_class = Inflections::slashcamelize($controller_class, true)."Controller";
         $controller = new $controller_class(false); //instantiate classes without intialising them
