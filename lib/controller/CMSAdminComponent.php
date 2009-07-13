@@ -107,7 +107,6 @@ class CMSAdminComponent extends WaxController {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html 
 	*/
 	public function index( ) {
-	  $this->warning_messages();
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
@@ -248,17 +247,6 @@ class CMSAdminComponent extends WaxController {
 		$model_desc = $this->model->describe();
 		foreach($model_desc as $field) $desc[] = $field['Field'];
 		return $desc;
-	}
-	
-	protected function warning_messages(){
-	  if($this->current_user->primval){
-	    switch(CMS_VERSION){
-	      case "v3":
-	        if(CmsConfiguration::get('cms_warning_permissions') != 1) Session::add_message("Don't forget to convert all cms users to the new <a href='/admin/users/convert_to_v3'>permissions system</a>!");	        
-	      break;
-	      default: break;
-	    }
-    }	  
 	}
 	
 }

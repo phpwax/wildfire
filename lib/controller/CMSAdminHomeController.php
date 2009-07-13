@@ -50,7 +50,9 @@ class CMSAdminHomeController extends AdminComponent {
 		  $log->user=$auth->get_user();
 		  $log->time = date("Y-m-d H:i:s");
 		  $log->save();
-		  if($this->authorised_redirect) return $this->authorised_redirect;		  
+		  $perm_model = new CmsPermission;
+		  if(!count($perm_model->all())) return '/admin/home/convert_to_v3';
+		  elseif($this->authorised_redirect) return $this->authorised_redirect;		  
 			else return 'index';
 		}
 		else {
@@ -98,12 +100,37 @@ class CMSAdminHomeController extends AdminComponent {
       }
       $_POST['username'] = $new_user->username;
       $_POST['password'] = $new_user->password;
-      CmsConfiguration::set('cms_warning_permissions', 1);
 	    $this->redirect_to($this->process_login());
 	  }else{
   	  Session::unset_var('user_messages');
   	  Session::add_message($this->no_users_message);
 	  }
+	}
+	/**
+	 * conversion routine to new permissions based system
+	 */	
+	public function convert_to_v3(){
+    $config = CmsConfiguration::get('modules');
+    $registered = $config['enabled_modules'];
+    $user_model = new $this->model_class;
+    $permission = new CmsPermission;
+    foreach($user_model->clear()->all() as $user){
+      if($user->usergroup >= 30) $all_mods = CMSApplication::$modules;
+      else $all_mods = $registered;
+      foreach($all_mods as $name => $module_options){
+        $controller_class = WaxUrl::route_controller(trim($module_options['link'],"/"));
+        $controller_class = Inflections::slashcamelize($controller_class, true)."Controller";
+        $controller = new $controller_class(false); //instantiate classes without intialising them
+        foreach($controller->permissions as $operation){
+          $perm = new CmsPermission;
+          $perm->class = $name;
+          $perm->operation = $operation;
+          $perm->allowed = 1;
+          $perm->user = $new_user; //foreign key triggers a save
+        }
+      }
+    }
+    $this->redirect_to("/admin/home/");
 	}
 	/**
 	* Clears the session data via a call to the auth object - effectively logging you out
@@ -117,7 +144,6 @@ class CMSAdminHomeController extends AdminComponent {
 	* home page - shows statistical summaries
 	**/
 	public function index() {    
-    $this->warning_messages();
     if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
     if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
