@@ -1,7 +1,14 @@
 <div id="permission_browser_container">
   <div id="permission_browser" class="clearfix">
+    <label for="copy_permissions_from">Copy Permissions from User</label>
+    <select name="copy_permissions_from" id="copy_permissions_from" class="input_field select_field">
+      <option selected="selected" value=""/>
+      <?foreach($all_users as $user):?>
+      <option value="<?=$user->primval?>"><?=$user->username?></option>
+      <?endforeach?>
+    </select>
     <div id="cat_dropzone">
-    <?=$exisiting_modules_partial?>    
+    <?=$exisiting_modules_partial?>
     </div>
     <div id="permission_list" class="clearfix">
     <?=$list_modules_partial?>

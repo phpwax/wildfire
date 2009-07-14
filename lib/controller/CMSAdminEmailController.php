@@ -22,16 +22,14 @@ class CMSAdminEmailController extends AdminComponent {
 	
 	public $show_operations = false;
 	
-	function __construct() {
-		/**
-		* authentication
-		**/
+	function __construct($initialise = true) {
+	  if($initialise) $this->initialise();
+	}
+
+	private function initialise() {
 		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
-		if($this->current_user->usergroup==30) $this->is_admin=true;
-		/**
-		* module setup
-		**/
+
 		$this->before_filter("all", "check_authorised", array("login"));
 		$this->configure_modules();
 		$this->all_modules = CMSApplication::get_modules(true);
@@ -39,14 +37,13 @@ class CMSAdminEmailController extends AdminComponent {
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
-		/**
-		* model instanciation
-		**/
+
 		$this->cm_conf = CmsConfiguration::get("general");
 		if($this->model_class) {							
 			$this->model = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
 		  $this->model_name = WXInflections::underscore($this->model_class);
 	  }
+
 		$this->sub_links["create"] = "Create New ". $this->display_name;
 		$this->sub_links["view_subscriber"] = "View Subscribers";
 		$this->sub_links["view_segments"] = "View Segments";

@@ -364,6 +364,11 @@ h4{
 .category_list_tag, .section_list_tag, .permission_list_tag {
   margin:3px 0;
 }
+#permission_browser label, #permission_browser select{
+  float: right;
+  clear: right;
+  margin: 10px;
+}
 .trash_cat img, .trash_sect img {
   padding:2px 0 0 2px;
 }
@@ -1138,7 +1143,7 @@ li.pagination_link a {
 
 #primary-navigation {
   font-size:100%;
-  margin:0 100px 0 140px;
+  margin:0 170px 0 140px;
 }
 #primary-navigation li {
   display:block;

@@ -13,6 +13,7 @@ class CMSAdminCategoryController extends AdminComponent {
     "name"   =>array("link"=>"edit"),
   );
   public $filter_columns = array("name");
+	public $permissions = array("create","edit","delete");
 	/**
 	 * set up the categories listing
 	 */	

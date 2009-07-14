@@ -28,6 +28,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $status_col = "status";
 	public $modal_preview = false;
 	public $languages = array(0=>"english");
+	public $permissions = array("create","edit","delete","categories","attach_images","inline_images","html","video","audio");
 	
 	public function controller_global(){
     if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
@@ -56,7 +57,6 @@ class CMSAdminContentController extends AdminComponent {
 	* main listing page - paginated
 	**/
 	public function index() {
-	  $this->warning_messages();
 	  if(!$page = $this->param("page")) $page=1;
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 	  

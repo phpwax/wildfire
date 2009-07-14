@@ -17,21 +17,22 @@ class CMSAdminHomeController extends AdminComponent {
 	public $analytics_email = false;
 	public $analytics_password = false;	
 	public $analytics_id = false;
+	
+	public $permissions = array("stats");
+	
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
-	function __construct(){
-		parent::__construct();
-    if($this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
-      $content_permissions = $this->current_user->access("content");    
-      if(count($content_permissions)){  
-        foreach($content_permissions->rowset as $row) $this->content_permissions[CmsPermission::$operations[$row['operation']]] = $row['allowed'];
-      }
-    }
+  function __construct($initialise = true) {
+    parent::__construct($initialise);
+    if($initialise) $this->initialise();
+    $this->permissions = array_diff($this->permissions, array("menu","enabled")); //home controller needs to be there, so we don't allow set/unset on it
+  }
+	
+	private function initialise(){
 		$this->sub_links = array();
-		$this->sub_links["../content/create"] = "Create New Content";
+		if($this->current_user && $this->current_user->access("content","create")) $this->sub_links["../content/create"] = "Create New Content";
 		$this->sub_links["../.."] = "View Site";
-		if(is_array($this->content_permissions) && !isset($this->content_permissions['CREATE'])) unset($this->sub_links["../content/create"]);
 	}
 	/**
 	* protected function that handles the actual db authentication check on first login
@@ -46,7 +47,9 @@ class CMSAdminHomeController extends AdminComponent {
 		  $log->user=$auth->get_user();
 		  $log->time = date("Y-m-d H:i:s");
 		  $log->save();
-		  if($this->authorised_redirect) return $this->authorised_redirect;		  
+		  $perm_model = new CmsPermission;
+		  if(!count($perm_model->all())) return '/admin/home/convert_to_v3';
+		  elseif($this->authorised_redirect) return $this->authorised_redirect;		  
 			else return 'index';
 		}
 		else {
@@ -67,6 +70,7 @@ class CMSAdminHomeController extends AdminComponent {
 		$this->redirect_url = Session::get('referrer');
 		$this->form = new LoginForm;
 	}
+	
 	public function install(){
 	  $users_model = new $this->model_class;
 	  if(count($users_model->all())) $this->redirect_to($this->unauthorised_redirect);
@@ -78,27 +82,55 @@ class CMSAdminHomeController extends AdminComponent {
 	    $new_user->password = $this->form->password->value;
 	    if($new_user->save()){
 	      $permission = new CmsPermission;
-        foreach(CMSApplication::$modules as $name => $row){
-          foreach(CmsPermission::$operations as $key=>$op){
-            if(!$found = $permission->clear()->filter("module", $name)->filter("operation", $key)->first()){
-              $perm = new CmsPermission;
-              $perm->module = $name;
-              $perm->operation = $key;
-              $perm->save();
-              $perm->allowed = 1;
-              $new_user->permissions = $perm;
-            }
+        foreach(CMSApplication::$modules as $name => $module_options){
+          $controller_class = WaxUrl::route_controller(trim($module_options['link'],"/"));
+          $controller_class = Inflections::slashcamelize($controller_class, true)."Controller";
+          $controller = new $controller_class(false); //instantiate classes without intialising them
+          foreach($controller->permissions as $operation){
+            $perm = new CmsPermission;
+            $perm->class = $name;
+            $perm->operation = $operation;
+            $perm->allowed = 1;
+            $perm->user = $new_user; //foreign key triggers a save
           }
         }
       }
       $_POST['username'] = $new_user->username;
       $_POST['password'] = $new_user->password;
-      CmsConfiguration::set('cms_warning_permissions', 1);
 	    $this->redirect_to($this->process_login());
 	  }else{
   	  Session::unset_var('user_messages');
   	  Session::add_message($this->no_users_message);
 	  }
+	}
+	/**
+	 * conversion routine to new permissions based system
+	 */	
+	public function convert_to_v3(){
+    $config = CmsConfiguration::get('modules');
+    $registered = $config['enabled_modules'];
+    $user_model = new $this->model_class;
+    $permission = new CmsPermission;
+    foreach($user_model->clear()->all() as $user){
+      if($user->usergroup < 30 && $registered){
+        $all_mods = array();
+        foreach($registered as $name => $set) $all_mods[$name] = CMSApplication::$modules[$name];
+      }
+      else $all_mods = CMSApplication::$modules;
+      foreach($all_mods as $name => $module_options){
+        if($module_options['auth_level'] > $user->usergroup) continue; //skip permissions that users have no "access" to
+        $controller_class = slashcamelize($module_options['link'])."Controller";
+        $controller = new $controller_class(false); //instantiate classes without intialising them
+        foreach($controller->permissions as $operation){
+          $perm = new CmsPermission;
+          $perm->class = $name;
+          $perm->operation = $operation;
+          $perm->allowed = 1;
+          $perm->user = $user; //foreign key triggers a save
+        }
+      }
+    }
+    $this->redirect_to("/admin/home/");
 	}
 	/**
 	* Clears the session data via a call to the auth object - effectively logging you out
@@ -112,14 +144,12 @@ class CMSAdminHomeController extends AdminComponent {
 	* home page - shows statistical summaries
 	**/
 	public function index() {    
-    $this->warning_messages();
-    if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
-    if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
- 	  if($this->content_permissions['VIEW']) $this->recent_content = $content->limit(10)->filter("status < 3")->order("published DESC")->all();
-    else $this->recent_content = array();
- 	  $this->can_see_stats = $this->can_see_stats();
+ 	  if($this->current_user->access("content","view")){
+ 	    if($ids = $this->current_user->allowed_sections_ids) $content->filter(array("cms_section_id"=>$ids));
+ 	    $this->recent_content = $content->scope_published()->limit(10)->all();
+ 	  }else $this->recent_content = array();
  	}
 	/**
 	* help pages - content is generated via partials (we really should write some more of these...)
@@ -149,86 +179,88 @@ class CMSAdminHomeController extends AdminComponent {
     return $simple;
   }
   
-  public function can_see_stats() { return true;}
-  
   public function visitor_data() {
-		$analytics_email = Config::get("analytics/email");
-		$analytics_password = Config::get("analytics/password");
-		$analytics_id = Config::get("analytics/id");
-    $api = new GoogleAnalytics();
-    if($api->login($analytics_email, $analytics_password)) {
-    	$api->load_accounts();
-    	$this->visit_data = $api->data($analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
-    	$chart = new OpenFlashChart();
-    	$chart->add_title("");
-    	$labels = array();
-    	$visits = array();
-    	foreach($this->visit_data as $visit=>$data) $labels[]=date("D j",strtotime(key($data)));
-    	foreach($this->visit_data as $visit=>$data) {
-    	  $visits[]=array("value"=>(int)$data[key($data)]["ga:visitors"],"tip"=>"#val# visits");
-    	  $raw_visits[]=(int)$data[key($data)]["ga:visitors"];
-    	}
-    	$raw_visits = array_reverse($raw_visits);
-      $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) ,"colour"=>"#E1E1E1","size"=>9),"colour"=>"#D1D1D1","grid-colour"=>"#333333","stroke"=>1,"font-size"=>9  ));
-      $chart->add_y_axis(array("labels"=>array("colour"=>"#E1E1E1","size"=>9),"stroke"=>1,"font-size"=>9,"colour"=>"#D1D1D1","grid-colour"=>"#333333","min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
-      $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#999999;text-align: center;}");
-      $chart->add_element(array(
-        "values"=>array_reverse($visits), 
-        "type"=>"line", 
-        "text"=>"Visits", 
-        "colour"=>"#a3ce44",
-        "dot-style"=>array(
-          "type"=>"solid-dot",
-          "dot-size"=>3,
-          "halo-size"=>2,
-          "colour"=>"#e76f34"
-        ),
-        "font-size"=>9
-      ));
-      $chart->add_value("bg_colour","#414141");
-      echo $chart->render(); exit;
-    } else throw new WaxException("Failed Connection To Google Analytics");
+    if($this->current_user->access($module_name,"stats")){
+      $analytics_email = Config::get("analytics/email");
+      $analytics_password = Config::get("analytics/password");
+      $analytics_id = Config::get("analytics/id");
+      $api = new GoogleAnalytics();
+      if($api->login($analytics_email, $analytics_password)) {
+      	$api->load_accounts();
+      	$this->visit_data = $api->data($analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+      	$chart = new OpenFlashChart();
+      	$chart->add_title("");
+      	$labels = array();
+      	$visits = array();
+      	foreach($this->visit_data as $visit=>$data) $labels[]=date("D j",strtotime(key($data)));
+      	foreach($this->visit_data as $visit=>$data) {
+      	  $visits[]=array("value"=>(int)$data[key($data)]["ga:visitors"],"tip"=>"#val# visits");
+      	  $raw_visits[]=(int)$data[key($data)]["ga:visitors"];
+      	}
+      	$raw_visits = array_reverse($raw_visits);
+        $chart->add_x_axis(array("labels"=>array("labels"=>array_reverse($labels) ,"colour"=>"#E1E1E1","size"=>9),"colour"=>"#D1D1D1","grid-colour"=>"#333333","stroke"=>1,"font-size"=>9  ));
+        $chart->add_y_axis(array("labels"=>array("colour"=>"#E1E1E1","size"=>9),"stroke"=>1,"font-size"=>9,"colour"=>"#D1D1D1","grid-colour"=>"#333333","min"=>0,"max"=>max($raw_visits)+10,"steps"=>ceil(max($raw_visits)/100)*10));
+        $chart->add_y_legend("Unique Visitors", "{font-size: 11px; color:#999999;text-align: center;}");
+        $chart->add_element(array(
+          "values"=>array_reverse($visits), 
+          "type"=>"line", 
+          "text"=>"Visits", 
+          "colour"=>"#a3ce44",
+          "dot-style"=>array(
+            "type"=>"solid-dot",
+            "dot-size"=>3,
+            "halo-size"=>2,
+            "colour"=>"#e76f34"
+          ),
+          "font-size"=>9
+        ));
+        $chart->add_value("bg_colour","#414141");
+        echo $chart->render(); exit;
+      } else throw new WaxException("Failed Connection To Google Analytics");
+    } else throw new WaxException("No Access To Google Analytics");
   }
   
   public function pageview_data() {
-		$analytics_email = Config::get("analytics/email");
-		$analytics_password = Config::get("analytics/password");
-		$analytics_id = Config::get("analytics/id");
-    $api = new GoogleAnalytics();
-    if(!$analytics_email || !$analytics_password) return false;
-    if($api->login($analytics_email, $analytics_password)) {
-    	$api->load_accounts();
-    	$this->pages_data = $api->data($analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
-    	foreach($this->pages_data as $source=>$pages) {
-    	  foreach($pages as $page=>$visits) {
-    	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
-    	  }
-    	}
+    if($this->current_user->access($module_name,"stats")){
+      $analytics_email = Config::get("analytics/email");
+      $analytics_password = Config::get("analytics/password");
+      $analytics_id = Config::get("analytics/id");
+      $api = new GoogleAnalytics();
+      if(!$analytics_email || !$analytics_password) return false;
+      if($api->login($analytics_email, $analytics_password)) {
+      	$api->load_accounts();
+      	$this->pages_data = $api->data($analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
+      	foreach($this->pages_data as $source=>$pages) {
+      	  foreach($pages as $page=>$visits) {
+      	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
+      	  }
+      	}
 
-			if(count($subs)){
-				krsort($subs);
-				return $subs;
-			}else return array();
-    } else return false;
+  			if(count($subs)){
+  				krsort($subs);
+  				return $subs;
+  			}else return array();
+      } else return false;
+    } else throw new WaxException("No Access To Google Analytics");
   }
   
   public function searchrefer_data() {
-		$analytics_email = Config::get("analytics/email");
-		$analytics_password = Config::get("analytics/password");
-		$analytics_id = Config::get("analytics/id");
-    $api = new GoogleAnalytics();
-    if($api->login($analytics_email, $analytics_password)) {
-    	$api->load_accounts();
-    	$this->pages_data = $api->data($analytics_id, 'ga:keyword', 'ga:visits');
-    	array_shift($this->pages_data);
-    	foreach($this->pages_data as $source=>$count) {
-    	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
-    	}
-      return $subs;
-    } else return false;
+    if($this->current_user->access($module_name,"stats")){
+      $analytics_email = Config::get("analytics/email");
+      $analytics_password = Config::get("analytics/password");
+      $analytics_id = Config::get("analytics/id");
+      $api = new GoogleAnalytics();
+      if($api->login($analytics_email, $analytics_password)) {
+      	$api->load_accounts();
+      	$this->pages_data = $api->data($analytics_id, 'ga:keyword', 'ga:visits');
+      	array_shift($this->pages_data);
+      	foreach($this->pages_data as $source=>$count) {
+      	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
+      	}
+        return $subs;
+      } else return false;
+    } else throw new WaxException("No Access To Google Analytics");
   }
-  
-  
 }
 
 ?>

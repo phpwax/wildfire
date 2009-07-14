@@ -1,8 +1,8 @@
 <?if(count($all_permissions)):?>
-<?$mod_name = "";?>
-  <?foreach($all_permissions as $count => $permission):?>
-    <?if($mod_name != $permission->module):?><div class="clearfix"></div><?$mod_name = $permission->module?><?endif?>
-    <div class="permission_tag" id="tag_<?=$permission->primval?>"><?=$permission->module?> (<?=$permission->operation()?>)</div>
+<?$class_name = "";?>
+  <?foreach($all_permissions as $permission):?>
+    <?if($class_name != $permission->class):?><div class="clearfix"></div><?$class_name = $permission->class?><?endif?>
+    <div class="permission_tag" id="tag_<?=$permission->class?>_<?=$permission->operation?>"><?=$permission->class?> (<?=$permission->operation?>)</div>
   <?endforeach?>
 <?else:?>
 <p>No permissions setup yet</p>
