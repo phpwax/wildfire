@@ -22,9 +22,6 @@ class CMSAdminHomeController extends AdminComponent {
 	**/
 	function __construct(){
 		parent::__construct();
-		$this->analytics_email = Config::get("analytics/email");
-		$this->analytics_password = Config::get("analytics/password");
-		$this->analytics_id = Config::get("analytics/id");
     if($this->current_user->primval && CmsConfiguration::get('cms_warning_permissions') == 1){
       $content_permissions = $this->current_user->access("content");    
       if(count($content_permissions)){  
@@ -155,10 +152,13 @@ class CMSAdminHomeController extends AdminComponent {
   public function can_see_stats() { return true;}
   
   public function visitor_data() {
+		$analytics_email = Config::get("analytics/email");
+		$analytics_password = Config::get("analytics/password");
+		$analytics_id = Config::get("analytics/id");
     $api = new GoogleAnalytics();
-    if($api->login($this->analytics_email, $this->analytics_password)) {
+    if($api->login($analytics_email, $analytics_password)) {
     	$api->load_accounts();
-    	$this->visit_data = $api->data($this->analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+    	$this->visit_data = $api->data($analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
     	$chart = new OpenFlashChart();
     	$chart->add_title("");
     	$labels = array();
@@ -191,11 +191,14 @@ class CMSAdminHomeController extends AdminComponent {
   }
   
   public function pageview_data() {
+		$analytics_email = Config::get("analytics/email");
+		$analytics_password = Config::get("analytics/password");
+		$analytics_id = Config::get("analytics/id");
     $api = new GoogleAnalytics();
-    if(!$this->analytics_email || !$this->analytics_password) return false;
-    if($api->login($this->analytics_email, $this->analytics_password)) {
+    if(!$analytics_email || !$analytics_password) return false;
+    if($api->login($analytics_email, $analytics_password)) {
     	$api->load_accounts();
-    	$this->pages_data = $api->data($this->analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
+    	$this->pages_data = $api->data($analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
     	foreach($this->pages_data as $source=>$pages) {
     	  foreach($pages as $page=>$visits) {
     	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
@@ -210,10 +213,13 @@ class CMSAdminHomeController extends AdminComponent {
   }
   
   public function searchrefer_data() {
+		$analytics_email = Config::get("analytics/email");
+		$analytics_password = Config::get("analytics/password");
+		$analytics_id = Config::get("analytics/id");
     $api = new GoogleAnalytics();
-    if($api->login($this->analytics_email, $this->analytics_password)) {
+    if($api->login($analytics_email, $analytics_password)) {
     	$api->load_accounts();
-    	$this->pages_data = $api->data($this->analytics_id, 'ga:keyword', 'ga:visits');
+    	$this->pages_data = $api->data($analytics_id, 'ga:keyword', 'ga:visits');
     	array_shift($this->pages_data);
     	foreach($this->pages_data as $source=>$count) {
     	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
