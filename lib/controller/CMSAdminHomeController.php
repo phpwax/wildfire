@@ -179,6 +179,12 @@ class CMSAdminHomeController extends AdminComponent {
     return $simple;
   }
   
+  public function _stats(){
+    $this->use_layout = false;
+    if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
+    if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
+  }
+  
   public function visitor_data() {
     if($this->current_user->access($module_name,"stats")){
       $analytics_email = Config::get("analytics/email");
