@@ -158,7 +158,7 @@ class CMSApplicationController extends WaxController{
 	 * this function creates an internal crumb trail array, can be used for navigation etc
 	 */	
 	protected function build_crumb(){
-		if($this->cms_section->id) $path_to_root = array_reverse($this->cms_section->path_to_root());
+		if($this->cms_section->id) $path_to_root = $this->cms_section->path_from_root();
 		else $path_to_root = array();
 		foreach($path_to_root as $count => $path){
 			if($count > 0) $url = $this->crumbtrail[($count-1)]['url']  . $path->url;
