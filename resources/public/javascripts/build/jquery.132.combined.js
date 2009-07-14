@@ -922,6 +922,10 @@ $(document).ready(function(){
   $(".live_search_results").hover(function(){}, function(){
     s = setTimeout('live_search_close()', 800);
   });
+  
+  if($("#statistics").length){
+    $("#statistics").load("/admin/home/stats");
+  }
 });
 
 function live_search(filter) {

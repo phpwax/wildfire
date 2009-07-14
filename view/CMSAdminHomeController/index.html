@@ -1,4 +1,6 @@
+<?if($current_user->access("home","stats")):?>
 <div id="statistics"></div>
+<?endif?>
 <div id="quick_nav">
   <?if($current_user->access("content","edit")):?>
   <div id="quick_search">

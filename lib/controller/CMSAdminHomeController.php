@@ -179,10 +179,12 @@ class CMSAdminHomeController extends AdminComponent {
     return $simple;
   }
   
-  public function _stats(){
+  public function stats(){
     $this->use_layout = false;
-    if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
-    if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
+    if($this->current_user->access("home","stats")){
+      if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
+      if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
+    } else $this->use_view = false;
   }
   
   public function visitor_data() {
