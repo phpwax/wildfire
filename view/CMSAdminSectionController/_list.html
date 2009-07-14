@@ -4,7 +4,7 @@
         <td class="column">
           <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
           <?else:?>
-          <?$tmp = str_pad("", $row->get_level(), "*", STR_PAD_LEFT);?>
+          <?$tmp = str_pad("", $all_rows->getDepth(), "*", STR_PAD_LEFT);?>
           <?=str_replace("*", "&raquo;", $tmp)?>
           <?=$row->$column?>
           <?endif;?>
