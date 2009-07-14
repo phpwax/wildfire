@@ -181,14 +181,14 @@ class CMSAdminHomeController extends AdminComponent {
   
   public function stats(){
     $this->use_layout = false;
-    if($this->current_user->access("home","stats")){
+    if($this->current_user->access($this->module_name,"stats")){
       if(!$this->stat_links = $this->pageview_data()) $this->stat_links = array();
       if(!$this->stat_search = $this->searchrefer_data()) $this->stat_search = array();
     } else $this->use_view = false;
   }
   
   public function visitor_data() {
-    if($this->current_user->access($module_name,"stats")){
+    if($this->current_user->access($this->module_name,"stats")){
       $analytics_email = Config::get("analytics/email");
       $analytics_password = Config::get("analytics/password");
       $analytics_id = Config::get("analytics/id");
@@ -229,7 +229,7 @@ class CMSAdminHomeController extends AdminComponent {
   }
   
   public function pageview_data() {
-    if($this->current_user->access($module_name,"stats")){
+    if($this->current_user->access($this->module_name,"stats")){
       $analytics_email = Config::get("analytics/email");
       $analytics_password = Config::get("analytics/password");
       $analytics_id = Config::get("analytics/id");
@@ -253,7 +253,7 @@ class CMSAdminHomeController extends AdminComponent {
   }
   
   public function searchrefer_data() {
-    if($this->current_user->access($module_name,"stats")){
+    if($this->current_user->access($this->module_name,"stats")){
       $analytics_email = Config::get("analytics/email");
       $analytics_password = Config::get("analytics/password");
       $analytics_id = Config::get("analytics/id");
