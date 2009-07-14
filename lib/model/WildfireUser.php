@@ -3,6 +3,7 @@
 class WildfireUser extends WaxModel {
   
   public $identifier = "fullname";
+  public $permissions_cache = false;
     
   public function setup() {
     $this->define("username", "CharField", array("required"=>true, "blank"=>false,"unique"=>true, 'default'=>'Enter Username Here'));
@@ -12,7 +13,7 @@ class WildfireUser extends WaxModel {
     $this->define("password", "CharField");
     
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
-    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class', 'join_field' => 'wildfire_user_id'));
+    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class', 'join_field' => 'wildfire_user_id', 'eager_loading' => true));
   }
 
 	public function fullname() {
@@ -37,21 +38,15 @@ class WildfireUser extends WaxModel {
 		if($ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$ids));
   	return $sections;
 	}
+	
+	public function fetch_permissions(){
+	  foreach($this->permissions as $permission){
+	    $this->permissions_cache[$permission->class][$permission->operation] = $permission->allowed;
+	  }
+	}
   
-  /**
-   * permission check for this user
-   * 
-   * @return Boolean if both class and operation are supplied, rowset of defined permissions if either or both are left out
-   */
-	public function access($class = false, $operation = false){
-    if($class) $filters['class'] = $class;
-    if($operation) $filters['operation'] = $operation;
-    $ret = $this->permissions($filters);
-    if($class && $operation){
-      foreach($ret as $permission)
-        if($permission->allowed) return true;
-        else return false;
-	  }else return $ret;
+	public function access($class, $operation){
+	  return $this->permissions_cache[$class][$operation];
 	}
 	
 }
