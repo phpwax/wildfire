@@ -40,22 +40,23 @@ class CMSAdminUserController extends AdminComponent {
 		$this->section_list_partial = $this->render_partial("section_list");
 		$this->apply_sections_partial = $this->render_partial("apply_sections");
 		
-		//add all permissions from modules
-    foreach(CMSApplication::$modules as $module_name => $options){
-      $module_class = slashcamelize($options['link'])."Controller";
-      $module = new $module_class;
-      foreach((array)$module->permissions as $operation)
-        $this->all_permissions[] = array("class"=>$module_name,"operation"=>$operation);
-    }
+		if($this->model->primval && ($this->model->primval != $this->current_user->primval) && $this->current_user->access($this->module_name,"admin")){
+  		//add all permissions from modules
+      foreach(CMSApplication::$modules as $module_name => $options){
+        $module_class = slashcamelize($options['link'])."Controller";
+        $module = new $module_class(false);
+        foreach((array)$module->permissions as $operation)
+          $this->all_permissions[] = array("class"=>$module_name,"operation"=>$operation);
+      }
     
-    $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
-    $this->all_users = new $this->model_class;
-    $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->all();
-    
-    $this->exisiting_modules_partial = $this->render_partial("list_modules");
-		$this->list_modules_partial = $this->render_partial("module_list");		
-    $this->permissions_partial = $this->render_partial("modules");
-		
+      $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
+      $this->all_users = new $this->model_class;
+      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->all();
+      
+      $this->exisiting_modules_partial = $this->render_partial("list_modules");
+  		$this->list_modules_partial = $this->render_partial("module_list");		
+      $this->permissions_partial = $this->render_partial("modules");
+  	}
     
 		$this->form = $this->render_partial("form");
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
