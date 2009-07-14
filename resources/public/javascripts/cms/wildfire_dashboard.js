@@ -10,7 +10,9 @@ $(document).ready(function() {
   });
   
   if($("#statistics").length){
-    $("#statistics").load("/admin/home/stats");
+    $("#statistics").load("/admin/home/stats", false, function(){
+      $(this).css("background-image","none");
+    });
   }
 });
 

@@ -1440,9 +1440,12 @@ a.edit_img img{
 }
 #dashboard #statistics {
   float:right;
-  background-color:#414141;
+  background:#414141 url('/images/cms/stats-loader.gif') center center no-repeat;
   padding:3px 15px 40px 15px;
   margin-top:-32px;
+  color:#f1f1f1;
+  min-height: 600px;
+  min-width: 350px;
 }
 #dashboard #statistics h2 {
   color:#d1d1d1;
@@ -1454,9 +1457,6 @@ a.edit_img img{
   margin-left:0;
   margin-top:15px;
   margin-bottom:4px;
-}
-#dashboard #statistics {
-  color:#f1f1f1;
 }
 #dashboard #statistics a {
   color:#b34744;
