@@ -146,7 +146,7 @@ class CMSAdminHomeController extends AdminComponent {
 	public function index() {    
  	  unset($this->sub_links["index"]);
  	  $content = new CmsContent;
- 	  if($this->current_user->access("content","view")){
+ 	  if($this->current_user->access("content","enabled")){
  	    if($ids = $this->current_user->allowed_sections_ids) $content->filter(array("cms_section_id"=>$ids));
  	    $this->recent_content = $content->scope_published()->limit(10)->all();
  	  }else $this->recent_content = array();
