@@ -12,7 +12,7 @@ class WildfireUser extends WaxModel {
     $this->define("password", "CharField");
     
     $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
-    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class'));
+    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class', 'join_field' => 'wildfire_user_id'));
   }
 
 	public function fullname() {
