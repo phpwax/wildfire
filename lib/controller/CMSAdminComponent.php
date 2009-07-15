@@ -65,7 +65,7 @@ class CMSAdminComponent extends WaxController {
 		$this->all_modules = $this->configure_modules();
 		$this->menu_modules = $this->configure_modules('menu');
 	
-	  if(!in_array(WaxUrl::get("action"),array("login","install"))) $this->check_authorised();
+	  if(!in_array(Request::get("action"),array("login","install"))) $this->check_authorised();
 		
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
@@ -82,7 +82,7 @@ class CMSAdminComponent extends WaxController {
 	  
 		if($this->current_user && $this->current_user->access($this->module_name,"create")) $this->sub_links["create"] = "Create New ". $this->display_name;
 		
-		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
+		if(!$this->this_page = Request::get("page")) $this->this_page=1;
 	}
 
 	/**
@@ -135,7 +135,7 @@ class CMSAdminComponent extends WaxController {
 	*/
 	public function edit() {
 		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
-	  $this->id = WaxUrl::get("id");
+	  $this->id = Request::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     
@@ -191,7 +191,7 @@ class CMSAdminComponent extends WaxController {
 	* delete model record
 	*/	
 	public function delete(){
-		$id = WaxUrl::get("id");
+		$id = Request::get("id");
 		if(!$id) $id = $this->route_array[0];
 		
 		if($id) { /*updated to new methods*/
@@ -199,7 +199,7 @@ class CMSAdminComponent extends WaxController {
 			$model= $this->model->clear()->filter($field.'='.$id)->first()->limit(false)->delete();
 			Session::add_message("Item successfully deleted");
 			
-			$this->redirect_to("/".WaxUrl::get("controller")."/index");
+			$this->redirect_to("/".Request::get("controller")."/index");
 		}
 	}
 	
