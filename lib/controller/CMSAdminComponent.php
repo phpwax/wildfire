@@ -60,7 +60,7 @@ class CMSAdminComponent extends WaxController {
 
 		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
-		$this->current_user->fetch_permissions();
+		if($this->current_user) $this->current_user->fetch_permissions();
 
 		$this->all_modules = $this->configure_modules();
 		$this->menu_modules = $this->configure_modules('menu');
