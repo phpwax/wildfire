@@ -22,9 +22,10 @@
   	        <?endif?>
 	        <?endif?>
 					
-          <?if($params["link"] && $current_user->access($module_name,"edit")):?> <?=link_to(substr($row->$column, 0,35), array("action"=>"edit", "id"=>$row->primval))?>
+          <?if($params["link"] && $current_user->access($module_name,"edit")):?>
+            <a href="<?=$all_modules[$module_name]['link']?>edit/<?=$row->primval?>/"><?=$row->$column?></a>
           <?else:?>
-          <?=$row->$column?>
+            <?=$row->$column?>
           <?endif;?>
         </td>
       <?endforeach?>
@@ -41,14 +42,14 @@
       </td>
       <td class="column last">    
         <?if($current_user->access($module_name,"edit")):?>
-          <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+          <div class="generic_button"><a href="<?=$all_modules[$module_name]['link']?>edit/<?=$row->primval?>/">Edit</a></div>
         <?endif?>
         <?if($current_user->access($module_name,"delete")):?>
-          <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+          <div class="generic_button"><a onclick="return confirm('Are you sure you want to do that?');" href="<?=$all_modules[$module_name]['link']?>delete/<?=$row->primval?>/">Delete</a></div>
         <?endif?>        
             
-        <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink?>">View Post</a></div>
-        <?else:?><div class="generic_button"><a href="<?=$row->permalink?>?preview=1" target="_blank" id="preview_<?=$row->id?>"<?=$modal_preview?' class="modal_preview" ':''?>>Preview</a></div><?endif?>
+        <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink()?>">View Post</a></div>
+        <?else:?><div class="generic_button"><a href="<?=$row->permalink()?>?preview=1" target="_blank" id="preview_<?=$row->id?>"<?=$modal_preview?' class="modal_preview" ':''?>>Preview</a></div><?endif?>
       </td>
     </tr>
 <?endforeach?>
