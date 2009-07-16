@@ -90,7 +90,7 @@ class WildfireFile extends WaxModel {
 	public function show($size=110, $compress = false){
 		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
 		$extension = File::get_extension($this->filename);
-		$file = CACHE_DIR.$this->id."_".$size . ".".$extension;
+		$file = CACHE_DIR."images/".$this->id."_".$size . ".".$extension;
 		//slash any spaces
 		$source=preg_replace("/[\s]/", "\ ", $source);
     if(!is_readable($source)) WaxLog::log('error', "[image] FATAL IMAGE ERROR - ".$source);
