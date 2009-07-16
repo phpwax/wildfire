@@ -307,26 +307,25 @@ class CmsFilesystem {
     exit;
   }
 
-  function fileMove($fileid,$path){
+  function fileMove($fileid,$move_to_path){
   	$fileinfo = $this->fileinfo;
-  	$defaultFileStore = $this->defaultFileStore;
     $file = new WildfireFile($fileid);
     if($file->primval()){
-      $path = $this->defaultFileStore.$file->rpath;
-      if(!$this->is_link($path)){  
+      $f_move_to_path = $this->defaultFileStore.$move_to_path;
+      WaxLog::log("error", $f_move_to_path);
+      if(!$this->is_link($move_to_path)){  
   	    $fileid = mysql_escape_string($fileid);	
-  	    $path = str_replace("//","/",$path);
-      	$path = str_replace("..","",$path);
-      	$path = mysql_escape_string($path);
+  	    $f_move_to_path = str_replace("//","/",$f_move_to_path);
+      	$f_move_to_path = str_replace("..","",$f_move_to_path);
+      	$f_move_to_path = mysql_escape_string($f_move_to_path);
         $fileinfo = $this->getFileInfo($fileid);
-      	$newPath = $path;
-        WaxLog::log("error", $newPath);
+        WaxLog::log("error", $f_move_to_path);
       	if(is_dir($newPath)){
-          $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
+          $query = "UPDATE wildfire_file set path=\"$f_move_to_path\",rpath=\"$move_to_path\" where id=$fileid";
           WaxLog::log("error", $query);
       		$result = $this->query($query);
-      		rename($fileinfo['path'].'/'.$fileinfo['filename'],$newPath.'/'.$fileinfo['filename']);
-      		WaxLog::log("error", $fileinfo['path'].'/'.$fileinfo['filename'].": to :".$newPath.'/'.$fileinfo['filename']);
+      		rename($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$fileinfo['filename']);
+      		WaxLog::log("error", $fileinfo['path'].'/'.$fileinfo['filename'].": to :".$f_move_to_path.'/'.$fileinfo['filename']);
       		echo "done";
       	} else $this->error('new directory doesnt exist');
     	}
