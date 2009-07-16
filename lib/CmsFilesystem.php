@@ -318,7 +318,6 @@ class CmsFilesystem {
   	    $fileid = mysql_escape_string($fileid);	
   	    $path = str_replace("//","/",$path);
       	$path = str_replace("..","",$path);
-	
       	$path = mysql_escape_string($path);
         $fileinfo = $this->getFileInfo($fileid);
       	$newPath = $this->defaultFileStore.$path;
