@@ -307,24 +307,21 @@ class CmsFilesystem {
     exit;
   }
 
-  function fileMove($fileid,$path){
+  function fileMove($fileid,$move_to_path){
   	$fileinfo = $this->fileinfo;
-  	$defaultFileStore = $this->defaultFileStore;
     $file = new WildfireFile($fileid);
-    if($file->primval){
-      $path = $file->path.$file->filename;
-      if(!$this->is_link($path)){  
+    if($file->primval()){
+      $f_move_to_path = $this->defaultFileStore.$move_to_path;
+      if(!$this->is_link($move_to_path)){  
   	    $fileid = mysql_escape_string($fileid);	
-  	    $path = str_replace("//","/",$path);
-      	$path = str_replace("..","",$path);
-	
-      	$path = mysql_escape_string($path);
+  	    $f_move_to_path = str_replace("//","/",$f_move_to_path);
+      	$f_move_to_path = str_replace("..","",$f_move_to_path);
+      	$f_move_to_path = mysql_escape_string($f_move_to_path);
         $fileinfo = $this->getFileInfo($fileid);
-      	$newPath = $this->defaultFileStore.$path;
-      	if(is_dir($newPath)){
-          $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
+      	if(is_dir($f_move_to_path)){
+          $query = "UPDATE wildfire_file set path=\"$f_move_to_path\",rpath=\"$move_to_path\" where id=$fileid";
       		$result = $this->query($query);
-      		rename($fileinfo['path'].'/'.$fileinfo['filename'],$newPath.'/'.$fileinfo['filename']);
+      		rename($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$fileinfo['filename']);
       		echo "done";
       	} else $this->error('new directory doesnt exist');
     	}
