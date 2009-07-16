@@ -308,6 +308,7 @@ class CmsFilesystem {
   }
 
   function fileMove($fileid,$path){
+    WaxLog::log("error", "moving $fileid to $path");
   	$fileinfo = $this->fileinfo;
   	$defaultFileStore = $this->defaultFileStore;
     $file = new WildfireFile($fileid);
@@ -321,6 +322,7 @@ class CmsFilesystem {
       	$path = mysql_escape_string($path);
         $fileinfo = $this->getFileInfo($fileid);
       	$newPath = $this->defaultFileStore.$path;
+        WaxLog::log("error", $newPath);
       	if(is_dir($newPath)){
           $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
           WaxLog::log("error", $query);
