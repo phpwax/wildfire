@@ -1,21 +1,22 @@
 <?foreach($all_rows as $row):?>
-    <tr id="row-<?=$row->id?>">
+    <tr id="row-<?=($primval = $row->primval)?>">
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
-          <?if($params["link"]):?> <?=link_to($row->$column, array("action"=>"edit", "id"=>$row->id))?>
+          <?if($params["link"]):?>
+            <a href="<?=$all_modules[$module_name]['link']?>edit/<?=$primval?>/"><?=$row->$column?></a>
           <?else:?>
-          <?$tmp = str_pad("", $all_rows->getDepth(), "*", STR_PAD_LEFT);?>
-          <?=str_replace("*", "&raquo;", $tmp)?>
-          <?=$row->$column?>
+            <?$tmp = str_pad("", $all_rows->getDepth(), "*", STR_PAD_LEFT);?>
+            <?=str_replace("*", "&raquo;", $tmp)?>
+            <?=$row->$column?>
           <?endif;?>
         </td>
       <?endforeach?>
       <td class="column">
         <?if($current_user->access($module_name,"edit")):?>
-        <div class="generic_button"><?=link_to("Edit", array("action"=>"edit", "id"=>$row->id))?></div>
+        <div class="generic_button"><a href="<?=$all_modules[$module_name]['link']?>edit/<?=$primval?>/">Edit</a></div>
         <?endif?>
         <?if($current_user->access($module_name,"delete")):?>
-        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <div class="generic_button"><a onclick="return confirm('Are you sure you want to do that?');" href="<?=$all_modules[$module_name]['link']?>delete/<?=$primval?>/">Delete</a></div>
         <?endif?>        
       </td>
     </tr>
