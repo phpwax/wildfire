@@ -319,7 +319,7 @@ class CmsFilesystem {
       	$path = str_replace("..","",$path);
       	$path = mysql_escape_string($path);
         $fileinfo = $this->getFileInfo($fileid);
-      	$newPath = $this->defaultFileStore.$path;
+      	$newPath = $path;
         WaxLog::log("error", $newPath);
       	if(is_dir($newPath)){
           $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
