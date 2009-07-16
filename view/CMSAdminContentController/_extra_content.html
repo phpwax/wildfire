@@ -1,3 +1,4 @@
+ 
   <?foreach($extra_content as $content):?>
     <?if(is_array($opts = $extra_content_options[$content])):?>
       <?switch($opts['type']) {
@@ -21,8 +22,10 @@
           break;
         case "radiogroup":
           echo '<div class="large"><label>Rating</label>';
+          $val = $model->extra_content_value($content);
+          
           foreach($opts["choices"] as $choice) {
-            if($model->extra_content_value($content)==$choice) $checked=true;
+            if($val==$choice) $checked=true;
             else $checked = false;
             echo radio_button_tag("cms_extra_content[rating]", $choice, $checked, array("class"=>"rating"), false);
             echo $choice;
