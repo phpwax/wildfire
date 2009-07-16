@@ -312,7 +312,7 @@ class CmsFilesystem {
   	$defaultFileStore = $this->defaultFileStore;
     $file = new WildfireFile($fileid);
     if($file->primval()){
-      $path = $file->path.$file->filename;
+      $path = $file->path."/".$file->filename;
       WaxLog::log("error", $path);
       if(!$this->is_link($path)){  
   	    $fileid = mysql_escape_string($fileid);	
