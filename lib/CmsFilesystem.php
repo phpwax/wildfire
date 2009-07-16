@@ -308,15 +308,13 @@ class CmsFilesystem {
   }
 
   function fileMove($fileid,$path){
-    WaxLog::log("error", "moving $fileid to $path");
   	$fileinfo = $this->fileinfo;
   	$defaultFileStore = $this->defaultFileStore;
     $file = new WildfireFile($fileid);
-    WaxLog::log("error", print_r($file,1));
     if($file->primval()){
-      WaxLog::log("error", "HERE");
       $path = $file->path.$file->filename;
       if(!$this->is_link($path)){  
+        WaxLog::log("error", "HERE");
   	    $fileid = mysql_escape_string($fileid);	
   	    $path = str_replace("//","/",$path);
       	$path = str_replace("..","",$path);
