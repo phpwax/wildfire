@@ -312,20 +312,16 @@ class CmsFilesystem {
     $file = new WildfireFile($fileid);
     if($file->primval()){
       $f_move_to_path = $this->defaultFileStore.$move_to_path;
-      WaxLog::log("error", $f_move_to_path);
       if(!$this->is_link($move_to_path)){  
   	    $fileid = mysql_escape_string($fileid);	
   	    $f_move_to_path = str_replace("//","/",$f_move_to_path);
       	$f_move_to_path = str_replace("..","",$f_move_to_path);
       	$f_move_to_path = mysql_escape_string($f_move_to_path);
         $fileinfo = $this->getFileInfo($fileid);
-        WaxLog::log("error", $f_move_to_path);
       	if(is_dir($f_move_to_path)){
           $query = "UPDATE wildfire_file set path=\"$f_move_to_path\",rpath=\"$move_to_path\" where id=$fileid";
-          WaxLog::log("error", $query);
       		$result = $this->query($query);
       		rename($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$fileinfo['filename']);
-      		WaxLog::log("error", $fileinfo['path'].'/'.$fileinfo['filename'].": to :".$f_move_to_path.'/'.$fileinfo['filename']);
       		echo "done";
       	} else $this->error('new directory doesnt exist');
     	}
