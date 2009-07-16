@@ -323,8 +323,10 @@ class CmsFilesystem {
       	$newPath = $this->defaultFileStore.$path;
       	if(is_dir($newPath)){
           $query = "UPDATE wildfire_file set path=\"$newPath\",rpath=\"$path\" where id=$fileid";
+          WaxLog::log("error", $query);
       		$result = $this->query($query);
       		rename($fileinfo['path'].'/'.$fileinfo['filename'],$newPath.'/'.$fileinfo['filename']);
+      		WaxLog::log("error", $fileinfo['path'].'/'.$fileinfo['filename'].": to :".$newPath.'/'.$fileinfo['filename']);
       		echo "done";
       	} else $this->error('new directory doesnt exist');
     	}
