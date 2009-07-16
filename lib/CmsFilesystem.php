@@ -312,6 +312,7 @@ class CmsFilesystem {
   	$fileinfo = $this->fileinfo;
   	$defaultFileStore = $this->defaultFileStore;
     $file = new WildfireFile($fileid);
+    WaxLog::log("error", print_r($file,1));
     if($file->primval){
       $path = $file->path.$file->filename;
       if(!$this->is_link($path)){  
