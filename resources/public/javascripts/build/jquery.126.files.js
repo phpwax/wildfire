@@ -4919,7 +4919,8 @@ Directory.prototype = {
 	getContents: function () {
 		if(this.opening) return false;
 		this.opening = true;
-		var params = $H({ relay: 'getFolder', path: this.path });
+		var rand_date = new Date();
+		var params = $H({ relay: 'getFolder', path: this.path, rand: rand_date.getTime() });
 		this.showActivity();
 		var ajax = new Ajax.Request(FC.URL, {
 			onSuccess: this.getContents_handler.bind(this),
@@ -4954,7 +4955,8 @@ Directory.prototype = {
 	
 	update: function () {
 		if (this.open) {
-			var params = $H({ relay: 'getFolder', path: this.path });
+  		var rand_date = new Date();
+			var params = $H({ relay: 'getFolder', path: this.path, random: rand_date.getTime() });
 			this.showActivity();
 			var ajax = new Ajax.Request(FC.URL,{
 				onSuccess : this.update_handler.bind(this),
@@ -5052,12 +5054,14 @@ Directory.prototype = {
 	moveTo: function (element) { 
 		Element.removeClassName(this.element, 'hover');
 		if (element.object.parentObject == this) { return false; }
+		var rand_date = new Date();
 		if ( element.object.type == 'directory' ) {
 			var params = $H({ 
 				relay: 'folderMove', 
 				name: element.object.name, 
 				path: element.object.parentObject.path, 
-				newpath: this.path
+				newpath: this.path,
+				random: rand_date.getTime()
 			});
 			FC.SEARCHOBJ = this;
 			FC.NEXTPATH = '/'+ element.object.name;
@@ -5075,7 +5079,8 @@ Directory.prototype = {
 			var params = $H({ 
 				relay: 'fileMove', 
 				fileid: element.object.id, 
-				path: this.path 
+				path: this.path,
+				random: rand_date.getTime()
 			});
 			FC.SEARCHOBJ = this;
 			FC.NEXTPATH = '/'+ element.object.name;
@@ -5139,7 +5144,8 @@ Directory.prototype = {
 	
 	getMeta: function () {
 		$('meta').prevElement = this.path;
-		var params = $H({ relay: 'getFolderMeta', path: this.path });
+		var rand_date = new Date();
+		var params = $H({ relay: 'getFolderMeta', path: this.path, random: rand_date.getTime() });
 		var ajax = new Ajax.Request(FC.URL,{
 			onLoading: showMetaSpinner(), 
 			onSuccess: this.getMeta_handler.bind(this),
@@ -5193,7 +5199,8 @@ Directory.prototype = {
 		if(!direct) { var charCode = (event.charCode) ? event.charCode : ((event.which) ? event.which : event.keyCode); 
 		if (charCode == Event.KEY_ESC) this.clearRename(); }
 		if (charCode == Event.KEY_RETURN || direct) {
-			var params = $H({ relay : 'folderRename', path  : this.parentObject.path, name  : this.name, newname: direct || this.newName.value });
+		  rand_date = new Date();
+			var params = $H({ relay : 'folderRename', path  : this.parentObject.path, name  : this.name, newname: direct || this.newName.value, random: rand_date.getTime() });
 			this.link.innerHTML = params.newname;
 			this.clearRename();
 			
@@ -5240,7 +5247,8 @@ Directory.prototype = {
 		if(this.readonly) return false;
 		if(this.virtual) return false;
 		if(confirm('delete the folder '+this.name+ '?')) {
-			var params = $H({ relay: 'folderDelete', folder: this.path });
+		  var rand_date = new Date();
+			var params = $H({ relay: 'folderDelete', folder: this.path, random: rand_date.getTime() });
 			this.parentObject.prevChild(this);
 			var ajax = new Ajax.Request(FC.URL,{
 				onComplete: this.parentObject.nextChild(this),
@@ -5396,7 +5404,8 @@ File.prototype = {
 	getMeta: function () {
 		$('meta').prevElement = this.id;
 	
-		var params = $H({ relay: 'getMeta', fileid: this.id });
+	  var rand_date = new Date();
+		var params = $H({ relay: 'getMeta', fileid: this.id, random: rand_date.getTime() });
 		var ajax = new Ajax.Request(FC.URL,{
 			onLoading: showMetaSpinner(), 
 			onSuccess: this.getMeta_handler.bind(this),
@@ -5438,7 +5447,8 @@ File.prototype = {
 	
 	unlink: function () {
 		if(this.readonly) return false;
-			var params = $H({ relay: 'fileDelete', fileid: this.id });
+		  var rand_date = new Date();
+			var params = $H({ relay: 'fileDelete', fileid: this.id, random: rand_date.getTime() });
 			var ajax = new Ajax.Request(FC.URL,{
 				onComplete: this.parentObject.nextChild(this),
 				onSuccess: this.clear.bind(this),
@@ -5463,10 +5473,12 @@ File.prototype = {
 		var charCode = (event.charCode) ? event.charCode : ((event.which) ? event.which : event.keyCode); 
 		if (charCode == Event.KEY_ESC) this.clearRename();
 		if (charCode == Event.KEY_RETURN) {
+		  var rand_date = new Date();
 			var params = $H({
 				relay : 'fileRename',
 				fileid : this.id,
-				filename: this.newName.value
+				filename: this.newName.value,
+				random: rand_date.getTime()
 			});
 			this.link.innerHTML = this.newName.value;
 			this.name = this.newName.value;
@@ -5534,12 +5546,14 @@ updateMeta = function (meta) {
 
 
 rotate_image = function(fileid, angle){
-	href = '/admin/files/rotate/'+fileid+'?angle='+angle;
-	var rimage = new Ajax.Request(href, {onComplete:FC.SELECTEDOBJECT.getMeta()});		
+  var rand_date = new Date();
+	href = '/admin/files/rotate/'+fileid+'?angle='+angle+"&random_time="+rand_date.getTime();
+	var rimage = new Ajax.Request(href, {onComplete:FC.SELECTEDOBJECT.getMeta()});
 	return false;
 }
 resize_image = function(fileid, percent){
-	href = '/admin/files/resize/'+fileid+'?percent='+percent;
+  var rand_date = new Date();
+	href = '/admin/files/resize/'+fileid+'?percent='+percent+"&random_time="+rand_date.getTime();
 	var rimage = new Ajax.Request(href, {onComplete:FC.SELECTEDOBJECT.getMeta()});		
 	return false;
 }
@@ -5557,7 +5571,8 @@ saveMeta = function () {
 	FC.SELECTEDOBJECT.name = metaFilename;
 	FC.SELECTEDOBJECT.flag = metaFlag;
 	
-	var params = $H({relay: 'setMeta', fileid: FC.SELECTEDOBJECT.id, filename: metaFilename, description: metaDesc, flags: metaFlag });
+  var rand_date = new Date();
+	var params = $H({relay: 'setMeta', fileid: FC.SELECTEDOBJECT.id, filename: metaFilename, description: metaDesc, flags: metaFlag, random: rand_date.getTime() });
 	var ajax = new Ajax.Request(FC.URL, {
 		onComplete: function() { $('metaSave').style.display = 'block'; Effect.Fade('metaSave', {duration:3}); },
 		onSuccess: FC.SELECTEDOBJECT.refresh.bind(FC.SELECTEDOBJECT),
@@ -5630,7 +5645,8 @@ function newFolder(){
 	FC.NEXTPATH = '/'+folderName;
 	FC.SEARCHOBJ = c;
 	
-	var params = $H({ relay: 'newFolder', name: folderName, path: c.path });
+	var rand_date = new Date();
+	var params = $H({ relay: 'newFolder', name: folderName, path: c.path, random: rand_date.getTime() });
 	var ajax = new Ajax.Request(FC.URL,{
 		onSuccess: setTimeout("c.update()",100),
 		method: 'get', 
@@ -5648,7 +5664,8 @@ function uploadAuth() {
 	if(FC.SELECTEDOBJECT.type == 'file') uploadDestination = FC.SELECTEDOBJECT.parentObject;
 	else uploadDestination = FC.SELECTEDOBJECT;	
 	
-	var params = $H({ relay: 'uploadAuth', path: uploadDestination.path });
+	var rand_date = new Date();
+	var params = $H({ relay: 'uploadAuth', path: uploadDestination.path, random: rand_date.getTime() });
 	var ajax = new Ajax.Request(FC.URL, { 
 	  onSuccess: uploadAuth_handler, 
 	  method: 'post', 
@@ -5680,7 +5697,8 @@ function sendUpload(sid) {
 }
 
 function uploadStatus() {
-		var params = $H({ relay: 'uploadSmart'});
+    var rand_date = new Date();
+		var params = $H({ relay: 'uploadSmart', random: rand_date.getTime()});
 		var ajax = new Ajax.Request(FC.URL, { onSuccess: uploadStatus_handler, method:'post', parameters: params.toQueryString(), onFailure: function() { showError(ER.ajax); } });		
 }
 
@@ -5916,12 +5934,14 @@ Cart.prototype = {
 	},
 	
 	email: function(cartIDs) {
+	  var rand_date = new Date();
 		var params = $H({
 			relay: 'emailFilePackage', 
 			to: $('emailFormTo').value, 
 			from: $('emailFormFrom').value, 
 			message: $('emailFormMessage').value,
-			fileid: cartIDs
+			fileid: cartIDs,
+			random: rand_date.getTime()
 		});	
 		var ajax = new Ajax.Request(FC.URL,{
 			onSuccess: this.email_handler.bind(this),
