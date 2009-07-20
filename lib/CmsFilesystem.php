@@ -537,7 +537,7 @@ class CmsFilesystem {
   	while(!$this->checkId($fileid)){
   		$fileid++;
   	}
-  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status,flags) VALUES ($fileid,'$filename','$folderpath','$realitivePath','$type','$size','found', 'normal')";
+  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status,flags) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$realitivePath','$type','$size','found', 'normal')";
     WaxLog::log("info", "[DB] ".$query);
     try {
       $res = $this->query($query);
