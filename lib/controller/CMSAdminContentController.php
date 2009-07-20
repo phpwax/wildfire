@@ -129,6 +129,15 @@ class CMSAdminContentController extends AdminComponent {
 		//partials
 	}
 	
+	public function setup_preview_defaults($preview, $master, $copy_attributes){
+	  $preview->status = 4;
+    $saved = $preview->save();
+  	if($saved && $saved->primval) $preview->set_attributes($copy_attributes);
+  	$preview->status = 4;
+  	$preview->url = $master->url;
+  	$preview->master = $master->primval;
+  	return $preview->save();
+	}
 	/**
 	* the editing function... lets you change all the bits associated with the content record
 	* gets the record for the id passed (/admin/content/edit/ID)
@@ -155,23 +164,17 @@ class CMSAdminContentController extends AdminComponent {
 		if(($master->status == 1) || ($master->status == 6)){
 		  if(!($preview = $preview->filter(array("preview_master_id" => $master->primval, "status" => 4))->first())){
 		    //if a preview entry doesn't exist create one
-  		  foreach($master->columns as $col => $params)
+  		  foreach($master->columns as $col => $params){
   		    if($master->$col) $copy_attributes[$col] = $master->$col;
+		    }
   		  $copy_attributes = array_diff_key($copy_attributes,array($this->model->primary_key => false)); //take out ID
     	  $preview = new $this->model_class;
-				$preview->status = 4;
-    	  $preview->save();
-  		  $preview->set_attributes($copy_attributes);
-  		  $preview->status = 4;
-  		  $preview->url = $master->url;
-  		  $preview->master = $master->primval;
-  		  $preview->save();
+				$preview = $this->setup_preview_defaults($preview, $master, $copy_attributes);
 	    }
       $this->model = $preview;
 		}else{
 		  $this->model = $master;
 		}
-		
 		if($this->model->is_posted()){
   		if($_POST['publish']){
   		  if(($master->status != 1) && ($master->status != 6)){
