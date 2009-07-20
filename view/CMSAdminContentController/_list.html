@@ -1,12 +1,12 @@
 <?foreach($all_rows as $row):?>
-    <tr id="row_<?=$row->id?>">
+    <tr id="row_<?=($primval = $row->primval)?>">
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
           <?if($column == 'title'):?>
   					<?if($row->status == 1):?>
   					  <span class="status_change_span">
   	          <?if($current_user->access($module_name,"edit")):?>
-  	          <a href="./status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="click to change to draft">
+  	          <a href="./status/<?=$primval?>?status=0" id="a_<?=$primval?>" class="status_change" rel="0" title="click to change to draft">
   	          <?endif?>
   	          <img src="/images/cms/icon_published.gif" title="click to change to draft" width="12" class="status_icon" />
   	          <?if($current_user->access($module_name,"edit")):?></a><?endif?>
@@ -14,7 +14,7 @@
   	        <?else:?>
   	        	<span class="status_change_span">
   	        	  <?if($current_user->access($module_name,"edit")):?>
-  	        	  <a href="./status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="click to change to published">
+  	        	  <a href="./status/<?=$primval?>?status=1" id="a_<?=$primval?>" class="status_change" rel="1" title="click to change to published">
   	        	  <?endif?>
   	        	  <span><img src="/images/cms/icon_draft.gif" title="click to change to published" width="12" class="status_icon" />
   	        	  <?if($current_user->access($module_name,"edit")):?></a><?endif?>
@@ -23,7 +23,7 @@
 	        <?endif?>
 					
           <?if($params["link"] && $current_user->access($module_name,"edit")):?>
-            <a href="<?=$all_modules[$module_name]['link']?>edit/<?=$row->primval?>/"><?=$row->$column?></a>
+            <a href="<?=$all_modules[$module_name]['link']?>edit/<?=$primval?>/"><?=$row->$column?></a>
           <?else:?>
             <?=$row->$column?>
           <?endif;?>
@@ -42,14 +42,14 @@
       </td>
       <td class="column last">    
         <?if($current_user->access($module_name,"edit")):?>
-          <div class="generic_button"><a href="<?=$all_modules[$module_name]['link']?>edit/<?=$row->primval?>/">Edit</a></div>
+          <div class="generic_button"><a href="<?=$all_modules[$module_name]['link']?>edit/<?=$primval?>/">Edit</a></div>
         <?endif?>
         <?if($current_user->access($module_name,"delete")):?>
-          <div class="generic_button"><a onclick="return confirm('Are you sure you want to do that?');" href="<?=$all_modules[$module_name]['link']?>delete/<?=$row->primval?>/">Delete</a></div>
+          <div class="generic_button"><a onclick="return confirm('Are you sure you want to do that?');" href="<?=$all_modules[$module_name]['link']?>delete/<?=$primval?>/">Delete</a></div>
         <?endif?>        
             
         <?if($row->is_published()):?><div class="generic_button"><a href="<?=$row->permalink()?>">View Post</a></div>
-        <?else:?><div class="generic_button"><a href="<?=$row->permalink()?>?preview=1" target="_blank" id="preview_<?=$row->id?>"<?=$modal_preview?' class="modal_preview" ':''?>>Preview</a></div><?endif?>
+        <?else:?><div class="generic_button"><a href="<?=$row->permalink()?>?preview=1" target="_blank" id="preview_<?=$primval?>"<?=$modal_preview?' class="modal_preview" ':''?>>Preview</a></div><?endif?>
       </td>
     </tr>
 <?endforeach?>

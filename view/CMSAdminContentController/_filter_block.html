@@ -10,7 +10,9 @@
       <strong>View by section: </strong>
       <select name="section_view" id="section_view" onchange="inlinefilter();">
         <option value="0">All sections</option>
-        <?=options_for_select(options_from_collection($current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;"))?>
+        <?foreach(($iterator = $current_user->allowed_sections_model()->tree()) as $section):?>
+          <option value="<?=$section->primval?>"><?=str_replace("*","&nbsp;",str_pad("",$iterator->getDepth(),"*")).$section->title?></option>
+        <?endforeach?>
       </select>
     </form>
   </div>
