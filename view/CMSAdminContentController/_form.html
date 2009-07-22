@@ -48,14 +48,14 @@ var content_permalink="<?=$model->permalink?>";
         </fieldset>
       </div>
       <div id="section-2" class="tabs-container">
-        <?if($allowed_images):?>
+        <?if($allowed_images && $current_user->access($module_name,"attach_images") ):?>
           <?=$image_partial?>
         <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
       <div id="section-3" class="tabs-container">
-        <?if($allowed_categories):?>
+        <?if($allowed_categories && $current_user->access($module_name,"categories") ):?>
           <?=$category_partial?>
         <?else:?><p>Categories disabled</p>
         <?endif?>
@@ -83,7 +83,9 @@ var content_permalink="<?=$model->permalink?>";
     <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
       <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
+      <?if($current_user->access($module_name,"publish")):?>
       <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_publish.gif")?>" name="publish" value="Publish" />
+      <?endif?>
       <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_close.gif")?>" name="close" value="Close" />
       <a href="<?=$this->model->permalink?>?preview=1" target="_blank" id="preview_link"<?=$modal_preview?' class="modal_preview" ':''?>><img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" /></a>
     </fieldset>
