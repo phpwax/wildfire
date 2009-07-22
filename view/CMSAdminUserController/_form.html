@@ -8,10 +8,10 @@
   
   <ul class="tabs-nav">
     <li><a href="#section-1">User Details</a></li>
-    <?#if($model->primval && ($model->primval != $current_user->primval) && $current_user->access($module_name,"admin")):?>
+    <?if($model->primval && ($model->primval != $current_user->primval) && $current_user->access($module_name,"admin")):?>
     <li><a href="#section-2">Sections</a></li>
     <li><a href="#section-3">Modules</a></li>
-    <?#endif?>
+    <?endif?>
   </ul>
 
   <div id="content_window" class="clearfix">
@@ -35,14 +35,14 @@
         <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
       </fieldset>
     </div>
-    <?#if($model->primval && ($model->primval != $current_user->primval) && $current_user->access($module_name,"admin")):?>
+    <?if($model->primval && ($model->primval != $current_user->primval) && $current_user->access($module_name,"admin")):?>
     <div id="section-2" class="tabs-container">
       <?=$apply_sections_partial?>
     </div>
     <div id="section-3" class="tabs-container">
       <?=$permissions_partial?>
     </div>
-    <?#endif?>
+    <?endif?>
   </div>
 
 </div>
