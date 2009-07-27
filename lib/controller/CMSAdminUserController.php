@@ -40,7 +40,7 @@ class CMSAdminUserController extends AdminComponent {
 		$this->section_list_partial = $this->render_partial("section_list");
 		$this->apply_sections_partial = $this->render_partial("apply_sections");
 		
-		if($this->model->primval && ($this->model->primval != $this->current_user->primval) && $this->current_user->access($this->module_name,"admin")){
+		if($this->model->primval && $this->current_user->access($this->module_name,"admin")){
   		//add all permissions from modules
       foreach(CMSApplication::$modules as $module_name => $options){
         $module_class = slashcamelize($options['link'])."Controller";

@@ -49,7 +49,7 @@ class CMSAdminComponent extends WaxController {
 	public $permissions = array();
 	
 	function __construct($initialise = true) {
-	  $this->permissions = array_merge($this->base_permissions,$this->permissions);
+	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
 	  if($initialise) $this->initialise();
 	}
 	
