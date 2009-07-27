@@ -50,6 +50,16 @@ class CMSAdminSectionController extends AdminComponent {
 		}
 		parent::edit();
 	}
+	
+	public function create(){
+		$this->possible_parents = array("None");
+		foreach($this->model->tree() as $section){ //all sections
+			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
+			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
+			$this->possible_parents[$section->id] = $tmp.$section->title;
+		}
+	  parent::create();
+	}
 
 	/**
 	 * ajax filter function - takes the incoming string, matches against columns 
