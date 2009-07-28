@@ -494,6 +494,7 @@ $(document).ready(function() {
           init_upload();
         }
       });
+      return false;
     });
     $("#upload_url_button").click(function(){
       $("#upload_url_pane").dialog("open");
@@ -504,6 +505,7 @@ $(document).ready(function() {
           init_upload();
         }
       });
+      return false;
     });
     
   
