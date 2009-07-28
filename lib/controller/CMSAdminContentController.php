@@ -176,7 +176,7 @@ class CMSAdminContentController extends AdminComponent {
 		  $this->model = $master;
 		}
 		if($this->model->is_posted()){
-  		if($_POST['publish']){
+  		if($_POST['publish_x']){
   		  if(($master->status != 1) && ($master->status != 6)){
   		    $master->set_attributes($_POST[$master->table]);
   		    if($master->status == 5) $master->status = 6;
@@ -188,7 +188,7 @@ class CMSAdminContentController extends AdminComponent {
 	      }
 		    Session::add_message($this->display_name." "."Successfully Published");
 		    $this->redirect_to("/admin/$this->module_name/");
-  		}elseif($_POST['close']){
+  		}elseif($_POST['close_x']){
 		    //delete the preview if it has no changes from the master
 		    if($preview->equals($master) && $preview->primval) $preview->delete();
   		  $this->redirect_to(Session::get("list_refer"));
