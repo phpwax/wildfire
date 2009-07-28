@@ -1,0 +1,20 @@
+<div id="help_section">
+  <h1>Help About <?=ucwords(strtolower($module_name))?> <?=$help_titles[Request::get('subject')]?></h1>
+  <p>Below is a list of media to help you use Wildfire CMS.</p>
+  <?foreach($help_files as $k=>$help):?>
+  <div class='help_item'>
+    <?if(!is_numeric($k)):?><h2><?=$k?></h2><?endif?>
+    <?if($help['copy']):?><?=$help['copy']?><?endif?>
+    <?if($help['embedded']):?>
+      <object width="<?if($help['embedded_width']):?><?=$help['embedded_width']?><?else:?>400<?endif?>" height="<?if($help['embedded_height']):?><?=$help['embedded_height']?><?else:?>225<?endif?>">
+        <param name="allowfullscreen" value="true" />
+        <param name="allowscriptaccess" value="always" />
+        <param name="movie" value="<?=$help['embedded']?>" />
+        <embed src="<?=$help['embedded']?>" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225">          
+        </embed>
+      </object>
+    <?endif?>
+    <?if($help['file']):?><p><a href='<?=$help['file']?>'>view &raquo;</a></p><?endif?>
+  </div>
+  <?endforeach?>
+</div>

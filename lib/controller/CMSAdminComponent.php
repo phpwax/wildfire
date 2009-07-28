@@ -37,6 +37,12 @@ class CMSAdminComponent extends WaxController {
 	public $allowed_images = false; //if a number then allows the use images to be attached (cms_content only by default)
 	public $allowed_categories = false; //if true then allows the use of categories (cms_content only by default)
 
+
+  public $base_help = array('CMS Overview'=>array('file' => "/images/wildfire_cms_help.pdf"));
+  public $extra_help = array();
+  public $help_files = array(); //merged result of the 2 above
+  public $help_titles = array('index' => 'Listing', 'edit'=>'Editing', 'create'=>'Creating');
+
 	/** scaffold columns can be overrided to specify what properties are listed
 	* @var array
 	**/
@@ -50,6 +56,7 @@ class CMSAdminComponent extends WaxController {
 	
 	function __construct($initialise = true) {
 	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
+	  $this->help_files = array_unique(array_merge($this->extra_help, $this->base_help));
 	  if($initialise) $this->initialise();
 	}
 	
@@ -249,6 +256,8 @@ class CMSAdminComponent extends WaxController {
 		foreach($model_desc as $field) $desc[] = $field['Field'];
 		return $desc;
 	}
+	
+	public function help(){}
 	
 }
 ?>

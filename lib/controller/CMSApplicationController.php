@@ -18,6 +18,7 @@ class CMSApplicationController extends WaxController{
 	public $languages = array(0=>"english");
 	public $content_model = "CmsContent";
 	public $section_model = "CmsSection";
+	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
 	
 	//default action when content/section is found
 	public function cms_content() {}
@@ -125,9 +126,8 @@ class CMSApplicationController extends WaxController{
 	 */	
 	protected function find_content($url){
 		$content = new $this->content_model();
-    
 		if($url){
-	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
+	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->scope("published")->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
 		  
 		  //print_r(Session::get("wildfire_language_id")); exit;

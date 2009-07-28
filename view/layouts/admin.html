@@ -24,7 +24,7 @@
 <body id="<?=strtolower(WXInflections::underscore($display_name))?>">
 	<div id="header-container" class='container'>
 		<div id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></div>
-		<div id="help_button"><a href="/images/wildfire_cms_help.pdf" id="help"><img src="/images/cms/help_button.png"></a></div>
+		<div id="help_button"><a href="/<?=rtrim(ltrim($controller, "/"), "/")?>/help?subject=<?=$action?>" id="help"><img src="/images/cms/help_button.png"></a></div>
 		<div id="cms_logo"><a href="/admin/home"><img src="/images/cms/cms_wildfire-logo.gif" /></a></div>		
     
 		<ul id="primary-navigation" class="clearfix">
