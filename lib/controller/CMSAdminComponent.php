@@ -38,7 +38,7 @@ class CMSAdminComponent extends WaxController {
 	public $allowed_categories = false; //if true then allows the use of categories (cms_content only by default)
 
 
-  public $base_help = array('CMS Overview'=>array('file' => "/images/wildfire_cms_help.pdf"));
+  public $base_help = array('CMS Overview'=>array('file' => "/cms-help/wildfire_cms_help.pdf"));
   public $extra_help = array();
   public $help_files = array(); //merged result of the 2 above
   public $help_titles = array('index' => 'Listing', 'edit'=>'Editing', 'create'=>'Creating');
