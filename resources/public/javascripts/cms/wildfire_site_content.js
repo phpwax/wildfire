@@ -4,6 +4,7 @@ var init_upload;
 var autosaver;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
+var file_mime_type = "images";
 $(document).ready(function() {
     $("#container").tabs();
     
@@ -105,7 +106,7 @@ function delayed_cat_filter(filter) {
 
 function delayed_image_filter(filter) {
   $("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  $.ajax({type: "post", url: "/admin/files/image_filter", data: "filter="+$("#image_filter").val(), 
+  $.ajax({type: "post", url: "/admin/files/image_filter", data: "mime_type="+file_mime_type+"&filter="+$("#image_filter").val(), 
     complete: function(response){ 
       $("#image_list").html(response.responseText); 
       initialise_images();  
@@ -135,7 +136,7 @@ $(document).ready(function(event) {
   });
   $("#category_filter").blur(function(){if($(this).val() =="") {$(this).val('Filter');} });
   $("#wildfire_file_new_folder").change(function(t){
-    $.post(file_browser_location,{filterfolder:$(this).val()},
+    $.post(file_browser_location,{filterfolder:$(this).val(), mime_type:file_mime_type},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
@@ -143,7 +144,7 @@ $(document).ready(function(event) {
     );
   });
   $("#view_all_button").click(function(){
-    $.post(file_browser_location,{},
+    $.post(file_browser_location,{mime_type:file_mime_type},
       function(response) { 
         $("#image_list").html(response); 
         initialise_images(); 
@@ -155,7 +156,7 @@ $(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  $.get(file_browser_location+"/1/", function(response){
+  $.get(file_browser_location+"/1/?mime_type="+file_mime_type, function(response){
     $("#image_list").html(response);
     initialise_images();
   });
@@ -208,7 +209,7 @@ function initialise_images() {
   /*** Setup image pagination ***/
   
   $(".paginate_images").click(function(){
-    $.get(file_browser_location+"/"+this.id.substr(12),{},function(response){
+    $.get(file_browser_location+"/"+this.id.substr(12)+'?mime_type='+file_mime_type,{},function(response){
       $("#image_list").html(response);
       initialise_images();
     });
@@ -268,7 +269,7 @@ $(document).ready(function() {
 });
 
 function reload_images(){
-	$.post(file_browser_location,{filterfolder:$(this).val()},
+	$.post(file_browser_location,{filterfolder:$(this).val(), mime_type:file_mime_type},
     function(response) { 
       $("#image_list").html(response); 
       initialise_images(); 

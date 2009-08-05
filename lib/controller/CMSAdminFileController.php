@@ -169,27 +169,34 @@ class CMSAdminFileController extends AdminComponent {
 	
 	
 	public function browse_images() {
-		$this->use_layout=false;
+		$this->browse_filesystem();
+	}
+	
+	public function browse_filesystem(){
+	  $mime_type = $_REQUEST['mime_type'];
+	  $this->use_layout=false;
 	  $model = new WildfireFile("available");
+	  $model->order("filename ASC");
 	  $fs = new CmsFilesystem;
-	  $folder = $fs->relativePath;
-		if(!$folder) $folder ="files";
-	  $this->all_images = $model->filter(array("status"=>"found","rpath"=>$folder))->filter("type LIKE '%image%'")->order("filename ASC")->all();
-  	if($_POST['filterfolder']) {
-  	  $this->all_images = $model->clear()->filter(array("status"=>"found","rpath"=>$_POST['filterfolder']))->filter("type LIKE '%image%'")->order("filename ASC")->all();
-  	}
-    $this->all_images_partial = $this->render_partial("list_all_images");  
+	  $default_folder = $fs->relativePath;
+		if(!$default_folder) $default_folder ="files";
+		
+		if($filter = Request::param('filter')){
+      $filter = mysql_escape_string($filter);
+      $model->filter("(id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
+    }
+		
+		if($mime_type != "all") $model->filter("type","'%".Request::param('mime_type')."%'", "LIKE");	  
+		
+  	if($folder=Request::post('filterfolder')) $this->all_images = $model->filter("rpath", $folder)->all();
+  	else $this->all_images = $model->filter("rpath", $default_folder)->all();
+    $this->all_images_partial = $this->render_partial("list_all_images");
+    $this->use_view = "browse_images";
 	}
 	
 	public function image_filter() {
-	  if(strlen($_POST['filter'])<1) {
-	    $this->route_array[0] = "1";
-	    $this->browse_images();
-	  } else {
-      $this->use_layout=false;
-      $this->all_images = ($image = new WildfireFile("available")) ? $image->find_filter_images($_POST['filter'], "30"): array();
-      $this->all_images_partial = $this->render_partial("list_all_images");
-    }
+	  $this->browse_filesystem();
+	  $this->use_view = "image_filter";
   }
   
   public function preview() {

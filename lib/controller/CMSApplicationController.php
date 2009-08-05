@@ -129,7 +129,6 @@ class CMSApplicationController extends WaxController{
 		if($url){
 	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->scope("published")->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
-		  
 		  //print_r(Session::get("wildfire_language_id")); exit;
 		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
   			if($logged_in) $access_filter = array("status" => array(5,6));

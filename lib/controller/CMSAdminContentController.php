@@ -152,8 +152,8 @@ class CMSAdminContentController extends AdminComponent {
 	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
 	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
     }
-
-    $master = new $this->model_class($this->id);
+    $this->model = $master = new $this->model_class($this->id);
+    
     if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
     if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language);
     
@@ -171,11 +171,9 @@ class CMSAdminContentController extends AdminComponent {
     	  $preview = new $this->model_class;
 				$preview = $this->setup_preview_defaults($preview, $master, $copy_attributes);
 	    }
-      $this->model = $preview;
-		}else{
-		  $this->model = $master;
+      if($preview && $preview->primval) $this->model = $preview;
 		}
-		if($this->model->is_posted()){
+		if($this->model && $this->model->is_posted()){
   		if($_POST['publish_x']){
   		  if(($master->status != 1) && ($master->status != 6)){
   		    $master->set_attributes($_POST[$master->table]);
@@ -233,13 +231,14 @@ class CMSAdminContentController extends AdminComponent {
 	 * @return WaxModel - updated master
 	 */
 	private function update_master($preview, $master){
-    $preview->set_attributes($_POST[$preview->table]);
-    $preview->status = 4;
-    $preview->save();
-	  foreach($preview->columns as $col => $params)
-	    $copy_attributes[$col] = $preview->$col;
-	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
-	  return $master->update_attributes($copy_attributes);
+	  if($preview instanceOf $this->model_class && $preview->primval){
+      $preview->set_attributes($_POST[$preview->table]);
+      $preview->status = 4;
+      $preview->save();
+  	  foreach($preview->columns as $col => $params) $copy_attributes[$col] = $preview->$col;
+  	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
+	    return $master->update_attributes($copy_attributes);
+    }else return $master;
 	}
 	/**
 	 * get the other language model for a master - creates one if it doesn't exist
