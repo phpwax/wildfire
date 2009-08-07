@@ -191,7 +191,6 @@ class CMSAdminFileController extends AdminComponent {
   	if($folder=Request::post('filterfolder')) $this->all_images = $model->filter("rpath", $folder)->all();
   	else $this->all_images = $model->filter("rpath", $default_folder)->all();
     $this->all_images_partial = $this->render_partial("list_all_images");
-    $this->use_view = "browse_images";
 	}
 	
 	public function image_filter() {
