@@ -186,7 +186,7 @@ class CMSAdminFileController extends AdminComponent {
       $model->filter("(id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
     }
 		
-		if($mime_type != "all") $model->filter("type","'%".Request::param('mime_type')."%'", "LIKE");	  
+		if($mime_type != "all") $model->filter("type","%".Request::param('mime_type')."%", "LIKE");	  
 		
   	if($folder=Request::post('filterfolder')) $this->all_images = $model->filter("rpath", $folder)->all();
   	else $this->all_images = $model->filter("rpath", $default_folder)->all();
