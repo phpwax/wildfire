@@ -459,7 +459,7 @@ var init_upload;
 var autosaver;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
-var file_mime_type = "all";
+var file_mime_type = "images";
 $(document).ready(function() {
     $("#container").tabs();
     
