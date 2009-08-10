@@ -180,16 +180,14 @@ class CMSAdminFileController extends AdminComponent {
 	  $fs = new CmsFilesystem;
 	  $default_folder = $fs->relativePath;
 		if(!$default_folder) $default_folder ="files";
-		
+		if($mime_type != "all") $model->filter("type","%".Request::param('mime_type')."%", "LIKE");	  
 		if($filter = Request::param('filter')){
       $filter = mysql_escape_string($filter);
       $model->filter("(id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
     }
-		
-		if($mime_type != "all") $model->filter("type","%".Request::param('mime_type')."%", "LIKE");	  
-		
-  	if($folder=Request::post('filterfolder')) $this->all_images = $model->filter("rpath", $folder)->all();
-  	else $this->all_images = $model->filter("rpath", $default_folder)->all();
+    if($folder=Request::post('filterfolder')) $this->all_images = $model->filter("rpath", $folder)->all();
+  	else if(!Request::param('filter')) $this->all_images = $model->filter("rpath", $default_folder)->all();
+  	else $this->all_images = $model->all();
     $this->all_images_partial = $this->render_partial("list_all_images");
 	}
 	
