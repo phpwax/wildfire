@@ -350,7 +350,7 @@ class CMSApplicationController extends WaxController{
 			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
 			  WaxLog::log('error', '[IMG UPLOAD] - START OF IF');
 				$model_id = Request::post('content_id');
-				$class = Inflections::camelize(Request::post('model_string'));
+				$class = Inflections::camelize(Request::post('model_string'), true);
 				$field = Request::post('join_field');
 				WaxLog::log('error', '[IMG UPLOAD] - class:'.$class." id:". $model_id." field:".$field);
 				$model = new $class($model_id);
