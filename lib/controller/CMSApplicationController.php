@@ -321,8 +321,6 @@ class CMSApplicationController extends WaxController{
 			}	
       echo "Uploaded";
     } elseif($_FILES) {
-      error_log("Starting File upload");
-      error_log(print_r($_POST,1));
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $_FILES['upload'] = $_FILES["Filedata"];
@@ -348,16 +346,12 @@ class CMSApplicationController extends WaxController{
 			$newfile->save();		
 			//if these are set then attach the image to the doc!
 			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
-			  WaxLog::log('error', '[IMG UPLOAD] - START OF IF');
 				$model_id = Request::post('content_id');
 				$class = Inflections::camelize(Request::post('model_string'), true);
 				$field = Request::post('join_field');
-				WaxLog::log('error', '[IMG UPLOAD] - class:'.$class." id:". $model_id." field:".$field);
 				$model = new $class($model_id);
 				$model->$field = $newfile;
-				WaxLog::log('error', '[IMG UPLOAD] - END OF IF');
 			}
-			WaxLog::log('error', '[IMG UPLOAD] - COMPLETED');
       echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;
