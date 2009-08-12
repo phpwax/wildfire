@@ -323,37 +323,38 @@ class CMSApplicationController extends WaxController{
     } elseif($_FILES) {
       error_log("Starting File upload");
       error_log(print_r($_POST,1));
-        $path = $_POST['wildfire_file_folder'];
-        $fs = new CmsFilesystem;
-        $_FILES['upload'] = $_FILES["Filedata"];
-				$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
-        $fs->upload($path);
-        $fs->databaseSync($fs->defaultFileStore.$path, $path);
-				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
-				if($dimensions = getimagesize($fname)) {
-				  if($dimensions[2]=="7" || $dimensions[2]=="8") {
-						WaxLog::log("error", "Detected TIFF Upload");
-						$command="mogrify ".escapeshellcmd($fname)." -colorspace RGB -format jpg";
-						system($command);
-						$newname = str_replace(".tiff", ".jpg",$fname);
-						$newname = str_replace(".tif", ".jpg",$newname);
-						rename($fname, $newname);
-					}
+      $path = $_POST['wildfire_file_folder'];
+      $fs = new CmsFilesystem;
+      $_FILES['upload'] = $_FILES["Filedata"];
+			$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
+      $fs->upload($path);
+      $fs->databaseSync($fs->defaultFileStore.$path, $path);
+			$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
+			if($dimensions = getimagesize($fname)) {
+			  if($dimensions[2]=="7" || $dimensions[2]=="8") {
+					WaxLog::log("error", "Detected TIFF Upload");
+					$command="mogrify ".escapeshellcmd($fname)." -colorspace RGB -format jpg";
+					system($command);
+					$newname = str_replace(".tiff", ".jpg",$fname);
+					$newname = str_replace(".tif", ".jpg",$newname);
+					rename($fname, $newname);
 				}
-				chmod($fname, 0777);				
-        $file = new WildfireFile;
-        $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
-        $newfile->description = $_POST["wildfire_file_description"];
-				$newfile->save();		
-				//if these are set then attach the image to the doc!
-				if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
-					$model_id = Request::post('content_id');
-					$class = Inflections::camelize(Request::post('model_string'));
-					$field = Request::post('join_field');
-					$model = new $class($model_id);
-					$model->$field = $newfile;
-				}
-        echo "Uploaded";
+			}
+			WaxLog::log('error', '[IMG UPLOAD] - HALF WAY');
+			@chmod($fname, 0777);				
+      $file = new WildfireFile;
+      $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
+      $newfile->description = $_POST["wildfire_file_description"];
+			$newfile->save();		
+			//if these are set then attach the image to the doc!
+			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
+				$model_id = Request::post('content_id');
+				$class = Inflections::camelize(Request::post('model_string'));
+				$field = Request::post('join_field');
+				$model = new $class($model_id);
+				$model->$field = $newfile;
+			}
+      echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;
 	}
