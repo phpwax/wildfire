@@ -346,9 +346,9 @@ class CMSApplicationController extends WaxController{
       $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
 			$newfile->save();		
-			WaxLog::log('error', '[IMG UPLOAD] - SAVED WAY -' . $newfile->primval);
 			//if these are set then attach the image to the doc!
 			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
+			  WaxLog::log('error', '[IMG UPLOAD] - START OF IF');
 				$model_id = Request::post('content_id');
 				$class = Inflections::camelize(Request::post('model_string'));
 				$field = Request::post('join_field');
