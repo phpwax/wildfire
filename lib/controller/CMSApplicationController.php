@@ -355,7 +355,7 @@ class CMSApplicationController extends WaxController{
 				WaxLog::log('error', '[IMG UPLOAD] - class:'.$class." field:".$field);
 				$model = new $class($model_id);
 				$model->$field = $newfile;
-				
+				WaxLog::log('error', '[IMG UPLOAD] - END OF IF');
 			}
 			WaxLog::log('error', '[IMG UPLOAD] - COMPLETED');
       echo "Uploaded";
