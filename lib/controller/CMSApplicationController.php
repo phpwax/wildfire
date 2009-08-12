@@ -340,12 +340,13 @@ class CMSApplicationController extends WaxController{
 					rename($fname, $newname);
 				}
 			}
-			WaxLog::log('error', '[IMG UPLOAD] - HALF WAY');
+			
 			@chmod($fname, 0777);				
       $file = new WildfireFile;
       $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
       $newfile->description = $_POST["wildfire_file_description"];
 			$newfile->save();		
+			WaxLog::log('error', '[IMG UPLOAD] - SAVED WAY -' . $newfile->primval);
 			//if these are set then attach the image to the doc!
 			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
 				$model_id = Request::post('content_id');
