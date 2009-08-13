@@ -21,6 +21,8 @@ class CMSAdminEmailController extends AdminComponent {
 	public $default_direction = 'DESC';
 	
 	public $show_operations = false;
+	public $base_permissions = array("enabled","menu");
+	public $permissions = array('create');
 	
 	function __construct($initialise = true) {
 	  if($initialise) $this->initialise();
