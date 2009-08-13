@@ -101,10 +101,11 @@ class CMSAdminEmailController extends AdminComponent {
 				$this->redirect_to('/admin/email');				
 			}
 		}		
-		
-		$lists = $model->GetLists();
+		$mod = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
+		$lists = $mod->GetLists();
 		$this->mail_lists = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $lists->rowset);
-		$segments = $model->GetSegments();
+		$mod = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
+		$segments = $mod->GetSegments();
 		$this->segments = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $segments->rowset);
 		$cont = new CmsContent("published");
 		$this->contents = $cont->all();
