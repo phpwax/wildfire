@@ -25,6 +25,8 @@ class CMSAdminEmailController extends AdminComponent {
 	public $permissions = array('create');
 	
 	function __construct($initialise = true) {
+	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
+	  $this->help_files = array_unique(array_merge($this->extra_help, $this->base_help));
 	  if($initialise) $this->initialise();
 	}
 
