@@ -4,7 +4,7 @@ var init_upload;
 var autosaver;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
-var file_mime_type = "images";
+var file_mime_type = "image";
 $(document).ready(function() {
     $("#container").tabs();
     
@@ -269,7 +269,7 @@ $(document).ready(function() {
 });
 
 function reload_images(){
-	$.post(file_browser_location,{filterfolder:$(this).val(), mime_type:file_mime_type},
+	$.post(file_browser_location,{filterfolder:$("#wildfire_file_new_folder").val(), mime_type:file_mime_type},
     function(response) { 
       $("#image_list").html(response); 
       initialise_images(); 

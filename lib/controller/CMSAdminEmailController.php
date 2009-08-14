@@ -21,33 +21,38 @@ class CMSAdminEmailController extends AdminComponent {
 	public $default_direction = 'DESC';
 	
 	public $show_operations = false;
+	public $base_permissions = array("enabled","menu");
+	public $permissions = array('create');
 	
 	function __construct($initialise = true) {
+	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
+	  $this->help_files = array_unique(array_merge($this->extra_help, $this->base_help));
 	  if($initialise) $this->initialise();
 	}
 
 	private function initialise() {
 		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
+		if($this->current_user) $this->current_user->fetch_permissions();
 
-		$this->before_filter("all", "check_authorised", array("login"));
-		$this->configure_modules();
-		$this->all_modules = CMSApplication::get_modules(true);
-		if(!array_key_exists($this->module_name,CMSApplication::get_modules())){
+		$this->all_modules = $this->configure_modules();
+		$this->menu_modules = $this->configure_modules('menu');
+	
+	  if(!in_array(Request::get("action"),array("login","install"))) $this->check_authorised();
+		
+		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
-
+	  
+		if($this->current_user && $this->current_user->access($this->module_name,"create")) $this->sub_links["create"] = "Create New ". $this->display_name;
+		
+		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
 		$this->cm_conf = CmsConfiguration::get("general");
 		if($this->model_class) {							
 			$this->model = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
 		  $this->model_name = WXInflections::underscore($this->model_class);
 	  }
-
-		$this->sub_links["create"] = "Create New ". $this->display_name;
-		$this->sub_links["view_subscriber"] = "View Subscribers";
-		$this->sub_links["view_segments"] = "View Segments";
-		if(!$this->this_page = WaxUrl::get("page")) $this->this_page=1;
 	}
 	
 	/**
@@ -96,10 +101,11 @@ class CMSAdminEmailController extends AdminComponent {
 				$this->redirect_to('/admin/email');				
 			}
 		}		
-		
-		$lists = $model->GetLists();
+		$mod = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
+		$lists = $mod->GetLists();
 		$this->mail_lists = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $lists->rowset);
-		$segments = $model->GetSegments();
+		$mod = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
+		$segments = $mod->GetSegments();
 		$this->segments = array_merge(array(''=>array('ListID'=>'', 'Name'=>'None')), $segments->rowset);
 		$cont = new CmsContent("published");
 		$this->contents = $cont->all();
