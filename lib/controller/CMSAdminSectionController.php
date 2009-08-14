@@ -29,39 +29,51 @@ class CMSAdminSectionController extends AdminComponent {
 		$this->set_order();
 		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->tree();
-
 		if(!$this->all_rows) $this->all_rows = array();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 
-	/*new edit function - so include the link, video partials etc*/
+
 	public function edit() {
-    $model = new $this->model_class(WaxUrl::get("id"));
-		$this->possible_parents = array("None");
-		$remove_ids = array();
-		foreach($model->tree() as $section) $remove_ids[] = $section->id; //only the subtree of the current node
-		foreach($this->model->tree() as $section){ //all sections
-		  if(!in_array($section->id, $remove_ids)){
-  			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
-  			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
-  			$this->possible_parents[$section->id] = $tmp.$section->title;
-		  }
-		}
-		parent::edit();
+    $this->model = new $this->model_class(Request::get("id"));
+		$this->form();
 	}
 
+  public function create($save=true) {
+  	$this->model = new $this->model_class();		
+  	$this->form();
+  	$this->form->default_page->editable=false;
+  }
+  
+  public function form() {
+    $this->use_view="form";
+    $this->form = new WaxForm($this->model);
+		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
+		elseif($res = $this->form->save()) {
+		  Session::add_message($this->display_name." ".$success);
+		  $this->redirect_to(Session::get("list_refer"));
+		}
+  }
+	
 	/**
-	 * ajax filter function - takes the incoming string, matches against columns 
-	 * and outputs view of the matching data
-	 */	
-	public function filters() {
-	  $this->use_layout = false;
-	  $sect = new CmsSection();
-  	$this->all_sections = $sect->filter("title LIKE '%$fil%'")->tree();
-  	$this->use_view = "_section_list";
-  	$this->all_sections_partial = $this->render_partial("section_list");
+	* Ajax Filter list view
+	*/
+	public function filter() {
+	  $this->use_layout=false;
+	  $this->use_view="_list";
+	  if($fil = Request::post('filter')) {
+  		$conditions = "";
+  	  if($this->filter_columns) {
+  	    foreach($this->filter_columns as $filter) {
+  	      $conditions .= "OR $filter LIKE ?";
+  	      $params[]='%'.$fil.'%';
+  	    }
+  	    $conditions = ltrim($conditions, "OR");
+      }
+      $this->model->filter($conditions, $params);
+	  }
+	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
 	}
+
 
 }
 

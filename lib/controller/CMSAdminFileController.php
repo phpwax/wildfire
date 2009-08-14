@@ -39,6 +39,14 @@ class CMSAdminFileController extends AdminComponent {
 	  $fs->dispatch($action, array_merge($_GET, $_POST));
 	}
 	
+	public function fs2() {
+	  $this->use_layout=false;
+	  $this->use_view=false;
+	  $op = Request::get("id");
+	  $fs = new Filesystem;
+	  echo $fs->op($op, $_POST);
+	}
+	
 	public function synchronise() {
 	  set_time_limit(0);
 	  if($_POST && $_POST['sync']=="go") {
@@ -58,6 +66,10 @@ class CMSAdminFileController extends AdminComponent {
 	public function index() {
 	  parent::index();
 	  $this->use_layout="file";
+	}
+	public function index2() {
+	  parent::index();
+	  $this->fs = new Filesystem();
 	}
 	
 	public function upload_url() {

@@ -15,7 +15,7 @@ class CampaignContent extends WaxModel {
 
 
 	public function before_save(){
-		$this->url = WXInflections::to_url($this->subject);
+		$this->url = Inflections::to_url($this->subject);
 		$this->date_created = date("Y-m-d H:i:s");
 	}
 }

@@ -41,7 +41,7 @@ class CMSAdminEmailController extends AdminComponent {
 		$this->cm_conf = CmsConfiguration::get("general");
 		if($this->model_class) {							
 			$this->model = new $this->model_class($this->cm_conf['campaign_monitor_ClientID']);
-		  $this->model_name = WXInflections::underscore($this->model_class);
+		  $this->model_name = Inflections::underscore($this->model_class);
 	  }
 
 		$this->sub_links["create"] = "Create New ". $this->display_name;
