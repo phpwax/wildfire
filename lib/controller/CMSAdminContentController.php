@@ -128,118 +128,6 @@ class CMSAdminContentController extends AdminComponent {
 		$this->image_model = new WildfireFile;
 		//partials
 	}
-	
-	public function setup_preview_defaults($preview, $master, $copy_attributes){
-	  $preview->status = 4;
-    $saved = $preview->save();
-  	if($saved && $saved->primval) $preview->set_attributes($copy_attributes);
-  	$preview->status = 4;
-  	$preview->url = $master->url;
-  	$preview->master = $master->primval;
-  	return $preview->save();
-	}
-	/**
-	* the editing function... lets you change all the bits associated with the content record
-	* gets the record for the id passed (/admin/content/edit/ID)
-	* finds associated images & categories
-	* render the partials
-	*/
-	public function edit() {
-	  $this->id = WaxUrl::get("id");
-		if(!$this->id) $this->id = $this->route_array[0];
-
-		if(($lang_id = Request::get("lang")) && (!$this->languages[$lang_id])){
-	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
-	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
-    }
-    $this->model = $master = new $this->model_class($this->id);
-    
-    if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this is a preview copy, jump to the master
-    if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language); //this is a language copy, jump to the master with the language set
-
-    if($lang_id) $this->model = $master = $this->get_language_model($master, $lang_id);
-
-	  $preview = new $this->model_class;
-	  //preview revision - create a copy of the content if needed or use the existing copy
-		if(($master->status == 1) || ($master->status == 6)){
-		  if(!($preview = $preview->filter(array("preview_master_id" => $master->primval, "status" => 4))->first())){
-		    //if a preview entry doesn't exist create one
-  		  foreach($master->columns as $col => $params){
-  		    if($master->$col) $copy_attributes[$col] = $master->$col;
-		    }
-  		  $copy_attributes = array_diff_key($copy_attributes,array($this->model->primary_key => false)); //take out ID
-    	  $preview = new $this->model_class;
-				$preview = $this->setup_preview_defaults($preview, $master, $copy_attributes);
-	    }
-      if($preview && $preview->primval) $this->model = $preview;
-		}
-		if($this->model && $this->model->is_posted()){
-  		if($_POST['publish_x']){
-  		  if(($master->status != 1) && ($master->status != 6)){
-  		    $master->set_attributes($_POST[$master->table]);
-  		    if($master->status == 5) $master->status = 6;
-  		    else $master->status = 1;
-  		    $master->save();
-	      }else{
-	        $this->update_master($preview, $master);
-	        if($preview->primval) $preview->delete();
-	      }
-		    Session::add_message($this->display_name." "."Successfully Published");
-		    $this->redirect_to("/admin/$this->module_name/");
-  		}elseif($_POST['close_x']){
-		    //delete the preview if it has no changes from the master
-		    if($preview->equals($master) && $preview->primval) $preview->delete();
-  		  $this->redirect_to(Session::get("list_refer"));
-  	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    if($preview->primval && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
-          $this->update_master($preview, $master);
-          if($preview->primval) $preview->delete();
-          $this->save($master, "/admin/$this->module_name/edit/".$master->id."/");
-  	    }else $this->save($this->model, "/admin/$this->module_name/edit/".$master->id."/");
-  	  }
-    }
-
-		//images
-    if(!$this->attached_images = $this->model->images) $this->attached_images=array();
-    
-		//categories assocaited
-		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
-		$cat = new CmsCategory;
-		//all categories
-		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();
-		$this->image_model = new WildfireFile;
-		//partials
-		$this->image_partial = $this->render_partial("page_images");
-		$this->cat_partial = $this->render_partial("list_categories");
-		$this->cat_list = $this->render_partial("cat_list");
-		$this->category_partial = $this->render_partial("apply_categories");
-		$files = new WildfireFile();
-		$this->all_links = $files->find_all_files();
-		$this->link_partial = $this->render_partial("apply_links");
-		$this->extra_content_partial = $this->render_partial("extra_content");
-		$this->flash_files = $files->flash_files();
-		$this->video_partial = $this->render_partial("apply_video");
-		$this->table_partial = $this->render_partial("wysi_tables");
-		$this->form = $this->render_partial("form");
-		
-	}
-	/**
-	 * update the master with the preview's details, every field is updated except primary key and status
-	 *
-	 * @param string $preview 
-	 * @param string $master 
-	 * @return WaxModel - updated master
-	 */
-	private function update_master($preview, $master){
-	  if($preview instanceOf $this->model_class && $preview->primval){
-      $preview->set_attributes($_POST[$preview->table]);
-      $preview->status = 4;
-      $preview->save();
-  	  foreach($preview->columns as $col => $params) $copy_attributes[$col] = $preview->$col;
-  	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
-	    return $master->update_attributes($copy_attributes);
-    }else return $master;
-	}
 	/**
 	 * get the other language model for a master - creates one if it doesn't exist
 	 *
@@ -268,6 +156,118 @@ class CMSAdminContentController extends AdminComponent {
 		  $lang->save();
 		  return $lang;
     }
+	}
+	/**
+	 * get the preview revision for a master - creates one if it doesn't exist
+	 *
+	 * @param string $master 
+	 * @return WaxModel - existing copy of the model, new copy of the model, or the master itself
+	 */
+	private function get_preview_model($master){
+		if(!in_array($master->status,array(1,6))) return $master; //pass through for everything but published articles
+	  $preview = new $this->model_class;
+	  $ret = $preview->filter("preview_master_id",$master->{$master->primary_key})->filter("status",4)->first();
+	  if(!$ret){ //if a preview entry doesn't exist create one
+      $preview->clear()->save(); //create preview model, needs an ID so associations will work
+		  $preview_primval = $preview->primval(); //save new ID to put back later
+		  foreach($master->columns as $col => $params) if($master->$col) $preview->$col = $master->$col; //copy all columns into the preview model
+	    $preview->{$preview->primary_key} = $preview_primval;
+      $preview->status = 4;
+      $preview->preview_master_id = $master->primval;
+    	$ret = $preview->save();
+    }
+    return $ret;
+	}
+	/**
+	 * update the master with the preview's details, every field is updated except primary key and status
+	 *
+	 * @param string $preview 
+	 * @param string $master 
+	 * @return WaxModel - updated master
+	 */
+	private function update_master($preview, $master){
+	  if($preview instanceOf $this->model_class && $preview->primval){
+      $preview->set_attributes($_POST[$preview->table]);
+      $preview->status = 4;
+      $preview->save();
+  	  foreach($preview->columns as $col => $params) if($preview->$col) $copy_attributes[$col] = $preview->$col;
+  	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
+	    return $master->update_attributes($copy_attributes);
+    }else return $master;
+	}
+	/**
+	* the editing function... lets you change all the bits associated with the content record
+	* gets the record for the id passed (/admin/content/edit/ID)
+	* finds associated images & categories
+	* render the partials
+	*/
+	public function edit() {
+		if(($lang_id = Request::get("lang")) && (!$this->languages[$lang_id])){
+	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
+	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
+    }
+
+	  $this->id = WaxUrl::get("id");
+		if(!$this->id) $this->id = $this->route_array[0];
+    if(!($this->model = new $this->model_class($this->id))){
+      $this->redirect_to(Session::get("list_refer"));
+    }
+    
+    //if this is a revision, jump to the master
+    if($this->model->preview_master_id) $this->redirect_to("/admin/".$this->module_name."/edit/".$this->model->preview_master_id."?lang=".$this->model->language);
+
+    if($lang_id) $this->model = $this->get_language_model($this->model, $lang_id);
+    $this->model = $this->get_preview_model($this->model);
+
+    //this massive block handles the possible posts for save (default), publish and close
+		if($this->model && $this->model->is_posted()){
+  		if($_POST['close_x']) $this->redirect_to(Session::get("list_refer"));
+  		elseif($_POST['publish_x']){
+        if($this->model->master){ //if we have a preview copy we should update the master and destroy the copy
+	        $this->update_master($this->model, $this->model->master);
+	        $this->model->delete();
+	      }else{ //otherwise this is a first publish, and we should just save, forcing the status to be published
+  		    $this->model->set_attributes($_POST[$this->model->table]);
+  		    if($this->model->status == 5) $this->model->status = 6;
+  		    else $this->model->status = 1;
+  		    $this->model->save();
+	      }
+		    Session::add_message($this->display_name." "."Successfully Published");
+		    $this->redirect_to(Session::get("list_refer"));
+  	  }else{ //save button is default post, as it's the least destructive thing to do
+  	    //unpublish a published article (i.e. current status is 4 and saving status back to 0 or 5)
+  	    if(($this->model->status == 4) && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
+  	      $preview = $this->model;
+          $this->model = $this->update_master($this->model, $this->model->master);
+          $preview->delete();
+  	    }
+  	    $this->save($this->model, "/admin/$this->module_name/edit/".$this->model->id."/");
+  	  }
+    }
+
+		//images
+    if(!$this->attached_images = $this->model->images) $this->attached_images=array();
+    
+		//categories assocaited
+		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
+		$cat = new CmsCategory;
+		//all categories
+		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();
+		$this->image_model = new WildfireFile;
+		//partials
+		$this->image_partial = $this->render_partial("page_images");
+		$this->cat_partial = $this->render_partial("list_categories");
+		$this->cat_list = $this->render_partial("cat_list");
+		$this->category_partial = $this->render_partial("apply_categories");
+		$files = new WildfireFile();
+		$this->all_links = $files->find_all_files();
+		$this->link_partial = $this->render_partial("apply_links");
+		$this->extra_content_partial = $this->render_partial("extra_content");
+		$this->flash_files = $files->flash_files();
+		$this->video_partial = $this->render_partial("apply_video");
+		$this->table_partial = $this->render_partial("wysi_tables");
+		$this->form = $this->render_partial("form");
+		
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
