@@ -2,8 +2,7 @@ SRC_DIR = resources/public/javascripts
 BUILD_DIR = resources/public/javascripts/build
 CSS_DIR = resources/public/stylesheets
 
-JS_FILES = ${SRC_DIR}/jquery/jquery.1.3.2.js\
- ${SRC_DIR}/jquery/jquery.tablesort.js\
+JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
  ${SRC_DIR}/jquery/jquery-ui-1.7.1.custom.min.js\
  ${SRC_DIR}/jquery/jquery.hint.js\
  ${SRC_DIR}/jquery/jquery.imgareaselect-0.5.1.min.js\
@@ -17,8 +16,7 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/cms/file.js\
  ${SRC_DIR}/cms/wildfire_users.js
  
-JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.3.2.js\
- ${SRC_DIR}/upload/swfupload.js\
+JS_FILES2 = ${SRC_DIR}/upload/swfupload.js\
  ${SRC_DIR}/upload/swfupload.queue.js\
  ${SRC_DIR}/upload/fileprogress.js\
  ${SRC_DIR}/upload/handlers.js\

@@ -29,13 +29,13 @@
 						   $w.val(selection.width);
 						   $h.val(selection.height);
 						 }
-						 $(document).ready(function () {
-						   $x1 = $('#x1');
-						   $y1 = $('#y1');
-						   $w = $('#w');
-						   $h = $('#h');
+						 jQuery(document).ready(function () {
+						   $x1 = jQuery('#x1');
+						   $y1 = jQuery('#y1');
+						   $w = jQuery('#w');
+						   $h = jQuery('#h');
 						 });
-						 $(window).load(function () {
+						 jQuery(window).load(function () {
 						   set_crop_image();
 						 });
 						</script>
@@ -99,33 +99,33 @@
 
 
 <script>
-$(document).ready(function(){
-	if($("#container").length) $("#container").tabs();
+jQuery(document).ready(function(){
+	if(jQuery("#container").length) jQuery("#container").tabs();
 	
-	$('input.cropper').click(function(){
+	jQuery('input.cropper').click(function(){
 		var pdata = {'crop[x1]':$x1.val(), 'crop[y1]': $y1.val(), 'crop[w]': $w.val(), 'crop[h]': $h.val()};
-		$.post('/admin/files/crop/<?=$model->id?>', 
+		jQuery.post('/admin/files/crop/<?=$model->id?>', 
 					pdata,
 					function(response){
-						$('div.image').html(response);
+						jQuery('div.image').html(response);
 						window.location.reload();
 					});
 		return false;
 	});
 	
-	$('a.resize_image').click(function(){
-		href = $(this).attr('href');
-		$.get(href, function(response){
-			$('div.image').html(response);
+	jQuery('a.resize_image').click(function(){
+		href = jQuery(this).attr('href');
+		jQuery.get(href, function(response){
+			jQuery('div.image').html(response);
 			set_crop_image();			
 		});	
 		return false;	
 	});
 	
-	$('a.rotate_image').click(function(){
-		href = $(this).attr('href');
-		$.get(href, function(response){
-			$('div.image').html(response);
+	jQuery('a.rotate_image').click(function(){
+		href = jQuery(this).attr('href');
+		jQuery.get(href, function(response){
+			jQuery('div.image').html(response);
 			set_crop_image();			
 		});	
 		return false;	
@@ -134,6 +134,6 @@ $(document).ready(function(){
 });
 
 function set_crop_image(){
-	$('img#wff').imgAreaSelect({ selectionOpacity: 0, onSelectChange: selectChange });
+	jQuery('img#wff').imgAreaSelect({ selectionOpacity: 0, onSelectChange: selectChange });
 }
 </script>

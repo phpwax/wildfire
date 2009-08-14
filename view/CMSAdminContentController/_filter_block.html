@@ -18,8 +18,8 @@
   </div>
 	<script>
 	var itimer;
-     $(document).ready(function(event) {
-       $("#filter_field").keyup(function(e) {
+     jQuery(document).ready(function(event) {
+       jQuery("#filter_field").keyup(function(e) {
 				if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
 					clearTimeout(itimer);
 					itimer = setTimeout("inlinefilter()", 800);
@@ -27,13 +27,13 @@
        }); 
      });
 		function inlinefilter(){	
-		  $("#filter_field").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");		
-			$.post("<?=$url_for?>",
-      	{filter: $("#filter_field").val(), section: $("#section_view").val()}, 
+		  jQuery("#filter_field").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");		
+			jQuery.post("<?=$url_for?>",
+      	{filter: jQuery("#filter_field").val(), section: jQuery("#section_view").val()}, 
         function(response){ 
-          $("#list_rows").html(response);
+          jQuery("#list_rows").html(response);
           clearTimeout(itimer);
-          $("#filter_field").css("background", "white");
+          jQuery("#filter_field").css("background", "white");
         }
       );
 		}
