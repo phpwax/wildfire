@@ -1,0 +1,27 @@
+<!-- Dependencies --> 
+<div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
+
+<?=partial("_filter_block", $this)?>
+
+
+<table id="item_list_container" class="sortable">
+  <thead>
+    <tr id="list_heading">
+      <?foreach($scaffold_columns as $column=>$params):?>
+        <th class="column"><?=humanize($column)?></th>
+      <?endforeach?> 
+      <th class="nosortcolumn">Operations</th>
+    </tr>
+  </thead>
+  <tbody id="list_rows">
+    <?=partial("_list", $this)?>
+    <?if(count($all_rows)<1):?>
+      <tr><td>No items available</td></tr>
+    <?endif?>
+  </tbody> 
+</table>
+
+
+<div id="bottom_pagination">
+  <?=paginate_links($all_rows, "2")?>
+</div>
