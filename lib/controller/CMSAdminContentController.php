@@ -223,7 +223,7 @@ class CMSAdminContentController extends AdminComponent {
 		if($this->model && $this->model->is_posted()){
   		if($_POST['close_x']) $this->redirect_to(Session::get("list_refer"));
   		elseif($_POST['publish_x']){
-        if($this->model->master){ //if we have a preview copy we should update the master and destroy the copy
+        if($this->model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
 	        $this->update_master($this->model, $this->model->master);
 	        $this->model->delete();
 	      }else{ //otherwise this is a first publish, and we should just save, forcing the status to be published
