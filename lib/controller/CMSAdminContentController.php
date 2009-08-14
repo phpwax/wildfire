@@ -154,10 +154,10 @@ class CMSAdminContentController extends AdminComponent {
     }
     $this->model = $master = new $this->model_class($this->id);
     
-    if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this isn't a master, jump to the right url
-    if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language);
-    
-    if($lang_id) $master = $this->get_language_model($master, $lang_id);
+    if($master->status == 4) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id"); //this is a preview copy, jump to the master
+    if($master->language) $this->redirect_to("/admin/".$this->module_name."/edit/$master->preview_master_id?lang=".$master->language); //this is a language copy, jump to the master with the language set
+
+    if($lang_id) $this->model = $master = $this->get_language_model($master, $lang_id);
 
 	  $preview = new $this->model_class;
 	  //preview revision - create a copy of the content if needed or use the existing copy
