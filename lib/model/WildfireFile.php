@@ -88,34 +88,21 @@ class WildfireFile extends WaxModel {
 	 * @param string $size 
 	 */	
 	public function show($size=110, $compress = false){
-		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
-		$extension = File::get_extension($this->filename);
-		if(!is_dir(CACHE_DIR."images/")){
-		  @mkdir(CACHE_DIR."images/");
-		  @chmod(CACHE_DIR."images/",0777);
-		}
-		$file = CACHE_DIR."images/".$this->id."_".$size . ".".$extension;
-		//slash any spaces
-		$source=preg_replace("/[\s]/", "\ ", $source);
-    if(!is_readable($source)) WaxLog::log('error', "[image] FATAL IMAGE ERROR - ".$source);
-		if(!File::is_image($source)){
-			if(!is_file($file) || !is_readable($file)) {
-				$icon_type = $extension;
-				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-".strtolower($icon_type).".gif";
-				if(!is_readable($icon) || $icon_file !=file_get_contents($icon)) {
-					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
-					$source = CACHE_DIR."cms-generic-icon.gif";
-				}
-				else $source = CACHE_DIR."cms-generic-icon-{$icon_type}.gif";
-				file_put_contents($source, $icon_file);
-			}
-		}
+    $source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
+    $extension = File::get_extension($this->filename);
+   	$file = CACHE_DIR.$this->id."_".$size . ".".$extension;
+    $source=preg_replace("/[\s]/", "\ ", $source);
+    if(!is_readable($source)) error_log("FATAL IMAGE ERROR");
     if(!is_file($file) || !is_readable($file)) {
       File::resize_image($source, $file, $size, $compression);
     }
-		if($this->image = File::display_image($file) ) {
-			return true;
-		} return false;
-	}
+  	if($this->image = File::display_image($file) ) return true;
+    return false;
+  }
+  
+  static public function file_id($file) {
+    $fileid = stat($file);
+    return $fileid[9];
+  }
 	
 }
