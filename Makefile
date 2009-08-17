@@ -3,7 +3,6 @@ BUILD_DIR = resources/public/javascripts/build
 CSS_DIR = resources/public/stylesheets
 
 JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
- ${SRC_DIR}/jquery/jquery-ui-1.7.1.custom.min.js\
  ${SRC_DIR}/jquery/jquery.hint.js\
  ${SRC_DIR}/jquery/jquery.imgareaselect-0.5.1.min.js\
  ${SRC_DIR}/cms/cms_init.js\
