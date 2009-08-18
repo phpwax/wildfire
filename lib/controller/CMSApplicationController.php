@@ -146,13 +146,15 @@ class CMSApplicationController extends WXControllerBase{
 	 * this function creates an internal crumb trail array, can be used for navigation etc
 	 */	
 	protected function build_crumb(){
-		if($this->cms_section->id) $path_to_root = array_reverse($this->cms_section->path_to_root());
-		else $path_to_root = array();
+		if($this->cms_section->id){
+		  $path_to_root = $this->cms_section->path_to_root();
+		}else $path_to_root = array();
 		foreach($path_to_root as $count => $path){
 			if($count > 0) $url = $this->crumbtrail[($count-1)]['url']  . $path->url;
 			else $url = "/";
 			$this->crumbtrail[]=array("url"=>$url, "display"=>$path->title);
 		}
+		if(is_array($this->crumbtrail)) array_reverse($this->crumbtrail);
 		if(!is_array($this->cms_content)) $this->crumbtrail[] = array('url'=>$this->cms_content->permalink, 'display'=>$this->cms_content->title);
 	}
 	
