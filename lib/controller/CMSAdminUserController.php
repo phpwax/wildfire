@@ -92,7 +92,10 @@ class CMSAdminUserController extends AdminComponent {
 	
 	public function add_permission(){
 	  $this->model = new $this->model_class(WaxUrl::get("id"));	  
-    list($prefix, $class, $operation) = explode("_",Request::param('tagid'));
+    $exp = explode("_",Request::param('tagid'));
+    $prefix = $exp[0];
+    $class = $exp[1];
+    $operation = str_ireplace($class, "", str_ireplace($prefix,"", Request::param('tagid')));
     if(!$this->model->access($class, $operation)){
       $permission = new CmsPermission;
       $permission->class = $class;
