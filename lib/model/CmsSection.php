@@ -33,8 +33,8 @@ class CmsSection extends WaxTreeModel {
 	public function permalink() {
 		$path = $this->path_to_root();
 		foreach($path as $object) $url[] = $object->url;
-		$url = str_replace("/home", "", implode("/",$url));
-		return $url;
+		$url = ltrim(str_replace("home", "", implode("/",$url)),"/");
+		return "/".$url;
 	}
 
 	public function section_type(){
