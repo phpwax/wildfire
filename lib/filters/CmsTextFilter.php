@@ -97,7 +97,7 @@ class CmsTextFilter  {
   
   static public function ampersand_hook($text) {
     $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
-    return preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
+    return preg_replace($amp_finder, '\\1&amp;\\3', $text);
   }
   
   static public function nice_quotes($text) {
