@@ -65,7 +65,7 @@ class CMSAdminSectionController extends AdminComponent {
 	 * ajax filter function - takes the incoming string, matches against columns 
 	 * and outputs view of the matching data
 	 */	
-	public function filters() {
+	public function filter() {
 	  $this->use_layout = false;
 	  $sect = new CmsSection();
 	  if($filter = Request::param('filter')) $sect->filter("title",'%'.$filter.'%', "LIKE");
