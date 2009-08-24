@@ -338,6 +338,7 @@ class CMSAdminContentController extends AdminComponent {
 	* cool function that autosaves your current document via ajax call
 	**/
 	public function autosave() {
+	  $this->id = Request::get("id");
 	  $this->use_layout=false;
 	  $this->use_view=false;
 	  $content = new $this->model_class(Request::get("id"));
