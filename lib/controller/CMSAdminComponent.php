@@ -64,6 +64,7 @@ class CMSAdminComponent extends WaxController {
 	  $log = new WildfireLog;
 	  $log->controller=$this->controller;
 		$log->action=$this->action;
+		$log->page=$this->id;
 		$log->user=$this->current_user;
 		$log->time = date("Y-m-d H:i:s");
 		$log->save();

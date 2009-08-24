@@ -4,6 +4,7 @@ class WildfireLog extends WaxModel {
   
     
   public function setup() {
+    $this->define("page", "CharField");
     $this->define("action", "CharField");
     $this->define("controller", "CharField");
     $this->define("user", "ForeignKey", array("target_model"=>"WildfireUser"));
