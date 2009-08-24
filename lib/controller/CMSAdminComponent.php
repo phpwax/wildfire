@@ -60,6 +60,16 @@ class CMSAdminComponent extends WaxController {
 	  if($initialise) $this->initialise();
 	}
 	
+	public function __destruct(){
+	  $log = new WildfireLog;
+	  $log->controller=$this->controller;
+		$log->action=$this->action;
+		$log->user=$this->current_user;
+		$log->time = date("Y-m-d H:i:s");
+		$log->save();
+	}
+	
+	
 	/** 
 	* initialises authentication, default model and menu items
 	**/
