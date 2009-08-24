@@ -68,7 +68,8 @@ class CMSAdminSectionController extends AdminComponent {
 	public function filters() {
 	  $this->use_layout = false;
 	  $sect = new CmsSection();
-  	$this->all_sections = $sect->filter("title LIKE '%$fil%'")->tree();
+	  if($filter = Request::param('filter')) $sect->filter("title",'%'.$filter.'%', "LIKE");
+  	$this->all_sections = $sect->tree();
   	$this->use_view = "_section_list";
   	$this->all_sections_partial = $this->render_partial("section_list");
 	}
