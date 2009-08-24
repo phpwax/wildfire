@@ -169,10 +169,10 @@ class CMSAdminComponent extends WaxController {
 	*/
 	public function filter() {
 	  $this->use_layout=false;
-	  if($_POST['filter']) {
+	  if($filter_val = Request::param('filter')) {
   		$conditions = "";
   	  if($this->filter_columns) {
-  	    foreach($this->filter_columns as $filter) $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
+  	    foreach($this->filter_columns as $col) $conditions .= "OR $col LIKE '%".$filter_val."%'";
   	    $conditions = ltrim($conditions, "OR");
       }
       $this->model->filter($conditions);
