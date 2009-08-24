@@ -23,10 +23,10 @@
 		return this.each(function() {
 			// unbind everything if we're destroying, and stop executing the script
 			if(destroy) {
-			  $(this).unbind("focus.hint").unbind("blur.hint").removeData("defText");
+			  jQ(this).unbind("focus.hint").unbind("blur.hint").removeData("defText");
 				return false;
 			}
-		  hint_setup($(this));
+		  hint_setup(jQ(this));
 		});
 	  function hint_setup(ele){ 
 	    // define our variables
@@ -39,7 +39,7 @@
 					ele.val(defText);
 					break;
 				case "label":
-					defText = $("label[for='" + ele.attr("id") + "']").text();
+					defText = jQ("label[for='" + ele.attr("id") + "']").text();
 					ele.val(defText);
 					break;
 				case "custom":
@@ -55,12 +55,12 @@
 			ele.addClass("hint").data("defText", defText);
 
 			// now that fields are populated, let's remove the labels if applicable
-			if(defaults.remove_labels == true) { $("label[for='" + ele.attr("id") + "']").remove(); }
+			if(defaults.remove_labels == true) { jQ("label[for='" + ele.attr("id") + "']").remove(); }
 			
 			// Handles password fields by creating a clone that's a text field.
 			if(ele.attr("type")=="password") {
 			  var eledef = ele.data("defText");
-        var el = $('<input type="text"/>');
+        var el = jQ('<input type="text"/>');
         el.attr( 'name', ele.attr('name') );
         el.attr( 'size', ele.attr('size') );
         el.attr( 'class', ele.attr('class') );
@@ -74,13 +74,13 @@
 	  };
 	  function hint_focus(ele){ 
 	    ele.bind("focus.hint",function(ele){
-        var ele = $(this);
+        var ele = jQ(this);
 	      if(ele.val() == ele.data("defText")) { ele.val(""); }
 				// add the focus class, remove changed_class
 				ele.addClass(defaults.focus_class).removeClass(defaults.changed_class);
 	      if(ele.data("defType")=="password") {
   			  var eledef = ele.data("defText");
-          var el = $('<input type="password"/>');
+          var el = jQ('<input type="password"/>');
           el.attr( 'name', ele.attr('name') );
           el.attr( 'size', ele.attr('size') );
           el.attr( 'class', ele.attr('class') );
@@ -95,7 +95,7 @@
 	  };
 	  function hint_blur(ele){ 
 	    ele.bind("blur.hint",function(){
-        var ele = $(this);
+        var ele = jQ(this);
 	      if(ele.val() == "") { ele.val(ele.data("defText")); }
 				// remove focus_class, add changed_class.
 				ele.removeClass(defaults.focus_class);
@@ -103,7 +103,7 @@
 					else { ele.removeClass(defaults.changed_class); }
 				if(ele.data("defType")=="password" && ele.val()==ele.data("defText")) {
 				  var eledef = ele.data("defText");
-          var el = $('<input type="text"/>');
+          var el = jQ('<input type="text"/>');
           el.attr( 'name', ele.attr('name') );
           el.attr( 'size', ele.attr('size') );
           el.attr( 'class', ele.attr('class') );
@@ -116,4 +116,5 @@
 	    });
 	  };
 	};
+	var jQ = jQuery;
 })(jQuery);

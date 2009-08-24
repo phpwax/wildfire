@@ -38,10 +38,10 @@
 </div>
 
 <script>
-$(document).ready(function(){
-	x = $('#vid_x').val();
-	y = $('#vid_y').val();	
-	vid = $('#vid_id').val();	
+jQuery(document).ready(function(){
+	x = jQuery('#vid_x').val();
+	y = jQuery('#vid_y').val();	
+	vid = jQuery('#vid_id').val();	
 	if(vid.indexOf('youtube')>0){
 		ratio=0.809;
 	}else if(vid.indexOf('google')>0){
@@ -50,10 +50,10 @@ $(document).ready(function(){
 		ratio=0.689;
 	}
 	
-	$('#vid_x').blur(function(){
-		x = $(this).val();
+	jQuery('#vid_x').blur(function(){
+		x = jQuery(this).val();
 		y = Math.round(x*ratio);
-		$('#vid_y').val(y);
+		jQuery('#vid_y').val(y);
 	});
 	
 });

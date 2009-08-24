@@ -37,6 +37,16 @@ class CMSAdminSectionController extends AdminComponent {
     $this->model = new $this->model_class(Request::get("id"));
 		$this->form();
 	}
+	
+	public function create(){
+		$this->possible_parents = array("None");
+		foreach($this->model->tree() as $section){ //all sections
+			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
+			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
+			$this->possible_parents[$section->id] = $tmp.$section->title;
+		}
+	  parent::create();
+	}
 
   public function create($save=true) {
   	$this->model = new $this->model_class();		

@@ -18,6 +18,7 @@ class CMSApplicationController extends WaxController{
 	public $languages = array(0=>"english");
 	public $content_model = "CmsContent";
 	public $section_model = "CmsSection";
+	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
 	
 	//default action when content/section is found
 	public function cms_content() {}
@@ -125,16 +126,12 @@ class CMSApplicationController extends WaxController{
 	 */	
 	protected function find_content($url){
 		$content = new $this->content_model();
-    
 		if($url){
-	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->id))->first())) //first look inside the section
+	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->scope("published")->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
 		  
-		  //print_r(Session::get("wildfire_language_id")); exit;
 		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
-  			if($logged_in) $access_filter = array("status" => array(5,6));
-  	    else $access_filter = array("status" => 6);
-	      $lang_content = $content->clear()->scope("published")->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
+	      $lang_content = $content->clear()->scope("published")->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
 	      if($lang_content) $this->cms_content = $lang_content;
 		  }
 		  
@@ -324,39 +321,38 @@ class CMSApplicationController extends WaxController{
 			}	
       echo "Uploaded";
     } elseif($_FILES) {
-      error_log("Starting File upload");
-      error_log(print_r($_POST,1));
-        $path = $_POST['wildfire_file_folder'];
-        $fs = new CmsFilesystem;
-        $_FILES['upload'] = $_FILES["Filedata"];
-				$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
-        $fs->upload($path);
-        $fs->databaseSync($fs->defaultFileStore.$path, $path);
-				$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
-				if($dimensions = getimagesize($fname)) {
-				  if($dimensions[2]=="7" || $dimensions[2]=="8") {
-						WaxLog::log("error", "Detected TIFF Upload");
-						$command="mogrify ".escapeshellcmd($fname)." -colorspace RGB -format jpg";
-						system($command);
-						$newname = str_replace(".tiff", ".jpg",$fname);
-						$newname = str_replace(".tif", ".jpg",$newname);
-						rename($fname, $newname);
-					}
+      $path = $_POST['wildfire_file_folder'];
+      $fs = new CmsFilesystem;
+      $_FILES['upload'] = $_FILES["Filedata"];
+			$_FILES['upload']['name'] = str_replace(' ', '', $_FILES['upload']['name']);
+      $fs->upload($path);
+      $fs->databaseSync($fs->defaultFileStore.$path, $path);
+			$fname = $fs->defaultFileStore.$path."/".$_FILES['upload']['name'];
+			if($dimensions = getimagesize($fname)) {
+			  if($dimensions[2]=="7" || $dimensions[2]=="8") {
+					WaxLog::log("error", "Detected TIFF Upload");
+					$command="mogrify ".escapeshellcmd($fname)." -colorspace RGB -format jpg";
+					system($command);
+					$newname = str_replace(".tiff", ".jpg",$fname);
+					$newname = str_replace(".tif", ".jpg",$newname);
+					rename($fname, $newname);
 				}
-				chmod($fname, 0777);				
-        $file = new WildfireFile;
-        $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
-        $newfile->description = $_POST["wildfire_file_description"];
-				$newfile->save();		
-				//if these are set then attach the image to the doc!
-				if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
-					$model_id = Request::post('content_id');
-					$class = Inflections::camelize(Request::post('model_string'));
-					$field = Request::post('join_field');
-					$model = new $class($model_id);
-					$model->$field = $newfile;
-				}
-        echo "Uploaded";
+			}
+			
+			@chmod($fname, 0777);				
+      $file = new WildfireFile;
+      $newfile = $file->filter(array("filename"=>$_FILES['upload']['name'], "rpath"=>$path))->first();
+      $newfile->description = $_POST["wildfire_file_description"];
+			$newfile->save();		
+			//if these are set then attach the image to the doc!
+			if(Request::post('content_id') && Request::post('model_string') && Request::post('join_field') ){
+				$model_id = Request::post('content_id');
+				$class = Inflections::camelize(Request::post('model_string'), true);
+				$field = Request::post('join_field');
+				$model = new $class($model_id);
+				$model->$field = $newfile;
+			}
+      echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;
 	}
