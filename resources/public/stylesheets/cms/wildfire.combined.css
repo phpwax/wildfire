@@ -521,7 +521,7 @@ td, th {
 p{
 	margin:10px 0px;
 }
-
+.dropped_image p, .drag_image p{margin:1px 0;text-align:center;}
 /* HEADER */
 
 #main-navigation-container{
@@ -811,7 +811,7 @@ h4{
   margin:0 10px 10px 0;
   padding:5px 6px;
   width:140px;
-  height:140px;
+  height:150px;
   border:1px solid #ebebeb;
   text-align:center;
   font-size:85%;
