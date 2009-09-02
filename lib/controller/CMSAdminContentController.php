@@ -174,7 +174,7 @@ class CMSAdminContentController extends AdminComponent {
 	    $preview->{$preview->primary_key} = $preview_primval;
       $preview->status = 4;
       $preview->preview_master_id = $master->primval;
-      error_log(print_r($preview,1));
+      error_log(print_r($preview->images,1));
     	$ret = $preview->save();
     }
     return $ret;
