@@ -174,6 +174,7 @@ class CMSAdminContentController extends AdminComponent {
 	    $preview->{$preview->primary_key} = $preview_primval;
       $preview->status = 4;
       $preview->preview_master_id = $master->primval;
+      error_log(print_r($preview,1));
     	$ret = $preview->save();
     }
     return $ret;
@@ -246,11 +247,9 @@ class CMSAdminContentController extends AdminComponent {
     }
 
 		//images
-		error_log(print_r($this->model,1));
     if(count($this->model->images)) $this->attached_images=$this->model->images;
     elseif($this->model->master && $this->model->master->primval && $this->model->master->images && $this->model->master->images->count()) $this->attached_images=$this->model->master->images;
     else $this->attached_images = array();
-    error_log(print_r($this->attached_images, 1));
     
 		//categories assocaited
 		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
