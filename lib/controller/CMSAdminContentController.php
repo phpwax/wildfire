@@ -246,7 +246,7 @@ class CMSAdminContentController extends AdminComponent {
     }
 
 		//images
-		error_log(print_r($this->model->images,1));
+		error_log(print_r($this->model,1));
     if(count($this->model->images)) $this->attached_images=$this->model->images;
     elseif($this->model->master && $this->model->master->primval && $this->model->master->images && $this->model->master->images->count()) $this->attached_images=$this->model->master->images;
     else $this->attached_images = array();
