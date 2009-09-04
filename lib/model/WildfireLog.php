@@ -20,6 +20,10 @@ class WildfireLog extends WaxModel {
 		return date('jS F Y @ H:i', strtotime($this->time));
 	}
 	
+	public function action_description() {
+	  return $this->controller." ".$this->action." ".$this->page;
+	}
+	
 }
 
 ?>
