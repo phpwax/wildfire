@@ -122,7 +122,7 @@ class CMSAdminUserController extends AdminComponent {
 	  $this->model = new $this->model_class(WaxUrl::get("id"));
 	  $copy_from = new $this->model_class(WaxUrl::get("copy_from"));
 	  if(!$copy_from->primval) return;
-	  $this->model->permissions->delete();
+	  foreach($this->model->permissions as $perm) $perm->delete();
 	  foreach($copy_from->permissions as $old_perm){
       $permission = new CmsPermission;
       $permission->class = $old_perm->class;
