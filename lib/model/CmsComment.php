@@ -36,6 +36,23 @@ class CmsComment extends WaxModel {
     $this->flag_spam();
   }
 	
+	public function after_insert(){
+		$email_config = Config::get("notifiers");
+		
+		if($this->status == 0 || $this->status == 2){
+			$verification_email = new Notifier;
+			$verification_email->add_to_address($email_config["comment_email_to"]);
+			
+			$data["id"] = $this->id;
+			$data["author_name"] = $this->author_name;
+			$data["author_email"] = $this->author_email;
+			$data["comment"] = $this->comment;
+			$data["attached_to"] = $this->attached_to;
+			
+			$verification_email->send_comment_approval($data);
+		}
+	}
+	
   public function article() {
     return $this->attached_to;
   }
