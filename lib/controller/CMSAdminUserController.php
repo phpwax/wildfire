@@ -17,6 +17,7 @@ class CMSAdminUserController extends AdminComponent {
   );
   public $filter_columns = array("username", "email");
 	public $order_by_columns = array("username","email");
+	public $default_order = "username";
 	
 	public $permissions = array("create","edit","delete","admin");
 	
@@ -51,7 +52,7 @@ class CMSAdminUserController extends AdminComponent {
     
       $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
       $this->all_users = new $this->model_class;
-      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->all();
+      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();
       
       $this->exisiting_modules_partial = $this->render_partial("list_modules");
   		$this->list_modules_partial = $this->render_partial("module_list");		
