@@ -1,14 +1,10 @@
 <?php
 
 class Notifier extends WXEmail {
-  
-  public $from = "";
-  public $contact_dev = "michal@oneblackbear.com";
-  
 
 	public function comment_approval($data){
-		$this->from = $_SERVER["SERVER_NAME"];
-		$this->to = $this->contact_dev;
+		
+		$this->from = "comment@".$_SERVER["SERVER_NAME"];
 		$this->subject = "Comment approval";
 		
 		$this->author_name = $data["author_name"];
