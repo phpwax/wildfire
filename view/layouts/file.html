@@ -33,7 +33,7 @@
 		<div id="cms_logo"><a href="/admin/home"><img src="/images/cms/cms_wildfire-logo.gif" /></a></div>
 		<div id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></div>
 		<ul id="primary-navigation" class="clearfix">
-		  <?foreach($all_modules as $name=>$values):?>
+		  <?foreach($menu_modules as $name=>$values):?>
 		    <li<?if($name == $module_name) echo " class='active'";?>>
 		      <a href="<?=$values['link']?>">
 		        <?=$values['display_name']?>

@@ -175,6 +175,10 @@ class CMSAdminContentController extends AdminComponent {
       $preview->status = 4;
       $preview->preview_master_id = $master->primval;
     	$ret = $preview->save();
+    	
+    	//temp fix.... images not copying properly 
+    	$preview->images= $master->images;
+    	$preview->categories = $master->categories;
     }
     return $ret;
 	}
@@ -246,9 +250,9 @@ class CMSAdminContentController extends AdminComponent {
     }
 
 		//images
-    if($this->model->images && $this->model->images->count()) $this->attached_images=$this->model->images;
+    if(count($this->model->images)) $this->attached_images=$this->model->images;
     elseif($this->model->master && $this->model->master->primval && $this->model->master->images && $this->model->master->images->count()) $this->attached_images=$this->model->master->images;
-    else $attached_images = array();
+    else $this->attached_images = array();
     
 		//categories assocaited
 		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
