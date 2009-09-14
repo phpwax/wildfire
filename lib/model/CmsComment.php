@@ -92,6 +92,7 @@ class CmsComment extends WaxModel {
   }
   
   protected function flag_spam() {
+    $comment_settings = Config::get("comments");
     $text = $this->comment;
     $total_matches = 0;
     $trash = array();
@@ -116,7 +117,10 @@ class CmsComment extends WaxModel {
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
     if($total_matches >= 4) $this->status="2";
-    elseif(!$this->status) $this->status="1";
+    else{
+      if($comment_settings['default_unapproved']) $this->status = "0";
+      else $this->status = "1";
+    }
   }
   
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
