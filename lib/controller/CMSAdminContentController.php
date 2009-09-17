@@ -194,7 +194,9 @@ class CMSAdminContentController extends AdminComponent {
       $preview->set_attributes($_POST[$preview->table]);
       $preview->status = 4;
       $preview->save();
-  	  foreach($preview->columns as $col => $params) if($preview->$col) $copy_attributes[$col] = $preview->$col;
+
+			foreach($preview->columns as $col => $params) if($preview->$col || strlen($preview->$col)) $copy_attributes[$col] = $preview->$col;
+
   	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
 	    $res = $master->update_attributes($copy_attributes);	    
     }else $res = $master;
