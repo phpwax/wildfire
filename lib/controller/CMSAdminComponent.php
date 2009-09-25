@@ -112,6 +112,7 @@ class CMSAdminComponent extends WaxController {
   public function check_authorised() {
     if($this->current_user) return $this->current_user->access($this->module_name, 'view');
 		Session::add_message($this->unauthorised_message);
+		Session::set('pre_login_referrer', $_SERVER['REQUEST_URI']);
 		$this->redirect_to($this->unauthorised_redirect);
   }
 
