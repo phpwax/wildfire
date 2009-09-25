@@ -51,7 +51,7 @@ class CmsTextFilter  {
   }
   
   static public function strip_attributes($text) {
-		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/i", "<$1 $2 $3\>", $text);
+		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot|p)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/i", "<$1 $2 $3\>", $text);
     return preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span|font)\s+([^>]*)( class=\".*?\")([^>]*)>/i", "<$1$3>", $text);
   }
   

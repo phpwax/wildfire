@@ -1,6 +1,6 @@
 <?php
 
-class Notifier extends WXEmail {
+class WildfireNotifier extends WXEmail {
 
 	public function comment_approval($data){
 		
