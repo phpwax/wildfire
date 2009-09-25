@@ -1,0 +1,23 @@
+We've received a comment that needs your approval from the <?=$_SERVER["SERVER_NAME"]?> Site. 
+
+-----------------------------------
+
+The comment that was left:
+
+Name:  <?=$author_name?>
+
+Email: <?=$author_email?>
+
+
+Comment left: <?=$comment?>
+
+
+Approve: <?=$approval_link?>
+
+
+Original Article: <?=$content?>
+
+
+-----------------------------------
+
+<?=$_SERVER["SERVER_NAME"]?> Server

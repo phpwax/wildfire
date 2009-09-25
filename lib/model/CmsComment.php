@@ -36,6 +36,23 @@ class CmsComment extends WaxModel {
     $this->flag_spam();
   }
 	
+	public function after_insert(){
+		$email_config = Config::get("notifiers");
+		
+		if($this->status == 0 || $this->status == 2){
+			$verification_email = new WildfireNotifier;
+			$verification_email->add_to_address($email_config["comment_email_to"]);
+			
+			$data["id"] = $this->id;
+			$data["author_name"] = $this->author_name;
+			$data["author_email"] = $this->author_email;
+			$data["comment"] = $this->comment;
+			$data["attached_to"] = $this->attached_to;
+			
+			$verification_email->send_comment_approval($data);
+		}
+	}
+	
   public function article() {
     return $this->attached_to;
   }
@@ -75,6 +92,7 @@ class CmsComment extends WaxModel {
   }
   
   protected function flag_spam() {
+    $comment_settings = Config::get("comments");
     $text = $this->comment;
     $total_matches = 0;
     $trash = array();
@@ -99,7 +117,10 @@ class CmsComment extends WaxModel {
     if(strlen($text > 1000)) $total_matches +=2;
     if(strlen($text < 13)) $total_matches +=2;
     if($total_matches >= 4) $this->status="2";
-    elseif(!$this->status) $this->status="1";
+    else{
+      if($comment_settings['default_unapproved']) $this->status = "0";
+      else $this->status = "1";
+    }
   }
   
 	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
