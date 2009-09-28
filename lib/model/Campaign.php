@@ -26,8 +26,8 @@ class Campaign extends CampaignMonitorModel {
 		$this->define("FromEmail", "EmailField", array('maxlength'=>255, 'required'=>true) );
 		$this->define("ConfirmationEmail","EmailField", array('maxlength'=>255, 'required'=>true) );
 		$this->define("ReplyTo", "CharField", array('maxlength'=>255, 'required'=>true) );		
-		$this->define("HtmlUrl", "TextField", array('maxlength'=>255, 'required'=>true) );				
-		$this->define("TextUrl", "TextField", array('maxlength'=>255, 'required'=>true) );		
+		$this->define("HtmlUrl", "TextField", array('required'=>true) );				
+		$this->define("TextUrl", "TextField", array('required'=>true) );		
 		$this->define("SendDate", "DateTimeField");				
 		$this->define("SubscriberListIDs", "TextField");
 		$this->define("ListSegments", "TextField");		
