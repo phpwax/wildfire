@@ -4,10 +4,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<?=javascript_asset("build", "jquery.126.files.min")?>
+	<?if(ENV == "production"):?>
+  <script src='http://www.google.com/jsapi?'  type='text/javascript'></script>  	
+  <script type='text/javascript'>                      
+  google.load('jquery', '1.3.2');
+  google.load('jqueryui', '1.7');
+  </script>
+  <?else:?>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/jquery/jquery.1.2.6.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/jquery/jquery-ui-1.7.1.custom.min.js"></script>
+  <?endif?>
+	
+  <script type="text/javascript" charset="utf-8" src="/javascripts/build/wildfire_filesystem.min.js"></script>	  
+  <link href="/stylesheets/cms/wildfire.combined.css" media="screen" rel="Stylesheet" type="text/css" />
+	<link href="/stylesheets/cms/cms-overrides.css" media="screen" rel="Stylesheet" type="text/css" />
+	<!--[if lt IE 7]>
+	<link href="/stylesheets/cms/ie_cms.css" media="screen" rel="Stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if IE 7]>
+  <link href="/stylesheets/cms/ie7_cms.css" media="screen" rel="Stylesheet" type="text/css" />
+	<![endif]-->
 
-	<?=stylesheet_asset('cms','wildfire.combined.min')?>
-	<?=stylesheet_asset('cms','cms-overrides')?>
 	<title>Content Management System</title>
 </head>
 
@@ -16,7 +33,7 @@
 		<div id="cms_logo"><a href="/admin/home"><img src="/images/cms/cms_wildfire-logo.gif" /></a></div>
 		<div id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></div>
 		<ul id="primary-navigation" class="clearfix">
-		  <?foreach($all_modules as $name=>$values):?>
+		  <?foreach($menu_modules as $name=>$values):?>
 		    <li<?if($name == $module_name) echo " class='active'";?>>
 		      <a href="<?=$values['link']?>">
 		        <?=$values['display_name']?>

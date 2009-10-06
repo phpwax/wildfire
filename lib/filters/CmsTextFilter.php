@@ -51,7 +51,7 @@ class CmsTextFilter  {
   }
   
   static public function strip_attributes($text) {
-		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/i", "<$1 $2 $3\>", $text);
+		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot|p)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/i", "<$1 $2 $3\>", $text);
     return preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span|font)\s+([^>]*)( class=\".*?\")([^>]*)>/i", "<$1$3>", $text);
   }
   
@@ -97,7 +97,7 @@ class CmsTextFilter  {
   
   static public function ampersand_hook($text) {
     $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
-    return preg_replace($amp_finder, '\\1<span class="amp">&amp;</span>\\3', $text);
+    return preg_replace($amp_finder, '\\1&amp;\\3', $text);
   }
   
   static public function nice_quotes($text) {
@@ -245,11 +245,12 @@ class CmsTextFilter  {
   static public function inline_images($text) {
     $matches=array();
     preg_match_all("/<img([^>]*class=\"inline_image[^>]*)>/", $text, $matches, PREG_SET_ORDER);
-
     foreach($matches as $match) {      
-      preg_match("/width=\"([0-9]*)\"/", $match[0], $width);
-      preg_match("/WIDTH:\s*([0-9]*)/", $match[0], $width);
+      if(!preg_match("/width=\"([0-9]*)\"/i", $match[0], $width)) {
+        preg_match("/WIDTH:\s*([0-9]*)/i", $match[0], $width);
+      }        
       $width = $width[1];
+      
       if($width) {
         $new_img = preg_replace("/(.*show_image\/[0-9]*\/)([0-9]*)(.*)/", "\${1}$width\\3", $match[0]);
         $new_img = preg_replace("/width=\"[0-9]*\"/", "", $new_img);

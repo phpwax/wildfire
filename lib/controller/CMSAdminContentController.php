@@ -175,6 +175,10 @@ class CMSAdminContentController extends AdminComponent {
       $preview->status = 4;
       $preview->preview_master_id = $master->primval;
     	$ret = $preview->save();
+    	
+    	//temp fix.... images not copying properly 
+    	$preview->images= $master->images;
+    	$preview->categories = $master->categories;
     }
     return $ret;
 	}
@@ -190,10 +194,14 @@ class CMSAdminContentController extends AdminComponent {
       $preview->set_attributes($_POST[$preview->table]);
       $preview->status = 4;
       $preview->save();
-  	  foreach($preview->columns as $col => $params) if($preview->$col) $copy_attributes[$col] = $preview->$col;
+
+			foreach($preview->columns as $col => $params) if($preview->$col || strlen($preview->$col)) $copy_attributes[$col] = $preview->$col;
+
   	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
-	    return $master->update_attributes($copy_attributes);
-    }else return $master;
+	    $res = $master->update_attributes($copy_attributes);	    
+    }else $res = $master;
+    $this->after_save($res);
+    return $res;
 	}
 	/**
 	* the editing function... lets you change all the bits associated with the content record
@@ -246,7 +254,9 @@ class CMSAdminContentController extends AdminComponent {
     }
 
 		//images
-    if(!$this->attached_images = $this->model->images) $this->attached_images=array();
+    if(count($this->model->images)) $this->attached_images=$this->model->images;
+    elseif($this->model->master && $this->model->master->primval && $this->model->master->images && $this->model->master->images->count()) $this->attached_images=$this->model->master->images;
+    else $this->attached_images = array();
     
 		//categories assocaited
 		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
@@ -338,6 +348,7 @@ class CMSAdminContentController extends AdminComponent {
 	* cool function that autosaves your current document via ajax call
 	**/
 	public function autosave() {
+	  $this->id = Request::get("id");
 	  $this->use_layout=false;
 	  $this->use_view=false;
 	  $content = new $this->model_class(Request::get("id"));

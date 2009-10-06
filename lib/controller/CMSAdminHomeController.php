@@ -49,7 +49,8 @@ class CMSAdminHomeController extends AdminComponent {
 		  $log->save();
 		  $perm_model = new CmsPermission;
 		  if(!count($perm_model->all())) return '/admin/home/convert_to_v3';
-		  elseif($this->authorised_redirect) return $this->authorised_redirect;		  
+		  elseif(Session::get('pre_login_referrer')) return Session::get('pre_login_referrer');
+		  elseif($this->authorised_redirect) return $this->authorised_redirect;
 			else return 'index';
 		}
 		else {

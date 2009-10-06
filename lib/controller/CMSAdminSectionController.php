@@ -65,23 +65,16 @@ class CMSAdminSectionController extends AdminComponent {
   }
 	
 	/**
-	* Ajax Filter list view
-	*/
-	public function filter() {
-	  $this->use_layout=false;
-	  $this->use_view="_list";
-	  if($fil = Request::post('filter')) {
-  		$conditions = "";
-  	  if($this->filter_columns) {
-  	    foreach($this->filter_columns as $filter) {
-  	      $conditions .= "OR $filter LIKE ?";
-  	      $params[]='%'.$fil.'%';
-  	    }
-  	    $conditions = ltrim($conditions, "OR");
-      }
-      $this->model->filter($conditions, $params);
-	  }
-	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
+	 * ajax filter function - takes the incoming string, matches against columns 
+	 * and outputs view of the matching data
+	 */	
+	public function filters() {
+	  $this->use_layout = false;
+	  $sect = new CmsSection();
+	  if($filter = Request::param('filter')) $sect->filter("title",'%'.$filter.'%', "LIKE");
+  	$this->all_sections = $sect->tree();
+  	$this->use_view = "_section_list";
+  	$this->all_sections_partial = $this->render_partial("section_list");
 	}
 
 

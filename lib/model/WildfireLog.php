@@ -4,7 +4,10 @@ class WildfireLog extends WaxModel {
   
     
   public function setup() {
+    $this->define("language", "CharField");
+    $this->define("page", "CharField");
     $this->define("action", "CharField");
+    $this->define("controller", "CharField");
     $this->define("user", "ForeignKey", array("target_model"=>"WildfireUser"));
     $this->define("time", "DateTimeField");
   }
@@ -15,6 +18,10 @@ class WildfireLog extends WaxModel {
   
   public function action_time(){
 		return date('jS F Y @ H:i', strtotime($this->time));
+	}
+	
+	public function action_description() {
+	  return $this->controller." ".$this->action." ".$this->page;
 	}
 	
 }

@@ -3,7 +3,6 @@ BUILD_DIR = resources/public/javascripts/build
 CSS_DIR = resources/public/stylesheets
 
 JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
- ${SRC_DIR}/jquery/jquery-ui-1.7.1.custom.min.js\
  ${SRC_DIR}/jquery/jquery.hint.js\
  ${SRC_DIR}/jquery/jquery.imgareaselect-0.5.1.min.js\
  ${SRC_DIR}/cms/cms_init.js\
@@ -16,7 +15,8 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
  ${SRC_DIR}/cms/file.js\
  ${SRC_DIR}/cms/wildfire_users.js
  
-JS_FILES2 = ${SRC_DIR}/upload/swfupload.js\
+JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.3.2.js\
+ ${SRC_DIR}/upload/swfupload.js\
  ${SRC_DIR}/upload/swfupload.queue.js\
  ${SRC_DIR}/upload/fileprogress.js\
  ${SRC_DIR}/upload/handlers.js\
@@ -33,10 +33,10 @@ CSS_FILES = ${CSS_DIR}/cms/reset-fonts-grids.css\
  ${CSS_DIR}/cms/relay.css
  
 
-WE = ${BUILD_DIR}/jquery.132.combined.js
-WE_MIN = ${BUILD_DIR}/jquery.132.combined.min.js
-JS = ${BUILD_DIR}/jquery.126.files.js
-JS_MIN = ${BUILD_DIR}/jquery.126.files.min.js
+WE = ${BUILD_DIR}/wildfire_cms.combined.js
+WE_MIN = ${BUILD_DIR}/wildfire_cms.combined.min.js
+JS = ${BUILD_DIR}/wildfire_filesystem.js
+JS_MIN = ${BUILD_DIR}/wildfire_filesystem.min.js
 
 CSS = ${CSS_DIR}/cms/wildfire.combined.css
 CSS_MIN = ${CSS_DIR}/cms/wildfire.combined.min.css

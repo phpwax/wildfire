@@ -55,10 +55,23 @@ class CMSAdminComponent extends WaxController {
 	public $permissions = array();
 	
 	function __construct($initialise = true) {
+	  parent::__construct($initialise);
 	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
 	  $this->help_files = array_unique(array_merge($this->extra_help, $this->base_help));
 	  if($initialise) $this->initialise();
 	}
+	
+	public function __destruct(){
+	  $log = new WildfireLog;
+	  $log->controller=$this->controller;
+		$log->action=$this->action;
+		$log->page=$this->id;
+		if(Request::param('lang')) $log->language = Request::param('lang');
+		$log->user=$this->current_user->id;
+		$log->time = date("Y-m-d H:i:s");
+		$log->save();
+	}
+	
 	
 	/** 
 	* initialises authentication, default model and menu items
@@ -99,6 +112,7 @@ class CMSAdminComponent extends WaxController {
   public function check_authorised() {
     if($this->current_user) return $this->current_user->access($this->module_name, 'view');
 		Session::add_message($this->unauthorised_message);
+		Session::set('pre_login_referrer', $_SERVER['REQUEST_URI']);
 		$this->redirect_to($this->unauthorised_redirect);
   }
 
@@ -157,10 +171,10 @@ class CMSAdminComponent extends WaxController {
 	*/
 	public function filter() {
 	  $this->use_layout=false;
-	  if($_POST['filter']) {
+	  if($filter_val = Request::param('filter')) {
   		$conditions = "";
   	  if($this->filter_columns) {
-  	    foreach($this->filter_columns as $filter) $conditions .= "OR $filter LIKE '%{$_POST['filter']}%'";
+  	    foreach($this->filter_columns as $col) $conditions .= "OR $col LIKE '%".$filter_val."%'";
   	    $conditions = ltrim($conditions, "OR");
       }
       $this->model->filter($conditions);
