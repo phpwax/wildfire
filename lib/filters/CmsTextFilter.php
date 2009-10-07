@@ -138,7 +138,7 @@ class CmsTextFilter  {
 							<embed src="$4" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$2" height="$3">
 							</embed>
 						</object>';
-		$text = preg_replace("/<a( href=\"(.*)\" )*rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);						
+		$text = preg_replace("/<a rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);						
 		
 		
 		return $text;
