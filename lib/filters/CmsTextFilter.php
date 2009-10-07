@@ -107,7 +107,7 @@ class CmsTextFilter  {
 	static public function videos($text){
 		/*standard youtube*/
 		$youtube = '<object width="$2" height="$3">
-		  <param name="movie" value="http://www.youtube.com/v/$6" />
+		  <param name="movie" value="http://www.youtube.com/v/$6&rel=0" />
 		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
