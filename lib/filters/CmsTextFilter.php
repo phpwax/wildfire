@@ -107,8 +107,8 @@ class CmsTextFilter  {
 	static public function videos($text){
 		/*standard youtube*/
 		$youtube = '<object width="$2" height="$3">
-		  <param name="movie" value="http://www.youtube.com/v/$6" />
-		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
+		  <param name="movie" value="http://www.youtube.com/v/$6&rel=0" />
+		  <embed src="http://www.youtube.com/v/$6&rel=0" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
 		$text = preg_replace("/<a href=\"([^\"]*)\" rel=\"([0-9]*px):([0-9]*px)\">([^<]*)youtube([^<]*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*<\/a>/", $youtube, $text);
@@ -131,14 +131,14 @@ class CmsTextFilter  {
 		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $google, $text);						
 
 		/*LOCAL*/
-		$local ='<object width="$2" height="$3">
+		$local ='<object width="$1" height="$2">
 							<param name="allowfullscreen" value="true" />
 							<param name="allowscriptaccess" value="always" />
-							<param name="movie" value="$4" />
-							<embed src="$4" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$2" height="$3">
+							<param name="movie" value="$3" />
+							<embed src="$3" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$1" height="$2">
 							</embed>
 						</object>';
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);						
+		$text = preg_replace("/<a rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);						
 		
 		
 		return $text;
