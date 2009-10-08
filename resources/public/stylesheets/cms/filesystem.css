@@ -1,0 +1,208 @@
+html {background:#fafafa url(/images/filesystem/body_bg.jpg) repeat-x; font-size:100%;}
+h1 {font-size:161%;}
+h2 {font-size:132%;}
+h3 {font-size:116%;}
+h1,h2,h3{color:#111;margin:10px 0;padding:0;}
+strong {font-weight:bold;}
+
+body .fs {height:460px; width:900px;margin:10px; background:white;border:1px solid #d1d1d1;font-size:108%;}
+.fs fieldset {margin:0;padding:0;}
+
+.filesystem {
+  padding:8px;
+  width:390px;
+  border-right:1px solid #e1e1e1;
+  overflow:auto;
+  height:400px;
+  position:relative;
+  float:left;
+}
+.filesystem ul {
+  margin:1px 0 1px 18px;
+  font-size:100%;
+}
+.filesystem a {
+  text-decoration:none;
+}
+.filesystem li {
+  line-height:130%;
+  padding:4px 0 4px 0px;
+}
+
+.filesystem .file {
+  background:url(/images/filesystem/mac_file.png) no-repeat left center;
+  padding-left:22px;
+}
+
+.filesystem .dir {
+  background:url(/images/filesystem/mac_dir.png) no-repeat 15px 4px;
+  border:1px solid white;
+  border-bottom:1px dotted #D1D1D1;
+}
+.filesystem .dir:last-child {border-bottom-color:white;}
+
+.filesystem .dir_active,.filesystem .dir_selected {
+  border:1px solid #d6dfed;
+  background-color:#f4f8ff;
+}
+
+.filesystem .selected {background-color:rgb(131, 165, 199); color:white;}
+
+.filesystem .dir .expander {
+  background:url(/images/filesystem/collapsed.png) no-repeat left 2px;
+  width:12px;
+  height:15px;
+  display:block;
+  float:left;
+  margin-right:23px;
+}
+.filesystem .dir .expanded {
+  background:url(/images/filesystem/expanded.png) no-repeat left 2px;
+}
+
+.fs_toolbar {background:#fafafa url(/images/filesystem/body_bg.jpg) repeat-x; border-bottom:1px solid #e1e1e1;}
+.fs_toolbar li {float:left;margin:5px;}
+.fs_toolbar li a {
+  display:block;
+  color:white !important;
+  text-decoration:none;
+  background-color:rgb(131, 165, 199);
+  -webkit-border-radius:4px;
+  padding:5px 6px;
+  font-size:85%;
+  font-weight:normal;
+}
+.fs_toolbar li a:hover {color:#d1d1d1 !important;}
+
+.file_info_panel {
+  float:left;
+  width:200px;
+  padding-left:10px;
+}
+.fs .file_info_panel p {font-size:77%;}
+
+.fs .file_upload_panel {float:left;width:260px; padding-left:20px;border-left:1px solid #e1e1e1;}
+.fs .file_upload_panel h3 {color:rgb(41, 113, 161);margin:0;font-size:85%;font-weight:bold;margin-top:5px;border:0;}
+.fs .file_upload_panel p {color:#666;font-size:78%;margin:0;}
+/****** Advanced Uploader Styling *******/
+
+.file_upload_panel .progressWrapper {
+	width: 170px;
+	overflow: hidden;
+}
+
+.file_upload_panel .progressContainer {
+	margin: 5px;
+	padding: 4px;
+	border: solid 1px #E8E8E8;
+	background-color: #F7F7F7;
+	overflow: hidden;
+}
+/* Message */
+.file_upload_panel .message {
+	margin: 1em 0;
+	padding: 10px 20px;
+	border: solid 1px #FFDD99;
+	background-color: #FFFFCC;
+	overflow: hidden;
+}
+/* Error */
+.file_upload_panel .red {
+	border: solid 1px #B50000;
+	background-color: #FFEBEB;
+}
+
+/* Current */
+.file_upload_panel .green {
+	border: solid 1px #DDF0DD;
+	background-color: #EBFFEB;
+}
+
+/* Complete */
+.file_upload_panel .blue {
+	border: solid 1px #CEE2F2;
+	background-color: #F0F5FF;
+}
+
+.file_upload_panel .progressName {
+	font-size: 77%;
+	color: #555;
+	width: 170px;
+	height: 14px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	float:left;
+}
+
+.progressBarInProgress,
+.progressBarComplete,
+.progressBarError {
+	font-size: 0;
+	width: 0%;
+	height: 4px;
+	background-color: #666;
+	margin: 5px 0;
+	clear:both;
+}
+
+.progressBarComplete {
+	width: 100%;
+	background-color: green;
+	visibility: hidden;
+}
+
+.progressBarError {
+	width: 100%;
+	background-color: red;
+	visibility: hidden;
+}
+
+.progressBarStatus {
+	margin-top: 2px;
+	width: 170px;
+	font-size: 7pt;
+	font-family: Arial;
+	text-align: left;
+	white-space: nowrap;
+}
+
+a.progressCancel {
+	font-size: 0;
+	height: 14px;
+	width: 14px;
+	background-image: url(../../images/cms/trash.gif);
+	background-repeat: no-repeat;
+	float: right;
+	display:block;
+}
+
+a.progressCancel:hover {
+	background-position: 0px 0px;
+}
+
+
+.file_upload_panel #fsUploadProgress {
+  border:1px solid #BBBBBB;
+  background:white;
+  padding:15px 8px !important;
+  overflow:auto;
+  height:40px;
+  width:234px;
+}
+.divStatus {
+  background:#E1E1E1;
+  color:black;
+  font-weight:bold;
+  padding:5px 8px;
+  border:1px solid #BBBBBB;
+  border-top:0;
+  clear:both;
+  width:234px;
+}
+.progressContainer div {
+  display:block;
+  margin:2px 7px;
+}
+
+/*** End uploader styling**********/

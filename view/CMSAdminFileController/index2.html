@@ -1,0 +1,53 @@
+<script type="text/javascript" src="/javascripts/upload/swfupload.js"></script>
+<script type="text/javascript" src="/javascripts/upload/swfupload.queue.js"></script>
+<script type="text/javascript" src="/javascripts/upload/fileprogress.js"></script>
+<script type="text/javascript" src="/javascripts/upload/handlers.js"></script>
+<script type="text/javascript" src="/javascripts/cms/filesystem.js"></script>
+
+<link rel="stylesheet" href="/stylesheets/cms/filesystem.css" type="text/css" charset="utf-8">
+
+<div id="files" class="fs">
+  <ul class="fs_toolbar clearfix">
+    <li><a href="#" class="files_refresh">Refresh</a></li>
+    <li><a href="#" class="folder_create">Create Folder</a></li>
+  </ul>
+  <?=$fs->render()?>
+  <div class="file_info_panel">
+    <h2>File Information</h2>
+    <p class="current_file">No file selected</p>
+    <div class="current_file_info"></div>
+  </div>
+  <div class="file_upload_panel">
+    <h2>Upload Files</h2>
+    <p>Uploading to: <strong><span class="current_dir">No directory selected</span></strong></p>
+    <form id="form1" action="" method="post" enctype="multipart/form-data" onsubmit='set_post_params(); return false;'>
+      <div id="flash_upload">
+        <div class="uploadstatus"></div>
+        <h3>Step 1</h3>
+        <p>Tip: You can add multiple files if you wish.</p>
+        <input id="spanButtonPlaceHolder" type="button" value="Add Files" onclick="swfu.selectFiles()" />
+        <h3>Step 2</h3>
+        <p>Below are the files that are pending, you may add more if you wish:</p>
+        <div class="flash" id="fsUploadProgress"></div>
+        <div class="divStatus"></div>
+        <fieldset>
+          <input id="btnCancel" type="image" src="/images/filesystem/clear_files_button.png" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" />
+        </fieldset>
+      </div>
+      <fieldset id="upload_options">
+        <h3>Step 3</h3>
+        <p>Add an optional description to your files:</p>
+        <textarea rows="3" cols="40" name="upload_description"></textarea>
+      </fieldset>
+      <div class="clearfix"></div>
+      <h3>Step 4</h3>
+      <p>Start the upload.</p>
+      <input type="image" src="/images/filesystem/start_upload_button.png" onclick="" />
+      <input type="hidden" name="relay" value="fileUpload" style="display:none;" />
+     	<input type="hidden" name="path" id="uploadPath" />
+    </form>
+
+
+    </div>
+  </div>
+</div>

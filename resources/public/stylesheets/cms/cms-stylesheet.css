@@ -176,10 +176,7 @@ p{
 	font-weight:bold;
 	text-decoration:none;
 }
-#page-container h3 {
-	margin:12px;
-	border-top:1px dotted #ababab;
-} 
+ 
 #page-container a:hover {
 	color:#92C905;
 }

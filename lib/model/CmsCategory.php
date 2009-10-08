@@ -17,7 +17,7 @@ class CmsCategory extends WaxModel {
 	 * set the url up
 	 */	
 	public function before_save() {
-	  $this->url = WXInflections::to_url($this->name);
+	  $this->url = Inflections::to_url($this->name);
 	}
 	/**
 	 * create an array structure from drop downs used elsewhere

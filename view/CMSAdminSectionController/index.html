@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody id="list_rows">
-    <?=$list?>
+    <?=partial("_list", $this)?>
     <?if(count($all_rows)<1):?>
       <tr><td>No items available</td></tr>
     <?endif?>

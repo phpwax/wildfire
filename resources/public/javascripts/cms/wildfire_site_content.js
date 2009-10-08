@@ -84,7 +84,7 @@ function init_deletes(){
       var rid = this.id.replace("delete_permission_button_", "");
   	}else{
   	  var end_url = "../../remove_category/";
-  	  var rid = this.id.substr(22)
+  	  var rid = this.id.substr(22);
 	  }
     jQuery.get(end_url+content_page_id+"?cat="+rid,function(response){
       jQuery("#cat_dropzone").html(response); init_deletes();
@@ -201,7 +201,7 @@ function initialise_images() {
     return false;
   });
   jQuery("#drop_zones").sortable({
-    change: function(event, ui) {
+    update: function(event, ui) {
       alert(jQuery("#drop_zones").sortable("serialize"));
     }
   });
@@ -364,7 +364,7 @@ jQuery(document).ready(function(){
     var preview_but = jQuery(this);
     autosave_content(wym_editors, function(){ //do an autosave before a preview
       if(preview_but.hasClass("modal_preview")){
-        open_modal_preview(preview_but.attr("href"))
+        open_modal_preview(preview_but.attr("href"));
       }else{
         window.open(preview_but.attr("href"));
       }

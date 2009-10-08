@@ -37,7 +37,7 @@ class CMSApplicationController extends WaxController{
 		if(Request::get("preview"))
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		//method exists check
-		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
 		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
@@ -189,7 +189,7 @@ class CMSApplicationController extends WaxController{
 	  $img_size = $options[0];
   	$this->use_view=false;
 		$this->use_layout=false;
-  	if(!$size = $img_size) $size=110;
+  	if(!is_numeric($size = $img_size)) $size=110;
   	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
   	$img = new WildfireFile($img_id);
     $img->show($size);

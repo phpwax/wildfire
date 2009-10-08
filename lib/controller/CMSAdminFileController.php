@@ -39,6 +39,14 @@ class CMSAdminFileController extends AdminComponent {
 	  $fs->dispatch($action, array_merge($_GET, $_POST));
 	}
 	
+	public function fs2() {
+	  $this->use_layout=false;
+	  $this->use_view=false;
+	  $op = Request::get("id");
+	  $fs = new Filesystem;
+	  echo $fs->op($op, $_POST);
+	}
+	
 	public function synchronise() {
 	  set_time_limit(0);
 	  if($_POST && $_POST['sync']=="go") {
@@ -59,6 +67,10 @@ class CMSAdminFileController extends AdminComponent {
 	  parent::index();
 	  $this->use_layout="file";
 	}
+	public function index2() {
+	  parent::index();
+	  $this->fs = new Filesystem();
+	}
 	
 	public function upload_url() {
 	  $this->use_layout="simple";
@@ -74,7 +86,7 @@ class CMSAdminFileController extends AdminComponent {
 			$this->model = new WildfireFile(Request::get('id'));
 			$location = PUBLIC_DIR. $this->model->url();
 			File::rotate_image($location, $location, Request::get('angle') );	
-			File::clear_image_cache($id);					
+			$this->clear_image_cache($id);			
 		}else exit;
 	}
 	/** AJAX IMAGE EDITING **/	
@@ -85,7 +97,7 @@ class CMSAdminFileController extends AdminComponent {
 			if($data = Request::post('crop')){
 				$location = PUBLIC_DIR. $this->model->url();		
 				File::crop_image($location, $location, $data['x1'], $data['y1'], $data['w'], $data['h']);
-				File::clear_image_cache($id);
+				$this->clear_image_cache($id);
 			}
 		}else exit;
 	}
@@ -97,9 +109,16 @@ class CMSAdminFileController extends AdminComponent {
 			if($data = $_REQUEST['percent']){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::resize_image_extra($location, $location, $data);
-				File::clear_image_cache($id);				
+				$this->clear_image_cache($id);				
 			}
 		}else exit;
+	}
+	
+	public function clear_image_cache($id) {
+	  $look_for = CACHE_DIR."images/". $image_id."_*";
+		foreach(glob($look_for) as $filename){
+			@unlink($filename);
+		}
 	}
 	
 	/**
