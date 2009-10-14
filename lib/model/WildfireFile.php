@@ -96,7 +96,6 @@ class WildfireFile extends WaxModel {
 		}
 		$file = CACHE_DIR."images/".$this->id."_".$size . ".".$extension;
 		//slash any spaces
-		$source=preg_replace("/[\s]/", "\ ", $source);
     if(!is_readable($source)) WaxLog::log('error', "[image] FATAL IMAGE ERROR - ".$source);
 		if(!File::is_image($source)){
 			if(!is_file($file) || !is_readable($file)) {
