@@ -25,8 +25,10 @@ WYMeditor.editor.prototype.wildfire = function() {
 	  jQuery(".insert_web_url").unbind("click");
 	  jQuery(".insert_web_url").click(function(){
 	    var theURL = prompt("Enter the URL for this link:", "http://");
-	    if (theURL != null) { 
+	    if (theURL != null) {
+	      var str_target = jQuery("#link_target").val();
 	      wym._exec('CreateLink', theURL);
+	      if(str_target.length) jQuery(wym._iframe.contentWindow.getSelection().focusNode.parentNode).attr('target', str_target);
 	      jQuery("#link_dialog").dialog("close");
 	      return true;
 	    }
