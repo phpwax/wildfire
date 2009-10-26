@@ -49,8 +49,14 @@ WYMeditor.editor.prototype.wildfire = function() {
 	    theURL = jQuery("#link_file").val();
 	    if (theURL != null) { 
 	      var str_target = jQuery("#link_target").val();
-	      wym._exec('CreateLink', theURL);
-	      if(str_target.length) jQuery(wym._iframe.contentWindow.getSelection().focusNode.parentNode).attr('target', str_target);
+
+	      if(str_target.length) {
+	        wym.wrap("<a href = '" + theURL + "' target='_blank'>", "</a>");
+	      } else {
+	        wym._exec('CreateLink', theURL);
+	      }
+
+
 	      jQuery("#link_dialog").dialog("close");
 	    }
 	  });
