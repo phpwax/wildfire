@@ -137,6 +137,7 @@ jQuery(document).ready(function() {
 function inline_status_change(){
 	if(jQuery('.status_change')){	
 		jQuery('.status_change').click(function(){
+		  if(!confirm("Are you sure you want to change the publish status?")) return false;
 			current_status = jQuery(this).attr('rel');
 			dest = jQuery(this).attr('href');
 			dest = dest.replace('?status=0', '').replace('?status=1', '');
