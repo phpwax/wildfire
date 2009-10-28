@@ -10,6 +10,11 @@
 //Extend WYMeditor
 WYMeditor.editor.prototype.wildfire = function() {
   var wym = this;
+  /****** Allow more things through the xhtml parse *******/
+  WYMeditor.XhtmlValidator._tags.a.attributes[7]="target";
+  
+  
+  /*******************************************/
   
   jQuery(wym._box).find(".wym_tools_superscript").remove();
   jQuery(wym._box).find(".wym_tools_subscript").remove();
@@ -27,8 +32,14 @@ WYMeditor.editor.prototype.wildfire = function() {
 	    var theURL = prompt("Enter the URL for this link:", "http://");
 	    if (theURL != null) {
 	      var str_target = jQuery("#link_target").val();
-	      wym._exec('CreateLink', theURL);
-	      if(str_target.length) jQuery(wym._iframe.contentWindow.getSelection().focusNode.parentNode).attr('target', str_target);
+	      
+	      if(str_target.length) {
+	        wym.wrap("<a href = '" + theURL + "' target='_blank'>", "</a>");
+	      } else {
+	        wym._exec('CreateLink', theURL);
+	      }
+	      
+	      
 	      jQuery("#link_dialog").dialog("close");
 	      return true;
 	    }
@@ -38,8 +49,14 @@ WYMeditor.editor.prototype.wildfire = function() {
 	    theURL = jQuery("#link_file").val();
 	    if (theURL != null) { 
 	      var str_target = jQuery("#link_target").val();
-	      wym._exec('CreateLink', theURL);
-	      if(str_target.length) jQuery(wym._iframe.contentWindow.getSelection().focusNode.parentNode).attr('target', str_target);
+
+	      if(str_target.length) {
+	        wym.wrap("<a href = '" + theURL + "' target='_blank'>", "</a>");
+	      } else {
+	        wym._exec('CreateLink', theURL);
+	      }
+
+
 	      jQuery("#link_dialog").dialog("close");
 	    }
 	  });
