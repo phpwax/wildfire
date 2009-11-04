@@ -136,9 +136,9 @@ class CMSAdminComponent extends WXControllerBase {
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     
-		$this->form = $this->render_partial("form");
-		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
-		if($_POST['save']) $this->save($this->model, "edit");
+		$this->form = $this->render_partial("form");		
+		if($_POST['save_close_x']) $this->redirect_to(Session::get("list_refer"));
+		if($_POST['save_x']) $this->save($this->model, "edit");
 		else $this->save($this->model, Session::get("list_refer"));
 	}
 	
