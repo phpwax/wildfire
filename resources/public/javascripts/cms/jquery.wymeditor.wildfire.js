@@ -7,14 +7,72 @@
  *    4. Overwrite default image insert to be awesome
  */
 
+
 //Extend WYMeditor
+wildfire_containersItems = [
+    {'name': 'P', 'title': 'Paragraph', 'css': 'wym_containers_p'},        
+    {'name': 'H3', 'title': 'Main_Heading', 'css': 'wym_containers_h3'},
+    {'name': 'H4', 'title': 'Sub_Heading', 'css': 'wym_containers_h4'},
+    {'name': 'H5', 'title': 'Small_Heading', 'css': 'wym_containers_h5'},
+    {'name': 'PRE', 'title': 'Preformatted', 'css': 'wym_containers_pre'},
+    {'name': 'BLOCKQUOTE', 'title': 'Blockquote','css': 'wym_containers_blockquote'}
+];
+/******** Overides of base WYMeditor Object ****************/
+WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote", "address");
+
 WYMeditor.editor.prototype.wildfire = function() {
   var wym = this;
+  
+  
+  /*************Additions to language code***************/
+  WYMeditor.STRINGS['en'].Source_Code = 'Source code';
+  WYMeditor.STRINGS['en'].Main_Heading = 'Main Heading';
+  WYMeditor.STRINGS['en'].Sub_Heading = 'Sub Heading';
+  WYMeditor.STRINGS['en'].Small_Heading = 'Small Heading';
+  /*******************************************/
+  updateHTML = jQuery(".wym_containers").html();
+  jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
+  jQuery(this._box).find(this._options.containerSelector).click(function() {
+    wym.container(jQuery(this).attr(WYMeditor.NAME));
+    return(false);
+  });
+
+  WYMeditor.BLOCKS = new Array("address", "blockquote", "div", "dl",
+   "fieldset", "form", "h3", "h4", "h5", "h6", "hr",
+   "noscript", "ol", "p", "pre", "table", "ul", "dd", "dt",
+   "li", "tbody", "td", "tfoot", "th", "thead", "tr");
+  
   /****** Allow more things through the xhtml parse *******/
   WYMeditor.XhtmlValidator._tags.a.attributes[7]="target";
+  WYMeditor.XhtmlValidator._tags.embed = {
+    "attributes":[
+    "allowscriptaccess",
+    "allowfullscreen",
+    "height",
+    "src",
+    "type",
+    "width",
+    "flashvars",
+    "scale"
+    ]
+  };
+
+  WYMeditor.XhtmlSaxListener.prototype.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
+    "base", "bdo", "big", "blockquote", "body", "button",
+    "caption", "cite", "code", "col", "colgroup", "dd", "del", "div",
+    "dfn", "dl", "dt", "em", "fieldset", "form", "head", "h1", "h2",
+    "h3", "h4", "h5", "h6", "html", "i", "ins",
+    "kbd", "label", "legend", "li", "map", "noscript",
+    "object", "ol", "optgroup", "option", "p", "pre", "q",
+    "samp", "script", "select", "small", "span", "strong", "style",
+    "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th",
+    "thead", "title", "tr", "tt", "ul", "var", "extends"];
+  WYMeditor.XhtmlSaxListener.prototype.inline_tags = ["br", "hr", "img", "input", "embed", "param"];
   
   
-  /*******************************************/
+  
+  
+  
   
   jQuery(wym._box).find(".wym_tools_superscript").remove();
   jQuery(wym._box).find(".wym_tools_subscript").remove();
