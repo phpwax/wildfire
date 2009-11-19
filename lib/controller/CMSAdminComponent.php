@@ -146,8 +146,8 @@ class CMSAdminComponent extends WaxController {
   	$this->display_action_name = 'Create';
   	$this->model = new $this->model_class;		
   	$this->form = $this->render_partial("form");
-  	if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
-  	if($_POST['save'] && $save) $this->save($this->model, "edit");
+  	if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
+  	if($_POST['save_x'] && $save) $this->save($this->model, "edit");
   	elseif($save) $this->save($this->model, Session::get("list_refer"));
   }
 	
@@ -161,8 +161,8 @@ class CMSAdminComponent extends WaxController {
     $this->model = new $this->model_class($this->id);
     
 		$this->form = $this->render_partial("form");
-		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
-		if($_POST['save']) $this->save($this->model, "edit");
+		if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
+		if($_POST['save_x']) $this->save($this->model, "edit");
 		else $this->save($this->model, Session::get("list_refer"));
 	}
 	
