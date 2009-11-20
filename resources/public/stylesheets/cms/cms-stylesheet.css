@@ -226,12 +226,12 @@ p{
 	width:99%;
 	margin-left:0;
 }
-#filter_block{
+#filter_block, .filter_block{
 	padding:10px;
 	background-image: url(../../images/cms/widg_bg.gif);
 	border-bottom: 1px solid #ebebeb;
 }
-#filter_block input{
+#filter_block input, .filter_block input{
 	border:1px solid #ababab;
 }
 .image_filter_folder {
@@ -1570,65 +1570,69 @@ a.edit_img img{
 #dashboard #sub-navigation-container #quick_search {display:none;}
 /**** Inline image browser styles *******/
 
-#inline_image_browser {
+.inline_image_browser {
   position:absolute;
   z-index:1001;
-  width:630px;
+  width:730px;
   height:520px;
   border:1px solid #999;
   background-color:white;
   -webkit-box-shadow:3px 3px 5px #999;
+  -moz-box-shadow:3px 3px 5px #999;
+}
+.inline_image_browser .filter_image_folder {
+  float:right;
 }
 .inline_edit_existing {
   height:170px !important;
 }
-.inline_edit_existing #image_details {
+.inline_edit_existing .image_details {
   padding:20px;
 }
-#inline_close_bar {
+.inline_close_bar {
   height:20px;
   padding:4px;
   background:#666;
 }
-#inline_close_bar h3 {
+.inline_close_bar h3 {
   color:white;
   float:left;
 }
-#inline_close {
+.inline_close {
   float:right;
   font-weight:bold;
   text-decoration:none;
   color:white;
 }
-#inline_image_browser #image_display {
+.inline_image_browser .image_display {
   overflow:scroll;
   height:260px;
   padding:20px;
 }
-#inline_image_browser #image_display img {
+.inline_image_browser .image_display img {
   border:2px solid white;
 }
-#image_details {
+.image_details {
   padding:5px 10px;
 }
-#image_details #selected_image {
+.image_details #selected_image {
   float:left;
   margin-right:8px;
 }
-#image_details #image_meta {
+.image_details .image_meta {
   float:left;
   width:80%;
 }
-#image_details #image_meta label {
+.image_details .image_meta label {
   display:block;
   color:#666;
 }
-#image_details #image_meta input {
+.image_details .image_meta input {
   margin:2px 0;
   padding:2px;
   width:95%;
 }
-#image_details #image_meta div {
+.image_details .image_meta div {
   margin-left:8px;
 }
 #flow_normal, #flow_left, #flow_right {

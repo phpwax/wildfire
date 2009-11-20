@@ -176,6 +176,8 @@ class CMSAdminFileController extends AdminComponent {
 	
 	
 	public function browse_images() {
+	  $this->image_model = new WildfireFile;
+		
 		$this->browse_filesystem();
 	}
 	

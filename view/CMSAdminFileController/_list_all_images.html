@@ -1,4 +1,4 @@
-<div id="image_list_container">
+<div class="image_list_container">
   <?foreach($all_images as $image):?>
     <div id="<?=$image->id?>" class="drag_image">
       <div class="image_place">
@@ -20,13 +20,5 @@
     No images available.
   <?endif?>
   <div class="clearfix"></div>
-  <div id="image_navigation">
-
-    <?if($previous):?>
-      <a href="#" id="prev_images_<?=$previous?>" class="paginate_images">&lt; back&nbsp;&nbsp; </a>
-    <?endif?>
-    <?if($more):?>
-      <a href="#" id="more_images_<?=$more?>" class="paginate_images"> &nbsp;&nbsp;more &gt;</a>
-    <?endif?>
-  </div>
+  
 </div>
