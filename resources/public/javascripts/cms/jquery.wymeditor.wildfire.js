@@ -218,7 +218,7 @@ function initialise_inline_image_edit(wym) {
   jQuery(wym._doc).find("img").dblclick(function(){
     image_to_edit = jQuery(this);
     jQuery(wym._doc).find(".inline_image").unbind("dblclick");
-    var image_browser = '<div class="inline_image_browser inline_edit_existing"><div id="inline_close_bar"><h3>Edit Image</h3><a id="inline_close" href="#">x</a></div></div>';
+    var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
     jQuery("body").append(image_browser);
     jQuery(".inline_image_browser").centerScreen();
     jQuery(".inline_close").click(function(){
@@ -228,18 +228,18 @@ function initialise_inline_image_edit(wym) {
     });
     jQuery.get("/admin/files/inline_image_edit", function(response){
       jQuery(".inline_image_browser").append(response);
-      jQuery("#selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
-      jQuery(".image_meta input").removeAttr("disabled");
-      jQuery(".meta_description").val(image_to_edit.attr("alt"));
-      if(image_to_edit.hasClass("flow_left")) jQuery("#flow_left input").attr("checked", true);
-      if(image_to_edit.hasClass("flow_right")) jQuery("#flow_right input").attr("checked", true);
-      if(image_to_edit.parent().is("a")) jQuery("#inline_image_link").val(image_to_edit.parent().attr("href"));
-      jQuery(".inline_insert .generic_button a").click(function(){
-        if(jQuery("#flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-        if(jQuery("#flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-        if(jQuery("#flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-        var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery("#meta_description").val()+'" />';
-        if(jQuery("#inline_image_link").val().length > 1) img_html = '<a href="'+jQuery("#inline_image_link").val()+'">'+img_html+"</a>";
+      jQuery(".inline_image_browser #selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
+      jQuery(".inline_image_browser .image_meta input").removeAttr("disabled");
+      jQuery(".inline_image_browser .meta_description").val(image_to_edit.attr("alt"));
+      if(image_to_edit.hasClass("flow_left")) jQuery(".inline_image_browser #flow_left input").attr("checked", true);
+      if(image_to_edit.hasClass("flow_right")) jQuery(".inline_image_browser #flow_right input").attr("checked", true);
+      if(image_to_edit.parent().is("a")) jQuery(".inline_image_browser .inline_image_link").val(image_to_edit.parent().attr("href"));
+      jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
+        if(jQuery(".inline_image_browser #flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
+        if(jQuery(".inline_image_browser #flow_left input").attr("checked")) var img_class = "inline_image flow_left";
+        if(jQuery(".inline_image_browser #flow_right input").attr("checked")) var img_class = "inline_image flow_right";
+        var img_html= '<img style="" src="'+jQuery(".inline_image_browser #selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
+        if(jQuery(".inline_image_browser .inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_browser .inline_image_link").val()+'">'+img_html+"</a>";
         image_to_edit.replaceWith(img_html);
     		jQuery(".inline_image_browser").remove(); 
     		initialise_inline_image_edit(wym);
@@ -264,9 +264,8 @@ function inline_image_filter_post(wym){
   );
 }
 function inline_image_folder_select(wym){
-  alert(jQuery(".filter_image_folder .image_folder").val());
   jQuery.post("/admin/files/image_filter",
-    {filterfolder: jQuery(".filter_image_folder .image_folder").val()}, 
+    {filterfolder: jQuery(".inline_image_browser .filter_image_folder .image_folder").val()}, 
     function(response){ 
       jQuery(".inline_image_browser .image_display").html(response);
       init_inline_image_select(wym);
@@ -305,13 +304,14 @@ function init_inline_image_select(wym) {
   jQuery(".image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
   jQuery(".image_display div img").click(function(){
     jQuery(".image_meta input").removeAttr("disabled");
-    jQuery(".selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
-    jQuery(".inline_insert .generic_button a").click(function(){
+    jQuery("#selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
+    jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
       if(jQuery("#flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
       if(jQuery("#flow_left input").attr("checked")) var img_class = "inline_image flow_left";
       if(jQuery("#flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-      var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery("#meta_description").val()+'" />';
+      var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
       if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
+      alert(img_html);
       wym.insert(img_html);
   		jQuery(".inline_image_browser").remove(); 
   		initialise_inline_image_edit(wym);

@@ -578,6 +578,7 @@ button.generic_button span, div.generic_button a {
   color:#565656 !important;
   font-weight:normal !important;
   font-size:85% !important;
+  text-decoration:none;
 }
 .status_icon {margin-right:7px;}
 .category_label {
@@ -1656,7 +1657,7 @@ a.edit_img img{
 }
 #image_details .generic_button a {
   font-size:100% !important;
-  text-decoration:none;
+  text-decoration:none !important;
 }
 div.wym_area_top{height:35px !important;}
 #section-2, #section-4{float:left; width:100%;}

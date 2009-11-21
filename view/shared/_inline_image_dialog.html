@@ -2,7 +2,10 @@
   <div class="filter_block clearfix">
     <div class="filter_image_folder">
       <form class="filter_folder_form" action="">
-      <?=select($image_model, "new_folder", $image_model->folder_options, array("class"=>"image_folder"), "Choose a folder")?>
+        <label>Choose a folder</label>
+        <select class="image_folder">
+          <?=$image_model->folder_options("files")?>
+        </select>
       </form>
     </div>
   	<div class="filter-item">  	  
@@ -24,11 +27,11 @@
     <div class="image_meta">
       <div class="medium">
         <label for="description">Image Description (optional)</label>
-        <input type="text" id="meta_description" name="description" disabled="disabled" />
+        <input type="text" class="meta_description" name="description" disabled="disabled" />
       </div>
       <div class="medium">
         <label for="link">Link Image To (optional)</label>
-        <input type="text" name="link" disabled="disabled" id="inline_image_link" />
+        <input type="text" name="link" disabled="disabled" class="inline_image_link" />
       </div>
       <div class="medium">
         <label for="flow">Text flow</label>
@@ -36,7 +39,7 @@
         <span id="flow_left"><input type="radio" name="flow" value="flow_left" disabled="disabled" /></span>
         <span id="flow_right"><input type="radio" name="flow" value="flow_right" disabled="disabled" /></span>
       </div>
-      <div class="medium" id="inline_insert">
+      <div class="medium inline_insert">
         <div class="generic_button"><a href="#">Insert Image</a></div>
       </div>
     </div>
