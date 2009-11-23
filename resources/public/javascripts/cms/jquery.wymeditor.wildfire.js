@@ -288,7 +288,7 @@ function show_inline_image_browser(wym) {
   jQuery(".inline_close").click(function(){
     jQuery(".inline_image_browser").remove(); return false;
   });
-  $.get("/admin/files/inline_browse/1/", function(response){
+  $.post("/admin/files/inline_browse/1/", function(response){
     jQuery(".inline_image_browser").append(response);
     init_inline_image_select(wym);
     
