@@ -328,8 +328,19 @@ jQuery(document).ready(function(event) {
     initialise_images();
   });
   jQuery('.jqwysi').wymeditor({
+    skinPath: "/stylesheets/wymeditor/wildfire/",
     skin: 'wildfire',
-    stylesheet: '/stylesheets/cms/wysiwyg_styles.css',
+    containersItems: wildfire_containersItems,
+    containersHtml:    "<div class='wym_containers wym_section'>"
+                        + "<h2>Headings</h2>"
+                        + "<ul>"
+                        + WYMeditor.CONTAINERS_ITEMS
+                        + "</ul>"
+                        + "</div>",
+    classesHtml:       "<div class='wym_classes wym_section'>"
+                        + "<h2>Styling</h2><ul>"
+                        + WYMeditor.CLASSES_ITEMS
+                        + "</ul></div>",
     postInit: function(wym) {
       wym.wildfire(wym);
       wym_editors.push(wym);

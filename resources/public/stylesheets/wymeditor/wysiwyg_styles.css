@@ -1,0 +1,16 @@
+/* WYMeditor */
+
+/* Text: Centred */
+.centred p,
+.centred h2,
+.centred h3,
+.centred h4,
+.centred h5 {
+    text-align: center;
+    /** text-align: center; **/
+}
+
+
+/* /WYMeditor */
+
+
