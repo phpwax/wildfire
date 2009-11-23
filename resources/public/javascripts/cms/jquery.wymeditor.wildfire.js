@@ -88,7 +88,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery("#video_dialog").dialog("open");
-    jQuery("#insert_video_button").click(function(){
+    jQuery("#insert_video_button").unbind("click").click(function(){
       var url = jQuery("#vid_id").val();
       var width = jQuery("#vid_x").val();
       var height = jQuery("#vid_y").val();
