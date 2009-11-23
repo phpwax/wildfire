@@ -107,7 +107,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video").after(audhtml);
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
     var audiofile = prompt("Enter Audio Filename");
-    if(audiofile) wym._exec("inserthtml","<a href='#' rel='audiofile'>"+audiofile+"</a>");
+    if(audiofile) wym._exec("inserthtml","<a href='"+audiofile+"' rel='audiofile' class=\"wildfire_audio\">"+audiofile+"</a>");
   });
   
   /*******************************************/
