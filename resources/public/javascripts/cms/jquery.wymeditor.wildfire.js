@@ -7,14 +7,72 @@
  *    4. Overwrite default image insert to be awesome
  */
 
+
 //Extend WYMeditor
+wildfire_containersItems = [
+    {'name': 'P', 'title': 'Paragraph', 'css': 'wym_containers_p'},        
+    {'name': 'H3', 'title': 'Main_Heading', 'css': 'wym_containers_h3'},
+    {'name': 'H4', 'title': 'Sub_Heading', 'css': 'wym_containers_h4'},
+    {'name': 'H5', 'title': 'Small_Heading', 'css': 'wym_containers_h5'},
+    {'name': 'PRE', 'title': 'Preformatted', 'css': 'wym_containers_pre'},
+    {'name': 'BLOCKQUOTE', 'title': 'Blockquote','css': 'wym_containers_blockquote'}
+];
+/******** Overides of base WYMeditor Object ****************/
+WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote", "address");
+
 WYMeditor.editor.prototype.wildfire = function() {
   var wym = this;
+  
+  
+  /*************Additions to language code***************/
+  WYMeditor.STRINGS['en'].Source_Code = 'Source code';
+  WYMeditor.STRINGS['en'].Main_Heading = 'Main Heading';
+  WYMeditor.STRINGS['en'].Sub_Heading = 'Sub Heading';
+  WYMeditor.STRINGS['en'].Small_Heading = 'Small Heading';
+  /*******************************************/
+  updateHTML = jQuery(".wym_containers").html();
+  jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
+  jQuery(this._box).find(this._options.containerSelector).click(function() {
+    wym.container(jQuery(this).attr(WYMeditor.NAME));
+    return(false);
+  });
+
+  WYMeditor.BLOCKS = new Array("address", "blockquote", "div", "dl",
+   "fieldset", "form", "h3", "h4", "h5", "h6", "hr",
+   "noscript", "ol", "p", "pre", "table", "ul", "dd", "dt",
+   "li", "tbody", "td", "tfoot", "th", "thead", "tr");
+  
   /****** Allow more things through the xhtml parse *******/
   WYMeditor.XhtmlValidator._tags.a.attributes[7]="target";
+  WYMeditor.XhtmlValidator._tags.embed = {
+    "attributes":[
+    "allowscriptaccess",
+    "allowfullscreen",
+    "height",
+    "src",
+    "type",
+    "width",
+    "flashvars",
+    "scale"
+    ]
+  };
+
+  WYMeditor.XhtmlSaxListener.prototype.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
+    "base", "bdo", "big", "blockquote", "body", "button",
+    "caption", "cite", "code", "col", "colgroup", "dd", "del", "div",
+    "dfn", "dl", "dt", "em", "fieldset", "form", "head", "h1", "h2",
+    "h3", "h4", "h5", "h6", "html", "i", "ins",
+    "kbd", "label", "legend", "li", "map", "noscript",
+    "object", "ol", "optgroup", "option", "p", "pre", "q",
+    "samp", "script", "select", "small", "span", "strong", "style",
+    "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th",
+    "thead", "title", "tr", "tt", "ul", "var", "extends"];
+  WYMeditor.XhtmlSaxListener.prototype.inline_tags = ["br", "hr", "img", "input", "embed", "param"];
   
   
-  /*******************************************/
+  
+  
+  
   
   jQuery(wym._box).find(".wym_tools_superscript").remove();
   jQuery(wym._box).find(".wym_tools_subscript").remove();
@@ -88,7 +146,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery("#video_dialog").dialog("open");
-    jQuery("#insert_video_button").click(function(){
+    jQuery("#insert_video_button").unbind("click").click(function(){
       var url = jQuery("#vid_id").val();
       var width = jQuery("#vid_x").val();
       var height = jQuery("#vid_y").val();
@@ -107,7 +165,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video").after(audhtml);
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
     var audiofile = prompt("Enter Audio Filename");
-    if(audiofile) wym._exec("inserthtml","<a href='#' rel='audiofile'>"+audiofile+"</a>");
+    if(audiofile) wym._exec("inserthtml","<a href='"+audiofile+"' rel='audiofile' class=\"wildfire_audio\">"+audiofile+"</a>");
   });
   
   /*******************************************/
@@ -166,30 +224,30 @@ function initialise_inline_image_edit(wym) {
   jQuery(wym._doc).find("img").dblclick(function(){
     image_to_edit = jQuery(this);
     jQuery(wym._doc).find(".inline_image").unbind("dblclick");
-    var image_browser = '<div id="inline_image_browser" class="inline_edit_existing"><div id="inline_close_bar"><h3>Edit Image</h3><a id="inline_close" href="#">x</a></div></div>';
+    var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
     jQuery("body").append(image_browser);
-    jQuery("#inline_image_browser").centerScreen();
-    jQuery("#inline_close").click(function(){
-      jQuery("#inline_image_browser").remove();
+    jQuery(".inline_image_browser").centerScreen();
+    jQuery(".inline_close").click(function(){
+      jQuery(".inline_image_browser").remove();
       initialise_inline_image_edit(wym); 
       return false;
     });
     jQuery.get("/admin/files/inline_image_edit", function(response){
-      jQuery("#inline_image_browser").append(response);
-      jQuery("#selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
-      jQuery("#image_meta input").removeAttr("disabled");
-      jQuery("#meta_description").val(image_to_edit.attr("alt"));
-      if(image_to_edit.hasClass("flow_left")) jQuery("#flow_left input").attr("checked", true);
-      if(image_to_edit.hasClass("flow_right")) jQuery("#flow_right input").attr("checked", true);
-      if(image_to_edit.parent().is("a")) jQuery("#inline_image_link").val(image_to_edit.parent().attr("href"));
-      jQuery("#inline_insert .generic_button a").click(function(){
-        if(jQuery("#flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-        if(jQuery("#flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-        if(jQuery("#flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-        var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery("#meta_description").val()+'" />';
-        if(jQuery("#inline_image_link").val().length > 1) img_html = '<a href="'+jQuery("#inline_image_link").val()+'">'+img_html+"</a>";
+      jQuery(".inline_image_browser").append(response);
+      jQuery(".inline_image_browser #selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
+      jQuery(".inline_image_browser .image_meta input").removeAttr("disabled");
+      jQuery(".inline_image_browser .meta_description").val(image_to_edit.attr("alt"));
+      if(image_to_edit.hasClass("flow_left")) jQuery(".inline_image_browser #flow_left input").attr("checked", true);
+      if(image_to_edit.hasClass("flow_right")) jQuery(".inline_image_browser #flow_right input").attr("checked", true);
+      if(image_to_edit.parent().is("a")) jQuery(".inline_image_browser .inline_image_link").val(image_to_edit.parent().attr("href"));
+      jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
+        if(jQuery(".inline_image_browser #flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
+        if(jQuery(".inline_image_browser #flow_left input").attr("checked")) var img_class = "inline_image flow_left";
+        if(jQuery(".inline_image_browser #flow_right input").attr("checked")) var img_class = "inline_image flow_right";
+        var img_html= '<img style="" src="'+jQuery(".inline_image_browser #selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
+        if(jQuery(".inline_image_browser .inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_browser .inline_image_link").val()+'">'+img_html+"</a>";
         image_to_edit.replaceWith(img_html);
-    		jQuery("#inline_image_browser").remove(); 
+    		jQuery(".inline_image_browser").remove(); 
     		initialise_inline_image_edit(wym);
     		return false;
       });
@@ -203,9 +261,19 @@ var inline_image_filter_timer;
 
 function inline_image_filter_post(wym){
   jQuery.post("/admin/files/image_filter",
-    {filter: jQuery("#filter_field").val()}, 
+    {filter: jQuery(".filter_field").val()}, 
     function(response){ 
-      jQuery("#inline_image_browser #image_display").html(response);
+      jQuery(".inline_image_browser .image_display").html(response);
+      init_inline_image_select(wym);
+      clearTimeout(inline_image_filter_timer);
+    }
+  );
+}
+function inline_image_folder_select(wym){
+  jQuery.post("/admin/files/image_filter",
+    {filterfolder: jQuery(".inline_image_browser .filter_image_folder .image_folder").val()}, 
+    function(response){ 
+      jQuery(".inline_image_browser .image_display").html(response);
       init_inline_image_select(wym);
       clearTimeout(inline_image_filter_timer);
     }
@@ -214,40 +282,43 @@ function inline_image_filter_post(wym){
 
 function show_inline_image_browser(wym) {
   var wym = wym;
-  var image_browser = '<div id="inline_image_browser"><div id="inline_close_bar"><h3>Insert Image</h3><a id="inline_close" href="#">x</a></div></div>';
+  var image_browser = '<div class="inline_image_browser"><div class="inline_close_bar"><h3>Insert Image</h3><a class="inline_close" href="#">x</a></div></div>';
   jQuery("body").append(image_browser);
-  jQuery("#inline_image_browser").centerScreen();
-  jQuery("#inline_close").click(function(){
-    jQuery("#inline_image_browser").remove(); return false;
+  jQuery(".inline_image_browser").centerScreen();
+  jQuery(".inline_close").click(function(){
+    jQuery(".inline_image_browser").remove(); return false;
   });
-  $.get("/admin/files/inline_browse/1/", function(response){
-    jQuery("#inline_image_browser").append(response);
+  $.post("/admin/files/inline_browse/1/", function(response){
+    jQuery(".inline_image_browser").append(response);
     init_inline_image_select(wym);
     
-    jQuery("#inline_image_browser #filter_field").keyup(function(e) {
+    jQuery(".inline_image_browser .filter_field").keyup(function(e) {
 			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
 				clearTimeout(inline_image_filter_timer);
 				inline_image_filter_timer = setTimeout(function(){inline_image_filter_post(wym);}, 800);
 			}
     });
+    jQuery(".inline_image_browser .filter_image_folder .image_folder").change(function() {
+			inline_image_folder_select(wym);
+    });
   });
 }
 
 function init_inline_image_select(wym) {  
-  jQuery("#image_display .edit_img").remove();
-  jQuery("#image_display div img").hover(function(){jQuery(this).css("border", "2px solid #222");}, function(){ jQuery(this).css("border","2px solid white");} );
-  jQuery("#image_display div .add_image,#image_display div .edit_image,#image_display div .url_image").remove();
-  jQuery("#image_display div img").click(function(){
-    jQuery("#image_meta input").removeAttr("disabled");
+  jQuery(".image_display .edit_img").remove();
+  jQuery(".image_display div img").hover(function(){jQuery(this).css("border", "2px solid #222");}, function(){ jQuery(this).css("border","2px solid white");} );
+  jQuery(".image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
+  jQuery(".image_display div img").click(function(){
+    jQuery(".image_meta input").removeAttr("disabled");
     jQuery("#selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
-    jQuery("#inline_insert .generic_button a").click(function(){
+    jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
       if(jQuery("#flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
       if(jQuery("#flow_left input").attr("checked")) var img_class = "inline_image flow_left";
       if(jQuery("#flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-      var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery("#meta_description").val()+'" />';
-      if(jQuery("#inline_image_link").val().length > 1) img_html = '<a href="'+jQuery("#inline_image_link").val()+'">'+img_html+"</a>";
+      var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
+      if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
       wym.insert(img_html);
-  		jQuery("#inline_image_browser").remove(); 
+  		jQuery(".inline_image_browser").remove(); 
   		initialise_inline_image_edit(wym);
   		return false;
     });
