@@ -192,7 +192,7 @@ jQuery(document).ready(function() {
       });
       return false;
     });
-    jQuery("#link_dialog").dialog({autoOpen:false, width:"auto", height:"auto"});
+    jQuery("#link_dialog").dialog({autoOpen:false, title:"Insert a Link", width:"auto", height:"auto"});
     jQuery("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
     jQuery("#video_dialog").dialog({autoOpen:false, title:"Insert a Video", width:700, height:500});
     jQuery("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
