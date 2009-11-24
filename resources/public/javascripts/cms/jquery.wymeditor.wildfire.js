@@ -83,10 +83,8 @@ WYMeditor.editor.prototype.wildfire = function() {
   /* Overwrite default link insert */
   /*******************************************/
   
-  jQuery(wym._box).find(".wym_tools_link a").unbind("click");
-  jQuery(wym._box).find(".wym_tools_link a").click(function(){
-	  jQuery(".insert_web_url").unbind("click");
-	  jQuery(".insert_web_url").click(function(){
+  jQuery(wym._box).find(".wym_tools_link a").unbind("click").click(function(){
+	  jQuery(".insert_web_url").unbind("click").click(function(){
 	    var theURL = prompt("Enter the URL for this link:", "http://");
 	    if (theURL != null) {
 	      var str_target = jQuery("#link_target").val();
@@ -102,8 +100,7 @@ WYMeditor.editor.prototype.wildfire = function() {
 	      return true;
 	    }
 	  });
-	  jQuery(".insert_local_url").unbind("click");  
-	  jQuery(".insert_local_url").click(function(){
+	  jQuery(".insert_local_url").unbind("click").click(function(){
 	    theURL = jQuery("#link_file").val();
 	    if (theURL != null) { 
 	      var str_target = jQuery("#link_target").val();
@@ -125,8 +122,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   /*******************************************/
   /* Overwrite default paste from word */
   /*******************************************/
-  jQuery(wym._box).find(".wym_tools_paste a").unbind("click");
-  jQuery(wym._box).find(".wym_tools_paste a").click(function(){
+  jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
     pasteHtml= "<form>"
                + "<fieldset>"
                + "<textarea class='wym_text' rows='10' cols='50'></textarea><br />"
@@ -171,8 +167,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   /*******************************************/
   /* Inline Image Insertion Button */
   /*******************************************/
-  jQuery(wym._box).find(".wym_tools_image a").unbind("click");
-  jQuery(wym._box).find(".wym_tools_image a").click(function(){
+  jQuery(wym._box).find(".wym_tools_image a").unbind("click").click(function(){
     show_inline_image_browser(wym);
   });
   initialise_inline_image_edit(wym);
@@ -180,8 +175,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   /*******************************************/
   /* Table Insertion Button */
   /*******************************************/
-  jQuery(wym._box).find(".wym_tools_table a").unbind("click");
-  jQuery(wym._box).find(".wym_tools_table a").click(function(){
+  jQuery(wym._box).find(".wym_tools_table a").unbind("click").click(function(){
     jQuery("#table_dialog").dialog("open");
     jQuery("#insert_table_button").click(function(){
       var sCaption = jQuery(".wym_caption").val();
@@ -220,8 +214,7 @@ function wym_button(name, title) {
 
 
 function initialise_inline_image_edit(wym) {
-  jQuery(wym._doc).find("img").unbind("dblclick");
-  jQuery(wym._doc).find("img").dblclick(function(){
+  jQuery(wym._doc).find("img").unbind("dblclick").dblclick(function(){
     image_to_edit = jQuery(this);
     jQuery(wym._doc).find(".inline_image").unbind("dblclick");
     var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
