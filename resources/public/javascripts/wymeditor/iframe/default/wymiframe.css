@@ -88,3 +88,19 @@
     border: 1px solid red !important;
     font-size: 12px !important;
     font-weight: normal; }
+
+/**** Styling for inline images ****************/
+img.inline_image {
+  padding:3px;
+  background:white;
+  border:1px solid #666;
+}
+
+img.flow_left {
+  float:left;
+  margin:0 10px 10px 10px;
+}
+img.flow_right {
+  float:right;
+  margin:0 10px 10px 10px;
+}
