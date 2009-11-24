@@ -1,21 +1,24 @@
 <div id="link_dialog">
-  <h3>1. Enter an internet url</h3>
-  <p><a href="javascript:void(0)" class="insert_web_url">Click Here</a></p>
+  <p>
+    <label for="link_file">Enter a Url</label>
+    <input type="text" name="link_url" id="link_url" value="" />
+  </p>
   <?if(count($all_links)):?>
-  <h3>2. Link to one of your files</h3>
     <p>
-      <label for="link_file">Select a file</label><br />
+      <label for="link_file">Select a file</label>
       <select id="link_file">
+        <option value="">files</option>
         <?foreach($all_links as $link):?>
-          <option value="<?=$link->url?>"><?=$link->filename?></option>
+          <option value="<?=$link['is_file']?$link['path']:""?>"><?=$link['filename']?></option>
         <?endforeach?>
-      </select> 
+      </select>
     </p>
   <?endif?>
-  <p><label for="link_target">Target</label>
+  <p>
+    <label for="link_target">Open In</label>
     <select id="link_target">
       <option value="">Current window</option>
       <option value="_blank">New window / tab</option>
     </select>
-  <p><button class="insert_local_url">Insert</button></p>
+  </p>
 </div>

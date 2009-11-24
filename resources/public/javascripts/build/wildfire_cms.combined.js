@@ -192,9 +192,21 @@ jQuery(document).ready(function() {
       });
       return false;
     });
-    jQuery("#link_dialog").dialog({autoOpen:false, title:"Insert a Link", width:"auto", height:"auto"});
+    jQuery("#link_dialog").dialog({autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
+			Insert: function() {
+			  var execute_on_insert = $(this).data('execute_on_insert');
+			  if(typeof execute_on_insert == 'function') execute_on_insert();
+			  $(this).dialog('close');
+			},
+			Cancel: function() { $(this).dialog('close'); }
+		},close: function(){
+      jQuery.removeData($(this),'execute_on_insert');
+      $(this).dialog('option', 'title', 'Insert');
+		}})
+		jQuery("#link_dialog #link_file").change(function(){
+  	  $(this).closest('#link_dialog').find('#link_url').val($(this).val());
+  	});
     jQuery("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
-    jQuery("#video_dialog").dialog({autoOpen:false, title:"Insert a Video", width:700, height:500});
     jQuery("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
     jQuery("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
     

@@ -84,38 +84,16 @@ WYMeditor.editor.prototype.wildfire = function() {
   /*******************************************/
   
   jQuery(wym._box).find(".wym_tools_link a").unbind("click").click(function(){
-	  jQuery(".insert_web_url").unbind("click").click(function(){
-	    var theURL = prompt("Enter the URL for this link:", "http://");
-	    if (theURL != null) {
-	      var str_target = jQuery("#link_target").val();
-	      
-	      if(str_target.length) {
-	        wym.wrap("<a href = '" + theURL + "' target='_blank'>", "</a>");
-	      } else {
-	        wym._exec('CreateLink', theURL);
-	      }
-	      
-	      
-	      jQuery("#link_dialog").dialog("close");
-	      return true;
-	    }
-	  });
-	  jQuery(".insert_local_url").unbind("click").click(function(){
-	    theURL = jQuery("#link_file").val();
-	    if (theURL != null) { 
-	      var str_target = jQuery("#link_target").val();
-
-	      if(str_target.length) {
-	        wym.wrap("<a href = '" + theURL + "' target='_blank'>", "</a>");
-	      } else {
-	        wym._exec('CreateLink', theURL);
-	      }
-
-
-	      jQuery("#link_dialog").dialog("close");
-	    }
-	  });
-    jQuery("#link_dialog").dialog("open");
+    var insert_dialog = jQuery("#link_dialog");
+    insert_dialog.dialog('option', 'title', 'Insert Link');
+    insert_dialog.data('execute_on_insert',function(){
+      var theURL = insert_dialog.find("#link_url").val();
+      var str_target = insert.dialog.find("#link_target").val();
+      if(theURL.length) {
+        wym.wrap("<a href = '" + theURL + "' " + ( str_target ? ( "target='" + str_target + "'" ) : "" ) + ">", "</a>");
+      }
+    });
+    insert_dialog.dialog("open");
     return false;
   });
   

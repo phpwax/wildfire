@@ -54,6 +54,20 @@ class WildfireFile extends WaxModel {
 	  return $model->filter(array("status"=>"found"))->filter("type NOT LIKE '%image%'")->all();
 	}
 	
+	public function scan_full_filelist(){
+	  $filearray = array();
+		$fs = new CmsFilesystem();
+		$base_dir = $fs->defaultFileStore.$fs->relativepath;
+		$dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir), true);
+		foreach ( $dir as $file ) {
+      if(substr($dir->getFilename(),0,1) != "."){
+        $filearray[]=array("path"=>str_replace($base_dir,"",$file->getPathname()), "filename"=>str_repeat('&nbsp;&nbsp;', $dir->getDepth()+1).$file->getFilename(), "is_file"=>$file->isFile());
+      }
+		}
+		return $filearray;
+		return File::list_filesystem_recursive($dir);
+	}
+	
 	public function url() {
 	  return "/".$this->rpath."/".$this->filename;
 	}	
