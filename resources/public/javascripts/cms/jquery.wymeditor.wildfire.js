@@ -56,7 +56,7 @@ WYMeditor.editor.prototype.wildfire = function() {
     "scale"
     ]
   };
-  wym.parse._Listener.validator._tags.param = {
+  wym.parser._Listener.validator._tags.param = {
       "attributes":
     {
       "0":"name",
