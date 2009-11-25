@@ -88,7 +88,7 @@ WYMeditor.editor.prototype.wildfire = function() {
     insert_dialog.dialog('option', 'title', 'Insert Link');
     insert_dialog.data('execute_on_insert',function(){
       var theURL = insert_dialog.find("#link_url").val();
-      var str_target = insert.dialog.find("#link_target").val();
+      var str_target = insert_dialog.find("#link_target").val();
       if(theURL.length) {
         wym.wrap("<a href = '" + theURL + "' " + ( str_target ? ( "target='" + str_target + "'" ) : "" ) + ">", "</a>");
       }
