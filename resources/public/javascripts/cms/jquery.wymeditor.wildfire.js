@@ -43,8 +43,8 @@ WYMeditor.editor.prototype.wildfire = function() {
    "li", "tbody", "td", "tfoot", "th", "thead", "tr");
   
   /****** Allow more things through the xhtml parse *******/
-  WYMeditor.XhtmlValidator._tags.a.attributes[7]="target";
-  WYMeditor.XhtmlValidator._tags.embed = {
+  wym.parser._Listener.validator._tags.a.attributes[7]="target";
+  wym.parser._Listener.validator._tags.embed = {
     "attributes":[
     "allowscriptaccess",
     "allowfullscreen",
@@ -56,8 +56,20 @@ WYMeditor.editor.prototype.wildfire = function() {
     "scale"
     ]
   };
-
-  WYMeditor.XhtmlSaxListener.prototype.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
+  wym.parser._Listener.validator._tags.param = {
+      "attributes":
+    {
+      "0":"name",
+      "1":"type",
+      "valuetype":/^(data|ref|object)$/,
+      "2":"valuetype",
+      "3":"value"
+    },
+    "required":[
+    "name"
+    ]
+  };
+  wym.parser._Listener.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
     "base", "bdo", "big", "blockquote", "body", "button",
     "caption", "cite", "code", "col", "colgroup", "dd", "del", "div",
     "dfn", "dl", "dt", "em", "fieldset", "form", "head", "h1", "h2",
@@ -67,10 +79,26 @@ WYMeditor.editor.prototype.wildfire = function() {
     "samp", "script", "select", "small", "span", "strong", "style",
     "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th",
     "thead", "title", "tr", "tt", "ul", "var", "extends"];
-  WYMeditor.XhtmlSaxListener.prototype.inline_tags = ["br", "hr", "img", "input", "embed", "param"];
+  wym.parser._Listener.inline_tags = ["br", "hr", "img", "input", "embed", "param"];
   
   
-  
+  WYMeditor.WymClassMozilla.prototype.html = function(html) {
+
+    if(typeof html === 'string') {
+      //disable designMode
+      try { this._doc.designMode = "off"; } catch(e) { };
+      //replace em by i and strong by bold
+      //(designMode issue)
+        html = html.replace(/<em(\b[^>]*)>/gi, "<i$1>").replace(/<\/em>/gi, "</i>")
+          .replace(/<strong(\b[^>]*)>/gi, "<b$1>")
+          .replace(/<\/strong>/gi, "</b>");
+      //update the html body
+      jQuery(this._doc.body).html(html);
+      //re-init designMode
+      this.enableDesignMode();
+    }
+    else return(jQuery(this._doc.body).html());
+  };
   
   
   
