@@ -56,6 +56,19 @@ WYMeditor.editor.prototype.wildfire = function() {
     "scale"
     ]
   };
+  wym.parse._Listener.validator._tags.param = {
+      "attributes":
+    {
+      "0":"name",
+      "1":"type",
+      "valuetype":/^(data|ref|object)$/,
+      "2":"valuetype",
+      "3":"value"
+    },
+    "required":[
+    "name"
+    ]
+  };
   wym.parser._Listener.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
     "base", "bdo", "big", "blockquote", "body", "button",
     "caption", "cite", "code", "col", "colgroup", "dd", "del", "div",
