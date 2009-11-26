@@ -1,6 +1,7 @@
 <div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
 
-<?=$filter_block_partial?>
+<?=partial("_filter_block", $this)?>      
+
 
 
 <table id="item_list_container" class="sortable">
@@ -17,7 +18,7 @@
     </tr>
   </thead>
   <tbody id="list_rows">
-    <?=$list?>
+    <?=partial("_list", $this)?>
     <?if(count($all_rows)<1):?>
       <tr><td colspan='<?=(count($scaffold_columns)+2)?>'>No items available</td></tr>
     <?endif?>

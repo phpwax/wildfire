@@ -8,12 +8,12 @@
     </div>
     
     <div id="category_list" class="clearfix">
-      <?=$cat_list?>
+      <?=partial("_cat_list", $this)?>      
     </div>
     <div class="ui-resizable-handle ui-resizable-s" id="catresizehandle"></div>
     
     <div id="cat_dropzone">
-      <?=$cat_partial?>
+      <?=partial("_list_categories", $this)?>      
     </div>
     
   </div>

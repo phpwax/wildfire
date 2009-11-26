@@ -3,7 +3,7 @@
 
 <div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
 
-<?=$filter_block_partial?>
+<?=partial("_filter_block", $this)?>      
 
 
 <table id="item_list_container" class="sortable">
