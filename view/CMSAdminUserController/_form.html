@@ -37,10 +37,10 @@
     </div>
     <?if($model->primval && ($model->primval != $current_user->primval || $current_user->username == "admin") && $current_user->access($module_name,"admin")):?>
     <div id="section-2" class="tabs-container">
-      <?=$apply_sections_partial?>
+      <?=partial("_apply_sections", $this)?>
     </div>
     <div id="section-3" class="tabs-container">
-      <?=$permissions_partial?>
+      <?=partial("_modules", $this)?>
     </div>
     <?endif?>
   </div>

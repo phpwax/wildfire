@@ -37,9 +37,6 @@ class CMSAdminUserController extends AdminComponent {
     $this->model = new $this->model_class($this->id);
     
 		$this->all_sections = $this->current_user->allowed_sections_model()->tree();
-		$this->list_sections_partial = $this->render_partial("list_sections");
-		$this->section_list_partial = $this->render_partial("section_list");
-		$this->apply_sections_partial = $this->render_partial("apply_sections");
 		
 		if($this->model->primval && $this->current_user->access($this->module_name,"admin")){
   		//add all permissions from modules
@@ -52,14 +49,9 @@ class CMSAdminUserController extends AdminComponent {
     
       $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
       $this->all_users = new $this->model_class;
-      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();
-      
-      $this->exisiting_modules_partial = $this->render_partial("list_modules");
-  		$this->list_modules_partial = $this->render_partial("module_list");		
-      $this->permissions_partial = $this->render_partial("modules");
+      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();      
   	}
     
-		$this->form = $this->render_partial("form");
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
 		if($_POST['save']) $this->save($this->model, "edit");
 		else $this->save($this->model, Session::get("list_refer"));

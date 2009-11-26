@@ -34,8 +34,6 @@ class CMSAdminCommentController extends AdminComponent {
 		$this->display_action_name = 'List Comments';
 		$this->all_rows = $this->model->filter(array('status'=>1))->order($this->get_order())->page($this->this_page, $this->list_limit);
 		if(!$this->all_rows) $this->all_rows=array();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 	/**
 	 * list page for all 'spam' comments (ie status=2)
@@ -46,8 +44,6 @@ class CMSAdminCommentController extends AdminComponent {
 		$this->display_action_name = 'Comments in Moderation';
 		$this->all_rows = $this->model->filter(array('status'=>2))->order($this->get_order())->page($this->this_page, $this->list_limit);
 		if(!$this->all_rows) $this->all_rows=array();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 	/**
 	 * turn a comment into spam (no, not the meat product...)

@@ -135,8 +135,6 @@ class CMSAdminComponent extends WaxController {
     
 		$this->all_rows = $this->model->order($this->get_order())->page($this->this_page,$this->list_limit);
 		if(!$this->all_rows) $this->all_rows=array();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 
 	/**
@@ -145,7 +143,6 @@ class CMSAdminComponent extends WaxController {
   public function create($save=true) {
   	$this->display_action_name = 'Create';
   	$this->model = new $this->model_class;		
-  	$this->form = $this->render_partial("form");
   	if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
   	if($_POST['save_x'] && $save) $this->save($this->model, "edit");
   	elseif($save) $this->save($this->model, Session::get("list_refer"));
@@ -160,7 +157,6 @@ class CMSAdminComponent extends WaxController {
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     
-		$this->form = $this->render_partial("form");
 		if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
 		if($_POST['save_x']) $this->save($this->model, "edit");
 		else $this->save($this->model, Session::get("list_refer"));
@@ -180,7 +176,6 @@ class CMSAdminComponent extends WaxController {
       $this->model->filter($conditions);
 	  }
 	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
-		$this->list = $this->render_partial("list");
 	}
 
 	/**
