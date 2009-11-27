@@ -1,4 +1,4 @@
-<div id="inline_image_dialog">
+<div class="inline_image_dialog">
   <div class="filter_block clearfix">
     <div class="filter_image_folder">
       <form class="filter_folder_form" action="">
@@ -17,30 +17,25 @@
 
   </div>
   
-  <div class="image_display">
-    <?=partial("_list_all_images", $this)?>
-  </div>
+  <div class="image_display"></div>
   <div class="image_details" class="clearfix">
-    <div id="selected_image">
+    <div class="selected_image">
       <img src="/images/cms/add_image_blank.gif" />
     </div>
     <div class="image_meta">
-      <div class="medium">
+      <div>
         <label for="description">Image Description (optional)</label>
-        <input type="text" class="meta_description" name="description" disabled="disabled" />
+        <input type="text" class="meta_description" name="description" />
       </div>
-      <div class="medium">
+      <div>
         <label for="link">Link Image To (optional)</label>
-        <input type="text" name="link" disabled="disabled" class="inline_image_link" />
+        <input type="text" name="link" class="inline_image_link" />
       </div>
-      <div class="medium">
+      <div>
         <label for="flow">Text flow</label>
-        <span id="flow_normal"><input type="radio" name="flow" value="flow_normal" checked="checked" disabled="disabled" /></span>
-        <span id="flow_left"><input type="radio" name="flow" value="flow_left" disabled="disabled" /></span>
-        <span id="flow_right"><input type="radio" name="flow" value="flow_right" disabled="disabled" /></span>
-      </div>
-      <div class="medium inline_insert">
-        <div class="generic_button"><a href="#">Insert Image</a></div>
+        <span class="flow_left"><input type="radio" name="flow" value="flow_left" checked="checked" /></span>
+        <span class="flow_right"><input type="radio" name="flow" value="flow_right" /></span>
+        <span class="flow_normal"><input type="radio" name="flow" value="flow_normal" /></span>
       </div>
     </div>
   </div>

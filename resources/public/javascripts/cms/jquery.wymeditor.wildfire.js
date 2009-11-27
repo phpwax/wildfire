@@ -133,7 +133,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     var insert_dialog = jQuery("#link_dialog");
-    insert_dialog.dialog('option', 'title', 'Insert Video');
+    insert_dialog.dialog('option', 'title', 'Insert a Video');
     insert_dialog.data('execute_on_insert',function(){
       var theURL = insert_dialog.find("#link_url").val();
       var str_target = insert_dialog.find("#link_target").val();
@@ -149,11 +149,11 @@ WYMeditor.editor.prototype.wildfire = function() {
   /* Audio Insertion Button */
   /*******************************************/
 
-  var audhtml = wym_button("audio", "Embed an Audio File");
+  var audhtml = wym_button("audio", "Insert Audio");
   jQuery(wym._box).find(".wym_tools_video").after(audhtml);
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
     var insert_dialog = jQuery("#link_dialog");
-    insert_dialog.dialog('option', 'title', 'Insert Video');
+    insert_dialog.dialog('option', 'title', 'Insert Audio');
     insert_dialog.data('execute_on_insert',function(){
       var theURL = insert_dialog.find("#link_url").val();
       var str_target = insert_dialog.find("#link_target").val();
@@ -169,27 +169,10 @@ WYMeditor.editor.prototype.wildfire = function() {
   /* Inline Image Insertion Button */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_image a").unbind("click").click(function(){
-    var image_browser = '<div class="inline_image_browser"><div class="inline_close_bar"><h3>Insert Image</h3><a class="inline_close" href="#">x</a></div></div>';
-    jQuery("body").append(image_browser);
-    jQuery(".inline_image_browser").centerScreen();
-    jQuery(".inline_close").click(function(){
-      jQuery(".inline_image_browser").remove(); return false;
-    });
-    $.post("/admin/files/inline_browse/1/", function(response){
-      jQuery(".inline_image_browser").append(response);
-      init_inline_image_select(wym);
-
-      jQuery(".inline_image_browser .filter_field").keyup(function(e) {
-  			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
-  				clearTimeout(inline_image_filter_timer);
-  				inline_image_filter_timer = setTimeout(function(){inline_image_filter_post(wym);}, 800);
-  			}
-      });
-      jQuery(".inline_image_browser .filter_image_folder .image_folder").change(function() {
-  			inline_image_folder_select(wym);
-      });
-    });
+    popup_file_browse_dialog(wym);
+    return false;
   });
+  
   initialise_inline_image_edit(wym);
 
   /*******************************************/
@@ -246,98 +229,87 @@ function wym_button(name, title) {
   return html;
 }
 
-function initialise_inline_image_edit(wym) {
-  jQuery(wym._doc).find("img").unbind("dblclick").dblclick(function(){
-    image_to_edit = jQuery(this);
-    jQuery(wym._doc).find(".inline_image").unbind("dblclick");
-    var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
-    jQuery("body").append(image_browser);
-    jQuery(".inline_image_browser").centerScreen();
-    jQuery(".inline_close").click(function(){
-      jQuery(".inline_image_browser").remove();
-      initialise_inline_image_edit(wym);
-      return false;
+function popup_file_browse_dialog(wym){
+  jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
+    jQuery(".image_display").html(response);
+    
+    init_inline_image_select(wym);
+    
+    var insert_dialog = jQuery(".inline_image_dialog");
+    insert_dialog.data('wym',wym);
+    insert_dialog.dialog('option', 'title', 'Insert an Image');
+    insert_dialog.dialog("open");
+    jQuery(".inline_image_dialog .filter_field").keyup(function(e) {
+         if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
+           clearTimeout(inline_image_filter_timer);
+           inline_image_filter_timer = setTimeout(function(){
+             jQuery.post("/admin/files/image_filter",
+               {filter: jQuery(".filter_field").val()},
+               function(response){
+                 jQuery(".inline_image_dialog .image_display").html(response);
+                 init_inline_image_select(wym);
+                 clearTimeout(inline_image_filter_timer);
+               }
+             );
+           }, 800);
+         }
     });
-    jQuery.get("/admin/files/inline_image_edit", function(response){
-      jQuery(".inline_image_browser").append(response);
-      jQuery(".inline_image_browser #selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
-      jQuery(".inline_image_browser .image_meta input").removeAttr("disabled");
-      jQuery(".inline_image_browser .meta_description").val(image_to_edit.attr("alt"));
-      if(image_to_edit.hasClass("flow_left")) jQuery(".inline_image_browser #flow_left input").attr("checked", true);
-      if(image_to_edit.hasClass("flow_right")) jQuery(".inline_image_browser #flow_right input").attr("checked", true);
-      if(image_to_edit.parent().is("a")) jQuery(".inline_image_browser .inline_image_link").val(image_to_edit.parent().attr("href"));
-      jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
-        if(jQuery(".inline_image_browser #flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-        if(jQuery(".inline_image_browser #flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-        if(jQuery(".inline_image_browser #flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-        var img_html= '<img style="" src="'+jQuery(".inline_image_browser #selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
-        if(jQuery(".inline_image_browser .inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_browser .inline_image_link").val()+'">'+img_html+"</a>";
-        image_to_edit.replaceWith(img_html);
-    		jQuery(".inline_image_browser").remove();
-    		initialise_inline_image_edit(wym);
-    		return false;
-      });
+    jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
+      jQuery.post("/admin/files/image_filter",
+        {filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()},
+        function(response){
+          jQuery(".inline_image_dialog .image_display").html(response);
+          init_inline_image_select(wym);
+          clearTimeout(inline_image_filter_timer);
+        }
+      );
     });
   });
+}
+
+function initialise_inline_image_edit(wym) {
+  // jQuery(wym._doc).find("img").unbind("dblclick").dblclick(function(){
+  //   image_to_edit = jQuery(this);
+  //   jQuery(wym._doc).find(".inline_image").unbind("dblclick");
+  //   var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
+  //   jQuery("body").append(image_browser);
+  //   jQuery(".inline_image_browser").centerScreen(); //removed base functioncenterScreen
+  //   jQuery(".inline_close").click(function(){
+  //     jQuery(".inline_image_browser").remove();
+  //     initialise_inline_image_edit(wym);
+  //     return false;
+  //   });
+  //   jQuery.get("/admin/files/inline_image_edit", function(response){
+  //     jQuery(".inline_image_browser").append(response);
+  //     jQuery(".inline_image_browser .selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
+  //     jQuery(".inline_image_browser .image_meta input").removeAttr("disabled");
+  //     jQuery(".inline_image_browser .meta_description").val(image_to_edit.attr("alt"));
+  //     if(image_to_edit.hasClass("flow_left")) jQuery(".inline_image_browser .flow_left input").attr("checked", true);
+  //     if(image_to_edit.hasClass("flow_right")) jQuery(".inline_image_browser .flow_right input").attr("checked", true);
+  //     if(image_to_edit.parent().is("a")) jQuery(".inline_image_browser .inline_image_link").val(image_to_edit.parent().attr("href"));
+  //     jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
+  //       if(jQuery(".inline_image_browser .flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
+  //       if(jQuery(".inline_image_browser .flow_left input").attr("checked")) var img_class = "inline_image flow_left";
+  //       if(jQuery(".inline_image_browser .flow_right input").attr("checked")) var img_class = "inline_image flow_right";
+  //       var img_html= '<img style="" src="'+jQuery(".inline_image_browser .selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
+  //       if(jQuery(".inline_image_browser .inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_browser .inline_image_link").val()+'">'+img_html+"</a>";
+  //       image_to_edit.replaceWith(img_html);
+  //      jQuery(".inline_image_browser").remove();
+  //      initialise_inline_image_edit(wym);
+  //      return false;
+  //     });
+  //   });
+  // });
 }
 
 var inline_image_filter_timer;
 
-function inline_image_filter_post(wym){
-  jQuery.post("/admin/files/image_filter",
-    {filter: jQuery(".filter_field").val()},
-    function(response){
-      jQuery(".inline_image_browser .image_display").html(response);
-      init_inline_image_select(wym);
-      clearTimeout(inline_image_filter_timer);
-    }
-  );
-}
-
-function inline_image_folder_select(wym){
-  jQuery.post("/admin/files/image_filter",
-    {filterfolder: jQuery(".inline_image_browser .filter_image_folder .image_folder").val()},
-    function(response){
-      jQuery(".inline_image_browser .image_display").html(response);
-      init_inline_image_select(wym);
-      clearTimeout(inline_image_filter_timer);
-    }
-  );
-}
-
 function init_inline_image_select(wym) {
-  jQuery(".image_display .edit_img").remove();
+  jQuery(".image_display .edit_img,.image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
   jQuery(".image_display div img").hover(function(){jQuery(this).css("border", "2px solid #222");}, function(){ jQuery(this).css("border","2px solid white");} );
-  jQuery(".image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
   jQuery(".image_display div img").click(function(){
-    jQuery(".image_meta input").removeAttr("disabled");
-    jQuery("#selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
-    jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
-      if(jQuery("#flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-      if(jQuery("#flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-      if(jQuery("#flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-      var img_html= '<img style="" src="'+jQuery("#selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
-      if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
-      wym.insert(img_html);
-  		jQuery(".inline_image_browser").remove();
-  		initialise_inline_image_edit(wym);
-  		return false;
-    });
+    jQuery(".selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
   });
 }
-
-jQuery.fn.centerScreen = function(loaded) {
-  var obj = this;
-  if(!loaded) {
-    obj.css('top', jQuery(window).height()/2-this.height()/2);
-    obj.css('left', jQuery(window).width()/2-this.width()/2);
-    jQuery(window).resize(function() { obj.centerScreen(!loaded); });
-  } else {
-    obj.stop();
-    obj.animate({
-      top: jQuery(window).height()/2-this.height()/2,
-      left: jQuery(window).width()/2-this.width()/2}, 200, 'linear');
-  }
-};
 
 WYMeditor.editor.prototype.computeBasePath = function() { return "/javascripts/wymeditor/"; };
