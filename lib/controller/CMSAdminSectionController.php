@@ -31,8 +31,6 @@ class CMSAdminSectionController extends AdminComponent {
 		$this->all_rows = $this->model->tree();
 
 		if(!$this->all_rows) $this->all_rows = array();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 
 	/*new edit function - so include the link, video partials etc*/
@@ -71,7 +69,6 @@ class CMSAdminSectionController extends AdminComponent {
 	  if($filter = Request::param('filter')) $sect->filter("title",'%'.$filter.'%', "LIKE");
   	$this->all_sections = $sect->tree();
   	$this->use_view = "_section_list";
-  	$this->all_sections_partial = $this->render_partial("section_list");
 	}
 
 }

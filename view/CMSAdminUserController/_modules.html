@@ -8,10 +8,11 @@
       <?endforeach?>
     </select>
     <div id="cat_dropzone">
-    <?=$exisiting_modules_partial?>
+      <?=partial("_list_modules", $this)?>      
     </div>
     <div id="permission_list" class="clearfix">
-    <?=$list_modules_partial?>
+      <?=partial("_module_list", $this)?>
+
     </div>
     
   </div>

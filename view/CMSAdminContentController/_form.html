@@ -49,14 +49,14 @@ var content_permalink="<?=$model->permalink?>";
       </div>
       <div id="section-2" class="tabs-container">
         <?if($allowed_images && $current_user->access($module_name,"attach_images") ):?>
-          <?=$image_partial?>
+          <?=partial("_page_images", $this)?>
         <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
       <div id="section-3" class="tabs-container">
         <?if($allowed_categories && $current_user->access($module_name,"categories") ):?>
-          <?=$category_partial?>
+          <?=partial("_categories_tab", $this)?>
         <?else:?><p>Categories disabled</p>
         <?endif?>
       </div>
@@ -71,7 +71,7 @@ var content_permalink="<?=$model->permalink?>";
       	  <?endif?>
       	  <hr />
       	  <?if(count($extra_content)):?>
-            <?=$extra_content_partial?>
+            <?=partial("_extra_content", $this)?>
           <?endif?>
 				
 					
@@ -92,5 +92,6 @@ var content_permalink="<?=$model->permalink?>";
   
 </div>
 
-<?=$link_partial?>
-<?=$table_partial?>
+<?=partial("_apply_links", $this)?>
+<?=partial("_apply_video", $this)?>
+<?=partial("_wysi_tables", $this)?>

@@ -50,8 +50,6 @@ class CMSAdminContentController extends AdminComponent {
 		if($section) $sect_id = $section->id;
 		else $sect_id = 1;
 		$this->all_rows = $this->model->filter(array('cms_section_id'=>$sect_id,"status"=>array(0,1)))->order($this->default_order." DESC")->page($page, 10);
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 	/**
 	* main listing page - paginated
@@ -78,8 +76,6 @@ class CMSAdminContentController extends AdminComponent {
 		**/
 		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->filter(array("status"=>array(0,1)))->order($this->default_order." ".$this->default_direction)->page($page, $this->list_limit);
-		$this->filter_block_partial .= $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 	/**
 	* Ajax Filter list view
@@ -92,6 +88,7 @@ class CMSAdminContentController extends AdminComponent {
 	    $this->model->filter(array("cms_section_id"=>$section_ids));
     }
 	  parent::filter();
+	  $this->use_view="_list";
 	}
 	/**
 	* Ajax function - associates the image whose id is posted in with the content record
@@ -107,6 +104,7 @@ class CMSAdminContentController extends AdminComponent {
 		  $this->image->join_order = Request::post('order');
 		  $this->page->images = $this->image;
 	  }
+	  $this->use_view = "_content_images";
 	}
 	/**
 	* Ajax function - removes the association between the image & content whose details are passed in 
@@ -119,6 +117,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
 		$this->page->images->unlink($image);
+		$this->use_view = "_content_images";
 	}
 	
 	public function attached_images(){
@@ -126,7 +125,6 @@ class CMSAdminContentController extends AdminComponent {
 		$this->model = new $this->model_class(Request::get('id'));
 		if(!$this->attached_images = $this->model->images) $this->attached_images=array();
 		$this->image_model = new WildfireFile;
-		//partials
 	}
 	/**
 	 * get the other language model for a master - creates one if it doesn't exist
@@ -210,11 +208,20 @@ class CMSAdminContentController extends AdminComponent {
 	* render the partials
 	*/
 	public function edit() {
+	  
+	  
+	  /** 
+	   *   First up - a language check, if there's no language that matches the request, redirect back to main article.
+	   */
 		if(($lang_id = Request::get("lang")) && (!$this->languages[$lang_id])){
 	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
 	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
     }
 
+
+    /** 
+	   *   Picks the content id from the url. If it doesn't exist redirect back.
+	   */
 	  $this->id = WaxUrl::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     if(!($this->model = new $this->model_class($this->id))){
@@ -264,19 +271,10 @@ class CMSAdminContentController extends AdminComponent {
 		//all categories
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();
 		$this->image_model = new WildfireFile;
-		//partials
-		$this->image_partial = $this->render_partial("page_images");
-		$this->cat_partial = $this->render_partial("list_categories");
-		$this->cat_list = $this->render_partial("cat_list");
-		$this->category_partial = $this->render_partial("apply_categories");
+
 		$files = new WildfireFile();
 		$this->all_links = $files->scan_full_filelist();
-		$this->link_partial = $this->render_partial("apply_links");
-		$this->extra_content_partial = $this->render_partial("extra_content");
 		$this->flash_files = $files->flash_files();
-		$this->video_partial = $this->render_partial("apply_video");
-		$this->table_partial = $this->render_partial("wysi_tables");
-		$this->form = $this->render_partial("form");
 		
 	}
 	/**
@@ -317,7 +315,7 @@ class CMSAdminContentController extends AdminComponent {
 		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->all() ) $this->all_categories=array();		
-		$this->cat_partial = $this->render_partial("list_categories");
+		$this->use_view = "_list_categories";	
 	}
 	/**
 	* Ajax function - removes an association between a category and a content record
@@ -331,7 +329,7 @@ class CMSAdminContentController extends AdminComponent {
     if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->all() ) $this->all_categories=array();		
-		$this->cat_partial = $this->render_partial("list_categories");	
+		$this->use_view = "_list_categories";	
 	}
 	/**
 	* Ajax function - makes a new category on the file and returns the new list in the view
@@ -341,8 +339,8 @@ class CMSAdminContentController extends AdminComponent {
 		$cat = new CmsCategory;
 		$cat->name = Request::get("cat");
 		$cat->save();
-		if(!$this->all_categories = $cat->clear()->all()) $this->all_categories=array();		
-		$this->cat_list = $this->render_partial("cat_list");	
+		if(!$this->all_categories = $cat->clear()->all()) $this->all_categories=array();	
+		$this->use_view = "_cat_list";	
 	}
 	/**
 	* cool function that autosaves your current document via ajax call
