@@ -63,8 +63,6 @@ class CMSAdminEmailController extends AdminComponent {
 	public function method_missing() {
 	  if(!$page = $this->param("page")) $page=1;
 		$this->all_rows = $this->model->all();
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
 	}
 	/**
 	* main listing page - 
@@ -75,7 +73,6 @@ class CMSAdminEmailController extends AdminComponent {
 		$this->display_action_name = 'List Campaigns';
 		$this->all_rows = $this->model->all();	
 		$this->filter_block_partial ="";
-		$this->list = $this->render_partial("list");
 	}
 	
 	
@@ -111,7 +108,6 @@ class CMSAdminEmailController extends AdminComponent {
 		$this->contents = $cont->all();
 
 
-		$this->form = $this->render_partial("form");
 	}
 	
 	public function view_subscriber(){
@@ -134,10 +130,7 @@ class CMSAdminEmailController extends AdminComponent {
 			"Date" => array()
 	  );
 		$this->drop_down_options = $this->client_lists->rowset;
-		$this->drop_down_cols = array('key'=>'ListID', 'val'=>'Name');
-		
-		$this->filter_block_partial = $this->render_partial("filter_block");
-		$this->list = $this->render_partial("list");
+		$this->drop_down_cols = array('key'=>'ListID', 'val'=>'Name');		
 	}
 	
 	
@@ -153,10 +146,7 @@ class CMSAdminEmailController extends AdminComponent {
 	    "Name" => array()
 	  );
 		$this->drop_down_options = false;
-		$this->drop_down_cols = false;
-		
-		$this->filter_block_partial = "";
-		$this->list = $this->render_partial("list");
+		$this->drop_down_cols = false;		
 	}
 	
 	

@@ -88,6 +88,7 @@ class CMSAdminContentController extends AdminComponent {
 	    $this->model->filter(array("cms_section_id"=>$section_ids));
     }
 	  parent::filter();
+	  $this->use_view="_list";
 	}
 	/**
 	* Ajax function - associates the image whose id is posted in with the content record
@@ -103,6 +104,7 @@ class CMSAdminContentController extends AdminComponent {
 		  $this->image->join_order = Request::post('order');
 		  $this->page->images = $this->image;
 	  }
+	  $this->use_view = "_content_images";
 	}
 	/**
 	* Ajax function - removes the association between the image & content whose details are passed in 
@@ -115,6 +117,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->page = new $this->model_class(Request::get('id'));
 		$image = new WildfireFile($this->param("image"));
 		$this->page->images->unlink($image);
+		$this->use_view = "_content_images";
 	}
 	
 	public function attached_images(){
@@ -312,6 +315,7 @@ class CMSAdminContentController extends AdminComponent {
 		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->all() ) $this->all_categories=array();		
+		$this->use_view = "_list_categories";	
 	}
 	/**
 	* Ajax function - removes an association between a category and a content record
@@ -325,6 +329,7 @@ class CMSAdminContentController extends AdminComponent {
     if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->all() ) $this->all_categories=array();		
+		$this->use_view = "_list_categories";	
 	}
 	/**
 	* Ajax function - makes a new category on the file and returns the new list in the view
@@ -334,7 +339,8 @@ class CMSAdminContentController extends AdminComponent {
 		$cat = new CmsCategory;
 		$cat->name = Request::get("cat");
 		$cat->save();
-		if(!$this->all_categories = $cat->clear()->all()) $this->all_categories=array();		
+		if(!$this->all_categories = $cat->clear()->all()) $this->all_categories=array();	
+		$this->use_view = "_cat_list";	
 	}
 	/**
 	* cool function that autosaves your current document via ajax call

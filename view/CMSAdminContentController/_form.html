@@ -56,7 +56,7 @@ var content_permalink="<?=$model->permalink?>";
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
       <div id="section-3" class="tabs-container">
         <?if($allowed_categories && $current_user->access($module_name,"categories") ):?>
-          <?=partial("_apply_categories", $this)?>
+          <?=partial("_categories_tab", $this)?>
         <?else:?><p>Categories disabled</p>
         <?endif?>
       </div>
@@ -92,7 +92,6 @@ var content_permalink="<?=$model->permalink?>";
   
 </div>
 
-<?=$link_partial?>
 <?=partial("_apply_links", $this)?>      
 <?=partial("_apply_video", $this)?>      
 <?=partial("_wysi_tables", $this)?>      
