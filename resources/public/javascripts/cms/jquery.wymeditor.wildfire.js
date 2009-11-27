@@ -126,21 +126,6 @@ WYMeditor.editor.prototype.wildfire = function() {
   });
 
   /*******************************************/
-  /* Overwrite default paste from word */
-  /*******************************************/
-  jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
-    pasteHtml= "<form>"
-               + "<fieldset>"
-               + "<textarea class='wym_text' rows='10' cols='50'></textarea><br />"
-               + "<input class='wym_submit' type='button' value='Submit' />"
-               + "</fieldset>"
-               + "</form>";
-    jQuery('<div id="paste_word">'+pasteHtml+'</div>').dialog({title:"Paste From Word",width:700}).dialog("open");
-    jQuery(".wym_submit").click(function(){wym.insert(jQuery(".wym_text").val()); jQuery("#paste_word").dialog("close");});
-  });
-
-
-  /*******************************************/
   /* Video Insertion Button */
   /*******************************************/
 
@@ -196,6 +181,20 @@ WYMeditor.editor.prototype.wildfire = function() {
     });
   });
   initialise_inline_image_edit(wym);
+
+  /*******************************************/
+  /* Overwrite default paste from word */
+  /*******************************************/
+  jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
+    pasteHtml= "<form>"
+               + "<fieldset>"
+               + "<textarea class='wym_text' rows='10' cols='50'></textarea><br />"
+               + "<input class='wym_submit' type='button' value='Submit' />"
+               + "</fieldset>"
+               + "</form>";
+    jQuery('<div id="paste_word">'+pasteHtml+'</div>').dialog({title:"Paste From Word",width:700}).dialog("open");
+    jQuery(".wym_submit").click(function(){wym.insert(jQuery(".wym_text").val()); jQuery("#paste_word").dialog("close");});
+  });
 
   /*******************************************/
   /* Table Insertion Button */
