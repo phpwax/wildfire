@@ -174,7 +174,26 @@ WYMeditor.editor.prototype.wildfire = function() {
   /* Inline Image Insertion Button */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_image a").unbind("click").click(function(){
-    show_inline_image_browser(wym);
+    var image_browser = '<div class="inline_image_browser"><div class="inline_close_bar"><h3>Insert Image</h3><a class="inline_close" href="#">x</a></div></div>';
+    jQuery("body").append(image_browser);
+    jQuery(".inline_image_browser").centerScreen();
+    jQuery(".inline_close").click(function(){
+      jQuery(".inline_image_browser").remove(); return false;
+    });
+    $.post("/admin/files/inline_browse/1/", function(response){
+      jQuery(".inline_image_browser").append(response);
+      init_inline_image_select(wym);
+
+      jQuery(".inline_image_browser .filter_field").keyup(function(e) {
+  			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
+  				clearTimeout(inline_image_filter_timer);
+  				inline_image_filter_timer = setTimeout(function(){inline_image_filter_post(wym);}, 800);
+  			}
+      });
+      jQuery(".inline_image_browser .filter_image_folder .image_folder").change(function() {
+  			inline_image_folder_select(wym);
+      });
+    });
   });
   initialise_inline_image_edit(wym);
 
@@ -275,30 +294,6 @@ function inline_image_folder_select(wym){
       clearTimeout(inline_image_filter_timer);
     }
   );
-}
-
-function show_inline_image_browser(wym) {
-  var wym = wym;
-  var image_browser = '<div class="inline_image_browser"><div class="inline_close_bar"><h3>Insert Image</h3><a class="inline_close" href="#">x</a></div></div>';
-  jQuery("body").append(image_browser);
-  jQuery(".inline_image_browser").centerScreen();
-  jQuery(".inline_close").click(function(){
-    jQuery(".inline_image_browser").remove(); return false;
-  });
-  $.post("/admin/files/inline_browse/1/", function(response){
-    jQuery(".inline_image_browser").append(response);
-    init_inline_image_select(wym);
-
-    jQuery(".inline_image_browser .filter_field").keyup(function(e) {
-			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
-				clearTimeout(inline_image_filter_timer);
-				inline_image_filter_timer = setTimeout(function(){inline_image_filter_post(wym);}, 800);
-			}
-    });
-    jQuery(".inline_image_browser .filter_image_folder .image_folder").change(function() {
-			inline_image_folder_select(wym);
-    });
-  });
 }
 
 function init_inline_image_select(wym) {
