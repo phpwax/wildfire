@@ -7050,6 +7050,73 @@ WYMeditor.editor.prototype.wildfire = function() {
   });
 
   /*******************************************/
+  /* Video Insertion Button */
+  /*******************************************/
+
+  var vidhtml = wym_button("video", "Insert a Video");
+  jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
+  jQuery(wym._box).find(".wym_tools_video a").click(function(){
+    var insert_dialog = jQuery("#link_dialog");
+    insert_dialog.dialog('option', 'title', 'Insert Video');
+    insert_dialog.data('execute_on_insert',function(){
+      var theURL = insert_dialog.find("#link_url").val();
+      var str_target = insert_dialog.find("#link_target").val();
+      if(theURL.length) {
+        wym.wrap("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
+      }
+    });
+    insert_dialog.dialog("open");
+    return false;
+  });
+
+  /*******************************************/
+  /* Audio Insertion Button */
+  /*******************************************/
+
+  var audhtml = wym_button("audio", "Embed an Audio File");
+  jQuery(wym._box).find(".wym_tools_video").after(audhtml);
+  jQuery(wym._box).find(".wym_tools_audio a").click(function(){
+    var insert_dialog = jQuery("#link_dialog");
+    insert_dialog.dialog('option', 'title', 'Insert Video');
+    insert_dialog.data('execute_on_insert',function(){
+      var theURL = insert_dialog.find("#link_url").val();
+      var str_target = insert_dialog.find("#link_target").val();
+      if(theURL.length) {
+        wym.wrap("<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
+      }
+    });
+    insert_dialog.dialog("open");
+    return false;
+  });
+
+  /*******************************************/
+  /* Inline Image Insertion Button */
+  /*******************************************/
+  jQuery(wym._box).find(".wym_tools_image a").unbind("click").click(function(){
+    var image_browser = '<div class="inline_image_browser"><div class="inline_close_bar"><h3>Insert Image</h3><a class="inline_close" href="#">x</a></div></div>';
+    jQuery("body").append(image_browser);
+    jQuery(".inline_image_browser").centerScreen();
+    jQuery(".inline_close").click(function(){
+      jQuery(".inline_image_browser").remove(); return false;
+    });
+    $.post("/admin/files/inline_browse/1/", function(response){
+      jQuery(".inline_image_browser").append(response);
+      init_inline_image_select(wym);
+
+      jQuery(".inline_image_browser .filter_field").keyup(function(e) {
+  			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
+  				clearTimeout(inline_image_filter_timer);
+  				inline_image_filter_timer = setTimeout(function(){inline_image_filter_post(wym);}, 800);
+  			}
+      });
+      jQuery(".inline_image_browser .filter_image_folder .image_folder").change(function() {
+  			inline_image_folder_select(wym);
+      });
+    });
+  });
+  initialise_inline_image_edit(wym);
+
+  /*******************************************/
   /* Overwrite default paste from word */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
@@ -7062,45 +7129,6 @@ WYMeditor.editor.prototype.wildfire = function() {
     jQuery('<div id="paste_word">'+pasteHtml+'</div>').dialog({title:"Paste From Word",width:700}).dialog("open");
     jQuery(".wym_submit").click(function(){wym.insert(jQuery(".wym_text").val()); jQuery("#paste_word").dialog("close");});
   });
-
-
-  /*******************************************/
-  /* Video Insertion Button */
-  /*******************************************/
-
-  var vidhtml = wym_button("video", "Insert a Video");
-  jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
-  jQuery(wym._box).find(".wym_tools_video a").click(function(){
-    jQuery("#video_dialog").dialog("open");
-    jQuery("#insert_video_button").unbind("click").click(function(){
-      var url = jQuery("#vid_id").val();
-      var width = jQuery("#vid_x").val();
-      var height = jQuery("#vid_y").val();
-      var local = jQuery("#local_vid").val();
-      if(local.length > 0) wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>LOCAL:"+local+"</a>");
-    	else wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
-      jQuery("#video_dialog").dialog("close");
-    });
-  });
-
-  /*******************************************/
-  /* Audio Insertion Button */
-  /*******************************************/
-
-  var audhtml = wym_button("audio", "Embed an Audio File");
-  jQuery(wym._box).find(".wym_tools_video").after(audhtml);
-  jQuery(wym._box).find(".wym_tools_audio a").click(function(){
-    var audiofile = prompt("Enter Audio Filename");
-    if(audiofile) wym._exec("inserthtml","<a href='"+audiofile+"' rel='audiofile' class=\"wildfire_audio\">"+audiofile+"</a>");
-  });
-
-  /*******************************************/
-  /* Inline Image Insertion Button */
-  /*******************************************/
-  jQuery(wym._box).find(".wym_tools_image a").unbind("click").click(function(){
-    show_inline_image_browser(wym);
-  });
-  initialise_inline_image_edit(wym);
 
   /*******************************************/
   /* Table Insertion Button */
@@ -7199,30 +7227,6 @@ function inline_image_folder_select(wym){
       clearTimeout(inline_image_filter_timer);
     }
   );
-}
-
-function show_inline_image_browser(wym) {
-  var wym = wym;
-  var image_browser = '<div class="inline_image_browser"><div class="inline_close_bar"><h3>Insert Image</h3><a class="inline_close" href="#">x</a></div></div>';
-  jQuery("body").append(image_browser);
-  jQuery(".inline_image_browser").centerScreen();
-  jQuery(".inline_close").click(function(){
-    jQuery(".inline_image_browser").remove(); return false;
-  });
-  $.post("/admin/files/inline_browse/1/", function(response){
-    jQuery(".inline_image_browser").append(response);
-    init_inline_image_select(wym);
-
-    jQuery(".inline_image_browser .filter_field").keyup(function(e) {
-			if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
-				clearTimeout(inline_image_filter_timer);
-				inline_image_filter_timer = setTimeout(function(){inline_image_filter_post(wym);}, 800);
-			}
-    });
-    jQuery(".inline_image_browser .filter_image_folder .image_folder").change(function() {
-			inline_image_folder_select(wym);
-    });
-  });
 }
 
 function init_inline_image_select(wym) {
