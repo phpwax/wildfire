@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
   }
   if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
   $("input.disable_enter").bind("keypress", function(e) {
-    if (e.keyCode == 34) return false;
+    return e.keyCode == 13 ? false : true;
   });
 });
 

@@ -61,7 +61,8 @@ jQuery(document).ready(function() {
         complete: function(response){
           jQuery("#upload_url_pane").html(response.responseText); 
           init_upload();
-        }
+        },
+        global:false
       });
       return false;
     });
@@ -215,6 +216,8 @@ function wym_button(name, title) {
 
 
 function initialise_images() {
+  console.log(jQuery);
+  console.log("hello");
   jQuery(".drag_image").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
   jQuery(".remove_image").click(function(){
     jQuery.get("../../remove_image/"+content_page_id+"?image="+this.id.substr(13)+"&order="+this.parentNode.id.substr(8),function(response){

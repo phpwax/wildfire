@@ -126,12 +126,17 @@ jQuery(document).ready(function() {
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
   if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
+  $("input.disable_enter").bind("keypress", function(e) {
+    return e.keyCode == 13 ? false : true;
+  });
 });
 
 
 jQuery(document).ready(function() {
 	inline_status_change();	
 });
+
+
 
 
 function inline_status_change(){
@@ -228,7 +233,8 @@ jQuery(document).ready(function() {
         complete: function(response){
           jQuery("#upload_url_pane").html(response.responseText); 
           init_upload();
-        }
+        },
+        global:false
       });
       return false;
     });
@@ -382,6 +388,8 @@ function wym_button(name, title) {
 
 
 function initialise_images() {
+  console.log(jQuery);
+  console.log("hello");
   jQuery(".drag_image").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
   jQuery(".remove_image").click(function(){
     jQuery.get("../../remove_image/"+content_page_id+"?image="+this.id.substr(13)+"&order="+this.parentNode.id.substr(8),function(response){

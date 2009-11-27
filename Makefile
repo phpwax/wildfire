@@ -18,6 +18,7 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
  ${SRC_DIR}/cms/jquery.wymeditor.wildfire.js
  
 JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.3.2.js\
+ ${SRC_DIR}/jquery/jquery-ui-1.7.1.custom.min.js\
  ${SRC_DIR}/upload/swfupload.js\
  ${SRC_DIR}/upload/swfupload.queue.js\
  ${SRC_DIR}/upload/fileprogress.js\
