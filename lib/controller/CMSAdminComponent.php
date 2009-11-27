@@ -176,6 +176,7 @@ class CMSAdminComponent extends WaxController {
       $this->model->filter($conditions);
 	  }
 	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
+	  $this->use_view="_list";
 	}
 
 	/**

@@ -37,7 +37,7 @@
     </div>
     <?if($model->primval && ($model->primval != $current_user->primval || $current_user->username == "admin") && $current_user->access($module_name,"admin")):?>
     <div id="section-2" class="tabs-container">
-      <?=partial("_apply_sections", $this)?>
+      <?=partial("_sections_tab", $this)?>
     </div>
     <div id="section-3" class="tabs-container">
       <?=partial("_modules", $this)?>

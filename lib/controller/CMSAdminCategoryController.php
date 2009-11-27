@@ -30,6 +30,7 @@ class CMSAdminCategoryController extends AdminComponent {
 	  $cat = new CmsCategory;
 	  if(strlen($fil = $_POST['filter'])<1) $this->all_categories = $cat->order("name ASC")->all();
   	else $this->all_categories = $cat->filter("name LIKE '%$fil%'")->order("name ASC")->all();
+  	$this->use_view="_cat_list";
 	}
 
 }
