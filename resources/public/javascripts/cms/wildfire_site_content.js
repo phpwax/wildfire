@@ -184,7 +184,7 @@ jQuery(document).ready(function(event) {
       });
       jQuery(".wym_box").css("height", "250px");
       jQuery(".wym_area_main, .wym_iframe, iframe").css("height","100%"); 
-      jQuery(".wym_iframe").css("height","91%"); 
+      jQuery(".wym_iframe").css("height","92%"); 
     }
   });              
   
@@ -204,8 +204,6 @@ function wym_button(name, title) {
 
 
 function initialise_images() {
-  console.log(jQuery);
-  console.log("hello");
   jQuery(".drag_image").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
   jQuery(".remove_image").click(function(){
     jQuery.get("../../remove_image/"+content_page_id+"?image="+this.id.substr(13)+"&order="+this.parentNode.id.substr(8),function(response){
@@ -331,11 +329,11 @@ jQuery(document).ready(function() {
 
 function autosave_content(wyms, after_save) {
   for(var i in wyms) wyms[i].update();
-  jQuery('#ajaxBusy').hide();
   jQuery.ajax({ 
 	  url: "/admin/content/autosave/"+content_page_id, 
 	  beforeSend: function(){jQuery("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	  type: "POST",
+	  globals: false,
     processData: false,
     data: jQuery('#content_edit_form').serialize(),
     success: function(response){

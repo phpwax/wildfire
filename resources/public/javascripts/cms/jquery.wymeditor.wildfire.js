@@ -99,8 +99,22 @@ WYMeditor.editor.prototype.wildfire = function() {
     }
     else return(jQuery(this._doc.body).html());
   };
-  
-  
+
+  WYMeditor.editor.prototype.toggleHtml_old =  WYMeditor.editor.prototype.toggleHtml;
+  WYMeditor.editor.prototype.toggleHtml = function() { 
+    if(!$(".wym_html").is(':visible')) var init_height = $(".wym_box").height();
+    this.toggleHtml_old();
+    if($(".wym_html").is(':visible')) {
+      $(".wym_box").css("height", init_height + $("div.wym_html").height());
+      $(".wym_html").css("height", "42%");
+      $(".wym_html textarea").css("height", "99%")
+      $(".wym_iframe").css("height", "50%");
+    }
+    else {
+      $(".wym_box").css("height", $("div.wym_iframe").height() * 1.08);
+      $(".wym_iframe").css("height", "92%");
+    }
+  };
   
   jQuery(wym._box).find(".wym_tools_superscript").remove();
   jQuery(wym._box).find(".wym_tools_subscript").remove();
