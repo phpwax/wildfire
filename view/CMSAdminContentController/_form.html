@@ -49,7 +49,7 @@ var content_permalink="<?=$model->permalink?>";
       </div>
       <div id="section-2" class="tabs-container">
         <?if($allowed_images && $current_user->access($module_name,"attach_images") ):?>
-          <?=partial("_page_images", $this)?>
+          <?=partial("_images_tab", $this)?>
         <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
@@ -92,6 +92,6 @@ var content_permalink="<?=$model->permalink?>";
   
 </div>
 
-<?=partial("_apply_links", $this)?>      
-<?=partial("_apply_video", $this)?>      
-<?=partial("_wysi_tables", $this)?>      
+<?=partial("_insert_link_dialog", $this)?>      
+<?=partial("_insert_video_dialog", $this)?>      
+<?=partial("_insert_table_dialog", $this)?>      
