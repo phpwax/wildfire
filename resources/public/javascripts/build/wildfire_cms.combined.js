@@ -126,12 +126,17 @@ jQuery(document).ready(function() {
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
   if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
+  $("input.disable_enter").bind("keypress", function(e) {
+    return e.keyCode == 13 ? false : true;
+  });
 });
 
 
 jQuery(document).ready(function() {
 	inline_status_change();	
 });
+
+
 
 
 function inline_status_change(){
