@@ -132,16 +132,17 @@ WYMeditor.editor.prototype.wildfire = function() {
   var vidhtml = wym_button("video", "Insert a Video");
   jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
-    jQuery("#video_dialog").dialog("open");
-    jQuery("#insert_video_button").unbind("click").click(function(){
-      var url = jQuery("#vid_id").val();
-      var width = jQuery("#vid_x").val();
-      var height = jQuery("#vid_y").val();
-      var local = jQuery("#local_vid").val();
-      if(local.length > 0) wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>LOCAL:"+local+"</a>");
-    	else wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
-      jQuery("#video_dialog").dialog("close");
+    var insert_dialog = jQuery("#link_dialog");
+    insert_dialog.dialog('option', 'title', 'Insert Video');
+    insert_dialog.data('execute_on_insert',function(){
+      var theURL = insert_dialog.find("#link_url").val();
+      var str_target = insert_dialog.find("#link_target").val();
+      if(theURL.length) {
+        wym.wrap("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
+      }
     });
+    insert_dialog.dialog("open");
+    return false;
   });
 
   /*******************************************/
@@ -151,8 +152,17 @@ WYMeditor.editor.prototype.wildfire = function() {
   var audhtml = wym_button("audio", "Embed an Audio File");
   jQuery(wym._box).find(".wym_tools_video").after(audhtml);
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
-    var audiofile = prompt("Enter Audio Filename");
-    if(audiofile) wym._exec("inserthtml","<a href='"+audiofile+"' rel='audiofile' class=\"wildfire_audio\">"+audiofile+"</a>");
+    var insert_dialog = jQuery("#link_dialog");
+    insert_dialog.dialog('option', 'title', 'Insert Video');
+    insert_dialog.data('execute_on_insert',function(){
+      var theURL = insert_dialog.find("#link_url").val();
+      var str_target = insert_dialog.find("#link_target").val();
+      if(theURL.length) {
+        wym.wrap("<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
+      }
+    });
+    insert_dialog.dialog("open");
+    return false;
   });
 
   /*******************************************/
