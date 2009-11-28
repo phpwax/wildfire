@@ -104,9 +104,16 @@ class CMSAdminFileController extends AdminComponent {
 			if($data = $_REQUEST['percent']){
 				$location = PUBLIC_DIR. $this->model->url();
 				File::resize_image_extra($location, $location, $data);
-				$this->clear_image_cache($id);
+				$this->clear_image_cache($id);				
 			}
 		}else exit;
+	}
+	
+	public function clear_image_cache($id) {
+	  $look_for = CACHE_DIR."images/". $image_id."_*";
+		foreach(glob($look_for) as $filename){
+			@unlink($filename);
+		}
 	}
 	
 	/**
