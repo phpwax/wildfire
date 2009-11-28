@@ -109,12 +109,7 @@ class CMSAdminFileController extends AdminComponent {
 		}else exit;
 	}
 	
-	public function clear_image_cache($id) {
-	  $look_for = CACHE_DIR."images/". $image_id."_*";
-		foreach(glob($look_for) as $filename){
-			@unlink($filename);
-		}
-	}
+
 	
 	/**
 	 * admin area version of show image - outputs an image
