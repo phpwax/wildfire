@@ -2215,7 +2215,7 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
 #fs_body #informationcart {
   position:fixed;
   left:560px;
-  top:95px;
+  top:100px;
   width:210px;
 }
 #fs_body #dashboard {
