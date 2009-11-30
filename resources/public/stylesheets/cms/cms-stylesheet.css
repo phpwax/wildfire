@@ -905,22 +905,22 @@ li.pagination_link a {
   float:left;
 }
 
-#item_list_container {
+#item_list_container, .item_list {
   margin:0;
 	width:100%;
 }
-#item_list_container tbody td {
+#item_list_container tbody td, .item_list tbody td {
   border-bottom:1px solid #f5f5f5;
 }
-#item_list_container thead th {
+#item_list_container thead th, .item_list thead th {
   background-color:transparent !important;
   font-size:93%;
   line-height:290%;
 }
-#item_list_container tbody {
+#item_list_container tbody, .item_list tbody {
   font-size:85%;
 }
-#item_list_container thead .column {
+#item_list_container thead .column, , .item_list thead .column {
   background-image:url(../../images/cms/table_sort.gif);
   background-repeat:no-repeat;
   background-position:10px center;
@@ -928,34 +928,34 @@ li.pagination_link a {
   color:#E1E1E1 !important;
   cursor:hand;
 }
-#item_list_container tbody .column {
+#item_list_container tbody .column, .item_list tbody .column {
   border-right:1px solid #dedede;
 }
-#item_list_container tbody .last {
+#item_list_container tbody .last, .item_list tbody .last {
   border:none;
 }
-#item_list_container thead .descending {
+#item_list_container thead .descending, .item_list thead .descending {
   background-image:url(../../images/cms/table_sort_desc.gif);
 }
-#item_list_container thead .ascending {
+#item_list_container thead .ascending, .item_list thead .ascending {
   background-image:url(../../images/cms/table_sort_asc.gif);
 }
-#item_list_container tbody .highlight_col {
+#item_list_container tbody .highlight_col, .item_list tbody .highlight_col {
   background-color:#D1D1D1;
 }
-#item_list_container tr { background-color:#fff; }  
-#item_list_container tr:nth-child(even) { background-color:#f7f9fc; }  
+#item_list_container tr, .item_list tr { background-color:#fff; }  
+#item_list_container tr:nth-child(even), .item_list tr:nth-child(even) { background-color:#f7f9fc; }  
 
-#item_list_container #list_heading {
+#item_list_container #list_heading, .item_list .list_heading {
   background:url(../../images/cms/table_head_bg.gif) repeat-x;
   border-bottom:1px solid #DEDEDE;
 	position:relative;
 }
-#item_list_container td a {
+#item_list_container td a, .item_list td a {
   color:#333333;
   font-weight:normal;
 }
-#item_list_container td a:hover {
+#item_list_container td a:hover, .item_list td a:hover {
   color:#254c84;
   text-decoration:underline;
 }

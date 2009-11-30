@@ -125,7 +125,7 @@ jQuery(document).ready(function() {
     jQuery("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-  if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
+  if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true, dateFormat: 'dd-MM-yy'});
   $("input.disable_enter").bind("keypress", function(e) {
     return e.keyCode == 13 ? false : true;
   });
@@ -174,6 +174,7 @@ var content_page_id;
 var model_string;
 var init_upload;
 var autosaver;
+var inline_image_filter_timer;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 var file_mime_type = "image";
@@ -198,7 +199,7 @@ jQuery(document).ready(function() {
       return false;
     });
     
-    jQuery("#link_dialog").dialog({autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
+    jQuery("#link_dialog").dialog({modal: true, autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
 			Insert: function() {
 			  var execute_on_insert = $(this).data('execute_on_insert');
 			  if(typeof execute_on_insert == 'function') execute_on_insert();
@@ -213,26 +214,95 @@ jQuery(document).ready(function() {
   	  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
   	});
     
-    jQuery(".inline_image_dialog").dialog({autoOpen:false, title:"Insert an Image", width:740, height:"auto", open: function(){
-      jQuery(".selected_image img").attr("src") = "/images/cms/add_image_blank.gif";
-    },buttons: {
+    // inline image dialog
+    function post_inline_image_filter(){
+      jQuery.post("/admin/files/image_filter",
+        {
+          filter: jQuery(".inline_image_dialog .filter_field").val(),
+          filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
+        },function(response){
+          jQuery(".inline_image_dialog .image_display").html(response);
+          init_inline_image_select(jQuery(".inline_image_dialog").data("wym"));
+          clearTimeout(inline_image_filter_timer);
+        }
+      );
+    }
+    jQuery(".inline_image_dialog .filter_field").keyup(function(e) {
+      if(e.which == 8 || e.which == 32 || (48 <= e.which && e.which <= 57) || (65 <= e.which && e.which <= 90) || (97 <= e.which && e.which <= 122) || e.which == 160 || e.which == 127){
+        clearTimeout(inline_image_filter_timer);
+        inline_image_filter_timer = setTimeout(post_inline_image_filter, 800);
+      }
+    });
+    jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
+      post_inline_image_filter();
+    });
+    jQuery(".inline_image_dialog").dialog({modal: true, autoOpen:false, title:"Insert an Image", width:740, height:"auto", close: function(){
+      jQuery(this).removeData('wym');
+      jQuery(this).removeData('existing_image');
+      jQuery(this).find(".selected_image img").attr("src", "/images/cms/add_image_blank.gif");
+      jQuery(this).find(".meta_description").val("");
+      jQuery(this).find(".inline_image_link").val("");
+  	}, buttons: {
 			Insert: function() {
 			  var wym = jQuery(this).data('wym');
-        if(jQuery(".flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-        if(jQuery(".flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-        if(jQuery(".flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-        var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
-        if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
-        wym.insert(img_html);
+			  var existing_image = jQuery(this).data('existing_image');
+        var img_class = "inline_image " + jQuery('input:radio[name=flow]:checked').val();
+        if(existing_image && existing_image.length){
+          var existing_image_parent = existing_image.parent();
+          if(existing_image_parent[0].tagName.toLowerCase() == "a") var existing_link = existing_image_parent;
+          existing_image.attr("class", img_class);
+          existing_image.attr("src",jQuery(".selected_image img").attr("src"));
+          existing_image.attr("alt",jQuery(".inline_image_dialog .meta_description").val());
+        }else{
+          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
+          if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
+          wym.insert(img_html);
+        }
       	initialise_inline_image_edit(wym);
 			  jQuery(this).dialog('close');
 			},
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
+    // end of inline image dialog
     
-    jQuery("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
-    jQuery("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
-    jQuery("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
+    jQuery("#paste_word").dialog({modal: true, autoOpen:false, title:"Paste From Word", width:"auto", buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+        wym.insert(jQuery(".wym_text").val());
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    
+    jQuery("#table_dialog").dialog({modal: true, autoOpen:false, title:"Insert a Table", width:"auto", buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+        var sCaption = jQuery(".wym_caption").val();
+        var sSummary = jQuery(".wym_summary").val();
+        var iRows = jQuery(".wym_rows").val();
+        var iCols = jQuery(".wym_cols").val();
+        if(iRows > 0 && iCols > 0) {
+          var table = wym._doc.createElement(WYMeditor.TABLE);
+          var newRow = null;
+  		    var newCol = null;
+  		    var sCaption = jQuery(wym._options.captionSelector).val();
+  		    var newCaption = table.createCaption();
+  		    newCaption.innerHTML = sCaption;
+          for(x=0; x<iRows; x++) {
+  			    newRow = table.insertRow(x);
+  			    for(y=0; y<iCols; y++) {newRow.insertCell(y);}
+  		    }
+          //set the summary attr
+          jQuery(table).attr('summary', sSummary);
+        }
+        wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:"auto"});
+    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:"auto"});
     
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");
@@ -7129,46 +7199,20 @@ WYMeditor.editor.prototype.wildfire = function() {
   /* Overwrite default paste from word */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
-    pasteHtml= "<form>"
-               + "<fieldset>"
-               + "<textarea class='wym_text' rows='10' cols='50'></textarea><br />"
-               + "<input class='wym_submit' type='button' value='Submit' />"
-               + "</fieldset>"
-               + "</form>";
-    jQuery('<div id="paste_word">'+pasteHtml+'</div>').dialog({title:"Paste From Word",width:700}).dialog("open");
-    jQuery(".wym_submit").click(function(){wym.insert(jQuery(".wym_text").val()); jQuery("#paste_word").dialog("close");});
+    var paste_dialog = jQuery('#paste_word');
+    paste_dialog.data("wym",wym);
+    paste_dialog.dialog("open");
+    return false;
   });
 
   /*******************************************/
   /* Table Insertion Button */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_table a").unbind("click").click(function(){
-    jQuery("#table_dialog").dialog("open");
-    jQuery("#insert_table_button").click(function(){
-      var sCaption = jQuery(".wym_caption").val();
-      var sSummary = jQuery(".wym_summary").val();
-      var iRows = jQuery(".wym_rows").val();
-      var iCols = jQuery(".wym_cols").val();
-      if(iRows > 0 && iCols > 0) {
-        var table = wym._doc.createElement(WYMeditor.TABLE);
-        var newRow = null;
-		    var newCol = null;
-		    var sCaption = jQuery(wym._options.captionSelector).val();
-		    var newCaption = table.createCaption();
-		    newCaption.innerHTML = sCaption;
-        for(x=0; x<iRows; x++) {
-			    newRow = table.insertRow(x);
-			    for(y=0; y<iCols; y++) {newRow.insertCell(y);}
-		    }
-        //set the summary attr
-        jQuery(table).attr('summary', sSummary);
-      }
-      wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
-      jQuery("#table_dialog").dialog("close");
-    });
+    var table_dialog = jQuery("#table_dialog");
+    table_dialog.data("wym",wym);
+    table_dialog.dialog("open");
   });
-
-
 };
 
 function wym_button(name, title) {
@@ -7179,7 +7223,7 @@ function wym_button(name, title) {
   return html;
 }
 
-function popup_file_browse_dialog(wym){
+function popup_file_browse_dialog(wym,existing_image){
   jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
     jQuery(".image_display").html(response);
     
@@ -7187,78 +7231,32 @@ function popup_file_browse_dialog(wym){
     
     var insert_dialog = jQuery(".inline_image_dialog");
     insert_dialog.data('wym',wym);
+    if(existing_image && existing_image.length){
+      existing_image.attr("width",existing_image.attr("width")); //needed so that the new image source with lower res will be the correct size
+      insert_dialog.find(".selected_image img").attr("src", existing_image.attr("src")).css("width","90px");
+      insert_dialog.find(".meta_description").val(existing_image.attr("alt"));
+      
+      var existing_flow = "flow_left";
+      if(existing_image.hasClass("flow_right")) existing_flow = "flow_right";
+      else if(existing_image.hasClass("flow_normal")) existing_flow = "flow_normal";
+      jQuery('input:radio[name=flow]').val([existing_flow]);
+      
+      insert_dialog.data('existing_image',existing_image);
+    }
     insert_dialog.dialog('option', 'title', 'Insert an Image');
     insert_dialog.dialog("open");
-    jQuery(".inline_image_dialog .filter_field").keyup(function(e) {
-         if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
-           clearTimeout(inline_image_filter_timer);
-           inline_image_filter_timer = setTimeout(function(){
-             jQuery.post("/admin/files/image_filter",
-               {filter: jQuery(".filter_field").val()},
-               function(response){
-                 jQuery(".inline_image_dialog .image_display").html(response);
-                 init_inline_image_select(wym);
-                 clearTimeout(inline_image_filter_timer);
-               }
-             );
-           }, 800);
-         }
-    });
-    jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
-      jQuery.post("/admin/files/image_filter",
-        {filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()},
-        function(response){
-          jQuery(".inline_image_dialog .image_display").html(response);
-          init_inline_image_select(wym);
-          clearTimeout(inline_image_filter_timer);
-        }
-      );
-    });
   });
 }
 
 function initialise_inline_image_edit(wym) {
-  // jQuery(wym._doc).find("img").unbind("dblclick").dblclick(function(){
-  //   image_to_edit = jQuery(this);
-  //   jQuery(wym._doc).find(".inline_image").unbind("dblclick");
-  //   var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
-  //   jQuery("body").append(image_browser);
-  //   jQuery(".inline_image_browser").centerScreen(); //removed base functioncenterScreen
-  //   jQuery(".inline_close").click(function(){
-  //     jQuery(".inline_image_browser").remove();
-  //     initialise_inline_image_edit(wym);
-  //     return false;
-  //   });
-  //   jQuery.get("/admin/files/inline_image_edit", function(response){
-  //     jQuery(".inline_image_browser").append(response);
-  //     jQuery(".inline_image_browser .selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
-  //     jQuery(".inline_image_browser .image_meta input").removeAttr("disabled");
-  //     jQuery(".inline_image_browser .meta_description").val(image_to_edit.attr("alt"));
-  //     if(image_to_edit.hasClass("flow_left")) jQuery(".inline_image_browser .flow_left input").attr("checked", true);
-  //     if(image_to_edit.hasClass("flow_right")) jQuery(".inline_image_browser .flow_right input").attr("checked", true);
-  //     if(image_to_edit.parent().is("a")) jQuery(".inline_image_browser .inline_image_link").val(image_to_edit.parent().attr("href"));
-  //     jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
-  //       if(jQuery(".inline_image_browser .flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-  //       if(jQuery(".inline_image_browser .flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-  //       if(jQuery(".inline_image_browser .flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-  //       var img_html= '<img style="" src="'+jQuery(".inline_image_browser .selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
-  //       if(jQuery(".inline_image_browser .inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_browser .inline_image_link").val()+'">'+img_html+"</a>";
-  //       image_to_edit.replaceWith(img_html);
-  //      jQuery(".inline_image_browser").remove();
-  //      initialise_inline_image_edit(wym);
-  //      return false;
-  //     });
-  //   });
-  // });
+  jQuery(wym._doc).find("img.inline_image").unbind("dblclick").dblclick(function(){
+    popup_file_browse_dialog(wym,jQuery(this));
+  });
 }
 
-var inline_image_filter_timer;
-
 function init_inline_image_select(wym) {
-  jQuery(".image_display .edit_img,.image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
-  jQuery(".image_display div img").hover(function(){jQuery(this).css("border", "2px solid #222");}, function(){ jQuery(this).css("border","2px solid white");} );
-  jQuery(".image_display div img").click(function(){
-    jQuery(".selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
+  jQuery(".image_display .add_image a").click(function(){
+    jQuery(".inline_image_dialog .selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
   });
 }
 

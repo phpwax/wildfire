@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
     jQuery("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
-  if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true});
+  if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true, dateFormat: 'dd-MM-yy'});
   $("input.disable_enter").bind("keypress", function(e) {
     return e.keyCode == 13 ? false : true;
   });

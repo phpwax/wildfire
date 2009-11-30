@@ -811,7 +811,7 @@ h4{
   margin:0 10px 10px 0;
   padding:5px 6px;
   width:140px;
-  height:150px;
+  height:155px;
   border:1px solid #ebebeb;
   text-align:center;
   font-size:85%;
@@ -819,7 +819,6 @@ h4{
 .drag_image img, .drop_image img, .dropped_image img {
   margin:auto;
   border:1px solid #414141;
-  height:90px;
 }
 .drag_image .image_place, .drop_image .image_place, .dropped_image .image_place {
   width:135px;
@@ -2011,9 +2010,6 @@ a.edit_img img{
   height:260px;
   padding:20px;
 }
-.inline_image_dialog .image_display img {
-  border:2px solid white;
-}
 .image_details {
   padding:5px 10px;
 }
@@ -2038,12 +2034,12 @@ a.edit_img img{
   margin-left:8px;
 }
 /*Link Dialog Styles*/
-#link_dialog label{
-  width:85px;
+#link_dialog label, #table_dialog label{
+  width:100px;
   float:left;
   margin:7px 0;
 }
-#link_dialog input, #link_dialog select{
+#link_dialog input, #link_dialog select, #table_dialog input, #table_dialog select{
   width:200px;
   float:left;
   margin:5px 0;
@@ -2073,7 +2069,9 @@ a.edit_img img{
   text-decoration:none !important;
 }
 div.wym_area_top{height:35px !important;}
-#section-2, #section-4{float:left; width:100%;}/* @import url("/stylesheets/cms/reset-fonts-grids.css");*/
+#section-2, #section-4{float:left; width:100%;}
+.ui-widget{font-size:1em;}
+a{text-decoration:none;}/* @import url("/stylesheets/cms/reset-fonts-grids.css");*/
 #fs_body img{border:0;behavior:url("/stylesheets/cms/pngbehavior.htc");}
 #fs_body *{-moz-outline:0;}
 #fs_body td{vertical-align:top;}
