@@ -217,7 +217,7 @@ function wym_button(name, title) {
   return html;
 }
 
-function popup_file_browse_dialog(wym){
+function popup_file_browse_dialog(wym,existing_image){
   jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
     jQuery(".image_display").html(response);
     
@@ -225,44 +225,16 @@ function popup_file_browse_dialog(wym){
     
     var insert_dialog = jQuery(".inline_image_dialog");
     insert_dialog.data('wym',wym);
+    insert_dialog.data('existing_image',existing_image);
     insert_dialog.dialog('option', 'title', 'Insert an Image');
     insert_dialog.dialog("open");
   });
 }
 
 function initialise_inline_image_edit(wym) {
-  // jQuery(wym._doc).find("img").unbind("dblclick").dblclick(function(){
-  //   image_to_edit = jQuery(this);
-  //   jQuery(wym._doc).find(".inline_image").unbind("dblclick");
-  //   var image_browser = '<div class="inline_image_browser inline_edit_existing"><div class="inline_close_bar"><h3>Edit Image</h3><a class="inline_close" href="#">x</a></div></div>';
-  //   jQuery("body").append(image_browser);
-  //   jQuery(".inline_image_browser").centerScreen(); //removed base functioncenterScreen
-  //   jQuery(".inline_close").click(function(){
-  //     jQuery(".inline_image_browser").remove();
-  //     initialise_inline_image_edit(wym);
-  //     return false;
-  //   });
-  //   jQuery.get("/admin/files/inline_image_edit", function(response){
-  //     jQuery(".inline_image_browser").append(response);
-  //     jQuery(".inline_image_browser .selected_image img").attr("src", image_to_edit.attr("src")).css("width", "90px");
-  //     jQuery(".inline_image_browser .image_meta input").removeAttr("disabled");
-  //     jQuery(".inline_image_browser .meta_description").val(image_to_edit.attr("alt"));
-  //     if(image_to_edit.hasClass("flow_left")) jQuery(".inline_image_browser .flow_left input").attr("checked", true);
-  //     if(image_to_edit.hasClass("flow_right")) jQuery(".inline_image_browser .flow_right input").attr("checked", true);
-  //     if(image_to_edit.parent().is("a")) jQuery(".inline_image_browser .inline_image_link").val(image_to_edit.parent().attr("href"));
-  //     jQuery(".inline_image_browser .inline_insert .generic_button a").click(function(){
-  //       if(jQuery(".inline_image_browser .flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-  //       if(jQuery(".inline_image_browser .flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-  //       if(jQuery(".inline_image_browser .flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-  //       var img_html= '<img style="" src="'+jQuery(".inline_image_browser .selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_browser .meta_description").val()+'" />';
-  //       if(jQuery(".inline_image_browser .inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_browser .inline_image_link").val()+'">'+img_html+"</a>";
-  //       image_to_edit.replaceWith(img_html);
-  //      jQuery(".inline_image_browser").remove();
-  //      initialise_inline_image_edit(wym);
-  //      return false;
-  //     });
-  //   });
-  // });
+  jQuery(wym._doc).find("img.inline_image").unbind("dblclick").dblclick(function(){
+    popup_file_browse_dialog(wym,jQuery(this));
+  });
 }
 
 function init_inline_image_select(wym) {

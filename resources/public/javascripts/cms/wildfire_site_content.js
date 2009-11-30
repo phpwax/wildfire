@@ -72,12 +72,17 @@ jQuery(document).ready(function() {
   	}, buttons: {
 			Insert: function() {
 			  var wym = jQuery(this).data('wym');
-        if(jQuery(".flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
-        if(jQuery(".flow_left input").attr("checked")) var img_class = "inline_image flow_left";
-        if(jQuery(".flow_right input").attr("checked")) var img_class = "inline_image flow_right";
-        var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
-        if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
-        wym.insert(img_html);
+			  var existing_image = jQuery(this).data('existing_image');
+        var img_class = "inline_image " + jQuery('input:radio[name=flow]:checked').val();
+        if(existing_image.length){
+          var existing_image_parent = existing_image.parent();
+          if(existing_image_parent[0].tagName.toLowerCase() == "a") var existing_link = existing_image_parent;
+          
+        }else{
+          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
+          if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
+          wym.insert(img_html);
+        }
       	initialise_inline_image_edit(wym);
 			  jQuery(this).dialog('close');
 			},
