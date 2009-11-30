@@ -1,10 +1,4 @@
 /**** Styling for inline images ****************/
-img.inline_image {
-  padding:3px;
-  background:white;
-  border:1px solid #666;
-}
-
 img.flow_left {
   float:left;
   margin:0 10px 10px 10px;
