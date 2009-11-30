@@ -75,10 +75,12 @@ jQuery(document).ready(function() {
 			  var wym = jQuery(this).data('wym');
 			  var existing_image = jQuery(this).data('existing_image');
         var img_class = "inline_image " + jQuery('input:radio[name=flow]:checked').val();
-        if(existing_image.length){
+        if(existing_image && existing_image.length){
           var existing_image_parent = existing_image.parent();
           if(existing_image_parent[0].tagName.toLowerCase() == "a") var existing_link = existing_image_parent;
-          
+          existing_image.attr("class", img_class);
+          existing_image.attr("src",jQuery(".selected_image img").attr("src"));
+          existing_image.attr("alt",jQuery(".inline_image_dialog .meta_description").val());
         }else{
           var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
           if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";

@@ -225,7 +225,18 @@ function popup_file_browse_dialog(wym,existing_image){
     
     var insert_dialog = jQuery(".inline_image_dialog");
     insert_dialog.data('wym',wym);
-    insert_dialog.data('existing_image',existing_image);
+    if(existing_image && existing_image.length){
+      existing_image.attr("width",existing_image.attr("width")); //needed so that the new image source with lower res will be the correct size
+      insert_dialog.find(".selected_image img").attr("src", existing_image.attr("src")).css("width","90px");
+      insert_dialog.find(".meta_description").val(existing_image.attr("alt"));
+      
+      var existing_flow = "flow_left";
+      if(existing_image.hasClass("flow_right")) existing_flow = "flow_right";
+      else if(existing_image.hasClass("flow_normal")) existing_flow = "flow_normal";
+      jQuery('input:radio[name=flow]').val([existing_flow]);
+      
+      insert_dialog.data('existing_image',existing_image);
+    }
     insert_dialog.dialog('option', 'title', 'Insert an Image');
     insert_dialog.dialog("open");
   });
