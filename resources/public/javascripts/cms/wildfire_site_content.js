@@ -2,6 +2,7 @@ var content_page_id;
 var model_string;
 var init_upload;
 var autosaver;
+var inline_image_filter_timer;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 var file_mime_type = "image";
@@ -25,11 +26,111 @@ jQuery(document).ready(function() {
       });
       return false;
     });
-    jQuery("#link_dialog").dialog({autoOpen:false, title:"Insert a Link", width:"auto", height:"auto"});
-    jQuery("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
-    jQuery("#video_dialog").dialog({autoOpen:false, title:"Insert a Video", width:700, height:500});
-    jQuery("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
-    jQuery("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
+    
+    jQuery("#link_dialog").dialog({modal: true, autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
+			Insert: function() {
+			  var execute_on_insert = $(this).data('execute_on_insert');
+			  if(typeof execute_on_insert == 'function') execute_on_insert();
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { $(this).dialog('close'); }
+		} ,close: function(){
+      jQuery(this).removeData('execute_on_insert');
+      jQuery(this).dialog('option', 'title', 'Insert');
+		}})
+		jQuery("#link_dialog #link_file").change(function(){
+  	  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
+  	});
+    
+    // inline image dialog
+    function post_inline_image_filter(){
+      jQuery.post("/admin/files/image_filter",
+        {
+          filter: jQuery(".inline_image_dialog .filter_field").val(),
+          filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
+        },function(response){
+          jQuery(".inline_image_dialog .image_display").html(response);
+          init_inline_image_select(jQuery(".inline_image_dialog").data("wym"));
+          clearTimeout(inline_image_filter_timer);
+        }
+      );
+    }
+    jQuery(".inline_image_dialog .filter_field").keyup(function(e) {
+      if(e.which == 8 || e.which == 32 || (48 <= e.which && e.which <= 57) || (65 <= e.which && e.which <= 90) || (97 <= e.which && e.which <= 122) || e.which == 160 || e.which == 127){
+        clearTimeout(inline_image_filter_timer);
+        inline_image_filter_timer = setTimeout(post_inline_image_filter, 800);
+      }
+    });
+    jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
+      post_inline_image_filter();
+    });
+    jQuery(".inline_image_dialog").dialog({modal: true, autoOpen:false, title:"Insert an Image", width:740, height:"auto", close: function(){
+      jQuery(this).removeData('wym');
+      jQuery(this).removeData('existing_image');
+      jQuery(this).find(".selected_image img").attr("src", "/images/cms/add_image_blank.gif");
+      jQuery(this).find(".meta_description").val("");
+      jQuery(this).find(".inline_image_link").val("");
+  	}, buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+			  var existing_image = jQuery(this).data('existing_image');
+        var img_class = "inline_image " + jQuery('input:radio[name=flow]:checked').val();
+        if(existing_image && existing_image.length){
+          var existing_image_parent = existing_image.parent();
+          if(existing_image_parent[0].tagName.toLowerCase() == "a") var existing_link = existing_image_parent;
+          existing_image.attr("class", img_class);
+          existing_image.attr("src",jQuery(".selected_image img").attr("src"));
+          existing_image.attr("alt",jQuery(".inline_image_dialog .meta_description").val());
+        }else{
+          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
+          if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
+          wym.insert(img_html);
+        }
+      	initialise_inline_image_edit(wym);
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    // end of inline image dialog
+    
+    jQuery("#paste_word").dialog({modal: true, autoOpen:false, title:"Paste From Word", width:"auto", buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+        wym.insert(jQuery(".wym_text").val());
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    
+    jQuery("#table_dialog").dialog({modal: true, autoOpen:false, title:"Insert a Table", width:"auto", buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+        var sCaption = jQuery(".wym_caption").val();
+        var sSummary = jQuery(".wym_summary").val();
+        var iRows = jQuery(".wym_rows").val();
+        var iCols = jQuery(".wym_cols").val();
+        if(iRows > 0 && iCols > 0) {
+          var table = wym._doc.createElement(WYMeditor.TABLE);
+          var newRow = null;
+  		    var newCol = null;
+  		    var sCaption = jQuery(wym._options.captionSelector).val();
+  		    var newCaption = table.createCaption();
+  		    newCaption.innerHTML = sCaption;
+          for(x=0; x<iRows; x++) {
+  			    newRow = table.insertRow(x);
+  			    for(y=0; y<iCols; y++) {newRow.insertCell(y);}
+  		    }
+          //set the summary attr
+          jQuery(table).attr('summary', sSummary);
+        }
+        wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:"auto"});
+    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:"auto"});
     
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");
@@ -157,7 +258,7 @@ jQuery(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  jQuery.get(file_browser_location+"/1/?mime_type="+file_mime_type, function(response){
+  jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
     jQuery("#image_list").html(response);
     initialise_images();
   });
@@ -178,13 +279,9 @@ jQuery(document).ready(function(event) {
     postInit: function(wym) {
       wym.wildfire(wym);
       wym_editors.push(wym);
-      var handlesel = jQuery(".ui-resizable-handle");
-      jQuery(".wym_box").resizable({
-        handles: "s"
-      });
-      jQuery(".wym_box").css("height", "250px");
-      jQuery(".wym_area_main, .wym_iframe, iframe").css("height","100%"); 
-      jQuery(".wym_iframe").css("height","92%"); 
+      jQuery(".wym_iframe, iframe").css("height","100%");
+      jQuery(window).resize(calc_wym_height);
+      calc_wym_height();
     }
   });              
   
@@ -194,14 +291,13 @@ jQuery(document).ready(function(event) {
 	}
 });
 
-function wym_button(name, title) {
-  var html = "<li class='wym_tools_"+name+"'>"
-              + "<a name='"+name+"' href='#'"
-              + title
-              + "</a></li>";
-  return html;
+function calc_wym_height(){
+  var wymeditor = jQuery("#section-1 .wym_area_main");
+  var footer_and_stuff = jQuery('#footer').outerHeight() + jQuery('#section-1 .content_options').outerHeight() + jQuery('#submit').outerHeight();
+  var total_height = jQuery(window).height() - wymeditor.offset().top - footer_and_stuff - 15; //15 for good measure
+  if(total_height < 200) total_height = 200;
+  wymeditor.css("height", total_height);
 }
-
 
 function initialise_images() {
   jQuery(".drag_image").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});

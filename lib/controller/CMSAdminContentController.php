@@ -273,7 +273,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->image_model = new WildfireFile;
 
 		$files = new WildfireFile();
-		$this->all_links = $files->find_all_files();
+		$this->all_links = $files->scan_full_filelist();
 		$this->flash_files = $files->flash_files();
 		
 	}
