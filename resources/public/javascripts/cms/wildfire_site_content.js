@@ -58,6 +58,15 @@ jQuery(document).ready(function() {
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
     
+    jQuery("#paste_word").dialog({modal: true, autoOpen:false, title:"Paste From Word", width:"auto", buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+        wym.insert(jQuery(".wym_text").val());
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    
     jQuery("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
     jQuery("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
     jQuery("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
