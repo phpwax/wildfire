@@ -64,11 +64,12 @@ jQuery(document).ready(function() {
     jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
       post_inline_image_filter();
     });
-    jQuery(".inline_image_dialog").dialog({modal: true, autoOpen:false, title:"Insert an Image", width:740, height:"auto", open: function(){
-      jQuery(".selected_image img").attr("src","/images/cms/add_image_blank.gif");
-    }, close: function(){
+    jQuery(".inline_image_dialog").dialog({modal: true, autoOpen:false, title:"Insert an Image", width:740, height:"auto", close: function(){
       jQuery(this).removeData('wym');
       jQuery(this).removeData('existing_image');
+      jQuery(this).find(".selected_image img").attr("src", "/images/cms/add_image_blank.gif");
+      jQuery(this).find(".meta_description").val("");
+      jQuery(this).find(".inline_image_link").val("");
   	}, buttons: {
 			Insert: function() {
 			  var wym = jQuery(this).data('wym');
