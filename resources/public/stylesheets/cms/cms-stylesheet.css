@@ -1623,12 +1623,12 @@ a.edit_img img{
   margin-left:8px;
 }
 /*Link Dialog Styles*/
-#link_dialog label{
-  width:85px;
+#link_dialog label, #table_dialog label{
+  width:100px;
   float:left;
   margin:7px 0;
 }
-#link_dialog input, #link_dialog select{
+#link_dialog input, #link_dialog select, #table_dialog input, #table_dialog select{
   width:200px;
   float:left;
   margin:5px 0;

@@ -67,9 +67,35 @@ jQuery(document).ready(function() {
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
     
-    jQuery("#table_dialog").dialog({autoOpen:false, title:"Insert a Table", width:700, height:500});
-    jQuery("#quick_upload_pane").dialog({autoOpen:false, title:"Upload an Image", width:700,height:500});
-    jQuery("#upload_url_pane").dialog({autoOpen:false, title:"Get Image From URL", width:700,height:500});
+    jQuery("#table_dialog").dialog({modal: true, autoOpen:false, title:"Insert a Table", width:"auto", buttons: {
+			Insert: function() {
+			  var wym = jQuery(this).data('wym');
+        var sCaption = jQuery(".wym_caption").val();
+        var sSummary = jQuery(".wym_summary").val();
+        var iRows = jQuery(".wym_rows").val();
+        var iCols = jQuery(".wym_cols").val();
+        if(iRows > 0 && iCols > 0) {
+          var table = wym._doc.createElement(WYMeditor.TABLE);
+          var newRow = null;
+  		    var newCol = null;
+  		    var sCaption = jQuery(wym._options.captionSelector).val();
+  		    var newCaption = table.createCaption();
+  		    newCaption.innerHTML = sCaption;
+          for(x=0; x<iRows; x++) {
+  			    newRow = table.insertRow(x);
+  			    for(y=0; y<iCols; y++) {newRow.insertCell(y);}
+  		    }
+          //set the summary attr
+          jQuery(table).attr('summary', sSummary);
+        }
+        wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
+			  jQuery(this).dialog('close');
+			},
+			Cancel: function() { jQuery(this).dialog('close'); }
+		}});
+    
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:"auto"});
+    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:"auto"});
     
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");

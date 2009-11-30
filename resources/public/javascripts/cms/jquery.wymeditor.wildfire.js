@@ -203,32 +203,10 @@ WYMeditor.editor.prototype.wildfire = function() {
   /* Table Insertion Button */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_table a").unbind("click").click(function(){
-    jQuery("#table_dialog").dialog("open");
-    jQuery("#insert_table_button").click(function(){
-      var sCaption = jQuery(".wym_caption").val();
-      var sSummary = jQuery(".wym_summary").val();
-      var iRows = jQuery(".wym_rows").val();
-      var iCols = jQuery(".wym_cols").val();
-      if(iRows > 0 && iCols > 0) {
-        var table = wym._doc.createElement(WYMeditor.TABLE);
-        var newRow = null;
-		    var newCol = null;
-		    var sCaption = jQuery(wym._options.captionSelector).val();
-		    var newCaption = table.createCaption();
-		    newCaption.innerHTML = sCaption;
-        for(x=0; x<iRows; x++) {
-			    newRow = table.insertRow(x);
-			    for(y=0; y<iCols; y++) {newRow.insertCell(y);}
-		    }
-        //set the summary attr
-        jQuery(table).attr('summary', sSummary);
-      }
-      wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
-      jQuery("#table_dialog").dialog("close");
-    });
+    var table_dialog = jQuery("#table_dialog");
+    table_dialog.data("wym",wym);
+    table_dialog.dialog("open");
   });
-
-
 };
 
 function wym_button(name, title) {
