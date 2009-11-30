@@ -266,10 +266,8 @@ function initialise_inline_image_edit(wym) {
 }
 
 function init_inline_image_select(wym) {
-  jQuery(".image_display .edit_img,.image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
-  jQuery(".image_display div img").hover(function(){jQuery(this).css("border", "2px solid #222");}, function(){ jQuery(this).css("border","2px solid white");} );
-  jQuery(".image_display div img").click(function(){
-    jQuery(".selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
+  jQuery(".image_display .add_image a").click(function(){
+    jQuery(".inline_image_dialog .selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
   });
 }
 
