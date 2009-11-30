@@ -182,21 +182,17 @@ class CMSAdminFileController extends AdminComponent {
 	}
 	
 	public function browse_filesystem(){
-	  $mime_type = $_REQUEST['mime_type'];
-	  $this->use_layout=false;
+	  $this->use_layout = false;
 	  $model = new WildfireFile("available");
-	  $model->order("filename ASC");
-	  $fs = new CmsFilesystem;
-	  $default_folder = $fs->relativePath;
-		if(!$default_folder) $default_folder ="files";
-		if($mime_type != "all") $model->filter("type","%".Request::param('mime_type')."%", "LIKE");	  
-		if($filter = Request::param('filter')){
-      $filter = mysql_escape_string($filter);
-      $model->filter("(id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
-    }
-    if($folder=Request::post('filterfolder')) $this->all_images = $model->filter("rpath", $folder)->all();
-  	else if(!Request::param('filter')) $this->all_images = $model->filter("rpath", $default_folder)->all();
-  	else $this->all_images = $model->all();
+	  $model->order("rpath, filename");
+		
+		if($mime_type = Request::param('mime_type')) $model->filter("type", "%$mime_type%", "LIKE");
+		
+		if($filter = mysql_real_escape_string(Request::param('filter'))) $model->filter('(id LIKE "%'.$filter.'%" OR filename LIKE "%'.$filter.'%" OR description LIKE "%'.$filter.'%")');
+    
+    if($folder = Request::post('filterfolder')) $model->filter("rpath", "$folder%", "LIKE");
+  	
+  	$this->all_images = $model->all();
 	}
 	
 	public function image_filter() {
