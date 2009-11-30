@@ -2,6 +2,7 @@ var content_page_id;
 var model_string;
 var init_upload;
 var autosaver;
+var inline_image_filter_timer;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 var file_mime_type = "image";
@@ -26,7 +27,7 @@ jQuery(document).ready(function() {
       return false;
     });
     
-    jQuery("#link_dialog").dialog({autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
+    jQuery("#link_dialog").dialog({modal: true, autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
 			Insert: function() {
 			  var execute_on_insert = $(this).data('execute_on_insert');
 			  if(typeof execute_on_insert == 'function') execute_on_insert();
@@ -41,9 +42,34 @@ jQuery(document).ready(function() {
   	  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
   	});
     
-    jQuery(".inline_image_dialog").dialog({autoOpen:false, title:"Insert an Image", width:740, height:"auto", open: function(){
-      jQuery(".selected_image img").attr("src") = "/images/cms/add_image_blank.gif";
-    },buttons: {
+    // inline image dialog
+    function post_inline_image_filter(){
+      jQuery.post("/admin/files/image_filter",
+        {
+          filter: jQuery(".inline_image_dialog .filter_field").val(),
+          filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
+        },function(response){
+          jQuery(".inline_image_dialog .image_display").html(response);
+          init_inline_image_select(jQuery(".inline_image_dialog").data("wym"));
+          clearTimeout(inline_image_filter_timer);
+        }
+      );
+    }
+    jQuery(".inline_image_dialog .filter_field").keyup(function(e) {
+      if(e.which == 8 || e.which == 32 || (48 <= e.which && e.which <= 57) || (65 <= e.which && e.which <= 90) || (97 <= e.which && e.which <= 122) || e.which == 160 || e.which == 127){
+        clearTimeout(inline_image_filter_timer);
+        inline_image_filter_timer = setTimeout(post_inline_image_filter, 800);
+      }
+    });
+    jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
+      post_inline_image_filter();
+    });
+    jQuery(".inline_image_dialog").dialog({modal: true, autoOpen:false, title:"Insert an Image", width:740, height:"auto", open: function(){
+      jQuery(".selected_image img").attr("src","/images/cms/add_image_blank.gif");
+    }, close: function(){
+      jQuery(this).removeData('wym');
+      jQuery(this).removeData('existing_image');
+  	}, buttons: {
 			Insert: function() {
 			  var wym = jQuery(this).data('wym');
         if(jQuery(".flow_normal input").attr("checked")) var img_class = "inline_image flow_normal";
@@ -57,6 +83,7 @@ jQuery(document).ready(function() {
 			},
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
+    // end of inline image dialog
     
     jQuery("#paste_word").dialog({modal: true, autoOpen:false, title:"Paste From Word", width:"auto", buttons: {
 			Insert: function() {

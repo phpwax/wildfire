@@ -227,31 +227,6 @@ function popup_file_browse_dialog(wym){
     insert_dialog.data('wym',wym);
     insert_dialog.dialog('option', 'title', 'Insert an Image');
     insert_dialog.dialog("open");
-    jQuery(".inline_image_dialog .filter_field").keyup(function(e) {
-         if (e.which == 8 || e.which == 32 || (65 <= e.which && e.which <= 65 + 25) || (97 <= e.which && e.which <= 97 + 25) || e.which == 160 || e.which == 127) {
-           clearTimeout(inline_image_filter_timer);
-           inline_image_filter_timer = setTimeout(function(){
-             jQuery.post("/admin/files/image_filter",
-               {filter: jQuery(".filter_field").val()},
-               function(response){
-                 jQuery(".inline_image_dialog .image_display").html(response);
-                 init_inline_image_select(wym);
-                 clearTimeout(inline_image_filter_timer);
-               }
-             );
-           }, 800);
-         }
-    });
-    jQuery(".inline_image_dialog .filter_image_folder .image_folder").change(function() {
-      jQuery.post("/admin/files/image_filter",
-        {filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()},
-        function(response){
-          jQuery(".inline_image_dialog .image_display").html(response);
-          init_inline_image_select(wym);
-          clearTimeout(inline_image_filter_timer);
-        }
-      );
-    });
   });
 }
 
@@ -289,8 +264,6 @@ function initialise_inline_image_edit(wym) {
   //   });
   // });
 }
-
-var inline_image_filter_timer;
 
 function init_inline_image_select(wym) {
   jQuery(".image_display .edit_img,.image_display div .add_image,.image_display div .edit_image,.image_display div .url_image").remove();
