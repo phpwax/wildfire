@@ -355,11 +355,11 @@ jQuery(document).ready(function() {
 
 function autosave_content(wyms, after_save) {
   for(var i in wyms) wyms[i].update();
-  jQuery('#ajaxBusy').hide();
   jQuery.ajax({ 
 	  url: "/admin/content/autosave/"+content_page_id, 
 	  beforeSend: function(){jQuery("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	  type: "POST",
+	  globals: false,
     processData: false,
     data: jQuery('#content_edit_form').serialize(),
     success: function(response){

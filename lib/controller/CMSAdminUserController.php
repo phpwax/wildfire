@@ -12,8 +12,8 @@ class CMSAdminUserController extends AdminComponent {
 	public $scaffold_columns = array(
     "username"   =>array("link"=>true),
 		"email" =>  array("link"=>true),
-		"firstname" =>  array("link"=>true),
-		"surname" =>  array("link"=>true)
+		"firstname" =>  array(),
+		"surname" =>  array()
   );
   public $filter_columns = array("username", "email");
 	public $order_by_columns = array("username","email");
