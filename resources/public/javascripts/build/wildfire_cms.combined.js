@@ -601,7 +601,7 @@ function autosave_content(wyms, synchronous) {
 	  url: "/admin/content/autosave/"+content_page_id, 
 	  beforeSend: function(){jQuery("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	  type: "POST",
-	  globals: false,
+	  global: false,
     processData: false,
     data: jQuery('#content_edit_form').serialize(),
     success: function(response){
@@ -609,7 +609,10 @@ function autosave_content(wyms, synchronous) {
       jQuery('#ajaxBusy').hide();
 	  }
 	};
-	if(synchronous) ajax_data.async = false;
+	if(synchronous){
+	  ajax_data.global = true;
+	  ajax_data.async = false;
+  }
   jQuery.ajax(ajax_data);
 }
 
