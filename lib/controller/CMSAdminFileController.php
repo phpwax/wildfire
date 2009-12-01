@@ -174,14 +174,11 @@ class CMSAdminFileController extends AdminComponent {
     $this->use_view="upload";
 	}
 	
-	
-	public function browse_images() {
-	  $this->image_model = new WildfireFile;
-		
-		$this->browse_filesystem();
+	public function file_options(){
+		$this->browse_images();
 	}
 	
-	public function browse_filesystem(){
+	public function browse_images() {
 	  $this->use_layout = false;
 	  $model = new WildfireFile("available");
 	  $model->order("rpath, filename");
@@ -195,11 +192,6 @@ class CMSAdminFileController extends AdminComponent {
   	$this->all_images = $model->all();
 	}
 	
-	public function image_filter() {
-	  $this->browse_filesystem();
-	  $this->use_view = "image_filter";
-  }
-  
   public function preview() {
     $this->image = new $this->model_class(url('id'));
   }

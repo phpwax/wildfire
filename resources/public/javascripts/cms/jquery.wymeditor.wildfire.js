@@ -126,16 +126,19 @@ WYMeditor.editor.prototype.wildfire = function() {
   /*******************************************/
 
   jQuery(wym._box).find(".wym_tools_link a").unbind("click").click(function(){
-    var insert_dialog = jQuery("#link_dialog");
-    insert_dialog.dialog('option', 'title', 'Insert Link');
-    insert_dialog.data('execute_on_insert',function(){
-      var theURL = insert_dialog.find("#link_url").val();
-      var str_target = insert_dialog.find("#link_target").val();
-      if(theURL.length) {
-        wym.wrap("<a href = '" + theURL + "' " + ( str_target ? ( "target='" + str_target + "'" ) : "" ) + ">", "</a>");
-      }
+    jQuery.get(file_options_location, function(response){
+      jQuery("#link_file").replaceWith(response);
+      var insert_dialog = jQuery("#link_dialog");
+      insert_dialog.dialog('option', 'title', 'Insert Link');
+      insert_dialog.data('execute_on_insert',function(){
+        var theURL = insert_dialog.find("#link_url").val();
+        var str_target = insert_dialog.find("#link_target").val();
+        if(theURL.length) {
+          wym.wrap("<a href = '" + theURL + "' " + ( str_target ? ( "target='" + str_target + "'" ) : "" ) + ">", "</a>");
+        }
+      });
+      insert_dialog.dialog("open");
     });
-    insert_dialog.dialog("open");
     return false;
   });
 
@@ -146,16 +149,19 @@ WYMeditor.editor.prototype.wildfire = function() {
   var vidhtml = wym_button("video", "Insert a Video");
   jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
-    var insert_dialog = jQuery("#link_dialog");
-    insert_dialog.dialog('option', 'title', 'Insert a Video');
-    insert_dialog.data('execute_on_insert',function(){
-      var theURL = insert_dialog.find("#link_url").val();
-      var str_target = insert_dialog.find("#link_target").val();
-      if(theURL.length) {
-        wym.wrap("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
-      }
+    jQuery.get(file_options_location+"/?mime_type=video", function(response){
+      jQuery("#link_file").replaceWith(response);
+      var insert_dialog = jQuery("#link_dialog");
+      insert_dialog.dialog('option', 'title', 'Insert a Video');
+      insert_dialog.data('execute_on_insert',function(){
+        var theURL = insert_dialog.find("#link_url").val();
+        var str_target = insert_dialog.find("#link_target").val();
+        if(theURL.length) {
+          wym.wrap("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
+        }
+      });
+      insert_dialog.dialog("open");
     });
-    insert_dialog.dialog("open");
     return false;
   });
 
@@ -166,16 +172,19 @@ WYMeditor.editor.prototype.wildfire = function() {
   var audhtml = wym_button("audio", "Insert Audio");
   jQuery(wym._box).find(".wym_tools_video").after(audhtml);
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
-    var insert_dialog = jQuery("#link_dialog");
-    insert_dialog.dialog('option', 'title', 'Insert Audio');
-    insert_dialog.data('execute_on_insert',function(){
-      var theURL = insert_dialog.find("#link_url").val();
-      var str_target = insert_dialog.find("#link_target").val();
-      if(theURL.length) {
-        wym.wrap("<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
-      }
+    jQuery.get(file_options_location+"/?mime_type=audio", function(response){
+      jQuery("#link_file").replaceWith(response);
+      var insert_dialog = jQuery("#link_dialog");
+      insert_dialog.dialog('option', 'title', 'Insert Audio');
+      insert_dialog.data('execute_on_insert',function(){
+        var theURL = insert_dialog.find("#link_url").val();
+        var str_target = insert_dialog.find("#link_target").val();
+        if(theURL.length) {
+          wym.wrap("<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + ">", "</a>");
+        }
+      });
+      insert_dialog.dialog("open");
     });
-    insert_dialog.dialog("open");
     return false;
   });
 

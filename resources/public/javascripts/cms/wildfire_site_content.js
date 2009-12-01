@@ -5,6 +5,7 @@ var autosaver;
 var inline_image_filter_timer;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
+if(typeof(file_options_location) == "undefined") var file_options_location = "/admin/files/file_options";
 var file_mime_type = "image";
 jQuery(document).ready(function() {
     jQuery("#container").tabs();
@@ -27,6 +28,7 @@ jQuery(document).ready(function() {
       return false;
     });
     
+    // link dialog
     jQuery("#link_dialog").dialog({modal: true, autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
 			Insert: function() {
 			  var execute_on_insert = $(this).data('execute_on_insert');
@@ -44,7 +46,7 @@ jQuery(document).ready(function() {
     
     // inline image dialog
     function post_inline_image_filter(){
-      jQuery.post("/admin/files/image_filter",
+      jQuery.post("/admin/files/browse_images",
         {
           filter: jQuery(".inline_image_dialog .filter_field").val(),
           filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
@@ -208,7 +210,7 @@ function delayed_cat_filter(filter) {
 
 function delayed_image_filter(filter) {
   jQuery("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  jQuery.ajax({type: "post", url: "/admin/files/image_filter", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(), 
+  jQuery.ajax({type: "post", url: "/admin/files/browse_images", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(),
     complete: function(response){ 
       jQuery("#image_list").html(response.responseText); 
       initialise_images();  

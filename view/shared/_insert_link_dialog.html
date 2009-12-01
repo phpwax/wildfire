@@ -3,17 +3,12 @@
     <label for="link_file">Enter a Url</label>
     <input type="text" name="link_url" id="link_url" value="" />
   </p>
-  <?if(count($all_links)):?>
     <p>
       <label for="link_file">Select a file</label>
       <select id="link_file">
         <option value="">files</option>
-        <?foreach($all_links as $link):?>
-          <option value="<?=$link['is_file']?$link['path']:""?>"><?=$link['filename']?></option>
-        <?endforeach?>
       </select>
     </p>
-  <?endif?>
   <p class="link_target_selector">
     <label for="link_target">Open In</label>
     <select id="link_target">
