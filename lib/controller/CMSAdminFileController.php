@@ -56,6 +56,7 @@ class CMSAdminFileController extends AdminComponent {
 	}
 	
 	public function index() {
+	  $this->filesystem = new CmsFilesystem();
 	  parent::index();
 	  $this->use_layout="file";
 	}
