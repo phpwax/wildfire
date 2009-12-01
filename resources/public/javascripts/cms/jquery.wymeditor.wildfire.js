@@ -128,6 +128,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_link a").unbind("click").click(function(){
     jQuery.get(file_options_location, function(response){
       jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
       insert_dialog.dialog('option', 'title', 'Insert Link');
       insert_dialog.data('execute_on_insert',function(){
@@ -151,6 +152,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery.get(file_options_location+"/?mime_type=video", function(response){
       jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
       insert_dialog.dialog('option', 'title', 'Insert a Video');
       insert_dialog.data('execute_on_insert',function(){
@@ -174,6 +176,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
     jQuery.get(file_options_location+"/?mime_type=audio", function(response){
       jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
       insert_dialog.dialog('option', 'title', 'Insert Audio');
       insert_dialog.data('execute_on_insert',function(){

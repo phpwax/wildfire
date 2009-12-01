@@ -212,9 +212,7 @@ jQuery(document).ready(function() {
       jQuery(this).removeData('execute_on_insert');
       jQuery(this).dialog('option', 'title', 'Insert');
 		}})
-		jQuery("#link_dialog #link_file").change(function(){
-  	  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
-  	});
+		jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
     
     // inline image dialog
     function post_inline_image_filter(){
@@ -597,9 +595,9 @@ jQuery(document).ready(function() {
   });
 });
 
-function autosave_content(wyms, after_save) {
+function autosave_content(wyms, synchronous) {
   for(var i in wyms) wyms[i].update();
-  jQuery.ajax({ 
+  var ajax_data = {
 	  url: "/admin/content/autosave/"+content_page_id, 
 	  beforeSend: function(){jQuery("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	  type: "POST",
@@ -609,9 +607,10 @@ function autosave_content(wyms, after_save) {
     success: function(response){
       jQuery("#autosave_status").html("Saved at "+response);
       jQuery('#ajaxBusy').hide();
-      if(typeof(after_save) == "function") after_save();
 	  }
-	});
+	};
+	if(synchronous) ajax_data.async = false;
+  jQuery.ajax(ajax_data);
 }
 
 function open_modal_preview(url){
@@ -644,14 +643,11 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function(){
   jQuery('#preview_link').unbind("click").click(function(){
     var preview_but = jQuery(this);
-    autosave_content(wym_editors, function(){ //do an autosave before a preview
-      if(preview_but.hasClass("modal_preview")){
-        open_modal_preview(preview_but.attr("href"))
-      }else{
-        window.open(preview_but.attr("href"));
-      }
-    });
-    return false;
+    autosave_content(wym_editors, true) //do an autosave synchronously before the preview
+    if(preview_but.hasClass("modal_preview")){
+      open_modal_preview(preview_but.attr("href"))
+      return false;
+    }
   });
 });
 
@@ -737,6 +733,9 @@ jQuery(document).ready(function() {
 	
 });
 
+function link_dialog_file_choose(){
+  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
+}
 
 /** langauge dropdown **/
 jQuery(document).ready(function(){
@@ -7136,6 +7135,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_link a").unbind("click").click(function(){
     jQuery.get(file_options_location, function(response){
       jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
       insert_dialog.dialog('option', 'title', 'Insert Link');
       insert_dialog.data('execute_on_insert',function(){
@@ -7159,6 +7159,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery.get(file_options_location+"/?mime_type=video", function(response){
       jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
       insert_dialog.dialog('option', 'title', 'Insert a Video');
       insert_dialog.data('execute_on_insert',function(){
@@ -7182,6 +7183,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
     jQuery.get(file_options_location+"/?mime_type=audio", function(response){
       jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
       insert_dialog.dialog('option', 'title', 'Insert Audio');
       insert_dialog.data('execute_on_insert',function(){

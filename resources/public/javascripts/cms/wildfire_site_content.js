@@ -40,9 +40,7 @@ jQuery(document).ready(function() {
       jQuery(this).removeData('execute_on_insert');
       jQuery(this).dialog('option', 'title', 'Insert');
 		}})
-		jQuery("#link_dialog #link_file").change(function(){
-  	  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
-  	});
+		jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
     
     // inline image dialog
     function post_inline_image_filter(){
@@ -563,6 +561,9 @@ jQuery(document).ready(function() {
 	
 });
 
+function link_dialog_file_choose(){
+  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
+}
 
 /** langauge dropdown **/
 jQuery(document).ready(function(){
