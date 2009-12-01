@@ -425,9 +425,9 @@ jQuery(document).ready(function() {
   });
 });
 
-function autosave_content(wyms, after_save) {
+function autosave_content(wyms, synchronous) {
   for(var i in wyms) wyms[i].update();
-  jQuery.ajax({ 
+  var ajax_data = {
 	  url: "/admin/content/autosave/"+content_page_id, 
 	  beforeSend: function(){jQuery("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	  type: "POST",
@@ -437,9 +437,10 @@ function autosave_content(wyms, after_save) {
     success: function(response){
       jQuery("#autosave_status").html("Saved at "+response);
       jQuery('#ajaxBusy').hide();
-      if(typeof(after_save) == "function") after_save();
 	  }
-	});
+	};
+	if(synchronous) ajax_data.async = false;
+  jQuery.ajax(ajax_data);
 }
 
 function open_modal_preview(url){
@@ -472,14 +473,11 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function(){
   jQuery('#preview_link').unbind("click").click(function(){
     var preview_but = jQuery(this);
-    autosave_content(wym_editors, function(){ //do an autosave before a preview
-      if(preview_but.hasClass("modal_preview")){
-        open_modal_preview(preview_but.attr("href"))
-      }else{
-        window.open(preview_but.attr("href"));
-      }
-    });
-    return false;
+    autosave_content(wym_editors, true) //do an autosave synchronously before the preview
+    if(preview_but.hasClass("modal_preview")){
+      open_modal_preview(preview_but.attr("href"))
+      return false;
+    }
   });
 });
 
