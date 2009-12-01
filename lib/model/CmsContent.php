@@ -94,7 +94,6 @@ class CmsContent extends WaxModel {
 	
 	public function before_publish() {
 	  $this->generate_url();
-  	$this->ping_technorati();
   	if(strtotime($this->published) < time() && $this->status != 4) {
   	  $this->published = date("Y-m-d H:i:s");
   	}
@@ -230,35 +229,7 @@ class CmsContent extends WaxModel {
 		return false;
 	}
 	
-	public function ping_technorati(){
-		# Using the XML-RPC extension to format the XML package
-		$request = '<?xml version="1.0"?>
-      <methodCall>
-        <methodName>weblogUpdates.ping</methodName>
-        <params>
-          <param>
-            <value>http://'.$_SERVER["HTTP_HOST"].'</value>
-          </param>
-          <param>
-            <value>http://'.$_SERVER["HTTP_HOST"].'</value>
-          </param>
-        </params>
-      </methodCall>
-    ';
-		# Using the cURL extension to send it off,
-		# first creating a custom header block
-    $header[] = "Host: rpc.technorati.com";
-    $header[] = "Content-type: text/xml";
-    $header[] = "Content-length: ".strlen($request) . "\r\n";
-    $header[] = $request;
-    $ch = curl_init();
-    curl_setopt( $ch, CURLOPT_URL, "http://rpc.technorati.com/rpc/ping"); # URL to post to
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); # return into a variable
-    curl_setopt( $ch, CURLOPT_HTTPHEADER, $header ); # custom headers, see above
-    curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'POST' ); # This POST is special, and uses its specified Content-type
-    $result = curl_exec( $ch ); # run!
-    curl_close($ch);
-	}	
+
 	
 }
 

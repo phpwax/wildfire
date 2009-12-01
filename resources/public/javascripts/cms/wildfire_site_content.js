@@ -5,6 +5,7 @@ var autosaver;
 var inline_image_filter_timer;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
+if(typeof(file_options_location) == "undefined") var file_options_location = "/admin/files/file_options";
 var file_mime_type = "image";
 jQuery(document).ready(function() {
     jQuery("#container").tabs();
@@ -27,6 +28,7 @@ jQuery(document).ready(function() {
       return false;
     });
     
+    // link dialog
     jQuery("#link_dialog").dialog({modal: true, autoOpen:false, resizable: false, title:"Insert", width:"auto", height:"auto", buttons: {
 			Insert: function() {
 			  var execute_on_insert = $(this).data('execute_on_insert');
@@ -38,13 +40,11 @@ jQuery(document).ready(function() {
       jQuery(this).removeData('execute_on_insert');
       jQuery(this).dialog('option', 'title', 'Insert');
 		}})
-		jQuery("#link_dialog #link_file").change(function(){
-  	  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
-  	});
+		jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
     
     // inline image dialog
     function post_inline_image_filter(){
-      jQuery.post("/admin/files/image_filter",
+      jQuery.post("/admin/files/browse_images",
         {
           filter: jQuery(".inline_image_dialog .filter_field").val(),
           filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
@@ -208,7 +208,7 @@ function delayed_cat_filter(filter) {
 
 function delayed_image_filter(filter) {
   jQuery("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  jQuery.ajax({type: "post", url: "/admin/files/image_filter", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(), 
+  jQuery.ajax({type: "post", url: "/admin/files/browse_images", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(),
     complete: function(response){ 
       jQuery("#image_list").html(response.responseText); 
       initialise_images();  
@@ -423,21 +423,25 @@ jQuery(document).ready(function() {
   });
 });
 
-function autosave_content(wyms, after_save) {
+function autosave_content(wyms, synchronous) {
   for(var i in wyms) wyms[i].update();
-  jQuery.ajax({ 
+  var ajax_data = {
 	  url: "/admin/content/autosave/"+content_page_id, 
 	  beforeSend: function(){jQuery("#quicksave").effect("pulsate", { times: 3 }, 1000);},
 	  type: "POST",
-	  globals: false,
+	  global: false,
     processData: false,
     data: jQuery('#content_edit_form').serialize(),
     success: function(response){
       jQuery("#autosave_status").html("Saved at "+response);
       jQuery('#ajaxBusy').hide();
-      if(typeof(after_save) == "function") after_save();
 	  }
-	});
+	};
+	if(synchronous){
+	  ajax_data.global = true;
+	  ajax_data.async = false;
+  }
+  jQuery.ajax(ajax_data);
 }
 
 function open_modal_preview(url){
@@ -470,14 +474,11 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function(){
   jQuery('#preview_link').unbind("click").click(function(){
     var preview_but = jQuery(this);
-    autosave_content(wym_editors, function(){ //do an autosave before a preview
-      if(preview_but.hasClass("modal_preview")){
-        open_modal_preview(preview_but.attr("href"))
-      }else{
-        window.open(preview_but.attr("href"));
-      }
-    });
-    return false;
+    autosave_content(wym_editors, true) //do an autosave synchronously before the preview
+    if(preview_but.hasClass("modal_preview")){
+      open_modal_preview(preview_but.attr("href"))
+      return false;
+    }
   });
 });
 
@@ -563,6 +564,9 @@ jQuery(document).ready(function() {
 	
 });
 
+function link_dialog_file_choose(){
+  jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
+}
 
 /** langauge dropdown **/
 jQuery(document).ready(function(){

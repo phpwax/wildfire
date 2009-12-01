@@ -271,11 +271,6 @@ class CMSAdminContentController extends AdminComponent {
 		//all categories
 		if(!$this->all_categories = $cat->order("name ASC")->all() ) $this->all_categories=array();
 		$this->image_model = new WildfireFile;
-
-		$files = new WildfireFile();
-		$this->all_links = $files->scan_full_filelist();
-		$this->flash_files = $files->flash_files();
-		
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
