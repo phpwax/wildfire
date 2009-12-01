@@ -181,7 +181,7 @@ class CMSAdminFileController extends AdminComponent {
 	public function browse_images() {
 	  $this->use_layout = false;
 	  $model = new WildfireFile("available");
-	  $model->order("rpath, filename");
+	  $model->order("filename");
 		
 		if($mime_type = Request::param('mime_type')) $model->filter("type", "%$mime_type%", "LIKE");
 		
