@@ -17,7 +17,7 @@ class CmsCategory extends WaxModel {
 	 * set the url up
 	 */	
 	public function before_save() {
-	  $this->url = WXInflections::to_url($this->name);
+	  $this->url = to_url($this->name);
 	}
 	/**
 	 * create an array structure from drop downs used elsewhere
@@ -29,14 +29,4 @@ class CmsCategory extends WaxModel {
 		return $collection;
 	}
 	
-	/*************** OLD FUNCTIONS - TO BE REMOVED - ALREADY RETURN FALSE (see, we can be nice too - no fatal errors) ********************/	
-	protected function traverse_tree($object_array, $order=false, $direction="ASC") {
-		return false;
-	}
-	//no longer a tree structure
-	public function tree_collection() {
-	  return false;
-	}
 }
-
-?>

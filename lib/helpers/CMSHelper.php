@@ -1,16 +1,6 @@
 <?php
 
 class CMSHelper extends WXHelpers {
-  public function simple_wysiwyg($object, $attribute, $options=array(), $with_label=true) {
-    if($options["class"]) $options["class"].=" widgEditor";
-    else $options["class"] = "widgEditor";
-    return text_area($object, $attribute, $options, $with_label, "Put your content here");
-  }
-  public function simple_wysiwyg_tag($name, $value="", $options=array(), $with_label=true) {
-    if($options["class"]) $options["class"].=" widgEditor";
-    else $options["class"] = "widgEditor";
-    return text_area_tag($name, $value, $options, $with_label, "Put your content here");
-  }
   
   public function get_content($section_title, $params=array(), $model = "CmsContent") {
     $section = new CmsSection;
@@ -109,27 +99,6 @@ class CMSHelper extends WXHelpers {
                         $text);
 	}
 	
-	public function subscription_form($model, $action="", $handle=false, $show_name_field = true, $extra1=false, $extra2 =false, $image_submit=false){
-		if(!$handle) $handle = "all_sections";
-		
-		$form = '<div id="subscription-form">
-							<form action="'.$action.'" method="post" class="form_container">'
-							. hidden_field($model, "handle", array('value'=>$handle) ) . 
-								hidden_field($model, "status", array('value'=> 1) ) .	'<fieldset>';
-								
-								if($show_name_field) $form .= large(text_field($model, "name", array(), "Name <span class='mandatory'>*</span>")) . form_divider();
-								
-								$form .= large(text_field($model, "email", array(), "Email <span class='mandatory'>*</span>"));
-								if($extra1) $form .= form_divider().large(text_field($model, "extra1", array(), $extra1));
-								if($extra2) $form .= form_divider().large(text_field($model, "extra2", array(), $extra2));
-								$form.= form_divider() . '<span id="mandatory">* Compulsory fields</span>';
-								if($image_submit) $form .= image_submit_tag($image_submit, array('alt'=>"submit button", "title"=>"Submit"));
-								else $form .= small(submit_field($model, "Subscribe"));
-						   $form .= '</fieldset>
-					 		</form>							
-						</div>';
-		return $form;
-	}
 	
 	public function preview_window($permalink, $trigger_id, $preview_pane) {
 	  return content_tag("script", "setup_preview('$permalink', '$trigger_id', '$preview_pane');");
@@ -251,4 +220,3 @@ class CMSHelper extends WXHelpers {
 	}
 
 }
-?>

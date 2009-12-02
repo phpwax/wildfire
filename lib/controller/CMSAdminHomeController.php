@@ -104,35 +104,7 @@ class CMSAdminHomeController extends AdminComponent {
   	  Session::add_message($this->no_users_message);
 	  }
 	}
-	/**
-	 * conversion routine to new permissions based system
-	 */	
-	public function convert_to_v3(){
-    $config = CmsConfiguration::get('modules');
-    $registered = $config['enabled_modules'];
-    $user_model = new $this->model_class;
-    $permission = new CmsPermission;
-    foreach($user_model->clear()->all() as $user){
-      if($user->usergroup < 30 && $registered){
-        $all_mods = array();
-        foreach($registered as $name => $set) $all_mods[$name] = CMSApplication::$modules[$name];
-      }
-      else $all_mods = CMSApplication::$modules;
-      foreach($all_mods as $name => $module_options){
-        if($module_options['auth_level'] > $user->usergroup) continue; //skip permissions that users have no "access" to
-        $controller_class = slashcamelize($module_options['link'])."Controller";
-        $controller = new $controller_class(false); //instantiate classes without intialising them
-        foreach($controller->permissions as $operation){
-          $perm = new CmsPermission;
-          $perm->class = $name;
-          $perm->operation = $operation;
-          $perm->allowed = 1;
-          $perm->user = $user; //foreign key triggers a save
-        }
-      }
-    }
-    $this->redirect_to("/admin/home/");
-	}
+
 	/**
 	* Clears the session data via a call to the auth object - effectively logging you out
 	**/
@@ -271,5 +243,3 @@ class CMSAdminHomeController extends AdminComponent {
     } else throw new WaxException("No Access To Google Analytics");
   }
 }
-
-?>

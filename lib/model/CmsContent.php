@@ -6,7 +6,6 @@ class CmsContent extends WaxModel {
 		$this->define("title", "CharField", array('maxlength'=>255) );
 		$this->define("excerpt", "TextField");
 		$this->define("content", "TextField");
-		
 		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", 
 		         "choices"=>array(0=>"Draft",1=>"Published",3=>"Temporary",4=>"Preview")));
 		$this->define("published", "DateTimeField");
@@ -16,27 +15,17 @@ class CmsContent extends WaxModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("pageviews", "IntegerField", array('maxlength'=>11, "editable"=>false));
 		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
-
-		//images
 		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order"));
-		//section
 		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
-		//author
 		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id", "identifier"=>"fullname"));
-		//more_content <-> content
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id",'editable'=>false, "eager_loading"=>true));
-		//comments <-> attached_to
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
-		//category <-> attached_to
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
-		//master -> revisions (used for previews and languages)
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
 		$this->define("language", "IntegerField", array("editable"=>false));
 	}
-	
-	
-	
+		
 	/**
 	 * Status options:
 	 * 0 = draft, 1 = published, 3 = created but not saved, 4 = preview, 5 = other language draft, 6 = other language published
@@ -207,8 +196,6 @@ class CmsContent extends WaxModel {
     return $this;
   }
 
-
-
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}
 	/* old version */
@@ -234,5 +221,3 @@ class CmsContent extends WaxModel {
 
 	
 }
-
-?>

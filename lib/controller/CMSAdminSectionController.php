@@ -29,7 +29,6 @@ class CMSAdminSectionController extends AdminComponent {
 		$this->set_order();
 		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->tree();
-
 		if(!$this->all_rows) $this->all_rows = array();
 	}
 

@@ -1,10 +1,6 @@
 <?php
-/**
- * cms comments
- */
 
 class CmsComment extends WaxModel {
-  
   
 	public $status_options = array("0"=>"Unapproved", "1"=>"Approved", "2"=>"Spam"); 
 	public $config = array();
@@ -42,13 +38,11 @@ class CmsComment extends WaxModel {
 	  	if($this->status == 0 || $this->status == 2){
   			$verification_email = new WildfireNotifier;
   			$verification_email->add_to_address($email_config["comment_email_to"]);
-			
   			$data["id"] = $this->id;
   			$data["author_name"] = $this->author_name;
   			$data["author_email"] = $this->author_email;
   			$data["comment"] = $this->comment;
   			$data["attached_to"] = $this->attached_to;
-			
   			$verification_email->send_comment_approval($data);
   		}
 		}
@@ -123,11 +117,6 @@ class CmsComment extends WaxModel {
       else $this->status = "1";
     }
   }
-  
-	/*************** OLD FUNCTIONS - TO BE REMOVED - SOME ALREADY RETURN FALSE ********************/
-	/*old, cant see it used anywhere so will get it to return false*/
-  public function find_comments($article=false, $type=false) {
-		return false;
-  }
+
 	
 }

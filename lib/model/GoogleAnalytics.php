@@ -1,25 +1,9 @@
 <?php
 
 /*
- * The code in this file was written by Chris Hope <chris@electrictoolbox.com> and made available
- * from my website at http://www.electrictoolbox.com
- *
- * Feel free to use it as you wish but if re-posting it on other websites or using it in your own
- * projects or for your customers, please attribute the base work to me and do not try to pass it 
- * off as your own.
- *
- * This class is based on the documentation here, and from trial and error:
- *   http://code.google.com/apis/analytics/docs/gdata/1.0/gdataProtocol.html
- *
- * The list of dimensions and metrics available can be found here:
- *   http://code.google.com/apis/analytics/docs/gdata/gdataReferenceDimensionsMetrics.html
- *
  * Code examples etc for this class can be found at my website at the following URL:
  *   http://www.electrictoolbox.com/google-analytics-api-and-php/
- * and also in the example.php script
- * 
- * Last updated: May 5th 2009, 11:18am NZST
- * 
+ * and also in the example.php script 
  */
 
 //-------------------------------------------------------------------------------------------------
@@ -97,7 +81,6 @@ class GoogleAnalytics {
 	//---------------------------------------------------------------------------------------------
 
 		$headers = array("Authorization: GoogleLogin auth=$this->auth");
-		
 		$ch = $this->curl_init($url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		$output = curl_exec($ch);
