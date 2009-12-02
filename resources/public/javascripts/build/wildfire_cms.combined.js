@@ -7166,7 +7166,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download video file: " + theURL + "' /></a>");
+          wym._exec("inserthtml","<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flowvideoplayer.gif' alt='Download video file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -7190,7 +7190,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flowvideoplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
+          wym._exec("inserthtml","<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
