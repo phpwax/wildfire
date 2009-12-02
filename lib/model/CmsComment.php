@@ -17,7 +17,7 @@ class CmsComment extends WaxModel {
 		$this->define("comment", "TextField");					
 		$this->define("author_ip", "CharField", array('maxlength'=>255, 'editable'=>false));				
 		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser",'editable'=>false));				
-		$this->define("status", "IntegerField", array('maxlength'=>2,'editable'=>false));
+		$this->define("status", "IntegerField", array('maxlength'=>2,'editable'=>false, "choices"=>$this->status_options,"widget"=>"SelectInput"));
 		$this->define("type", "CharField", array('maxlength'=>255,'editable'=>false));		
 		$this->define("karma", "CharField", array('maxlength'=>128,'editable'=>false));		
 		$this->define("time", "DateTimeField",array('editable'=>false));				
