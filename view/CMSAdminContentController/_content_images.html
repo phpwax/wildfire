@@ -1,7 +1,7 @@
-<?if(!count($page->$join_name)):?>
+<?if(!count($model->images)):?>
   <h2>Drag Images Here</h2>
 <?else:?>
-	<?foreach($page->$join_name as $image):?>
+	<?foreach($model->images as $image):?>
 	<div class="dropped_image" id="cimage_<?=$image->id?>">
 	  <div class="image_place">
 	    <img src="<?=$image->permalink(135)?>" title="<?=$image->description?>" />

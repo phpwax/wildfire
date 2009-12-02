@@ -1,5 +1,5 @@
 <script>var content_page_id=<?=$model->id?>;</script>
-  <?foreach($attached_categories as $attached):?>
+  <?foreach($model->categories as $attached):?>
     <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>">
       <?=$attached->name?>
       <span class="trash_cat">
@@ -7,5 +7,5 @@
       </span>
     </div>
   <?endforeach?>
-  <?if(!count($attached_categories)):?><p>No categories selected - drag and drop to add!</p><?endif?>
+  <?if(!count($model->categories)):?><p>No categories selected - drag and drop to add!</p><?endif?>
 <div class="clearfix"></div>

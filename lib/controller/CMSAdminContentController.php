@@ -82,8 +82,8 @@ class CMSAdminContentController extends AdminComponent {
 	*/
 	public function filter() {
 	  $this->model->filter(array("status"=>array(0,1)));
-	  if(Request::post("section")){
-	    $section = new CmsSection(Request::post("section"));
+	  if(post("section")){
+	    $section = new CmsSection(post("section"));
 	    foreach($section->tree() as $section) $section_ids[] = $section->primval;
 	    $this->model->filter(array("cms_section_id"=>$section_ids));
     }
@@ -97,13 +97,8 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function add_image() {
 	  $this->use_layout=false;
-	  $this->page = new $this->model_class(Request::get('id'));
-		$this->join_name = "images";
-	  if(Request::post("id")) {
-		  $this->image = new WildfireFile(Request::post('id'));
-		  $this->image->join_order = Request::post('order');
-		  $this->page->images = $this->image;
-	  }
+	  $this->model = new $this->model_class(get('id'));
+	  if(Request::post("id")) $this->model->images = new WildfireFile(post('id'));
 	  $this->use_view = "_content_images";
 	}
 	/**
@@ -112,19 +107,16 @@ class CMSAdminContentController extends AdminComponent {
 	* - content id via url (/admin/content/remove_image/ID)
 	**/
 	public function remove_image() {
-		$this->join_name = "images";
+		$this->model = new $this->model_class(get('id'));
+		$this->model->images->unlink(new WildfireFile(post("image")));
 		$this->use_layout=false;
-		$this->page = new $this->model_class(Request::get('id'));
-		$image = new WildfireFile($this->param("image"));
-		$this->page->images->unlink($image);
 		$this->use_view = "_content_images";
 	}
 	
 	public function attached_images(){
 		$this->use_layout = false;
-		$this->model = new $this->model_class(Request::get('id'));
-		if(!$this->attached_images = $this->model->images) $this->attached_images=array();
-		$this->image_model = new WildfireFile;
+		$this->model = new $this->model_class(get('id'));
+		$this->use_view="_content_images";
 	}
 	/**
 	 * get the other language model for a master - creates one if it doesn't exist
@@ -204,8 +196,7 @@ class CMSAdminContentController extends AdminComponent {
 	/**
 	* the editing function... lets you change all the bits associated with the content record
 	* gets the record for the id passed (/admin/content/edit/ID)
-	* finds associated images & categories
-	* render the partials
+	* finds associated media & categories
 	*/
 	public function edit() {
 	  
@@ -222,11 +213,7 @@ class CMSAdminContentController extends AdminComponent {
     /** 
 	   *   Picks the content id from the url. If it doesn't exist redirect back.
 	   */
-	  $this->id = WaxUrl::get("id");
-		if(!$this->id) $this->id = $this->route_array[0];
-    if(!($this->model = new $this->model_class($this->id))){
-      $this->redirect_to(Session::get("list_refer"));
-    }
+    if(!($this->model = new $this->model_class(get("id")))) $this->redirect_to(Session::get("list_refer"));
     
     //if this is a revision, jump to the master
     if($this->model->preview_master_id) $this->redirect_to("/admin/".$this->module_name."/edit/".$this->model->preview_master_id."?lang=".$this->model->language);
@@ -289,12 +276,8 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function create() {
 		$model = new $this->model_class;
-		$model->status = 3;
-		$model->author_id = Session::get('wildfire_user_cookie');
-		$model->url = time();
-		if(Request::get("title")) $model->title = Request::get("title");
-		else $model->title = "Enter Your Title Here";
-		$this->redirect_to("/admin/content/edit/".$model->save()->id."/");
+		$new = $model->update_attributes(array("status"=>3, "author_id"=>Session::get('wildfire_user_cookie'),"url" => time(),"title"=>"Enter Your Title Here"));
+		$this->redirect_to("/admin/content/edit/".$new->id."/");
 	}
 
 	
@@ -304,10 +287,8 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function add_category() {
 	  $this->use_layout=false;
-		$this->model = new $this->model_class(WaxUrl::get("id"));
-		$category = new CmsCategory(substr($_POST["id"], 4));
-		$this->model->categories = $category;
-		if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
+		$this->model = new $this->model_class(get("id"));
+		$this->model->categories = new CmsCategory(substr(post("id"), 4));
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->all() ) $this->all_categories=array();		
 		$this->use_view = "_list_categories";	
@@ -318,10 +299,8 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function remove_category() {
 		$this->use_layout=false;
-		$this->model = new $this->model_class(WaxUrl::get("id"));
-		$category = new CmsCategory(Request::get("cat"));
-		$this->model->categories->unlink($category);
-    if(!$this->attached_categories = $this->model->categories) $this->attached_categories= array();
+		$this->model = new $this->model_class(get("id"));
+		$this->model->categories->unlink(new CmsCategory(get("cat")));
 		$cat = new CmsCategory;
 		if(!$this->all_categories = $cat->all() ) $this->all_categories=array();		
 		$this->use_view = "_list_categories";	
@@ -341,12 +320,9 @@ class CMSAdminContentController extends AdminComponent {
 	* cool function that autosaves your current document via ajax call
 	**/
 	public function autosave() {
-	  $this->id = Request::get("id");
-	  $this->use_layout=false;
-	  $this->use_view=false;
-	  $content = new $this->model_class(Request::get("id"));
+	  $content = new $this->model_class(get("id"));
 	  if($content->primval) {
-	    $content->update_attributes($_POST["cms_content"]);
+	    $content->update_attributes(post("cms_content"));
 	    echo date("H:i:s");
 	  }else{
 	    throw new WXRoutingException('Tried to save in a non-existing database entry!', "Page not found", '404');
@@ -357,9 +333,9 @@ class CMSAdminContentController extends AdminComponent {
 	public function status(){
 		if($id = Request::get('id')){
 			$content = new CmsContent($id);
-			if(isset($_GET['status'])) $content->status = Request::get('status');
+			if(isset($_GET['status'])) $content->status = get('status');
 			$this->row = $content->save();
-			if(Request::get('ajax')) $this->use_layout = false;
+			if(get('ajax')) $this->use_layout = false;
 			else $this->redirect_to(Session::get('list_refer'));
 		}else $this->redirect_to("/admin/home");
 	}

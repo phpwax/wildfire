@@ -35,6 +35,8 @@ class CmsContent extends WaxModel {
 		$this->define("language", "IntegerField", array("editable"=>false));
 	}
 	
+	
+	
 	/**
 	 * Status options:
 	 * 0 = draft, 1 = published, 3 = created but not saved, 4 = preview, 5 = other language draft, 6 = other language published
