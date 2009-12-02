@@ -33,31 +33,33 @@ class CMSAdminSectionController extends AdminComponent {
 		if(!$this->all_rows) $this->all_rows = array();
 	}
 
-	/*new edit function - so include the link, video partials etc*/
 	public function edit() {
-    $model = new $this->model_class(WaxUrl::get("id"));
-		$this->possible_parents = array("None");
-		$remove_ids = array();
-		foreach($model->tree() as $section) $remove_ids[] = $section->id; //only the subtree of the current node
-		foreach($this->model->tree() as $section){ //all sections
-		  if(!in_array($section->id, $remove_ids)){
-  			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
-  			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
-  			$this->possible_parents[$section->id] = $tmp.$section->title;
-		  }
-		}
-		parent::edit();
+    $this->model = new $this->model_class(Request::get("id"));
+		$this->form();
 	}
-	
-	public function create(){
-		$this->possible_parents = array("None");
-		foreach($this->model->tree() as $section){ //all sections
+
+  public function create() {
+  	$this->model = new $this->model_class();		
+  	$this->form();
+  	$this->form->default_page->editable=false;
+  }
+  
+  public function form() {
+    $this->use_view="form";
+    $model = $this->current_user->allowed_sections_model;
+    $this->possible_parents = array("None");
+		foreach($model->tree() as $section){ //all sections
 			$tmp = str_pad("", $section->get_level(), "*", STR_PAD_LEFT);
 			$tmp = str_replace("*", "&nbsp;&nbsp;", $tmp);
 			$this->possible_parents[$section->id] = $tmp.$section->title;
 		}
-	  parent::create();
-	}
+    $this->form = new WaxForm($this->model);
+		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
+		elseif($res = $this->form->save()) {
+		  Session::add_message($this->display_name." Successfully Saved");
+		  $this->redirect_to(Session::get("list_refer"));
+		}
+  }
 
 	/**
 	 * ajax filter function - takes the incoming string, matches against columns 

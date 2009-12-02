@@ -1,0 +1,35 @@
+<?if(!$form->is_valid()) echo $form->errors();?>
+<form action="" class="form_container" method="post" enctype="multipart/form-data">
+
+<div id="container">
+  <ul class="tabs-nav">
+    <li><a href="#section-1">Editing Site Section</a></li>
+  </ul>
+  
+  <div id="content_window" class="clearfix">
+    <div id="content_editor">
+      <div id="section-1" class="tabs-container">
+				
+      </div>
+    </div>
+
+    <fieldset class="content_options">
+      <div class="medium"><?=$form->title->render()?></div>
+      <hr />
+      <div class="large"><?=$form->introduction->render(array("rows"=>9))?></div>
+      
+      <div class="small"><?=$form->parent->render(array("choices"=>$possible_parents))?></div>
+      <div class="small"><?=$form->default_page->render(array("choices"=>$model->published_content(), "null"=>"None"))?></div>
+      <hr />
+    </fieldset>
+    <div class="clearfix"></div>
+    <fieldset id="submit">
+      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
+    </fieldset>
+  </div>
+
+</div>
+
+
+</form>
