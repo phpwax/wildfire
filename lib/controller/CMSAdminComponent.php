@@ -131,36 +131,29 @@ class CMSAdminComponent extends WaxController {
 	public function index( ) {
 	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
 		$this->set_order();
-		$this->display_action_name = 'List Items';
-    
+		$this->display_action_name = 'List '.$this->display_name;
 		$this->all_rows = $this->model->order($this->get_order())->page($this->this_page,$this->list_limit);
-		if(!$this->all_rows) $this->all_rows=array();
 	}
 
-	/**
-	* Create model item - has shared view cms/view/CONTROLLER/_form.html
-	*/
-  public function create($save=true) {
-  	$this->display_action_name = 'Create';
-  	$this->model = new $this->model_class;		
-  	if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
-  	if($_POST['save_x'] && $save) $this->save($this->model, "edit");
-  	elseif($save) $this->save($this->model, Session::get("list_refer"));
-  }
-	
-	/**
-	* Edit model item in lightbox interface - has shared view cms/view/CONTROLLER/_form.html
-	*/
 	public function edit() {
-		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
-	  $this->id = Request::get("id");
-		if(!$this->id) $this->id = $this->route_array[0];
-    $this->model = new $this->model_class($this->id);
-    
-		if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
-		if($_POST['save_x']) $this->save($this->model, "edit");
-		else $this->save($this->model, Session::get("list_refer"));
+	  $this->model = new $this->model_class(Request::get("id"));
+		$this->form();
 	}
+	
+	public function create() {
+	  $this->model = new $this->model_class();		
+  	$this->form();
+	}
+	
+	public function form() {
+    $this->use_view="form";
+    $this->form = new WaxForm($this->model);
+		if(post('cancel')) $this->redirect_to(Session::get("list_refer"));
+		elseif($res = $this->form->save()) {
+		  Session::add_message($this->display_name." Successfully Saved");
+		  $this->redirect_to(Session::get("list_refer"));
+		}
+  }
 	
 	/**
 	* Ajax Filter list view

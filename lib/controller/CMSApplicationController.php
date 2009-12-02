@@ -342,24 +342,6 @@ class CMSApplicationController extends WaxController{
     } else die("UPLOAD ERROR");
     exit;
 	}
-
-	/**** OLD METHODS - WILL BE REMOVED SOON - FOR NOW RETURN FALSE ****/
-	protected function cms_check() {
-	 return false;
-	}	
-	protected function parse_urls() {
-	 return false;
-	}
-	protected function build_crumbtrail($route) {
-	 return false;
-	}
-	protected function get_section($url) {
-	  return false;
-	}
-	protected function get_content($options = array(), $params=array()) {
-	  return false;
-	}
-	
 	
 }
 

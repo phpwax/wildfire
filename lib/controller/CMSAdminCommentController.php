@@ -29,32 +29,9 @@ class CMSAdminCommentController extends AdminComponent {
 	 * shows only active comments (ie status =1) and paginates them
 	 **/
 	public function index( ) {
-		$this->set_order();
-		$this->display_action_name = 'List Comments';
-		Session::set("list_refer", $_SERVER['REQUEST_URI']);
+		parent::index();
 		$this->all_rows = $this->model->filter(array('status'=>1))->order($this->get_order())->page($this->this_page, $this->list_limit);
-		if(!$this->all_rows) $this->all_rows=array();
 	}
-	
-	public function edit() {
-	  $this->model = new $this->model_class(Request::get("id"));
-		$this->form();
-	}
-	
-	public function create() {
-	  $this->model = new $this->model_class();		
-  	$this->form();
-	}
-	
-	public function form() {
-    $this->use_view="form";
-    $this->form = new WaxForm($this->model);
-		if(post('cancel')) $this->redirect_to(Session::get("list_refer"));
-		elseif($res = $this->form->save()) {
-		  Session::add_message($this->display_name." Successfully Saved");
-		  $this->redirect_to(Session::get("list_refer"));
-		}
-  }
 	
 	
 	/**
