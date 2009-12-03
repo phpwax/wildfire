@@ -56,7 +56,7 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function index() {
 	  if(!$page = $this->param("page")) $page=1;
-	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
+	  Session::set("list_refer-".$this->module_name, $_SERVER['REQUEST_URI']);
 	  
 		/** 
 		*	remove temporary files 
@@ -225,7 +225,7 @@ class CMSAdminContentController extends AdminComponent {
 	  $this->id = WaxUrl::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     if(!($this->model = new $this->model_class($this->id))){
-      $this->redirect_to(Session::get("list_refer"));
+      $this->redirect_to(Session::get("list_refer-".$this->module_name));
     }
     
     //if this is a revision, jump to the master
@@ -236,7 +236,7 @@ class CMSAdminContentController extends AdminComponent {
 
     //this massive block handles the possible posts for save (default), publish and close
 		if($this->model && $this->model->is_posted()){
-  		if($_POST['close_x']) $this->redirect_to(Session::get("list_refer"));
+  		if($_POST['close_x']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
   		elseif($_POST['publish_x']){
         if($this->model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
 	        $this->update_master($this->model, $this->model->master);
@@ -248,7 +248,7 @@ class CMSAdminContentController extends AdminComponent {
   		    $this->model->save();
 	      }
 		    Session::add_message($this->display_name." "."Successfully Published");
-		    $this->redirect_to(Session::get("list_refer"));
+		    $this->redirect_to(Session::get("list_refer-".$this->module_name));
   	  }else{ //save button is default post, as it's the least destructive thing to do
   	    //unpublish a published article (i.e. current status is 4 and saving status back to 0 or 5)
   	    if(($this->model->status == 4) && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
@@ -360,7 +360,7 @@ class CMSAdminContentController extends AdminComponent {
 			if(isset($_GET['status'])) $content->status = Request::get('status');
 			$this->row = $content->save();
 			if(Request::get('ajax')) $this->use_layout = false;
-			else $this->redirect_to(Session::get('list_refer'));
+			else $this->redirect_to(Session::get("list_refer-".$this->module_name));
 		}else $this->redirect_to("/admin/home");
 	}
 	

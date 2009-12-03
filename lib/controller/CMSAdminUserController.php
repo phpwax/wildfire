@@ -52,9 +52,9 @@ class CMSAdminUserController extends AdminComponent {
       $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();      
   	}
     
-		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
+		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
 		if($_POST['save']) $this->save($this->model, "edit");
-		else $this->save($this->model, Session::get("list_refer"));
+		else $this->save($this->model, Session::get("list_refer-".$this->module_name));
 	}
 	/**
 	* Ajax function - associates a section with a user
