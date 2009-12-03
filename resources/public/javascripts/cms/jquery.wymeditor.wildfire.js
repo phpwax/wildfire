@@ -103,13 +103,13 @@ WYMeditor.editor.prototype.wildfire = function() {
   WYMeditor.editor.prototype.toggleHtml_old =  WYMeditor.editor.prototype.toggleHtml;
   WYMeditor.editor.prototype.toggleHtml = function() { 
     this.toggleHtml_old();
-    var html_box = $(".wym_html");
+    var html_box = jQuery(".wym_html");
     if(html_box.is(':visible')){
       html_box.css("height","50%");
-      $(".wym_iframe").css("height","50%");
+      jQuery(".wym_iframe").css("height","50%");
     }else{
       html_box.css("height","");
-      $(".wym_iframe").css("height","100%");
+      jQuery(".wym_iframe").css("height","100%");
     }
   };
   
@@ -156,7 +156,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download video file: " + theURL + "' /></a>");
+          wym._exec("inserthtml","<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flowvideoplayer.gif' alt='Download video file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -180,7 +180,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flowvideoplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
+          wym._exec("inserthtml","<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
