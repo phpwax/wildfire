@@ -129,7 +129,7 @@ class CMSAdminComponent extends WaxController {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html 
 	*/
 	public function index( ) {
-	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
+	  Session::set("list_refer-".$this->module_name, $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
     
@@ -146,9 +146,9 @@ class CMSAdminComponent extends WaxController {
   	$this->display_action_name = 'Create';
   	$this->model = new $this->model_class;		
   	$this->form = $this->render_partial("form");
-  	if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
+  	if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
   	if($_POST['save_x'] && $save) $this->save($this->model, "edit");
-  	elseif($save) $this->save($this->model, Session::get("list_refer"));
+  	elseif($save) $this->save($this->model, Session::get("list_refer-".$this->module_name));
   }
 	
 	/**
@@ -161,9 +161,9 @@ class CMSAdminComponent extends WaxController {
     $this->model = new $this->model_class($this->id);
     
 		$this->form = $this->render_partial("form");
-		if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer"));
+		if($_POST['cancel_x']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
 		if($_POST['save_x']) $this->save($this->model, "edit");
-		else $this->save($this->model, Session::get("list_refer"));
+		else $this->save($this->model, Session::get("list_refer-".$this->module_name));
 	}
 	
 	/**
