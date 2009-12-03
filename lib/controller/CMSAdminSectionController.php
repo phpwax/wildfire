@@ -25,7 +25,7 @@ class CMSAdminSectionController extends AdminComponent {
 	 * index page - list of all sections
 	 */	
 	public function index() {
-		Session::set("list_refer", $_SERVER['REQUEST_URI']);
+		Session::set("list_refer-".$this->module_name, $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->tree();

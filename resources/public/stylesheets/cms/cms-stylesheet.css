@@ -707,7 +707,7 @@ li.pagination_link a {
     margin:0;
   }
   
-  .content_options .large, .content_options .medium {
+  .content_options .large, .content_options .medium, .content_options .small {
     width:46%;
     padding:0 19px;
     padding-bottom:4px;

@@ -129,7 +129,7 @@ class CMSAdminComponent extends WaxController {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html 
 	*/
 	public function index( ) {
-	  Session::set("list_refer", $_SERVER['REQUEST_URI']);
+	  Session::set("list_refer-".$this->module_name, $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List '.$this->display_name;
 		$this->all_rows = $this->model->order($this->get_order())->page($this->this_page,$this->list_limit);
