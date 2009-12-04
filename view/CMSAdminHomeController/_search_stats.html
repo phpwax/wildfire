@@ -1,0 +1,12 @@
+<h3>Recent Search Referrals</h3>
+<?if(count($stat_search)):?>
+  <?foreach($stat_search as $search):?>
+    <div class="stat_count"><strong><?=$search["count"]?></strong> searches: </div>
+    <div class="stat_label">
+      <a href="<?=$search["link"]?>"><?=$search['keyword']?></a>
+    </div>
+    <div class="graph_separator"></div>
+  <?endforeach?>
+<?else:?>
+  <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent search engine referrals will appear here shortly.</p>  
+<?endif?>

@@ -131,7 +131,7 @@ class CMSAdminHomeController extends AdminComponent {
 		$this->display_action_name = 'Support';
 		$this->guides = array();
 		foreach($this->all_modules as $module=>$value){
-			if(file_exists(PLUGIN_DIR."cms/view/CMSAdminHomeController/_{$module}.html")) $this->guides[$module] = $this->render_partial($module);
+			if(file_exists(PLUGIN_DIR."cms/view/help/_{$module}.html")) $this->guides[$module] = $this->render_partial($module);
 		}
 	}
   /**

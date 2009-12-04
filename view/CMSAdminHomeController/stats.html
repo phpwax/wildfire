@@ -2,43 +2,16 @@
   <?if($current_user->access($module_name,"stats")):?>
     <h2>Your Site's Performance</h2>
   
-    <h3>Recent Visits and Page Views</h3>
-      <object type="application/x-shockwave-flash" data="/images/open-flash-chart2.swf" width="350px" height="150px" id="stats">
-    	  <param name="allowScriptAccess" value="sameDomain" />
-    	  <param name="bgcolor" value="#444" />
-    	  <param name="wmode" value="transparent" />
-    	  <param name="movie" value="/images/open-flash-chart2.swf" />
-    	  <param name="flashvars" value="data-file=%2Fadmin%2Fhome%2Fvisitor_data">
-        <a title="You must install the Flash Plugin for your Browser in order to view this movie"  href="http://www.adobe.com/products/flashplayer/"><img src="http://www.adobe.com/images/shared/product_mnemonics/50x50/flash_player_50x50.gif" alt="placeholder for flash movie" /></a>
-    	</object>
+    <?=partial("_visitor_stats", $this)?>
     
     <div class="clearfix"></div>
   
   
-    <h3>Recent Incoming Links</h3>
-    <?if(count($stat_links)):?>
-      <?foreach($stat_links as $link):?>
-        <div class="stat_count"><strong><?=$link["visits"]?></strong> links from</div>
-        <div class="stat_label"><a href="http://<?=$link["url"]?>"><?=$link["name"]?></a></div>
-        <div class="graph_separator"></div>
-      <?endforeach?>
-      <?else:?>
-        <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent incoming links will appear here shortly.</p>
-      <?endif?>
+    <?=partial("_links_stats", $this)?>
   
     <div class="clearfix"></div>
-    <h3>Recent Search Referrals</h3>
-    <?if(count($stat_search)):?>
-      <?foreach($stat_search as $search):?>
-        <div class="stat_count"><strong><?=$search["count"]?></strong> searches: </div>
-        <div class="stat_label">
-          <a href="<?=$search["link"]?>"><?=$search['keyword']?></a>
-        </div>
-        <div class="graph_separator"></div>
-      <?endforeach?>
-    <?else:?>
-      <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent search engine referrals will appear here shortly.</p>  
-    <?endif?>
+    <?=partial("_search_stats", $this)?>
+    
   <?endif?>
   
 </div>

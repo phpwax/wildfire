@@ -1,0 +1,10 @@
+<h3>Recent Incoming Links</h3>
+<?if(count($stat_links)):?>
+  <?foreach($stat_links as $link):?>
+    <div class="stat_count"><strong><?=$link["visits"]?></strong> links from</div>
+    <div class="stat_label"><a href="http://<?=$link["url"]?>"><?=$link["name"]?></a></div>
+    <div class="graph_separator"></div>
+  <?endforeach?>
+  <?else:?>
+    <p><strong>Your site has not yet been setup to track your visitors</strong><br />Your recent incoming links will appear here shortly.</p>
+  <?endif?>

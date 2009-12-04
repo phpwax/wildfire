@@ -1,0 +1,34 @@
+<h3>Recent Content</h3>
+<table id="item_list_container" class="sortable">
+  <tbody id="list_rows">
+    <?foreach($recent_content as $row):?>
+      <tr id="row_<?=$row->id?>">
+        <td class="column">
+          <span class="status_change_span">
+					<?if($row->status == 1):?>
+	          <?if($current_user->access("content","edit")):?><a href="/admin/content/status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="Published"><?endif?>
+	            <img src="/images/cms/icon_published.gif" width="12" class="status_icon" />
+	          <?if($current_user->access("content","edit")):?></a><?endif?>
+	        <?else:?>
+	        	<?if($current_user->access("content","edit")):?><a href="/admin/content/status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="Draft"><?endif?>
+	        	  <img src="/images/cms/icon_draft.gif" width="12" class="status_icon" />
+	        	<?if($current_user->access("content","edit")):?></a><?endif?>
+	        <?endif?>
+					</span>
+					<?if($current_user->access("content","edit")):?>
+          <?=link_to($row->title, array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?>
+          <?else:?>
+          <?=$row->title?>
+          <?endif?>
+        </td>
+        <td class="column last">
+          <?if($current_user->access("content","edit")):?>      
+          <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
+          <?elseif(!is_array($content_permissions)):?>
+          <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
+          <?endif?>
+        </td>
+      </tr>
+    <?endforeach?>
+  </tbody> 
+</table>

@@ -2,69 +2,10 @@
 <div id="statistics"></div>
 <?endif?>
 <div id="quick_nav">
-  <?if($current_user->access("content","edit")):?>
-  <div id="quick_search">
-    <img src="/images/cms/quick_search_icon.gif" />
-    <h3>Quick Content Finder</h3>
-    <p>Start typing and results will start to appear:</p>
-    <form action="" method="get" accept-charset="utf-8">
-      <input type="text" value="Search" class="live_search disable_enter" id="live_search_field" />
-      <ul class="live_search_results"></ul>
-    </form>
-  </div>
-  <?endif?>
-  <?if($current_user->access("content","create")):?>      
-  <div id="quick_create">
-    <img src="/images/cms/quick_create_icon.gif" />
-    <h3>Start Creating Content</h3>
-    <form action="/admin/content/create" method="get" accept-charset="utf-8">
-      <input type="text" value="Title" id="quick_create_title" name="title" />
-      <input type="image" src="/images/cms/quick_create_button.gif" id="quick_create_submit" />
-    </form>
-  </div>
-  <?endif?>
-  <div id="quick_upload">
-    <a href="/admin/files/"><img src="/images/cms/quick_upload_icon.gif" />
-    <h3>Start Uploading Files</h3>
-    <p>Click here to upload upload images, documents and other files.</p>
-    </a>
-  </div>
+  <?=partial("_home_tools", $this)?>
 </div>
 <div id="quick_content_column">
   <div id="quick_recent_content">
-    <h3>Recent Content</h3>
-    <table id="item_list_container" class="sortable">
-      <tbody id="list_rows">
-        <?foreach($recent_content as $row):?>
-          <tr id="row_<?=$row->id?>">
-            <td class="column">
-              <span class="status_change_span">
-    					<?if($row->status == 1):?>
-    	          <?if($current_user->access("content","edit")):?><a href="/admin/content/status/<?=$row->id?>?status=0" id="a_<?=$row->id?>" class="status_change" rel="0" title="Published"><?endif?>
-    	            <img src="/images/cms/icon_published.gif" width="12" class="status_icon" />
-    	          <?if($current_user->access("content","edit")):?></a><?endif?>
-    	        <?else:?>
-    	        	<?if($current_user->access("content","edit")):?><a href="/admin/content/status/<?=$row->id?>?status=1" id="a_<?=$row->id?>" class="status_change" rel="1" title="Draft"><?endif?>
-    	        	  <img src="/images/cms/icon_draft.gif" width="12" class="status_icon" />
-    	        	<?if($current_user->access("content","edit")):?></a><?endif?>
-    	        <?endif?>
-    					</span>
-    					<?if($current_user->access("content","edit")):?>
-              <?=link_to($row->title, array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?>
-              <?else:?>
-              <?=$row->title?>
-              <?endif?>
-            </td>
-            <td class="column last">
-              <?if($current_user->access("content","edit")):?>      
-              <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
-              <?elseif(!is_array($content_permissions)):?>
-              <div class="generic_button"><?=link_to("Edit", array("controller"=>"admin/content", "action"=>"edit", "id"=>$row->id))?></div>
-              <?endif?>
-            </td>
-          </tr>
-        <?endforeach?>
-      </tbody> 
-    </table>
+    <?=partial("_recent_content", $this)?>
   </div>
 </div>
