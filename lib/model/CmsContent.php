@@ -108,7 +108,7 @@ class CmsContent extends WaxModel {
 		return date('d/m/Y', strtotime($this->published));
 	}
 	public function is_published() {
-		if($this->status=="1" && strtotime($this->published) < time() ) return true;
+		if(($this->status == 1 || $this->status == 6) && strtotime($this->published) < time() ) return true;
 		return false;
 	}
 	public function date_expires(){
