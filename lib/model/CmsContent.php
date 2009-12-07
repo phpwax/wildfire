@@ -65,7 +65,7 @@ class CmsContent extends WaxModel {
 	 */
 	public function get_original(){
 	  $ret = $this;
-	  while($master = $this->master) $ret = $master;
+	  while($master = $ret->master) $ret = $master;
 	  return $ret;
 	}
 	
