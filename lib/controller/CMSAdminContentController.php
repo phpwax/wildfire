@@ -132,7 +132,10 @@ class CMSAdminContentController extends AdminComponent {
 	 */
 	protected function publish($model, $redirect_to=false) {
     if($model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
-      $master = $model->copy($model->master);
+      $master = $model->master;
+      $_POST[$model->table]['status'] = $master->status;
+      $_POST[$model->table]['preview_master_id'] = $master->master;
+      $master = $model->copy($master); //copy so that associations work correctly
       $model->delete();
 	    $this->save($master, $redirect_to, "Successfully Updated");
     }else{ //otherwise this is a first publish, and we should just save, forcing the status to be published
