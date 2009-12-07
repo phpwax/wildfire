@@ -73,8 +73,8 @@ class CmsContent extends WaxModel {
 	 * gets a preview copy, if it doesn't exist creates one
 	 */
 	public function get_preview_copy(){
-	  $ret = $this->revisions(array("language"=>$this->language, "status"=>4));
-	  if(count($ret)) return $ret[0]; //only get revisions with the same language as the current version
+	  $ret = $this->revisions(array("status"=>4));
+	  if(count($ret)) return $ret[0];
 	  else{
 	    $ret = $this->copy();
 	    $ret->master = $this;
