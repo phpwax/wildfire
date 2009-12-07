@@ -59,6 +59,44 @@ class CmsContent extends WaxModel {
 	public function section_name() {
 		return $this->section->title;
 	}
+
+	/**
+	 * gets the main master article
+	 */
+	public function get_original(){
+	  $ret = $this;
+	  while($master = $this->master) $ret = $master;
+	  return $ret;
+	}
+	
+	/**
+	 * gets a preview copy, if it doesn't exist creates one
+	 */
+	public function get_preview_copy(){
+	  $ret = $this->revisions(array("language"=>$this->language, "status"=>4));
+	  if(count($ret)) return $ret[0]; //only get revisions with the same language as the current version
+	  else{
+	    $ret = $this->copy();
+	    $ret->master = $this;
+	    $ret->status = 4;
+	    return $ret->save();
+	  }
+	}
+	
+	/**
+	 * gets a language copy, if it doesn't exist creates one
+	 */
+	public function get_language_copy($language){
+	  $ret = $this->revisions(array("language"=>$language, "status"=>array(5,6)));
+	  if(count($ret)) return $ret[0];
+	  else{
+	    $ret = $this->copy();
+	    $ret->master = $this;
+	    $ret->language = $language;
+	    $ret->status = 5; //draft status on new language copies
+	    return $ret->save();
+	  }
+	}
 	
 	public function before_save() {
 	  if(!$this->published) $this->published = date("Y-m-d H:i:s");
