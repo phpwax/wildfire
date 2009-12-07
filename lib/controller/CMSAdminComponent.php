@@ -185,9 +185,9 @@ class CMSAdminComponent extends WaxController {
 	* @return boolean or redirect on success, sets message on success
 	*/
 	protected function save($model, $redirect_to=false, $success = "Successfully Saved") {
-	  $this->before_save($model);
-		if( $model->is_posted() ) {
-			if($model->update_attributes($_POST[$this->model->table]) ) {
+		if($model->is_posted()){
+  	  $this->before_save($model);
+			if($model->update_attributes($_POST[$model->table]) ) {
 			  if($redirect_to == "edit") $redirect_to = "/$this->controller/edit/".$model->id."/";
 			  elseif(!$redirect_to) $redirect_to = "/$this->controller/index";
       	Session::add_message($this->display_name." ".$success);
