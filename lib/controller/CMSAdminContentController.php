@@ -238,6 +238,7 @@ class CMSAdminContentController extends AdminComponent {
   		    $this->model->set_attributes($_POST[$this->model->table]);
   		    if($this->model->status == 5) $this->model->status = 6;
   		    else $this->model->status = 1;
+          $this->after_save($this->model);
   		    $this->model->save();
 	      }
 		    Session::add_message($this->display_name." "."Successfully Published");
