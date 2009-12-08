@@ -189,7 +189,7 @@ class CMSAdminContentController extends AdminComponent {
 	 * @param string $master 
 	 * @return WaxModel - updated master
 	 */
-	private function update_master($preview, $master){
+	public function update_master($preview, $master){
 	  if($preview instanceOf $this->model_class && $preview->primval){
       $preview->set_attributes($_POST[$preview->table]);
       $preview->status = 4;
@@ -238,6 +238,7 @@ class CMSAdminContentController extends AdminComponent {
   		    $this->model->set_attributes($_POST[$this->model->table]);
   		    if($this->model->status == 5) $this->model->status = 6;
   		    else $this->model->status = 1;
+          $this->after_save($this->model);
   		    $this->model->save();
 	      }
 		    Session::add_message($this->display_name." "."Successfully Published");
