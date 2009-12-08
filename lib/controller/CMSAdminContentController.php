@@ -189,7 +189,7 @@ class CMSAdminContentController extends AdminComponent {
 	 * @param string $master 
 	 * @return WaxModel - updated master
 	 */
-	private function update_master($preview, $master){
+	public function update_master($preview, $master){
 	  if($preview instanceOf $this->model_class && $preview->primval){
       $preview->set_attributes($_POST[$preview->table]);
       $preview->status = 4;
