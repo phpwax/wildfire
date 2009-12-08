@@ -32,16 +32,6 @@ class CMSAdminSectionController extends AdminComponent {
 		if(!$this->all_rows) $this->all_rows = array();
 	}
 
-	public function edit() {
-    $this->model = new $this->model_class(Request::get("id"));
-		$this->form();
-	}
-
-  public function create() {
-  	$this->model = new $this->model_class();		
-  	$this->form();
-  	$this->form->default_page->editable=false;
-  }
   
   public function form() {
     $this->use_view="form";

@@ -154,6 +154,7 @@ class CMSAdminComponent extends WaxController {
 		  $this->redirect_to(Session::get("list_refer"));
 		}
   }
+  
 	
 	/**
 	* Ajax Filter list view

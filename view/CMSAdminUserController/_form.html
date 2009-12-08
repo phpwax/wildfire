@@ -10,7 +10,7 @@
     <li><a href="#section-1">User Details</a></li>
     <?if($model->primval && ($model->primval != $current_user->primval || $current_user->username == "admin") && $current_user->access($module_name,"admin")):?>
     <li><a href="#section-2">Sections</a></li>
-    <li><a href="#section-3">Modules</a></li>
+    <li><a href="#section-3">Permissions</a></li>
     <?endif?>
   </ul>
 
