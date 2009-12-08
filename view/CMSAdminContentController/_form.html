@@ -82,10 +82,10 @@ var content_permalink="<?=$model->permalink?>";
     
     <div class="clearfix" id="autosaver"></div>
     <fieldset id="submit">
-      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save_for_later.gif")?>" name="save" value="Save" />
       <?if($current_user->access($module_name,"publish")):?>
-      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_publish.gif")?>" name="publish" value="Publish" />
+      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", ($model->status == 4)?"button_update.gif":"button_publish.gif")?>" name="publish" value="Publish" />
       <?endif?>
+      <input type="image" class="generic_button wymupdate" src="<?=serve_asset("images", "cms", "button_save_for_later.gif")?>" name="save" value="Save" />
       <a href="<?=$this->model->permalink?>?preview=1" target="_blank" id="preview_link"<?=$modal_preview?' class="modal_preview" ':''?>><img class="generic_button" src="<?=serve_asset("images", "cms", "button_preview.gif")?>" /></a>
     </fieldset>
   </div>

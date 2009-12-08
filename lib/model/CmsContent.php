@@ -21,7 +21,8 @@ class CmsContent extends WaxModel {
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id",'editable'=>false, "eager_loading"=>true));
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
-		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id"));
+		//master -> revisions (used for previews and languages)
+		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id", "join_order"=>"published"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
 		$this->define("language", "IntegerField", array("editable"=>false));
 	}
@@ -49,6 +50,44 @@ class CmsContent extends WaxModel {
 	}
 	public function section_name() {
 		return $this->section->title;
+	}
+
+	/**
+	 * gets the main master article
+	 */
+	public function get_original(){
+	  $ret = $this;
+	  while($master = $ret->master) $ret = $master;
+	  return $ret;
+	}
+	
+	/**
+	 * gets a preview copy, if it doesn't exist creates one
+	 */
+	public function get_preview_copy(){
+	  $ret = $this->revisions(array("status"=>4));
+	  if(count($ret)) return $ret[0];
+	  else{
+	    $ret = $this->copy();
+	    $ret->master = $this;
+	    $ret->status = 4;
+	    return $ret->save();
+	  }
+	}
+	
+	/**
+	 * gets a language copy, if it doesn't exist creates one
+	 */
+	public function get_language_copy($language){
+	  $ret = $this->revisions(array("language"=>$language, "status"=>array(5,6)));
+	  if(count($ret)) return $ret[0];
+	  else{
+	    $ret = $this->copy();
+	    $ret->master = $this;
+	    $ret->language = $language;
+	    $ret->status = 5; //draft status on new language copies
+	    return $ret->save();
+	  }
 	}
 	
 	public function before_save() {
@@ -99,7 +138,7 @@ class CmsContent extends WaxModel {
 		return date('d/m/Y', strtotime($this->published));
 	}
 	public function is_published() {
-		if($this->status=="1" && strtotime($this->published) < time() ) return true;
+		if(($this->status == 1 || $this->status == 6) && strtotime($this->published) < time() ) return true;
 		return false;
 	}
 	public function date_expires(){

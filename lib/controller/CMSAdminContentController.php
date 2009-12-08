@@ -118,133 +118,40 @@ class CMSAdminContentController extends AdminComponent {
 		$this->model = new $this->model_class(get('id'));
 		$this->use_view="_content_images";
 	}
+	
 	/**
-	 * get the other language model for a master - creates one if it doesn't exist
-	 *
-	 * @param string $master 
-	 * @param integer $lang_id 
-	 * @return WaxModel - new language model
+	 * publish function, passes on to save, but forces status to published or updates existing page
 	 */
-	private function get_language_model($master, $lang_id){
-	  $model = new $this->model_class;
-    if($lang_model = $model->filter(array('preview_master_id'=>$master->primval,'language'=>$lang_id))->first()){
-      return $lang_model;
-    }else{
-	    Session::add_message("A {$this->languages[$lang_id]} version of this content has been created. The {$this->languages[0]} content was copied into it for convenience.");
-	    //if a lang entry doesn't exist create one
-		  foreach($master->columns as $col => $params)
-		    if($master->$col) $copy_attributes[$col] = $master->$col;
-		  $copy_attributes = array_diff_key($copy_attributes,array($master->primary_key=>false,'revisions'=>false)); //take out ID and revisions
-		  
-  	  $lang = new $this->model_class;
-  	  $lang->save();
-		  $lang->set_attributes($copy_attributes);
-		  $lang->status = 5;
-		  $lang->url = $master->url;
-		  $lang->master = $master->primval;
-		  $lang->language = $lang_id;
-		  $lang->save();
-		  return $lang;
+	protected function publish($model, $redirect_to=false) {
+    if($model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
+      $master = $model->master;
+      $_POST[$model->table]['status'] = $master->status;
+      $_POST[$model->table]['preview_master_id'] = $master->master;
+      $master = $model->copy($master); //copy so that associations work correctly
+      $model->delete();
+	    $this->save($master, $redirect_to, "Successfully Updated");
+    }else{ //otherwise this is a first publish, and we should just save, forcing the status to be published
+	    if($_POST[$model->table]['status'] == 5) $_POST[$model->table]['status'] = 6;
+	    else $_POST[$model->table]['status'] = 1;
+	    $this->save($model, $redirect_to, "Successfully Published");
     }
-	}
-	/**
-	 * get the preview revision for a master - creates one if it doesn't exist
-	 *
-	 * @param string $master 
-	 * @return WaxModel - existing copy of the model, new copy of the model, or the master itself
-	 */
-	private function get_preview_model($master){
-		if(!in_array($master->status,array(1,6))) return $master; //pass through for everything but published articles
-	  $preview = new $this->model_class;
-	  $ret = $preview->filter("preview_master_id",$master->{$master->primary_key})->filter("status",4)->first();
-	  if(!$ret){ //if a preview entry doesn't exist create one
-      $preview->clear()->save(); //create preview model, needs an ID so associations will work
-		  $preview_primval = $preview->primval(); //save new ID to put back later
-		  foreach($master->columns as $col => $params) if($master->$col) $preview->$col = $master->$col; //copy all columns into the preview model
-	    $preview->{$preview->primary_key} = $preview_primval;
-      $preview->status = 4;
-      $preview->preview_master_id = $master->primval;
-    	$ret = $preview->save();
-    	
-    	//temp fix.... images not copying properly 
-    	$preview->images= $master->images;
-    	$preview->categories = $master->categories;
-    }
-    return $ret;
-	}
-	/**
-	 * update the master with the preview's details, every field is updated except primary key and status
-	 *
-	 * @param string $preview 
-	 * @param string $master 
-	 * @return WaxModel - updated master
-	 */
-	private function update_master($preview, $master){
-	  if($preview instanceOf $this->model_class && $preview->primval){
-      $preview->set_attributes($_POST[$preview->table]);
-      $preview->status = 4;
-      $preview->save();
-
-			foreach($preview->columns as $col => $params) if($preview->$col || strlen($preview->$col)) $copy_attributes[$col] = $preview->$col;
-
-  	  $copy_attributes = array_diff_key($copy_attributes,array_flip(array($preview->primary_key,"master","status"))); //take out IDs and status
-	    $res = $master->update_attributes($copy_attributes);	    
-    }else $res = $master;
-    $this->after_save($res);
-    return $res;
 	}
 	/**
 	* the editing function... lets you change all the bits associated with the content record
 	* gets the record for the id passed (/admin/content/edit/ID)
-	* finds associated media & categories
 	*/
 	public function edit() {
-	  
-	  
-	  /** 
-	   *   First up - a language check, if there's no language that matches the request, redirect back to main article.
-	   */
-		if(($lang_id = Request::get("lang")) && (!$this->languages[$lang_id])){
-	    Session::add_message("That language isn't allowed on your system. Here's the {$this->languages[0]} version instead.");
-	    $this->redirect_to("/admin/".$this->module_name."/edit/$this->id");
-    }
+    if(!($this->model = new $this->model_class(Request::get("id")))) $this->redirect_to(Session::get("list_refer")); //extra safety check for existance of the initial id as it's passed in, go back to the list if you're trying to get to an id that doesn't exist
 
-
-    /** 
-	   *   Picks the content id from the url. If it doesn't exist redirect back.
-	   */
-    if(!($this->model = new $this->model_class(get("id")))) $this->redirect_to(Session::get("list_refer"));
+    $this->original = $this->model->get_original();
     
-    //if this is a revision, jump to the master
-    if($this->model->preview_master_id) $this->redirect_to("/admin/".$this->module_name."/edit/".$this->model->preview_master_id."?lang=".$this->model->language);
-
-    if($lang_id) $this->model = $this->get_language_model($this->model, $lang_id);
-    $this->model = $this->get_preview_model($this->model);
-
-    //this massive block handles the possible posts for save (default), publish and close
-		if($this->model && $this->model->is_posted()){
-  		if($_POST['close_x']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
-  		elseif($_POST['publish_x']){
-        if($this->model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
-	        $this->update_master($this->model, $this->model->master);
-	        $this->model->delete();
-	      }else{ //otherwise this is a first publish, and we should just save, forcing the status to be published
-  		    $this->model->set_attributes($_POST[$this->model->table]);
-  		    if($this->model->status == 5) $this->model->status = 6;
-  		    else $this->model->status = 1;
-  		    $this->model->save();
-	      }
-		    Session::add_message($this->display_name." "."Successfully Published");
-		    $this->redirect_to(Session::get("list_refer-".$this->module_name));
-  	  }else{ //save button is default post, as it's the least destructive thing to do
-  	    //unpublish a published article (i.e. current status is 4 and saving status back to 0 or 5)
-  	    if(($this->model->status == 4) && (($_POST[$this->model->table]['status'] == 0) || ($_POST[$this->model->table]['status'] == 5))){
-  	      $preview = $this->model;
-          $this->model = $this->update_master($this->model, $this->model->master);
-          $preview->delete();
-  	    }
-  	    $this->save($this->model, "/admin/$this->module_name/edit/".$this->model->id."/");
-  	  }
+		if($lang_id = Request::get("lang")) $this->original = $this->original->get_language_copy($lang_id); //get language revision
+    
+    if($this->model->is_published()) $this->model = $this->original->get_preview_copy();
+    
+		if($this->model->is_posted()){
+  		if($_POST['publish_x']) $this->publish($this->model, Session::get("list_refer-".$this->module_name));
+  	  else $this->save($this->model, Session::get("list_refer-".$this->module_name));
     }
 
 		//images
