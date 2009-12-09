@@ -234,8 +234,6 @@ class CMSAdminContentController extends AdminComponent {
 	  if($content->primval) {
 	    $content->update_attributes(post("cms_content"));
 	    echo date("H:i:s");
-	  }else{
-	    throw new WXRoutingException('Tried to save in a non-existing database entry!', "Page not found", '404');
 	  }
 	  exit;
 	}	
