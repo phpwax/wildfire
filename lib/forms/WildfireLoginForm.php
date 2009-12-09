@@ -1,7 +1,7 @@
 <?php
 
 
-class LoginForm extends WaxForm {
+class WildfireLoginForm extends WaxForm {
   
   public $submit=false;
   
