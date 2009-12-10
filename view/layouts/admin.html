@@ -52,7 +52,7 @@
 	<title>Content Management System</title>
 </head>
 
-<body id="<?=strtolower(WXInflections::underscore($display_name))?>">
+<body id="<?=strtolower(Inflections::underscore($display_name))?>">
 	<div id="header-container" class='container'>
 		<div id="logout_button"><a href="/admin/home/logout" id="logout"><img src="/images/cms/logout_button.png"></a></div>
 		<div id="help_button"><a href="/<?=rtrim(ltrim($controller, "/"), "/")?>/help?subject=<?=$action?>" id="help"><img src="/images/cms/help_button.png"></a></div>
