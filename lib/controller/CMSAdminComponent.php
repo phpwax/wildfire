@@ -54,11 +54,11 @@ class CMSAdminComponent extends WaxController {
 	public $base_permissions = array("enabled","menu");
 	public $permissions = array();
 	
-	function __construct($initialise = true) {
-	  parent::__construct($initialise);
+	function __construct($application = false) {
+	  parent::__construct($application);
 	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
 	  $this->help_files = array_unique(array_merge($this->extra_help, $this->base_help));
-	  if($initialise) $this->initialise();
+	  $this->initialise();
 	}
 	
 	public function __destruct(){
@@ -94,7 +94,7 @@ class CMSAdminComponent extends WaxController {
 		
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
-		  $this->model_name = WXInflections::underscore($this->model_class);
+		  $this->model_name = Inflections::underscore($this->model_class);
 		  if (!$this->scaffold_columns && is_array($this->model->column_info())) {
         $this->scaffold_columns = array_keys($this->model->column_info());
       }
