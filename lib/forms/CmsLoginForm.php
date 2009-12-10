@@ -1,7 +1,7 @@
 <?php
 
 
-class LoginForm extends WaxForm {
+class CmsLoginForm extends WaxForm {
   
   public $submit=false;
   
