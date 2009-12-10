@@ -69,7 +69,7 @@ class CMSAdminHomeController extends AdminComponent {
 		Session::unset_var('errors');
 		$this->use_layout = "login";
 		$this->redirect_url = Session::get('referrer');
-		$this->form = new CmsLoginForm;
+		$this->form = new WildfireLoginForm;
 	}
 	
 	public function install(){
