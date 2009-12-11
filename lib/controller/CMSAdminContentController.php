@@ -113,6 +113,22 @@ class CMSAdminContentController extends AdminComponent {
 		$this->use_view = "_content_images";
 	}
 	
+	public function sort_images() {
+	  $this->use_layout=false;
+	  $this->model = new $this->model_class(get('id'));
+	  parse_str(Request::post("sort"), $sort);
+	  if($sort=$sort["cimage"]) {
+	    $i=1;
+	    foreach($sort as $index) {$order[$index]=$i;$i++;}
+	    $mod = $this->model->get_col("images");
+      foreach($mod->join_model->all() as $join) {
+        $join->join_order = $order[$join->wildfire_file_id];
+        $join->save();
+      }
+	  }
+	  $this->use_view = "_content_images";
+	}
+	
 	public function attached_images(){
 		$this->use_layout = false;
 		$this->model = new $this->model_class(get('id'));
