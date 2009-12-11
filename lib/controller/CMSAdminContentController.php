@@ -167,7 +167,10 @@ class CMSAdminContentController extends AdminComponent {
     
 		if($this->model->is_posted()){
   		if($_POST['publish_x']) $this->publish($this->model, Session::get("list_refer-".$this->module_name));
-  	  else $this->save($this->model, Session::get("list_refer-".$this->module_name));
+  	  else{
+  	    if($this->model->status == 3) $this->model->status = 0;
+  	    $this->save($this->model, Session::get("list_refer-".$this->module_name));
+	    }
     }
 
 		//images
@@ -247,8 +250,6 @@ class CMSAdminContentController extends AdminComponent {
 	  if($content->primval) {
 	    $content->update_attributes(post("cms_content"));
 	    echo date("H:i:s");
-	  }else{
-	    throw new WXRoutingException('Tried to save in a non-existing database entry!', "Page not found", '404');
 	  }
 	  exit;
 	}	
