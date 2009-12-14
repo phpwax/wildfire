@@ -17,7 +17,7 @@ class CMSAdminFileController extends AdminComponent {
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
 	public $sub_links = array("synchronise"=>"File Synchronise");
-	public $permissions = array("create","edit","delete");
+	public static $permissions = array("create","edit","delete");
 	
 	public static $max_image_width = false;
 

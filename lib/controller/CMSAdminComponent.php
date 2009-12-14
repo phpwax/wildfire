@@ -51,12 +51,12 @@ class CMSAdminComponent extends WaxController {
 	public $order_by_columns = array();
 	
 	//default permissions on each module, view and menu are separate to allow you to get lists of things without showing that module in the menu structure
-	public $base_permissions = array("enabled","menu");
-	public $permissions = array();
+	public static $base_permissions = array("enabled","menu");
+	public static $permissions = array();
 	
 	function __construct($application = false) {
 	  parent::__construct($application);
-	  $this->permissions = array_unique(array_merge($this->base_permissions,$this->permissions));
+	  self::$permissions = array_unique(array_merge(self::$base_permissions,self::$permissions));
 	  $this->help_files = array_unique(array_merge($this->extra_help, $this->base_help));
 	  $this->initialise();
 	}

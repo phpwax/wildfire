@@ -18,7 +18,7 @@ class CMSAdminHomeController extends AdminComponent {
 	public $analytics_password = false;	
 	public $analytics_id = false;
 	
-	public $permissions = array("stats");
+	public static $permissions = array("stats");
 	
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
@@ -26,7 +26,7 @@ class CMSAdminHomeController extends AdminComponent {
   function __construct($initialise = true) {
     parent::__construct($initialise);
     if($initialise) $this->initialise();
-    $this->permissions = array_diff($this->permissions, array("menu","enabled")); //home controller needs to be there, so we don't allow set/unset on it
+    self::$permissions = array_diff(self::$permissions, array("menu","enabled")); //home controller needs to be there, so we don't allow set/unset on it
   }
 	
 	private function initialise(){
