@@ -1,7 +1,7 @@
 <h3>Recent Content</h3>
 <table id="item_list_container" class="sortable">
   <tbody id="list_rows">
-    <?foreach($recent_content as $row):?>
+    <?foreach((array) $recent_content as $row):?>
       <tr id="row_<?=$row->id?>">
         <td class="column">
           <span class="status_change_span">
