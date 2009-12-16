@@ -147,7 +147,7 @@ class CmsTextFilter  {
         }
         fclose($handle);
       }
-      $table_html = "<table>\n";
+      $table_html = '<table class="wildfire_csv_table">\n';
       foreach($table as $row){
         $table_html .= "<tr>";
         foreach($row as $col) $table_html .= "<td>$col</td>";
