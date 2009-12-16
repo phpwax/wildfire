@@ -1,4 +1,5 @@
 <?if(count($all_permissions)):?>
+<h4>Drag Permissions From Here</h4>
 <?$class_name = "";?>
   <?foreach($all_permissions as $permission):?>
     <?if($class_name != $permission->class):?><div class="clearfix"></div><?$class_name = $permission->class?><?endif?>

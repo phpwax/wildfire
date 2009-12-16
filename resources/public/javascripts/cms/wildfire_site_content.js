@@ -309,8 +309,15 @@ function initialise_images() {
     return false;
   });
   jQuery("#drop_zones").sortable({
-    change: function(event, ui) {
-      alert(jQuery("#drop_zones").sortable("serialize"));
+    update: function(event, ui) {
+      jQuery.post("../../sort_images/"+content_page_id, 
+			  {sort: [$(event.target).sortable("serialize")]},
+        function(response) {
+          jQuery("#drop_zones").html(response);
+          initialise_images();
+          return true;
+        }
+      );
     }
   });
   

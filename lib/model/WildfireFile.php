@@ -14,13 +14,9 @@ class WildfireFile extends WaxModel {
         "choices"=>array("lost", "found")
       ));
     $this->define("uploader", "IntegerField");
-    $this->define("flags", "CharField", array(
-        "choices"=>array("hot", "emergency", "normal")
-      ));
     $this->define("description", "TextField");
     $this->define("date", "DateTimeField");
     $this->define("size", "IntegerField");
-    $this->define("oldid", "IntegerField");
 		$this->define("attached_to", "ManyToManyField", array('target_model'=>"CmsContent", 'editable'=>false));
   }
   

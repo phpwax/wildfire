@@ -37,7 +37,7 @@ class CMSApplicationController extends WaxController{
 		if(Request::get("preview"))
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		//method exists check
-		if($this->is_public_method($this, WXInflections::underscore($this->action)) ) return false;
+		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
 		if(!$this->use_format) $this->use_format="html";
 		//get the content!
 		$this->find_contents_by_path();
@@ -181,7 +181,7 @@ class CMSApplicationController extends WaxController{
 	}
 	
 	public function show_image() {
-	  $options = Request::get("params");
+	  $options = (array)Request::get("params");
 	  $img_id = Request::get("id");
 	  $img_size = $options[0];
   	$this->use_view=false;

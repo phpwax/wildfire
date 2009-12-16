@@ -17,7 +17,7 @@ class CMSAdminFileController extends AdminComponent {
 	public $order_by_columns = array("filename","type");
 	public $allow_crops=false;
 	public $sub_links = array("synchronise"=>"File Synchronise");
-	public $permissions = array("create","edit","delete");
+	public static $permissions = array("create","edit","delete");
 	
 	public static $max_image_width = false;
 
@@ -210,42 +210,6 @@ class CMSAdminFileController extends AdminComponent {
   
   public function inline_browse() {
     $this->browse_images();
-  }
-
-	/**
-	* Special conversion function - takes the details in the old cms switches it over the the new cms
-	**/
-  public function port_ids() {
-    $file = new CmsFile;
-    $files = $file->find_all();
-    foreach($files as $file) {
-      $new = new WildfireFile;
-      $s_path = rtrim(str_replace("public/","",strrchr($file->path,"public/files")), "/" );
-      $new_file = $new->filter("filename = '{$file->filename}' AND rpath LIKE '%{$s_path}%'" )->first();
-      if($new_file->id)  {
-        $new_file->oldid = $file->id;
-        $new_file->description = $file->caption;
-        $new_file->save();
-      }
-    }
-    exit;
-  }
-	/**
-	* Special conversion function - takes the details in the old cms switches it over the the new cms
-	**/
-  public function port_content() {
-    $content = new CmsContent;
-    $articles = $content->find_all(array("order"=>"id ASC"));
-    $new = new WildfireFile;
-    foreach($articles as $article) {
-      $oldimgs = $new->sql("SELECT * FROM cms_content_cms_file WHERE cms_content_id = $article->id")->all();
-   	  foreach($oldimgs as $img) {
-   	    $newimg = $new->clear()->filter("oldid=".$img->cms_file_id)->first();
-   	    $newfile = new WildfireFile($newimg->id);
-   	    if($newfile->id) $article->images = $newfile;
-   	  }
-    }
-
   }
 
 	/**

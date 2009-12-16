@@ -19,7 +19,7 @@ class CMSAdminUserController extends AdminComponent {
 	public $order_by_columns = array("username","email");
 	public $default_order = "username";
 	
-	public $permissions = array("create","edit","delete","admin");
+	public static $permissions = array("create","edit","delete","admin");
 	
   public function create(){
     //find the required fields and give them default values
@@ -32,21 +32,21 @@ class CMSAdminUserController extends AdminComponent {
   
 	public function edit() {
 		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
-	  $this->id = WaxUrl::get("id");
+	  $this->id = Request::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
     
 		$this->all_sections = $this->current_user->allowed_sections_model()->tree();
-		
+    
 		if($this->model->primval && $this->current_user->access($this->module_name,"admin")){
   		//add all permissions from modules
+  		
       foreach(CMSApplication::$modules as $module_name => $options){
         $module_class = slashcamelize($options['link'])."Controller";
-        $module = new $module_class(false);
-        foreach((array)$module->permissions as $operation)
+        foreach((array)$module_class::$permissions as $operation)
           $this->all_permissions[] = array("class"=>$module_name,"operation"=>$operation);
       }
-    
+  		
       $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
       $this->all_users = new $this->model_class;
       $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();      

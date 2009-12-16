@@ -28,7 +28,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $status_col = "status";
 	public $modal_preview = false;
 	public $languages = array(0=>"english");
-	public $permissions = array("create","edit","delete","categories","attach_images","inline_images","html","video","audio", "publish");
+	public static $permissions = array("create","edit","delete","categories","attach_images","inline_images","html","video","audio", "publish");
 	
 	public function controller_global(){
     if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
@@ -55,7 +55,7 @@ class CMSAdminContentController extends AdminComponent {
 	* main listing page - paginated
 	**/
 	public function index() {
-	  if(!$page = $this->param("page")) $page=1;
+	  if(!$page = Request::param("page")) $page=1;
 	  Session::set("list_refer-".$this->module_name, $_SERVER['REQUEST_URI']);
 	  
 		/** 
@@ -111,6 +111,22 @@ class CMSAdminContentController extends AdminComponent {
 		$this->model->images->unlink(new WildfireFile(post("image")));
 		$this->use_layout=false;
 		$this->use_view = "_content_images";
+	}
+	
+	public function sort_images() {
+	  $this->use_layout=false;
+	  $this->model = new $this->model_class(get('id'));
+	  parse_str(Request::post("sort"), $sort);
+	  if($sort=$sort["cimage"]) {
+	    $i=1;
+	    foreach($sort as $index) {$order[$index]=$i;$i++;}
+	    $mod = $this->model->get_col("images");
+      foreach($mod->join_model->all() as $join) {
+        $join->join_order = $order[$join->wildfire_file_id];
+        $join->save();
+      }
+	  }
+	  $this->use_view = "_content_images";
 	}
 	
 	public function attached_images(){
