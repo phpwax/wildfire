@@ -86,8 +86,7 @@ class CMSAdminHomeController extends AdminComponent {
         foreach(CMSApplication::$modules as $name => $module_options){
           $controller_class = WaxUrl::route_controller(trim($module_options['link'],"/"));
           $controller_class = Inflections::slashcamelize($controller_class, true)."Controller";
-          $controller = new $controller_class(false); //instantiate classes without intialising them
-          foreach($controller->permissions as $operation){
+          foreach(array_merge($controller_class::$permissions,$controller_class::$base_permissions) as $operation){
             $perm = new CmsPermission;
             $perm->class = $name;
             $perm->operation = $operation;
