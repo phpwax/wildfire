@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos")
+    "before_output"=> array("first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos", "csv_table")
   );
   
   static public function add_filter($trigger, $method) {
@@ -130,6 +130,34 @@ class CmsTextFilter  {
     </object>';
     $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
     $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
+    return $text;
+  }
+  
+  static public function csv_table($text) {
+    preg_match_all("/<a class=\"wildfire_csv_table\" href=\"(.*?)\".*?<\/a>/", $text, $matches, PREG_OFFSET_CAPTURE);
+    foreach($matches[1] as $table_index => $table){
+      $csv_file = $table[0];
+      if(strpos($csv_file,"http://") !== 0) $csv_file = "http://".$_SERVER['SERVER_NAME'].$csv_file;
+      if(($handle = fopen($csv_file, "r")) !== FALSE){
+        $row = 0;
+        $table = array();
+        while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+          $row++;
+          foreach($data as $col_value) $table[$row][] = $col_value;
+        }
+        fclose($handle);
+      }
+      $table_html = "<table>\n";
+      foreach($table as $row){
+        $table_html .= "<tr>";
+        foreach($row as $col) $table_html .= "<td>$col</td>";
+        $table_html .= "</tr>\n";
+      }
+      $table_html .= "</table>\n";
+      $start_of_match = $matches[0][$table_index][1];
+      $length_of_match = strlen($matches[0][$table_index][0]);
+      $text = substr($text,0,$start_of_match).$table_html.substr($text,$start_of_match+$length_of_match);
+    }
     return $text;
   }
   

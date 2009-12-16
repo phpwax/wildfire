@@ -189,6 +189,30 @@ WYMeditor.editor.prototype.wildfire = function() {
   });
 
   /*******************************************/
+  /* CSV Table Insertion Button */
+  /*******************************************/
+
+  var audhtml = wym_button("csv_table", "Insert CSV Data Table");
+  jQuery(wym._box).find(".wym_tools_audio").after(audhtml);
+  jQuery(wym._box).find(".wym_tools_csv_table a").click(function(){
+    jQuery.get(file_options_location+"/?mime_type=text", function(response){
+      jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
+      var insert_dialog = jQuery("#link_dialog");
+      insert_dialog.dialog('option', 'title', 'Insert CSV Data Table');
+      insert_dialog.data('execute_on_insert',function(){
+        var theURL = insert_dialog.find("#link_url").val();
+        var str_target = insert_dialog.find("#link_target").val();
+        if(theURL.length) {
+          wym._exec("inserthtml","<a class='wildfire_csv_table' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/table_placeholder.jpg' alt='Download csv file: " + theURL + "' /></a>");
+        }
+      });
+      insert_dialog.dialog("open");
+    });
+    return false;
+  });
+
+  /*******************************************/
   /* Inline Image Insertion Button */
   /*******************************************/
   jQuery(wym._box).find(".wym_tools_image a").unbind("click").click(function(){
