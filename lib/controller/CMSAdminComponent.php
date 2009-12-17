@@ -25,6 +25,7 @@ class CMSAdminComponent extends WaxController {
 	protected $unauthorised_message="Please login to continue"; //status message
 	public $current_user=false; //the currently logged in 
 	public $auth_database_table="wildfire_user"; //the database table to use for authentication
+	public $auth_database_class="WildfireUser"; //the user class to use for authentication
 	public $use_plugin = "cms"; //the plugin
 	public $use_layout = "admin"; //the default layout to use
 	public $sub_links; //section sub menu is generated from these
@@ -78,7 +79,7 @@ class CMSAdminComponent extends WaxController {
 	**/
 	private function initialise() {
 
-		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table, "session_key"=>"wildfire_user_cookie"));
+		$auth = new WaxAuthDb(array("encrypt"=>false, "db_table"=>$this->auth_database_table,"user_class"=>$this->auth_database_class, "session_key"=>"wildfire_user_cookie"));
 		$this->current_user = $auth->get_user();
 		if($this->current_user) $this->current_user->fetch_permissions();
 

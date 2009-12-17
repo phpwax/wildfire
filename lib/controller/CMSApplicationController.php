@@ -189,6 +189,23 @@ class CMSApplicationController extends WaxController{
   	if(!$size = $img_size) $size=110;
   	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
   	$img = new WildfireFile($img_id);
+  	$ext = File::get_extension($img->filename);
+  	switch($ext) {
+  	  case "mp4": 
+  	  case "mov":
+  	  case "avi":
+  	    $this->redirect_to("/images/fs/large/video.png");
+  	    break;
+  	  case "csv":
+	      $this->redirect_to("/images/fs/large/csv.png");
+	      break;
+	    case "mp3":
+	      $this->redirect_to("/images/fs/large/mp3.png");
+	      break;
+	    case "swf":
+	      $this->redirect_to("/images/fs/large/flash.png");
+	      break;
+  	}
     $img->show($size);
   }
 
@@ -269,8 +286,8 @@ class CMSApplicationController extends WaxController{
 	}
 
   
-  public function file_upload() {
-	  if($url = $_POST["upload_from_url"]) {
+  public function file_upload() {    
+	  if($urldecode = $_POST["upload_from_url"]) {
 			$str="";
 			foreach($_POST as $k=>$v) $str .="$k:$v\n";
 			WaxLog::log('error', 'running...'.$str);
@@ -306,7 +323,7 @@ class CMSApplicationController extends WaxController{
 				$model->$field = $newfile;
 			}	
       echo "Uploaded";
-    } elseif($_FILES) {
+    } elseif($_FILES) {			
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $_FILES['upload'] = $_FILES["Filedata"];
@@ -338,6 +355,7 @@ class CMSApplicationController extends WaxController{
 				$model = new $class($model_id);
 				$model->$field = $newfile;
 			}
+			WaxLog::log("error", "Should Be Uploaded");
       echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;

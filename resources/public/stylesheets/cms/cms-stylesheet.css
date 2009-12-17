@@ -407,7 +407,7 @@ h4{
 }
 .drag_image img, .drop_image img, .dropped_image img {
   margin:auto;
-  border:1px solid #414141;
+  border:0px solid #AAA;
 }
 .drag_image .image_place, .drop_image .image_place, .dropped_image .image_place {
   width:135px;
