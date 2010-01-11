@@ -188,7 +188,7 @@ class CMSAdminFileController extends AdminComponent {
 		
 		if($mime_type = Request::param('mime_type')) $model->filter("type", "%$mime_type%", "LIKE");
 		
-		if($filter = mysql_real_escape_string(Request::param('filter'))) $model->filter('(id LIKE "%'.$filter.'%" OR filename LIKE "%'.$filter.'%" OR description LIKE "%'.$filter.'%")');
+		if($filter = Request::param('filter')) $model->filter('(id LIKE "%?%" OR filename LIKE "%?%" OR description LIKE "%?%")', array($filter,$filter,$filter));
     
     if($folder = Request::post('filterfolder')) $model->filter("rpath", "$folder%", "LIKE");
   	
