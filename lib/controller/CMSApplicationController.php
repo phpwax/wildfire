@@ -139,7 +139,7 @@ class CMSApplicationController extends WaxController{
   		  if($cms_content) {
   		    $this->cms_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval))->first();
   		  } else {
-  		    $this->cms_content = $content->clear()->filter(array("status"=>array(0,1,4),"url"=>$url))->order("status DESC")->first();
+  		    $this->cms_content = $content->clear()->filter(array("status"=>array(0,1,4),"url"=>$url,'cms_section_id'=>$this->cms_section->primval))->order("status DESC")->first();
   		  }
       }
 		  if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
