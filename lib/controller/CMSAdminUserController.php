@@ -43,7 +43,8 @@ class CMSAdminUserController extends AdminComponent {
   		
       foreach(CMSApplication::$modules as $module_name => $options){
         $module_class = slashcamelize($options['link'])."Controller";
-        foreach((array)$module_class::$permissions as $operation)
+        $perms = array_merge($module_class::$base_permissions, $module_class::$permissions);
+        foreach((array)$perms as $operation)
           $this->all_permissions[] = array("class"=>$module_name,"operation"=>$operation);
       }
   		
