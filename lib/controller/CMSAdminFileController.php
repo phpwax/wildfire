@@ -191,6 +191,7 @@ class CMSAdminFileController extends AdminComponent {
 		if($filter = Request::param('filter')) $model->filter('(id LIKE "%?%" OR filename LIKE "%?%" OR description LIKE "%?%")', array($filter,$filter,$filter));
     
     if($folder = Request::post('filterfolder')) $model->filter("rpath", "$folder%", "LIKE");
+    else $model->filter("rpath", "files%");
   	
   	$this->all_images = $model->all();
 	}
