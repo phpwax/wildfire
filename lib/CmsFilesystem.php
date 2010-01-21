@@ -219,6 +219,7 @@ class CmsFilesystem {
   	
     }
     echo $output;
+    exit;
   }
 
 
@@ -232,7 +233,7 @@ class CmsFilesystem {
     $created ='';
     $this->jsonAdd("\"name\": \"$name\", \"size\": \"$size\"");
     echo $this->jsonReturn('getFolderMeta');
-
+    exit;
   }
 
   function getMeta($fileid){
