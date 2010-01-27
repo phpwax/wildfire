@@ -5837,14 +5837,12 @@ saveMeta = function () {
 	}
 	
 	var metaFilename = $('metaFilename').value;
-	var metaFlag = $('metaFlag').options[$('metaFlag').selectedIndex].value;
 	var metaDesc = $('metaDesc').value;
 	
 	FC.SELECTEDOBJECT.name = metaFilename;
-	FC.SELECTEDOBJECT.flag = metaFlag;
 	
   var rand_date = new Date();
-	var params = $H({relay: 'setMeta', fileid: FC.SELECTEDOBJECT.id, filename: metaFilename, description: metaDesc, flags: metaFlag, random: rand_date.getTime() });
+	var params = $H({relay: 'setMeta', fileid: FC.SELECTEDOBJECT.id, filename: metaFilename, description: metaDesc,  random: rand_date.getTime() });
 	var ajax = new Ajax.Request(FC.URL, {
 		onComplete: function() { $('metaSave').style.display = 'block'; Effect.Fade('metaSave', {duration:3}); },
 		onSuccess: FC.SELECTEDOBJECT.refresh.bind(FC.SELECTEDOBJECT),

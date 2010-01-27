@@ -51,8 +51,8 @@ class CmsFilesystem {
     			}
     			break;
     		case "setMeta":
-    			if(isset($params['fileid'],$params['filename'],$params['description'],$params['flags'])){
-    				$this->setMeta($params['fileid'],$params['filename'],$params['description'],$params['flags']);
+    			if(isset($params['fileid'],$params['filename'],$params['description'])){
+    				$this->setMeta($params['fileid'],$params['filename'],$params['description']);
     			}
     			break;
     		case "fileRename":
@@ -250,12 +250,10 @@ class CmsFilesystem {
   	echo $this->jsonReturn('getMeta');
   }
 
-  function setMeta($fileid,$filename,$description,$flags){
-
+  function setMeta($fileid,$filename,$description){
     $fileid = mysql_escape_string($fileid);
     $filename = mysql_escape_string($filename);
     $description = mysql_escape_string($description);
-    $flags = mysql_escape_string($flags);
     $fileinfo = $this->getFileInfo($fileid);
     if($filename != $fileinfo['filename']){
   	  $this->fileRename($fileid,$filename);
@@ -265,6 +263,7 @@ class CmsFilesystem {
     $query = "UPDATE wildfire_file set description=\"$description\",flags=\"$flags\" where id=$fileid";
   	$result = $this->query($query);
   	echo "done";
+  	exit;
   }
 
   function fileRename($fileid,$filename){
