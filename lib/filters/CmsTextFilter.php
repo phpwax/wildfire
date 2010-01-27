@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos", "csv_table")
+    "before_output"=> array("first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos", "csv_table", "flash_object")
   );
   
   static public function add_filter($trigger, $method) {
@@ -161,6 +161,18 @@ class CmsTextFilter  {
     return $text;
   }
   
+  static public function flash_object($text) {
+    $replace = '<object {dimensions}>
+      <param name="movie" value="$1"></param>
+      <embed src="$1" type="application/x-shockwave-flash" {dimensions}></embed>
+    </object>';
+    $source = preg_match("/<a class=\"wildfire_flash\" href=\"(.*?)\".*?<\/a>/", $text, $matches);
+    $text = preg_replace("/<a class=\"wildfire_flash\" href=\"(.*?)\".*?<\/a>/", $replace, $text);
+    $url = $matches[1];
+    if(strpos($url,"http://")===false) $url = PUBLIC_DIR.$url;
+    $info = getimagesize($url);
+    return str_replace("{dimensions}",$info[3], $text);    
+  }
 
   
   public function convert_chars($content, $flag = 'obsolete') {
