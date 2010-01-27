@@ -127,4 +127,8 @@ class WildfireFile extends WaxModel {
 		} return false;
 	}
 	
+	public function is_image() {
+	  return strpos($this->type,"image") !==false;
+	}
+	
 }

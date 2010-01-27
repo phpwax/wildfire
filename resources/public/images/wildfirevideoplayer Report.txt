@@ -1,0 +1,33 @@
+wildfirevideoplayer.swf Movie Report
+-------------------------------------
+
+Frame #    Frame Bytes    Total Bytes    Scene
+-------    -----------    -----------    ----------------
+      1           5534           5534    Scene 1 (AS 2.0 Classes Export Frame)
+
+Scene                        Shape Bytes    Text Bytes    ActionScript Bytes
+-------------------------    -----------    ----------    ------------------
+Scene 1                                0             0                  2486
+
+Symbol                       Shape Bytes    Text Bytes    ActionScript Bytes
+-------------------------    -----------    ----------    ------------------
+volmask                               37             0                     0
+volumer                              115             0                     0
+seekbar                               41             0                     0
+overlay_controls                      76             0                     0
+flat grey pause                      817             0                     0
+flat grey empty                      223             0                     0
+flat grey vol                        680             0                     0
+flat grey play                       514             0                     0
+
+ActionScript Bytes    Location
+------------------    --------
+              2486    Scene 1:actions:1
+
+Video                       Compressed
+------------------------    ----------
+my_vid                                0
+
+
+
+
