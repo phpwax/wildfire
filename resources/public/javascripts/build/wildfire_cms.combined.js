@@ -7180,6 +7180,30 @@ WYMeditor.editor.prototype.wildfire = function() {
     });
     return false;
   });
+  
+  /*******************************************/
+  /* Flash Insertion Button */
+  /*******************************************/
+
+  var flashhtml = wym_button("flash", "Insert a Flash Movie");
+  jQuery(wym._box).find(".wym_tools_image").after(flashhtml);
+  jQuery(wym._box).find(".wym_tools_flash a").click(function(){
+    jQuery.get(file_options_location+"/?mime_type=shockwave", function(response){
+      jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
+      var insert_dialog = jQuery("#link_dialog");
+      insert_dialog.dialog('option', 'title', 'Insert a Flash File');
+      insert_dialog.data('execute_on_insert',function(){
+        var theURL = insert_dialog.find("#link_url").val();
+        var str_target = insert_dialog.find("#link_target").val();
+        if(theURL.length) {
+          wym._exec("inserthtml","<a class='wildfire_flash' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flash_placeholder.png' alt='Flash file: " + theURL + "' /></a>");
+        }
+      });
+      insert_dialog.dialog("open");
+    });
+    return false;
+  });
 
   /*******************************************/
   /* Audio Insertion Button */

@@ -113,6 +113,7 @@
         .wym_skin_wildfire .wym_buttons li.wym_tools_video a         { background-position: 0 -627px;}
         .wym_skin_wildfire .wym_buttons li.wym_tools_audio a         { background-position: 0 -654px;}
         .wym_skin_wildfire .wym_buttons li.wym_tools_csv_table a     { background-position: 0 -681px;}
+        .wym_skin_wildfire .wym_buttons li.wym_tools_flash a     { background-position: 0 -711px;}
 
 /*DECORATION*/
         .wym_skin_wildfire .wym_section h2             { background: #ddd url(images/styling_bg.gif); border-bottom:1px solid #bdbdbd;}
