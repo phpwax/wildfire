@@ -195,15 +195,19 @@ class CMSApplicationController extends WaxController{
   	  case "mov":
   	  case "avi":
   	    $this->redirect_to("/images/fs/large/video.png");
+  	    exit;
   	    break;
   	  case "csv":
 	      $this->redirect_to("/images/fs/large/csv.png");
+	      exit;
 	      break;
 	    case "mp3":
 	      $this->redirect_to("/images/fs/large/mp3.png");
+	      exit;
 	      break;
 	    case "swf":
 	      $this->redirect_to("/images/fs/large/flash.png");
+	      exit;
 	      break;
   	}
     $img->show($size);
