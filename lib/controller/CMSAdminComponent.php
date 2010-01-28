@@ -152,7 +152,7 @@ class CMSAdminComponent extends WaxController {
 		if(post('cancel')) $this->redirect_to(Session::get("list_refer"));
 		elseif($res = $this->form->save()) {
 		  Session::add_message($this->display_name." Successfully Saved");
-		  $this->redirect_to(Session::get("list_refer"));
+		  if(Session::get("list_refer")) $this->redirect_to(Session::get("list_refer"));
 		}
   }
   
