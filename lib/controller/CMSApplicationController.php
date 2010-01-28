@@ -194,6 +194,7 @@ class CMSApplicationController extends WaxController{
   	  case "mp4": 
   	  case "mov":
   	  case "avi":
+  	  case "mv4"
   	    $this->redirect_to("/images/fs/large/video.png");
   	    exit;
   	    break;
