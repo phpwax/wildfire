@@ -149,6 +149,7 @@ Directory.prototype = {
 		this.hideActivity();
 		var json_data = response.responseText;
 		eval("var jsonObject = ("+json_data+")");
+		console.log(jsonObject);
 		if(jsonObject.bindings.length == 0) {
 			this.addBlank(); return true;
 		}		
