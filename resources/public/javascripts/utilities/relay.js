@@ -251,7 +251,7 @@ Directory.prototype = {
 
 	addChild:  function (child) {
 		if (child.type == 'file') {
-			var newFile = new File(child.id, child.name, child.flags, this.element, child.date);
+			var newFile = new File(child.id, child.name, 'normal', this.element, child.date);
 			this.children.push(newFile);
 		}
 		else if(child.type == 'directory') {
@@ -492,7 +492,6 @@ var File = Class.create();
 File.prototype = {
 	
 	initialize: function (id, name, flag, parentElement, date) {
-		console.log(this);
 		this.type = 'file';
 		this.fileDate = date;
 		this.name = name;
