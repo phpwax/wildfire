@@ -252,6 +252,7 @@ Directory.prototype = {
 	addChild:  function (child) {
 		if (child.type == 'file') {
 			var newFile = new File(child.id, child.name, 'normal', this.element, child.date);
+			console.log(newFile);
 			this.children.push(newFile);
 		}
 		else if(child.type == 'directory') {
