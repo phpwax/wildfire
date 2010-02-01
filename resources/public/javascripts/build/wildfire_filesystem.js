@@ -5554,6 +5554,7 @@ var File = Class.create();
 File.prototype = {
 	
 	initialize: function (id, name, flag, parentElement, date) {
+		console.log(this);
 		this.type = 'file';
 		this.fileDate = date;
 		this.name = name;
@@ -5566,7 +5567,6 @@ File.prototype = {
 		this.parentObject = parentElement.object;
 		this.readonly = this.parentObject.readonly;
 		this.parentElement.id == 'searchresults' ? this.search = true : this.search = false;
-		console.log(this);
 		this.createFile();
 	},
 	
