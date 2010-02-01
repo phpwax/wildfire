@@ -5314,7 +5314,6 @@ Directory.prototype = {
 	addChild:  function (child) {
 		if (child.type == 'file') {
 			var newFile = new File(child.id, child.name, child.flags, this.element, child.date);
-			console.log(newFile);
 			this.children.push(newFile);
 		}
 		else if(child.type == 'directory') {
@@ -5567,6 +5566,7 @@ File.prototype = {
 		this.parentObject = parentElement.object;
 		this.readonly = this.parentObject.readonly;
 		this.parentElement.id == 'searchresults' ? this.search = true : this.search = false;
+		console.log(this);
 		this.createFile();
 	},
 	
