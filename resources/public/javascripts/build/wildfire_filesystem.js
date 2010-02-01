@@ -5211,7 +5211,6 @@ Directory.prototype = {
 		this.hideActivity();
 		var json_data = response.responseText;
 		eval("var jsonObject = ("+json_data+")");
-		console.log(jsonObject);
 		if(jsonObject.bindings.length == 0) {
 			this.addBlank(); return true;
 		}		
@@ -5315,6 +5314,7 @@ Directory.prototype = {
 	addChild:  function (child) {
 		if (child.type == 'file') {
 			var newFile = new File(child.id, child.name, child.flags, this.element, child.date);
+			console.log(newFile);
 			this.children.push(newFile);
 		}
 		else if(child.type == 'directory') {
