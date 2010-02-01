@@ -328,7 +328,7 @@ class CmsFilesystem {
     		  } else {
     		    $safe_file = File::safe_file_save($f_move_to_path,$fileinfo['filename']);
     		    copy($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$safe_file);
-    		    $this->databaseSync($f_move_to_path);
+    		    $this->databaseSync($f_move_to_path,$move_to_path);
       		  echo "done";
     		  }
       	} else $this->error('new directory does not exist');
