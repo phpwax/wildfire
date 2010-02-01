@@ -13,6 +13,7 @@ class CmsFilesystem {
   public $convertpath = "convert";
   public $relativepath = "files";
   static public $model = false;
+  static public $copy_on_move = false;
 
   public function __construct() {
     if(!$this->defaultFileStore) $this->defaultFileStore = PUBLIC_DIR;
@@ -319,11 +320,18 @@ class CmsFilesystem {
       	$f_move_to_path = mysql_escape_string($f_move_to_path);
         $fileinfo = $this->getFileInfo($fileid);
       	if(is_dir($f_move_to_path)){
-          $query = "UPDATE wildfire_file set path=\"$f_move_to_path\",rpath=\"$move_to_path\" where id=$fileid";
-      		$result = $this->query($query);
-      		rename($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$fileinfo['filename']);
-      		echo "done";
-      	} else $this->error('new directory doesnt exist');
+      	  if(!self::$copy_on_move) {
+            $query = "UPDATE wildfire_file set path=\"$f_move_to_path\",rpath=\"$move_to_path\" where id=$fileid";
+      		  $result = $this->query($query);
+      		  rename($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$fileinfo['filename']);
+      		  echo "done";
+    		  } else {
+    		    $safe_file = File::safe_file_save($f_move_to_path,$fileinfo['filename']);
+    		    copy($fileinfo['path'].'/'.$fileinfo['filename'],$f_move_to_path.'/'.$safe_file);
+    		    $this->databaseSync($f_move_to_path);
+      		  echo "done";
+    		  }
+      	} else $this->error('new directory does not exist');
     	}
   	}
   }
