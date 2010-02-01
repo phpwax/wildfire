@@ -5313,6 +5313,7 @@ Directory.prototype = {
 
 	addChild:  function (child) {
 		if (child.type == 'file') {
+		  console.log("File");
 			var newFile = new File(child.id, child.name, 'normal', this.element, child.date);
 			console.log(newFile);
 			this.children.push(newFile);
