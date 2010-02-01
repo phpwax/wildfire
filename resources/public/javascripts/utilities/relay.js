@@ -494,8 +494,6 @@ File.prototype = {
 	initialize: function (id, name, flag, parentElement, date) {
 		this.type = 'file';
 		this.fileDate = date;
-		console.log("file");
-		
 		this.name = name;
 		this.id = id;
 		this.flag = flag;
