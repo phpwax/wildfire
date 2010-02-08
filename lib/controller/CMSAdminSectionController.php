@@ -25,7 +25,7 @@ class CMSAdminSectionController extends AdminComponent {
 	 * index page - list of all sections
 	 */	
 	public function index() {
-		Session::set("list_refer-".$this->module_name, $_SERVER['REQUEST_URI']);
+		Session::set("list_refer".$this->module_name, $_SERVER['REQUEST_URI']);
 		$this->set_order();
 		$this->display_action_name = 'List Items';
 		$this->all_rows = $this->model->tree();
@@ -46,7 +46,8 @@ class CMSAdminSectionController extends AdminComponent {
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer"));
 		elseif($res = $this->form->save()) {
 		  Session::add_message($this->display_name." Successfully Saved");
-		  $this->redirect_to(Session::get("list_refer"));
+		  if(Session::get("list_refer")) $this->redirect_to(Session::get("list_refer"));
+		  else $this->redirect_to("/admin/sections/index");
 		}
   }
 

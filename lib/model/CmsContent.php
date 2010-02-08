@@ -101,7 +101,7 @@ class CmsContent extends WaxModel {
 	    if($old_model->status == 0 || $old_model->status == 3 || $old_model->status == 5) 
   	    $this->before_publish();
 	  }
-	  if(!$this->expires || $this->expires == $this->published) $this->expires = date("Y-m-d H:i:s", strtotime("+1 year"));
+	  if(!$this->expires || $this->expires == $this->published) $this->expires = date("Y-m-d H:i:s", strtotime("-10 years"));
 	}
 	
 	public function generate_url() {

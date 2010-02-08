@@ -266,19 +266,34 @@ jQuery(document).ready(function(event) {
     skinPath: "/stylesheets/wymeditor/wildfire/",
     skin: 'wildfire',
     containersItems: wildfire_containersItems,
+    
+    classesItemHtml:          "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "'>"+ WYMeditor.CLASS_TITLE+ "</a></li>",
+    classesItemHtmlMultiple:  "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>",
+    classesHtml:              "<li class='wym_tools_class'><a href='#' name='" + WYMeditor.APPLY_CLASS + "' title='"+ WYMeditor.APPLY_CLASS +"'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>",
     containersHtml:    "<div class='wym_containers wym_section'>"
-                        + "<h2>Headings</h2>"
+                        + "<h2>Hello</h2>"
                         + "<ul>"
                         + WYMeditor.CONTAINERS_ITEMS
                         + "</ul>"
                         + "</div>",
-    classesHtml:       "<div class='wym_classes wym_section'>"
-                        + "<h2>Styling</h2><ul>"
-                        + WYMeditor.CLASSES_ITEMS
-                        + "</ul></div>",
+
+    boxHtml:            "<div class='wym_box'>"
+                        + "<div class='wym_area_top'>"
+                        + WYMeditor.TOOLS
+                        + WYMeditor.CONTAINERS
+                        + "</div>"
+                        + "<div class='wym_area_main'>"
+                        + WYMeditor.HTML
+                        + WYMeditor.IFRAME
+                        + WYMeditor.STATUS
+                        + "</div>"
+                        + "</div>",
+   
+    
     postInit: function(wym) {
       wym.wildfire(wym);
       wym_editors.push(wym);
+      jQuery(".wym_containers").removeClass("wym_dropdown")
       jQuery(".wym_iframe, iframe").css("height","100%");
       jQuery(window).resize(calc_wym_height);
       calc_wym_height();

@@ -3,6 +3,7 @@
 class WildfireFile extends WaxModel {
 
   public $primary_options = array("auto"=>false);
+  public static $queue_images = false;
   
   public function setup() {
     $this->define("filename", "CharField");
@@ -107,20 +108,18 @@ class WildfireFile extends WaxModel {
 		$file = CACHE_DIR."images/".$this->id."_".$size . ".".$extension;
 		//slash any spaces
     if(!is_readable($source)) WaxLog::log('error', "[image] FATAL IMAGE ERROR - ".$source);
-		if(!File::is_image($source)){
-			if(!is_file($file) || !is_readable($file)) {
-				$icon_type = $extension;
-				$icon = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon-".strtolower($icon_type).".gif";
-				if(!is_readable($icon) || $icon_file !=file_get_contents($icon)) {
-					$icon_file = PLUGIN_DIR."cms/resources/public/images/cms/"."cms-generic-icon.png";
-					$source = CACHE_DIR."cms-generic-icon.gif";
-				}
-				else $source = CACHE_DIR."cms-generic-icon-{$icon_type}.gif";
-				file_put_contents($source, $icon_file);
-			}
-		}
+		
+		
     if(!is_file($file) || !is_readable($file)) {
-      File::resize_image($source, $file, $size, $compression);
+      if(self::$queue_images) {
+        $q = new ImageQueue;
+        $q->original = $source;
+        $q->destination = $file;
+        $q->size = $size;
+        $q->compression = $compression;
+        $q->save();
+        File::display_image(PLUGIN_DIR."cms/resources/public/images/cms/indicator.gif");
+  		} else File::resize_image($source, $file, $size, $compression);
     }
 		if($this->image = File::display_image($file) ) {
 			return true;
