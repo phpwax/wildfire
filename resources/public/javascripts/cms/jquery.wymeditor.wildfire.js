@@ -268,7 +268,7 @@ WYMeditor.editor.prototype.wildfire = function() {
 
 function wym_button(name, title) {
   var html = "<li class='wym_tools_"+name+"'>"
-              + "<a name='"+name+"' href='#'"
+              + "<a name='"+name+"' href='#'>"
               + title
               + "</a></li>";
   return html;
