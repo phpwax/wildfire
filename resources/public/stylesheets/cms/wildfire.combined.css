@@ -1192,7 +1192,7 @@ li.pagination_link a {
     font-family:Arial;
   }
   #content #container li.tab_editable_title a {
-    padding:3px;
+    padding:4px 4px 3px 4px;
   }
   #content #container .ui-tabs-nav li:hover {
     background:#d4e5ed;
