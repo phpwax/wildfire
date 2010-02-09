@@ -264,6 +264,10 @@ WYMeditor.editor.prototype.wildfire = function() {
     table_dialog.data("wym",wym);
     table_dialog.dialog("open");
   });
+  jQuery(wym._box).find(".wym_tools_class").unbind("hover").hover(
+    function(){$(this).find("ul").toggleClass("wym_classes_hidden");},
+    function(){$(this).find("ul").toggleClass("wym_classes_hidden");}
+  );
 };
 
 function wym_button(name, title) {

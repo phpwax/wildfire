@@ -3,19 +3,19 @@ WYMeditor.SKINS['wildfire'] = {
     init: function(wym) {
 
         //render following sections as panels
-        jQuery(wym._box).find(wym._options.classesSelector)
-          .addClass("wym_panel")
-          .find("h2").prepend("<span>&nbsp</span>");
+        // jQuery(wym._box).find(wym._options.classesSelector)
+        //           .addClass("wym_panel")
+        //           .find("h2").prepend("<span>&nbsp</span>");
 
         //render following sections as buttons
         jQuery(wym._box).find(wym._options.toolsSelector)
           .addClass("wym_buttons");
 
-        //render following sections as dropdown menus
-        jQuery(wym._box).find(wym._options.containersSelector)
-          .addClass("wym_dropdown")
-          .find(WYMeditor.H2)
-          .prepend("<span>&nbsp</span>");
+        // //render following sections as dropdown menus
+        //         jQuery(wym._box).find(wym._options.containersSelector)
+        //           .addClass("wym_dropdown")
+        //           .find(WYMeditor.H2)
+        //           .prepend("<span>&nbsp</span>");
 
         // auto add some margin to the main area sides if left area
         // or right area are not empty (if they contain sections)
@@ -37,5 +37,6 @@ WYMeditor.SKINS['wildfire'] = {
         },function(){
           jQuery(this).removeClass("hover");
         });
+        
     }
 };

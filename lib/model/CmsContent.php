@@ -25,6 +25,8 @@ class CmsContent extends WaxModel {
 		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id", "join_order"=>"published"));
 		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
 		$this->define("language", "IntegerField", array("editable"=>false));
+		$this->define("meta_description", "TextField");
+		$this->define("meta_keywords", "TextField");
 	}
 		
 	/**

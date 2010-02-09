@@ -218,7 +218,6 @@ function delayed_image_filter(filter) {
   });
 }
 
-
 /**** Setup for image drag and drop ******/
 jQuery(document).ready(function(event) {
 	
@@ -266,28 +265,35 @@ jQuery(document).ready(function(event) {
     skinPath: "/stylesheets/wymeditor/wildfire/",
     skin: 'wildfire',
     containersItems: wildfire_containersItems,
+    stylesheet: '/stylesheets/wymeditor/wysiwyg_styles.css',
     
-    classesItemHtml:          "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "'>"+ WYMeditor.CLASS_TITLE+ "</a></li>",
-    classesItemHtmlMultiple:  "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>",
-    classesHtml:              "<li class='wym_tools_class'><a href='#' name='" + WYMeditor.APPLY_CLASS + "' title='"+ WYMeditor.APPLY_CLASS +"'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>",
-    containersHtml:    "<div class='wym_containers wym_section'>"
-                        + "<h2>Hello</h2>"
-                        + "<ul>"
-                        + WYMeditor.CONTAINERS_ITEMS
-                        + "</ul>"
-                        + "</div>",
-
-    boxHtml:            "<div class='wym_box'>"
-                        + "<div class='wym_area_top'>"
-                        + WYMeditor.TOOLS
-                        + WYMeditor.CONTAINERS
-                        + "</div>"
-                        + "<div class='wym_area_main'>"
-                        + WYMeditor.HTML
-                        + WYMeditor.IFRAME
-                        + WYMeditor.STATUS
-                        + "</div>"
-                        + "</div>",
+    toolsHtml: "<ul class='wym_tools wym_section'>" + WYMeditor.TOOLS_ITEMS + WYMeditor.CLASSES + "</ul>",
+    toolsItemHtml:
+      "<li class='" + WYMeditor.TOOL_CLASS + "'>"
+      + "<a href='#' name='" + WYMeditor.TOOL_NAME + "' title='" + WYMeditor.TOOL_TITLE + "'>"  + WYMeditor.TOOL_TITLE  + "</a>"
+      + "</li>", 
+      
+  
+    classesHtml: "<li class='wym_tools_class'><a href='#' name='" + WYMeditor.APPLY_CLASS + "' title='"+ WYMeditor.APPLY_CLASS +"'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
+    classesItemHtml: "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "'>"+ WYMeditor.CLASS_TITLE+ "</a></li>", 
+    classesItemHtmlMultiple: "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>", 
+    containersHtml: "<ul class='wym_containers wym_section'>" + WYMeditor.CONTAINERS_ITEMS + "</ul>", 
+    containersItemHtml:
+      "<li class='" + WYMeditor.CONTAINER_CLASS + "'>"
+        + "<a href='#' name='" + WYMeditor.CONTAINER_NAME + "' title='" + WYMeditor.CONTAINER_TITLE + "'></a>"
+      + "</li>", 
+    boxHtml:
+      "<div class='wym_box'>"
+      + "<div class='wym_area_top'>"
+      + WYMeditor.TOOLS
+      + WYMeditor.CONTAINERS
+      + "</div>"
+      + "<div class='wym_area_main'>"
+      + WYMeditor.HTML
+      + WYMeditor.IFRAME
+      + WYMeditor.STATUS
+      + "</div>"
+      + "</div>",
    
     
     postInit: function(wym) {
