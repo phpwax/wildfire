@@ -72,8 +72,15 @@ var content_permalink="<?=$model->permalink?>";
       	  <?if(count($extra_content)):?>
             <?=partial("_extra_content", $this)?>
           <?endif?>
-				
-					
+				  <?if($edit_meta):?>
+				    <a href="#" id="show_advanced">Show / Hide Advanced Options</a>
+				    <div id="advanced_options">
+    	        <?=large(text_area($model, "meta_description", array(),"Meta Description (Optional - We'll auto generate this from the main content if blank)"))?><hr>
+    	        <?=large(text_field($model, "meta_keywords", array(),"Meta Keywords (Optional - Separate these with a comma)"))?>
+    	      </div>
+				  <?endif?>
+				  <hr />
+					<?=partial("_custom_content")?>
         </fieldset>
       </div>
     </div>

@@ -19,6 +19,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $allowed_images = 3; //allows 3 images to be attached to a cms_content record
 	public $allowed_categories = true; //allows the use of categories
 	public $edit_author = false; 
+	public $edit_meta = true; 
 	public $extra_content = array(); //extra content fields - runs off the cms_extra_content table
 	public $extra_content_options = array(); //corresponding config for the fields
 	public $default_order = 'published';

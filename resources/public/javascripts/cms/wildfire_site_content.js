@@ -310,6 +310,7 @@ jQuery(document).ready(function(event) {
 		autosaver = setInterval(function(){autosave_content(wym_editors);},40000);
   	jQuery("#autosave").click(function(){autosave_content(wym_editors);});
 	}
+	$("#show_advanced").click(function(){$("#advanced_options").slideToggle(100);});
 });
 
 function calc_wym_height(){

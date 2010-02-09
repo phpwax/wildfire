@@ -1384,7 +1384,7 @@ a.progressCancel:hover {
   display:block;
   margin:2px 7px;
 }
-#upload_url {
+#upload_url, #advanced_options {
   display:none;
 }
 /*** End uploader styling**********/
