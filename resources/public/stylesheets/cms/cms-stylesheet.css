@@ -353,7 +353,7 @@ h4{
 }
 .permission_check label, .group_permission_check label {float:none !important;}
 .group_permission_check {
-  width:20%;
+  width:13%;
   float:left;
   margin-right:10px;
   border:1px solid white;
