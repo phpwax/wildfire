@@ -47,14 +47,14 @@ var content_permalink="<?=$model->permalink?>";
         </fieldset>
       </div>
       <div id="section-2" class="tabs-container">
-        <?if($allowed_images && $current_user->access($module_name,"attach_images") ):?>
+        <?if($allowed_images ):?>
           <?=partial("_images_tab", $this)?>
         <?else:?><p>Images disabled</p>
         <?endif?>
       </div>
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
       <div id="section-3" class="tabs-container">
-        <?if($allowed_categories && $current_user->access($module_name,"categories") ):?>
+        <?if($allowed_categories ):?>
           <?=partial("_categories_tab", $this)?>
         <?else:?><p>Categories disabled</p>
         <?endif?>

@@ -1,10 +1,30 @@
 <?if(count($all_permissions)):?>
-<h4>Drag Permissions From Here</h4>
-<?$class_name = "";?>
-  <?foreach($all_permissions as $permission):?>
-    <?if($class_name != $permission->class):?><div class="clearfix"></div><?$class_name = $permission->class?><?endif?>
-    <div class="permission_tag" id="tag_<?=$permission->class?>_<?=$permission->operation?>"><?=$permission->class?> (<?=$permission->operation?>)</div>
-  <?endforeach?>
+  <ul id="all_permissions_list">
+    <?foreach($all_permissions as $key=>$permission):?>
+      <li class="group_permission_check">
+        <?$pcount = 0; foreach($model->permissions as $perm) if($perm->class==$key) $pcount++;?>
+        <input type="checkbox" class="group_toggle" id="group_<?=$key?>" <?if($pcount==count($permission)):?>checked="checked"<?endif?>>
+        <label for="group_<?=$key?>"><?=$key?></label>
+        <ul class="sub_group">  
+          <?foreach($permission as $perm):?>
+            <li class="permission_check">
+              <?$hasperm = false;?>
+              <?foreach($model->permissions as $user_perm) {
+                  if($user_perm->class==$perm["class"] && $user_perm->operation==$perm["operation"]) $hasperm=true;
+                }?>
+                <?if(!$hasperm):?>
+                  <input type="checkbox" value="<?=$perm["class"]?>_<?=$perm["operation"]?>" name="user_permission[]">
+                <?else:?>
+                  <input type="checkbox" value="<?=$perm["class"]?>_<?=$perm["operation"]?>" name="user_permission[]" checked="checked">
+                <?endif?>
+              <label for="tag_<?=$perm["class"]?>_<?=$perm["operation"]?>"><?=$perm["operation"]?></label>
+            </li>
+          <?endforeach?>
+        </ul>
+      </li>
+    <?endforeach?>
+    
+  </ul>
 <?else:?>
-<p>No permissions setup yet</p>
+  <p>No permissions setup yet</p>
 <?endif?>

@@ -45,15 +45,30 @@ class CMSAdminUserController extends AdminComponent {
         $module_class = slashcamelize($options['link'])."Controller";
         $perms = array_merge($module_class::$base_permissions, $module_class::$permissions);
         foreach((array)$perms as $operation)
-          $this->all_permissions[] = array("class"=>$module_name,"operation"=>$operation);
+          $this->all_permissions[$module_name][] = array("class"=>$module_name,"operation"=>$operation);
       }
   		
-      $this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
+      //$this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
       $this->all_users = new $this->model_class;
       $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();      
   	}
     
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
+		if($_POST) {
+      $this->model->fetch_permissions();
+      $this->model->permissions->unlink();
+      foreach((array)$_POST["user_permission"] as $perm) {
+        $perms = explode("_", $perm);
+        $class= $perms[0];
+        $operation = $perms[1];
+        $permission = new CmsPermission;
+        $permission->class = $class;
+        $permission->operation = $operation;
+        $permission->allowed = true;
+        $permission->user = $this->model;
+      }
+      
+    }
 		if($_POST['save']) $this->save($this->model, "edit");
 		else $this->save($this->model, Session::get("list_refer-".$this->module_name));
 	}

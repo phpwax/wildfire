@@ -49,4 +49,5 @@ class WildfireUser extends WaxModel {
 	  return $this->permissions_cache[$class][$operation];
 	}
 	
+	
 }

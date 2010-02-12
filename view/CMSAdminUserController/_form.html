@@ -29,11 +29,7 @@
         
       </fieldset>
       <div class="clearfix"></div>
-      <fieldset id="submit">
-        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
-        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
-        <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
-      </fieldset>
+      
     </div>
     <?if($model->primval && ($model->primval != $current_user->primval || $current_user->username == "admin") && $current_user->access($module_name,"admin")):?>
     <div id="section-2" class="tabs-container">
@@ -44,6 +40,11 @@
       <?=partial("_modules", $this)?>
     </div>
     <?endif?>
+    <fieldset id="submit">
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save.gif")?>" name="save" value="Save" />
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_save_close.gif")?>" name="save_close" value="Save and Close" />
+      <input type="image" class="generic_button" src="<?=serve_asset("images", "cms", "button_cancel.gif")?>" name="cancel" value="Cancel" />
+    </fieldset>
   </div>
 
 </div>

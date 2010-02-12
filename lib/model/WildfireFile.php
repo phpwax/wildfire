@@ -4,6 +4,7 @@ class WildfireFile extends WaxModel {
 
   public $primary_options = array("auto"=>false);
   public static $queue_images = false;
+  public static $image_sizes = array();
   
   public function setup() {
     $this->define("filename", "CharField");

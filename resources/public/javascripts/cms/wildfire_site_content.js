@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
     initialise_draggables();
     if(jQuery("#copy_permissions_from").length > 0) jQuery("#copy_permissions_from").change(function(){
       jQuery.get("../../copy_permissions_from/"+content_page_id+"?copy_from="+jQuery(this).val(),function(response){
-        jQuery("#cat_dropzone").html(response); init_deletes();
+        window.location.reload();
       });
       return false;
     });

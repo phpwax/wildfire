@@ -49,3 +49,21 @@ jQuery.fn.centerScreen = function(loaded) {
       left: jQuery(window).width()/2-this.width()/2}, 200, 'linear'); 
   } 
 };
+
+
+/**** Toggles for User Permissions *******/
+$(document).ready(function() {
+  $(".group_permission_check .group_toggle").change(function(){
+    if($(this).is(":checked")) $(this).parent().find(".permission_check input").attr("checked", true);
+    else $(this).parent().find(".permission_check input").removeAttr("checked");
+  });
+  
+  
+});
+
+
+
+
+
+
+
