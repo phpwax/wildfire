@@ -162,9 +162,8 @@ class CmsTextFilter  {
   }
   
   static public function flash_object($text) {
-    $replace = '<object {dimensions}>
+    $replace = '<object type="application/x-shockwave-flash" data="$1" {dimensions}>
       <param name="movie" value="$1"></param>
-      <embed src="$1" type="application/x-shockwave-flash" {dimensions}></embed>
       $2
     </object>';
     $source = preg_match("/<a class=\"wildfire_flash\" href=\"(.*?)\">.*?<\/a>/", $text, $matches);
