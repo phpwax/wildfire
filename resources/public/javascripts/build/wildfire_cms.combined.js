@@ -170,6 +170,24 @@ jQuery.fn.centerScreen = function(loaded) {
       left: jQuery(window).width()/2-this.width()/2}, 200, 'linear'); 
   } 
 };
+
+
+/**** Toggles for User Permissions *******/
+$(document).ready(function() {
+  $(".group_permission_check .group_toggle").change(function(){
+    if($(this).is(":checked")) $(this).parent().find(".permission_check input").attr("checked", true);
+    else $(this).parent().find(".permission_check input").removeAttr("checked");
+  });
+  
+  
+});
+
+
+
+
+
+
+
 var content_page_id;
 var model_string;
 var init_upload;
@@ -195,7 +213,7 @@ jQuery(document).ready(function() {
     initialise_draggables();
     if(jQuery("#copy_permissions_from").length > 0) jQuery("#copy_permissions_from").change(function(){
       jQuery.get("../../copy_permissions_from/"+content_page_id+"?copy_from="+jQuery(this).val(),function(response){
-        jQuery("#cat_dropzone").html(response); init_deletes();
+        window.location.reload();
       });
       return false;
     });
@@ -482,6 +500,7 @@ jQuery(document).ready(function(event) {
 		autosaver = setInterval(function(){autosave_content(wym_editors);},40000);
   	jQuery("#autosave").click(function(){autosave_content(wym_editors);});
 	}
+	$("#show_advanced").click(function(){$("#advanced_options").slideToggle(100);});
 });
 
 function calc_wym_height(){

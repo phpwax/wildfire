@@ -762,6 +762,23 @@ h4{
 .section_tag{
   clear:left;
 }
+.permission_check label, .group_permission_check label {float:none !important;}
+.group_permission_check {
+  width:13%;
+  float:left;
+  margin-right:10px;
+  border:1px solid white;
+  background:#D4E5ED;
+  margin-bottom:12px;
+  font-size:110%;
+  padding:3px 8px;
+  min-height:140px;
+}
+.group_permission_check label {text-transform:uppercase;font-weight:bold;}
+.permission_check {
+  padding:3px 8px;
+}
+.permission_check label {font-weight:normal;text-transform:capitalize;}
 
 #cat_dropzone .category_tag, #sect_dropzone .section_tag, #cat_dropzone .permission_list_tag{
   background:#c73639;
@@ -1795,7 +1812,7 @@ a.progressCancel:hover {
   display:block;
   margin:2px 7px;
 }
-#upload_url {
+#upload_url, #advanced_options {
   display:none;
 }
 /*** End uploader styling**********/
