@@ -162,7 +162,7 @@ class CmsTextFilter  {
   }
   
   static public function flash_object($text) {
-    $replace = '<object {dimensions} type="application/x-shockwave-flash">
+    $replace = '<object {dimensions}>
       <param name="movie" value="$1"></param>
       <embed src="$1" type="application/x-shockwave-flash" {dimensions}></embed>
       $2
