@@ -165,9 +165,10 @@ class CmsTextFilter  {
     $replace = '<object {dimensions}>
       <param name="movie" value="$1"></param>
       <embed src="$1" type="application/x-shockwave-flash" {dimensions}></embed>
+      $2
     </object>';
-    $source = preg_match("/<a class=\"wildfire_flash\" href=\"(.*?)\".*?<\/a>/", $text, $matches);
-    $text = preg_replace("/<a class=\"wildfire_flash\" href=\"(.*?)\".*?<\/a>/", $replace, $text);
+    $source = preg_match("/<a class=\"wildfire_flash\" href=\"(.*?)\">.*?<\/a>/", $text, $matches);
+    $text = preg_replace("/<a class=\"wildfire_flash\" href=\"(.*?)\">(.*?)<\/a>/", $replace, $text);
     $url = $matches[1];
     if(strpos($url,"http://")===false) $url = PUBLIC_DIR.$url;
     $info = getimagesize($url);
