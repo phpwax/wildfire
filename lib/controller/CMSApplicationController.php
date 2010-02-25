@@ -149,6 +149,7 @@ class CMSApplicationController extends WaxController{
 			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
 		  
 		}
+		if(!$this->cms_section) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	  if(!count($this->cms_content)) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	}
 	

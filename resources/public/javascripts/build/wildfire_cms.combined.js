@@ -6371,6 +6371,14 @@ WYMeditor.WymClassExplorer.prototype.keyup = function() {
   this._selected_image = null;
 };
 
+WYMeditor.WymClassExplorer.prototype.keydown = function(evt) {
+  if(evt.keyCode == 13 && evt.shiftKey) {
+    evt.preventDefault();
+    wym.insert('<br>');
+    return false;
+  }
+};
+
 WYMeditor.WymClassExplorer.prototype.setFocusToNode = function(node) {
     var range = this._doc.selection.createRange();
     range.moveToElementText(node);
@@ -6563,7 +6571,11 @@ WYMeditor.WymClassMozilla.prototype.keydown = function(evt) {
       return false;
     }
   }
-
+  else if(evt.keyCode == 13 && evt.shiftKey) {
+    evt.preventDefault();
+    wym.insert('<br>');
+    return false;
+  }
   else if(evt.keyCode == 13) {
     if(!evt.shiftKey){
       //fix PRE bug #73
@@ -6955,6 +6967,11 @@ WYMeditor.WymClassSafari.prototype.keydown = function(evt) {
       wym._exec(WYMeditor.ITALIC);
       return false;
     }
+  }
+  else if(evt.keyCode == 13 && evt.shiftKey) {
+    evt.preventDefault();
+    wym.insert('<br>');
+    return false;
   }
 };
 
