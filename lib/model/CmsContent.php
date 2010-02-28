@@ -1,6 +1,8 @@
 <?php
 
 class CmsContent extends WaxModel {
+  
+  public $permalink=false;
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -129,11 +131,11 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function permalink() {
-	  if($this->row["permalink"]) return $this->row["permalink"];
+	  if($this->permalink) return $this->permalink;
 	  if(!$this->section) return "/".$this->url;
 		$section = new CmsSection($this->cms_section_id);
 		$link = $section->permalink."/".$this->url;
-		$this->row["permalink"] = $link;
+		$this->permalink = $link;
 		return $link;
 	}
 	public function date_published(){
