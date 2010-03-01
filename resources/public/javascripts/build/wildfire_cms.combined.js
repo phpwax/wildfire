@@ -260,6 +260,7 @@ jQuery(document).ready(function() {
       jQuery(this).find(".selected_image img").attr("src", "/images/cms/add_image_blank.gif");
       jQuery(this).find(".meta_description").val("");
       jQuery(this).find(".inline_image_link").val("");
+      jQuery(this).find(".image_folder").val("");
   	}, buttons: {
 			Insert: function() {
 			  var wym = jQuery(this).data('wym');
