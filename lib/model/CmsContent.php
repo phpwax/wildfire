@@ -2,7 +2,6 @@
 
 class CmsContent extends WaxModel {
   
-  public $permalink=false;
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255) );
@@ -29,6 +28,7 @@ class CmsContent extends WaxModel {
 		$this->define("language", "IntegerField", array("editable"=>false));
 		$this->define("meta_description", "TextField");
 		$this->define("meta_keywords", "TextField");
+		$this->define("permalink", "CharField");
 	}
 		
 	/**
@@ -95,6 +95,7 @@ class CmsContent extends WaxModel {
 	}
 	
 	public function before_save() {
+	  $this->permalink();
 	  if(!$this->published) $this->published = date("Y-m-d H:i:s");
 	  $this->date_modified = date("Y-m-d H:i:s");
 		if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
@@ -130,8 +131,17 @@ class CmsContent extends WaxModel {
   	}
 	}
 	
+	
+	public function __get($name) {
+	  $get = parent::__get($name);
+	  if($name =="permalink" && !strlen($this->row["permalink"])) {
+	    $get = $this->permalink();
+	    $this->save();
+    }
+	  return $get;
+  }
+	
 	public function permalink() {
-	  if($this->permalink) return $this->permalink;
 	  if(!$this->section) return "/".$this->url;
 		$section = new CmsSection($this->cms_section_id);
 		$link = $section->permalink."/".$this->url;
