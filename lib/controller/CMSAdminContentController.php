@@ -41,7 +41,7 @@ class CMSAdminContentController extends AdminComponent {
 	* and this converts that into a filtered view of the content by the section specified
 	**/
 	public function method_missing() {
-	  if(!$page = $this->param("page")) $page=1;
+	  if(!$page = get("page")) $page=1;
 		$this->use_view="index";
 		$section = new CmsSection;
 		/**
