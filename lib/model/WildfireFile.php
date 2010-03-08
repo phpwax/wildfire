@@ -132,11 +132,13 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function width() {
+	  if(!is_readable($this->path.'/'.$this->filename)) return false;
 	  if($info = @getimagesize($this->path.'/'.$this->filename)) return $info[0];
 	  return $this->tryffmpeg("width");
 	  return false;
 	}
 	public function height() {
+	  if(!is_readable($this->path.'/'.$this->filename)) return false;
 	  if($info = @getimagesize($this->path.'/'.$this->filename)) return $info[1];
 	  return $this->tryffmpeg("height");
 	  return false;
