@@ -88,6 +88,7 @@ class CMSAdminComponent extends WaxController {
 	
 	  if(!in_array(Request::get("action"),array("login","install"))) $this->check_authorised();
 		
+		
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
@@ -104,6 +105,7 @@ class CMSAdminComponent extends WaxController {
 		if($this->current_user && $this->current_user->access($this->module_name,"create")) $this->sub_links["create"] = "Create New ". $this->display_name;
 		
 		if(!$this->this_page = Request::get("page")) $this->this_page=1;
+		
 	}
 
 	/**
@@ -244,12 +246,14 @@ class CMSAdminComponent extends WaxController {
 	* @return array - a list of modules you have access to for that operation
 	**/
 	protected function configure_modules($operation = "enabled") {
+		
 	  $modules = array('home' => CMSApplication::$modules['home']); //add the home module by default
 	  if($this->current_user && $this->current_user->primval){
       foreach(CMSApplication::$modules as $name => $settings){
 	      if($this->current_user->access($name, $operation)) $modules[$name] = $settings;
 	    }
 	  }
+	  
 	  return $modules;
 	}
 	/**
