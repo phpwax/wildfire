@@ -4222,13 +4222,12 @@ WYMeditor.WymClassMozilla.prototype.keydown = function(evt) {
       wym._exec(WYMeditor.ITALIC);
       return false;
     }
-  }
-  else if(evt.keyCode == 13 && evt.shiftKey) {
+  } 
+  if(evt.keyCode == 13 && evt.shiftKey) {
     evt.preventDefault();
     wym.insert('<br>');
     return false;
-  }
-  else if(evt.keyCode == 13) {
+  } else if(evt.keyCode == 13) {
     if(!evt.shiftKey){
       //fix PRE bug #73
       container = wym.selected();
