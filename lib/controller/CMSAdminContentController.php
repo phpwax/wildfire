@@ -204,7 +204,6 @@ class CMSAdminContentController extends AdminComponent {
 	public function create() {
 		$model = new $this->model_class;
 		$new = $model->update_attributes(array("status"=>3, "author_id"=>Session::get('wildfire_user_cookie'),"url" => time(),"title"=>"Enter Your Title Here"));
-		print_r($new); exit;
 		$this->redirect_to("/admin/content/edit/".$new->id."/");
 	}
 
