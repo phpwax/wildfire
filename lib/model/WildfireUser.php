@@ -4,6 +4,7 @@ class WildfireUser extends WaxModel {
   
   public $identifier = "fullname";
   public $permissions_cache = false;
+  public $enable_permissions = true;
     
   public function setup() {
     $this->define("username", "CharField", array("required"=>true, "blank"=>false,"unique"=>true, 'default'=>'Enter Username Here'));
@@ -46,6 +47,7 @@ class WildfireUser extends WaxModel {
 	}
   
 	public function access($class, $operation){
+	  if(!CmsApplication::$enable_permissions) return true;
 	  return $this->permissions_cache[$class][$operation];
 	}
 	

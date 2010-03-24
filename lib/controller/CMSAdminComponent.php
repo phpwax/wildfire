@@ -68,7 +68,7 @@ class CMSAdminComponent extends WaxController {
 		$log->action=$this->action;
 		$log->page=$this->id;
 		if(Request::param('lang')) $log->language = Request::param('lang');
-		$log->user=$this->current_user->id;
+		if($this->current_user) $log->user=$this->current_user->id;
 		$log->time = date("Y-m-d H:i:s");
 		$log->save();
 	}

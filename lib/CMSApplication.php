@@ -12,6 +12,7 @@
 class CMSApplication {
 	
 	static public $modules = array();
+	static public $enable_permissions = true;
 	
 	
 	/**

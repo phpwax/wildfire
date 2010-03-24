@@ -80,7 +80,7 @@
   	      <?foreach($sub_links as $sub_link=>$text):?>
   	        <?$class=""?>
   	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
-  	  	    <li class="<?=$class?>"><?=link_to($text, array("action"=>$sub_link))?></li>
+  	  	    <li class="<?=$class?>"><a href="<?=$sub_link?>"><?=$text?></a></li>
   	  	  <?endforeach;?>
   		</ul>
   	</div>
