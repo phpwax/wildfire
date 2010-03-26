@@ -3929,7 +3929,6 @@ WYMeditor.WymClassExplorer.prototype.initIframe = function(iframe) {
 };
 
 WYMeditor.WymClassExplorer.prototype._exec = function(cmd,param) {
-
     switch(cmd) {
     
     case WYMeditor.INDENT: case WYMeditor.OUTDENT:
@@ -3944,11 +3943,10 @@ WYMeditor.WymClassExplorer.prototype._exec = function(cmd,param) {
         }
     break;
     default:
-        if(param) this._doc.execCommand(cmd,false,param);
+        if(param) this._doc.execCommand(cmd,'false',param);
         else this._doc.execCommand(cmd);
     break;
 	}
-    
     this.listen();
 };
 

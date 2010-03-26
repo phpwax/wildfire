@@ -124,7 +124,7 @@ jQuery(document).ready(function() {
           //set the summary attr
           jQuery(table).attr('summary', sSummary);
         }
-        wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
+        wym.insert( jQuery('<div>').append(jQuery(table).clone()).remove().html());
 			  jQuery(this).dialog('close');
 			},
 			Cancel: function() { jQuery(this).dialog('close'); }

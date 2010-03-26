@@ -156,7 +156,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/wildfirevideo.gif' alt='Download video file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/wildfirevideo.gif' alt='Download video file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -180,7 +180,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_flash' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flash_placeholder.png' alt='Flash file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_flash' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flash_placeholder.png' alt='Flash file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -204,7 +204,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -228,7 +228,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_csv_table' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/table_placeholder.jpg' alt='Download csv file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_csv_table' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/table_placeholder.jpg' alt='Download csv file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
