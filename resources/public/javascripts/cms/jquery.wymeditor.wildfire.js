@@ -23,19 +23,23 @@ WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote"
 WYMeditor.editor.prototype.wildfire = function() {
   var wym = this;
 
-
   /*************Additions to language code***************/
   WYMeditor.STRINGS['en'].Source_Code = 'Source code';
   WYMeditor.STRINGS['en'].Main_Heading = 'Main Heading';
   WYMeditor.STRINGS['en'].Sub_Heading = 'Sub Heading';
   WYMeditor.STRINGS['en'].Small_Heading = 'Small Heading';
   /*******************************************/
-  updateHTML = jQuery(".wym_containers").html();
-  jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
-  jQuery(this._box).find(this._options.containerSelector).click(function() {
-    wym.container(jQuery(this).attr(WYMeditor.NAME));
-    return(false);
+  
+  jQuery(this._box).find(".wym_containers").each(function(){
+       updateHTML = jQuery(this).html();
+       $(this).html(wym.replaceStrings(updateHTML));
   });
+
+  jQuery(this._box).find(this._options.containerSelector).click(function() {
+ 	  	        wym.container(jQuery(this).attr(WYMeditor.NAME));
+ 	  	        return(false);
+ 	});
+  
 
   WYMeditor.BLOCKS = new Array("address", "blockquote", "div", "dl",
    "fieldset", "form", "h3", "h4", "h5", "h6", "hr",
