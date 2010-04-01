@@ -314,7 +314,7 @@ jQuery(document).ready(function() {
           //set the summary attr
           jQuery(table).attr('summary', sSummary);
         }
-        wym._exec('inserthtml', jQuery('<div>').append(jQuery(table).clone()).remove().html());
+        wym.insert( jQuery('<div>').append(jQuery(table).clone()).remove().html());
 			  jQuery(this).dialog('close');
 			},
 			Cancel: function() { jQuery(this).dialog('close'); }
@@ -6278,7 +6278,6 @@ WYMeditor.WymClassExplorer.prototype.initIframe = function(iframe) {
 };
 
 WYMeditor.WymClassExplorer.prototype._exec = function(cmd,param) {
-
     switch(cmd) {
     
     case WYMeditor.INDENT: case WYMeditor.OUTDENT:
@@ -6293,11 +6292,10 @@ WYMeditor.WymClassExplorer.prototype._exec = function(cmd,param) {
         }
     break;
     default:
-        if(param) this._doc.execCommand(cmd,false,param);
+        if(param) this._doc.execCommand(cmd,'false',param);
         else this._doc.execCommand(cmd);
     break;
 	}
-    
     this.listen();
 };
 
@@ -7209,6 +7207,8 @@ WYMeditor.editor.prototype.wildfire = function() {
     });
     return false;
   });
+  
+  jQuery("#link_dialog").dialog({width:700})
 
   /*******************************************/
   /* Video Insertion Button */
@@ -7226,7 +7226,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/wildfirevideo.gif' alt='Download video file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/wildfirevideo.gif' alt='Download video file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -7250,7 +7250,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_flash' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flash_placeholder.png' alt='Flash file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_flash' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/flash_placeholder.png' alt='Flash file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -7274,7 +7274,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_audio' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/googleaudioplayer.gif' alt='Download audio file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -7298,7 +7298,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym._exec("inserthtml","<a class='wildfire_csv_table' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/table_placeholder.jpg' alt='Download csv file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_csv_table' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/table_placeholder.jpg' alt='Download csv file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -7342,7 +7342,7 @@ WYMeditor.editor.prototype.wildfire = function() {
 
 function wym_button(name, title) {
   var html = "<li class='wym_tools_"+name+"'>"
-              + "<a name='"+name+"' href='#'>"
+              + "<a name='"+name+"' href='#' title='"+title+"'>"
               + title
               + "</a></li>";
   return html;

@@ -139,6 +139,8 @@ WYMeditor.editor.prototype.wildfire = function() {
     });
     return false;
   });
+  
+  jQuery("#link_dialog").dialog({width:400})
 
   /*******************************************/
   /* Video Insertion Button */
@@ -272,7 +274,7 @@ WYMeditor.editor.prototype.wildfire = function() {
 
 function wym_button(name, title) {
   var html = "<li class='wym_tools_"+name+"'>"
-              + "<a name='"+name+"' href='#'>"
+              + "<a name='"+name+"' href='#' title='"+title+"'>"
               + title
               + "</a></li>";
   return html;
