@@ -281,6 +281,8 @@ class CMSApplicationController extends WaxController{
 		}else $this->redirect_to('/');
 	}
   
+	private function after_upload($model){}
+
   public function file_upload() {
 	  if($url = $_POST["upload_from_url"]) {
 			$str="";
@@ -316,7 +318,8 @@ class CMSApplicationController extends WaxController{
 				$field = Request::post('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
-			}	
+			}
+			$this->after_upload($newfile);	
       echo "Uploaded";
     } elseif($_FILES) {
       $path = $_POST['wildfire_file_folder'];
@@ -350,6 +353,7 @@ class CMSApplicationController extends WaxController{
 				$model = new $class($model_id);
 				$model->$field = $newfile;
 			}
+			$this->after_upload($newfile);
       echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;
