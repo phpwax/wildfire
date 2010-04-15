@@ -229,7 +229,7 @@ jQuery(document).ready(function() {
 		} ,close: function(){
       jQuery(this).removeData('execute_on_insert');
       jQuery(this).dialog('option', 'title', 'Insert');
-		}})
+		}});
 		jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
     
     // inline image dialog
@@ -314,7 +314,9 @@ jQuery(document).ready(function() {
           //set the summary attr
           jQuery(table).attr('summary', sSummary);
         }
-        wym.insert( jQuery('<div>').append(jQuery(table).clone()).remove().html());
+        
+        var content = "<table>" + jQuery(table).html() + "</table>";
+        wym.insert( content);
 			  jQuery(this).dialog('close');
 			},
 			Cancel: function() { jQuery(this).dialog('close'); }
@@ -377,7 +379,7 @@ function init_deletes(){
       var rid = this.id.replace("delete_permission_button_", "");
   	}else{
   	  var end_url = "../../remove_category/";
-  	  var rid = this.id.substr(22)
+  	  var rid = this.id.substr(22);
 	  }
     jQuery.get(end_url+content_page_id+"?cat="+rid,function(response){
       jQuery("#cat_dropzone").html(response); init_deletes();
@@ -490,7 +492,7 @@ jQuery(document).ready(function(event) {
     postInit: function(wym) {
       wym.wildfire(wym);
       wym_editors.push(wym);
-      jQuery(".wym_containers").removeClass("wym_dropdown")
+      jQuery(".wym_containers").removeClass("wym_dropdown");
       jQuery(".wym_iframe, iframe").css("height","100%");
       jQuery(window).resize(calc_wym_height);
       calc_wym_height();
@@ -694,9 +696,9 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function(){
   jQuery('#preview_link').unbind("click").click(function(){
     var preview_but = jQuery(this);
-    autosave_content(wym_editors, true) //do an autosave synchronously before the preview
+    autosave_content(wym_editors, true); //do an autosave synchronously before the preview
     if(preview_but.hasClass("modal_preview")){
-      open_modal_preview(preview_but.attr("href"))
+      open_modal_preview(preview_but.attr("href"));
       return false;
     }
   });
@@ -3568,7 +3570,6 @@ WYMeditor.editor.prototype.uniqueStamp = function() {
 };
 
 WYMeditor.editor.prototype.paste = function(sData) {
-  alert("hi");
   var sTmp;
   var container = this.selected();
 	
@@ -7332,6 +7333,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_table a").unbind("click").click(function(){
     var table_dialog = jQuery("#table_dialog");
     table_dialog.data("wym",wym);
+    table_dialog.dialog({width:340});
     table_dialog.dialog("open");
   });
   jQuery(wym._box).find(".wym_tools_class").unbind("hover").hover(
