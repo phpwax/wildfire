@@ -7208,7 +7208,7 @@ WYMeditor.editor.prototype.wildfire = function() {
     return false;
   });
   
-  jQuery("#link_dialog").dialog({width:700})
+  jQuery("#link_dialog").dialog({width:400});
 
   /*******************************************/
   /* Video Insertion Button */
@@ -7226,7 +7226,7 @@ WYMeditor.editor.prototype.wildfire = function() {
         var theURL = insert_dialog.find("#link_url").val();
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym.insert("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='/images/cms/wildfirevideo.gif' alt='Download video file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_video' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img class='fallback' src='/images/cms/wildfirevideo.gif' alt='Download video file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
