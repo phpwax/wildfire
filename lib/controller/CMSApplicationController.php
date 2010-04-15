@@ -20,6 +20,7 @@ class CMSApplicationController extends WaxController{
 	public $section_model = "CmsSection";
 	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
 	
+	
 	//default action when content/section is found
 	public function cms_content() {}
 	
@@ -282,12 +283,12 @@ class CMSApplicationController extends WaxController{
 	}
   
 	private function after_upload($model){}
+	private function before_upload(){WaxLog::log('error', '[before upload]');}
 
   public function file_upload() {
+		$this->before_upload();
 	  if($url = $_POST["upload_from_url"]) {
 			$str="";
-			foreach($_POST as $k=>$v) $str .="$k:$v\n";
-			WaxLog::log('error', 'running...'.$str);
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $filename = basename($url);
