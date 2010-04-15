@@ -3568,7 +3568,7 @@ WYMeditor.editor.prototype.uniqueStamp = function() {
 };
 
 WYMeditor.editor.prototype.paste = function(sData) {
-
+  alert("hi");
   var sTmp;
   var container = this.selected();
 	
