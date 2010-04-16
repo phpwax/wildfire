@@ -254,6 +254,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
     var paste_dialog = jQuery('#paste_word');
     paste_dialog.data("wym",wym);
+    paste_dialog.dialog({width:540});
     paste_dialog.dialog("open");
     return false;
   });

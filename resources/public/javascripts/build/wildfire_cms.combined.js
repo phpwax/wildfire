@@ -300,23 +300,20 @@ jQuery(document).ready(function() {
         var sSummary = jQuery(".wym_summary").val();
         var iRows = jQuery(".wym_rows").val();
         var iCols = jQuery(".wym_cols").val();
+        var table_c = "";
         if(iRows > 0 && iCols > 0) {
           var table = wym._doc.createElement(WYMeditor.TABLE);
-          var newRow = null;
-  		    var newCol = null;
-  		    var sCaption = jQuery(wym._options.captionSelector).val();
-  		    var newCaption = table.createCaption();
-  		    newCaption.innerHTML = sCaption;
+          table_c = "<table>";
+          table_c += "<caption>"+sCaption+"</caption>";
           for(x=0; x<iRows; x++) {
-  			    newRow = table.insertRow(x);
-  			    for(y=0; y<iCols; y++) {newRow.insertCell(y);}
+  			    table_c += "<tr>";
+  			    for(y=0; y<iCols; y++) {table_c+="<td></td>";}
+  			    table_c += "</tr>";
   		    }
-          //set the summary attr
-          jQuery(table).attr('summary', sSummary);
+  		    table_c += "</table>";
         }
         
-        var content = "<table>" + jQuery(table).html() + "</table>";
-        wym.insert( content);
+        wym.insert( table_c);
 			  jQuery(this).dialog('close');
 			},
 			Cancel: function() { jQuery(this).dialog('close'); }
@@ -7323,6 +7320,7 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_paste a").unbind("click").click(function(){
     var paste_dialog = jQuery('#paste_word');
     paste_dialog.data("wym",wym);
+    paste_dialog.dialog({width:540});
     paste_dialog.dialog("open");
     return false;
   });
