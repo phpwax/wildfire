@@ -163,6 +163,9 @@ jQuery(document).ready(function(event) {
   jQuery('.jqwysi').wymeditor({
     skinPath: "/stylesheets/wymeditor/wildfire/",
     skin: 'wildfire',
+
+		stylesheet: '/stylesheets/wymeditor/wysiwyg_styles.css',
+		
     containersItems: wildfire_containersItems,
     containersHtml:    "<div class='wym_containers wym_section'>"
                         + "<h2>Headings</h2>"

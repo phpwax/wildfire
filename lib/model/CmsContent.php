@@ -26,7 +26,7 @@ class CmsContent extends WaxModel {
 		//more_content <-> content
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id",'editable'=>false, "eager_loading"=>true));
 		//comments <-> attached_to
-		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
+		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'join_order'=>"time DESC",'editable'=>false));
 		//category <-> attached_to
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
 		//master -> revisions (used for previews and languages)

@@ -20,6 +20,7 @@ class CMSApplicationController extends WaxController{
 	public $section_model = "CmsSection";
 	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
 	
+		
 	//default action when content/section is found
 	public function cms_content() {}
 	
@@ -139,7 +140,7 @@ class CMSApplicationController extends WaxController{
   		  if($cms_content) {
   		    $this->cms_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval))->first();
   		  } else {
-  		    $this->cms_content = $content->clear()->filter(array("status"=>array(0,1,4),"url"=>$url))->order("status DESC")->first();
+  		    $this->cms_content = $content->clear()->filter(array("status"=>array(0,1,4),"url"=>$url,'cms_section_id'=>$this->cms_section->primval))->order("status DESC")->first();
   		  }
       }
 		  if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
@@ -183,13 +184,14 @@ class CMSApplicationController extends WaxController{
 	public function show_image() {
 	  $options = Request::get("params");
 	  $img_id = Request::get("id");
+	  $format = Request::get("format");
 	  $img_size = $options[0];
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
   	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
   	$img = new WildfireFile($img_id);
-    $img->show($size);
+    $img->show($size, false, $format);
   }
 
 	/**
@@ -280,11 +282,13 @@ class CMSApplicationController extends WaxController{
 		}else $this->redirect_to('/');
 	}
   
+	protected function after_upload($model){}
+	protected function before_upload(){}
+
   public function file_upload() {
+		$this->before_upload();
 	  if($url = $_POST["upload_from_url"]) {
 			$str="";
-			foreach($_POST as $k=>$v) $str .="$k:$v\n";
-			WaxLog::log('error', 'running...'.$str);
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $filename = basename($url);
@@ -315,7 +319,8 @@ class CMSApplicationController extends WaxController{
 				$field = Request::post('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
-			}	
+			}
+			$this->after_upload($newfile);	
       echo "Uploaded";
     } elseif($_FILES) {
       $path = $_POST['wildfire_file_folder'];
@@ -349,6 +354,7 @@ class CMSApplicationController extends WaxController{
 				$model = new $class($model_id);
 				$model->$field = $newfile;
 			}
+			$this->after_upload($newfile);
       echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;
