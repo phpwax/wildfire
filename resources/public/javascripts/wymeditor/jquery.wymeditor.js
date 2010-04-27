@@ -4064,6 +4064,8 @@ WYMeditor.WymClassMozilla = function(wym) {
 
 WYMeditor.WymClassMozilla.prototype.initIframe = function(iframe) {
 
+		var wym = this;
+
     this._iframe = iframe;
     this._doc = iframe.contentDocument;
     
@@ -4098,7 +4100,10 @@ WYMeditor.WymClassMozilla.prototype.initIframe = function(iframe) {
     jQuery(this._doc).bind("keyup", this.keyup);
     
     //bind editor focus events (used to reset designmode - Gecko bug)
-    jQuery(this._doc).bind("focus", this.enableDesignMode);
+    jQuery(this._doc).bind("focus", function () {  
+		    // Fix scope 
+		    wym.enableDesignMode.call(wym); 
+		});
     
     //post-init functions
     if(jQuery.isFunction(this._options.postInit)) this._options.postInit(this);
@@ -4182,7 +4187,6 @@ WYMeditor.WymClassMozilla.prototype._exec = function(cmd,param) {
  * @description Returns the selected container
  */
 WYMeditor.WymClassMozilla.prototype.selected = function() {
-
     var sel = this._iframe.contentWindow.getSelection();
     var node = sel.focusNode;
     if(node) {
@@ -4276,15 +4280,16 @@ WYMeditor.WymClassMozilla.prototype.keyup = function(evt) {
 };
 
 WYMeditor.WymClassMozilla.prototype.enableDesignMode = function() {
-    if(this.designMode == "off") {
+    if(this._doc.designMode == "off") {
       try {
-        this.designMode = "on";
-        this.execCommand("styleWithCSS", '', false);
+        this._doc.designMode = "on";
+        this._doc.execCommand("styleWithCSS", '', false);
       } catch(e) { }
     }
 };
 
 WYMeditor.WymClassMozilla.prototype.setFocusToNode = function(node) {
+
     var range = document.createRange();
     range.selectNode(node);
     var selected = this._iframe.contentWindow.getSelection();
