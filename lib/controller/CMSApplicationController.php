@@ -221,8 +221,8 @@ class CMSApplicationController extends WaxController{
 	    if(!$this->use_format && $this->is_viewable($this->controller."/".$this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
 	  	if($this->is_viewable($this->controller."/".$this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
     }
-	  
-	  foreach($sections as $section) {
+    
+	  foreach(array_reverse($sections) as $section) {
 	    $view = "cms_".$section."_".$type;
 	    $check_view = $this->controller."/".$view;
 	    if(!$this->use_format && $this->is_viewable($check_view)) $this->use_view = $view;
