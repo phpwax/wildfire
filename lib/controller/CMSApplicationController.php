@@ -288,19 +288,16 @@ class CMSApplicationController extends WaxController{
 
   
   public function file_upload() {    
-	  if($urldecode = $_POST["upload_from_url"]) {
-			$str="";
-			foreach($_POST as $k=>$v) $str .="$k:$v\n";
-			WaxLog::log('error', 'running...'.$str);
-      $path = $_POST['wildfire_file_folder'];
+	  if($urldecode = post("upload_from_url")) {
+      $path = post('wildfire_file_folder');
       $fs = new CmsFilesystem;
-      $filename = basename($url);
+      $filename = basename($urldecode);
       $ext = strtolower(array_pop(explode(".", $filename)));
-      if($_POST["wildfire_file_filename"]) $filename = $_POST["wildfire_file_filename"].".".$ext;
+      if(post("wildfire_file_filename")) $filename = post("wildfire_file_filename").".".$ext;
       $filename = $_POST["wildfire_file_filename"] = File::safe_file_save($fs->defaultFileStore.$path, $filename);
       $file = $fs->defaultFileStore.$path."/".$filename;
       $handle = fopen($file, 'x+'); 
-      fwrite($handle, file_get_contents($url));
+      fwrite($handle, file_get_contents($urldecode));
       fclose($handle);
 			$fname = $fs->defaultFileStore.$path."/".$filename;
 			chmod($fname, 0777);

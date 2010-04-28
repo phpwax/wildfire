@@ -109,7 +109,7 @@ class CMSAdminContentController extends AdminComponent {
 	**/
 	public function remove_image() {
 		$this->model = new $this->model_class(get('id'));
-		$this->model->images->unlink(new WildfireFile(post("image")));
+		$this->model->images->unlink(new WildfireFile(get("image")));
 		$this->use_layout=false;
 		$this->use_view = "_content_images";
 	}
@@ -117,7 +117,8 @@ class CMSAdminContentController extends AdminComponent {
 	public function sort_images() {
 	  $this->use_layout=false;
 	  $this->model = new $this->model_class(get('id'));
-	  parse_str(Request::post("sort"), $sort);
+    $sortinput = Request::post("sort");
+	  parse_str($sortinput[0], $sort);
 	  if($sort=$sort["cimage"]) {
 	    $i=1;
 	    foreach($sort as $index) {$order[$index]=$i;$i++;}

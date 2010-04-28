@@ -129,9 +129,8 @@ jQuery(document).ready(function() {
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
     
-    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:"auto"});
-    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:"auto"});
-    
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:600});
+    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:600,height:500});
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");
       jQuery.ajax({
@@ -149,7 +148,7 @@ jQuery(document).ready(function() {
         url: "/admin/files/upload_url/"+content_page_id+"?model="+model_string+"&join_field="+join_field, 
         complete: function(response){
           jQuery("#upload_url_pane").html(response.responseText); 
-          init_upload();
+          //init_upload();
         },
         global:false
       });
