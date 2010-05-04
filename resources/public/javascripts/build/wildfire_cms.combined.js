@@ -330,6 +330,9 @@ jQuery(document).ready(function(event) {
   jQuery('.jqwysi').wymeditor({
     skinPath: "/stylesheets/wymeditor/wildfire/",
     skin: 'wildfire',
+
+		stylesheet: '/stylesheets/wymeditor/wysiwyg_styles.css',
+		
     containersItems: wildfire_containersItems,
     containersHtml:    "<div class='wym_containers wym_section'>"
                         + "<h2>Headings</h2>"
@@ -5912,6 +5915,9 @@ WYMeditor.WymCssParser.prototype.addStyleSetting = function(style_details)
     var details = style_details[name];
     if(typeof details == 'object' && name != 'title'){
 
+			if(typeof details.expressions == "undefined") details.expressions = [];
+			if(typeof details.tags == "undefined") details.tags = [];
+
       this.css_settings.classesItems.push({
         'name': WYMeditor.Helper.trim(details.name),
         'title': style_details.title,
@@ -6254,6 +6260,8 @@ WYMeditor.WymClassMozilla = function(wym) {
 
 WYMeditor.WymClassMozilla.prototype.initIframe = function(iframe) {
 
+		var wym = this;
+
     this._iframe = iframe;
     this._doc = iframe.contentDocument;
     
@@ -6288,7 +6296,10 @@ WYMeditor.WymClassMozilla.prototype.initIframe = function(iframe) {
     jQuery(this._doc).bind("keyup", this.keyup);
     
     //bind editor focus events (used to reset designmode - Gecko bug)
-    jQuery(this._doc).bind("focus", this.enableDesignMode);
+    jQuery(this._doc).bind("focus", function () {  
+		    // Fix scope 
+		    wym.enableDesignMode.call(wym); 
+		});
     
     //post-init functions
     if(jQuery.isFunction(this._options.postInit)) this._options.postInit(this);
@@ -6372,7 +6383,6 @@ WYMeditor.WymClassMozilla.prototype._exec = function(cmd,param) {
  * @description Returns the selected container
  */
 WYMeditor.WymClassMozilla.prototype.selected = function() {
-
     var sel = this._iframe.contentWindow.getSelection();
     var node = sel.focusNode;
     if(node) {
@@ -6466,15 +6476,16 @@ WYMeditor.WymClassMozilla.prototype.keyup = function(evt) {
 };
 
 WYMeditor.WymClassMozilla.prototype.enableDesignMode = function() {
-    if(this.designMode == "off") {
+    if(this._doc.designMode == "off") {
       try {
-        this.designMode = "on";
-        this.execCommand("styleWithCSS", '', false);
+        this._doc.designMode = "on";
+        this._doc.execCommand("styleWithCSS", '', false);
       } catch(e) { }
     }
 };
 
 WYMeditor.WymClassMozilla.prototype.setFocusToNode = function(node) {
+
     var range = document.createRange();
     range.selectNode(node);
     var selected = this._iframe.contentWindow.getSelection();
@@ -6925,19 +6936,23 @@ WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote"
 WYMeditor.editor.prototype.wildfire = function() {
   var wym = this;
 
-
   /*************Additions to language code***************/
   WYMeditor.STRINGS['en'].Source_Code = 'Source code';
   WYMeditor.STRINGS['en'].Main_Heading = 'Main Heading';
   WYMeditor.STRINGS['en'].Sub_Heading = 'Sub Heading';
   WYMeditor.STRINGS['en'].Small_Heading = 'Small Heading';
   /*******************************************/
-  updateHTML = jQuery(".wym_containers").html();
-  jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
-  jQuery(this._box).find(this._options.containerSelector).click(function() {
-    wym.container(jQuery(this).attr(WYMeditor.NAME));
-    return(false);
+  
+  jQuery(this._box).find(".wym_containers").each(function(){
+       updateHTML = jQuery(this).html();
+       $(this).html(wym.replaceStrings(updateHTML));
   });
+
+  jQuery(this._box).find(this._options.containerSelector).click(function() {
+ 	  	        wym.container(jQuery(this).attr(WYMeditor.NAME));
+ 	  	        return(false);
+ 	});
+  
 
   WYMeditor.BLOCKS = new Array("address", "blockquote", "div", "dl",
    "fieldset", "form", "h3", "h4", "h5", "h6", "hr",
