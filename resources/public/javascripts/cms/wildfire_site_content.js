@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
     });
     jQuery("#new_cat_create").click(function() {
       jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
-        complete: function(response){jQuery("#category_list").html(response.responseText); initialise_draggables();}
+        complete: function(response){jQuery("#category_list").html(response); initialise_draggables();}
       });
       return false;
     });   
@@ -197,7 +197,7 @@ function delayed_cat_filter(filter) {
   jQuery("#category_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: "filter="+filter, 
     complete: function(response){ 
-      jQuery("#category_list").html(response.responseText); 
+      jQuery("#category_list").html(response); 
       initialise_draggables();
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#category_filter").css("background", "white");
@@ -209,7 +209,7 @@ function delayed_image_filter(filter) {
   jQuery("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/files/browse_images", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(),
     complete: function(response){ 
-      jQuery("#image_list").html(response.responseText); 
+      jQuery("#image_list").html(response); 
       initialise_images();  
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#image_filter").css("background", "white");
