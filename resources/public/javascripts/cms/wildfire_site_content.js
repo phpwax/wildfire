@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
     
     // inline image dialog
     function post_inline_image_filter(){
-      jQuery.post("/admin/files/browse_images",
+      jQuery.get("/admin/files/browse_images",
         {
           filter: jQuery(".inline_image_dialog .filter_field").val(),
           filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
