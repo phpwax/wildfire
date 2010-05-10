@@ -397,7 +397,7 @@ function delayed_cat_filter(filter) {
 
 function delayed_image_filter(filter) {
   jQuery("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  jQuery.ajax({type: "post", url: "/admin/files/browse_images", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(),
+  jQuery.ajax({type: "get", url: "/admin/files/browse_images", data: "mime_type="+file_mime_type+"&filter="+jQuery("#image_filter").val(),
     complete: function(response){ 
       jQuery("#image_list").html(response); 
       initialise_images();  
