@@ -34,7 +34,7 @@ class CmsSection extends WaxTreeModel {
 	public function permalink() {
 		$path = $this->path_from_root();
 		foreach($path as $object) $url .= "/".$object->url;
-		$url = str_replace("/home", "", $url);
+		$url = str_replace("/home/", "/", $url);
 		return $url;
 	}
 
