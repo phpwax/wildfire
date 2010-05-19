@@ -386,7 +386,7 @@ function init_deletes(){
 function delayed_cat_filter(filter) {
   jQuery("#category_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: {"filter":filter}, 
-    complete: function(response){ 
+    success: function(response){ 
       jQuery("#category_list").html(response); 
       initialise_draggables();
       if(typeof(t) != "undefined" ) clearTimeout(t); 
