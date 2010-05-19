@@ -178,10 +178,10 @@ class CMSAdminFileController extends AdminComponent {
 	}
 	
 	public function file_options(){
-		$this->browse_images();
+		$this->browse_images(true);
 	}
 	
-	public function browse_images() {
+	public function browse_images($all = false) {
 	  $this->use_layout = false;
 	  $model = new WildfireFile("available");
 	  $model->order("filename");
@@ -189,7 +189,7 @@ class CMSAdminFileController extends AdminComponent {
 		if($mime_type = Request::param('mime_type')) $model->filter("type", "%$mime_type%", "LIKE");
 		if($filter = Request::param('filter')) $model->filter('(id LIKE ? OR filename LIKE ? OR description LIKE ?)', array("%".$filter."%","%".$filter."%","%".$filter."%"));
     if($folder = Request::post('filterfolder')) $model->filter("rpath", "$folder%", "LIKE");
-  	if(!$filter || (!$folder && !$filter) || (!$filter && !$mime_type)) $model->filter("rpath", "files");
+    if(!$all) if(!$filter || (!$folder && !$filter) || (!$filter && !$mime_type)) $model->filter("rpath", "files");
   	$this->all_images = $model->all();
 	}
 	
