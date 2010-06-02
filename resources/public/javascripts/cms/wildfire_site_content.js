@@ -345,7 +345,7 @@ function initialise_images() {
   /*** Setup image pagination ***/
   
   jQuery(".paginate_images").click(function(){
-    jQuery.get(file_browser_location+"/"+this.id.substr(12)+'?mime_type='+file_mime_type,{},function(response){
+    jQuery.get(file_browser_location+"/"+this.id.substr(12)+'?pg=1&mime_type='+file_mime_type,{},function(response){
       jQuery("#image_list").html(response);
       initialise_images();
     });
