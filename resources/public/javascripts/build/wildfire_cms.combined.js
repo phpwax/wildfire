@@ -446,7 +446,7 @@ jQuery(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
+  jQuery.get(file_browser_location, {mime_type:file_mime_type}, function(response){
     jQuery("#image_list").html(response);
     initialise_images();
   });
