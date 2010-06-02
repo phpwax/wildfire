@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
     
     // inline image dialog
     function post_inline_image_filter(){
-      jQuery.get("/admin/files/browse_images",
+      jQuery.get(file_browser_location,
         {
           filter: jQuery(".inline_image_dialog .filter_field").val(),
           filterfolder: jQuery(".inline_image_dialog .filter_image_folder .image_folder").val()
@@ -207,7 +207,7 @@ function delayed_cat_filter(filter) {
 
 function delayed_image_filter(filter) {
   jQuery("#image_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  jQuery.ajax({type: "get", url: "/admin/files/browse_images", data: {"mime_type":file_mime_type, "filter":jQuery("#image_filter").val()},
+  jQuery.ajax({type: "get", url: file_browser_location, data: {"mime_type":file_mime_type, "filter":jQuery("#image_filter").val()},
     success: function(response){ 
       jQuery("#image_list").html(response); 
       initialise_images();  
@@ -256,7 +256,7 @@ jQuery(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
+  jQuery.get(file_browser_location, {mime_type:file_mime_type}, function(response){
     jQuery("#image_list").html(response);
     initialise_images();
   });
@@ -345,7 +345,7 @@ function initialise_images() {
   /*** Setup image pagination ***/
   
   jQuery(".paginate_images").click(function(){
-    jQuery.get(file_browser_location+"/"+this.id.substr(12)+'?mime_type='+file_mime_type,{},function(response){
+    jQuery.get(file_browser_location+"/"+this.id.substr(12)+'?pg=1&mime_type='+file_mime_type,{},function(response){
       jQuery("#image_list").html(response);
       initialise_images();
     });
