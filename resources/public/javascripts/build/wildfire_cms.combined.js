@@ -7348,7 +7348,7 @@ function wym_button(name, title) {
 }
 
 function popup_file_browse_dialog(wym,existing_image){
-  jQuery.get(file_browser_location+"/?mime_type="+file_mime_type, function(response){
+  jQuery.get(file_browser_location, {mime_type:file_mime_type}, function(response){
     jQuery(".image_display").html(response);
     
     init_inline_image_select(wym);
