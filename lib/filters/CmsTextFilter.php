@@ -101,7 +101,7 @@ class CmsTextFilter  {
 		$videos = preg_match_all("/(<a href=\"(.*?)youtube.com([^<]*)v=([^<]*)([^<]*)\">(.*?)<\/a>)/i", $text, $matches);
 		if(($replacements = $matches[0]) && ($vs = $matches[4]) && ($urls = $matches[6])){
 			foreach($replacements as $i=>$r){
-				$text = str_replace($r, str_replace("{%VIDEO%}", $vs[$i], str_replace("{%HEIGHT%}", "325", str_replace("{%WIDTH%}", "425", $youtube2))), $text);
+				$text = str_replace($r, str_replace("{%VIDEO%}", $vs[$i], str_replace("{%HEIGHT%}", "344", str_replace("{%WIDTH%}", "425", $youtube2))), $text);
 			}
 		}
 
