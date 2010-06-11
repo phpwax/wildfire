@@ -77,6 +77,7 @@ class CMSApplicationController extends WaxController{
 			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
 				$this->section_stack[] = $url;
 				unset($stack[$key]);
+		$permalink = $_SERVER['REQUEST_URI'];
 			}
 		}
 
