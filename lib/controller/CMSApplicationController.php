@@ -85,6 +85,13 @@ class CMSApplicationController extends WaxController{
 		//otherwise this is a section, so find all content in the section
 		else $this->find_content(false);
 		
+	protected function find_by_permalink($link){
+		$model = new $this->content_model();
+		if($found = $model->scope($this->content_scope)->filter("permalink", $link)->first()){
+			$this->cms_content = $found;
+			$this->cms_section = $found->section;
+			return true;
+		}else return false;
 	}
 	
 	/**
