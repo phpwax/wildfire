@@ -69,23 +69,25 @@ class CMSApplicationController extends WaxController{
 		if(!$stack = WaxUrl::get("route_array")) $stack = $this->route_array; //use the WaxUrl route array, revert to old controller->route_array otherwise
 		unset($stack['route']);
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
-		foreach($stack as $key => $url){
-			//check the formatting - if found then it removes the extension
-		  if($key === "format"){
-				$this->set_formatting($url);
-				unset($stack[$key]);
-			}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
-				$this->section_stack[] = $url;
-				unset($stack[$key]);
 		$permalink = $_SERVER['REQUEST_URI'];
+		if(!$this->find_by_permalink($permalink)){			
+			foreach($stack as $key => $url){
+				//check the formatting - if found then it removes the extension
+			  if($key === "format"){
+					$this->set_formatting($url);
+					unset($stack[$key]);
+				}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
+					$this->section_stack[] = $url;
+					unset($stack[$key]);
+				}
 			}
-		}
-
-		//if theres something left in the stack, find the page
-		if(count($stack)) $this->find_content(end($stack));
-		//otherwise this is a section, so find all content in the section
-		else $this->find_content(false);
-		
+			//if theres something left in the stack, find the page
+			if(count($stack)) $this->find_content(end($stack));
+			//otherwise this is a section, so find all content in the section
+			else $this->find_content(false);
+		}		
+	}
+	
 	protected function find_by_permalink($link){
 		$model = new $this->content_model();
 		if($found = $model->scope($this->content_scope)->filter("permalink", $link)->first()){
