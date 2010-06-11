@@ -546,7 +546,7 @@ class CmsFilesystem {
 	  
   	$size = $this->get_size($folderpath.'/'.$filename);
   	$fileid = $this->fileid($folderpath,$filename);
-  	while(!$this->checkId($fileid)){
+  	while(!$this->checkId($fileid, $realitivePath, $filename)){
   		$fileid++;
   	}
   	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$realitivePath','$type','$size','found')";
@@ -564,8 +564,9 @@ class CmsFilesystem {
 	  }
   }
 
-  function checkId($id){
-  	$query = "SELECT id from wildfire_file where id=$id";
+  function checkId($id, $folder = false, $name=false){
+    if($folder && $name ) $query = "SELECT id from wildfire_file where id=$id AND filename='$name' AND rpath='$folder'";
+  	else $query = "SELECT id from wildfire_file where id=$id";
   	$result = $this->find($query);
   	if(count($result) == 0){
   		return true;
