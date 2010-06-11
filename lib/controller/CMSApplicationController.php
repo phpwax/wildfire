@@ -17,6 +17,7 @@ class CMSApplicationController extends WaxController{
   public $crumbtrail = array();	//a pre built crumb trail
 	public $languages = array(0=>"english");
 	public $content_model = "CmsContent";
+	public $content_scope = "published";
 	public $section_model = "CmsSection";
 	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
 	
@@ -127,11 +128,10 @@ class CMSApplicationController extends WaxController{
 	protected function find_content($url){
 		$content = new $this->content_model();
 		if($url){
-	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
-			  $this->cms_content = $content->clear()->scope("published")->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
-		  
+	    if(!($this->cms_content = $content->scope($this->content_scope)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
+			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
 		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
-	      $lang_content = $content->clear()->scope("published")->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
+	      $lang_content = $content->clear()->scope($this->content_scope)->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
 	      if($lang_content) $this->cms_content = $lang_content;
 		  }
 		  
@@ -145,8 +145,8 @@ class CMSApplicationController extends WaxController{
 		  if(!count($this->cms_content)) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
 			$filter = array('cms_section_id' => $this->cms_section->id);
-			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
-			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page)->eager_load();
+			if(!$this->this_page) $this->cms_content = $content->scope($this->content_scope)->filter($filter)->all();
+			else $this->cms_content = $content->scope($this->content_scope)->filter($filter)->page($this->this_page, $this->per_page)->eager_load();
 		}
 		if(!$this->cms_section) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	  if(!count($this->cms_content)) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
