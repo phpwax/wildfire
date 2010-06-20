@@ -129,7 +129,7 @@ jQuery(document).ready(function() {
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
     
-    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:600});
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:600, height:670});
     jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:600,height:500});
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");
