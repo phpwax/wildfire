@@ -296,7 +296,7 @@ class CMSApplicationController extends WaxController{
 		return $user->is_logged_in();
 	}
 
-
+  
   public function file_upload() {
 	  if($urldecode = post("upload_from_url")) {
       $path = post('wildfire_file_folder');
