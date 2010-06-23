@@ -175,13 +175,13 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery("#video_dialog").dialog("open");
     jQuery("#insert_video_button").unbind("click").click(function(){
-      var url = jQuery("#vid_id").val();
-      var width = jQuery("#vid_x").val();
-      var height = jQuery("#vid_y").val();
-      var local = jQuery("#local_vid").val();
-      if(local.length > 0) wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>LOCAL:"+local+"</a>");
-    	else wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
+			console.log('inserting...');
+      var url = jQuery("#vid_id").val(), width = jQuery("#vid_x").val(), height = jQuery("#vid_y").val(), local = jQuery("#local_vid").val();
+			
+      if(local.length > 0) wym._exec('inserthtml', '<a href="'+url+'" class="'+width+'px:'+height+'px">LOCAL:'+url+'</a>');
+    	else wym._exec('inserthtml', '<a href="'+url+'" class="'+width+'px:'+height+'px">'+url+'</a>');
       jQuery("#video_dialog").dialog("close");
+			return false;
     });
   });
 
