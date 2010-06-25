@@ -93,6 +93,8 @@ class CMSApplicationController extends WaxController{
 		if($found = $model->scope($this->content_scope)->filter("permalink", $link)->first()){
 			$this->cms_content = $found;
 			$this->cms_section = $found->section;
+			foreach($this->cms_section->path_from_root() as $parent) $this->section_stack[] = $parent->url;
+			$this->section_stack[] = $this->cms_section->url;
 			return true;
 		}else return false;
 	}
