@@ -70,7 +70,7 @@ class CMSApplicationController extends WaxController{
 		unset($stack['route']);
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
 		$permalink = $_SERVER['REQUEST_URI'];
-		if(!$this->find_by_permalink($permalink)){
+		if(!$this->find_by_permalink(rtrim($permalink,"/"))){
 			foreach($stack as $key => $url){
 				//check the formatting - if found then it removes the extension
 			  if($key === "format"){
