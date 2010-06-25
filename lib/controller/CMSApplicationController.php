@@ -76,10 +76,10 @@ class CMSApplicationController extends WaxController{
 			  if($key === "format"){
 					$this->set_formatting($url);
 					unset($stack[$key]);
-				}elseif($this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
+				}elseif($url && $this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
 					$this->section_stack[] = $url;
 					unset($stack[$key]);
-				}
+				}elseif(!$url) unset($stack[$key]);
 			}
 			//if theres something left in the stack, find the page
 			if(count($stack)) $this->find_content(end($stack));
