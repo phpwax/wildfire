@@ -69,6 +69,8 @@ var content_permalink="<?=$model->permalink?>";
       	    <?=small(select($model, "author_id", $model->author_options, array(), "Author"))?>
       	  <?endif?>
       	  <hr />
+      	  <?=partial("_custom_content", $this)?>
+      	  <hr />
       	  <?if(count($extra_content)):?>
             <?=partial("_extra_content", $this)?>
           <?endif?>
@@ -79,8 +81,6 @@ var content_permalink="<?=$model->permalink?>";
     	        <?=large(text_field($model, "meta_keywords", array(),"Meta Keywords (Optional - Separate these with a comma)"))?>
     	      </div>
 				  <?endif?>
-				  <hr />
-					<?=partial("_custom_content")?>
         </fieldset>
       </div>
     </div>
