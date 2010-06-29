@@ -1,5 +1,6 @@
-<script>var content_page_id=<?=$model->id?>;</script>
-  <?foreach($model->categories as $attached):?>
+<script>var content_page_id=<?=$model->primval?>;</script>
+<?if(($joined = $model->{$category_join_field}) && $joined->count()):?>	
+  <?foreach($joined as $attached):?>
     <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>">
       <?=$attached->name?>
       <span class="trash_cat">
@@ -7,5 +8,5 @@
       </span>
     </div>
   <?endforeach?>
-  <?if(!count($model->categories)):?><p>No categories selected - drag and drop to add!</p><?endif?>
+<?else:?><p>Nothing selected - drag and drop to add!</p><?endif?>
 <div class="clearfix"></div>
