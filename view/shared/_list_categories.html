@@ -1,5 +1,9 @@
 <script>var content_page_id=<?=$model->primval?>;</script>
-<?if(($joined = $model->{$category_join_field}) && $joined->count()):?>	
+<?
+$joined = $model->{$category_join_field};
+if($joined && $category_model_scope) $joined = $joined->scope($category_model_scope)->order($category_order)->all();
+?>
+<?if($joined->count()):?>	
   <?foreach($joined as $attached):?>
     <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>">
       <?=$attached->name?>
