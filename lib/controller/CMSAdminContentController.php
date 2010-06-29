@@ -9,6 +9,11 @@ class CMSAdminContentController extends AdminComponent {
 	public $model_name = "cms_content";													
 	public $display_name = "Site Content";
 	
+	public $category_join_field = "categories";
+	public $category_model = "CmsCategory";
+	public $category_order = "name ASC";
+	public $inline_category_create_allowed = true;
+	
 	public $scaffold_columns = array(
     "title"   =>array("link"=>"edit"),
     "by" => array(),
