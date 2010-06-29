@@ -38,6 +38,10 @@ class CMSAdminComponent extends WaxController {
 	public $allowed_images = false; //if a number then allows the use images to be attached (cms_content only by default)
 	public $allowed_categories = false; //if true then allows the use of categories (cms_content only by default)
 
+	public $category_join_field = false;
+	public $category_model = false;
+	public $category_order = false;
+	public $inline_category_create_allowed = false;
 
   public $base_help = array('CMS Overview'=>array('file' => "/help/wildfire_cms_help.pdf"));
   public $extra_help = array();
