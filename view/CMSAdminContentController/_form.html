@@ -24,7 +24,7 @@ var content_permalink="<?=$model->permalink?>";
       </a></li>
       <li><a href="#section-2" id="image_tab_link">Add Image(s)</a></li>
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
-        <li><a href="#section-3" id="cat_tab_link">Add Categories</a></li>
+        <li><a href="#section-3" id="cat_tab_link">Add <?=ucwords($category_join_field)?></a></li>
       <?endif?>
       <li><a href="#section-4" id="more_tab_link">More Options</a></li>
       
