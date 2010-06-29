@@ -23,8 +23,8 @@ class CmsContent extends WaxModel {
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
 		//master -> revisions (used for previews and languages)
-		$this->define("revisions", "HasManyField", array("target_model"=>"CmsContent", "join_field"=>"preview_master_id", "join_order"=>"published"));
-		$this->define("master", "ForeignKey", array("target_model"=>"CmsContent", "col_name"=>"preview_master_id","editable"=>false));
+		$this->define("revisions", "HasManyField", array("target_model"=>get_class($this), "join_field"=>"preview_master_id", "join_order"=>"published"));
+		$this->define("master", "ForeignKey", array("target_model"=>get_class($this), "col_name"=>"preview_master_id","editable"=>false));
 		$this->define("language", "IntegerField", array("editable"=>false));
 		$this->define("meta_description", "TextField");
 		$this->define("meta_keywords", "TextField");
