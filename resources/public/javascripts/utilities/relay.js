@@ -1212,7 +1212,6 @@ root = null;
 windowLoader = function () {
 	search = new Search('searcharea');
 	root = new Directory('', '', false, $('fileList'));
-	
 	root.getContents();
 	getQuery('path');
 	setInterval("updateAll(root)", 60000);
