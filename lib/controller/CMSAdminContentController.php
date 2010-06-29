@@ -188,6 +188,7 @@ class CMSAdminContentController extends AdminComponent {
 		//categories assocaited
 		if(!$this->attached_categories = $this->model->{$this->category_join_field}) $this->attached_categories= array();
 		$cat = new $this->category_model;
+		if($this->category_model_scope) $cat->scope($this->category_model_scope);
 		//all categories
 		if(!$this->all_categories = $cat->order($this->category_order)->all() ) $this->all_categories=array();
 		$this->image_model = new WildfireFile;
@@ -224,6 +225,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->model = new $this->model_class(get("id"));
 		$this->model->{$this->category_join_field} = new $this->category_model(substr(post("id"), 4));
 		$cat = new $this->category_model;
+		if($this->category_model_scope) $cat->scope($this->category_model_scope);
 		if(!$this->all_categories = $cat->order($this->category_order)->all() ) $this->all_categories=array();		
 		$this->use_view = "_list_categories";	
 	}
@@ -236,6 +238,7 @@ class CMSAdminContentController extends AdminComponent {
 		$this->model = new $this->model_class(get("id"));
 		$this->model->{$this->category_join_field}->unlink(new $this->category_model(get("cat")));
 		$cat = new $this->category_model;
+		if($this->category_model_scope) $cat->scope($this->category_model_scope);		
 		if(!$this->all_categories = $cat->order($this->category_order)->all() ) $this->all_categories=array();		
 		$this->use_view = "_list_categories";	
 	}
@@ -247,6 +250,7 @@ class CMSAdminContentController extends AdminComponent {
 		$cat = new $this->category_model;
 		$cat->name = Request::get("cat");
 		$cat->save();
+		if($this->category_model_scope) $cat->scope($this->category_model_scope);		
 		if(!$this->all_categories = $cat->clear()->order($this->category_order)->all()) $this->all_categories=array();	
 		$this->use_view = "_cat_list";	
 	}

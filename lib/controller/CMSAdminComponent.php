@@ -41,6 +41,7 @@ class CMSAdminComponent extends WaxController {
 	public $category_join_field = false;
 	public $category_model = false;
 	public $category_order = false;
+	public $category_model_scope = false;
 	public $inline_category_create_allowed = false;
 
   public $base_help = array('CMS Overview'=>array('file' => "/help/wildfire_cms_help.pdf"));
