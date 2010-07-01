@@ -204,8 +204,8 @@ class CMSHelper extends WXHelpers {
 					if($vals[0]>0) $string .= "</".$type.">";
 				}
 				$i++;
-			}			
-		}elseif(count($chunk)>$word_limit) $string .= "...";
+			}
+		}elseif(count($parts)>$word_limit) $string .= "...";
 		return $string;
   }
   	
