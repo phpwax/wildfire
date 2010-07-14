@@ -18,8 +18,10 @@ class CMSApplicationController extends WaxController{
 	public $languages = array(0=>"english");
 	public $content_model = "CmsContent";
 	public $section_model = "CmsSection";
+	public $content_scope = "published";
 	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
 	
+		
 	//default action when content/section is found
 	public function cms_content() {}
 	
@@ -127,11 +129,11 @@ class CMSApplicationController extends WaxController{
 	protected function find_content($url){
 		$content = new $this->content_model();
 		if($url){
-	    if(!($this->cms_content = $content->scope("published")->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
-			  $this->cms_content = $content->clear()->scope("published")->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
+	    if(!($this->cms_content = $content->scope($this->content_scope)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
+			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
 		  
 		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
-	      $lang_content = $content->clear()->scope("published")->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
+	      $lang_content = $content->clear()->scope($this->content_scope)->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
 	      if($lang_content) $this->cms_content = $lang_content;
 		  }
 		  
@@ -145,8 +147,8 @@ class CMSApplicationController extends WaxController{
 		  if(!$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 		}else{
 			$filter = array('cms_section_id' => $this->cms_section->id);
-			if(!$this->this_page) $this->cms_content = $content->scope("published")->filter($filter)->all();
-			else $this->cms_content = $content->scope("published")->filter($filter)->page($this->this_page, $this->per_page);
+			if(!$this->this_page) $this->cms_content = $content->scope($this->content_scope)->filter($filter)->all();
+			else $this->cms_content = $content->scope($this->content_scope)->filter($filter)->page($this->this_page, $this->per_page);
 		}
 	}
 	
@@ -183,13 +185,14 @@ class CMSApplicationController extends WaxController{
 	public function show_image() {
 	  $options = Request::get("params");
 	  $img_id = Request::get("id");
+	  $format = Request::get("format");
 	  $img_size = $options[0];
   	$this->use_view=false;
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
   	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
   	$img = new WildfireFile($img_id);
-    $img->show($size);
+    $img->show($size, false, $format);
   }
 
 	/**
@@ -221,8 +224,8 @@ class CMSApplicationController extends WaxController{
 	    if(!$this->use_format && $this->is_viewable($this->controller."/".$this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
 	  	if($this->is_viewable($this->controller."/".$this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
     }
-	  
-	  foreach($sections as $section) {
+    
+	  foreach(array_reverse($sections) as $section) {
 	    $view = "cms_".$section."_".$type;
 	    $check_view = $this->controller."/".$view;
 	    if(!$this->use_format && $this->is_viewable($check_view)) $this->use_view = $view;
@@ -280,11 +283,13 @@ class CMSApplicationController extends WaxController{
 		}else $this->redirect_to('/');
 	}
   
+	protected function after_upload($model){}
+	protected function before_upload(){}
+
   public function file_upload() {
+		$this->before_upload();
 	  if($url = $_POST["upload_from_url"]) {
 			$str="";
-			foreach($_POST as $k=>$v) $str .="$k:$v\n";
-			WaxLog::log('error', 'running...'.$str);
       $path = $_POST['wildfire_file_folder'];
       $fs = new CmsFilesystem;
       $filename = basename($url);
@@ -315,7 +320,8 @@ class CMSApplicationController extends WaxController{
 				$field = Request::post('join_field');
 				$model = new $class($model_id);
 				$model->$field = $newfile;
-			}	
+			}
+			$this->after_upload($newfile);	
       echo "Uploaded";
     } elseif($_FILES) {
       $path = $_POST['wildfire_file_folder'];
@@ -349,6 +355,7 @@ class CMSApplicationController extends WaxController{
 				$model = new $class($model_id);
 				$model->$field = $newfile;
 			}
+			$this->after_upload($newfile);
       echo "Uploaded";
     } else die("UPLOAD ERROR");
     exit;

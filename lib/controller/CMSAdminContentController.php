@@ -168,7 +168,9 @@ class CMSAdminContentController extends AdminComponent {
 	  $preview = new $this->model_class;
 	  $ret = $preview->filter("preview_master_id",$master->{$master->primary_key})->filter("status",4)->first();
 	  if(!$ret){ //if a preview entry doesn't exist create one
-      $preview->clear()->save(); //create preview model, needs an ID so associations will work
+			$row = $master->row;
+			unset($row[$master->primary_key]);
+      $preview->clear()->update_attributes($row)->save(); //create preview model, needs an ID so associations will work
 		  $preview_primval = $preview->primval(); //save new ID to put back later
 		  foreach($master->columns as $col => $params) if($master->$col) $preview->$col = $master->$col; //copy all columns into the preview model
 	    $preview->{$preview->primary_key} = $preview_primval;

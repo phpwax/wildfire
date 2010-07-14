@@ -111,8 +111,21 @@ class CmsTextFilter  {
 		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
-		$text = preg_replace("/<a href=\"([^\"]*)\" rel=\"([0-9]*px):([0-9]*px)\">([^<]*)youtube([^<]*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*<\/a>/", $youtube, $text);
+		$text = preg_replace("/<a href=\"([^\"]*)\" class=\"([0-9]*px):([0-9]*px)\">([^<]*)youtube([^<]*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*<\/a>/", $youtube, $text);
 		
+		/*extra youtube - no rel bits*/
+		$youtube2 = '<object width="{%WIDTH%}" height="{%HEIGHT%}">
+		  <param name="movie" value="http://www.youtube.com/v/{%VIDEO%}" />
+		  <embed src="http://www.youtube.com/v/{%VIDEO%}" type="application/x-shockwave-flash" width="{%WIDTH%}" height="{%HEIGHT%}"></embed>
+		</object>';
+		//first find all youtube videos
+		$videos = preg_match_all("/(<a href=\"(.*?)youtube.com([^<]*)v=([^<]*)([^<]*)\">(.*?)<\/a>)/i", $text, $matches);
+		if(($replacements = $matches[0]) && ($vs = $matches[4]) && ($urls = $matches[6])){
+			foreach($replacements as $i=>$r){
+				$text = str_replace($r, str_replace("{%VIDEO%}", $vs[$i], str_replace("{%HEIGHT%}", "344", str_replace("{%WIDTH%}", "425", $youtube2))), $text);
+			}
+		}
+
 
 		/*VIMEO*/
 		$vimeo ='<object width="$2" height="$3">

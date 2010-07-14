@@ -23,19 +23,23 @@ WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote"
 WYMeditor.editor.prototype.wildfire = function() {
   var wym = this;
 
-
   /*************Additions to language code***************/
   WYMeditor.STRINGS['en'].Source_Code = 'Source code';
   WYMeditor.STRINGS['en'].Main_Heading = 'Main Heading';
   WYMeditor.STRINGS['en'].Sub_Heading = 'Sub Heading';
   WYMeditor.STRINGS['en'].Small_Heading = 'Small Heading';
   /*******************************************/
-  updateHTML = jQuery(".wym_containers").html();
-  jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
-  jQuery(this._box).find(this._options.containerSelector).click(function() {
-    wym.container(jQuery(this).attr(WYMeditor.NAME));
-    return(false);
+  
+  jQuery(this._box).find(".wym_containers").each(function(){
+       updateHTML = jQuery(this).html();
+       $(this).html(wym.replaceStrings(updateHTML));
   });
+
+  jQuery(this._box).find(this._options.containerSelector).click(function() {
+ 	  	        wym.container(jQuery(this).attr(WYMeditor.NAME));
+ 	  	        return(false);
+ 	});
+  
 
   WYMeditor.BLOCKS = new Array("address", "blockquote", "div", "dl",
    "fieldset", "form", "h3", "h4", "h5", "h6", "hr",
@@ -182,13 +186,13 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery("#video_dialog").dialog("open");
     jQuery("#insert_video_button").unbind("click").click(function(){
-      var url = jQuery("#vid_id").val();
-      var width = jQuery("#vid_x").val();
-      var height = jQuery("#vid_y").val();
-      var local = jQuery("#local_vid").val();
-      if(local.length > 0) wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>LOCAL:"+local+"</a>");
-    	else wym._exec('inserthtml', "<a href='"+url+"' rel='"+width+"px:"+height+"px'>"+url+"</a>");
+			console.log('inserting...');
+      var url = jQuery("#vid_id").val(), width = jQuery("#vid_x").val(), height = jQuery("#vid_y").val(), local = jQuery("#local_vid").val();
+			
+      if(local.length > 0) wym._exec('inserthtml', '<a href="'+url+'" class="'+width+'px:'+height+'px">LOCAL:'+url+'</a>');
+    	else wym._exec('inserthtml', '<a href="'+url+'" class="'+width+'px:'+height+'px">'+url+'</a>');
       jQuery("#video_dialog").dialog("close");
+			return false;
     });
   });
 

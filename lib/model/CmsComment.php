@@ -41,7 +41,10 @@ class CmsComment extends WaxModel {
 		
 	  	if($this->status == 0 || $this->status == 2){
   			$verification_email = new WildfireNotifier;
-  			$verification_email->add_to_address($email_config["comment_email_to"]);
+
+				if(is_array($email_config["comment_email_to"]))
+					foreach($email_config["comment_email_to"] as $name=>$email) $verification_email->add_to_address($email,$name);
+				else $verification_email->add_to_address($email_config["comment_email_to"]);
 			
   			$data["id"] = $this->id;
   			$data["author_name"] = $this->author_name;
