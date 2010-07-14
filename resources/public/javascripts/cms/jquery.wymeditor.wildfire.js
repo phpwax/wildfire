@@ -69,11 +69,22 @@ WYMeditor.editor.prototype.wildfire = function() {
     "name"
     ]
   };
+  wym.parser._Listener.validator._tags.iframe = {
+    "attributes":[
+      "width",
+      "height",
+      "frameborder",
+      "scrolling",
+      "marginheight",
+      "marginwidth",
+      "src"
+    ]
+  };
   wym.parser._Listener.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
     "base", "bdo", "big", "blockquote", "body", "button",
     "caption", "cite", "code", "col", "colgroup", "dd", "del", "div",
     "dfn", "dl", "dt", "em", "fieldset", "form", "head", "h1", "h2",
-    "h3", "h4", "h5", "h6", "html", "i", "ins",
+    "h3", "h4", "h5", "h6", "html", "i", "ins", "iframe",
     "kbd", "label", "legend", "li", "map", "noscript",
     "object", "ol", "optgroup", "option", "p", "pre", "q",
     "samp", "script", "select", "small", "span", "strong", "style",
