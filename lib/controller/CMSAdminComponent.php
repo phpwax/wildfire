@@ -217,8 +217,12 @@ class CMSAdminComponent extends WaxController {
 		
 		if($id) { /*updated to new methods*/
 			$field = $this->model->primary_key;
-			$model= $this->model->clear()->filter($field.'='.$id)->first()->limit(false)->delete();
-			Session::add_message("Item successfully deleted");
+			if($model = $this->model->clear()->filter($field.'='.$id)->first()){
+			  $model->limit(false)->delete();
+  			Session::add_message("Item successfully deleted");
+			}else{
+  			Session::add_message("Could not find item to delete");
+			}
 			
 			$this->redirect_to("/".Request::get("controller")."/index");
 		}
