@@ -90,7 +90,6 @@ class CMSAdminComponent extends WaxController {
 
 		$this->all_modules = $this->configure_modules();
 		$this->menu_modules = $this->configure_modules('menu');
-	
 	  if(!in_array(Request::get("action"),array("login","install"))) $this->check_authorised();
 		
 		
@@ -98,7 +97,6 @@ class CMSAdminComponent extends WaxController {
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');
 		}
-		
 		if($this->model_class) {
 		  $this->model = new $this->model_class;
 		  $this->model_name = Inflections::underscore($this->model_class);
