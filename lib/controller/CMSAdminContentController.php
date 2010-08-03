@@ -13,6 +13,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $category_model = "CmsCategory";
 	public $category_order = "name ASC";
 	public $inline_category_create_allowed = true;
+	public $show_categories = true;
 	
 	public $scaffold_columns = array(
     "title"   =>array("link"=>"edit"),

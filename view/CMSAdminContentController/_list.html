@@ -29,6 +29,7 @@
           <?endif;?>
         </td>
       <?endforeach?>
+			<?if($show_categories):?>
       <td class="column">
         <?$cats = 0?>
         <?foreach($row->categories as $cat):?>
@@ -40,6 +41,7 @@
           <?$cats++?>
         <?endforeach?>
       </td>
+			<?endif?>
       <td class="column last">    
         <?if($current_user->access($module_name,"edit")):?>
           <div class="generic_button"><a href="<?=$all_modules[$module_name]['link']?>edit/<?=$primval?>/">Edit</a></div>

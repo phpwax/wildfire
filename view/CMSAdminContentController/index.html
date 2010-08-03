@@ -13,7 +13,7 @@
           else echo $params["display"]?>
       </th>
       <?endforeach?> 
-      <th class="nosortcolumn">Categories</th>
+      <?if($show_categories):?><th class="nosortcolumn">Categories</th><?endif?>
       <th class="nosortcolumn">Operations</th>
     </tr>
   </thead>
