@@ -83,7 +83,8 @@ class CMSAdminContentController extends AdminComponent {
 		* work out the items to display - hide those temp files
 		**/
 		$this->display_action_name = 'List Items';
-		$this->all_rows = $this->model->filter(array("status"=>array(0,1)))->order($this->default_order." ".$this->default_direction)->page($page, $this->list_limit);
+		if($this->status_col) $this->model->filter(array("status"=>array(0,1)));
+		$this->all_rows = $this->model->order($this->default_order." ".$this->default_direction)->page($page, $this->list_limit);
 	}
 	/**
 	* Ajax Filter list view
