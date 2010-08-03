@@ -36,6 +36,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $modal_preview = false;
 	public $languages = array(0=>"english");
 	public static $permissions = array("create","edit","delete", "publish");
+	public $model_has_revisions = true;
 	
 	public function controller_global(){
     if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
@@ -147,7 +148,7 @@ class CMSAdminContentController extends AdminComponent {
 	 * publish function, passes on to save, but forces status to published or updates existing page
 	 */
 	protected function publish($model, $redirect_to=false) {
-    if($model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
+    if($this->model_has_revisions && $model->status == 4){ //if we have a preview copy we should update the master and destroy the copy
       $master = $model->master;
       $_POST[$model->table]['status'] = $master->status;
       $_POST[$model->table]['preview_master_id'] = $master->master;
@@ -201,7 +202,7 @@ class CMSAdminContentController extends AdminComponent {
 	 * @author Sheldon
 	 */
 	public function delete(){
-	  $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
+	  if($this->model_has_revisions) $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
 	  parent::delete();
 	}
 	/**
