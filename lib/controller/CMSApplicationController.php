@@ -370,7 +370,12 @@ class CMSApplicationController extends WaxController{
     } else die("UPLOAD ERROR");
     exit;
 	}
-
+  
+  public function wildfire_email_new_content(){
+    $postdata = file_get_contents("php://input");
+    file_put_contents(WAX_ROOT."tmp/test.email.in", $postdata);
+    exit;
+  }
 }
 
 ?>
