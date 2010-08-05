@@ -410,10 +410,11 @@ class CMSApplicationController extends WaxController{
   }
   
   public function wildfire_email_new_content(){
-    $email = file_get_contents("php://input");
-    if(ENV != "development"){
-      //extra security checks go here
+    if($_SERVER['SERVER_ADDR'] != "127.0.0.1"){
+      WaxLog::log("error","[wildfire email content input] Security error, someone tried to hit the email input url from somewhere other than localhost. _SERVER Dump:\n".print_r($_SERVER, 1));
     }
+    
+    $email = file_get_contents("php://input");
     $email = $this->wildfire_email_parse($email);
     $html_email;
     $text_email;
