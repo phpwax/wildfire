@@ -371,10 +371,77 @@ class CMSApplicationController extends WaxController{
     exit;
 	}
   
+  private function wildfire_email_parse($email){
+    $email = trim($email);
+    
+    //split into header and body
+    $split_pos = strpos($email, "\n\n");
+    $email = array("header"=>trim(substr($email,0,$split_pos)),"body"=>trim(substr($email,$split_pos)));
+    
+    //arrayify headers
+    preg_match_all("/(.*?): (.*)/", $email["header"], $matches);
+    $email["header"] = array();
+    foreach($matches[0] as $i => $header) $email["header"][$matches[1][$i]] = $matches[2][$i];
+    
+    //convert charset to UTF8
+    preg_match("/.*?charset=(.*)/", $email["header"]["Content-Type"], $matches);
+    $email["body"] = iconv($matches[1], "UTF-8", $email["body"]);
+    
+    //handle multipart recursively
+    if(strpos($email["header"]["Content-Type"], "multipart") !== false){
+      //find boundary in content type
+      $boundary = substr($email["header"]["Content-Type"], strpos($email["header"]["Content-Type"], "boundary=") + 9);
+      
+      //split body on boundary
+      $email['body'] = explode("\n--$boundary\n", $email['body']);
+      
+      //remove closing boundary at end of body
+      $last = $email['body'][count($email['body']) - 1];
+      $email['body'][count($email['body']) - 1] = substr($last, 0, strpos($last, "--$boundary--"));
+      
+      //parse each part as if it were a separate email
+      foreach($email['body'] as $i => $part) $email['body'][$i] = $this->wildfire_email_parse($part);
+    }
+    
+    return $email;
+  }
+  
   public function wildfire_email_new_content(){
-    $postdata = file_get_contents("php://input");
-    file_put_contents(WAX_ROOT."tmp/test.email.in", $postdata);
+    $email = file_get_contents("php://input");
+    if(ENV != "development"){
+      //extra security checks go here
+    }
+    $email = $this->wildfire_email_parse($email);
+    $html_email;
+    $text_email;
+    if(strpos($email["header"]["Content-Type"], "multipart") !== false){
+      foreach($email["body"] as $part){
+        if(strpos($part["header"]["Content-Type"], "text/plain") !== false && !$text_email) $text_email = $part;
+        elseif(strpos($part["header"]["Content-Type"], "text/html") !== false && !$html_email) $html_email = $part;
+      }
+      $text_email["header"] = array_merge($email["header"], $text_email["header"]);
+      $html_email["header"] = array_merge($email["header"], $html_email["header"]);
+    }else{
+      if(strpos($email["header"]["Content-Type"], "text/plain") !== false) $text_email = $email;
+      elseif(strpos($email["header"]["Content-Type"], "text/html") !== false) $html_email = $email;
+    }
+    if($html_email) $email = $html_email;
+    else $email = $text_email;
+    if($email && $this->wildfire_email_post_process($email)) echo "content created";
+    else echo "error creating content";
     exit;
+  }
+  
+  /**
+   * made these a separate function so it can be overridden on each site
+   */
+  public function wildfire_email_post_process($email){
+    $new_content = new CmsContent;
+    $new_content->status = 0;
+    $new_content->title = $email["header"]["Subject"];
+    $new_content->content = $email["body"];
+    $new_content->save();
+    if(!$new_content->errors) return true;
   }
 }
 
