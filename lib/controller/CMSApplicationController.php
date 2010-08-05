@@ -387,6 +387,9 @@ class CMSApplicationController extends WaxController{
     preg_match("/.*?charset=(.*)/", $email["header"]["Content-Type"], $matches);
     if($matches) $email["body"] = iconv($matches[1], "UTF-8", $email["body"]);
     
+    //convert quoted-printable
+    if($email["header"]["Content-Transfer-Encoding"] == "quoted-printable") $email["body"] = quoted_printable_decode($email["body"]);
+    
     //handle multipart recursively
     if(strpos($email["header"]["Content-Type"], "multipart") !== false){
       //find boundary in content type
