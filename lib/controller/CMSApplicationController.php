@@ -410,7 +410,7 @@ class CMSApplicationController extends WaxController{
   }
   
   public function wildfire_email_new_content(){
-    if($_SERVER['REMOTE_ADDR'] != "127.0.0.1"){
+    if($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']){
       WaxLog::log("error","[wildfire email content input] Security error, someone tried to hit the email input url from somewhere other than localhost. _SERVER Dump:\n".print_r($_SERVER, 1));
       exit;
     }
