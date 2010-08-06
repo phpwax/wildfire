@@ -371,6 +371,19 @@ class CMSApplicationController extends WaxController{
     exit;
 	}
   
+  /**
+   * this series of methods is for handling posted emails and creating content from them
+   * see mail-input.sh for how the mail gets forwarded into this script
+   *
+   * incoming mail setup:
+   *
+   * setup postfix (or another mail handler) on the server to accept mail for a domain that also points to the virtual host
+   * (on ubuntu apt install postfix and then run 'dpkg-reconfigure postfix', follow instructions)
+   * add '<username>: <username>, "|/home/<username>/plugins/cms/mail-input.sh"' to /etc/aliases
+   * run newaliases
+   *
+   * @author Sheldon Els
+   */
   private function wildfire_email_parse($email){
     $email = trim($email);
     
