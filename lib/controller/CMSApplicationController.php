@@ -438,7 +438,7 @@ class CMSApplicationController extends WaxController{
         elseif(strpos($part["header"]["Content-Type"], "text/html") !== false && !$html_email) $html_email = $part;
       }
       $text_email["header"] = array_merge($email["header"], $text_email["header"]);
-      $html_email["header"] = array_merge($email["header"], $html_email["header"]);
+      if($html_email["header"]) $html_email["header"] = array_merge($email["header"], $html_email["header"]);
     }else{
       if(strpos($email["header"]["Content-Type"], "text/plain") !== false) $text_email = $email;
       elseif(strpos($email["header"]["Content-Type"], "text/html") !== false) $html_email = $email;
