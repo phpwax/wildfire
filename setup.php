@@ -10,6 +10,7 @@ CMSApplication::register_module("home", array("display_name"=>"Dashboard", "link
 CMSApplication::register_module("sections", array("display_name"=>"Site Sections", "link"=>"/admin/sections/",'auth_level'=>30));
 CMSApplication::register_module("categories", array("display_name"=>"Categories", "link"=>"/admin/categories/",'auth_level'=>20));
 CMSApplication::register_module("content", array("display_name"=>"Content", "link"=>"/admin/content/",'auth_level'=>10));
+CMSApplication::register_module("related", array("display_name"=>"Related Links", "link"=>"/admin/related/",'auth_level'=>10));
 CMSApplication::register_module("comments", array("display_name"=>"Comments", "link"=>"/admin/comments/",'auth_level'=>5));
 CMSApplication::register_module("files", array("display_name"=>"Files", "link"=>"/admin/files/", 'auth_level'=>0));
 CMSApplication::register_module("users", array("display_name"=>"CMS Users", "link"=>"/admin/users/",'auth_level'=>30));

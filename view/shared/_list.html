@@ -11,10 +11,10 @@
       <?endforeach?>
       <td class="column">
         <?if($current_user->access($module_name,"edit")):?>
-        <div class="generic_button"><a href="edit/<?=$row->id?>/">Edit</a></div>
+        <div class="generic_button edit_button"><a href="edit/<?=$row->id?>/">Edit</a></div>
         <?endif?>
         <?if($current_user->access($module_name,"delete")):?>
-        <div class="generic_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <div class="generic_button delete_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
         <?endif?>
       </td>
     </tr>

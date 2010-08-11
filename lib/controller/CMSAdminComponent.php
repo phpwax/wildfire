@@ -271,5 +271,8 @@ class CMSAdminComponent extends WaxController {
 	
 	public function help(){}
 	
+	public function related_links(){
+	  $this->related_form = new WaxForm(new CmsRelated);
+	}
 }
 ?>

@@ -8,6 +8,7 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
  ${SRC_DIR}/cms/cms_init.js\
  ${SRC_DIR}/cms/wildfire_site_content.js\
  ${SRC_DIR}/cms/wildfire_dashboard.js\
+ ${SRC_DIR}/cms/wildfire_related.js\
  ${SRC_DIR}/upload/swfupload.js\
  ${SRC_DIR}/upload/swfupload.queue.js\
  ${SRC_DIR}/upload/fileprogress.js\
