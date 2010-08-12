@@ -13,12 +13,16 @@ class CmsSection extends WaxTreeModel {
 		$this->define("url", "CharField", array('maxlength'=>255) );
 		$this->define("content", "HasManyField", array('target_model'=>'CmsContent'));
     $this->define("default_page", "ForeignKey", array('target_model'=>'CmsContent', 'col_name'=>'default_page_id'));
+		$this->define("date_modified", "DateTimeField", array("editable"=>false));
+		$this->define("date_created", "DateTimeField", array("editable"=>false));
 	}
-
+  
 	public function before_save() {
 	  parent::before_save();
 		$this->url = Inflections::to_url($this->title);
-	}	
+    if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
+    $this->date_modified = date("Y-m-d H:i:s");
+	}
 
 	public function sections_as_collection($input=false,$padding_char ="&nbsp;&nbsp;") {
 		if(!$input) $input = new WaxRecordset(new CmsSection(), $this->tree());
@@ -48,6 +52,9 @@ class CmsSection extends WaxTreeModel {
     foreach($this->tree() as $node) $ids[] = $node->primval;    
     return $content->filter(array('cms_section_id' => $ids, "status" => array(0,1)))->all();
   }
-}
 
+	public function scope_search(){
+	  return $this->order("date_modified DESC");
+	}
+}
 ?>

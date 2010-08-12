@@ -20,6 +20,8 @@ class CMSAdminHomeController extends AdminComponent {
 	
 	public static $permissions = array("stats");
 	
+	public $search_models = array("sections"=>"CmsSection","content"=>"CmsContent");
+	public $search_limit = 8;
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
 	**/
@@ -240,5 +242,24 @@ class CMSAdminHomeController extends AdminComponent {
         return $subs;
       } else return false;
     } else throw new WaxException("No Access To Google Analytics");
+  }
+  
+  public function search(){
+	  $this->use_layout = false;
+	  $this->results = array();
+	  if($input = Request::param("input")){
+      foreach($this->search_models as $module => $model_class){
+        if($this->current_user->access($module,"edit")){
+          $model = new $model_class("search");
+          $model->filter("title", "%$input%", "LIKE");
+    	    foreach($model->limit($this->search_limit)->all() as $result){
+    	      $result->module = $module;
+    	      $this->results[strtotime($result->date_modified).$result->title.$result->module] = $result;
+  	      }
+  	    }
+      }
+    }
+    krsort($this->results);
+    $this->results = array_slice($this->results, 0, $this->search_limit);
   }
 }

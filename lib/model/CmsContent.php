@@ -292,4 +292,8 @@ class CmsContent extends WaxModel {
 	  $rel->filter("(source_model = ? AND source_id = ?) OR (dest_model = ? AND dest_id = ?)", array(get_class($this), $this->primval(), get_class($this), $this->primval()))->delete();
 	  return $ret;
 	}
+	
+	public function scope_search(){
+	  return $this->filter("status",array(0,1),"IN")->order("date_modified DESC");
+	}
 }
