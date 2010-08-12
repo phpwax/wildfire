@@ -269,6 +269,20 @@ class CmsContent extends WaxModel {
 		return false;
 	}
 	
-
+	// extend copy to also copy related links, even though they're not technically a join, we need them to copy over for the preview/language copies to work right with related links
+	public function copy($dest = false){
+	  $ret = parent::copy($dest);
+    if($dest){
+      foreach(CmsRelated::fetch($dest)->all() as $rel) $rel->delete();
+      //only recreate new links if destination is set, because when desitnation is false WaxModel->copy is recursive, it will get here anyway. If we put it outside the if, it would end up being called twice as a result of the recursion.
+      foreach(CmsRelated::fetch($this)->all() as $rel){
+        $rel->id = false;
+        $rel->source_model = get_class($this);
+        $rel->source_id = $ret->primval();
+        $rel->save();
+      }
+    }
+    return $ret;
+	}
 	
 }
