@@ -17,7 +17,10 @@ class CmsRelated extends WaxModel {
   public static function fetch($model){
     $ret = new CmsRelated;
     if($model instanceof WaxModel && ($id = $model->primval()))
-      return $ret->filter(array("source_model" => get_class($model), "source_id" => $id));
+      $ret->filter(array("source_model" => get_class($model), "source_id" => $id));
+    else
+      $ret->filter("1 = 2");
+    return $ret;
   }
     
   public function dest(){ return $this->dest_model($this->dest_id); }
