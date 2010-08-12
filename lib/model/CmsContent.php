@@ -271,4 +271,8 @@ class CmsContent extends WaxModel {
 	
 
 	
+	
+	public function scope_search(){
+	  return $this->filter("status",array(0,1),"IN")->order("date_modified DESC");
+	}
 }
