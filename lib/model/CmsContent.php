@@ -285,4 +285,11 @@ class CmsContent extends WaxModel {
     return $ret;
 	}
 	
+	// extend delete to get rid of related items for that piece of content
+	public function delete(){
+	  $ret = parent::delete();
+	  $rel = new CmsRelated;
+	  $rel->filter("(source_model = ? AND source_id = ?) OR (dest_model = ? AND dest_id = ?)", array(get_class($this), $this->primval(), get_class($this), $this->primval()))->delete();
+	  return $ret;
+	}
 }
