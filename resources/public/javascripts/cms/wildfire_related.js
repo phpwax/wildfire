@@ -45,11 +45,11 @@ jQuery(document).ready(function(){
       complete: function(response){
         if(typeof(t) != "undefined" ) clearTimeout(t);
         jQuery(".related_holder .live_search_results").html(response.responseText).show().find("a").click(function(){
-          var model_info = jQuery(this).attr("rel").split(":");
-          jQuery("#cms_related_dest_model").val(model_info[0]);
-          jQuery("#cms_related_dest_id").val(model_info[1]);
-          jQuery("#cms_related_title").val(model_info[2]);
-          jQuery("#cms_related_url").val(model_info[3]);
+          var clicked_a = jQuery(this);
+          jQuery("#cms_related_dest_model").val(clicked_a.attr("data-model"));
+          jQuery("#cms_related_dest_id").val(clicked_a.attr("data-id"));
+          jQuery("#cms_related_title").val(clicked_a.attr("data-title"));
+          jQuery("#cms_related_url").val(clicked_a.attr("data-url"));
           live_search_close();
           return false;
         });
