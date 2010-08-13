@@ -28,7 +28,7 @@ jQuery(document).ready(function(){
     return false;
   });
   
-  jQuery(".related_holder input[type='text']").keyup(function() {
+  jQuery(".related_holder input[name='cms_related[title]'], .related_holder input[name='cms_related[url]']").keyup(function() {
     var search_field = jQuery(this);
     if(typeof(t) != "undefined" ) clearTimeout(t);
     if(jQuery(this).attr("id") == "cms_related_url") jQuery("#cms_related_dest_model, #cms_related_dest_id").val("");
