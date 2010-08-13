@@ -17,7 +17,7 @@ jQuery(document).ready(function(){
     var add_button = jQuery(this);
     jQuery.ajax({
       url: add_button.attr("href"),
-      data: add_button.siblings("input").serialize() + "&ajax=1",
+      data: add_button.closest(".related_holder").find("input").serialize() + "&ajax=1",
       type: "POST",
       global: false,
       success: function(response){
