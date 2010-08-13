@@ -1678,3 +1678,14 @@ div.wym_area_top{height:35px !important;}
 #section-2, #section-4{float:left; width:100%;}
 .ui-widget{font-size:1em;}
 a{text-decoration:none;}
+.related_holder input{
+  margin:0 20px 0 10px;
+}
+div.add_related_button{
+  float:none;
+  display:inline;
+  padding:5px 1px;
+}
+div.add_related_button a{
+  display:inline;
+}
