@@ -3,11 +3,11 @@
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
           <?if($column == "title"):?>
-            <?if($url = $row->url):?>
-              <a href="<?=$url?>"><?=$row->title?></a>
-            <?else:?>
+            <?if($row->dest_id):?>
               <?$dest_model = new $row->dest_model($row->dest_id)?>
               <a href="<?=$dest_model->permalink()?>"><?=$row->title?></a>
+            <?else:?>
+              <a href="<?=$row->url?>"><?=$row->title?></a>
             <?endif?>
           <?elseif($column == "source"):?>
             <?$source_model = new $row->source_model($row->source_id)?>

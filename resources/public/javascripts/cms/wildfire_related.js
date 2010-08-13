@@ -27,4 +27,40 @@ jQuery(document).ready(function(){
     });
     return false;
   });
+  
+  jQuery(".related_holder input[type='text']").keyup(function() {
+    var search_field = jQuery(this);
+    if(typeof(t) != "undefined" ) clearTimeout(t);
+    if(jQuery(this).attr("id") == "cms_related_url") jQuery("#cms_related_dest_model, #cms_related_dest_id").val("");
+    if(search_field.val().length)
+      t = setTimeout(function(){live_search(search_field.val());}, 400);
+  });
+  
+  jQuery(".live_search_results").hover(function(){}, function(){
+    s = setTimeout(live_search_close, 800);
+  });
+  
+  var live_search = function(filter) {
+    jQuery.ajax({type: "post", url: "/admin/home/search", data: "button_text=Link&input="+filter,
+      complete: function(response){
+        if(typeof(t) != "undefined" ) clearTimeout(t);
+        jQuery(".related_holder .live_search_results").html(response.responseText).show().find("a").click(function(){
+          var model_info = jQuery(this).attr("rel").split(":");
+          jQuery("#cms_related_dest_model").val(model_info[0]);
+          jQuery("#cms_related_dest_id").val(model_info[1]);
+          jQuery("#cms_related_title").val(model_info[2]);
+          jQuery("#cms_related_url").val(model_info[3]);
+          live_search_close();
+          return false;
+        });
+      }
+    });
+  }
+  
+  var live_search_close = function() {
+    if(typeof(s) != "undefined" ) clearTimeout(s);
+    jQuery(".live_search_results").empty();
+    jQuery(".live_search_results").hide();
+  }
+  
 });

@@ -261,5 +261,6 @@ class CMSAdminHomeController extends AdminComponent {
     }
     krsort($this->results);
     $this->results = array_slice($this->results, 0, $this->search_limit);
+    $this->button_text = Request::param("button_text");
   }
 }

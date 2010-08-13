@@ -1,6 +1,7 @@
 <div class="related_holder">
   <div class="filter_block" class="clearfix">
     <?=$related_form->title->render()?>
+    <ul class="live_search_results"></ul>
     <?=$related_form->url->render()?>
     <?=$related_form->desc->render()?>
     <input type="hidden" id="cms_related_source_model" value="<?=get_class($model)?>" name="cms_related[source_model]"/>

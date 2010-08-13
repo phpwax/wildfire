@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
 
 function live_search(filter) {
   jQuery("#live_search_field").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  jQuery.ajax({type: "post", url: "/admin/home/search", data: "input="+filter,
+  jQuery.ajax({type: "post", url: "/admin/home/search", data: "button_text=Edit&input="+filter,
     complete: function(response){
       jQuery("#live_search_field").parent().find(".live_search_results").html(response.responseText).show();
       if(typeof(t) != "undefined" ) clearTimeout(t);
