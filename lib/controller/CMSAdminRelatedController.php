@@ -17,7 +17,7 @@ class CMSAdminRelatedController extends AdminComponent {
 	  if(Request::param("ajax")){
 	    //swallow message
 	    $messages = Session::get('user_messages');
-	    array_pop($messages);
+	    if($messages) array_pop($messages);
 	    Session::set('user_messages', $messages);
 	    
 	    $created_model = $this->model;
