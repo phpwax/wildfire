@@ -1,23 +1,32 @@
 body, html {
-  background:#ebebeb;
+  background:#f15623;
 }
 #login_box {
-  background:#414141;
-  margin:100px auto;
+  margin:0px auto;
   text-align:center;
+  padding-left:154px;
+  background:url("../../images/cms/v5loginbg.jpg") no-repeat left top;
+  width:500px;
 }
 
 #login_box #logo {
-  background:url(../../images/cms/wildfire_login_logo.gif) no-repeat center 20px;
+  background:url(../../images/cms/v5logo.png) no-repeat left 20px;
   height:108px;
 }
 
 #login_box #login_area {
-  text-align:center;
+  text-align:left;
   padding:0 10px;
   padding-bottom:15px;
-  width:300px;
+  width:310px;
   margin:0 auto;
+  padding:160px 0 300px 0;
+  padding-left:10px;
+/*  -moz-box-shadow: inset 0 0 2px rgba(0,0,0, 0.25);
+  -webkit-box-shadow: inset 0 0 2px rgba(0,0,0, 0.25);
+  */
+  background:-moz-radial-gradient(70px 45deg, ellipse farthest-side, #be3c29 0%,#F15623 100%);
+  background:-webkit-gradient(radial, -28 center, 309, -28 center, 74, from(#F15623), to(#be3c29));
 }
 #login_box #login_area .form_container {
   margin:0;
@@ -29,14 +38,35 @@ body, html {
   color:white;
   font-size:85%;
   margin:0;
+  text-transform:uppercase;
+  font-weight:bold;
+  text-shadow: rgba(0,0,0,0.4) 1px 1px 5px;
+  font-family:"Arial Black", Arial, Helvetica, sans-serif;
+  margin-left:2px;
+  margin-top:8px;
 }
 .user_messages {
-  background:#d02c40;
-  margin:8px 40px 0 40px;
+  background:#f6c8d7;
+  margin:8px 10px 0 10px;
   -webkit-border-radius:3px;
+  -moz-border-radius:3px;
   border:0;
-  color:white;
+  color:#111;
   font-size:100%;
+  width:235px;
+  -moz-box-shadow:  -1px 0 4px rgba(0,0,0, 0.25);
+  -webkit-box-shadow: -1px 0 4px rgba(0,0,0, 0.25);
+  font-size:85%;
+  font-weight:bold;
 }
-
+#login_box #login_area .text_field {
+  -webkit-border-radius:5px;
+  -moz-border-radius:3px;
+  border:0;
+  -moz-box-shadow:  1px 1px 4px rgba(0,0,0, 0.25);
+  -webkit-box-shadow: 1px 1px 4px rgba(0,0,0, 0.25);
+  margin-left:2px;    
+  width:250px;
+  height:25px;
+}
 
