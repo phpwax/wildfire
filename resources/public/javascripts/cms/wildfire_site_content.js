@@ -136,12 +136,14 @@ jQuery(document).ready(function(event) {
   });
   jQuery("#category_filter").blur(function(){if(jQuery(this).val() =="") {jQuery(this).val('Filter');} });
   jQuery("#wildfire_file_new_folder").change(function(t){
-    jQuery.post(file_browser_location,{filterfolder:jQuery(this).val(), mime_type:file_mime_type},
-      function(response) { 
-        jQuery("#image_list").html(response); 
-        initialise_images(); 
-      }
-    );
+		if(jQuery(this).val() != ""){
+			jQuery.post(file_browser_location,{filterfolder:jQuery(this).val(), mime_type:file_mime_type},
+	      function(response) { 
+	        jQuery("#image_list").html(response); 
+	        initialise_images(); 
+	      }
+	    );
+		}else jQuery("#image_list").html("");
   });
   jQuery("#view_all_button").click(function(){
     jQuery.post(file_browser_location,{mime_type:file_mime_type},
@@ -156,10 +158,10 @@ jQuery(document).ready(function(event) {
   
   
   /*** Load in the first page of images via ajax ***/
-  jQuery.get(file_browser_location+"/1/?mime_type="+file_mime_type, function(response){
-    jQuery("#image_list").html(response);
-    initialise_images();
-  });
+  // jQuery.get(file_browser_location+"/1/?mime_type="+file_mime_type, function(response){
+  //     jQuery("#image_list").html(response);
+  //     initialise_images();
+  //   });
   jQuery('.jqwysi').wymeditor({
     skinPath: "/stylesheets/wymeditor/wildfire/",
     skin: 'wildfire',
