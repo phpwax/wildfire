@@ -1242,17 +1242,25 @@ li.pagination_link a {
   box-shadow:         inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow:    inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
-  
 }
-#quick_header_links #build_new_button {
+#quick_header_links a:hover {
+  color:#d1d1d1;
+  -webkit-box-shadow: inset 0px -1px 10px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow:    inset 0px -1px 10px 1px rgba(0, 0, 0, 0.2);
+}
+#quick_header_links #build_new_button, #quick_header_links #files_button {
   box-shadow:         1px 1px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
   -moz-box-shadow:    1px 1px 8px rgba(0, 0, 0, 0.3);
   float:left;
 }
-#quick_header_links #build_new_button a {
+#quick_header_links #build_new_button a, #quick_header_links #files_button a {
   background:url(/images/cms/v5buildicon.png) no-repeat 12px center;
   padding-left:49px;
+}
+#quick_header_links #files_button {margin-left:12px;}
+#quick_header_links #files_button a {
+  background:url(/images/cms/v5fileicon.png) no-repeat 12px center;
 }
 #quick_search #live_search_field {
   background:#FFF url(../../images/cms/v5searchicon.png) no-repeat center right;
