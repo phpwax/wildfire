@@ -91,8 +91,6 @@ class CMSAdminComponent extends WaxController {
 		$this->all_modules = $this->configure_modules();
 		$this->menu_modules = $this->configure_modules('menu');
 	  if(!in_array(Request::get("action"),array("login","install"))) $this->check_authorised();
-		
-		
 		if(!array_key_exists($this->module_name, $this->all_modules)){
 			Session::add_message('This component is not registered with the application.');
 			$this->redirect_to('/admin/home/index');

@@ -1,17 +1,28 @@
-<div>
-  <?if($current_user->access($module_name,"stats")):?>
-    <h2>Your Site's Performance</h2>
+<div id="container" class="clearfix">
+  <ul class="tabs-nav clearfix">
+    <li><a href="#stats"><img src="/images/cms/analytics.gif"></a></li>
+    <!-- <li><a href="#goals">Goal Conversions</a></li> -->
+  </ul>
+  <div class="clearfix"></div>
+  <div id="stats" class="tabs-container clearfix">
+    <?if($current_user->access($module_name,"stats")):?>
   
-    <?=partial("_visitor_stats", $this)?>
+      <?=partial("_visitor_stats", $this)?>
     
-    <div class="clearfix"></div>
+      <div class="clearfix"></div>
   
   
-    <?=partial("_links_stats", $this)?>
+      <?=partial("_links_stats", $this)?>
   
-    <div class="clearfix"></div>
-    <?=partial("_search_stats", $this)?>
+      <div class="clearfix"></div>
+      <?=partial("_search_stats", $this)?>
     
-  <?endif?>
+    <?endif?>
+  
+  </div>
+  <!-- <div id="goals" class="tabs-container">
+      some goal conversions go here
+    </div> -->
+  
   
 </div>

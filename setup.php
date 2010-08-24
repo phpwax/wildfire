@@ -3,7 +3,7 @@
 	 any required setup.
 */
 
-define("CMS_VERSION", "v3");
+define("CMS_VERSION", "v5");
 define("CMS_DIR", dirname(__FILE__));
 
 CMSApplication::register_module("home", array("display_name"=>"Dashboard", "link"=>"/admin/home/", 'auth_level'=>0));

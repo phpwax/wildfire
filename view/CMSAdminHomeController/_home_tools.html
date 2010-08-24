@@ -1,14 +1,4 @@
-<?if($current_user->access("content","edit")):?>
-<div id="quick_search">
-  <img src="/images/cms/quick_search_icon.gif" />
-  <h3>Quick Content Finder</h3>
-  <p>Start typing and results will start to appear:</p>
-  <form action="" method="get" accept-charset="utf-8">
-    <input type="text" value="Search" class="live_search disable_enter" id="live_search_field" />
-    <ul class="live_search_results"></ul>
-  </form>
-</div>
-<?endif?>
+
 <?if($current_user->access("content","create")):?>      
 <div id="quick_create">
   <img src="/images/cms/quick_create_icon.gif" />

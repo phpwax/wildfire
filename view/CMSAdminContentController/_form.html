@@ -26,7 +26,9 @@ var content_permalink="<?=$model->permalink?>";
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
         <li><a href="#section-3" id="cat_tab_link">Add <?=ucwords($category_join_field)?></a></li>
       <?endif?>
-      <li><a href="#section-5" id="related_tab_link">Related Links</a></li>
+      <?if($this->current_user->access("related","enabled")):?>
+        <li><a href="#section-5" id="related_tab_link">Related Links</a></li>
+      <?endif?>
       <li><a href="#section-4" id="more_tab_link">More Options</a></li>
       
     </ul>
@@ -61,9 +63,11 @@ var content_permalink="<?=$model->permalink?>";
         <?endif?>
       </div>
       <?endif?>
+      <?if($this->current_user->access("related","enabled")):?>
     	<div id="section-5" class="tabs-container">
     	  <?=partial("related_links", array("model"=>$model, "controller"=>"related"))?>
       </div>
+      <?endif?>
       <div id="section-4" class="tabs-container">
         <fieldset class="content_options">
           <?=medium(datetime_select($model, "published", array(), "Date to be published"))?>

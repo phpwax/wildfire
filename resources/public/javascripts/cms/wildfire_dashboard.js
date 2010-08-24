@@ -10,8 +10,9 @@ jQuery(document).ready(function() {
   });
   
   if(jQuery("#statistics").length){
-    jQuery("#statistics").load("/admin/home/stats", false, function(){
+    jQuery("#statistics").load("/admin/home/stats", function(){
       jQuery(this).css("background-image","none");
+      jQuery(this).find("#container").tabs();
     });
   }
 });
