@@ -315,7 +315,9 @@ function initialise_inline_image_edit(wym) {
 
 function init_inline_image_select(wym) {
   jQuery(".image_display .add_image a").click(function(){
-    jQuery(".inline_image_dialog .selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
+    master_img = jQuery(this).parent().parent().find(".image_place img");
+    jQuery(".inline_image_dialog .selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg").
+      attr("title",master_img.attr("title")).attr("alt",master_img.attr("alt"));
   });
 }
 
