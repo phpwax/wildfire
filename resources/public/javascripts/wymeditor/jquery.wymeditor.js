@@ -840,6 +840,7 @@ WYMeditor.editor.prototype.bindEvents = function() {
   
   //handle click event on tools buttons
   jQuery(wym._box).find(this._options.toolSelector).click(function() {
+		console.log("clicked t - "+jQuery(this).attr(WYMeditor.NAME));
     wym._iframe.contentWindow.focus(); //See #154
     wym.exec(jQuery(this).attr(WYMeditor.NAME));    
     return(false);
@@ -860,7 +861,6 @@ WYMeditor.editor.prototype.bindEvents = function() {
 
   //handle click event on classes buttons
   jQuery(wym._box).find(this._options.classSelector).click(function() {
-  
     var aClasses = eval(wym._options.classesItems);
     var sName = jQuery(this).attr(WYMeditor.NAME);
     
@@ -958,19 +958,16 @@ WYMeditor.editor.prototype.exec = function(cmd) {
 /* @name container
  * @description Get/Set the selected container
  */
-WYMeditor.editor.prototype.container = function(sType) {
+WYMeditor.editor.prototype.container = function(sType, wym) {
 
   if(sType) {
   
     var container = null;
     
     if(sType.toLowerCase() == WYMeditor.TH) {
-    
-      container = this.container();
-      
+      container = this.container();      
       //find the TD or TH container
-      switch(container.tagName.toLowerCase()) {
-      
+      switch(container.tagName.toLowerCase()) {      
         case WYMeditor.TD: case WYMeditor.TH:
           break;
         default:
@@ -978,43 +975,31 @@ WYMeditor.editor.prototype.container = function(sType) {
           container = this.findUp(this.container(), aTypes);
           break;
       }
-      
       //if it exists, switch
-      if(container!=null) {
-      
+      if(container!=null) {      
         sType = (container.tagName.toLowerCase() == WYMeditor.TD)? WYMeditor.TH: WYMeditor.TD;
         this.switchTo(container,sType);
         this.update();
       }
-    } else {
-  
+    }else{  
       //set the container type
       var aTypes=new Array(WYMeditor.P,WYMeditor.H1,WYMeditor.H2,WYMeditor.H3,WYMeditor.H4,WYMeditor.H5,
-      WYMeditor.H6,WYMeditor.PRE,WYMeditor.BLOCKQUOTE);
-      container = this.findUp(this.container(), aTypes);
-      
-      if(container) {
-  
-        var newNode = null;
-  
+      WYMeditor.H6,WYMeditor.PRE,WYMeditor.BLOCKQUOTE,WYMeditor.LI, WYMeditor.UL, WYMeditor.OL);
+      container = this.findUp(wym.container(), aTypes); 
+      if(container) {  			
+        var newNode = null;  
         //blockquotes must contain a block level element
-        if(sType.toLowerCase() == WYMeditor.BLOCKQUOTE) {
-        
-          var blockquote = this.findUp(this.container(), WYMeditor.BLOCKQUOTE);
-          
-          if(blockquote == null) {
-          
+        if(sType.toLowerCase() == WYMeditor.BLOCKQUOTE) {        
+          var blockquote = this.findUp(this.container(), WYMeditor.BLOCKQUOTE);          
+          if(blockquote == null) {          
             newNode = this._doc.createElement(sType);
             container.parentNode.insertBefore(newNode,container);
             newNode.appendChild(container);
-            this.setFocusToNode(newNode.firstChild);
-            
-          } else {
-          
+            this.setFocusToNode(newNode.firstChild);            
+          } else {          
             var nodes = blockquote.childNodes;
             var lgt = nodes.length;
-            var firstNode = null;
-            
+            var firstNode = null;            
             if(lgt > 0) firstNode = nodes.item(0);
             for(var x=0; x<lgt; x++) {
               blockquote.parentNode.insertBefore(nodes.item(0),blockquote);
@@ -1022,10 +1007,7 @@ WYMeditor.editor.prototype.container = function(sType) {
             blockquote.parentNode.removeChild(blockquote);
             if(firstNode) this.setFocusToNode(firstNode);
           }
-        }
-        
-        else this.switchTo(container,sType);
-      
+        }else this.switchTo(container,sType);      
         this.update();
       }
     }
@@ -1540,7 +1522,6 @@ WYMeditor.INIT_DIALOG = function(index) {
 
   jQuery(wym._options.dialogPasteSelector + " "
     + wym._options.submitSelector).click(function() {
-
       var sText = jQuery(wym._options.textSelector).val();
       wym.paste(sText);
       window.close();
