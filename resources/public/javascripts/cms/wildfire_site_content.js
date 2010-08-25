@@ -3,24 +3,28 @@ var model_string;
 var init_upload;
 var autosaver;
 var inline_image_filter_timer;
+var use_old_draggables = false;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 if(typeof(file_options_location) == "undefined") var file_options_location = "/admin/files/file_options";
 var file_mime_type = "image";
 jQuery(document).ready(function() {
+		use_old_draggables = (jQuery('#category_list') && jQuery('#category_list').length)? true : false;
     jQuery("#container").tabs();
     
     jQuery("#page_tab_title").html(jQuery("#cms_content_title").val());
     jQuery("#cms_content_title").keyup(function() {
       jQuery("#page_tab_title").html(jQuery("#cms_content_title").val());
     });
-    jQuery("#new_cat_create").click(function() {
+    
+		jQuery("#new_cat_create").click(function() {
       jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
-        complete: function(response){jQuery("#category_list").html(response); initialise_draggables();}
+        complete: function(response){jQuery("#category_list").html(response); if(use_old_draggables) initialise_draggables();}
       });
       return false;
     });   
-    initialise_draggables();
+    if(use_old_draggables) initialise_draggables();
+		else many_to_many_joins();
     if(jQuery("#copy_permissions_from").length > 0) jQuery("#copy_permissions_from").change(function(){
       jQuery.get("../../copy_permissions_from/"+content_page_id+"?copy_from="+jQuery(this).val(),function(response){
         window.location.reload();
@@ -198,7 +202,7 @@ function delayed_cat_filter(filter) {
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: {"filter":filter}, 
     success: function(response){ 
       jQuery("#category_list").html(response); 
-      initialise_draggables();
+      if(use_old_draggables) initialise_draggables();
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#category_filter").css("background", "white");
     }
@@ -634,6 +638,7 @@ function many_to_many_joins(){
     });
   });
 }
+
 
 
 /** langauge dropdown **/
