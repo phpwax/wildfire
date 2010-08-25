@@ -839,27 +839,27 @@ WYMeditor.editor.prototype.bindEvents = function() {
   var wym = this;
   
   //handle click event on tools buttons
-  jQuery(this._box).find(this._options.toolSelector).click(function() {
+  jQuery(wym._box).find(this._options.toolSelector).click(function() {
     wym._iframe.contentWindow.focus(); //See #154
     wym.exec(jQuery(this).attr(WYMeditor.NAME));    
     return(false);
   });
   
   //handle click event on containers buttons
-  jQuery(this._box).find(this._options.containerSelector).click(function() {
+  jQuery(wym._box).find(wym._options.containerSelector).click(function() {
     wym.container(jQuery(this).attr(WYMeditor.NAME));
     return(false);
   });
   
   //handle keyup event on html value: set the editor value
   //handle focus/blur events to check if the element has focus, see #147
-  jQuery(this._box).find(this._options.htmlValSelector)
+  jQuery(wym._box).find(this._options.htmlValSelector)
     .keyup(function() { jQuery(wym._doc.body).html(jQuery(this).val());})
     .focus(function() { jQuery(this).toggleClass('hasfocus'); })
     .blur(function() { jQuery(this).toggleClass('hasfocus'); });
 
   //handle click event on classes buttons
-  jQuery(this._box).find(this._options.classSelector).click(function() {
+  jQuery(wym._box).find(this._options.classSelector).click(function() {
   
     var aClasses = eval(wym._options.classesItems);
     var sName = jQuery(this).attr(WYMeditor.NAME);
@@ -875,8 +875,8 @@ WYMeditor.editor.prototype.bindEvents = function() {
   });
   
   //handle event on update element
-  jQuery(this._options.updateSelector)
-    .bind(this._options.updateEvent, function() {
+  jQuery(wym._options.updateSelector)
+    .bind(wym._options.updateEvent, function() {
       wym.update();
   });
 };
