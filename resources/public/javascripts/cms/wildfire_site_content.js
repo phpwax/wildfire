@@ -295,8 +295,8 @@ jQuery(document).ready(function(event) {
     boxHtml:
       "<div class='wym_box'>"
       + "<div class='wym_area_top'>"
+			+ WYMeditor.CONTAINERS
       + WYMeditor.TOOLS
-      + WYMeditor.CONTAINERS
       + "</div>"
       + "<div class='wym_area_main'>"
       + WYMeditor.HTML
