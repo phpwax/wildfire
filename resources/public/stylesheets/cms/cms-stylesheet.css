@@ -917,7 +917,7 @@ li.pagination_link a {
 }
 #item_list_container thead th, .item_list thead th {
   background-color:transparent !important;
-  font-size:93%;
+  font-size:85%;
   line-height:290%;
 }
 #item_list_container tbody, .item_list tbody {
