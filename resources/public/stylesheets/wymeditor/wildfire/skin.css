@@ -59,7 +59,7 @@
         .wym_skin_wildfire .wym_area_left          { width: 150px; float: left;}
         .wym_skin_wildfire .wym_area_right         { width: 165px; float: right;}
         .wym_skin_wildfire .wym_area_bottom        { height: 1%; clear: both;}
-        .wym_skin_wildfire .wym_area_top           { padding: 5px 10px; background:url(images/tools_bg.gif);}
+        .wym_skin_wildfire .wym_area_top           { padding: 5px 10px; background:white;}
         .wym_skin_wildfire .wym_tools,
         .wym_skin_wildfire .wym_containers         { margin:4px 8px !important;}
         .wym_skin_wildfire .wym_containers         {padding-top:4px !important; margin-left:15px;}
