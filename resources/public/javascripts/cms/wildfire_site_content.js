@@ -596,6 +596,46 @@ function link_dialog_file_choose(){
   jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
 }
 
+function many_to_many_joins(){
+	//unbind all of that junk
+  jQuery(".custom-join .category_tag, .custom-join .category_trash_button").unbind("draggable droppable dblclick click");
+  //bind adds
+  jQuery(".custom-join .category_list .category_tag").live("dblclick", function(){
+    var replace_area = jQuery(this).parents("div.custom-join"),
+        targetid = jQuery(this).attr('id').replace("tag_", ""),
+				originid = replace_area.attr('data-origin-id'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+        endpoint = "../../custom_add/"
+        ;
+    jQuery.ajax({
+      type: "post",
+      url: endpoint,
+      data: pdata,
+      success: function(response){
+        replace_area.html(response);
+      }
+    });
+  });
+  //bind deletes
+  jQuery(".custom-join .category_trash_button").live("dblclick", function(){
+    var replace_area = jQuery(this).parents("div.custom-join"),
+        targetid = jQuery(this).attr('id').replace("delete_category_button", ""),
+				originid = replace_area.attr('data-origin-id'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+        endpoint = "../../custom_delete/"
+        ;
+    jQuery.ajax({
+      type: "post",
+      url: endpoint,
+      data: pdata,
+      success: function(response){
+        replace_area.html(response);
+      }
+    });
+  });
+}
+
+
 /** langauge dropdown **/
 jQuery(document).ready(function(){
   jQuery('#cms_content_language').change(function(){
