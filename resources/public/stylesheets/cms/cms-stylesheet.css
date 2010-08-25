@@ -1505,9 +1505,7 @@ a.edit_img img{
 
 /* Dashboard styles */
 
-#dashboard #content {
-  width:auto;
-}
+#dashboard #content {}
 #dashboard #statistics {
   float:right;
   background:#414141 url('/images/cms/stats-loader.gif') center center no-repeat;
@@ -1548,7 +1546,6 @@ a.edit_img img{
 }
 #dashboard #quick_nav {
   margin:0;
-  background-color:white;
   padding:10px 0;
   margin-top:0px;
   overflow:hidden;
@@ -1583,7 +1580,7 @@ a.edit_img img{
   padding:0 15px 0 10px;
   padding-bottom:15px;
   float:left;
-  width:225px;
+  width:245px;
 }
 #dashboard #quick_nav #quick_upload {
   padding:0 0px 0 0px;
