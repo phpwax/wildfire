@@ -1,11 +1,11 @@
 /* JS Table initialisation for index.html */
 jQuery(document).ready(function() {
-  if(jQuery("#item_list_container")) {
+  if(jQuery("#item_list_container") && jQuery.isFunction(jQuery.tablesorter)) {
     jQuery("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
       stripingRowClass: ['item_row1','item_row0'],stripeRowsOnStartUp: true});
   }
   if(jQuery(".form_datepicker")) jQuery(".form_datepicker").datepicker({changeMonth: true, changeYear: true, dateFormat: 'dd-MM-yy'});
-  $("input.disable_enter").bind("keypress", function(e) {
+  jQuery("input.disable_enter").bind("keypress", function(e) {
     return e.keyCode == 13 ? false : true;
   });
 });
@@ -52,8 +52,8 @@ jQuery.fn.centerScreen = function(loaded) {
 
 
 /**** Toggles for User Permissions *******/
-$(document).ready(function() {
-  $(".group_permission_check .group_toggle").change(function(){
+jQuery(document).ready(function() {
+  jQuery(".group_permission_check .group_toggle").change(function(){
     if($(this).is(":checked")) $(this).parent().find(".permission_check input").attr("checked", true);
     else $(this).parent().find(".permission_check input").removeAttr("checked");
   });

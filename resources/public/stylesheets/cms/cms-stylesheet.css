@@ -1186,7 +1186,7 @@ li.pagination_link a {
   text-decoration:none;
   text-transform:uppercase;
 }
-#primary-navigation li.active {
+#primary-navigation li.active, #primary-navigation li:hover {
   background:#323331;
   position:relative;
   left:4px;

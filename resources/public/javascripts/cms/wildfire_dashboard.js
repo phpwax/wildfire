@@ -33,3 +33,8 @@ function live_search_close() {
   jQuery(".live_search_results").empty();
   jQuery(".live_search_results").hide();
 }
+
+
+
+
+

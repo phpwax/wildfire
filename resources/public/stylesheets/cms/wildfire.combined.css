@@ -1597,7 +1597,7 @@ li.pagination_link a {
   text-decoration:none;
   text-transform:uppercase;
 }
-#primary-navigation li.active {
+#primary-navigation li.active, #primary-navigation li:hover {
   background:#323331;
   position:relative;
   left:4px;
@@ -2309,8 +2309,9 @@ div.add_related_button a{
 #operations form{float:left;margin:5px 10px 0 0;}
 #searchbar{width:100px;padding:3px 5px;}
 #searchbtn{}
-#filesystem{float:left;left:250px;position:relative;top:10px;width:700px;}
-#fileList,#searcharea{width:450px;float:left;margin-left:2px;display:inline;background:white;}
+/*#filesystem{float:left;left:250px;position:relative;top:10px;}
+*/
+#fileList,#searcharea{width:100%;float:left;margin-left:2px;}
 #root{padding:0;margin:0;border:0;margin-bottom:100px;}
 .directory,.file{margin-left:15px;}
 .directory{border:2px solid white;}
@@ -2391,9 +2392,10 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
 #operations li a{color:white;}
 
 #fs_body {
-  width:1030px;
+  width:100%;
 }
-#fs_body #filesystem {float:left; position:static; padding:0px; width:600px;}
+#fs_body #filesystem {width:40%;}
+
 #fs_body #operations {background:white;width:513px; margin-top:-10px;padding:5px 20px;height:60px;}
 #operations form input {vertical-align:middle;}
 #fs_body #dashboard #uploadcart, #fs_body #dashboard #informationcart {
@@ -2413,10 +2415,10 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
 }
 #uploadcart #fsUploadProgress {height:60px;}
 #fileList {height:100%;overflow:auto;}
-#fs_body #informationcart {
-  position:fixed;
-  left:720px;
-  top:110px;
+#fs_body #dashboard #informationcart {
+  float:left;
+  margin-left:10px;
+  margin-top:50px;
   width:210px;
   -moz-box-shadow:  1px 1px 5px rgba(0, 0, 0, 0.7);
   -webkit-box-shadow:  1px 1px 5px rgba(0, 0, 0, 0.7);
@@ -2427,6 +2429,6 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
 }
 #fs_body #uploadcart {
   width:260px;
-  margin-left:110px !important;
+  margin-left:265px !important;
 }
 #fs_body #filesystem {float:left;}

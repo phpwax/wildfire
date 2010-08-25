@@ -1772,7 +1772,33 @@ jQuery.fn.verticalCenter = function(loaded) {
       top: jQuery(window).height()/2-this.height()/2}, 200, 'linear'); 
   } 
 };
-/*  Prototype JavaScript framework, version 1.4.0
+
+
+
+jQuery(window).scroll(function(s) {
+  jQuery("#fs_body #informationcart").css("position","relative").css("z-index",1000);
+  var val = getPageScroll();
+  val = val[1];
+  if(val < 140) val = 0;
+  else val = val - 140;
+  jQuery("#fs_body #informationcart").css("top", val);
+});
+
+
+function getPageScroll() {
+    var xScroll, yScroll;
+    if (self.pageYOffset) {
+      yScroll = self.pageYOffset;
+      xScroll = self.pageXOffset;
+    } else if (document.documentElement && document.documentElement.scrollTop) {
+      yScroll = document.documentElement.scrollTop;
+      xScroll = document.documentElement.scrollLeft;
+    } else if (document.body) {// all other Explorers
+      yScroll = document.body.scrollTop;
+      xScroll = document.body.scrollLeft;
+    }
+    return new Array(xScroll,yScroll);
+}/*  Prototype JavaScript framework, version 1.4.0
  *  (c) 2005 Sam Stephenson <sam@conio.net>
  *
  *  Prototype is freely distributable under the terms of an MIT-style license.
