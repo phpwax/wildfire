@@ -1858,17 +1858,23 @@ div.add_related_button a{
 
 
 /** NEW **/
+#container{
+	border-width:0; 
+	background: transparent;
+}
 #container .ui-tabs-nav{
 	float:left;
 	width:10%;
 	margin-top:20px;
 	padding:0;
+	border:0;
+	background:transparent;
 }
 	#container .ui-tabs-nav li{
 		margin:0 0 5px 0;
 	  font-size:85%;
 		display:block;
-		float:none;
+		float:none;		
 	}
 	#container .ui-tabs-nav li a{
 		display:block;
@@ -1907,7 +1913,7 @@ div.add_related_button a{
  	padding:10px 0;
 	position:absolute;
 	color:#F15623;
-	margin-left:69%;
+	margin-left:68%;
 }
 
 
