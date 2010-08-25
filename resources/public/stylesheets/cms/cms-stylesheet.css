@@ -938,6 +938,8 @@ li.pagination_link a {
   border:none;
 }
 #item_list_container .last {width:170px;}
+#dashboard #item_list_container .last {width:70px;}
+
 #item_list_container thead .descending, .item_list thead .descending {
   background-image:url(../../images/cms/table_sort_desc.gif);
 }
@@ -1507,9 +1509,7 @@ a.edit_img img{
 }
 
 /* Dashboard styles */
-#dashboard #page-container {
 
-}
 #dashboard #content {
   width:auto;
 }
@@ -1557,6 +1557,7 @@ a.edit_img img{
   padding:10px 0;
   margin-top:0px;
   overflow:hidden;
+  width:auto;
 }
 #dashboard #quick_nav h3 {
   color:#2971a1;
@@ -1592,7 +1593,7 @@ a.edit_img img{
   padding:0 10px;
   padding-bottom:15px;
   float:left;
-  margin-left:20px;
+  margin-left:15px;
 }
 #dashboard #quick_nav #quick_create_title {
   border:1px solid #BBB;
