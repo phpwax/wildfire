@@ -19,7 +19,12 @@ jQuery(document).ready(function() {
     
 		jQuery("#new_cat_create").click(function() {
       jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
-        complete: function(response){jQuery("#category_list").html(response); if(use_old_draggables) initialise_draggables();}
+        complete: function(response){					
+					if(use_old_draggables){
+						initialise_draggables();
+						jQuery("#category_list").html(response);
+					}else jQuery("#new_cat_create").parents(".category_browser").find(".category_list").html(response); 
+				}
       });
       return false;
     });   
@@ -201,8 +206,10 @@ function delayed_cat_filter(filter) {
   jQuery("#category_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: {"filter":filter}, 
     success: function(response){ 
-      jQuery("#category_list").html(response); 
-      if(use_old_draggables) initialise_draggables();
+      if(use_old_draggables){
+				jQuery("#category_list").html(response); 	
+				initialise_draggables();
+			}else jQuery("#category_filter").parents(".category_browser").find(".category_list").html(response); 
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#category_filter").css("background", "white");
     }
