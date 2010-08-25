@@ -1194,6 +1194,9 @@ li.pagination_link a {
   z-index:100;
   margin-left:0;
 }
+#primary-navigation #submenu li:hover {
+  background:white;
+}
 
 
 #cms_logo {
