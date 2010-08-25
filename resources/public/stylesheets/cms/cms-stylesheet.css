@@ -1195,7 +1195,7 @@ li.pagination_link a {
   margin-left:0;
 }
 #primary-navigation #submenu li:hover {
-  background:white;
+  background:none !important;
 }
 
 
