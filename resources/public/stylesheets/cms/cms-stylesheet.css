@@ -313,7 +313,7 @@ h4{
 #image_browser_container #filter_block, #category_browser_container #filter_block {
   padding:0;
 }
-#image_browser_container #filter_block input, #category_browser_container #filter_block input {
+#image_browser_container #filter_block input, #category_browser_container #filter_block input, #category_filter, #new_cat {
   font-size:107%;
   color:#999999;
   padding:4px;
