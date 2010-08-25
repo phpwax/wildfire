@@ -120,7 +120,7 @@ div.dragging span,div.dragging .link{background:transparent !important;color:bla
   width:1030px;
 }
 #fs_body #filesystem {float:left; position:static; padding:0px; width:600px;}
-#fs_body #operations {background:white;width:513px; margin-top:-10px;padding:5px 20px;height:60px;}
+#fs_body #operations {width:513px; margin-top:0px;padding:5px 20px;height:60px;}
 #operations form input {vertical-align:middle;}
 #fs_body #dashboard #uploadcart, #fs_body #dashboard #informationcart {
   background:white;
