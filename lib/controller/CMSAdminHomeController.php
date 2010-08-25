@@ -33,8 +33,8 @@ class CMSAdminHomeController extends AdminComponent {
 	
 	private function initialise(){
 		$this->sub_links = array();
-		if($this->current_user && $this->current_user->access("content","create")) $this->sub_links["../content/create"] = "Create New Content";
-		$this->sub_links["../.."] = "View Site";
+		if($this->current_user && $this->current_user->access("content","create")) $this->sub_links["/admin/content/create"] = "Create New Content";
+		$this->sub_links["/"] = "View Site";
 	}
 	/**
 	* protected function that handles the actual db authentication check on first login
