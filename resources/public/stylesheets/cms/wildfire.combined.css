@@ -1348,7 +1348,7 @@ li.pagination_link a {
 #item_list_container tbody .last, .item_list tbody .last {
   border:none;
 }
-#item_list_container .last {width:170px;}
+#item_list_container .last {width:180px;}
 #dashboard #item_list_container .last {width:70px;}
 
 #item_list_container thead .descending, .item_list thead .descending {
