@@ -266,17 +266,17 @@ jQuery(document).ready(function(event) {
     containersItems: wildfire_containersItems,
     stylesheet: '/stylesheets/wymeditor/wysiwyg_styles.css',
     
-    toolsHtml: "<ul class='wym_tools wym_section'>" + WYMeditor.TOOLS_ITEMS + WYMeditor.CLASSES + "</ul>",
+    toolsHtml: "<ul class='wym_tools wym_section wym_containers'>" + WYMeditor.CLASSES +WYMeditor.CONTAINERS_ITEMS + WYMeditor.TOOLS_ITEMS +  "</ul>",
     toolsItemHtml:
       "<li class='" + WYMeditor.TOOL_CLASS + "'>"
       + "<a href='#' name='" + WYMeditor.TOOL_NAME + "' title='" + WYMeditor.TOOL_TITLE + "'>"  + WYMeditor.TOOL_TITLE  + "</a>"
       + "</li>", 
       
   
-    classesHtml: "<li class='wym_tools_class'><a href='#' name='" + WYMeditor.APPLY_CLASS + "' title='"+ WYMeditor.APPLY_CLASS +"'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
+    classesHtml: "<li class='wym_tools_class subnav'><a href='#' name='" + WYMeditor.APPLY_CLASS + "' title='custom classes' class='dd'></a><ul class='issub wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
     classesItemHtml: "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "'>"+ WYMeditor.CLASS_TITLE+ "</a></li>", 
     classesItemHtmlMultiple: "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>", 
-    containersHtml: "<ul class='wym_containers wym_section'>" + WYMeditor.CONTAINERS_ITEMS + "</ul>", 
+    containersHtml: "", 
     containersItemHtml:
       "<li class='" + WYMeditor.CONTAINER_CLASS + "'>"
         + "<a href='#' name='" + WYMeditor.CONTAINER_NAME + "' title='" + WYMeditor.CONTAINER_TITLE + "'></a>"
