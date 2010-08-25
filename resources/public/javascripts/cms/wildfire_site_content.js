@@ -83,7 +83,7 @@ jQuery(document).ready(function() {
           existing_image.attr("src",jQuery(".selected_image img").attr("src"));
           existing_image.attr("alt",jQuery(".inline_image_dialog .meta_description").val());
         }else{
-          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
+          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" title="'+jQuery(".selected_image img").attr("title")+'" />';
           if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
           wym.insert(img_html);
         }

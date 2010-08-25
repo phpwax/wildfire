@@ -273,7 +273,7 @@ jQuery(document).ready(function() {
           existing_image.attr("src",jQuery(".selected_image img").attr("src"));
           existing_image.attr("alt",jQuery(".inline_image_dialog .meta_description").val());
         }else{
-          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" />';
+          var img_html= '<img style="" src="'+jQuery(".selected_image img").attr("src")+'" class="'+img_class+'" alt="'+jQuery(".inline_image_dialog .meta_description").val()+'" title="'+jQuery(".selected_image img").attr("title")+'" />';
           if(jQuery(".inline_image_link").val().length > 1) img_html = '<a href="'+jQuery(".inline_image_link").val()+'">'+img_html+"</a>";
           wym.insert(img_html);
         }
@@ -812,10 +812,10 @@ jQuery(document).ready(function(){
 
 function live_search(filter) {
   jQuery("#live_search_field").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
-  jQuery.ajax({type: "post", url: "/admin/content/search", data: "input="+filter, 
-    complete: function(response){ 
-      jQuery("#live_search_field").parent().find(".live_search_results").html(response.responseText).show(); 
-      if(typeof(t) != "undefined" ) clearTimeout(t); 
+  jQuery.ajax({type: "post", url: "/admin/home/search", data: "button_text=Edit&input="+filter,
+    complete: function(response){
+      jQuery("#live_search_field").parent().find(".live_search_results").html(response.responseText).show();
+      if(typeof(t) != "undefined" ) clearTimeout(t);
       jQuery("#live_search_field").css("background", "white");
     }
   });
@@ -825,7 +825,72 @@ function live_search_close() {
   if(typeof(s) != "undefined" ) clearTimeout(s);
   jQuery(".live_search_results").empty();
   jQuery(".live_search_results").hide();
-}/**
+}jQuery(document).ready(function(){
+  var related_delete_ajax = function(){
+    var del_button = jQuery(this);
+    jQuery.ajax({
+      url: del_button.attr("href") + "?ajax=1",
+      global: false,
+      success: function(response){
+        del_button.closest(".related_list").html(response).find(".delete_button a").click(related_delete_ajax);
+      }
+    });
+    return false;
+  }
+  
+  jQuery(".related_list .delete_button a").click(related_delete_ajax);
+  
+  jQuery(".add_related").click(function(){
+    var add_button = jQuery(this);
+    jQuery.ajax({
+      url: add_button.attr("href"),
+      data: add_button.closest(".related_holder").find("input").serialize() + "&ajax=1",
+      type: "POST",
+      global: false,
+      success: function(response){
+        add_button.closest(".related_holder").find(".related_list").html(response).find(".delete_button a").click(related_delete_ajax);
+        add_button.siblings("input[type='text']").val("");
+      }
+    });
+    return false;
+  });
+  
+  jQuery(".related_holder input[name='cms_related[title]'], .related_holder input[name='cms_related[url]']").keyup(function() {
+    var search_field = jQuery(this);
+    if(typeof(t) != "undefined" ) clearTimeout(t);
+    if(jQuery(this).attr("id") == "cms_related_url") jQuery("#cms_related_dest_model, #cms_related_dest_id").val("");
+    if(search_field.val().length)
+      t = setTimeout(function(){live_search(search_field.val());}, 400);
+  });
+  
+  jQuery(".live_search_results").hover(function(){}, function(){
+    s = setTimeout(live_search_close, 800);
+  });
+  
+  var live_search = function(filter) {
+    jQuery.ajax({type: "post", url: "/admin/home/search", data: "button_text=Link&input="+filter,
+      complete: function(response){
+        if(typeof(t) != "undefined" ) clearTimeout(t);
+        jQuery(".related_holder .live_search_results").html(response.responseText).show().find("a").click(function(){
+          var clicked_a = jQuery(this);
+          jQuery("#cms_related_dest_model").val(clicked_a.attr("data-model"));
+          jQuery("#cms_related_dest_id").val(clicked_a.attr("data-id"));
+          jQuery("#cms_related_title").val(clicked_a.attr("data-title"));
+          jQuery("#cms_related_url").val(clicked_a.attr("data-url"));
+          live_search_close();
+          return false;
+        });
+      }
+    });
+  }
+  
+  var live_search_close = function() {
+    if(typeof(s) != "undefined" ) clearTimeout(s);
+    jQuery(".live_search_results").empty();
+    jQuery(".live_search_results").hide();
+  }
+  
+});/**
  * SWFUpload: http://www.swfupload.org, http://swfupload.googlecode.com
  *
  * mmSWFUpload 1.0: Flash upload dialog - http://profandesign.se/swfupload/,  http://www.vinterwebb.se/
@@ -7380,7 +7445,9 @@ function initialise_inline_image_edit(wym) {
 
 function init_inline_image_select(wym) {
   jQuery(".image_display .add_image a").click(function(){
-    jQuery(".inline_image_dialog .selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg");
+    master_img = jQuery(this).parent().parent().find(".image_place img");
+    jQuery(".inline_image_dialog .selected_image img").attr("src", "/show_image/"+jQuery(this).parent().parent().attr("id")+"/90.jpg").
+      attr("title",master_img.attr("title")).attr("alt",master_img.attr("alt"));
   });
 }
 

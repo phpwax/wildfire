@@ -18,9 +18,9 @@ class CMSAdminUserController extends AdminComponent {
   public $filter_columns = array("username", "email");
 	public $order_by_columns = array("username","email");
 	public $default_order = "username";
-	
+
 	public static $permissions = array("create","edit","delete","admin");
-	
+
   public function create(){
     //find the required fields and give them default values
 		foreach($this->model->columns as $name=>$values){
@@ -29,45 +29,43 @@ class CMSAdminUserController extends AdminComponent {
 		$saved = $this->model->save();
 		$this->redirect_to("/admin/users/edit/".$saved->primval."/");
   }
-  
+
 	public function edit() {
 		/* CHANGED - switched to url("id") as $this->param("id") is deprecated */
 	  $this->id = Request::get("id");
 		if(!$this->id) $this->id = $this->route_array[0];
     $this->model = new $this->model_class($this->id);
-    
+
 		$this->all_sections = $this->current_user->allowed_sections_model()->tree();
-    
+
 		if($this->model->primval && $this->current_user->access($this->module_name,"admin")){
   		//add all permissions from modules
-  		
+
       foreach(CMSApplication::$modules as $module_name => $options){
         $module_class = slashcamelize($options['link'])."Controller";
         $perms = array_merge($module_class::$base_permissions, $module_class::$permissions);
         foreach((array)$perms as $operation)
           $this->all_permissions[$module_name][] = array("class"=>$module_name,"operation"=>$operation);
       }
-  		
+
       //$this->all_permissions = new WaxRecordSet(new CmsPermission, $this->all_permissions);
       $this->all_users = new $this->model_class;
-      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();      
+      $this->all_users = $this->all_users->filter("id",$this->model->primval,"!=")->order("username")->all();
   	}
-    
+
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
-		if($_POST) {
-      $this->model->fetch_permissions();
-      $this->model->permissions->unlink();
-      foreach((array)$_POST["user_permission"] as $perm) {
-        $perms = explode("_", $perm);
-        $class= $perms[0];
-        $operation = $perms[1];
-        $permission = new CmsPermission;
-        $permission->class = $class;
-        $permission->operation = $operation;
-        $permission->allowed = true;
-        $permission->user = $this->model;
+		if($_POST && $this->model && $this->model->primval) {      
+      $uid = $this->model->primval;
+      $permission = new CmsPermission;
+      $permission->filter("wildfire_user_id", $uid)->delete();
+      if(count($_POST['user_permission'])){
+        sort($_POST["user_permission"]);
+        foreach($_POST["user_permission"] as $perm){
+          list($class, $operation) = explode("_", $perm);
+          $p = new CmsPermission;
+          $save = $p->update_attributes(array('wildfire_user_id'=>$uid, 'class'=>$class, 'operation'=>$operation, 'allowed'=>1));          
+        }
       }
-      
     }
 		if($_POST['save']) $this->save($this->model, "edit");
 		else $this->save($this->model, Session::get("list_refer-".$this->module_name));
@@ -98,7 +96,7 @@ class CMSAdminUserController extends AdminComponent {
 		$this->all_sections = $sect->all();
 		$this->use_view = "_list_sections";
 	}
-	
+
 	public function add_permission(){
 	  $this->model = new $this->model_class(WaxUrl::get("id"));
     $exp = explode("_",Request::param('tagid'));
@@ -116,7 +114,7 @@ class CMSAdminUserController extends AdminComponent {
 	  $this->use_layout = false;
     $this->use_view = "_list_modules";
 	}
-	
+
 	public function remove_permission(){
 	  $this->use_layout = false;
     $this->use_view = "_list_modules";
@@ -125,7 +123,7 @@ class CMSAdminUserController extends AdminComponent {
 	  $model = new CmsPermission($cat);
 	  $model->delete();
 	}
-	
+
 	public function copy_permissions_from(){
 	  $this->use_layout = false;
     $this->use_view = "_list_modules";
