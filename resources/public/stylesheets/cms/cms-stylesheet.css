@@ -16,7 +16,7 @@ div, ul, ol {
 img{
 	border:0px;
 }
-html {background:#474746;}
+html {background:#323331;}
 body{
   text-align:left;
   font-family:Arial;
@@ -155,7 +155,6 @@ p{
 #page-container{
 	margin:0 20px 0 200px;
 	padding-left:10px;
-	background:#474746;
 }
 #page-container a {
 	color:#323231;
@@ -1876,7 +1875,7 @@ div.add_related_button a{
 	#container .ui-tabs-nav li a{
 		display:block;
 	  padding:8px 0 8px 11px;
-	  background:#323331;	 
+	  background:#474746;
 	 	color:white;
 		float:none;
 		font-weight:bold;
