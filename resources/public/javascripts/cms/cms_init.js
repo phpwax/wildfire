@@ -61,10 +61,12 @@ $(document).ready(function() {
 });
 
 jQuery(document).ready(function(){
+  var left_col = jQuery("#header-container");
+  var orig_height = left_col.outerHeight() + 90; //90 since somehow it doesn't register even though this is after a .ready, don't ask me.
 	jQuery(window).resize(function(){
-    var window_height = jQuery(window).height();
-	  if(jQuery("html").outerHeight() < window_height)
-	    jQuery("#page-container").css("height", window_height - 20);
+    var new_height = jQuery(window).height();
+    if(new_height < orig_height) new_height = orig_height;
+    left_col.css("height", new_height);
   });
   jQuery(window).trigger("resize");
 });
