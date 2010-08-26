@@ -119,8 +119,11 @@
 	};
 	var jQ = jQuery;
 <<<<<<< HEAD
+<<<<<<< HEAD
 })(jQuery);/* JS Table initialisation for index.html */
 =======
+=======
+>>>>>>> 306991a... new build files
 })(jQuery);/*
  * imgAreaSelect jQuery plugin
  * version 0.9.2
