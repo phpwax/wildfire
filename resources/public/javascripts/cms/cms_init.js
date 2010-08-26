@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
 
 function inline_status_change(){
 	if(jQuery('.status_change')){	
-		jQuery('.status_change').click(function(){
+		jQuery('.status_change').live("click", function(){
 		  if(!confirm("Are you sure you want to change the publish status?")) return false;
 			current_status = jQuery(this).attr('rel');
 			dest = jQuery(this).attr('href');
@@ -28,7 +28,6 @@ function inline_status_change(){
 			replace = "#"+this.id;
 			jQuery.get(dest, {status: current_status, ajax:'yes'}, function(response){				
 				jQuery(replace).replaceWith(response);
-				inline_status_change();
 			});
 			return false;
 		});
