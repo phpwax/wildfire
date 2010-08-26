@@ -2215,7 +2215,7 @@ div.add_related_button a{
   margin-top:-4px;
   color:#f1f1f1;
   min-height: 600px;
-  min-width:370px;
+  width:370px;
 }
 #dashboard #statistics h2, .main_container h2 {
   color:#44a0d3;
