@@ -1,10 +1,6 @@
-
-<?=javascript_asset("jquery","jquery.imgareaselect-0.9.2.min.js")?>
-
-<link rel="stylesheet" href="/stylesheets/cms/imgAreaSelect/imgareaselect-animated.css" type="text/css" media="screen" title="no title" charset="utf-8">
-<link rel="stylesheet" href="/stylesheets/cms/imgAreaSelect/imgareaselect-default.css" type="text/css" media="screen" title="no title" charset="utf-8">
 <link rel="stylesheet" href="/stylesheets/cms/imgAreaSelect/imgareaselect-deprecated.css" type="text/css" media="screen" title="no title" charset="utf-8">
-
+<link rel="stylesheet" href="/stylesheets/cms/imgAreaSelect/imgareaselect-default.css" type="text/css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="/stylesheets/cms/imgAreaSelect/imgareaselect-animated.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
 <form action="" class="form_container img_crop_tool" method="post" enctype="multipart/form-data" id="content_edit_form">
 	<div id="container">
@@ -95,7 +91,7 @@ jQuery(document).ready(function(){
   y1 = jQuery('#y1');
   w1 = jQuery('#w');
   h1 = jQuery('#h');
-  set_crop_image();
+   
 	if(jQuery("#container").length) jQuery("#container").tabs();
 	
 	jQuery('input.cropper').click(function(){
@@ -112,7 +108,8 @@ jQuery(document).ready(function(){
 	jQuery('a.resize_image').click(function(){
 		href = jQuery(this).attr('href');
 		jQuery.get(href, function(response){
-			window.location.reload();
+			jQuery('div.image').html(response);
+			set_crop_image();			
 		});	
 		return false;	
 	});
@@ -120,7 +117,8 @@ jQuery(document).ready(function(){
 	jQuery('a.rotate_image').click(function(){
 		href = jQuery(this).attr('href');
 		jQuery.get(href, function(response){
-			window.location.reload();
+			jQuery('div.image').html(response);
+			set_crop_image();			
 		});	
 		return false;	
 	})
@@ -128,12 +126,11 @@ jQuery(document).ready(function(){
 });
 
 function set_crop_image(){
-	jQuery('img#wff').imgAreaSelect({ handles: true, onSelectEnd: function(img, selection){
+	jQuery('img#wff').imgAreaSelect({ selectionOpacity: 0, onSelectEnd: function(img, selection){
      x1.val(selection.x1);
      y1.val(selection.y1);
      w1.val(selection.width);
      h1.val(selection.height);
-   }
-  });
+   } });
 }
 </script>
