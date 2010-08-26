@@ -4,7 +4,7 @@ CSS_DIR = resources/public/stylesheets
 
 JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
  ${SRC_DIR}/jquery/jquery.hint.js\
- ${SRC_DIR}/jquery/jquery.imgareaselect-0.5.1.min.js\
+ ${SRC_DIR}/jquery/jquery.imgareaselect-0.9.2.min.js\
  ${SRC_DIR}/cms/cms_init.js\
  ${SRC_DIR}/cms/wildfire_site_content.js\
  ${SRC_DIR}/cms/wildfire_dashboard.js\
