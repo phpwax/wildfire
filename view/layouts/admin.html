@@ -62,22 +62,21 @@
 		<ul id="primary-navigation" class="clearfix">
 		  <?foreach($menu_modules as $name=>$values):?>
 		    <li<?if($name == $module_name) echo " class='active'";?>>
-		      <a href="<?=$values['link']?>">
+		      <a href="<?=$values['link']?>" class='top'>
 		        <?=$values['display_name']?>
 		      </a>
+		      <?if($sub_links && $name == $module_name):?>
+
+          		<ul id="submenu" class="clearfix">
+          	      <?foreach($sub_links as $sub_link=>$text):?>
+          	        <?$class=""?>
+          	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
+          	  	    <li class="<?=$class?>"><a href="<?=$sub_link?>"><?=$text?></a></li>
+          	  	  <?endforeach;?>
+          		</ul>
+        	<?endif;?>
 		    </li>
-		    <?if($sub_links && $name == $module_name):?>
-        	<div id="sub-navigation-container">
-        	  
-        		<ul id="submenu" class="clearfix">
-        	      <?foreach($sub_links as $sub_link=>$text):?>
-        	        <?$class=""?>
-        	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
-        	  	    <li class="<?=$class?>"><a href="<?=$sub_link?>"><?=$text?></a></li>
-        	  	  <?endforeach;?>
-        		</ul>
-        	</div>
-      	<?endif;?>
+		    
 			<?endforeach?>
 			<li id="logout_button"><a href="/admin/home/logout" id="logout">Logout</a></li>
   		
