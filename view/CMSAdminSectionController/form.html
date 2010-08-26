@@ -12,7 +12,7 @@
 	    	<div id="section-1" class="tabs-container">
           <fieldset class="content_options">
             <div class="medium"><?=$form->title->render()?></div><hr />
-            <div class="large"><?=$form->introduction->render(array("rows"=>9))?></div>
+            <div class="large"><?=$form->introduction->render(array("class"=>"jqwysi"))?></div>
             <div class="small"><?=$form->parent->render(array("choices"=>$possible_parents))?></div>
             <div class="small"><?=$form->default_page->render(array("choices"=>$model->published_content(), "null"=>"None"))?></div><hr />
           </fieldset>
