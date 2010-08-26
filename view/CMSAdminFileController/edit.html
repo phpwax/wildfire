@@ -1,9 +1,13 @@
 
-<?=javascript_asset("jquery","jquery.imgareaselect-0.5.1.min.js")?>
+<?#=javascript_asset("jquery","jquery.imgareaselect-0.5.1.min.js")?>
 
 <form action="" class="form_container img_crop_tool" method="post" enctype="multipart/form-data" id="content_edit_form">
 	<div id="container">
-    
+    <ul class="tabs-nav">
+      <li><a href="#section-1">Crop</a></li>
+      <li><a href="#section-2" id="image_tab_link">Resize</a></li>
+      <li><a href="#section-3" id="cat_tab_link">Rotate</a></li>
+    </ul>
 
 		<div id="content_window" class="clearfix">
 	    <div id="content_editor" class="clearfix">
