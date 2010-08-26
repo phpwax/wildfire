@@ -61,9 +61,11 @@ $(document).ready(function() {
   
 });
 
-
-
-
-
-
-
+jQuery(document).ready(function(){
+	jQuery(window).resize(function(){
+    var window_height = jQuery(window).height();
+	  if(jQuery("html").outerHeight() < window_height)
+	    jQuery("#page-container").css("height", window_height - 20);
+  });
+  jQuery(window).trigger("resize");
+});

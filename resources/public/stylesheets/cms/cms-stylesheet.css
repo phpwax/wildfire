@@ -16,7 +16,6 @@ div, ul, ol {
 img{
 	border:0px;
 }
-html {background:#323331;}
 body{
   text-align:left;
   font-family:Arial;
@@ -153,8 +152,10 @@ p{
 
 
 #page-container{
-	margin:0 20px 0 200px;
-	padding-left:10px;
+	margin-left:200px;
+	padding:10px;
+  background:#323331;
+  overflow:hidden;
 }
 #page-container a {
 	color:#323231;
@@ -1153,7 +1154,6 @@ li.pagination_link a {
 #header-container {
   padding:0;
   padding-left:10px;
-	border-right:2px solid #323331;
   width:190px;
 	float:left;
 	background:white;
@@ -1967,3 +1967,4 @@ div.add_related_button a{
 .catresizehandle {
 	position:static;
 }
+#ui-datepicker-div{display:none;}
