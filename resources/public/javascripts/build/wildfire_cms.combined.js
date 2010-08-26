@@ -853,7 +853,7 @@ jQuery(document).ready(function() {
 
 function inline_status_change(){
 	if(jQuery('.status_change')){	
-		jQuery('.status_change').click(function(){
+		jQuery('.status_change').live("click", function(){
 		  if(!confirm("Are you sure you want to change the publish status?")) return false;
 			current_status = jQuery(this).attr('rel');
 			dest = jQuery(this).attr('href');
@@ -861,7 +861,6 @@ function inline_status_change(){
 			replace = "#"+this.id;
 			jQuery.get(dest, {status: current_status, ajax:'yes'}, function(response){				
 				jQuery(replace).replaceWith(response);
-				inline_status_change();
 			});
 			return false;
 		});
@@ -923,7 +922,6 @@ jQuery(document).ready(function() {
       jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
         complete: function(response){					
 					if(use_old_draggables){
-						initialise_draggables();
 						jQuery("#category_list").html(response);
 					}else jQuery("#new_cat_create").parents(".category_browser").find(".category_list").html(response); 
 				}
@@ -1070,48 +1068,32 @@ jQuery(document).ready(function() {
 });
 
 function initialise_draggables() {
-  jQuery("#category_list .category_tag, #permission_list .permission_tag").draggable({opacity:0.5, revert:true, scroll:false, containment:'window', helper:'clone'});
-  jQuery("#cat_dropzone").droppable(
-  	{ accept: '.category_tag, .permission_tag', hoverClass:	'dropzone_active', tolerance:	'pointer',
-  		drop:	function(event, ui) {
-  		  if(ui.draggable.hasClass('permission_tag')) var end_url = "../../add_permission/";
-  		  else var end_url = "../../add_category/";
-  		  jQuery.post(end_url+content_page_id,{tagid: ui.draggable.attr("id"), id:ui.draggable.attr("id")},
-  		  function(response){  jQuery("#cat_dropzone").html(response);  init_deletes(); });
-  	}
-  });
-  jQuery("#category_list .category_tag, #permission_list .permission_tag").dblclick(function(){
-    if(jQuery(this).hasClass('permission_tag')) var end_url = "../../add_permission/";
-  	else var end_url = "../../add_category/";
+  jQuery("#category_list .category_tag, .category_list .category_tag").live("dblclick", function(){
+		var obj = this, end_url = "../../add_category/";
     jQuery.post(end_url+content_page_id,{tagid: this.id, id:this.id},
-	  function(response){  jQuery("#cat_dropzone").html(response); init_deletes(); });
+	  function(response){		
+			jQuery(obj).parents(".category_browser").children("#cat_dropzone, .cat_dropzone").html(response);
+		});
+		return false;
   });
-  init_deletes();
-}
-
-function init_deletes(){
-  jQuery(".category_trash_button, .permission_trash_button").click(function(){
-    if(jQuery(this).hasClass('permission_trash_button')){
-      var end_url = "../../remove_permission/";
-      var rid = this.id.replace("delete_permission_button_", "");
-  	}else{
-  	  var end_url = "../../remove_category/";
-  	  var rid = this.id.substr(22);
-	  }
+	
+	jQuery(".cat_dropzone .category_trash_button").live("dblclick", function(){
+		var obj = this, end_url = "../../remove_category/", rid = this.id.substr(22);		
     jQuery.get(end_url+content_page_id+"?cat="+rid,function(response){
-      jQuery("#cat_dropzone").html(response); init_deletes();
+      jQuery(obj).parents(".category_browser").children("#cat_dropzone, .cat_dropzone").html(response);
     });
+		return false;
   });
+	
 }
+//empty - using live events inside the main initialise_draggables() instead
+function init_deletes(){}
 
 function delayed_cat_filter(filter) {
   jQuery("#category_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: {"filter":filter}, 
     success: function(response){ 
-      if(use_old_draggables){
-				jQuery("#category_list").html(response); 	
-				initialise_draggables();
-			}else jQuery("#category_filter").parents(".category_browser").find(".category_list").html(response); 
+			jQuery("#category_filter").parents(".category_browser").children(".category_list, #category_list").html(response); 
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#category_filter").css("background", "white");
     }
