@@ -128,6 +128,8 @@ jQuery(document).ready(function() {
   jQuery("input.disable_enter").bind("keypress", function(e) {
     return e.keyCode == 13 ? false : true;
   });
+  jQuery("#item_list_container .list_button a").click(function(){jQuery(this).parent().next().toggle();});
+  
 });
 
 
@@ -793,7 +795,7 @@ jQuery(document).ready(function(){
   });
 });jQuery(document).ready(function() {
   jQuery("#dashboard #sub-navigation-container #quick_search").remove();
-  jQuery("#quick_search form input, #quick_create form input").hint();
+  jQuery("#quick_search form input, #quick_create form input, #filter_form #filter_field").hint();
   jQuery("#live_search_field").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
     t = setTimeout(function(){live_search(jQuery("#live_search_field").val());}, 400);
