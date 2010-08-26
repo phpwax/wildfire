@@ -268,9 +268,9 @@ WYMeditor.editor.prototype.wildfire = function() {
     table_dialog.dialog({width:340});
     table_dialog.dialog("open");
   });
-  jQuery(wym._box).find(".wym_tools_class").unbind("hover").hover(
-    function(){$(this).find("ul").toggleClass("wym_classes_hidden");},
-    function(){$(this).find("ul").toggleClass("wym_classes_hidden");}
+  jQuery(".subnav a.dd, .subnav .issub").unbind("hover").hover(
+    function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");},
+    function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");}
   );
 };
 
