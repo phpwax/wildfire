@@ -18,11 +18,9 @@ jQuery(document).ready(function() {
     });
     
 		jQuery("#new_cat_create").click(function() {
-      jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
-        complete: function(response){					
-					if(use_old_draggables){
-						jQuery("#category_list").html(response);
-					}else jQuery("#new_cat_create").parents(".category_browser").find(".category_list").html(response); 
+      jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(),
+        complete: function(response){
+	        jQuery("#new_cat_create").parents(".category_browser").find(".category_list, #category_list").html(response.responseText);
 				}
       });
       return false;
