@@ -61,7 +61,7 @@ class CMSAdminFileController extends AdminComponent {
 	}
 	
 	public function upload_url() {
-	  $this->use_layout="simple";
+	  $this->use_layout=false;
 		if($class = Request::get('model')){
 			if($id = Request::param("id")) $this->page = new $class($id);
 		}
@@ -172,7 +172,7 @@ class CMSAdminFileController extends AdminComponent {
 		if($class = Request::get('model')){
 			if($id = Request::param("id")) $this->page = new $class($id);
 		}
-    $this->use_layout="simple";
+    $this->use_layout=false;
     $this->use_view="upload";
 	}
 	

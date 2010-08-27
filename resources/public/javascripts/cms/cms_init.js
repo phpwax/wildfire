@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
 
 function inline_status_change(){
 	if(jQuery('.status_change')){	
-		jQuery('.status_change').click(function(){
+		jQuery('.status_change').live("click", function(){
 		  if(!confirm("Are you sure you want to change the publish status?")) return false;
 			current_status = jQuery(this).attr('rel');
 			dest = jQuery(this).attr('href');
@@ -30,7 +30,6 @@ function inline_status_change(){
 			replace = "#"+this.id;
 			jQuery.get(dest, {status: current_status, ajax:'yes'}, function(response){				
 				jQuery(replace).replaceWith(response);
-				inline_status_change();
 			});
 			return false;
 		});
@@ -63,9 +62,13 @@ jQuery(document).ready(function() {
   
 });
 
-
-
-
-
-
-
+jQuery(document).ready(function(){
+  var left_col = jQuery("#header-container");
+  var orig_height = left_col.outerHeight() + 90; //90 since somehow it doesn't register even though this is after a .ready, don't ask me.
+	jQuery(window).resize(function(){
+    var new_height = jQuery(window).height();
+    if(new_height < orig_height) new_height = orig_height;
+    left_col.css("height", new_height);
+  });
+  jQuery(window).trigger("resize");
+});

@@ -272,5 +272,33 @@ class CMSAdminComponent extends WaxController {
 	public function related_links(){
 	  $this->related_form = new WaxForm(new CmsRelated);
 	}
+	
+	public function custom_add(){
+    $this->use_layout = false;
+    $this->use_view = "_categories_tab";
+    $target_class = Request::param('targetmodel');
+    $target_model = new $target_class;
+    $target_id = Request::param('targetid');
+    $this->category_join_field = $joinname = Request::param('joinname');
+    $this->model = $origin = new $this->model_class(Request::param('origin_id'));
+    $origin->$joinname = new $target_class($target_id);
+    if($scope = Request::param('scope')) $target_model = $target_model->scope($scope);
+    if($all = $target_model->all()) $this->all_categories = $all;
+    else $this->all_categories = array();
+  }
+  
+  public function custom_delete(){
+    $this->use_layout = false;
+    $this->use_view = "_categories_tab";
+    $target_class = Request::param('targetmodel');
+    $target_model = new $target_class;
+    $target_id = Request::param('targetid');
+    $this->category_join_field = $joinname = Request::param('joinname');
+    $this->model = $origin = new $this->model_class(Request::param('origin_id'));
+    $origin->$joinname->unlink(new $target_class($target_id));
+    if($scope = Request::param('scope')) $target_model = $target_model->scope($scope);
+    if($all = $target_model->all()) $this->all_categories = $all;
+    else $this->all_categories = array();
+  }
 }
 ?>

@@ -118,7 +118,720 @@
 	  };
 	};
 	var jQ = jQuery;
-})(jQuery);(function($){var abs=Math.abs,max=Math.max,min=Math.min,round=Math.round;function div(){return $('<div/>')}$.imgAreaSelect=function(img,options){var $img=$(img),imgLoaded,$box=div(),$area=div(),$border=div().add(div()).add(div()).add(div()),$outer=div().add(div()).add(div()).add(div()),$handles=$([]),$areaOpera,left,top,imgOfs,imgWidth,imgHeight,$parent,parOfs,zIndex=0,position='absolute',startX,startY,scaleX,scaleY,resizeMargin=10,resize,minWidth,minHeight,maxWidth,maxHeight,aspectRatio,shown,x1,y1,x2,y2,selection={x1:0,y1:0,x2:0,y2:0,width:0,height:0},docElem=document.documentElement,$p,d,i,o,w,h,adjusted;function viewX(x){return x+imgOfs.left-parOfs.left}function viewY(y){return y+imgOfs.top-parOfs.top}function selX(x){return x-imgOfs.left+parOfs.left}function selY(y){return y-imgOfs.top+parOfs.top}function evX(event){return event.pageX-parOfs.left}function evY(event){return event.pageY-parOfs.top}function getSelection(noScale){var sx=noScale||scaleX,sy=noScale||scaleY;return{x1:round(selection.x1*sx),y1:round(selection.y1*sy),x2:round(selection.x2*sx),y2:round(selection.y2*sy),width:round(selection.x2*sx)-round(selection.x1*sx),height:round(selection.y2*sy)-round(selection.y1*sy)}}function setSelection(x1,y1,x2,y2,noScale){var sx=noScale||scaleX,sy=noScale||scaleY;selection={x1:round(x1/sx),y1:round(y1/sy),x2:round(x2/sx),y2:round(y2/sy)};selection.width=selection.x2-selection.x1;selection.height=selection.y2-selection.y1}function adjust(){if(!$img.width())return;imgOfs={left:round($img.offset().left),top:round($img.offset().top)};imgWidth=$img.width();imgHeight=$img.height();minWidth=options.minWidth||0;minHeight=options.minHeight||0;maxWidth=min(options.maxWidth||1<<24,imgWidth);maxHeight=min(options.maxHeight||1<<24,imgHeight);if($().jquery=='1.3.2'&&position=='fixed'&&!docElem['getBoundingClientRect']){imgOfs.top+=max(document.body.scrollTop,docElem.scrollTop);imgOfs.left+=max(document.body.scrollLeft,docElem.scrollLeft)}parOfs=$.inArray($parent.css('position'),['absolute','relative'])+1?{left:round($parent.offset().left)-$parent.scrollLeft(),top:round($parent.offset().top)-$parent.scrollTop()}:position=='fixed'?{left:$(document).scrollLeft(),top:$(document).scrollTop()}:{left:0,top:0};left=viewX(0);top=viewY(0);if(selection.x2>imgWidth||selection.y2>imgHeight)doResize()}function update(resetKeyPress){if(!shown)return;$box.css({left:viewX(selection.x1),top:viewY(selection.y1)}).add($area).width(w=selection.width).height(h=selection.height);$area.add($border).add($handles).css({left:0,top:0});$border.width(max(w-$border.outerWidth()+$border.innerWidth(),0)).height(max(h-$border.outerHeight()+$border.innerHeight(),0));$($outer[0]).css({left:left,top:top,width:selection.x1,height:imgHeight});$($outer[1]).css({left:left+selection.x1,top:top,width:w,height:selection.y1});$($outer[2]).css({left:left+selection.x2,top:top,width:imgWidth-selection.x2,height:imgHeight});$($outer[3]).css({left:left+selection.x1,top:top+selection.y2,width:w,height:imgHeight-selection.y2});w-=$handles.outerWidth();h-=$handles.outerHeight();switch($handles.length){case 8:$($handles[4]).css({left:w/2});$($handles[5]).css({left:w,top:h/2});$($handles[6]).css({left:w/2,top:h});$($handles[7]).css({top:h/2});case 4:$handles.slice(1,3).css({left:w});$handles.slice(2,4).css({top:h})}if(resetKeyPress!==false){if($.imgAreaSelect.keyPress!=docKeyPress)$(document).unbind($.imgAreaSelect.keyPress,$.imgAreaSelect.onKeyPress);if(options.keys)$(document)[$.imgAreaSelect.keyPress]($.imgAreaSelect.onKeyPress=docKeyPress)}if($.browser.msie&&$border.outerWidth()-$border.innerWidth()==2){$border.css('margin',0);setTimeout(function(){$border.css('margin','auto')},0)}}function doUpdate(resetKeyPress){adjust();update(resetKeyPress);x1=viewX(selection.x1);y1=viewY(selection.y1);x2=viewX(selection.x2);y2=viewY(selection.y2)}function hide($elem,fn){options.fadeSpeed?$elem.fadeOut(options.fadeSpeed,fn):$elem.hide()}function areaMouseMove(event){var x=selX(evX(event))-selection.x1,y=selY(evY(event))-selection.y1;if(!adjusted){adjust();adjusted=true;$box.one('mouseout',function(){adjusted=false})}resize='';if(options.resizable){if(y<=resizeMargin)resize='n';else if(y>=selection.height-resizeMargin)resize='s';if(x<=resizeMargin)resize+='w';else if(x>=selection.width-resizeMargin)resize+='e'}$box.css('cursor',resize?resize+'-resize':options.movable?'move':'');if($areaOpera)$areaOpera.toggle()}function docMouseUp(event){$('body').css('cursor','');if(options.autoHide||selection.width*selection.height==0)hide($box.add($outer),function(){$(this).hide()});options.onSelectEnd(img,getSelection());$(document).unbind('mousemove',selectingMouseMove);$box.mousemove(areaMouseMove)}function areaMouseDown(event){if(event.which!=1)return false;adjust();if(resize){$('body').css('cursor',resize+'-resize');x1=viewX(selection[/w/.test(resize)?'x2':'x1']);y1=viewY(selection[/n/.test(resize)?'y2':'y1']);$(document).mousemove(selectingMouseMove).one('mouseup',docMouseUp);$box.unbind('mousemove',areaMouseMove)}else if(options.movable){startX=left+selection.x1-evX(event);startY=top+selection.y1-evY(event);$box.unbind('mousemove',areaMouseMove);$(document).mousemove(movingMouseMove).one('mouseup',function(){options.onSelectEnd(img,getSelection());$(document).unbind('mousemove',movingMouseMove);$box.mousemove(areaMouseMove)})}else $img.mousedown(event);return false}function fixAspectRatio(xFirst){if(aspectRatio)if(xFirst){x2=max(left,min(left+imgWidth,x1+abs(y2-y1)*aspectRatio*(x2>x1||-1)));y2=round(max(top,min(top+imgHeight,y1+abs(x2-x1)/aspectRatio*(y2>y1||-1))));x2=round(x2)}else{y2=max(top,min(top+imgHeight,y1+abs(x2-x1)/aspectRatio*(y2>y1||-1)));x2=round(max(left,min(left+imgWidth,x1+abs(y2-y1)*aspectRatio*(x2>x1||-1))));y2=round(y2)}}function doResize(){x1=min(x1,left+imgWidth);y1=min(y1,top+imgHeight);if(abs(x2-x1)<minWidth){x2=x1-minWidth*(x2<x1||-1);if(x2<left)x1=left+minWidth;else if(x2>left+imgWidth)x1=left+imgWidth-minWidth}if(abs(y2-y1)<minHeight){y2=y1-minHeight*(y2<y1||-1);if(y2<top)y1=top+minHeight;else if(y2>top+imgHeight)y1=top+imgHeight-minHeight}x2=max(left,min(x2,left+imgWidth));y2=max(top,min(y2,top+imgHeight));fixAspectRatio(abs(x2-x1)<abs(y2-y1)*aspectRatio);if(abs(x2-x1)>maxWidth){x2=x1-maxWidth*(x2<x1||-1);fixAspectRatio()}if(abs(y2-y1)>maxHeight){y2=y1-maxHeight*(y2<y1||-1);fixAspectRatio(true)}selection={x1:selX(min(x1,x2)),x2:selX(max(x1,x2)),y1:selY(min(y1,y2)),y2:selY(max(y1,y2)),width:abs(x2-x1),height:abs(y2-y1)};update();options.onSelectChange(img,getSelection())}function selectingMouseMove(event){x2=resize==''||/w|e/.test(resize)||aspectRatio?evX(event):viewX(selection.x2);y2=resize==''||/n|s/.test(resize)||aspectRatio?evY(event):viewY(selection.y2);doResize();return false}function doMove(newX1,newY1){x2=(x1=newX1)+selection.width;y2=(y1=newY1)+selection.height;$.extend(selection,{x1:selX(x1),y1:selY(y1),x2:selX(x2),y2:selY(y2)});update();options.onSelectChange(img,getSelection())}function movingMouseMove(event){x1=max(left,min(startX+evX(event),left+imgWidth-selection.width));y1=max(top,min(startY+evY(event),top+imgHeight-selection.height));doMove(x1,y1);event.preventDefault();return false}function startSelection(){adjust();x2=x1;y2=y1;doResize();resize='';if($outer.is(':not(:visible)'))$box.add($outer).hide().fadeIn(options.fadeSpeed||0);shown=true;$(document).unbind('mouseup',cancelSelection).mousemove(selectingMouseMove).one('mouseup',docMouseUp);$box.unbind('mousemove',areaMouseMove);options.onSelectStart(img,getSelection())}function cancelSelection(){$(document).unbind('mousemove',startSelection);hide($box.add($outer));selection={x1:selX(x1),y1:selY(y1),x2:selX(x1),y2:selY(y1),width:0,height:0};options.onSelectChange(img,getSelection());options.onSelectEnd(img,getSelection())}function imgMouseDown(event){if(event.which!=1||$outer.is(':animated'))return false;adjust();startX=x1=evX(event);startY=y1=evY(event);$(document).one('mousemove',startSelection).one('mouseup',cancelSelection);return false}function windowResize(){doUpdate(false)}function imgLoad(){imgLoaded=true;setOptions(options=$.extend({classPrefix:'imgareaselect',movable:true,resizable:true,parent:'body',onInit:function(){},onSelectStart:function(){},onSelectChange:function(){},onSelectEnd:function(){}},options));$box.add($outer).css({visibility:''});if(options.show){shown=true;adjust();update();$box.add($outer).hide().fadeIn(options.fadeSpeed||0)}setTimeout(function(){options.onInit(img,getSelection())},0)}var docKeyPress=function(event){var k=options.keys,d,t,key=event.keyCode;d=!isNaN(k.alt)&&(event.altKey||event.originalEvent.altKey)?k.alt:!isNaN(k.ctrl)&&event.ctrlKey?k.ctrl:!isNaN(k.shift)&&event.shiftKey?k.shift:!isNaN(k.arrows)?k.arrows:10;if(k.arrows=='resize'||(k.shift=='resize'&&event.shiftKey)||(k.ctrl=='resize'&&event.ctrlKey)||(k.alt=='resize'&&(event.altKey||event.originalEvent.altKey))){switch(key){case 37:d=-d;case 39:t=max(x1,x2);x1=min(x1,x2);x2=max(t+d,x1);fixAspectRatio();break;case 38:d=-d;case 40:t=max(y1,y2);y1=min(y1,y2);y2=max(t+d,y1);fixAspectRatio(true);break;default:return}doResize()}else{x1=min(x1,x2);y1=min(y1,y2);switch(key){case 37:doMove(max(x1-d,left),y1);break;case 38:doMove(x1,max(y1-d,top));break;case 39:doMove(x1+min(d,imgWidth-selX(x2)),y1);break;case 40:doMove(x1,y1+min(d,imgHeight-selY(y2)));break;default:return}}return false};function styleOptions($elem,props){for(option in props)if(options[option]!==undefined)$elem.css(props[option],options[option])}function setOptions(newOptions){if(newOptions.parent)($parent=$(newOptions.parent)).append($box.add($outer));$.extend(options,newOptions);adjust();if(newOptions.handles!=null){$handles.remove();$handles=$([]);i=newOptions.handles?newOptions.handles=='corners'?4:8:0;while(i--)$handles=$handles.add(div());$handles.addClass(options.classPrefix+'-handle').css({position:'absolute',fontSize:0,zIndex:zIndex+1||1});if(!parseInt($handles.css('width')))$handles.width(5).height(5);if(o=options.borderWidth)$handles.css({borderWidth:o,borderStyle:'solid'});styleOptions($handles,{borderColor1:'border-color',borderColor2:'background-color',borderOpacity:'opacity'})}scaleX=options.imageWidth/imgWidth||1;scaleY=options.imageHeight/imgHeight||1;if(newOptions.x1!=null){setSelection(newOptions.x1,newOptions.y1,newOptions.x2,newOptions.y2);newOptions.show=!newOptions.hide}if(newOptions.keys)options.keys=$.extend({shift:1,ctrl:'resize'},newOptions.keys);$outer.addClass(options.classPrefix+'-outer');$area.addClass(options.classPrefix+'-selection');for(i=0;i++<4;)$($border[i-1]).addClass(options.classPrefix+'-border'+i);styleOptions($area,{selectionColor:'background-color',selectionOpacity:'opacity'});styleOptions($border,{borderOpacity:'opacity',borderWidth:'border-width'});styleOptions($outer,{outerColor:'background-color',outerOpacity:'opacity'});if(o=options.borderColor1)$($border[0]).css({borderStyle:'solid',borderColor:o});if(o=options.borderColor2)$($border[1]).css({borderStyle:'dashed',borderColor:o});$box.append($area.add($border).add($handles).add($areaOpera));if($.browser.msie){if(o=$outer.css('filter').match(/opacity=([0-9]+)/))$outer.css('opacity',o[1]/100);if(o=$border.css('filter').match(/opacity=([0-9]+)/))$border.css('opacity',o[1]/100)}if(newOptions.hide)hide($box.add($outer));else if(newOptions.show&&imgLoaded){shown=true;$box.add($outer).fadeIn(options.fadeSpeed||0);doUpdate()}aspectRatio=(d=(options.aspectRatio||'').split(/:/))[0]/d[1];if(options.disable||options.enable===false){$box.unbind('mousemove',areaMouseMove).unbind('mousedown',areaMouseDown);$img.add($outer).unbind('mousedown',imgMouseDown);$(window).unbind('resize',windowResize)}else if(options.enable||options.disable===false){if(options.resizable||options.movable)$box.mousemove(areaMouseMove).mousedown(areaMouseDown);if(!options.persistent)$img.add($outer).mousedown(imgMouseDown);$(window).resize(windowResize)}options.enable=options.disable=undefined}this.remove=function(){$img.unbind('mousedown',imgMouseDown);$box.add($outer).remove()};this.getOptions=function(){return options};this.setOptions=setOptions;this.getSelection=getSelection;this.setSelection=setSelection;this.update=doUpdate;$p=$img;while($p.length){zIndex=max(zIndex,!isNaN($p.css('z-index'))?$p.css('z-index'):zIndex);if($p.css('position')=='fixed')position='fixed';$p=$p.parent(':not(body)')}zIndex=options.zIndex||zIndex;if($.browser.msie)$img.attr('unselectable','on');$.imgAreaSelect.keyPress=$.browser.msie||$.browser.safari?'keydown':'keypress';if($.browser.opera)$areaOpera=div().css({width:'100%',height:'100%',position:'absolute',zIndex:zIndex+2||2});$box.add($outer).css({visibility:'hidden',position:position,overflow:'hidden',zIndex:zIndex||'0'});$box.css({zIndex:zIndex+2||2});$area.add($border).css({position:'absolute',fontSize:0});img.complete||img.readyState=='complete'||!$img.is('img')?imgLoad():$img.one('load',imgLoad)};$.fn.imgAreaSelect=function(options){options=options||{};this.each(function(){if($(this).data('imgAreaSelect')){if(options.remove){$(this).data('imgAreaSelect').remove();$(this).removeData('imgAreaSelect')}else $(this).data('imgAreaSelect').setOptions(options)}else if(!options.remove){if(options.enable===undefined&&options.disable===undefined)options.enable=true;$(this).data('imgAreaSelect',new $.imgAreaSelect(this,options))}});if(options.instance)return $(this).data('imgAreaSelect');return this}})(jQuery);/* JS Table initialisation for index.html */
+})(jQuery);/*
+ * imgAreaSelect jQuery plugin
+ * version 0.9.2
+ *
+ * Copyright (c) 2008-2010 Michal Wojciechowski (odyniec.net)
+ *
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * http://odyniec.net/projects/imgareaselect/
+ *
+ */
+
+(function($) {
+
+var abs = Math.abs,
+    max = Math.max,
+    min = Math.min,
+    round = Math.round;
+
+function div() {
+    return $('<div/>');
+}
+
+$.imgAreaSelect = function (img, options) {
+    var
+
+        $img = $(img),
+
+        imgLoaded,
+
+        $box = div(),
+        $area = div(),
+        $border = div().add(div()).add(div()).add(div()),
+        $outer = div().add(div()).add(div()).add(div()),
+        $handles = $([]),
+
+        $areaOpera,
+
+        left, top,
+
+        imgOfs,
+
+        imgWidth, imgHeight,
+
+        $parent,
+
+        parOfs,
+
+        zIndex = 0,
+
+        position = 'absolute',
+
+        startX, startY,
+
+        scaleX, scaleY,
+
+        resizeMargin = 10,
+
+        resize,
+
+        minWidth, minHeight, maxWidth, maxHeight,
+
+        aspectRatio,
+
+        shown,
+
+        x1, y1, x2, y2,
+
+        selection = { x1: 0, y1: 0, x2: 0, y2: 0, width: 0, height: 0 },
+
+        docElem = document.documentElement,
+
+        $p, d, i, o, w, h, adjusted;
+
+    function viewX(x) {
+        return x + imgOfs.left - parOfs.left;
+    }
+
+    function viewY(y) {
+        return y + imgOfs.top - parOfs.top;
+    }
+
+    function selX(x) {
+        return x - imgOfs.left + parOfs.left;
+    }
+
+    function selY(y) {
+        return y - imgOfs.top + parOfs.top;
+    }
+
+    function evX(event) {
+        return event.pageX - parOfs.left;
+    }
+
+    function evY(event) {
+        return event.pageY - parOfs.top;
+    }
+
+    function getSelection(noScale) {
+        var sx = noScale || scaleX, sy = noScale || scaleY;
+
+        return { x1: round(selection.x1 * sx),
+            y1: round(selection.y1 * sy),
+            x2: round(selection.x2 * sx),
+            y2: round(selection.y2 * sy),
+            width: round(selection.x2 * sx) - round(selection.x1 * sx),
+            height: round(selection.y2 * sy) - round(selection.y1 * sy) };
+    }
+
+    function setSelection(x1, y1, x2, y2, noScale) {
+        var sx = noScale || scaleX, sy = noScale || scaleY;
+
+        selection = {
+            x1: round(x1 / sx),
+            y1: round(y1 / sy),
+            x2: round(x2 / sx),
+            y2: round(y2 / sy)
+        };
+
+        selection.width = selection.x2 - selection.x1;
+        selection.height = selection.y2 - selection.y1;
+    }
+
+    function adjust() {
+        if (!$img.width())
+            return;
+
+        imgOfs = { left: round($img.offset().left), top: round($img.offset().top) };
+
+        imgWidth = $img.width();
+        imgHeight = $img.height();
+
+        minWidth = options.minWidth || 0;
+        minHeight = options.minHeight || 0;
+        maxWidth = min(options.maxWidth || 1<<24, imgWidth);
+        maxHeight = min(options.maxHeight || 1<<24, imgHeight);
+
+        if ($().jquery == '1.3.2' && position == 'fixed' &&
+            !docElem['getBoundingClientRect'])
+        {
+            imgOfs.top += max(document.body.scrollTop, docElem.scrollTop);
+            imgOfs.left += max(document.body.scrollLeft, docElem.scrollLeft);
+        }
+
+        parOfs = $.inArray($parent.css('position'), ['absolute', 'relative']) + 1 ?
+            { left: round($parent.offset().left) - $parent.scrollLeft(),
+                top: round($parent.offset().top) - $parent.scrollTop() } :
+            position == 'fixed' ?
+                { left: $(document).scrollLeft(), top: $(document).scrollTop() } :
+                { left: 0, top: 0 };
+
+        left = viewX(0);
+        top = viewY(0);
+
+        if (selection.x2 > imgWidth || selection.y2 > imgHeight)
+            doResize();
+    }
+
+    function update(resetKeyPress) {
+        if (!shown) return;
+
+        $box.css({ left: viewX(selection.x1), top: viewY(selection.y1) })
+            .add($area).width(w = selection.width).height(h = selection.height);
+
+        $area.add($border).add($handles).css({ left: 0, top: 0 });
+
+        $border
+            .width(max(w - $border.outerWidth() + $border.innerWidth(), 0))
+            .height(max(h - $border.outerHeight() + $border.innerHeight(), 0));
+
+        $($outer[0]).css({ left: left, top: top,
+            width: selection.x1, height: imgHeight });
+        $($outer[1]).css({ left: left + selection.x1, top: top,
+            width: w, height: selection.y1 });
+        $($outer[2]).css({ left: left + selection.x2, top: top,
+            width: imgWidth - selection.x2, height: imgHeight });
+        $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
+            width: w, height: imgHeight - selection.y2 });
+
+        w -= $handles.outerWidth();
+        h -= $handles.outerHeight();
+
+        switch ($handles.length) {
+        case 8:
+            $($handles[4]).css({ left: w / 2 });
+            $($handles[5]).css({ left: w, top: h / 2 });
+            $($handles[6]).css({ left: w / 2, top: h });
+            $($handles[7]).css({ top: h / 2 });
+        case 4:
+            $handles.slice(1,3).css({ left: w });
+            $handles.slice(2,4).css({ top: h });
+        }
+
+        if (resetKeyPress !== false) {
+            if ($.imgAreaSelect.keyPress != docKeyPress)
+                $(document).unbind($.imgAreaSelect.keyPress,
+                    $.imgAreaSelect.onKeyPress);
+
+            if (options.keys)
+                $(document)[$.imgAreaSelect.keyPress](
+                    $.imgAreaSelect.onKeyPress = docKeyPress);
+        }
+
+        if ($.browser.msie && $border.outerWidth() - $border.innerWidth() == 2) {
+            $border.css('margin', 0);
+            setTimeout(function () { $border.css('margin', 'auto'); }, 0);
+        }
+    }
+
+    function doUpdate(resetKeyPress) {
+        adjust();
+        update(resetKeyPress);
+        x1 = viewX(selection.x1); y1 = viewY(selection.y1);
+        x2 = viewX(selection.x2); y2 = viewY(selection.y2);
+    }
+
+    function hide($elem, fn) {
+        options.fadeSpeed ? $elem.fadeOut(options.fadeSpeed, fn) : $elem.hide();
+
+    }
+
+    function areaMouseMove(event) {
+        var x = selX(evX(event)) - selection.x1,
+            y = selY(evY(event)) - selection.y1;
+
+        if (!adjusted) {
+            adjust();
+            adjusted = true;
+
+            $box.one('mouseout', function () { adjusted = false; });
+        }
+
+        resize = '';
+
+        if (options.resizable) {
+            if (y <= resizeMargin)
+                resize = 'n';
+            else if (y >= selection.height - resizeMargin)
+                resize = 's';
+            if (x <= resizeMargin)
+                resize += 'w';
+            else if (x >= selection.width - resizeMargin)
+                resize += 'e';
+        }
+
+        $box.css('cursor', resize ? resize + '-resize' :
+            options.movable ? 'move' : '');
+        if ($areaOpera)
+            $areaOpera.toggle();
+    }
+
+    function docMouseUp(event) {
+        $('body').css('cursor', '');
+
+        if (options.autoHide || selection.width * selection.height == 0)
+            hide($box.add($outer), function () { $(this).hide(); });
+
+        options.onSelectEnd(img, getSelection());
+
+        $(document).unbind('mousemove', selectingMouseMove);
+        $box.mousemove(areaMouseMove);
+    }
+
+    function areaMouseDown(event) {
+        if (event.which != 1) return false;
+
+        adjust();
+
+        if (resize) {
+            $('body').css('cursor', resize + '-resize');
+
+            x1 = viewX(selection[/w/.test(resize) ? 'x2' : 'x1']);
+            y1 = viewY(selection[/n/.test(resize) ? 'y2' : 'y1']);
+
+            $(document).mousemove(selectingMouseMove)
+                .one('mouseup', docMouseUp);
+            $box.unbind('mousemove', areaMouseMove);
+        }
+        else if (options.movable) {
+            startX = left + selection.x1 - evX(event);
+            startY = top + selection.y1 - evY(event);
+
+            $box.unbind('mousemove', areaMouseMove);
+
+            $(document).mousemove(movingMouseMove)
+                .one('mouseup', function () {
+                    options.onSelectEnd(img, getSelection());
+
+                    $(document).unbind('mousemove', movingMouseMove);
+                    $box.mousemove(areaMouseMove);
+                });
+        }
+        else
+            $img.mousedown(event);
+
+        return false;
+    }
+
+    function fixAspectRatio(xFirst) {
+        if (aspectRatio)
+            if (xFirst) {
+                x2 = max(left, min(left + imgWidth,
+                    x1 + abs(y2 - y1) * aspectRatio * (x2 > x1 || -1)));
+
+                y2 = round(max(top, min(top + imgHeight,
+                    y1 + abs(x2 - x1) / aspectRatio * (y2 > y1 || -1))));
+                x2 = round(x2);
+            }
+            else {
+                y2 = max(top, min(top + imgHeight,
+                    y1 + abs(x2 - x1) / aspectRatio * (y2 > y1 || -1)));
+                x2 = round(max(left, min(left + imgWidth,
+                    x1 + abs(y2 - y1) * aspectRatio * (x2 > x1 || -1))));
+                y2 = round(y2);
+            }
+    }
+
+    function doResize() {
+        x1 = min(x1, left + imgWidth);
+        y1 = min(y1, top + imgHeight);
+
+        if (abs(x2 - x1) < minWidth) {
+            x2 = x1 - minWidth * (x2 < x1 || -1);
+
+            if (x2 < left)
+                x1 = left + minWidth;
+            else if (x2 > left + imgWidth)
+                x1 = left + imgWidth - minWidth;
+        }
+
+        if (abs(y2 - y1) < minHeight) {
+            y2 = y1 - minHeight * (y2 < y1 || -1);
+
+            if (y2 < top)
+                y1 = top + minHeight;
+            else if (y2 > top + imgHeight)
+                y1 = top + imgHeight - minHeight;
+        }
+
+        x2 = max(left, min(x2, left + imgWidth));
+        y2 = max(top, min(y2, top + imgHeight));
+
+        fixAspectRatio(abs(x2 - x1) < abs(y2 - y1) * aspectRatio);
+
+        if (abs(x2 - x1) > maxWidth) {
+            x2 = x1 - maxWidth * (x2 < x1 || -1);
+            fixAspectRatio();
+        }
+
+        if (abs(y2 - y1) > maxHeight) {
+            y2 = y1 - maxHeight * (y2 < y1 || -1);
+            fixAspectRatio(true);
+        }
+
+        selection = { x1: selX(min(x1, x2)), x2: selX(max(x1, x2)),
+            y1: selY(min(y1, y2)), y2: selY(max(y1, y2)),
+            width: abs(x2 - x1), height: abs(y2 - y1) };
+
+        update();
+
+        options.onSelectChange(img, getSelection());
+    }
+
+    function selectingMouseMove(event) {
+        x2 = resize == '' || /w|e/.test(resize) || aspectRatio ? evX(event) : viewX(selection.x2);
+        y2 = resize == '' || /n|s/.test(resize) || aspectRatio ? evY(event) : viewY(selection.y2);
+
+        doResize();
+
+        return false;
+
+    }
+
+    function doMove(newX1, newY1) {
+        x2 = (x1 = newX1) + selection.width;
+        y2 = (y1 = newY1) + selection.height;
+
+        $.extend(selection, { x1: selX(x1), y1: selY(y1), x2: selX(x2),
+            y2: selY(y2) });
+
+        update();
+
+        options.onSelectChange(img, getSelection());
+    }
+
+    function movingMouseMove(event) {
+        x1 = max(left, min(startX + evX(event), left + imgWidth - selection.width));
+        y1 = max(top, min(startY + evY(event), top + imgHeight - selection.height));
+
+        doMove(x1, y1);
+
+        event.preventDefault();
+
+        return false;
+    }
+
+    function startSelection() {
+        adjust();
+
+        x2 = x1;
+        y2 = y1;
+
+        doResize();
+
+        resize = '';
+
+        if ($outer.is(':not(:visible)'))
+            $box.add($outer).hide().fadeIn(options.fadeSpeed||0);
+
+        shown = true;
+
+        $(document).unbind('mouseup', cancelSelection)
+            .mousemove(selectingMouseMove).one('mouseup', docMouseUp);
+        $box.unbind('mousemove', areaMouseMove);
+
+        options.onSelectStart(img, getSelection());
+    }
+
+    function cancelSelection() {
+        $(document).unbind('mousemove', startSelection);
+        hide($box.add($outer));
+
+        selection = { x1: selX(x1), y1: selY(y1), x2: selX(x1), y2: selY(y1),
+                width: 0, height: 0 };
+
+        options.onSelectChange(img, getSelection());
+        options.onSelectEnd(img, getSelection());
+    }
+
+    function imgMouseDown(event) {
+        if (event.which != 1 || $outer.is(':animated')) return false;
+
+        adjust();
+        startX = x1 = evX(event);
+        startY = y1 = evY(event);
+
+        $(document).one('mousemove', startSelection)
+            .one('mouseup', cancelSelection);
+
+        return false;
+    }
+
+    function windowResize() {
+        doUpdate(false);
+    }
+
+    function imgLoad() {
+        imgLoaded = true;
+
+        setOptions(options = $.extend({
+            classPrefix: 'imgareaselect',
+            movable: true,
+            resizable: true,
+            parent: 'body',
+            onInit: function () {},
+            onSelectStart: function () {},
+            onSelectChange: function () {},
+            onSelectEnd: function () {}
+        }, options));
+
+        $box.add($outer).css({ visibility: '' });
+
+        if (options.show) {
+            shown = true;
+            adjust();
+            update();
+            $box.add($outer).hide().fadeIn(options.fadeSpeed||0);
+        }
+
+        setTimeout(function () { options.onInit(img, getSelection()); }, 0);
+    }
+
+    var docKeyPress = function(event) {
+        var k = options.keys, d, t, key = event.keyCode;
+
+        d = !isNaN(k.alt) && (event.altKey || event.originalEvent.altKey) ? k.alt :
+            !isNaN(k.ctrl) && event.ctrlKey ? k.ctrl :
+            !isNaN(k.shift) && event.shiftKey ? k.shift :
+            !isNaN(k.arrows) ? k.arrows : 10;
+
+        if (k.arrows == 'resize' || (k.shift == 'resize' && event.shiftKey) ||
+            (k.ctrl == 'resize' && event.ctrlKey) ||
+            (k.alt == 'resize' && (event.altKey || event.originalEvent.altKey)))
+        {
+            switch (key) {
+            case 37:
+                d = -d;
+            case 39:
+                t = max(x1, x2);
+                x1 = min(x1, x2);
+                x2 = max(t + d, x1);
+                fixAspectRatio();
+                break;
+            case 38:
+                d = -d;
+            case 40:
+                t = max(y1, y2);
+                y1 = min(y1, y2);
+                y2 = max(t + d, y1);
+                fixAspectRatio(true);
+                break;
+            default:
+                return;
+            }
+
+            doResize();
+        }
+        else {
+            x1 = min(x1, x2);
+            y1 = min(y1, y2);
+
+            switch (key) {
+            case 37:
+                doMove(max(x1 - d, left), y1);
+                break;
+            case 38:
+                doMove(x1, max(y1 - d, top));
+                break;
+            case 39:
+                doMove(x1 + min(d, imgWidth - selX(x2)), y1);
+                break;
+            case 40:
+                doMove(x1, y1 + min(d, imgHeight - selY(y2)));
+                break;
+            default:
+                return;
+            }
+        }
+
+        return false;
+    };
+
+    function styleOptions($elem, props) {
+        for (option in props)
+            if (options[option] !== undefined)
+                $elem.css(props[option], options[option]);
+    }
+
+    function setOptions(newOptions) {
+        if (newOptions.parent)
+            ($parent = $(newOptions.parent)).append($box.add($outer));
+
+        $.extend(options, newOptions);
+
+        adjust();
+
+        if (newOptions.handles != null) {
+            $handles.remove();
+            $handles = $([]);
+
+            i = newOptions.handles ? newOptions.handles == 'corners' ? 4 : 8 : 0;
+
+            while (i--)
+                $handles = $handles.add(div());
+
+            $handles.addClass(options.classPrefix + '-handle').css({
+                position: 'absolute',
+                fontSize: 0,
+                zIndex: zIndex + 1 || 1
+            });
+
+            if (!parseInt($handles.css('width')))
+                $handles.width(5).height(5);
+
+            if (o = options.borderWidth)
+                $handles.css({ borderWidth: o, borderStyle: 'solid' });
+
+            styleOptions($handles, { borderColor1: 'border-color',
+                borderColor2: 'background-color',
+                borderOpacity: 'opacity' });
+        }
+
+        scaleX = options.imageWidth / imgWidth || 1;
+        scaleY = options.imageHeight / imgHeight || 1;
+
+        if (newOptions.x1 != null) {
+            setSelection(newOptions.x1, newOptions.y1, newOptions.x2,
+                newOptions.y2);
+            newOptions.show = !newOptions.hide;
+        }
+
+        if (newOptions.keys)
+            options.keys = $.extend({ shift: 1, ctrl: 'resize' },
+                newOptions.keys);
+
+        $outer.addClass(options.classPrefix + '-outer');
+        $area.addClass(options.classPrefix + '-selection');
+        for (i = 0; i++ < 4;)
+            $($border[i-1]).addClass(options.classPrefix + '-border' + i);
+
+        styleOptions($area, { selectionColor: 'background-color',
+            selectionOpacity: 'opacity' });
+        styleOptions($border, { borderOpacity: 'opacity',
+            borderWidth: 'border-width' });
+        styleOptions($outer, { outerColor: 'background-color',
+            outerOpacity: 'opacity' });
+        if (o = options.borderColor1)
+            $($border[0]).css({ borderStyle: 'solid', borderColor: o });
+        if (o = options.borderColor2)
+            $($border[1]).css({ borderStyle: 'dashed', borderColor: o });
+
+        $box.append($area.add($border).add($handles).add($areaOpera));
+
+        if ($.browser.msie) {
+            if (o = $outer.css('filter').match(/opacity=([0-9]+)/))
+                $outer.css('opacity', o[1]/100);
+            if (o = $border.css('filter').match(/opacity=([0-9]+)/))
+                $border.css('opacity', o[1]/100);
+        }
+
+        if (newOptions.hide)
+            hide($box.add($outer));
+        else if (newOptions.show && imgLoaded) {
+            shown = true;
+            $box.add($outer).fadeIn(options.fadeSpeed||0);
+            doUpdate();
+        }
+
+        aspectRatio = (d = (options.aspectRatio || '').split(/:/))[0] / d[1];
+
+        if (options.disable || options.enable === false) {
+            $box.unbind('mousemove', areaMouseMove).unbind('mousedown', areaMouseDown);
+            $img.add($outer).unbind('mousedown', imgMouseDown);
+            $(window).unbind('resize', windowResize);
+        }
+        else if (options.enable || options.disable === false) {
+            if (options.resizable || options.movable)
+                $box.mousemove(areaMouseMove).mousedown(areaMouseDown);
+
+            if (!options.persistent)
+                $img.add($outer).mousedown(imgMouseDown);
+
+            $(window).resize(windowResize);
+        }
+
+        options.enable = options.disable = undefined;
+    }
+
+    this.remove = function () {
+        $img.unbind('mousedown', imgMouseDown);
+        $box.add($outer).remove();
+    };
+
+    this.getOptions = function () { return options; };
+
+    this.setOptions = setOptions;
+
+    this.getSelection = getSelection;
+
+    this.setSelection = setSelection;
+
+    this.update = doUpdate;
+
+    $p = $img;
+
+    while ($p.length) {
+        zIndex = max(zIndex,
+            !isNaN($p.css('z-index')) ? $p.css('z-index') : zIndex);
+        if ($p.css('position') == 'fixed')
+            position = 'fixed';
+
+        $p = $p.parent(':not(body)');
+    }
+
+    zIndex = options.zIndex || zIndex;
+
+    if ($.browser.msie)
+        $img.attr('unselectable', 'on');
+
+    $.imgAreaSelect.keyPress = $.browser.msie ||
+        $.browser.safari ? 'keydown' : 'keypress';
+
+    if ($.browser.opera)
+        $areaOpera = div().css({ width: '100%', height: '100%',
+            position: 'absolute', zIndex: zIndex + 2 || 2 });
+
+    $box.add($outer).css({ visibility: 'hidden', position: position,
+        overflow: 'hidden', zIndex: zIndex || '0' });
+    $box.css({ zIndex: zIndex + 2 || 2 });
+    $area.add($border).css({ position: 'absolute', fontSize: 0 });
+
+    img.complete || img.readyState == 'complete' || !$img.is('img') ?
+        imgLoad() : $img.one('load', imgLoad);
+};
+
+$.fn.imgAreaSelect = function (options) {
+    options = options || {};
+
+    this.each(function () {
+        if ($(this).data('imgAreaSelect')) {
+            if (options.remove) {
+                $(this).data('imgAreaSelect').remove();
+                $(this).removeData('imgAreaSelect');
+            }
+            else
+                $(this).data('imgAreaSelect').setOptions(options);
+        }
+        else if (!options.remove) {
+            if (options.enable === undefined && options.disable === undefined)
+                options.enable = true;
+
+            $(this).data('imgAreaSelect', new $.imgAreaSelect(this, options));
+        }
+    });
+
+    if (options.instance)
+        return $(this).data('imgAreaSelect');
+
+    return this;
+};
+
+})(jQuery);
+/* JS Table initialisation for index.html */
 jQuery(document).ready(function() {
   if(jQuery("#item_list_container") && jQuery.isFunction(jQuery.tablesorter)) {
     jQuery("#item_list_container").tablesorter({dateFormat: 'dd/mm/yyyy', highlightClass: 'highlight_col',
@@ -142,7 +855,7 @@ jQuery(document).ready(function() {
 
 function inline_status_change(){
 	if(jQuery('.status_change')){	
-		jQuery('.status_change').click(function(){
+		jQuery('.status_change').live("click", function(){
 		  if(!confirm("Are you sure you want to change the publish status?")) return false;
 			current_status = jQuery(this).attr('rel');
 			dest = jQuery(this).attr('href');
@@ -150,7 +863,6 @@ function inline_status_change(){
 			replace = "#"+this.id;
 			jQuery.get(dest, {status: current_status, ajax:'yes'}, function(response){				
 				jQuery(replace).replaceWith(response);
-				inline_status_change();
 			});
 			return false;
 		});
@@ -183,35 +895,45 @@ jQuery(document).ready(function() {
   
 });
 
-
-
-
-
-
-
+jQuery(document).ready(function(){
+  var left_col = jQuery("#header-container");
+  var orig_height = left_col.outerHeight() + 90; //90 since somehow it doesn't register even though this is after a .ready, don't ask me.
+	jQuery(window).resize(function(){
+    var new_height = jQuery(window).height();
+    if(new_height < orig_height) new_height = orig_height;
+    left_col.css("height", new_height);
+  });
+  jQuery(window).trigger("resize");
+});
 var content_page_id;
 var model_string;
 var init_upload;
 var autosaver;
 var inline_image_filter_timer;
+var use_old_draggables = false;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 if(typeof(file_options_location) == "undefined") var file_options_location = "/admin/files/file_options";
 var file_mime_type = "image";
 jQuery(document).ready(function() {
+		use_old_draggables = (jQuery('#category_list') && jQuery('#category_list').length)? true : false;
     jQuery("#container").tabs();
     
     jQuery("#page_tab_title").html(jQuery("#cms_content_title").val());
     jQuery("#cms_content_title").keyup(function() {
       jQuery("#page_tab_title").html(jQuery("#cms_content_title").val());
     });
-    jQuery("#new_cat_create").click(function() {
-      jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
-        complete: function(response){jQuery("#category_list").html(response); initialise_draggables();}
+    
+		jQuery("#new_cat_create").click(function() {
+      jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(),
+        complete: function(response){
+	        jQuery("#new_cat_create").parents(".category_browser").find(".category_list, #category_list").html(response.responseText);
+				}
       });
       return false;
     });   
-    initialise_draggables();
+    if(use_old_draggables) initialise_draggables();
+		else many_to_many_joins();
     if(jQuery("#copy_permissions_from").length > 0) jQuery("#copy_permissions_from").change(function(){
       jQuery.get("../../copy_permissions_from/"+content_page_id+"?copy_from="+jQuery(this).val(),function(response){
         window.location.reload();
@@ -320,8 +1042,8 @@ jQuery(document).ready(function() {
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
     
-    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:600, height:670});
-    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:600,height:500});
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:670, height:480});
+    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:670,height:480});
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");
       jQuery.ajax({
@@ -350,46 +1072,32 @@ jQuery(document).ready(function() {
 });
 
 function initialise_draggables() {
-  jQuery("#category_list .category_tag, #permission_list .permission_tag").draggable({opacity:0.5, revert:true, scroll:false, containment:'window', helper:'clone'});
-  jQuery("#cat_dropzone").droppable(
-  	{ accept: '.category_tag, .permission_tag', hoverClass:	'dropzone_active', tolerance:	'pointer',
-  		drop:	function(event, ui) {
-  		  if(ui.draggable.hasClass('permission_tag')) var end_url = "../../add_permission/";
-  		  else var end_url = "../../add_category/";
-  		  jQuery.post(end_url+content_page_id,{tagid: ui.draggable.attr("id"), id:ui.draggable.attr("id")},
-  		  function(response){  jQuery("#cat_dropzone").html(response);  init_deletes(); });
-  	}
-  });
-  jQuery("#category_list .category_tag, #permission_list .permission_tag").dblclick(function(){
-    if(jQuery(this).hasClass('permission_tag')) var end_url = "../../add_permission/";
-  	else var end_url = "../../add_category/";
+  jQuery("#category_list .category_tag, .category_list .category_tag").live("dblclick", function(){
+		var obj = this, end_url = "../../add_category/";
     jQuery.post(end_url+content_page_id,{tagid: this.id, id:this.id},
-	  function(response){  jQuery("#cat_dropzone").html(response); init_deletes(); });
+	  function(response){		
+			jQuery(obj).parents(".category_browser").children("#cat_dropzone, .cat_dropzone").html(response);
+		});
+		return false;
   });
-  init_deletes();
-}
-
-function init_deletes(){
-  jQuery(".category_trash_button, .permission_trash_button").click(function(){
-    if(jQuery(this).hasClass('permission_trash_button')){
-      var end_url = "../../remove_permission/";
-      var rid = this.id.replace("delete_permission_button_", "");
-  	}else{
-  	  var end_url = "../../remove_category/";
-  	  var rid = this.id.substr(22);
-	  }
+	
+	jQuery(".cat_dropzone .category_trash_button").live("dblclick", function(){
+		var obj = this, end_url = "../../remove_category/", rid = this.id.substr(22);		
     jQuery.get(end_url+content_page_id+"?cat="+rid,function(response){
-      jQuery("#cat_dropzone").html(response); init_deletes();
+      jQuery(obj).parents(".category_browser").children("#cat_dropzone, .cat_dropzone").html(response);
     });
+		return false;
   });
+	
 }
+//empty - using live events inside the main initialise_draggables() instead
+function init_deletes(){}
 
 function delayed_cat_filter(filter) {
   jQuery("#category_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: {"filter":filter}, 
     success: function(response){ 
-      jQuery("#category_list").html(response); 
-      initialise_draggables();
+			jQuery("#category_filter").parents(".category_browser").children(".category_list, #category_list").html(response); 
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#category_filter").css("background", "white");
     }
@@ -475,8 +1183,8 @@ jQuery(document).ready(function(event) {
     boxHtml:
       "<div class='wym_box'>"
       + "<div class='wym_area_top'>"
+			+ WYMeditor.CONTAINERS
       + WYMeditor.TOOLS
-      + WYMeditor.CONTAINERS
       + "</div>"
       + "<div class='wym_area_main'>"
       + WYMeditor.HTML
@@ -786,6 +1494,47 @@ jQuery(document).ready(function() {
 function link_dialog_file_choose(){
   jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
 }
+
+function many_to_many_joins(){
+	//unbind all of that junk
+  jQuery(".custom-join .category_tag, .custom-join .category_trash_button").unbind("draggable droppable dblclick click");
+  //bind adds
+  jQuery(".custom-join .category_list .category_tag").live("dblclick", function(){
+    var replace_area = jQuery(this).parents("div.custom-join"),
+        targetid = jQuery(this).attr('id').replace("tag_", ""),
+				originid = replace_area.attr('data-origin-id'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+        endpoint = "../../custom_add/"
+        ;
+    jQuery.ajax({
+      type: "post",
+      url: endpoint,
+      data: pdata,
+      success: function(response){
+        replace_area.html(response);
+      }
+    });
+  });
+  //bind deletes
+  jQuery(".custom-join .category_trash_button").live("dblclick", function(){
+    var replace_area = jQuery(this).parents("div.custom-join"),
+        targetid = jQuery(this).attr('id').replace("delete_category_button", ""),
+				originid = replace_area.attr('data-origin-id'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+        endpoint = "../../custom_delete/"
+        ;
+    jQuery.ajax({
+      type: "post",
+      url: endpoint,
+      data: pdata,
+      success: function(response){
+        replace_area.html(response);
+      }
+    });
+  });
+}
+
+
 
 /** langauge dropdown **/
 jQuery(document).ready(function(){
@@ -2675,7 +3424,7 @@ jQuery.extend(WYMeditor, {
       ATTRIBUTE: 2,
       TEXT: 3
     },
-	
+
     /*
         Class: WYMeditor.editor
         WYMeditor editor main class, instanciated for each editor occurrence.
@@ -2736,7 +3485,7 @@ jQuery.extend(WYMeditor, {
 
         //initialize the editor instance
         this.init();
-	
+
 	}
 
 });
@@ -2753,7 +3502,7 @@ jQuery.extend(WYMeditor, {
  *        }
  *      );
  * @desc Example description here
- * 
+ *
  * @name WYMeditor
  * @description WYMeditor is a web-based WYSIWYM XHTML editor
  * @param Hash hash A hash of parameters
@@ -2769,21 +3518,21 @@ jQuery.fn.wymeditor = function(options) {
   options = jQuery.extend({
 
     html:       "",
-    
+
     basePath:   false,
-    
+
     skinPath:    false,
-    
+
     wymPath:    false,
-    
+
     iframeBasePath: false,
-    
+
     jQueryPath: false,
-    
+
     styles: false,
-    
+
     stylesheet: false,
-    
+
     skin:       "default",
     initSkin:   true,
     loadSkin:   true,
@@ -2793,7 +3542,7 @@ jQuery.fn.wymeditor = function(options) {
     direction:  "ltr",
 
     boxHtml:   "<div class='wym_box'>"
-              + "<div class='wym_area_top'>" 
+              + "<div class='wym_area_top'>"
               + WYMeditor.TOOLS
               + "</div>"
               + "<div class='wym_area_left'></div>"
@@ -2823,7 +3572,7 @@ jQuery.fn.wymeditor = function(options) {
               + WYMeditor.INDEX + "].initIframe(this)'"
               + "></iframe>"
               + "</div>",
-              
+
     editorStyles: [],
 
     toolsHtml: "<div class='wym_tools wym_section'>"
@@ -2832,7 +3581,7 @@ jQuery.fn.wymeditor = function(options) {
               + WYMeditor.TOOLS_ITEMS
               + "</ul>"
               + "</div>",
-              
+
     toolsItemHtml:   "<li class='"
                         + WYMeditor.TOOL_CLASS
                         + "'><a href='#' name='"
@@ -2844,7 +3593,7 @@ jQuery.fn.wymeditor = function(options) {
                         + "</a></li>",
 
     toolsItems: [
-        {'name': 'Bold', 'title': 'Strong', 'css': 'wym_tools_strong'}, 
+        {'name': 'Bold', 'title': 'Strong', 'css': 'wym_tools_strong'},
         {'name': 'Italic', 'title': 'Emphasis', 'css': 'wym_tools_emphasis'},
         {'name': 'Superscript', 'title': 'Superscript',
             'css': 'wym_tools_superscript'},
@@ -2874,7 +3623,7 @@ jQuery.fn.wymeditor = function(options) {
                         + WYMeditor.CONTAINERS_ITEMS
                         + "</ul>"
                         + "</div>",
-                        
+
     containersItemHtml:"<li class='"
                         + WYMeditor.CONTAINER_CLASS
                         + "'>"
@@ -2883,7 +3632,7 @@ jQuery.fn.wymeditor = function(options) {
                         + "'>"
                         + WYMeditor.CONTAINER_TITLE
                         + "</a></li>",
-                        
+
     containersItems: [
         {'name': 'P', 'title': 'Paragraph', 'css': 'wym_containers_p'},
         {'name': 'H1', 'title': 'Heading_1', 'css': 'wym_containers_h1'},
@@ -2935,32 +3684,32 @@ jQuery.fn.wymeditor = function(options) {
     containerSelector: ".wym_containers a",
     classSelector:     ".wym_classes a",
     htmlValSelector:   ".wym_html_val",
-    
+
     hrefSelector:      ".wym_href",
     srcSelector:       ".wym_src",
     titleSelector:     ".wym_title",
     altSelector:       ".wym_alt",
     textSelector:      ".wym_text",
-    
+
     rowsSelector:      ".wym_rows",
     colsSelector:      ".wym_cols",
     captionSelector:   ".wym_caption",
     summarySelector:   ".wym_summary",
-    
+
     submitSelector:    ".wym_submit",
     cancelSelector:    ".wym_cancel",
     previewSelector:   "",
-    
+
     dialogTypeSelector:    ".wym_dialog_type",
     dialogLinkSelector:    ".wym_dialog_link",
     dialogImageSelector:   ".wym_dialog_image",
     dialogTableSelector:   ".wym_dialog_table",
     dialogPasteSelector:   ".wym_dialog_paste",
     dialogPreviewSelector: ".wym_dialog_preview",
-    
+
     updateSelector:    ".wymupdate",
     updateEvent:       "click",
-    
+
     dialogFeatures:    "menubar=no,titlebar=no,toolbar=no,resizable=no"
                       + ",width=560,height=300,top=0,left=0",
     dialogFeaturesPreview: "menubar=no,titlebar=no,toolbar=no,resizable=no"
@@ -2989,7 +3738,7 @@ jQuery.fn.wymeditor = function(options) {
                       + "</head>"
                       + WYMeditor.DIALOG_BODY
                       + "</html>",
-                      
+
     dialogLinkHtml:  "<body class='wym_dialog wym_dialog_link'"
                + " onload='WYMeditor.INIT_DIALOG(" + WYMeditor.INDEX + ")'"
                + ">"
@@ -3016,7 +3765,7 @@ jQuery.fn.wymeditor = function(options) {
                + "</fieldset>"
                + "</form>"
                + "</body>",
-    
+
     dialogImageHtml:  "<body class='wym_dialog wym_dialog_image'"
                + " onload='WYMeditor.INIT_DIALOG(" + WYMeditor.INDEX + ")'"
                + ">"
@@ -3047,7 +3796,7 @@ jQuery.fn.wymeditor = function(options) {
                + "</fieldset>"
                + "</form>"
                + "</body>",
-    
+
     dialogTableHtml:  "<body class='wym_dialog wym_dialog_table'"
                + " onload='WYMeditor.INIT_DIALOG(" + WYMeditor.INDEX + ")'"
                + ">"
@@ -3108,16 +3857,16 @@ jQuery.fn.wymeditor = function(options) {
     dialogPreviewHtml: "<body class='wym_dialog wym_dialog_preview'"
                       + " onload='WYMeditor.INIT_DIALOG(" + WYMeditor.INDEX + ")'"
                       + "></body>",
-                      
+
     dialogStyles: [],
 
     stringDelimiterLeft: "{",
     stringDelimiterRight:"}",
-    
+
     preInit: null,
     preBind: null,
     postInit: null,
-    
+
     preInitDialog: null,
     postInitDialog: null
 
@@ -3164,21 +3913,21 @@ WYMeditor.editor.prototype.init = function() {
   else if (jQuery.browser.safari) {
     var WymClass = new WYMeditor.WymClassSafari(this);
   }
-  
+
   if(WymClass) {
-  
+
       if(jQuery.isFunction(this._options.preInit)) this._options.preInit(this);
 
       var SaxListener = new WYMeditor.XhtmlSaxListener();
       jQuery.extend(SaxListener, WymClass);
       this.parser = new WYMeditor.XhtmlParser(SaxListener);
-      
+
       if(this._options.styles || this._options.stylesheet){
         this.configureEditorUsingRawCss();
       }
-      
+
       this.helper = new WYMeditor.XmlHelper();
-      
+
       //extend the Wymeditor object
       //don't use jQuery.extend since 1.1.4
       //jQuery.extend(this, WymClass);
@@ -3193,17 +3942,17 @@ WYMeditor.editor.prototype.init = function() {
         jQuery.data(this._box.get(0), WYMeditor.WYM_INDEX, this._index);
         jQuery.data(this._element.get(0), WYMeditor.WYM_INDEX, this._index);
       }
-      
+
       var h = WYMeditor.Helper;
 
       //construct the iframe
       var iframeHtml = this._options.iframeHtml;
       iframeHtml = h.replaceAll(iframeHtml, WYMeditor.INDEX, this._index);
       iframeHtml = h.replaceAll(iframeHtml, WYMeditor.IFRAME_BASE_PATH, this._options.iframeBasePath);
-      
+
       //construct wymbox
       var boxHtml = jQuery(this._box).html();
-      
+
       boxHtml = h.replaceAll(boxHtml, WYMeditor.LOGO, this._options.logoHtml);
       boxHtml = h.replaceAll(boxHtml, WYMeditor.TOOLS, this._options.toolsHtml);
       boxHtml = h.replaceAll(boxHtml, WYMeditor.CONTAINERS,this._options.containersHtml);
@@ -3211,7 +3960,7 @@ WYMeditor.editor.prototype.init = function() {
       boxHtml = h.replaceAll(boxHtml, WYMeditor.HTML, this._options.htmlHtml);
       boxHtml = h.replaceAll(boxHtml, WYMeditor.IFRAME, iframeHtml);
       boxHtml = h.replaceAll(boxHtml, WYMeditor.STATUS, this._options.statusHtml);
-      
+
       //construct tools list
       var aTools = eval(this._options.toolsItems);
       var sTools = "";
@@ -3244,7 +3993,7 @@ WYMeditor.editor.prototype.init = function() {
       }
 
       boxHtml = h.replaceAll(boxHtml, WYMeditor.CLASSES_ITEMS, sClasses);
-      
+
       //construct containers list
       var aContainers = eval(this._options.containersItems);
       var sContainers = "";
@@ -3266,16 +4015,16 @@ WYMeditor.editor.prototype.init = function() {
 
       //l10n
       boxHtml = this.replaceStrings(boxHtml);
-      
+
       //load html in wymbox
       jQuery(this._box).html(boxHtml);
-      
+
       //hide the html value
       jQuery(this._box).find(this._options.htmlSelector).hide();
-      
+
       //enable the skin
       this.loadSkin();
-      
+
     }
 };
 
@@ -3283,35 +4032,34 @@ WYMeditor.editor.prototype.bindEvents = function() {
 
   //copy the instance
   var wym = this;
-  
+
   //handle click event on tools buttons
-  jQuery(this._box).find(this._options.toolSelector).click(function() {
+  jQuery(wym._box).find(this._options.toolSelector).click(function() {
     wym._iframe.contentWindow.focus(); //See #154
-    wym.exec(jQuery(this).attr(WYMeditor.NAME));    
+    wym.exec(jQuery(this).attr(WYMeditor.NAME));
     return(false);
   });
-  
+
   //handle click event on containers buttons
-  jQuery(this._box).find(this._options.containerSelector).click(function() {
+  jQuery(wym._box).find(wym._options.containerSelector).click(function() {
     wym.container(jQuery(this).attr(WYMeditor.NAME));
     return(false);
   });
-  
+
   //handle keyup event on html value: set the editor value
   //handle focus/blur events to check if the element has focus, see #147
-  jQuery(this._box).find(this._options.htmlValSelector)
+  jQuery(wym._box).find(this._options.htmlValSelector)
     .keyup(function() { jQuery(wym._doc.body).html(jQuery(this).val());})
     .focus(function() { jQuery(this).toggleClass('hasfocus'); })
     .blur(function() { jQuery(this).toggleClass('hasfocus'); });
 
   //handle click event on classes buttons
-  jQuery(this._box).find(this._options.classSelector).click(function() {
-  
+  jQuery(wym._box).find(this._options.classSelector).click(function() {
     var aClasses = eval(wym._options.classesItems);
     var sName = jQuery(this).attr(WYMeditor.NAME);
-    
+
     var oClass = WYMeditor.Helper.findByName(aClasses, sName);
-    
+
     if(oClass) {
       var jqexpr = oClass.expr;
       wym.toggleClass(sName, jqexpr);
@@ -3319,10 +4067,10 @@ WYMeditor.editor.prototype.bindEvents = function() {
     wym._iframe.contentWindow.focus(); //See #154
     return(false);
   });
-  
+
   //handle event on update element
-  jQuery(this._options.updateSelector)
-    .bind(this._options.updateEvent, function() {
+  jQuery(wym._options.updateSelector)
+    .bind(wym._options.updateEvent, function() {
       wym.update();
   });
 };
@@ -3361,7 +4109,7 @@ WYMeditor.editor.prototype.xhtml = function() {
  * @description Executes a button command
  */
 WYMeditor.editor.prototype.exec = function(cmd) {
-  
+
   //base function for execCommand
   //open a dialog or exec
   switch(cmd) {
@@ -3369,19 +4117,19 @@ WYMeditor.editor.prototype.exec = function(cmd) {
       var container = this.container();
       if(container || this._selected_image) this.dialog(WYMeditor.DIALOG_LINK);
     break;
-    
+
     case WYMeditor.INSERT_IMAGE:
       this.dialog(WYMeditor.DIALOG_IMAGE);
     break;
-    
+
     case WYMeditor.INSERT_TABLE:
       this.dialog(WYMeditor.DIALOG_TABLE);
     break;
-    
+
     case WYMeditor.PASTE:
       this.dialog(WYMeditor.DIALOG_PASTE);
     break;
-    
+
     case WYMeditor.TOGGLE_HTML:
       this.update();
       this.toggleHtml();
@@ -3390,11 +4138,11 @@ WYMeditor.editor.prototype.exec = function(cmd) {
       if(!jQuery(this._box).find(this._options.htmlSelector).is(':visible'))
         this.listen();
     break;
-    
+
     case WYMeditor.PREVIEW:
       this.dialog(WYMeditor.PREVIEW, this._options.dialogFeaturesPreview);
     break;
-    
+
     default:
       this._exec(cmd);
     break;
@@ -3404,19 +4152,16 @@ WYMeditor.editor.prototype.exec = function(cmd) {
 /* @name container
  * @description Get/Set the selected container
  */
-WYMeditor.editor.prototype.container = function(sType) {
+WYMeditor.editor.prototype.container = function(sType, wym) {
 
   if(sType) {
-  
+
     var container = null;
-    
+
     if(sType.toLowerCase() == WYMeditor.TH) {
-    
       container = this.container();
-      
       //find the TD or TH container
       switch(container.tagName.toLowerCase()) {
-      
         case WYMeditor.TD: case WYMeditor.TH:
           break;
         default:
@@ -3424,43 +4169,31 @@ WYMeditor.editor.prototype.container = function(sType) {
           container = this.findUp(this.container(), aTypes);
           break;
       }
-      
       //if it exists, switch
       if(container!=null) {
-      
         sType = (container.tagName.toLowerCase() == WYMeditor.TD)? WYMeditor.TH: WYMeditor.TD;
         this.switchTo(container,sType);
         this.update();
       }
-    } else {
-  
+    }else{
       //set the container type
       var aTypes=new Array(WYMeditor.P,WYMeditor.H1,WYMeditor.H2,WYMeditor.H3,WYMeditor.H4,WYMeditor.H5,
-      WYMeditor.H6,WYMeditor.PRE,WYMeditor.BLOCKQUOTE);
-      container = this.findUp(this.container(), aTypes);
-      
+      WYMeditor.H6,WYMeditor.PRE,WYMeditor.BLOCKQUOTE,WYMeditor.LI, WYMeditor.UL, WYMeditor.OL);
+      container = this.findUp(wym.container(), aTypes);
       if(container) {
-  
         var newNode = null;
-  
         //blockquotes must contain a block level element
         if(sType.toLowerCase() == WYMeditor.BLOCKQUOTE) {
-        
           var blockquote = this.findUp(this.container(), WYMeditor.BLOCKQUOTE);
-          
           if(blockquote == null) {
-          
             newNode = this._doc.createElement(sType);
             container.parentNode.insertBefore(newNode,container);
             newNode.appendChild(container);
             this.setFocusToNode(newNode.firstChild);
-            
           } else {
-          
             var nodes = blockquote.childNodes;
             var lgt = nodes.length;
             var firstNode = null;
-            
             if(lgt > 0) firstNode = nodes.item(0);
             for(var x=0; x<lgt; x++) {
               blockquote.parentNode.insertBefore(nodes.item(0),blockquote);
@@ -3468,10 +4201,7 @@ WYMeditor.editor.prototype.container = function(sType) {
             blockquote.parentNode.removeChild(blockquote);
             if(firstNode) this.setFocusToNode(firstNode);
           }
-        }
-        
-        else this.switchTo(container,sType);
-      
+        }else this.switchTo(container,sType);
         this.update();
       }
     }
@@ -3504,19 +4234,19 @@ WYMeditor.editor.prototype.findUp = function(node, filter) {
   if(node) {
 
       var tagname = node.tagName.toLowerCase();
-      
+
       if(typeof(filter) == WYMeditor.STRING) {
-    
+
         while(tagname != filter && tagname != WYMeditor.BODY) {
-        
+
           node = node.parentNode;
           tagname = node.tagName.toLowerCase();
         }
-      
+
       } else {
-      
+
         var bFound = false;
-        
+
         while(!bFound && tagname != WYMeditor.BODY) {
           for(var i = 0; i < filter.length; i++) {
             if(tagname == filter[i]) {
@@ -3530,10 +4260,10 @@ WYMeditor.editor.prototype.findUp = function(node, filter) {
           }
         }
       }
-      
+
       if(tagname != WYMeditor.BODY) return(node);
       else return(null);
-      
+
   } else return(null);
 };
 
@@ -3564,7 +4294,7 @@ WYMeditor.editor.prototype.replaceStrings = function(sVal) {
 
   //replace all the strings in sVal and return it
   for (var key in WYMeditor.STRINGS[this._options.lang]) {
-    sVal = WYMeditor.Helper.replaceAll(sVal, this._options.stringDelimiterLeft + key 
+    sVal = WYMeditor.Helper.replaceAll(sVal, this._options.stringDelimiterLeft + key
     + this._options.stringDelimiterRight,
     WYMeditor.STRINGS[this._options.lang][key]);
   };
@@ -3601,14 +4331,14 @@ WYMeditor.editor.prototype.update = function() {
  * @description Opens a dialog box
  */
 WYMeditor.editor.prototype.dialog = function( dialogType, dialogFeatures, bodyHtml ) {
-  
+
   var features = dialogFeatures || this._wym._options.dialogFeatures;
   var wDialog = window.open('', 'dialog', features);
 
   if(wDialog) {
 
     var sBodyHtml = "";
-    
+
     switch( dialogType ) {
 
       case(WYMeditor.DIALOG_LINK):
@@ -3630,7 +4360,7 @@ WYMeditor.editor.prototype.dialog = function( dialogType, dialogFeatures, bodyHt
       default:
         sBodyHtml = bodyHtml;
     }
-    
+
     var h = WYMeditor.Helper;
 
     //construct the dialog
@@ -3643,9 +4373,9 @@ WYMeditor.editor.prototype.dialog = function( dialogType, dialogFeatures, bodyHt
     dialogHtml = h.replaceAll(dialogHtml, WYMeditor.DIALOG_TITLE, this.encloseString( dialogType ));
     dialogHtml = h.replaceAll(dialogHtml, WYMeditor.DIALOG_BODY, sBodyHtml);
     dialogHtml = h.replaceAll(dialogHtml, WYMeditor.INDEX, this._index);
-      
+
     dialogHtml = this.replaceStrings(dialogHtml);
-    
+
     var doc = wDialog.document;
     doc.write(dialogHtml);
     doc.close();
@@ -3665,9 +4395,10 @@ WYMeditor.editor.prototype.uniqueStamp = function() {
 };
 
 WYMeditor.editor.prototype.paste = function(sData) {
+
   var sTmp;
   var container = this.selected();
-	
+
   //split the data, using double newlines as the separator
   var aP = sData.split(this._newLine + this._newLine);
   var rExp = new RegExp(this._newLine, "g");
@@ -3687,7 +4418,7 @@ WYMeditor.editor.prototype.paste = function(sData) {
         sTmp = sTmp.replace(rExp, "<br />");
         jQuery(this._doc.body).append("<p>" + sTmp + "</p>");
     }
-  
+
   }
 };
 
@@ -3781,7 +4512,7 @@ WYMeditor.editor.prototype.listen = function() {
   //don't use jQuery.find() on the iframe body
   //because of MSIE + jQuery + expando issue (#JQ1143)
   //jQuery(this._doc.body).find("*").bind("mouseup", this.mouseup);
-  
+
   jQuery(this._doc.body).bind("mousedown", this.mousedown);
   var images = this._doc.body.getElementsByTagName("img");
   for(var i=0; i < images.length; i++) {
@@ -3790,7 +4521,7 @@ WYMeditor.editor.prototype.listen = function() {
 };
 
 WYMeditor.editor.prototype.mousedown = function(evt) {
-  
+
   var wym = WYMeditor.INSTANCES[this.ownerDocument.title];
   wym._selected_image = (this.tagName.toLowerCase() == WYMeditor.IMG) ? this : null;
   evt.stopPropagation();
@@ -3806,7 +4537,7 @@ WYMeditor.editor.prototype.mousedown = function(evt) {
  *      href - The CSS path.
  */
 WYMeditor.loadCss = function(href) {
-    
+
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = href;
@@ -3985,7 +4716,6 @@ WYMeditor.INIT_DIALOG = function(index) {
 
   jQuery(wym._options.dialogPasteSelector + " "
     + wym._options.submitSelector).click(function() {
-
       var sText = jQuery(wym._options.textSelector).val();
       wym.paste(sText);
       window.close();
@@ -6163,8 +6893,10 @@ WYMeditor.WymCssParser.prototype.addStyleSetting = function(style_details)
   for (var name in style_details){
     var details = style_details[name];
     if(typeof details == 'object' && name != 'title'){
-      if(typeof details.expressions == "undefined") details.expressions = [];
-      if(typeof details.tags == "undefined") details.tags = [];
+
+			if(typeof details.expressions == "undefined") details.expressions = [];
+			if(typeof details.tags == "undefined") details.tags = [];
+
       this.css_settings.classesItems.push({
         'name': WYMeditor.Helper.trim(details.name),
         'title': style_details.title,
@@ -6307,10 +7039,10 @@ WYMeditor.WymClassExplorer.prototype.initIframe = function(iframe) {
     //This function is executed twice, though it is called once!
     //But MSIE needs that, otherwise designMode won't work.
     //Weird.
-    
+
     this._iframe = iframe;
     this._doc = iframe.contentWindow.document;
-    
+
     //add css rules from options
     var styles = this._doc.styleSheets[0];
     var aCss = eval(this._options.editorStyles);
@@ -6321,13 +7053,13 @@ WYMeditor.WymClassExplorer.prototype.initIframe = function(iframe) {
 
     //set the text direction
     jQuery('html', this._doc).attr('dir', this._options.direction);
-    
+
     //init html value
     jQuery(this._doc.body).html(this._wym._html);
-    
+
     //handle events
     var wym = this;
-    
+
     this._doc.body.onfocus = function()
       {wym._doc.designMode = "on"; wym._doc = iframe.contentWindow.document;};
     this._doc.onbeforedeactivate = function() {wym.saveCaret();};
@@ -6336,48 +7068,47 @@ WYMeditor.WymClassExplorer.prototype.initIframe = function(iframe) {
       wym.keyup();
     };
     this._doc.onclick = function() {wym.saveCaret();};
-    
+
     this._doc.body.onbeforepaste = function() {
       wym._iframe.contentWindow.event.returnValue = false;
     };
-    
+
     this._doc.body.onpaste = function() {
       wym._iframe.contentWindow.event.returnValue = false;
       wym.paste(window.clipboardData.getData("Text"));
     };
-    
+
     //callback can't be executed twice, so we check
     if(this._initialized) {
-      
+
       //pre-bind functions
       if(jQuery.isFunction(this._options.preBind)) this._options.preBind(this);
-      
+
       //bind external events
       this._wym.bindEvents();
-      
+
       //post-init functions
       if(jQuery.isFunction(this._options.postInit)) this._options.postInit(this);
-      
+
       //add event listeners to doc elements, e.g. images
       this.listen();
     }
-    
+
     this._initialized = true;
-    
+
     //init designMode
     this._doc.designMode="on";
     try{
         // (bermi's note) noticed when running unit tests on IE6
         // Is this really needed, it trigger an unexisting property on IE6
-        this._doc = iframe.contentWindow.document; 
+        this._doc = iframe.contentWindow.document;
     }catch(e){}
 };
 
 WYMeditor.WymClassExplorer.prototype._exec = function(cmd,param) {
     switch(cmd) {
-    
     case WYMeditor.INDENT: case WYMeditor.OUTDENT:
-    
+
         var container = this.findUp(this.container(), WYMeditor.LI);
         if(container) {
             var ancestor = container.parentNode.parentNode;
@@ -6388,10 +7119,11 @@ WYMeditor.WymClassExplorer.prototype._exec = function(cmd,param) {
         }
     break;
     default:
-        if(param) this._doc.execCommand(cmd,'false',param);
+        if(param) this._doc.execCommand(cmd,false,param);
         else this._doc.execCommand(cmd);
     break;
 	}
+
     this.listen();
 };
 
@@ -6513,45 +7245,50 @@ WYMeditor.WymClassMozilla = function(wym) {
 
 WYMeditor.WymClassMozilla.prototype.initIframe = function(iframe) {
 
+		var wym = this;
+
     this._iframe = iframe;
     this._doc = iframe.contentDocument;
-    
+
     //add css rules from options
-    
-    var styles = this._doc.styleSheets[0];    
+
+    var styles = this._doc.styleSheets[0];
     var aCss = eval(this._options.editorStyles);
-    
+
     this.addCssRules(this._doc, aCss);
 
     this._doc.title = this._wym._index;
 
     //set the text direction
     jQuery('html', this._doc).attr('dir', this._options.direction);
-    
+
     //init html value
     this.html(this._wym._html);
-    
+
     //init designMode
     this.enableDesignMode();
-    
+
     //pre-bind functions
     if(jQuery.isFunction(this._options.preBind)) this._options.preBind(this);
-    
+
     //bind external events
     this._wym.bindEvents();
-    
+
     //bind editor keydown events
     jQuery(this._doc).bind("keydown", this.keydown);
-    
+
     //bind editor keyup events
     jQuery(this._doc).bind("keyup", this.keyup);
-    
+
     //bind editor focus events (used to reset designmode - Gecko bug)
-    jQuery(this._doc).bind("focus", this.enableDesignMode);
-    
+    jQuery(this._doc).bind("focus", function () {
+		    // Fix scope
+		    wym.enableDesignMode.call(wym);
+		});
+
     //post-init functions
     if(jQuery.isFunction(this._options.postInit)) this._options.postInit(this);
-    
+
     //add event listeners to doc elements, e.g. images
     this.listen();
 };
@@ -6562,10 +7299,10 @@ WYMeditor.WymClassMozilla.prototype.initIframe = function(iframe) {
 WYMeditor.WymClassMozilla.prototype.html = function(html) {
 
   if(typeof html === 'string') {
-  
+
     //disable designMode
     try { this._doc.designMode = "off"; } catch(e) { };
-    
+
     //replace em by i and strong by bold
     //(designMode issue)
     html = html.replace(/<em(\b[^>]*)>/gi, "<i$1>")
@@ -6575,7 +7312,7 @@ WYMeditor.WymClassMozilla.prototype.html = function(html) {
 
     //update the html body
     jQuery(this._doc.body).html(html);
-    
+
     //re-init designMode
     this.enableDesignMode();
   }
@@ -6585,43 +7322,34 @@ WYMeditor.WymClassMozilla.prototype.html = function(html) {
 WYMeditor.WymClassMozilla.prototype._exec = function(cmd,param) {
 
     if(!this.selected()) return(false);
-
-    switch(cmd) {
-    
-    case WYMeditor.INDENT: case WYMeditor.OUTDENT:
-    
-        var focusNode = this.selected();    
+    switch(cmd){
+    	case WYMeditor.INDENT: case WYMeditor.OUTDENT:
+        var focusNode = this.selected();
         var sel = this._iframe.contentWindow.getSelection();
         var anchorNode = sel.anchorNode;
         if(anchorNode.nodeName == "#text") anchorNode = anchorNode.parentNode;
-        
+
         focusNode = this.findUp(focusNode, WYMeditor.BLOCKS);
         anchorNode = this.findUp(anchorNode, WYMeditor.BLOCKS);
-        
-        if(focusNode && focusNode == anchorNode
-          && focusNode.tagName.toLowerCase() == WYMeditor.LI) {
 
-            var ancestor = focusNode.parentNode.parentNode;
-
-            if(focusNode.parentNode.childNodes.length>1
-              || ancestor.tagName.toLowerCase() == WYMeditor.OL
-              || ancestor.tagName.toLowerCase() == WYMeditor.UL)
-                this._doc.execCommand(cmd,'',null);
+        if(focusNode && focusNode == anchorNode && focusNode.tagName.toLowerCase() == WYMeditor.LI) {
+					var ancestor = focusNode.parentNode.parentNode;
+          if(focusNode.parentNode.childNodes.length>1 || ancestor.tagName.toLowerCase() == WYMeditor.OL || ancestor.tagName.toLowerCase() == WYMeditor.UL){
+						this._doc.execCommand(cmd,'',null);
+					}
         }
+    		break;
 
-    break;
-    
     default:
-
-        if(param) this._doc.execCommand(cmd,'',param);
-        else this._doc.execCommand(cmd,'',null);
+			if(param) this._doc.execCommand(cmd,'',param);
+      else this._doc.execCommand(cmd,'',null);
     }
-    
+
     //set to P if parent = BODY
     var container = this.selected();
     if(container.tagName.toLowerCase() == WYMeditor.BODY)
         this._exec(WYMeditor.FORMAT_BLOCK, WYMeditor.P);
-    
+
     //add event handlers on doc elements
 
     this.listen();
@@ -6631,7 +7359,6 @@ WYMeditor.WymClassMozilla.prototype._exec = function(cmd,param) {
  * @description Returns the selected container
  */
 WYMeditor.WymClassMozilla.prototype.selected = function() {
-
     var sel = this._iframe.contentWindow.getSelection();
     var node = sel.focusNode;
     if(node) {
@@ -6649,10 +7376,10 @@ WYMeditor.WymClassMozilla.prototype.addCssRule = function(styles, oCss) {
 
 //keydown handler, mainly used for keyboard shortcuts
 WYMeditor.WymClassMozilla.prototype.keydown = function(evt) {
-  
+
   //'this' is the doc
   var wym = WYMeditor.INSTANCES[this.title];
-  var container = null;  
+  var container = null;
 
   if(evt.ctrlKey){
     if(evt.keyCode == 66){
@@ -6665,7 +7392,9 @@ WYMeditor.WymClassMozilla.prototype.keydown = function(evt) {
       wym._exec(WYMeditor.ITALIC);
       return false;
     }
-  } else if(evt.keyCode == 13) {
+  }
+
+  else if(evt.keyCode == 13) {
     if(!evt.shiftKey){
       //fix PRE bug #73
       container = wym.selected();
@@ -6682,27 +7411,27 @@ WYMeditor.WymClassMozilla.prototype.keyup = function(evt) {
 
   //'this' is the doc
   var wym = WYMeditor.INSTANCES[this.title];
-  
+
   wym._selected_image = null;
   var container = null;
 
   if(evt.keyCode == 13 && !evt.shiftKey) {
-  
+
     //RETURN key
     //cleanup <br><br> between paragraphs
     jQuery(wym._doc.body).children(WYMeditor.BR).remove();
   }
-  
+
   else if(evt.keyCode != 8
        && evt.keyCode != 17
        && evt.keyCode != 46
        && evt.keyCode != 224
        && !evt.metaKey
        && !evt.ctrlKey) {
-      
+
     //NOT BACKSPACE, NOT DELETE, NOT CTRL, NOT COMMAND
     //text nodes replaced by P
-    
+
     container = wym.selected();
     var name = container.tagName.toLowerCase();
 
@@ -6723,15 +7452,16 @@ WYMeditor.WymClassMozilla.prototype.keyup = function(evt) {
 };
 
 WYMeditor.WymClassMozilla.prototype.enableDesignMode = function() {
-    if(this.designMode == "off") {
+    if(this._doc.designMode == "off") {
       try {
-        this.designMode = "on";
-        this.execCommand("styleWithCSS", '', false);
+        this._doc.designMode = "on";
+        this._doc.execCommand("styleWithCSS", '', false);
       } catch(e) { }
     }
 };
 
 WYMeditor.WymClassMozilla.prototype.setFocusToNode = function(node) {
+
     var range = document.createRange();
     range.selectNode(node);
     var selected = this._iframe.contentWindow.getSelection();
@@ -6756,7 +7486,7 @@ WYMeditor.WymClassMozilla.prototype.openBlockTag = function(tag, attributes)
       return;
     }
   }
-  
+
   this.output += this.helper.tag(tag, attributes, true);
 };
 
@@ -6798,9 +7528,9 @@ WYMeditor.WymClassOpera.prototype.initIframe = function(iframe) {
 
     this._iframe = iframe;
     this._doc = iframe.contentWindow.document;
-    
+
     //add css rules from options
-    var styles = this._doc.styleSheets[0];    
+    var styles = this._doc.styleSheets[0];
     var aCss = eval(this._options.editorStyles);
 
     this.addCssRules(this._doc, aCss);
@@ -6809,28 +7539,28 @@ WYMeditor.WymClassOpera.prototype.initIframe = function(iframe) {
 
     //set the text direction
     jQuery('html', this._doc).attr('dir', this._options.direction);
-    
+
     //init designMode
     this._doc.designMode = "on";
 
     //init html value
     this.html(this._wym._html);
-    
+
     //pre-bind functions
     if(jQuery.isFunction(this._options.preBind)) this._options.preBind(this);
-    
+
     //bind external events
     this._wym.bindEvents();
-    
+
     //bind editor keydown events
     jQuery(this._doc).bind("keydown", this.keydown);
-    
+
     //bind editor events
     jQuery(this._doc).bind("keyup", this.keyup);
-    
+
     //post-init functions
     if(jQuery.isFunction(this._options.postInit)) this._options.postInit(this);
-    
+
     //add event listeners to doc elements, e.g. images
     this.listen();
 };
@@ -6839,7 +7569,7 @@ WYMeditor.WymClassOpera.prototype._exec = function(cmd,param) {
 
     if(param) this._doc.execCommand(cmd,false,param);
     else this._doc.execCommand(cmd);
-    
+
     this.listen();
 };
 
@@ -6861,7 +7591,7 @@ WYMeditor.WymClassOpera.prototype.addCssRule = function(styles, oCss) {
 
 //keydown handler
 WYMeditor.WymClassOpera.prototype.keydown = function(evt) {
-  
+
   //'this' is the doc
   var wym = WYMeditor.INSTANCES[this.title];
   var sel = wym._iframe.contentWindow.getSelection();
@@ -6925,12 +7655,12 @@ WYMeditor.WymClassSafari.prototype.initIframe = function(iframe) {
 
     this._iframe = iframe;
     this._doc = iframe.contentDocument;
-    
+
     //add css rules from options
-    
-    var styles = this._doc.styleSheets[0];    
+
+    var styles = this._doc.styleSheets[0];
     var aCss = eval(this._options.editorStyles);
-    
+
     this.addCssRules(this._doc, aCss);
 
     this._doc.title = this._wym._index;
@@ -6940,25 +7670,25 @@ WYMeditor.WymClassSafari.prototype.initIframe = function(iframe) {
 
     //init designMode
     this._doc.designMode = "on";
-    
+
     //init html value
     this.html(this._wym._html);
-    
+
     //pre-bind functions
     if(jQuery.isFunction(this._options.preBind)) this._options.preBind(this);
-    
+
     //bind external events
     this._wym.bindEvents();
-    
+
     //bind editor keydown events
     jQuery(this._doc).bind("keydown", this.keydown);
-    
+
     //bind editor keyup events
     jQuery(this._doc).bind("keyup", this.keyup);
-    
+
     //post-init functions
     if(jQuery.isFunction(this._options.postInit)) this._options.postInit(this);
-    
+
     //add event listeners to doc elements, e.g. images
     this.listen();
 };
@@ -6968,17 +7698,17 @@ WYMeditor.WymClassSafari.prototype._exec = function(cmd,param) {
     if(!this.selected()) return(false);
 
     switch(cmd) {
-    
+
     case WYMeditor.INDENT: case WYMeditor.OUTDENT:
-    
-        var focusNode = this.selected();    
+
+        var focusNode = this.selected();
         var sel = this._iframe.contentWindow.getSelection();
         var anchorNode = sel.anchorNode;
         if(anchorNode.nodeName == "#text") anchorNode = anchorNode.parentNode;
-        
+
         focusNode = this.findUp(focusNode, WYMeditor.BLOCKS);
         anchorNode = this.findUp(anchorNode, WYMeditor.BLOCKS);
-        
+
         if(focusNode && focusNode == anchorNode
           && focusNode.tagName.toLowerCase() == WYMeditor.LI) {
 
@@ -7003,13 +7733,13 @@ WYMeditor.WymClassSafari.prototype._exec = function(cmd,param) {
         if(container) jQuery(container).replaceWith(jQuery(container).html());
 
     break;
-    
+
     default:
 
         if(param) this._doc.execCommand(cmd,'',param);
         else this._doc.execCommand(cmd,'',null);
     }
-    
+
     //set to P if parent = BODY
     var container = this.selected();
     if(container && container.tagName.toLowerCase() == WYMeditor.BODY)
@@ -7041,10 +7771,10 @@ WYMeditor.WymClassSafari.prototype.addCssRule = function(styles, oCss) {
 
 //keydown handler, mainly used for keyboard shortcuts
 WYMeditor.WymClassSafari.prototype.keydown = function(evt) {
-  
+
   //'this' is the doc
   var wym = WYMeditor.INSTANCES[this.title];
-  
+
   if(evt.ctrlKey){
     if(evt.keyCode == 66){
       //CTRL+b => STRONG
@@ -7069,16 +7799,16 @@ WYMeditor.WymClassSafari.prototype.keyup = function(evt) {
 
   //'this' is the doc
   var wym = WYMeditor.INSTANCES[this.title];
-  
+
   wym._selected_image = null;
   var container = null;
 
   if(evt.keyCode == 13 && !evt.shiftKey) {
-  
+
     //RETURN key
     //cleanup <br><br> between paragraphs
     jQuery(wym._doc.body).children(WYMeditor.BR).remove();
-    
+
     //fix PRE bug #73
     container = wym.selected();
     if(container && container.tagName.toLowerCase() == WYMeditor.PRE)
@@ -7089,17 +7819,17 @@ WYMeditor.WymClassSafari.prototype.keyup = function(evt) {
   if(evt.keyCode == 13 && evt.shiftKey) {
     wym._exec('InsertLineBreak');
   }
-  
+
   if(evt.keyCode != 8
        && evt.keyCode != 17
        && evt.keyCode != 46
        && evt.keyCode != 224
        && !evt.metaKey
        && !evt.ctrlKey) {
-      
+
     //NOT BACKSPACE, NOT DELETE, NOT CTRL, NOT COMMAND
     //text nodes replaced by P
-    
+
     container = wym.selected();
     var name = container.tagName.toLowerCase();
 
@@ -7141,16 +7871,16 @@ WYMeditor.WymClassSafari.prototype.openBlockTag = function(tag, attributes)
       var tag = new_tag;
       this._tag_stack.push(new_tag);
       attributes.style = '';
-      
+
       //should fix #125 - also removed the xhtml() override
       if(typeof attributes['class'] == 'string')
         attributes['class'] = attributes['class'].replace(/apple-style-span/gi, '');
-    
+
     } else {
       return;
     }
   }
-  
+
   this.output += this.helper.tag(tag, attributes, true);
 };
 
@@ -7184,9 +7914,8 @@ wildfire_containersItems = [
 /******** Overides of base WYMeditor Object ****************/
 WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote", "address");
 
-WYMeditor.editor.prototype.wildfire = function() {
-  var wym = this;
-
+WYMeditor.editor.prototype.wildfire = function(wym) {
+  //var wym = this;
 
   /*************Additions to language code***************/
   WYMeditor.STRINGS['en'].Source_Code = 'Source code';
@@ -7196,8 +7925,10 @@ WYMeditor.editor.prototype.wildfire = function() {
   /*******************************************/
   updateHTML = jQuery(".wym_containers").html();
   jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
-  jQuery(this._box).find(this._options.containerSelector).click(function() {
-    wym.container(jQuery(this).attr(WYMeditor.NAME));
+	
+
+  jQuery(wym._options.containerSelector).live("click", function() {		
+    wym.container(jQuery(this).attr(WYMeditor.NAME), wym);
     return(false);
   });
 

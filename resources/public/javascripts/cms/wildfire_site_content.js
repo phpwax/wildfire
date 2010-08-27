@@ -3,24 +3,30 @@ var model_string;
 var init_upload;
 var autosaver;
 var inline_image_filter_timer;
+var use_old_draggables = false;
 wym_editors = [];
 if(typeof(file_browser_location) == "undefined") var file_browser_location = "/admin/files/browse_images";
 if(typeof(file_options_location) == "undefined") var file_options_location = "/admin/files/file_options";
 var file_mime_type = "image";
 jQuery(document).ready(function() {
+		use_old_draggables = (jQuery('#category_list') && jQuery('#category_list').length)? true : false;
     jQuery("#container").tabs();
     
     jQuery("#page_tab_title").html(jQuery("#cms_content_title").val());
     jQuery("#cms_content_title").keyup(function() {
       jQuery("#page_tab_title").html(jQuery("#cms_content_title").val());
     });
-    jQuery("#new_cat_create").click(function() {
-      jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(), 
-        complete: function(response){jQuery("#category_list").html(response); initialise_draggables();}
+    
+		jQuery("#new_cat_create").click(function() {
+      jQuery.ajax({ url: "../../new_category/?cat="+jQuery("#new_cat").val(),
+        complete: function(response){
+	        jQuery("#new_cat_create").parents(".category_browser").find(".category_list, #category_list").html(response.responseText);
+				}
       });
       return false;
     });   
-    initialise_draggables();
+    if(use_old_draggables) initialise_draggables();
+		else many_to_many_joins();
     if(jQuery("#copy_permissions_from").length > 0) jQuery("#copy_permissions_from").change(function(){
       jQuery.get("../../copy_permissions_from/"+content_page_id+"?copy_from="+jQuery(this).val(),function(response){
         window.location.reload();
@@ -129,8 +135,8 @@ jQuery(document).ready(function() {
 			Cancel: function() { jQuery(this).dialog('close'); }
 		}});
     
-    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:600, height:670});
-    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:600,height:500});
+    jQuery("#quick_upload_pane").dialog({modal: true, autoOpen:false, title:"Upload an Image", width:670, height:480});
+    jQuery("#upload_url_pane").dialog({modal: true, autoOpen:false, title:"Get Image From URL", width:670,height:480});
     jQuery("#quick_upload_button").click(function(){
       jQuery("#quick_upload_pane").dialog("open");
       jQuery.ajax({
@@ -159,46 +165,32 @@ jQuery(document).ready(function() {
 });
 
 function initialise_draggables() {
-  jQuery("#category_list .category_tag, #permission_list .permission_tag").draggable({opacity:0.5, revert:true, scroll:false, containment:'window', helper:'clone'});
-  jQuery("#cat_dropzone").droppable(
-  	{ accept: '.category_tag, .permission_tag', hoverClass:	'dropzone_active', tolerance:	'pointer',
-  		drop:	function(event, ui) {
-  		  if(ui.draggable.hasClass('permission_tag')) var end_url = "../../add_permission/";
-  		  else var end_url = "../../add_category/";
-  		  jQuery.post(end_url+content_page_id,{tagid: ui.draggable.attr("id"), id:ui.draggable.attr("id")},
-  		  function(response){  jQuery("#cat_dropzone").html(response);  init_deletes(); });
-  	}
-  });
-  jQuery("#category_list .category_tag, #permission_list .permission_tag").dblclick(function(){
-    if(jQuery(this).hasClass('permission_tag')) var end_url = "../../add_permission/";
-  	else var end_url = "../../add_category/";
+  jQuery("#category_list .category_tag, .category_list .category_tag").live("dblclick", function(){
+		var obj = this, end_url = "../../add_category/";
     jQuery.post(end_url+content_page_id,{tagid: this.id, id:this.id},
-	  function(response){  jQuery("#cat_dropzone").html(response); init_deletes(); });
+	  function(response){		
+			jQuery(obj).parents(".category_browser").children("#cat_dropzone, .cat_dropzone").html(response);
+		});
+		return false;
   });
-  init_deletes();
-}
-
-function init_deletes(){
-  jQuery(".category_trash_button, .permission_trash_button").click(function(){
-    if(jQuery(this).hasClass('permission_trash_button')){
-      var end_url = "../../remove_permission/";
-      var rid = this.id.replace("delete_permission_button_", "");
-  	}else{
-  	  var end_url = "../../remove_category/";
-  	  var rid = this.id.substr(22);
-	  }
+	
+	jQuery(".cat_dropzone .category_trash_button").live("dblclick", function(){
+		var obj = this, end_url = "../../remove_category/", rid = this.id.substr(22);		
     jQuery.get(end_url+content_page_id+"?cat="+rid,function(response){
-      jQuery("#cat_dropzone").html(response); init_deletes();
+      jQuery(obj).parents(".category_browser").children("#cat_dropzone, .cat_dropzone").html(response);
     });
+		return false;
   });
+	
 }
+//empty - using live events inside the main initialise_draggables() instead
+function init_deletes(){}
 
 function delayed_cat_filter(filter) {
   jQuery("#category_filter").css("background", "white url(/images/cms/indicator.gif) no-repeat right center");
   jQuery.ajax({type: "post", url: "/admin/categories/filters", data: {"filter":filter}, 
     success: function(response){ 
-      jQuery("#category_list").html(response); 
-      initialise_draggables();
+			jQuery("#category_filter").parents(".category_browser").children(".category_list, #category_list").html(response); 
       if(typeof(t) != "undefined" ) clearTimeout(t); 
       jQuery("#category_filter").css("background", "white");
     }
@@ -284,8 +276,8 @@ jQuery(document).ready(function(event) {
     boxHtml:
       "<div class='wym_box'>"
       + "<div class='wym_area_top'>"
+			+ WYMeditor.CONTAINERS
       + WYMeditor.TOOLS
-      + WYMeditor.CONTAINERS
       + "</div>"
       + "<div class='wym_area_main'>"
       + WYMeditor.HTML
@@ -595,6 +587,47 @@ jQuery(document).ready(function() {
 function link_dialog_file_choose(){
   jQuery(this).closest('#link_dialog').find('#link_url').val(jQuery(this).val());
 }
+
+function many_to_many_joins(){
+	//unbind all of that junk
+  jQuery(".custom-join .category_tag, .custom-join .category_trash_button").unbind("draggable droppable dblclick click");
+  //bind adds
+  jQuery(".custom-join .category_list .category_tag").live("dblclick", function(){
+    var replace_area = jQuery(this).parents("div.custom-join"),
+        targetid = jQuery(this).attr('id').replace("tag_", ""),
+				originid = replace_area.attr('data-origin-id'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+        endpoint = "../../custom_add/"
+        ;
+    jQuery.ajax({
+      type: "post",
+      url: endpoint,
+      data: pdata,
+      success: function(response){
+        replace_area.html(response);
+      }
+    });
+  });
+  //bind deletes
+  jQuery(".custom-join .category_trash_button").live("dblclick", function(){
+    var replace_area = jQuery(this).parents("div.custom-join"),
+        targetid = jQuery(this).attr('id').replace("delete_category_button", ""),
+				originid = replace_area.attr('data-origin-id'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+        endpoint = "../../custom_delete/"
+        ;
+    jQuery.ajax({
+      type: "post",
+      url: endpoint,
+      data: pdata,
+      success: function(response){
+        replace_area.html(response);
+      }
+    });
+  });
+}
+
+
 
 /** langauge dropdown **/
 jQuery(document).ready(function(){

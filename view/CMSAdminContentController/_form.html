@@ -51,7 +51,8 @@ var content_permalink="<?=$model->permalink?>";
         <?endif?>
       </div>
       <?if(CmsApplication::is_registered('categories') && $allowed_categories):?>
-      <div id="section-3" class="tabs-container">
+      <div id="section-3" class="tabs-container custom-join" data-target-model='<?=$category_model?>' data-join-name="categories" data-scope="" data-origin-id="<?=$model->primval?>">
+        
         <?if($allowed_categories ):?>
           <?=partial("_categories_tab", $this)?>
         <?else:?><p>Categories disabled</p>

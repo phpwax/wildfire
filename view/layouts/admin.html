@@ -55,25 +55,26 @@
 </head>
 
 <body id="<?=strtolower(Inflections::underscore($display_name))?>">
-	<div id="header-container" class='container'>
+	
+	
+	<div id="header-container" class='container clearfix'>
 		<div id="help_button"><a href="/<?=rtrim(ltrim($controller, "/"), "/")?>/help?subject=<?=$action?>" id="help"><img src="/images/cms/help_button.png"></a></div>
 		<div id="cms_logo"><a href="/admin/home"><img src="/images/cms/v5wildfirelogo.png" /></a></div>
 
 		<ul id="primary-navigation" class="clearfix">
 		  <?foreach($menu_modules as $name=>$values):?>
-		    <li<?if($name == $module_name) echo " class='active'";?>>
-		      <a href="<?=$values['link']?>" class='top'>
+		    <li class='topli<?if($name == $module_name):?> active<?endif?>'>
+		      <a href="<?=$values['link']?>" class='top<?if($name == $module_name):?> active_item<?endif?>'>
 		        <?=$values['display_name']?>
 		      </a>
-		      <?if($sub_links && $name == $module_name):?>
-
-          		<ul id="submenu" class="clearfix">
-          	      <?foreach($sub_links as $sub_link=>$text):?>
-          	        <?$class=""?>
-          	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
-          	  	    <li class="<?=$class?>"><a href="<?=$sub_link?>"><?=$text?></a></li>
-          	  	  <?endforeach;?>
-          		</ul>
+		      <?if($sub_links && $name == $module_name):?>    	  
+        		<ul id="submenu" class="clearfix">
+        	      <?foreach($sub_links as $sub_link=>$text):?>
+        	        <?$class=""?>
+        	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
+        	  	    <li class="<?=$class?>"><a href="<?=$sub_link?>"><?=$text?></a></li>
+        	  	  <?endforeach;?>
+        		</ul>
         	<?endif;?>
 		    </li>
 		    
@@ -81,29 +82,33 @@
 			<li id="logout_button"><a href="/admin/home/logout" id="logout">Logout</a></li>
   		
 	  </ul>
+	  <div id="logo">
+  	  <img src="/images/cms/wildfire_footer_logo.png" /><br> 
+  	  Wildfire Web Content Manager <?=constant("CMS_VERSION")?> (logged in as: <?=$current_user->username?>)
+  	</div>
 	</div>
 	
+	
 	<div id="page-container" class="clearfix">
-	  <div id="quick_header_links">
-      <div id="build_new_button"><a href="/admin/content/create">Build New Page</a></div>
-      <div id="files_button"><a href="/admin/files/">Manage Files</a></div>
+	  <div class='quick-tools clearfix'>
+	    <div id="quick_search">
+        <form action="" method="get" accept-charset="utf-8">
+          <input type="text" value="Quick Content Search" class="live_search disable_enter" id="live_search_field" />
+          <ul class="live_search_results"></ul>
+        </form>      
+      </div>	  
+  	  <div id="quick_header_links">
+        <div id="build_new_button"><a href="/admin/content/create">Build New Page</a></div>
+        <div id="files_button"><a href="/admin/files/">Manage Files</a></div>
+      </div>
     </div>
-    <div id="quick_search">
-      <form action="" method="get" accept-charset="utf-8">
-        <input type="text" value="Quick Content Search" class="live_search disable_enter" id="live_search_field" />
-        <ul class="live_search_results"></ul>
-      </form>
-      
-    </div>
-		<div id="content">
+    
+		<div id="content" class='clearfix <?if($action == "index"):?> listing_view<?endif?>'>
 	  	<?=info_messages()?>
 	  	<?=error_messages()?>
 	  	<?=$content_for_layout?>
 		</div>
 	</div>
-	<div id="footer">
-	  <img src="/images/cms/wildfire_footer_logo.png" /><br> 
-	  Wildfire Web Content Manager <?=constant("CMS_VERSION")?> (logged in as: <?=$current_user->username?>)
-	</div>
+	
 </body>
 </html>
