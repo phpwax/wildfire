@@ -20,24 +20,16 @@ wildfire_containersItems = [
 /******** Overides of base WYMeditor Object ****************/
 WYMeditor.MAIN_CONTAINERS = new Array("p","h3","h4","h5","h6","pre","blockquote", "address");
 
-WYMeditor.editor.prototype.wildfire = function(wym) {
-  //var wym = this;
+WYMeditor.editor.prototype.wildfire = function() {
+  var wym = this;
 
   /*************Additions to language code***************/
   WYMeditor.STRINGS['en'].Source_Code = 'Source code';
   WYMeditor.STRINGS['en'].Main_Heading = 'Main Heading';
   WYMeditor.STRINGS['en'].Sub_Heading = 'Sub Heading';
   WYMeditor.STRINGS['en'].Small_Heading = 'Small Heading';
-  /*******************************************/
-  updateHTML = jQuery(".wym_containers").html();
-  jQuery(".wym_containers").html(wym.replaceStrings(updateHTML));
 	
-
-  jQuery(wym._options.containerSelector).live("click", function() {		
-    wym.container(jQuery(this).attr(WYMeditor.NAME), wym);
-    return(false);
-  });
-
+	
   WYMeditor.BLOCKS = new Array("address", "blockquote", "div", "dl",
    "fieldset", "form", "h3", "h4", "h5", "h6", "hr",
    "noscript", "ol", "p", "pre", "table", "ul", "dd", "dt",
@@ -81,38 +73,8 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
     "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th",
     "thead", "title", "tr", "tt", "ul", "var", "extends"];
   wym.parser._Listener.inline_tags = ["br", "hr", "img", "input", "embed", "param"];
-  
-  
-  WYMeditor.WymClassMozilla.prototype.html = function(html) {
 
-    if(typeof html === 'string') {
-      //disable designMode
-      try { this._doc.designMode = "off"; } catch(e) { };
-      //replace em by i and strong by bold
-      //(designMode issue)
-        html = html.replace(/<em(\b[^>]*)>/gi, "<i$1>").replace(/<\/em>/gi, "</i>")
-          .replace(/<strong(\b[^>]*)>/gi, "<b$1>")
-          .replace(/<\/strong>/gi, "</b>");
-      //update the html body
-      jQuery(this._doc.body).html(html);
-      //re-init designMode
-      this.enableDesignMode();
-    }
-    else return(jQuery(this._doc.body).html());
-  };
-
-  WYMeditor.editor.prototype.toggleHtml_old =  WYMeditor.editor.prototype.toggleHtml;
-  WYMeditor.editor.prototype.toggleHtml = function() { 
-    this.toggleHtml_old();
-    var html_box = jQuery(".wym_html");
-    if(html_box.is(':visible')){
-      html_box.css("height","50%");
-      jQuery(".wym_iframe").css("height","50%");
-    }else{
-      html_box.css("height","");
-      jQuery(".wym_iframe").css("height","100%");
-    }
-  };
+  /*******************************************/
   
   jQuery(wym._box).find(".wym_tools_superscript").remove();
   jQuery(wym._box).find(".wym_tools_subscript").remove();
@@ -142,11 +104,11 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
   });
   
   jQuery("#link_dialog").dialog({width:400});
-
+  
   /*******************************************/
   /* Video Insertion Button */
   /*******************************************/
-
+  
   var vidhtml = wym_button("video", "Insert a Video");
   jQuery(wym._box).find(".wym_tools_image").after(vidhtml);
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
@@ -170,7 +132,7 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
   /*******************************************/
   /* Flash Insertion Button */
   /*******************************************/
-
+  
   var flashhtml = wym_button("flash", "Insert a Flash Movie");
   jQuery(wym._box).find(".wym_tools_image").after(flashhtml);
   jQuery(wym._box).find(".wym_tools_flash a").click(function(){
@@ -190,11 +152,11 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
     });
     return false;
   });
-
+  
   /*******************************************/
   /* Audio Insertion Button */
   /*******************************************/
-
+  
   var audhtml = wym_button("audio", "Insert Audio");
   jQuery(wym._box).find(".wym_tools_video").after(audhtml);
   jQuery(wym._box).find(".wym_tools_audio a").click(function(){
@@ -214,11 +176,11 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
     });
     return false;
   });
-
+  
   /*******************************************/
   /* CSV Table Insertion Button */
   /*******************************************/
-
+  
   var audhtml = wym_button("csv_table", "Insert CSV Data Table");
   jQuery(wym._box).find(".wym_tools_audio").after(audhtml);
   jQuery(wym._box).find(".wym_tools_csv_table a").click(function(){
@@ -238,7 +200,7 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
     });
     return false;
   });
-
+  
   /*******************************************/
   /* Inline Image Insertion Button */
   /*******************************************/
@@ -248,7 +210,7 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
   });
   
   initialise_inline_image_edit(wym);
-
+  
   /*******************************************/
   /* Overwrite default paste from word */
   /*******************************************/
@@ -259,7 +221,7 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
     paste_dialog.dialog("open");
     return false;
   });
-
+  
   /*******************************************/
   /* Table Insertion Button */
   /*******************************************/
@@ -273,6 +235,7 @@ WYMeditor.editor.prototype.wildfire = function(wym) {
     function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");},
     function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");}
   );
+
 };
 
 function wym_button(name, title) {
