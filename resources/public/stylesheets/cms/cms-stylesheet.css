@@ -16,7 +16,7 @@ div, ul, ol {
 img{
 	border:0px;
 }
-html {background:#323331 url(../../images/cms/v5bg.png) repeat-y;}
+html {background:#323231 url(../../images/cms/v5bg.png) repeat-y;}
 body{
   text-align:left;
   font-family:Arial;
@@ -151,7 +151,7 @@ p{
 
 #page-container{
 	margin:12px 0px 0 197px;
-	background:#383838;
+	background:#323231;
 }
 #page-container a {
 	text-decoration:none;
@@ -219,7 +219,7 @@ p{
   padding-left:10px;
 }
 #section_filter {
- padding:6px 22px;
+ padding:10px 29px;
  border-right:1px solid #181818;
  border-left:1px solid #505050;
 }
@@ -934,6 +934,7 @@ li.pagination_link a {
 	width:100%;
 	border-top:1px solid #181818;
   border-collapse:separate;
+  background:#383838;
 }
 #item_list_container tbody td, .item_list tbody td {
   border-bottom:1px solid #323331;
@@ -941,13 +942,19 @@ li.pagination_link a {
 #item_list_container thead th, .item_list thead th {
   background-color:transparent !important;
   font-size:85%;
-  line-height:290%;
-  border-bottom:1px solid #181818;
+  line-height:240%;
+  border-bottom:1px solid #444;
   border-right:1px solid #181818;
   border-left:1px solid #444;
 }
 #item_list_container tbody, .item_list tbody {
   font-size:85%;
+}
+#item_list_container tbody tr:first-child td {
+  border-top:1px solid #181818;
+}
+#item_list_container tbody tr:last-child td {
+  border-bottom:1px solid #444;
 }
 #item_list_container thead .column, , .item_list thead .column {
   background-image:url(../../images/cms/table_sort.gif);
@@ -988,7 +995,10 @@ li.pagination_link a {
 #item_list_container tr:nth-child(even), .item_list tr:nth-child(even) { background-color:#3f3f3f; }  
 
 #item_list_container #list_heading, .item_list .list_heading {
-  background:#333331;
+  background-color:#333331;
+  background-image: -moz-linear-gradient(100% 100% 90deg, #3f3f3f, #323331);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#3f3f3f), to(#323331));
+  border-bottom:1px solid #181818;
 }
 
 #item_list_container tr:hover {
@@ -1008,6 +1018,7 @@ li.pagination_link a {
   float:right;
   padding-right:25px;
 	background: none;
+	margin-top:5px;
 }
 #bottom_pagination {
   border-top:1px solid #181818;
@@ -1253,7 +1264,6 @@ li.pagination_link a {
 #quick_search {
   color:white;
 	text-align:right;
-	border-bottom:1px solid #505050;
 	padding-bottom:12px;
 	margin-right:20px;
 }
@@ -1316,7 +1326,7 @@ li.pagination_link a {
 #filter_form input {width:240px;}
 #filter_form {
   border-right:1px solid #181818;
-  padding:5px 12px;
+  padding:9px 12px;
   margin:0;
 }
 
