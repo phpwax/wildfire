@@ -20,7 +20,7 @@
 /* VISUAL FEEDBACK */
 
 /* basic */
-  body  { background: #abb6b1;}
+  body  { background: #e1e8f1;}
  
 /* make HTML blocs visible */
   p,
@@ -88,14 +88,3 @@
     border: 1px solid red !important;
     font-size: 12px !important;
     font-weight: normal; }
-
-/**** Styling for inline images ****************/
-img.flow_left {
-  float:left;
-  margin:0 10px 10px 10px;
-}
-img.flow_right {
-  float:right;
-  margin:0 10px 10px 10px;
-}
-a img{border:none;}
