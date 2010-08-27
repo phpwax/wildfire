@@ -1276,7 +1276,7 @@ li.pagination_link a {
   -webkit-box-shadow: inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow:    inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
 }
-#quick_header_links #build_new_button, #quick_header_links #files_button, .publish_button, .save_button {
+#quick_header_links #build_new_button, #quick_header_links #files_button, .publish_button, .save_button, .cancel_button {
   box-shadow:         1px 1px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
   -moz-box-shadow:    1px 1px 8px rgba(0, 0, 0, 0.3);
@@ -1286,7 +1286,7 @@ li.pagination_link a {
   background:#ff7800 url(/images/cms/v5buildicon.png) no-repeat 12px center;
   padding-left:49px;
 }
-.publish_button, .save_button {
+.publish_button, .save_button, .cancel_button {
   border:0;
   background:#557a66 url(/images/cms/v5publishicon.png) no-repeat 12px center;
   padding-left:49px;
@@ -1554,6 +1554,7 @@ a.edit_img img{
 
 #dashboard #content {
   width:auto;
+  background:white;
 }
 #dashboard #statistics {
   float:right;
