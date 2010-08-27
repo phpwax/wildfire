@@ -841,7 +841,7 @@ jQuery(document).ready(function() {
   jQuery("input.disable_enter").bind("keypress", function(e) {
     return e.keyCode == 13 ? false : true;
   });
-  jQuery("#item_list_container .list_button a").click(function(){jQuery(this).parent().next().toggle();});
+  jQuery("#item_list_container .list_button a").click(function(){jQuery(this).parent().next().toggle();return false;});
   
 });
 
