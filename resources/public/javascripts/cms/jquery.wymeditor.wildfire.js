@@ -232,8 +232,8 @@ WYMeditor.editor.prototype.wildfire = function() {
     table_dialog.dialog("open");
   });
   jQuery(".subnav a.dd, .subnav .issub").unbind("hover").hover(
-    function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");},
-    function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");}
+    function(){jQuery(this).parents(".subnav").children(".wym_classes").removeClass("wym_classes_hidden").show();},
+    function(){jQuery(this).parents(".subnav").children(".wym_classes").addClass("wym_classes_hidden").hide();}
   );
 
 };
