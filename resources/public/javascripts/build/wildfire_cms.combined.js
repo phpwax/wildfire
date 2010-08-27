@@ -1172,8 +1172,8 @@ jQuery(document).ready(function(event) {
       + "</li>", 
       
   
-    classesHtml: "<li class='wym_tools_class'><a href='#' name='" + WYMeditor.APPLY_CLASS + "' title='"+ WYMeditor.APPLY_CLASS +"'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
-    classesItemHtml: "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "'>"+ WYMeditor.CLASS_TITLE+ "</a></li>", 
+    classesHtml: "<li class='wym_tools_class subnav'><a href='#' name='css' title='css' class='dd'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
+    classesItemHtml: "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "' class='issub'>"+ WYMeditor.CLASS_TITLE+ "</a></li>", 
     classesItemHtmlMultiple: "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>", 
     containersHtml: "<ul class='wym_containers wym_section'>" + WYMeditor.CONTAINERS_ITEMS + "</ul>", 
     containersItemHtml:
@@ -7281,8 +7281,8 @@ WYMeditor.editor.prototype.wildfire = function() {
     table_dialog.dialog("open");
   });
   jQuery(".subnav a.dd, .subnav .issub").unbind("hover").hover(
-    function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");},
-    function(){jQuery(this).closest(".subnav").children(".issub").toggleClass("wym_classes_hidden");}
+    function(){jQuery(this).parents(".subnav").children(".wym_classes").removeClass("wym_classes_hidden").show();},
+    function(){jQuery(this).parents(".subnav").children(".wym_classes").addClass("wym_classes_hidden").hide();}
   );
 
 };
