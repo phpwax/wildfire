@@ -610,6 +610,29 @@ p{
 	margin:15px 0 40px 0;
 	overflow:hidden;
 }
+#content_edit_form {
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  background:#323231;
+  width:100%;
+  border-bottom:1px solid #181818;
+}
+#content_edit_form .input_field {
+  border:1px solid #BBB;
+  font-size:85%;
+  padding:5px 9px;
+  color:#888;
+  border:1px solid #ddd;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -khtml-border-radius: 6px;
+  border-radius: 6px;
+  box-shadow:         inset 0px -5px 10px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0px -5px 10px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow:    inset 0px -5px 10px 0px rgba(0, 0, 0, 0.2);
+}
+#content_edit_form label, #content_edit_form a {color:white;font-weight:normal;}
 #files #content{
 	width:99%;
 	margin-left:0;
@@ -1079,7 +1102,7 @@ li.pagination_link a {
   background:none !important;
   font-size:100% !important;
   font-family:Arial, Helvetica, sans-serif !important;
-  overflow:visible;
+  overflow:hidden;
 }
 #content #container .ui-tabs-nav {
   border:0;
@@ -1114,17 +1137,15 @@ li.pagination_link a {
 }
   
   .content_options {
-    background:#c6dfe9;
+    background:#323231;
     padding:20px;
     margin:0;
   }
   .content_options label, .content_options .large {
     padding:2px;
-    font-family:Arial;
     font-size:93%;
-    font-weight:bold;
     margin:0;
-    color:#105bbb;
+    color:white;
   }
   .content_options .check_box_label {
     display:inline;
@@ -1149,7 +1170,6 @@ li.pagination_link a {
     padding-bottom:4px;
     margin-bottom:15px;
     float:left;
-    background:url(../../images/cms/cms_cform_divider.gif) no-repeat center right;
   }
   .content_options .select_field, .content_options .input_field {
     font-size:85% !important;
@@ -1169,12 +1189,9 @@ li.pagination_link a {
   }
   
   #content_window {
-    background:#F5F5F4;
-		float:left;
+    background:#323331;
 		width:100%;
-		clear:both;
-		border-top:1px solid #8da7ca;
-    
+		clear:both;    
   }
   .ui-tabs-hide { display: none; }
   #content_window .tabs-container {
@@ -1187,116 +1204,78 @@ li.pagination_link a {
   #content #container .ui-tabs-nav {
     background:none;
     padding:0px !important;
-		float:left;
-		width:84%;
+		border-top:1px solid #181818;
+		border-bottom:1px solid #181818;
   }
   #content #container .ui-tabs-nav li {
-    background:#8da7ca;
-    border-bottom:1px solid #8da7ca !important;
-    padding:0px 6px;
-    margin:0px 10px 0 0 !important;
-    -webkit-border-top-left-radius:5px;
-    -webkit-border-top-right-radius:5px;
-    -moz-border-top-left-radius:5px;
-    -moz-border-top-right-radius:5px;
-  }
-  li.tab_editable_title {
-    padding:1px 8px 0 3px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -khtml-border-radius: 0px;
+    border-radius: 0px;
+    background-image: -moz-linear-gradient(100% 100% 90deg, #3e3e3e, #323331);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#3e3e3e), to(#323331));
+    margin:0;
+    border-top:1px solid #444;
+    border-right:1px solid #181818;
+    border-left:1px solid #444;
   }
   
-  
-  #content #container .ui-tabs-nav li input {
-    width:250px;
-    padding:8px 6px;
-  }
   #content #container .ui-tabs-nav li a {
     display:block;
     color:#FFF !important;
     padding:12px 6px 11px 17px;
     font-size:93% !important;
-    font-family:Arial;
+    text-shadow:1px 0px 1px rgba(0,0,0,0.4);
   }
-  #content #container li.tab_editable_title a {
-    padding:4px 4px 2px 4px;
-  }
+
   #content #container .ui-tabs-nav li:hover {
-    background:#d4e5ed;
-    border-bottom:1px solid #d4e5ed;
+    background-image: -moz-linear-gradient(100% 100% 90deg, #3e3e3e, #323331);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#3e3e3e), to(#323331));
   }
   #content #container .ui-tabs-nav li:hover a {
-    color:#414141 !important;
+    
   }
   #content #container .ui-tabs-nav li.ui-tabs-selected a {
-    color:#3F3C3C !important;
-    font-size:107%;
+
   }
   #content #container .ui-tabs-nav li.ui-tabs-selected {
-    background-color:#F7F7F7;
-    border-bottom:1px solid white;
-    position:relative;
+    background-image: -moz-linear-gradient(100% 100% 90deg, #292929, #323331);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#292929), to(#323331));
     top:1px;
+    border-top:0;
   }
   #content #container .ui-tabs-nav li.ui-tabs-selected a {
-    color:#414141 !important;
-    font-weight:bold;
+    color:#FFF !important;
+  }
+  fieldset.main_options {
+    
   }
   
   input.generic_button {
    margin-right:10px;
   }
   
-  #content_title {
-    max-width:300px;
-    overflow:hidden;
-    padding:9px 4px 9px 0;
-  }
-  
-  #content_title_edit {
-    background:url(../../images/cms/content_edit_icon_off.gif) no-repeat right center;
-    float:right;
-    padding:4px 4px 3px 4px;
-    min-width:17px;
-    width:auto;
-    height:11px;
-  }
-  #content_title_edit:hover {cursor:pointer;}
-  #content_title_editing {
-    padding:2px 8px;
-    margin:4px 0;
-  }
 
-  #content_title_label {
-    width:200px;
-    overflow:hidden;
-    text-transform:capitalize;
-    max-height:15px;
-    overflow:hidden;
-    float:left;
-  }
-  .ui-tabs-selected #content_title_edit {
-    background:url(../../images/cms/content_edit_icon.gif) no-repeat right center;
-  }
-  
-  
-  
   #submit {
     padding:10px 20px;
-    background:#f5f5f3;
+    border-top:1px solid #181818;
+    border-bottom:1px solid #444;
+  }
+  #main_tab_link a {
+    background:url(/images/cms/tabs_main_icon.png) no-repeat 5px center;
+    padding-left:23px !important;
   }
   #image_tab_link {
-    background:url(../../images/cms/image_tab_icon.gif) no-repeat left center;
-    padding-left:21px;
-    margin-top:4px;
+    background:url(/images/cms/tabs_images_icon.png) no-repeat 3px center;
+    padding-left:25px !important;
   }
   #cat_tab_link {
-    background:url(../../images/cms/cat_tab_link.gif) no-repeat left center;
-    padding-left:21px;
-    margin-top:4px;
+    background:url(/images/cms/tabs_cat_icon.png) no-repeat 3px center;
+    padding-left:25px !important;
   }
   #more_tab_link {
-    background:url(../../images/cms/more_tab_icon.png) no-repeat left center;
+    background:url(/images/cms/tabs_more_icon.png) no-repeat 3px center;
     padding-left:21px;
-    margin-top:4px;
   }
   #quicksave {
     float:right;
