@@ -1256,12 +1256,14 @@ li.pagination_link a {
   padding:2px 0;
   margin-left:20px;
 }
-#quick_header_links a, .publish_button, .save_button, .cancel_button {
+
+
+#quick_header_links a, .publish_button, .save_button, .cancel_button, .generic_button {
   display:block;
   color:white;
   padding:11px 15px;
   text-transform:uppercase;
-  font-size:85%;
+  font-size:100% !important;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
@@ -1276,11 +1278,14 @@ li.pagination_link a {
   -webkit-box-shadow: inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow:    inset 0px -10px 3px 1px rgba(0, 0, 0, 0.2);
 }
-#quick_header_links #build_new_button, #quick_header_links #files_button, .publish_button, .save_button, .cancel_button {
+#quick_header_links #build_new_button, #quick_header_links #files_button, .publish_button, .save_button, .cancel_button, .generic_button {
   box-shadow:         1px 1px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
   -moz-box-shadow:    1px 1px 8px rgba(0, 0, 0, 0.3);
   float:left;
+}
+.generic_button {
+  background-color:#ff7800;
 }
 #quick_header_links #build_new_button a, #quick_header_links #files_button a {
   background:#ff7800 url(/images/cms/v5buildicon.png) no-repeat 12px center;
