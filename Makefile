@@ -15,8 +15,13 @@ JS_FILES = ${SRC_DIR}/jquery/jquery.tablesort.js\
  ${SRC_DIR}/upload/handlers.js\
  ${SRC_DIR}/cms/file.js\
  ${SRC_DIR}/cms/wildfire_users.js\
+ ${SRC_DIR}/wymeditor/jquery.wymeditor.js\
+ ${SRC_DIR}/wymeditor/jquery.wymeditor.explorer.js\
+ ${SRC_DIR}/wymeditor/jquery.wymeditor.mozilla.js\
+ ${SRC_DIR}/wymeditor/jquery.wymeditor.opera.js\
+ ${SRC_DIR}/wymeditor/jquery.wymeditor.safari.js\
  ${SRC_DIR}/cms/jquery.wymeditor.wildfire.js
- 
+
 JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/jquery/jquery-ui-1.7.1.custom.min.js\
  ${SRC_DIR}/upload/swfupload.js\
@@ -29,12 +34,12 @@ JS_FILES2 = ${SRC_DIR}/jquery/jquery.1.3.2.js\
  ${SRC_DIR}/utilities/effects.js\
  ${SRC_DIR}/utilities/search.js\
  ${SRC_DIR}/utilities/relay.js
- 
+
 CSS_FILES = ${CSS_DIR}/cms/reset-fonts-grids.css\
  ${CSS_DIR}/cms/jquery-ui-1.7.1.custom.css\
  ${CSS_DIR}/cms/cms-stylesheet.css\
  ${CSS_DIR}/cms/relay.css
- 
+
 
 WE = ${BUILD_DIR}/wildfire_cms.combined.js
 WE_MIN = ${BUILD_DIR}/wildfire_cms.combined.min.js
@@ -69,21 +74,21 @@ javascript:
 
 	@@echo " - Compressing using Minifier"
 	@@${WE_MINIFIER}
-	
+
 	@@echo ${WE_MIN} "Built"
 	@@echo
 
 	@@echo "Building" ${JS_MIN}
 	@@echo " - Merging files"
 	@@${MERGE2}
-	
+
 	@@echo " - Compressing using Minifier"
 	@@${JS_MINIFIER}
-	
+
 	@@echo ${JS_MIN} "Built"
 	@@echo
 
-	
+
 	@@echo "Compressing" ${CSS}
 
 	@@echo " - Merging files"
@@ -96,6 +101,6 @@ javascript:
 
 	@@echo " - Compressing using Minifier"
 	@@${CSS_MINIFIER}
-	
+
 	@@echo ${CSS_MIN} "Built"
 	@@echo
