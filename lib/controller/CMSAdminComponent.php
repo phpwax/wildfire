@@ -166,7 +166,7 @@ class CMSAdminComponent extends WaxController {
 	*/
 	public function filter() {
 	  $this->use_layout=false;
-	  if($filter_val = Request::param('filter')) {
+	  if($filter_val = str_ireplace("Filter List", "", Request::param('filter'))) {
   		$conditions = "";
   	  if($this->filter_columns) {
   	    foreach($this->filter_columns as $col) $conditions .= "OR $col LIKE '%".$filter_val."%'";
