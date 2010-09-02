@@ -1503,7 +1503,8 @@ function many_to_many_joins(){
     var replace_area = jQuery(this).parents("div.custom-join"),
         targetid = jQuery(this).attr('id').replace("tag_", ""),
 				originid = replace_area.attr('data-origin-id'),
-        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+				cat_name_field = replace_area.attr('data-title-field'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name'), joinfield:cat_name_field},
         endpoint = "../../custom_add/"
         ;
     jQuery.ajax({
@@ -1520,7 +1521,8 @@ function many_to_many_joins(){
     var replace_area = jQuery(this).parents("div.custom-join"),
         targetid = jQuery(this).attr('id').replace("delete_category_button", ""),
 				originid = replace_area.attr('data-origin-id'),
-        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+				cat_name_field = replace_area.attr('data-title-field'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name'), joinfield:cat_name_field},
         endpoint = "../../custom_delete/"
         ;
     jQuery.ajax({
@@ -6938,6 +6940,7 @@ WYMeditor.WymCssParser.prototype.addStyleSetting = function(style_details)
   for (var name in style_details){
     var details = style_details[name];
     if(typeof details == 'object' && name != 'title'){
+			/** CHANGED TO FIX UNDEFINED ERROR **/
 			var jo = [];
 			if(details.expressions) jo = details.expressions;
 			else if(details.tags) jo = details.tags;
