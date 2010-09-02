@@ -596,7 +596,8 @@ function many_to_many_joins(){
     var replace_area = jQuery(this).parents("div.custom-join"),
         targetid = jQuery(this).attr('id').replace("tag_", ""),
 				originid = replace_area.attr('data-origin-id'),
-        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+				cat_name_field = replace_area.attr('data-title_field'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name'), joinfield = cat_name_field},
         endpoint = "../../custom_add/"
         ;
     jQuery.ajax({
@@ -613,7 +614,8 @@ function many_to_many_joins(){
     var replace_area = jQuery(this).parents("div.custom-join"),
         targetid = jQuery(this).attr('id').replace("delete_category_button", ""),
 				originid = replace_area.attr('data-origin-id'),
-        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name')},
+				cat_name_field = replace_area.attr('data-title_field'),
+        pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name'), joinfield = cat_name_field},
         endpoint = "../../custom_delete/"
         ;
     jQuery.ajax({

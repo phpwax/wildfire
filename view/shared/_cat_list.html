@@ -1,6 +1,6 @@
 <?if(count($all_categories)):?>
     <?foreach($all_categories as $category):?>
-      <div class="category_tag" id="tag_<?=$category->id?>"><?=$category->name?></div>
+      <div class="category_tag" id="tag_<?=$category->id?>"><?=$category->$category_title_field?></div>
     <?endforeach?>
 <?else:?>
   <p>Nothing setup yet</p>
