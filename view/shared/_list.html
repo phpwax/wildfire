@@ -9,12 +9,15 @@
           <?endif;?>
         </td>
       <?endforeach?>
-      <td class="column">
+      <td class="column last">
         <?if($current_user->access($module_name,"edit")):?>
         <div class="generic_button edit_button"><a href="edit/<?=$row->id?>/">Edit</a></div>
         <?endif?>
         <?if($current_user->access($module_name,"delete")):?>
-        <div class="generic_button delete_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        <div class="list_button"><a href="#"></a></div>
+        <div class="list_options">
+          <div class="generic_button delete_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
+        </div>
         <?endif?>
       </td>
     </tr>
