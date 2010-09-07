@@ -3,7 +3,7 @@
 $joined = $model->{$category_join_field};
 if($joined && $category_model_scope) $joined = $joined->scope($category_model_scope)->order($category_order)->all();
 ?>
-<?if($joined->count()):?>	
+<?if($joined && $joined->count()):?>	
   <?foreach($joined as $attached):?>
     <div class="category_tag category_list_tag" id="tag_<?=$attached->id?>">
       <?=$attached->$category_title_field?>
