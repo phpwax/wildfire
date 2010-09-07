@@ -6940,8 +6940,11 @@ WYMeditor.WymCssParser.prototype.addStyleSetting = function(style_details)
   for (var name in style_details){
     var details = style_details[name];
     if(typeof details == 'object' && name != 'title'){
-      if(typeof details.expressions == "undefined") details.expressions = [];
-      if(typeof details.tags == "undefined") details.tags = [];
+			/** CHANGED TO FIX UNDEFINED ERROR **/
+			var jo = [];
+			if(details.expressions) jo = details.expressions;
+			else if(details.tags) jo = details.tags;
+      
       this.css_settings.classesItems.push({
         'name': WYMeditor.Helper.trim(details.name),
         'title': style_details.title,
