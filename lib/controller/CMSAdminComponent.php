@@ -39,6 +39,7 @@ class CMSAdminComponent extends WaxController {
 	public $allowed_categories = false; //if true then allows the use of categories (cms_content only by default)
 
 	public $category_join_field = false;
+	public $category_title_field = "name";
 	public $category_model = false;
 	public $category_order = false;
 	public $category_model_scope = false;
@@ -165,7 +166,7 @@ class CMSAdminComponent extends WaxController {
 	*/
 	public function filter() {
 	  $this->use_layout=false;
-	  if($filter_val = Request::param('filter')) {
+	  if($filter_val = str_ireplace("Filter List", "", Request::param('filter'))) {
   		$conditions = "";
   	  if($this->filter_columns) {
   	    foreach($this->filter_columns as $col) $conditions .= "OR $col LIKE '%".$filter_val."%'";
@@ -279,6 +280,7 @@ class CMSAdminComponent extends WaxController {
     $target_class = Request::param('targetmodel');
     $target_model = new $target_class;
     $target_id = Request::param('targetid');
+    if($name_field = Request::param('joinfield')) $this->category_title_field = $name_field;
     $this->category_join_field = $joinname = Request::param('joinname');
     $this->model = $origin = new $this->model_class(Request::param('origin_id'));
     $origin->$joinname = new $target_class($target_id);
@@ -293,6 +295,7 @@ class CMSAdminComponent extends WaxController {
     $target_class = Request::param('targetmodel');
     $target_model = new $target_class;
     $target_id = Request::param('targetid');
+    if($name_field = Request::param('joinfield')) $this->category_title_field = $name_field;
     $this->category_join_field = $joinname = Request::param('joinname');
     $this->model = $origin = new $this->model_class(Request::param('origin_id'));
     $origin->$joinname->unlink(new $target_class($target_id));
