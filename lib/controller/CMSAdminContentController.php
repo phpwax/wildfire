@@ -176,7 +176,8 @@ class CMSAdminContentController extends AdminComponent {
     if($this->model->is_published()) $this->model = $this->original->get_preview_copy();
     
 		if($this->model->is_posted()){
-  		if($_POST['publish_x']) $this->publish($this->model, Session::get("list_refer-".$this->module_name));
+
+  		if($_POST['publish_x'] || $_POST['publish']) $this->publish($this->model, Session::get("list_refer-".$this->module_name));
   	  else{
   	    if($this->model->status == 3) $this->model->status = 0;
   	    $this->save($this->model, $_SERVER["REQUEST_URI"]);
