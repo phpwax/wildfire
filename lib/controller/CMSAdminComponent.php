@@ -72,7 +72,7 @@ class CMSAdminComponent extends WaxController {
 	  $log = new WildfireLog;
 	  $log->controller=$this->controller;
 		$log->action=$this->action;
-		$log->page=$this->id;
+		$log->page=Request::get("id");
 		if(Request::param('lang')) $log->language = Request::param('lang');
 		if($this->current_user) $log->user=$this->current_user->id;
 		$log->time = date("Y-m-d H:i:s");
