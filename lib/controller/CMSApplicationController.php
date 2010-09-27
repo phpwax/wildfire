@@ -70,14 +70,14 @@ class CMSApplicationController extends WaxController{
 		if(!$stack = WaxUrl::get("route_array")) $stack = $this->route_array; //use the WaxUrl route array, revert to old controller->route_array otherwise
 		unset($stack['route']);
 		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
-		$permalink = $_SERVER['REQUEST_URI'];
+		$permalink = str_replace(".".$this->use_format, "", $_SERVER['REQUEST_URI']);
 		if(!$this->find_by_permalink(rtrim($permalink,"/"))){
 			foreach($stack as $key => $url){
 				//check the formatting - if found then it removes the extension
 			  if($key === "format"){
 					$this->set_formatting($url);
 					unset($stack[$key]);
-				}elseif($url && $this->find_section($url, $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
+				}elseif($url && $this->find_section(str_replace(".".$this->use_format, "", $url), $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
 					$this->section_stack[] = $url;
 					unset($stack[$key]);
 				}elseif(!$url) unset($stack[$key]);
