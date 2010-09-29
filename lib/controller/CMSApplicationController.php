@@ -139,6 +139,7 @@ class CMSApplicationController extends WaxController{
 	 */
 	protected function find_content($url){
 		$content = new $this->content_model();
+	  if($def_page = $this->cms_section->default_page) $content->filter("id", $def_page->id, "!=");
 		if($url){
 	    if(!($this->cms_content = $content->scope($this->content_scope)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
