@@ -36,8 +36,8 @@ var content_permalink="<?=$model->permalink?>";
           <?=large(text_area($model, "content", array("class"=>"jqwysi"), false))?>
         </fieldset>
 
-        <fieldset class="content_options">	
-          <?=small(select($model, "cms_section_id", options_from_collection($current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;"), array(), "Choose a section" ))?>
+        <fieldset class="content_options">
+          <?=small(select($model, "cms_section_id", $section_dropdown, array(), "Choose a section" ))?>
           <div class="medium"><?=select($model, "status", $model->status_options)?></div>
 					<?if(count($languages) > 1):?>
 			    <div id="lang_picker">
