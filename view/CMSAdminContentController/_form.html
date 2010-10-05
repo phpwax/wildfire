@@ -98,7 +98,7 @@ var content_permalink="<?=$model->permalink?>";
       <input type="submit" class="generic_button wymupdate publish_button" value="<?=$model->status == 4 ? "Update" : "Publish"?>" name="publish" value="Publish" />
       <?endif?>
       <input type="submit" class="generic_button wymupdate save_button" value="Save For Later" name="save" value="Save" />
-      <a href="<?=$this->model->permalink?>?preview=1" target="_blank" id="preview_link"<?=$modal_preview?' class="generic_button modal_preview" ':'generic_button'?>>Preview</a>
+      <a href="<?=$this->model->permalink?>?preview=1" target="_blank" id="preview_link" class="<?=$modal_preview?' generic_button preview_button modal_preview' :'preview_button generic_button'?>" >Preview</a>
     </fieldset>
   </div>
   
