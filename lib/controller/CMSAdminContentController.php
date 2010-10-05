@@ -196,6 +196,13 @@ class CMSAdminContentController extends AdminComponent {
 		//all categories
 		if(!$this->all_categories = $cat->order($this->category_order)->all() ) $this->all_categories=array();
 		$this->image_model = new WildfireFile;
+		
+		//section dropdown
+		$section_dropdown_array = options_from_collection($this->current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;");
+		$section_dropdown_keys = array_keys($section_dropdown_array);
+		array_unshift($section_dropdown_keys,0);
+		array_unshift($section_dropdown_array,"");
+		$this->section_dropdown = array_combine($section_dropdown_keys,$section_dropdown_array);
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
