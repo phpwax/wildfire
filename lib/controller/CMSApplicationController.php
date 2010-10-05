@@ -139,6 +139,7 @@ class CMSApplicationController extends WaxController{
 	 */
 	protected function find_content($url){
 		$content = new $this->content_model();
+	  if($def_page = $this->cms_section->default_page) $content->filter("id", $def_page->id, "!=");
 		if($url){
 	    if(!($this->cms_content = $content->scope($this->content_scope)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
 			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
@@ -158,7 +159,7 @@ class CMSApplicationController extends WaxController{
 		}else{
 			$filter = array('cms_section_id' => $this->cms_section->id);
 			if(!$this->this_page) $this->cms_content = $content->scope($this->content_scope)->filter($filter)->all();
-			else $this->cms_content = $content->scope($this->content_scope)->filter($filter)->page($this->this_page, $this->per_page)->eager_load();
+			else $this->cms_content = $content->scope($this->content_scope)->filter($filter)->page($this->this_page, $this->per_page);
 		}
 		if(!$this->cms_section) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	  if(!count($this->cms_content) && $url) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
@@ -437,8 +438,8 @@ class CMSApplicationController extends WaxController{
         if(strpos($part["header"]["Content-Type"], "text/plain") !== false && !$text_email) $text_email = $part;
         elseif(strpos($part["header"]["Content-Type"], "text/html") !== false && !$html_email) $html_email = $part;
       }
-      $text_email["header"] = array_merge($email["header"], $text_email["header"]);
-      if($html_email["header"]) $html_email["header"] = array_merge($email["header"], $html_email["header"]);
+      $text_email["header"] = array_merge((array)$email["header"], (array)$text_email["header"]);
+      if($html_email["header"]) $html_email["header"] = array_merge((array)$email["header"],(array)$html_email["header"]);
     }else{
       if(strpos($email["header"]["Content-Type"], "text/plain") !== false) $text_email = $email;
       elseif(strpos($email["header"]["Content-Type"], "text/html") !== false) $html_email = $email;
