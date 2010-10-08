@@ -239,9 +239,9 @@ class CmsContent extends WaxModel {
   
   public function scope_published() {
     $this->filter(array("status"=>"1"));
-    $this->filter("published", date("Y-m-d H:i:s"), "<=");
+    $this->filter("published", "now()", "<=");
     if(Config::get('use_expiry_date')){
-      $this->filter("(`expires` <=  `published` OR (`expires` >=  `published` AND `expires` >= ? ))", date("Y-m-d H:i:s"), "raw");
+      $this->filter("(`expires` <=  `published` OR (`expires` >=  `published` AND `expires` >= now() ))", "raw");
     }
     $this->order("published DESC");
     return $this;
