@@ -61,7 +61,8 @@ class WildfireFile extends WaxModel {
 	public function folder_options($selected = false){
 		$fs = new CmsFilesystem();
 		$dir = $fs->defaultFileStore.$fs->relativepath;
-		$options = content_tag("option", "Your Folder", array("value"=>$fs->relativepath, "selected"=>"selected"));
+		$options = content_tag("option", "", array("value"=>"", "selected"=>"selected"));
+		$options .= content_tag("option", "Your Folder", array("value"=>$fs->relativepath));
 		$folders = File::get_folders($dir);
 
 		if(is_array($folders)){

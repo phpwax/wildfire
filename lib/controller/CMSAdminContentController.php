@@ -28,6 +28,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $status_col = "status";
 	public $modal_preview = false;
 	public $languages = array(0=>"english");
+	public $model_has_revisions = true;
 	public $permissions = array("create","edit","delete","categories","attach_images","inline_images","html","video","audio", "publish");
 	
 	public function controller_global(){
@@ -137,7 +138,7 @@ class CMSAdminContentController extends AdminComponent {
 	 */
 	private function get_language_model($master, $lang_id){
 	  $model = new $this->model_class;
-    if($lang_model = $model->filter(array('preview_master_id'=>$master->primval,'language'=>$lang_id))->first()){
+    if($this->model_has_revisions && ($lang_model = $model->filter(array('preview_master_id'=>$master->primval,'language'=>$lang_id))->first()) ){
       return $lang_model;
     }else{
 	    Session::add_message("A {$this->languages[$lang_id]} version of this content has been created. The {$this->languages[0]} content was copied into it for convenience.");
@@ -166,7 +167,8 @@ class CMSAdminContentController extends AdminComponent {
 	private function get_preview_model($master){
 		if(!in_array($master->status,array(1,6))) return $master; //pass through for everything but published articles
 	  $preview = new $this->model_class;
-	  $ret = $preview->filter("preview_master_id",$master->{$master->primary_key})->filter("status",4)->first();
+	  
+	  if($this->model_has_revisions) $ret = $preview->filter("preview_master_id",$master->{$master->primary_key})->filter("status",4)->first();
 	  if(!$ret){ //if a preview entry doesn't exist create one
 			$row = $master->row;
 			unset($row[$master->primary_key]);
@@ -227,7 +229,7 @@ class CMSAdminContentController extends AdminComponent {
     if($this->model->preview_master_id) $this->redirect_to("/admin/".$this->module_name."/edit/".$this->model->preview_master_id."?lang=".$this->model->language);
 
     if($lang_id) $this->model = $this->get_language_model($this->model, $lang_id);
-    $this->model = $this->get_preview_model($this->model);
+    if($this->get_preview_model) $this->model = $this->get_preview_model($this->model);
 
     //this massive block handles the possible posts for save (default), publish and close
 		if($this->model && $this->model->is_posted()){
@@ -289,7 +291,7 @@ class CMSAdminContentController extends AdminComponent {
 	 * @author Sheldon
 	 */
 	public function delete(){
-	  $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
+	  if($this->get_preview_model) $this->model->clear()->filter(array('preview_master_id' => WaxUrl::get("id")))->delete();
 	  parent::delete();
 	}
 	/**
