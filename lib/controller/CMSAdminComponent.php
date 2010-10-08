@@ -72,7 +72,8 @@ class CMSAdminComponent extends WaxController {
 	  $log = new WildfireLog;
 	  $log->controller=$this->controller;
 		$log->action=$this->action;
-		$log->page=$this->id;
+		$log->page=Request::get("id");
+		$log->param_string = serialize($_REQUEST);
 		if(Request::param('lang')) $log->language = Request::param('lang');
 		if($this->current_user) $log->user=$this->current_user->id;
 		$log->time = date("Y-m-d H:i:s");
@@ -174,7 +175,7 @@ class CMSAdminComponent extends WaxController {
       }
       $this->model->filter($conditions);
 	  }
-	  $this->all_rows = $this->model->order($this->get_order())->limit($this->list_limit)->all();
+	  $this->all_rows = $this->model->order($this->get_order())->all();
 	  $this->use_view="_list";
 	}
 

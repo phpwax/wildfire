@@ -9,6 +9,7 @@ class WildfireLog extends WaxModel {
     $this->define("action", "CharField");
     $this->define("controller", "CharField");
     $this->define("user", "ForeignKey", array("target_model"=>"WildfireUser"));
+    $this->define("param_string", "TextField");
     $this->define("time", "DateTimeField");
   }
 

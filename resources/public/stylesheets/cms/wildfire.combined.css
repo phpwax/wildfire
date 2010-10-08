@@ -1710,13 +1710,16 @@ li.pagination_link a {
   background:#ff7800 url(/images/cms/v5buildicon.png) no-repeat 12px center;
   padding-left:49px;
 }
-#submit .publish_button, #submit .save_button, #submit .cancel_button {
+#submit .publish_button, #submit .save_button, #submit .cancel_button, #submit .preview_button {
   border:0;
   background:#557a66 url(/images/cms/v5publishicon.png) no-repeat 12px center;
   padding-left:49px;
 }
 #submit .save_button {
   background:#81918a url(/images/cms/v5saveicon.png) no-repeat 12px center;
+}
+#submit .preview_button{
+	background:#81918a url(/images/cms/v5previewicon.png) no-repeat 12px center;
 }
 
 #quick_header_links #files_button {margin-left:12px;}

@@ -176,7 +176,8 @@ class CMSAdminContentController extends AdminComponent {
     if($this->model->is_published()) $this->model = $this->original->get_preview_copy();
     
 		if($this->model->is_posted()){
-  		if($_POST['publish_x']) $this->publish($this->model, Session::get("list_refer-".$this->module_name));
+
+  		if($_POST['publish_x'] || $_POST['publish']) $this->publish($this->model, Session::get("list_refer-".$this->module_name));
   	  else{
   	    if($this->model->status == 3) $this->model->status = 0;
   	    $this->save($this->model, $_SERVER["REQUEST_URI"]);
@@ -195,6 +196,13 @@ class CMSAdminContentController extends AdminComponent {
 		//all categories
 		if(!$this->all_categories = $cat->order($this->category_order)->all() ) $this->all_categories=array();
 		$this->image_model = new WildfireFile;
+		
+		//section dropdown
+		$section_dropdown_array = options_from_collection($this->current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;");
+		$section_dropdown_keys = array_keys($section_dropdown_array);
+		array_unshift($section_dropdown_keys,0);
+		array_unshift($section_dropdown_array,"");
+		$this->section_dropdown = array_combine($section_dropdown_keys,$section_dropdown_array);
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
