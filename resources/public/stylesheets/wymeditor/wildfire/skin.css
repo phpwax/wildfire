@@ -117,6 +117,7 @@
         .wym_skin_wildfire .wym_buttons li.wym_tools_audio a         { background-position: 0 -654px;}
         .wym_skin_wildfire .wym_buttons li.wym_tools_csv_table a     { background-position: 0 -681px;}
         .wym_skin_wildfire .wym_buttons li.wym_tools_flash a     { background-position: 0 -711px;}
+				.wym_skin_wildfire .wym_buttons li.wym_tools_youtube a     { background:url(yticon.png) no-repeat center center; text-indent: -9999px;}
 
 /*DECORATION*/
               { padding: 0; }
