@@ -249,6 +249,7 @@ class CmsFilesystem {
   	}
   	$this->jsonAdd($meta);
   	echo $this->jsonReturn('getMeta');
+  	exit;
   }
 
   function setMeta($fileid,$filename,$description){
@@ -261,7 +262,7 @@ class CmsFilesystem {
   	}else{
   	  $filename = $fileinfo['filename'];
   	}
-    $query = "UPDATE wildfire_file set description=\"$description\",flags=\"$flags\" where id=$fileid";
+    $query = "UPDATE wildfire_file set description=\"$description\" where id=$fileid";
   	$result = $this->query($query);
   	echo "done";
   	exit;

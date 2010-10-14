@@ -152,6 +152,49 @@ WYMeditor.editor.prototype.wildfire = function() {
     });
     return false;
   });
+
+	/*******************************************/
+  /* Youtube Insertion Button */
+  /*******************************************/
+  
+  var flashhtml = wym_button("youtube", "Insert a Youtube Movie");
+  jQuery(wym._box).find(".wym_tools_image").after(flashhtml);
+  jQuery(wym._box).find(".wym_tools_youtube a").click(function(){
+    jQuery.get(file_options_location+"/?mime_type=shockwave", function(response){
+      jQuery("#link_file").replaceWith(response);
+      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
+      var insert_dialog = jQuery("#link_dialog");
+      insert_dialog.dialog('option', 'title', 'Insert a Flash File');
+      insert_dialog.data('execute_on_insert',function(){
+        var theURL = insert_dialog.find("#link_url").val();
+				var yt_image = "";
+				var source_id = "";
+				
+				//youtube url id grabing
+				var source_query = theURL.split("/").pop().split("?").pop().split("&").shift().split("=");
+				if(source_query[0] == "v") {
+					source_id = source_query[1];
+				}else {
+					if(theURL.split("#").pop().split("/").shift() == "p") {
+						source_id = theURL.split("#").pop().split("/").pop().split("?").shift();
+					}
+				}
+				console.log(source_id);
+				if(source_id){
+					theURL =  "http://www.youtube.com/v/" + source_id;
+					yt_image = "http://i.ytimg.com/vi/"+ source_id +"/default.jpg";
+				}else yt_image = "/images/cms/youtube_placeholder.png";
+				
+
+        var str_target = insert_dialog.find("#link_target").val();
+        if(theURL.length) {
+          wym.insert("<a class='wildfire_youtube' rel='youtube' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='"+ yt_image +"' alt='Flash file: " + theURL + "' /></a>");
+        }
+      });
+      insert_dialog.dialog("open");
+    });
+    return false;
+  });
   
   /*******************************************/
   /* Audio Insertion Button */
