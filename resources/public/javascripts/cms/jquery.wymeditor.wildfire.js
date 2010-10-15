@@ -179,7 +179,6 @@ WYMeditor.editor.prototype.wildfire = function() {
 						source_id = theURL.split("#").pop().split("/").pop().split("?").shift();
 					}
 				}
-				console.log(source_id);
 				if(source_id){
 					theURL =  "http://www.youtube.com/v/" + source_id;
 					yt_image = "http://i.ytimg.com/vi/"+ source_id +"/default.jpg";
