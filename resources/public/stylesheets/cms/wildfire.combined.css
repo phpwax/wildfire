@@ -2138,6 +2138,9 @@ a.edit_img img{
 .live_search_results li:hover {
   background:#e1e1e1;
 }
+#filter_block .live_search_results, .filter_block .live_search_results{
+  color:#222222;
+}
 
 #dashboard #sub-navigation-container #quick_search {display:none;}
 /**** Inline image browser styles *******/
