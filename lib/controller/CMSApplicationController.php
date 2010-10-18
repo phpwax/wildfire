@@ -424,6 +424,8 @@ class CMSApplicationController extends WaxController{
   }
   
   public function wildfire_email_new_content(){
+    $this->use_layout = $this->use_view = false;
+    WaxLog::log('error', '[wildfire_email_new_content] triggered');
     if($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']){
       WaxLog::log("error","[wildfire email content input] Security error, someone tried to hit the email input url from somewhere other than localhost. _SERVER Dump:\n".print_r($_SERVER, 1));
       exit;
@@ -446,6 +448,9 @@ class CMSApplicationController extends WaxController{
     }
     if($html_email) $email = $html_email;
     else $email = $text_email;
+    
+    if(!$email) WaxLog::log('error', '[wildfire_email_new_content] email error');
+    
     if($email && $this->wildfire_email_post_process($email)) echo "content created";
     else echo "error creating content";
     exit;
