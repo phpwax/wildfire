@@ -433,8 +433,7 @@ class CMSApplicationController extends WaxController{
     
     $email = file_get_contents("php://input");
     $email = $this->wildfire_email_parse($email);
-    $html_email;
-    $text_email;
+    $html_email = $text_email = false;
     if(strpos($email["header"]["Content-Type"], "multipart") !== false){
       foreach($email["body"] as $part){
         if(strpos($part["header"]["Content-Type"], "text/plain") !== false && !$text_email) $text_email = $part;
