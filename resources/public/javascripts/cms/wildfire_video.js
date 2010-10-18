@@ -9,3 +9,18 @@ jQuery(window).load(function(){
   });
   
 });
+
+//youtube video
+jQuery(window).load(function(){
+  jQuery(".wildfire_youtube").each(function(){
+		var source_id = "";
+    var el = jQuery(this);
+    var alt_content = el.html();
+    var source_url = el.attr("href");
+		
+    var width = 465;
+    var height = 350;
+
+		el.replaceWith('<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="' + width + '" height="' + height + '"><param name="movie" value="'+source_url+'"/><param name="swliveconnect" value="true" /><param name="allowscriptaccess" value="always" /><param name="wmode" value="transparent" /><param name="flashvars" value="'+source_url+'" /><!--[if !IE]>--><object id="blahblah" type="application/x-shockwave-flash" data="'+source_url+'" width="' + width + '" height="' + height + '"><param name="swliveconnect" value="true" /><param name="allowscriptaccess" value="always" /><param name="wmode" value="transparent" /><param name="flashvars" value="'+source_url+'" /><!--<![endif]--><p class="wildfire_video_alt_content"></p><!--[if !IE]>--></object><!--<![endif]--></object>').replaceAll(".wildfire_video_alt_content");
+  });
+});
