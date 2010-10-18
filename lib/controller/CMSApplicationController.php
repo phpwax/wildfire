@@ -424,28 +424,33 @@ class CMSApplicationController extends WaxController{
   }
   
   public function wildfire_email_new_content(){
+    WaxLog::log('error', '[wildfire_email_new_content] triggered');
     if($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']){
       WaxLog::log("error","[wildfire email content input] Security error, someone tried to hit the email input url from somewhere other than localhost. _SERVER Dump:\n".print_r($_SERVER, 1));
       exit;
     }
     
-    $email = file_get_contents("php://input");
-    $email = $this->wildfire_email_parse($email);
-    $html_email;
-    $text_email;
-    if(strpos($email["header"]["Content-Type"], "multipart") !== false){
-      foreach($email["body"] as $part){
+    $email_stream = file_get_contents("php://input");
+    $email_stream = $this->wildfire_email_parse($email_stream);
+    $html_email = $text_email = $email = false;
+
+    if(strpos($email_stream["header"]["Content-Type"], "multipart") !== false){
+      foreach($email_stream["body"] as $part){
         if(strpos($part["header"]["Content-Type"], "text/plain") !== false && !$text_email) $text_email = $part;
         elseif(strpos($part["header"]["Content-Type"], "text/html") !== false && !$html_email) $html_email = $part;
       }
-      $text_email["header"] = array_merge((array)$email["header"], (array)$text_email["header"]);
-      if($html_email["header"]) $html_email["header"] = array_merge((array)$email["header"],(array)$html_email["header"]);
+      $text_email["header"] = array_merge((array)$email_stream["header"], (array)$text_email["header"]);
+      if($html_email["header"]) $html_email["header"] = array_merge((array)$email_stream["header"],(array)$html_email["header"]);
     }else{
-      if(strpos($email["header"]["Content-Type"], "text/plain") !== false) $text_email = $email;
-      elseif(strpos($email["header"]["Content-Type"], "text/html") !== false) $html_email = $email;
+      if(strpos($email_stream["header"]["Content-Type"], "text/plain") !== false) $text_email = $email_stream;
+      elseif(strpos($email["header"]["Content-Type"], "text/html") !== false) $html_email = $email_stream;
     }
+    
     if($html_email) $email = $html_email;
     else $email = $text_email;
+    
+    if(!$email) WaxLog::log('error', '[wildfire_email_new_content] email error');
+    
     if($email && $this->wildfire_email_post_process($email)) echo "content created";
     else echo "error creating content";
     exit;
