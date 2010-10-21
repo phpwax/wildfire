@@ -11,6 +11,8 @@ class CmsRelated extends WaxModel {
     $this->define("dest_model","CharField");
     $this->define("dest_id","IntegerField");
     $this->define("url","CharField");
+    
+    $this->define("links_order","IntegerField");
   }
   
   //if passed in construction

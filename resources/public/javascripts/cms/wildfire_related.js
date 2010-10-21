@@ -6,6 +6,7 @@ jQuery(document).ready(function(){
       global: false,
       success: function(response){
         del_button.closest(".related_list").html(response).find(".delete_button a").click(related_delete_ajax);
+				order_related_links();
       }
     });
     return false;
@@ -23,6 +24,7 @@ jQuery(document).ready(function(){
       success: function(response){
         add_button.closest(".related_holder").find(".related_list").html(response).find(".delete_button a").click(related_delete_ajax);
 				add_button.closest(".related_holder").find("input.input_field").val("");
+				order_related_links();
       }
     });
     return false;
@@ -62,5 +64,17 @@ jQuery(document).ready(function(){
     jQuery(".live_search_results").empty();
     jQuery(".live_search_results").hide();
   }
+  
+  var order_related_links = function(){
+    if(jQuery(".related_list").length){
+      jQuery(".related_list #list_rows").sortable({items:"> tr",
+      update: function(event, ui) {
+        jQuery.post("/admin/related/sort/", {sort: [jQuery(event.target).sortable("serialize")], source_model: model_string, source_id: content_page_id});
+      }
+      });
+    }
+  };
+  
+  order_related_links();
   
 });
