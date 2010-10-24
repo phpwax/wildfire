@@ -1213,9 +1213,9 @@ jQuery(document).ready(function(event) {
 
 function calc_wym_height(){
   var wymeditor = jQuery("#section-1 .wym_area_main");
-  var footer_and_stuff = jQuery('#footer').outerHeight() + jQuery('#section-1 .content_options').outerHeight() + jQuery('#submit').outerHeight();
-  var total_height = jQuery(window).height() - wymeditor.offset().top - footer_and_stuff - 15; //15 for good measure
-  if(total_height < 200) total_height = 200;
+  var bits_under_editor = jQuery('#section-1 .content_options').outerHeight() + jQuery('#submit').outerHeight();
+  var total_height = jQuery(window).height() - wymeditor.offset().top - bits_under_editor;
+  if(total_height < 300) total_height = 300;
   wymeditor.css("height", total_height);
 }
 
