@@ -204,6 +204,7 @@ class CMSAdminComponent extends WaxController {
 	
 	protected function before_save($model){}
 	protected function after_save($model){}	
+	protected function clear_cache($model){}	
 	/**
 	* delete model record
 	*/	
