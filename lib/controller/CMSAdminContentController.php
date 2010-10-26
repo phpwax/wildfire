@@ -279,7 +279,8 @@ class CMSAdminContentController extends AdminComponent {
 	
 	public function status(){
 		if($id = Request::get('id')){
-			$content = new CmsContent($id);
+			$content = new $this->model_class($id);
+			$this->clear_cache($content);
 			if(isset($_GET['status'])) $content->status = get('status');
 			$this->row = $content->save();
 			if(get('ajax')) $this->use_layout = false;
