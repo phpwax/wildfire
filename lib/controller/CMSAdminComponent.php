@@ -205,12 +205,14 @@ class CMSAdminComponent extends WaxController {
 	
 	protected function before_save($model){}
 	protected function after_save($model){}	
+	protected function before_delete($model){}	
 	protected function clear_cache($model){}	
 	/**
 	* delete model record
 	*/	
 	public function delete(){
 	  $this->clear_cache($this->model);
+	  $this->before_delete($this->model);
 		$id = Request::get("id");
 		if(!$id) $id = $this->route_array[0];
 		
