@@ -191,6 +191,7 @@ class CMSAdminComponent extends WaxController {
 			  if($redirect_to == "edit") $redirect_to = "/$this->controller/edit/".$model->id."/";
 			  elseif(!$redirect_to) $redirect_to = "/$this->controller/index";
       	Session::add_message($this->display_name." ".$success);
+      	$this->clear_cache($model);
       	$this->after_save($model);
       	$this->redirect_to($redirect_to);
 			}elseif(count($model->errors)){
@@ -209,6 +210,7 @@ class CMSAdminComponent extends WaxController {
 	* delete model record
 	*/	
 	public function delete(){
+	  $this->clear_cache($this->model);
 		$id = Request::get("id");
 		if(!$id) $id = $this->route_array[0];
 		
