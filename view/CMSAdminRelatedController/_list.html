@@ -1,5 +1,5 @@
 <?foreach($all_rows as $row):?>
-    <tr id="row-<?=$row->id?>">
+    <tr id="row-<?=$row->id?>" data-db-id="<?=$row->id?>">
       <?foreach($scaffold_columns as $column=>$params):?>
         <td class="column">
           <?if($column == "title"):?>

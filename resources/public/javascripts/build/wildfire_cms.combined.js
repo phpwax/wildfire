@@ -1213,9 +1213,9 @@ jQuery(document).ready(function(event) {
 
 function calc_wym_height(){
   var wymeditor = jQuery("#section-1 .wym_area_main");
-  var footer_and_stuff = jQuery('#footer').outerHeight() + jQuery('#section-1 .content_options').outerHeight() + jQuery('#submit').outerHeight();
-  var total_height = jQuery(window).height() - wymeditor.offset().top - footer_and_stuff - 15; //15 for good measure
-  if(total_height < 200) total_height = 200;
+  var bits_under_editor = jQuery('#section-1 .content_options').outerHeight() + jQuery('#submit').outerHeight();
+  var total_height = jQuery(window).height() - wymeditor.offset().top - bits_under_editor;
+  if(total_height < 300) total_height = 300;
   wymeditor.css("height", total_height);
 }
 
@@ -1592,6 +1592,7 @@ jQuery(document).ready(function(){
       global: false,
       success: function(response){
         del_button.closest(".related_list").html(response).find(".delete_button a").click(related_delete_ajax);
+				order_related_links();
       }
     });
     return false;
@@ -1609,6 +1610,7 @@ jQuery(document).ready(function(){
       success: function(response){
         add_button.closest(".related_holder").find(".related_list").html(response).find(".delete_button a").click(related_delete_ajax);
 				add_button.closest(".related_holder").find("input.input_field").val("");
+				order_related_links();
       }
     });
     return false;
@@ -1648,6 +1650,18 @@ jQuery(document).ready(function(){
     jQuery(".live_search_results").empty();
     jQuery(".live_search_results").hide();
   }
+  
+  var order_related_links = function(){
+    if(jQuery(".related_list").length){
+      jQuery(".related_list #list_rows").sortable({items:"> tr",
+      update: function(event, ui) {
+        jQuery.post("/admin/related/sort/", {sort: [jQuery(event.target).sortable("serialize")], source_model: model_string, source_id: content_page_id});
+      }
+      });
+    }
+  };
+  
+  order_related_links();
   
 });/**
  * SWFUpload: http://www.swfupload.org, http://swfupload.googlecode.com
@@ -8072,10 +8086,11 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_image").after(flashhtml);
   jQuery(wym._box).find(".wym_tools_youtube a").click(function(){
     jQuery.get(file_options_location+"/?mime_type=shockwave", function(response){
-      jQuery("#link_file").replaceWith(response);
-      jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
+			jQuery("#link_target").parent().css("display","none");
+      jQuery("#link_file").parent().css("display","none");
+      //jQuery("#link_dialog #link_file").change(link_dialog_file_choose);
       var insert_dialog = jQuery("#link_dialog");
-      insert_dialog.dialog('option', 'title', 'Insert a Flash File');
+      insert_dialog.dialog('option', 'title', 'Insert a Youtube Movie');
       insert_dialog.data('execute_on_insert',function(){
         var theURL = insert_dialog.find("#link_url").val();
 				var yt_image = "";
@@ -8098,7 +8113,7 @@ WYMeditor.editor.prototype.wildfire = function() {
 
         var str_target = insert_dialog.find("#link_target").val();
         if(theURL.length) {
-          wym.insert("<a class='wildfire_youtube' rel='youtube' href='" + theURL + "' " + ( str_target ? ( "target='" + str_target + "' " ) : "" ) + "><img src='"+ yt_image +"' alt='Flash file: " + theURL + "' /></a>");
+          wym.insert("<a class='wildfire_youtube' rel='youtube' href='" + theURL + "'><img src='"+ yt_image +"' alt='Flash file: " + theURL + "' /></a>");
         }
       });
       insert_dialog.dialog("open");
@@ -8185,8 +8200,8 @@ WYMeditor.editor.prototype.wildfire = function() {
     table_dialog.dialog("open");
   });
   jQuery(".subnav a.dd, .subnav .issub").unbind("hover").hover(
-    function(){jQuery(this).parents(".subnav").children(".wym_classes").removeClass("wym_classes_hidden").show();},
-    function(){jQuery(this).parents(".subnav").children(".wym_classes").addClass("wym_classes_hidden").hide();}
+    function(){jQuery(this).parents(".subnav").children("ul").removeClass("wym_classes_hidden").show();},
+    function(){jQuery(this).parents(".subnav").children("ul").addClass("wym_classes_hidden").hide();}
   );
 
 };

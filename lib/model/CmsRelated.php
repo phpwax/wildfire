@@ -11,15 +11,17 @@ class CmsRelated extends WaxModel {
     $this->define("dest_model","CharField");
     $this->define("dest_id","IntegerField");
     $this->define("url","CharField");
+    
+    $this->define("links_order","IntegerField");
   }
   
   //if passed in construction
   public static function fetch($model){
     $ret = new CmsRelated;
     if($model instanceof WaxModel && ($id = $model->primval()))
-      $ret->filter(array("source_model" => get_class($model), "source_id" => $id));
+      $ret->order("links_order")->filter(array("source_model" => get_class($model), "source_id" => $id));
     else
-      $ret->filter("1 = 2");
+      $ret->order("links_order")->filter("1 = 2");
     return $ret;
   }
     

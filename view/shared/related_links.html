@@ -11,6 +11,6 @@
     <div class="generic_button add_related_button"><a class="add_related" href="/admin/related/create">Add</a></div>
   </div>
   <div class="related_list">
-    <?=partial("admin/related/_list_table", array("all_rows"=>CmsRelated::fetch($model)->all()))?>
+    <?=partial("admin/related/_list_table", array("all_rows"=>CmsRelated::fetch($model)->order("links_order")->all()))?>
   </div>
 </div>

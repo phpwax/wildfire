@@ -94,7 +94,7 @@ class CMSAdminComponent extends WaxController {
 		$this->menu_modules = $this->configure_modules('menu');
 	  if(!in_array(Request::get("action"),array("login","install"))) $this->check_authorised();
 		if(!array_key_exists($this->module_name, $this->all_modules)){
-			Session::add_message('This component is not registered with the application.');
+			Session::add_message('This component is not registered with the application - '. $this->module_name);
 			$this->redirect_to('/admin/home/index');
 		}
 		if($this->model_class) {
@@ -191,6 +191,7 @@ class CMSAdminComponent extends WaxController {
 			  if($redirect_to == "edit") $redirect_to = "/$this->controller/edit/".$model->id."/";
 			  elseif(!$redirect_to) $redirect_to = "/$this->controller/index";
       	Session::add_message($this->display_name." ".$success);
+      	$this->clear_cache($model);
       	$this->after_save($model);
       	$this->redirect_to($redirect_to);
 			}elseif(count($model->errors)){
@@ -204,10 +205,14 @@ class CMSAdminComponent extends WaxController {
 	
 	protected function before_save($model){}
 	protected function after_save($model){}	
+	protected function before_delete($model){}	
+	protected function clear_cache($model){}	
 	/**
 	* delete model record
 	*/	
 	public function delete(){
+	  $this->clear_cache($this->model);
+	  $this->before_delete($this->model);
 		$id = Request::get("id");
 		if(!$id) $id = $this->route_array[0];
 		

@@ -44,4 +44,20 @@ class CMSAdminRelatedController extends AdminComponent {
   	  }
 	  }
 	}
+
+	public function sort() {
+	  $this->use_layout = false;
+    $sortinput = Request::param("sort");
+	  parse_str($sortinput[0], $sort);
+	  if($sort=$sort["row"]){
+	    foreach($sort as $order => $id){
+	      $related = new $this->model_class($id);
+	      $related->links_order = $order;
+	      $related->save();
+	    }
+	  }
+	  $this->all_rows = new $this->model_class;
+	  $this->all_rows = $this->all_rows->filter("source_model", Request::param("source_model"))->filter("source_id", Request::param("source_id"))->order("links_order")->all();
+	  $this->use_view = "_list";
+	}
 }?>

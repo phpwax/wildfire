@@ -51,7 +51,7 @@ class CMSApplicationController extends WaxController{
 			$this->build_crumb();
 		}
 		//incremeant the page views counter
-    if($this->is_page()) $this->cms_content->add_pageview();
+    if($this->is_page() && Config::get('count_pageviews')) $this->cms_content->add_pageview();
 		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
 		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
 		
@@ -424,6 +424,8 @@ class CMSApplicationController extends WaxController{
   }
   
   public function wildfire_email_new_content(){
+    $this->use_layout = $this->use_view = false;
+    WaxLog::log('error', '[wildfire_email_new_content] triggered');
     if($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']){
       WaxLog::log("error","[wildfire email content input] Security error, someone tried to hit the email input url from somewhere other than localhost. _SERVER Dump:\n".print_r($_SERVER, 1));
       exit;
@@ -431,8 +433,7 @@ class CMSApplicationController extends WaxController{
     
     $email = file_get_contents("php://input");
     $email = $this->wildfire_email_parse($email);
-    $html_email;
-    $text_email;
+    $html_email = $text_email = false;
     if(strpos($email["header"]["Content-Type"], "multipart") !== false){
       foreach($email["body"] as $part){
         if(strpos($part["header"]["Content-Type"], "text/plain") !== false && !$text_email) $text_email = $part;
@@ -446,6 +447,9 @@ class CMSApplicationController extends WaxController{
     }
     if($html_email) $email = $html_email;
     else $email = $text_email;
+    
+    if(!$email) WaxLog::log('error', '[wildfire_email_new_content] email error');
+    
     if($email && $this->wildfire_email_post_process($email)) echo "content created";
     else echo "error creating content";
     exit;
