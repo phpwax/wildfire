@@ -211,11 +211,10 @@ class CMSAdminComponent extends WaxController {
 	* delete model record
 	*/	
 	public function delete(){
-	  $this->clear_cache($this->model);
-	  $this->before_delete($this->model);
 		$id = Request::get("id");
 		if(!$id) $id = $this->route_array[0];
-		
+		$this->before_delete(new $this->model_class($id));
+		$this->clear_cache(new $this->model_class($id));
 		if($id) { /*updated to new methods*/
 			$field = $this->model->primary_key;
 			$model= $this->model->clear()->filter($field.'='.$id)->first()->limit(false)->delete();
