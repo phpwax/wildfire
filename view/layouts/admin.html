@@ -75,7 +75,11 @@
 
           		<ul id="submenu" class="clearfix">
           	      <?foreach($sub_links as $sub_link=>$text):?>
-          	        <?$l = "/".trim($controller,"/")."/".trim($sub_link,"/")."/"?>
+          	        <?if(strpos($sub_link, "/") === 0):?>
+            	        <?$l = $sub_link;?>
+          	        <?else:?>
+            	        <?$l = "/".trim($controller,"/")."/".trim($sub_link,"/")."/"?>
+          	        <?endif?>
           	        <?$class=""?>
           	        <?if($sub_link==$action || $sub_link==$type) $class="sub_nav_selected"?>
           	  	    <li class="<?=$class?>"><a href="<?=$l?>"><?=$text?></a></li>
