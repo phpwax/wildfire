@@ -1505,7 +1505,7 @@ function many_to_many_joins(){
 				originid = replace_area.attr('data-origin-id'),
 				cat_name_field = replace_area.attr('data-title-field'),
         pdata = {scope: replace_area.attr("data-scope"), targetid: targetid, origin_id: originid, targetmodel: replace_area.attr('data-target-model'), joinname: replace_area.attr('data-join-name'), joinfield:cat_name_field},
-        endpoint = "../../custom_add/"
+        endpoint = (replace_area.attr('data-destination')?replace_area.attr('data-destination') :"../../custom_add/")
         ;
     jQuery.ajax({
       type: "post",
