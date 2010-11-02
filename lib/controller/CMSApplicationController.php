@@ -142,17 +142,17 @@ class CMSApplicationController extends WaxController{
 	  if($def_page = $this->cms_section->default_page) $content->filter("id", $def_page->id, "!=");
 		if($url){
 	    if(!($this->cms_content = $content->scope($this->content_scope)->filter(array('url'=>$url, 'cms_section_id'=>$this->cms_section->primval))->first())) //first look inside the section
-			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter(array('url'=>$url))->first(); //then look anywhere for the matched url
+			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter('url', $url)->first(); //then look anywhere for the matched url
 		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
 	      $lang_content = $content->clear()->scope($this->content_scope)->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
 	      if($lang_content) $this->cms_content = $lang_content;
 		  }
 
   		if(Request::get("preview") && $this->is_admin_logged_in()){
-  		  if($cms_content) {
-  		    $this->cms_content = $content->clear()->filter(array("preview_master_id"=>$this->cms_content->primval))->first();
+  		  if($this->cms_content && $this->cms_content->primval){
+  		    $this->cms_content = $content->clear()->filter("preview_master_id", $this->cms_content->primval)->first();
   		  } else {
-  		    $this->cms_content = $content->clear()->filter(array("status"=>array(0,1,4),"url"=>$url))->order("status DESC")->first();
+  		    $this->cms_content = $content->clear()->filter("status", array(0,1,4))->filter("url", $url)->order("id DESC")->first();
   		  }
       }
 		  if(!count($this->cms_content)) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
