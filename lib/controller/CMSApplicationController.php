@@ -213,12 +213,28 @@ class CMSApplicationController extends WaxController{
   	  case "mpg":
   	  case "flv":
   	    $this->redirect_to("/images/fs/large/video.png");exit;break;
+  	  case "xls":
   	  case "csv":
-	      $this->redirect_to("/images/fs/large/csv.png");exit;break;
+	      $this->redirect_to("/images/fs/large/excel.png");exit;break;
+	    case "wav":
+	    case "wma":
+	    case "aac":
 	    case "mp3":
 	      $this->redirect_to("/images/fs/large/mp3.png");exit;break;
 	    case "swf":
 	      $this->redirect_to("/images/fs/large/flash.png");exit;break;
+	    case "docx":
+	    case "txt":
+	    case "doc":
+	      $this->redirect_to("/images/fs/large/word.png");exit;break;
+	    case "ppt":
+	      $this->redirect_to("/images/fs/large/powerpoint.png");exit;break;
+	    case "pub":
+	      $this->redirect_to("/images/fs/large/publisher.png");exit;break;
+	    case "mdb":
+	      $this->redirect_to("/images/fs/large/access.png");exit;break;
+	    case "pdf":
+	      $this->redirect_to("/images/fs/large/pdf.png");exit;break;
   	}
     $img->show($size);
   }
