@@ -437,7 +437,7 @@ h4{
   margin:0 10px 10px 0;
   padding:5px 6px;
   width:140px;
-  height:155px;
+  height:190px;
   border:1px solid #ebebeb;
   text-align:center;
   font-size:85%;
@@ -448,7 +448,7 @@ h4{
 }
 .drag_image .image_place, .drop_image .image_place, .dropped_image .image_place {
   width:135px;
-  height:100px;
+  height:135px;
 }
 .image_place{
   width: 137px;
