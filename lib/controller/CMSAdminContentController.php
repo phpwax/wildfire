@@ -37,9 +37,10 @@ class CMSAdminContentController extends AdminComponent {
 	public $languages = array(0=>"english");
 	public static $permissions = array("create","edit","delete", "publish");
 	public $model_has_revisions = true;
+	public $filter_by_section = true;
 	
 	public function controller_global(){
-    if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
+    if(($ids = $this->current_user->allowed_sections_ids) && $this->filter_by_section) $this->model->filter(array("cms_section_id"=>$ids));
 	}
 	
 	/**
