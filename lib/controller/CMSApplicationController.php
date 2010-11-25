@@ -448,17 +448,16 @@ class CMSApplicationController extends WaxController{
     }
 
     $email = file_get_contents("php://input");
-    WaxLog::log('error',"[input]". print_r($email,1));
-    if(Request::param('fname')) $email = Request::param('fname');
-    WaxLog::log('error',"[input2]". print_r($email,1));
+    if(Request::param('fname')){
+      WaxLog::log('error','[incoming email is a file]');
+      $email = Request::param('fname');
+    }
     if(is_file($email) && is_readable($email)){
-      WaxLog::log('error',"[fetching content]");
       $emailcontent = file_get_contents($email);
       unlink($email);
       $email = $emailcontent;
     }
     $email = $this->wildfire_email_parse($email);
-    WaxLog::log('error', print_r($email,1));
     $html_email = $text_email = false;
     if(strpos($email["header"]["Content-Type"], "multipart") !== false){
       foreach($email["body"] as $part){
