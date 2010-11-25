@@ -448,6 +448,11 @@ class CMSApplicationController extends WaxController{
     }
     
     $email = file_get_contents("php://input");
+    if(is_file($email) && is_readable($email)){
+      $emailcontent = file_get_contents($email);
+      unlink($email);
+      $email = $emailcontent;
+    }
     $email = $this->wildfire_email_parse($email);
     WaxLog::log('error', print_r($email,1));
     $html_email = $text_email = false;
