@@ -449,6 +449,8 @@ class CMSApplicationController extends WaxController{
     
     $email = file_get_contents("php://input");
     WaxLog::log('error',"[input]". print_r($email,1));
+    if(Request::param('fname')) $email = Request::param('fname');
+    WaxLog::log('error',"[input2]". print_r($email,1));    
     if(is_file($email) && is_readable($email)){
       $emailcontent = file_get_contents($email);
       unlink($email);

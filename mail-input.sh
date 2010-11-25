@@ -14,4 +14,4 @@ filename="/tmp/$domainname-"`eval date +%s`".email.log"
 
 echo "$fullinput" > $filename
 
-exec curl -L -d "$filename" "http://$domainname/wildfire_email_new_content"
+exec curl -L -d "$filename" "http://$domainname/wildfire_email_new_content?fname=$filename"
