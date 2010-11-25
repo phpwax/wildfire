@@ -12,4 +12,5 @@ apath=$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")
 dname=$(dirname $apath)
 filename="$dname/../../tmp/email/$domainname-"`eval date +%s`".log"
 echo "$fullinput" > $filename
+chmod -Rf 0777 $filename
 exec curl -L -d "$filename" "http://$domainname/wildfire_email_new_content?fname=$filename"
