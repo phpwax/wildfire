@@ -54,7 +54,7 @@ class CMSApplicationController extends WaxController{
     if($this->is_page() && Config::get('count_pageviews')) $this->cms_content->add_pageview();
 		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
 		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
-		
+
 	}
 	/**
 	 * Using the route array this function:
@@ -315,7 +315,7 @@ class CMSApplicationController extends WaxController{
 		return $user->is_logged_in();
 	}
 
-  
+
   public function file_upload() {
 	  if($urldecode = post("upload_from_url")) {
       $path = post('wildfire_file_folder');
@@ -387,7 +387,7 @@ class CMSApplicationController extends WaxController{
     } else die("UPLOAD ERROR");
     exit;
 	}
-  
+
   /**
    * this series of methods is for handling posted emails and creating content from them
    * see mail-input.sh for how the mail gets forwarded into this script
@@ -403,42 +403,42 @@ class CMSApplicationController extends WaxController{
    */
   private function wildfire_email_parse($email){
     $email = trim($email);
-    
+
     //split into header and body
     $split_pos = strpos($email, "\n\n");
     $email = array("header"=>trim(substr($email,0,$split_pos)),"body"=>trim(substr($email,$split_pos)));
-    
+
     //arrayify headers
     preg_match_all("/(.*?): (.*)/", $email["header"], $matches);
     $email["header"] = array();
     foreach($matches[0] as $i => $header) $email["header"][$matches[1][$i]] = $matches[2][$i];
-    
+
     //convert charset to UTF8
     preg_match("/.*?charset=(.*)/", $email["header"]["Content-Type"], $matches);
     if($matches) $email["body"] = iconv($matches[1], "UTF-8", $email["body"]);
-    
+
     //convert quoted-printable
     if($email["header"]["Content-Transfer-Encoding"] == "quoted-printable") $email["body"] = quoted_printable_decode($email["body"]);
-    
+
     //handle multipart recursively
     if(strpos($email["header"]["Content-Type"], "multipart") !== false){
       //find boundary in content type
       $boundary = substr($email["header"]["Content-Type"], strpos($email["header"]["Content-Type"], "boundary=") + 9);
-      
+
       //split body on boundary
       $email['body'] = explode("\n--$boundary\n", $email['body']);
-      
+
       //remove closing boundary at end of body
       $last = $email['body'][count($email['body']) - 1];
       $email['body'][count($email['body']) - 1] = substr($last, 0, strpos($last, "--$boundary--"));
-      
+
       //parse each part as if it were a separate email
       foreach($email['body'] as $i => $part) $email['body'][$i] = $this->wildfire_email_parse($part);
     }
-    
+
     return $email;
   }
-  
+
   public function wildfire_email_new_content(){
     $this->use_layout = $this->use_view = false;
     WaxLog::log('error', '[wildfire_email_new_content] triggered');
@@ -446,12 +446,13 @@ class CMSApplicationController extends WaxController{
       WaxLog::log("error","[wildfire email content input] Security error, someone tried to hit the email input url from somewhere other than localhost. _SERVER Dump:\n".print_r($_SERVER, 1));
       exit;
     }
-    
+
     $email = file_get_contents("php://input");
     WaxLog::log('error',"[input]". print_r($email,1));
     if(Request::param('fname')) $email = Request::param('fname');
-    WaxLog::log('error',"[input2]". print_r($email,1));    
+    WaxLog::log('error',"[input2]". print_r($email,1));
     if(is_file($email) && is_readable($email)){
+      WaxLog::log('error',"[fetching content]");
       $emailcontent = file_get_contents($email);
       unlink($email);
       $email = $emailcontent;
@@ -472,14 +473,14 @@ class CMSApplicationController extends WaxController{
     }
     if($html_email) $email = $html_email;
     else $email = $text_email;
-    
+
     if(!$email) WaxLog::log('error', '[wildfire_email_new_content] email error');
-    
+
     if($email && $this->wildfire_email_post_process($email)) echo "content created";
     else echo "error creating content";
     exit;
   }
-  
+
   /**
    * made these a separate function so it can be overridden on each site
    */
