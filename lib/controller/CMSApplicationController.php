@@ -454,7 +454,6 @@ class CMSApplicationController extends WaxController{
     }
     if(is_file($email) && is_readable($email)){
       $emailcontent = file_get_contents($email);
-      unlink($email);
       $email = $emailcontent;
     }
     $email = $this->wildfire_email_parse($email);
