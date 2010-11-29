@@ -406,8 +406,7 @@ class CMSApplicationController extends WaxController{
     $use = array('From:', "Subject:", "Content-Type:", "boundary=", "Content-Transfer-Encoding:");
     $headers = array();
     foreach(explode("\n", $header_string) as $item){
-      foreach($use as $param)
-      if(substr($item,0, strlen($param)) == $param) $headers[$param] = substr($item, strlen($param)+1);
+      foreach($use as $param) if(substr($item,0, strlen($param)) == $param) $headers[$param] = substr($item, strlen($param)+1);
     }
     
     $body = implode("\n\n",$parts);
@@ -415,14 +414,8 @@ class CMSApplicationController extends WaxController{
       $headers['boundary='] = trim($headers['boundary='], '"');
       $email = array('headers'=>$headers);
       foreach(explode("--".$headers['boundary='], $body) as $i=>$part){
-        if($part && ($res = $this->wildfire_email_parse($part)) && $res['body'] ){
-          $email['body'][] = $res['body'];
-        }
-        if($part && ($res = $this->wildfire_email_parse($part)) && $res[0]['body'] ){
-          foreach($res as $r){
-            $email['body'][] = $r['body'];
-          }
-        }
+        if($part && ($res = $this->wildfire_email_parse($part)) && $res['body'] ) $email[] = $res;
+        if($part && ($res = $this->wildfire_email_parse($part)) && $res[0]['body'] ) foreach($res as $r) $email[] = $r;
       }
       return $email;   
     }else{
@@ -443,26 +436,22 @@ class CMSApplicationController extends WaxController{
     }
 
     $email = file_get_contents("php://input");    
-    $email = $this->wildfire_email_parse(file_get_contents(Request::param('fname')));
-    print_r($email);exit;
-    $email = array_shift($email);
-    foreach($email as $k=>$v){
-      print_r($email);
-      if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "html") ) $html_email = $v;
-      else if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "text") ) $text_email = $v;
+    $parsed_email = $this->wildfire_email_parse(file_get_contents(Request::param('fname')));
+    
+    foreach($parsed_email as $k=>$v){
+      if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "html") ) $html_email['body'] = $v['body'];
+      else if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "text") ) $text_email['body'] = $v['body'];
     }
-    exit;
-    if($html_email) $email = $html_email;
-    else if($text_email) $email = $text_email;
-
+    if($text_email) $email = $text_email;
+    else if($html_email) $email = $html_email;
+    $email['headers'] = $parsed_email['headers'];
     if(!$email){
       WaxLog::log('error', '[wildfire_email_new_content] email error');
       exit;
     }
     $new_email = array();
-    foreach($email['headers'] as $k=>$v) $new_email[str_replace(":", "", str_replace("=", "",strtolower($k)))] = $v;
+    foreach($email['headers'] as $k=>$v) $new_email['header'][str_replace(":", "", str_replace("=", "",strtolower($k)))] = $v;
     $new_email['body'] = $email['body'];
-    print_r($new_email);exit;
     if($email && $this->wildfire_email_post_process($new_email)) echo "content created";
     else echo "error creating content";
     exit;
