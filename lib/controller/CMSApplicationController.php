@@ -400,7 +400,7 @@ class CMSApplicationController extends WaxController{
    * run newaliases
    *
    */
-  private function wildfire_email_parse($email_string, $email=array()){
+  private function wildfire_email_parse($email_string){
     $parts = explode("\n\n", $email_string);
     $header_string = array_shift($parts);
     $use = array('From:', "Subject:", "Content-Type:", "boundary=", "Content-Transfer-Encoding:");
@@ -413,19 +413,25 @@ class CMSApplicationController extends WaxController{
     $body = implode("\n\n",$parts);
     if(strstr($headers['Content-Type:'], 'multipart')){
       $headers['boundary='] = trim($headers['boundary='], '"');
-      
+      $email = array('headers'=>$headers);
       foreach(explode("--".$headers['boundary='], $body) as $i=>$part){
-        if($part && ($res = $this->wildfire_email_parse($part, $email)) && ($res['body'] || $res[0]['body']) ){
-          $email[] = $res;
+        if($part && ($res = $this->wildfire_email_parse($part)) && $res['body'] ){
+          $email['body'][] = $res['body'];
         }
-      }      
+        if($part && ($res = $this->wildfire_email_parse($part)) && $res[0]['body'] ){
+          foreach($res as $r){
+            $email['body'][] = $r['body'];
+          }
+        }
+      }
+      return $email;   
     }else{
       preg_match("/.*?charset=(.*)/i", $headers['Content-Type:'], $matches);
       if($matches && $matches[1]) $body = iconv(trim($matches[1], '"'), "UTF-8", $body);
       if($headers['Content-Transfer-Encoding:'] == "quoted-printable") $body = quoted_printable_decode($body);
       return array('body'=>$body, 'headers'=>$headers);
     }
-    return $email;
+    return false;
   }
 
   public function wildfire_email_new_content(){
