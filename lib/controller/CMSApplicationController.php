@@ -407,8 +407,9 @@ class CMSApplicationController extends WaxController{
 
     //split into header and body
     $split_pos = strpos($email, "\r\n\r\n");
+    WaxLog::log('error', '[wildfire_email_parse] - '.$split_pos);
+    
     $email = array("header"=>trim(substr($email,0,$split_pos)),"body"=>trim(substr($email,$split_pos)));
-
     //arrayify headers
     preg_match_all("/(.*?): (.*)/", $email["header"], $matches);
     $email["header"] = array();
