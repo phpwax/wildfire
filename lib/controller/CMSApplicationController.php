@@ -422,6 +422,7 @@ class CMSApplicationController extends WaxController{
       preg_match("/.*?charset=(.*)/i", $headers['Content-Type:'], $matches);
       if($matches && $matches[1]) $body = iconv(trim($matches[1], '"'), "UTF-8", $body);
       if($headers['Content-Transfer-Encoding:'] == "quoted-printable") $body = quoted_printable_decode($body);
+      if($headers['Content-Transfer-Encoding:'] == "base64") $body = base64_decode($body);
       return array('body'=>$body, 'headers'=>$headers);
     }
     return false;
@@ -439,8 +440,8 @@ class CMSApplicationController extends WaxController{
     $parsed_email = $this->wildfire_email_parse(file_get_contents(Request::param('fname')));
     
     foreach($parsed_email as $k=>$v){
-      if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "html") ) $html_email['body'] = $v['body'];
-      else if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "text") ) $text_email['body'] = $v['body'];
+      if(is_array($v) && isset($v['headers']) && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "html") ) $html_email['body'] = $v['body'];
+      else if(is_array($v) && isset($v['headers']) && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "text") ) $text_email['body'] = $v['body'];
     }
     if($text_email) $email = $text_email;
     else if($html_email) $email = $html_email;
