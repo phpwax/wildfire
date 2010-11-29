@@ -428,14 +428,16 @@ class CMSApplicationController extends WaxController{
 
       //split body on boundary
       $explode = explode("\n--$boundary\n", $email['body']);
-      if(count($explode)){
-        WaxLog::log('error', '[wildfire_email_parse] explode - '.print_r($explode,1));
+      if(count($explode)){        
         $email['body'] = $explode;
         //remove closing boundary at end of body
         $last = $email['body'][count($email['body']) - 1];
         $email['body'][count($email['body']) - 1] = substr($last, 0, strpos($last, "--$boundary--"));
         //parse each part as if it were a separate email
-        foreach($email['body'] as $i => $part) if( $res = $this->wildfire_email_parse($part)) $email['body'][$i] = $res;
+        foreach($email['body'] as $i => $part){
+          WaxLog::log('error', '[wildfire_email_parse loop '.$i.'] - '.print_r($part,1));
+          if( $res = $this->wildfire_email_parse($part)) $email['body'][$i] = $res;
+        }
       }
     }
 
