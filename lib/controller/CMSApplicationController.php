@@ -399,19 +399,15 @@ class CMSApplicationController extends WaxController{
    * add '<username>: <username>, "|/home/<username>/plugins/cms/mail-input.sh"' to /etc/aliases
    * run newaliases
    *
-   * @author Sheldon Els
    */
   private function wildfire_email_parse($email){
-    
+    WaxLog::log('error', '[wildfire_email_parse - email] '.$email);
     $email = trim($email);
-
+    
     //split into header and body
     $split_pos = strpos($email, "\r\n\r\n");
     if(!$split_pos) $split_pos = strpos($email, "\n\n");  
-    WaxLog::log('error', '[wildfire_email_parse] split - '.$split_pos);
     $email = array("header"=>trim(substr($email,0,$split_pos)),"body"=>trim(substr($email,$split_pos)));
-    
-    WaxLog::log('error', '[wildfire_email_parse] email - '.print_r($email,1));
     //arrayify headers
     preg_match_all("/(.*?): (.*)/", $email["header"], $matches);
     $email["header"] = array();
