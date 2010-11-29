@@ -426,18 +426,21 @@ class CMSApplicationController extends WaxController{
 
     //handle multipart recursively
     if(strpos($email["header"]["Content-Type"], "multipart") !== false){
+      WaxLog::log('error', '[wildfire_email_parse] multipart');
       //find boundary in content type
       $boundary = substr($email["header"]["Content-Type"], strpos($email["header"]["Content-Type"], "boundary=") + 9);
 
       //split body on boundary
-      $email['body'] = explode("\n--$boundary\n", $email['body']);
-
-      //remove closing boundary at end of body
-      $last = $email['body'][count($email['body']) - 1];
-      $email['body'][count($email['body']) - 1] = substr($last, 0, strpos($last, "--$boundary--"));
-
-      //parse each part as if it were a separate email
-      foreach($email['body'] as $i => $part) if( $res = $this->wildfire_email_parse($part)) $email['body'][$i] = $res;
+      $explode = explode("\n--$boundary\n", $email['body']);
+      if(count($explode)){
+        WaxLog::log('error', '[wildfire_email_parse] explode - '.print_r($explode,1));
+        $email['body'] = $explode;
+        //remove closing boundary at end of body
+        $last = $email['body'][count($email['body']) - 1];
+        $email['body'][count($email['body']) - 1] = substr($last, 0, strpos($last, "--$boundary--"));
+        //parse each part as if it were a separate email
+        foreach($email['body'] as $i => $part) if( $res = $this->wildfire_email_parse($part)) $email['body'][$i] = $res;
+      }
     }
 
     return $email;
