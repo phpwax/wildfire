@@ -402,10 +402,11 @@ class CMSApplicationController extends WaxController{
    * @author Sheldon Els
    */
   private function wildfire_email_parse($email){
+    
     $email = trim($email);
 
     //split into header and body
-    $split_pos = strpos($email, "\n\n");
+    $split_pos = strpos($email, "\r\n\r\n");
     $email = array("header"=>trim(substr($email,0,$split_pos)),"body"=>trim(substr($email,$split_pos)));
 
     //arrayify headers
