@@ -400,48 +400,31 @@ class CMSApplicationController extends WaxController{
    * run newaliases
    *
    */
-  private function wildfire_email_parse($email){
-    WaxLog::log('error', '[wildfire_email_parse - in]');
-    $email = trim($email);
-    
-    //split into header and body
-    $split_pos = strpos($email, "\r\n\r\n");
-    if(!$split_pos) $split_pos = strpos($email, "\n\n");  
-    $email = array("header"=>trim(substr($email,0,$split_pos)),"body"=>trim(substr($email,$split_pos)));
-    WaxLog::log('error', '[wildfire_email_parse - headers]'.print_r($email['header'],1));
-    //arrayify headers
-    preg_match_all("/(.*?): (.*)/", $email["header"], $matches);
-    $email["header"] = array();
-    foreach($matches[0] as $i => $header) $email["header"][$matches[1][$i]] = $matches[2][$i];
-
-    //convert charset to UTF8
-    preg_match("/.*?charset=(.*)/", $email["header"]["Content-Type"], $matches);
-    if($matches) $email["body"] = iconv($matches[1], "UTF-8", $email["body"]);
-
-    //convert quoted-printable
-    if($email["header"]["Content-Transfer-Encoding"] == "quoted-printable") $email["body"] = quoted_printable_decode($email["body"]);
-
-    //handle multipart recursively
-    if(strpos($email["header"]["Content-Type"], "multipart") !== false){
-      WaxLog::log('error', '[wildfire_email_parse] multipart');
-      //find boundary in content type
-      $boundary = substr($email["header"]["Content-Type"], strpos($email["header"]["Content-Type"], "boundary=") + 9);
-
-      //split body on boundary
-      $explode = explode("\n--$boundary\n", $email['body']);
-      if($numparts = count($explode)){        
-        //remove closing boundary at end of body
-        $last = $explode[($numparts-1)];
-        if(!$end = strrpos($last, "--$boundary--")) $end = strlen($last);
-        $explode[($numparts-1)] = substr($last, 0, $end);
-        //parse each part as if it were a separate email
-        foreach($explode as $i => $part){
-          WaxLog::log('error', '[wildfire_email_parse loop '.$i.'] - '.print_r($part,1));
-          if( $res = $this->wildfire_email_parse($part)) $email['body'][$i] = $res;
-        }
-      }
+  private function wildfire_email_parse($email_string, $email=array()){
+    $parts = explode("\n\n", $email_string);
+    $header_string = array_shift($parts);
+    $use = array('From:', "Subject:", "Content-Type:", "boundary=", "Content-Transfer-Encoding:");
+    $headers = array();
+    foreach(explode("\n", $header_string) as $item){
+      foreach($use as $param)
+      if(substr($item,0, strlen($param)) == $param) $headers[$param] = substr($item, strlen($param)+1);
     }
-
+    
+    $body = implode("\n\n",$parts);
+    if(strstr($headers['Content-Type:'], 'multipart')){
+      $headers['boundary='] = trim($headers['boundary='], '"');
+      
+      foreach(explode("--".$headers['boundary='], $body) as $i=>$part){
+        if($part && ($res = $this->wildfire_email_parse($part, $email)) && ($res['body'] || $res[0]['body']) ){
+          $email[] = $res;
+        }
+      }      
+    }else{
+      preg_match("/.*?charset=(.*)/i", $headers['Content-Type:'], $matches);
+      if($matches && $matches[1]) $body = iconv(trim($matches[1], '"'), "UTF-8", $body);
+      if($headers['Content-Transfer-Encoding:'] == "quoted-printable") $body = quoted_printable_decode($body);
+      return array('body'=>$body, 'headers'=>$headers);
+    }
     return $email;
   }
 
@@ -453,34 +436,28 @@ class CMSApplicationController extends WaxController{
       exit;
     }
 
-    $email = file_get_contents("php://input");
-    if(Request::param('fname')){
-      WaxLog::log('error','[incoming email is a file]');
-      $email = Request::param('fname');
+    $email = file_get_contents("php://input");    
+    $email = $this->wildfire_email_parse(file_get_contents(Request::param('fname')));
+    print_r($email);exit;
+    $email = array_shift($email);
+    foreach($email as $k=>$v){
+      print_r($email);
+      if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "html") ) $html_email = $v;
+      else if($v['headers'] && $v['headers']['Content-Type:'] && strstr($v['headers']['Content-Type:'], "text") ) $text_email = $v;
     }
-    if(is_file($email) && is_readable($email)){
-      $emailcontent = file_get_contents($email);
-      $email = $emailcontent;
-    }
-    $email = $this->wildfire_email_parse($email);
-    $html_email = $text_email = false;
-    if(strpos($email["header"]["Content-Type"], "multipart") !== false){
-      foreach($email["body"] as $part){
-        if(strpos($part["header"]["Content-Type"], "text/plain") !== false && !$text_email) $text_email = $part;
-        elseif(strpos($part["header"]["Content-Type"], "text/html") !== false && !$html_email) $html_email = $part;
-      }
-      $text_email["header"] = array_merge((array)$email["header"], (array)$text_email["header"]);
-      if($html_email["header"]) $html_email["header"] = array_merge((array)$email["header"],(array)$html_email["header"]);
-    }else{
-      if(strpos($email["header"]["Content-Type"], "text/plain") !== false) $text_email = $email;
-      elseif(strpos($email["header"]["Content-Type"], "text/html") !== false) $html_email = $email;
-    }
+    exit;
     if($html_email) $email = $html_email;
-    else $email = $text_email;
+    else if($text_email) $email = $text_email;
 
-    if(!$email) WaxLog::log('error', '[wildfire_email_new_content] email error');
-
-    if($email && $this->wildfire_email_post_process($email)) echo "content created";
+    if(!$email){
+      WaxLog::log('error', '[wildfire_email_new_content] email error');
+      exit;
+    }
+    $new_email = array();
+    foreach($email['headers'] as $k=>$v) $new_email[str_replace(":", "", str_replace("=", "",strtolower($k)))] = $v;
+    $new_email['body'] = $email['body'];
+    print_r($new_email);exit;
+    if($email && $this->wildfire_email_post_process($new_email)) echo "content created";
     else echo "error creating content";
     exit;
   }
