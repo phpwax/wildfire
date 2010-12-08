@@ -37,9 +37,10 @@ class CMSAdminContentController extends AdminComponent {
 	public $languages = array(0=>"english");
 	public static $permissions = array("create","edit","delete", "publish");
 	public $model_has_revisions = true;
+	public $filter_by_section = true;
 	
 	public function controller_global(){
-    if($ids = $this->current_user->allowed_sections_ids) $this->model->filter(array("cms_section_id"=>$ids));
+    if(($ids = $this->current_user->allowed_sections_ids) && $this->filter_by_section) $this->model->filter(array("cms_section_id"=>$ids));
 	}
 	
 	/**
@@ -197,12 +198,13 @@ class CMSAdminContentController extends AdminComponent {
 		if(!$this->all_categories = $cat->order($this->category_order)->all() ) $this->all_categories=array();
 		$this->image_model = new WildfireFile;
 		
-		//section dropdown
-		$section_dropdown_array = options_from_collection($this->current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;");
-		$section_dropdown_keys = array_keys($section_dropdown_array);
-		array_unshift($section_dropdown_keys,0);
-		array_unshift($section_dropdown_array,"");
-		$this->section_dropdown = array_combine($section_dropdown_keys,$section_dropdown_array);
+    //section dropdown
+    if($section_dropdown_array = options_from_collection($this->current_user->allowed_sections_model()->tree(), "id", "title", null, "&nbsp;&nbsp;")){
+      $section_dropdown_keys = array_keys($section_dropdown_array);
+      array_unshift($section_dropdown_keys,0);
+      array_unshift($section_dropdown_array,"");
+      $this->section_dropdown = array_combine($section_dropdown_keys,$section_dropdown_array);
+    }
 	}
 	/**
 	 * delete function - cleans up any preview content for the deleted content
