@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos", "csv_table", "flash_object")
+    "before_output"=> array("first_para_hook", "ampersand_hook", "strip_slashes", "yt_video", "videos", "csv_table", "flash_object", "inline_audio")
   );
   
   static public function add_filter($trigger, $method) {
@@ -143,6 +143,12 @@ class CmsTextFilter  {
     $text = preg_replace("/<a href=\"#\" rel=\"yt_video\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
     $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
     return $text;
+  }
+  
+  static public function inline_audio($text) {
+    $google_audio = '<embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3523697345-audio-player.swf?audioUrl=$1" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded&audioUrl=$1" />';
+    $text = preg_replace("/<a class=\"wildfire_audio\" href=\"(.*)\">.*<\/a>/", $google_audio, $text);
+    return $text;		
   }
   
   static public function csv_table($text) {
