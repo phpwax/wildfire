@@ -186,7 +186,6 @@ WYMeditor.editor.prototype.wildfire = function() {
   jQuery(wym._box).find(".wym_tools_video a").click(function(){
     jQuery("#video_dialog").dialog("open");
     jQuery("#insert_video_button").unbind("click").click(function(){
-			console.log('inserting...');
       var url = jQuery("#vid_id").val(), width = jQuery("#vid_x").val(), height = jQuery("#vid_y").val(), local = jQuery("#local_vid").val();
 			
       if(local.length > 0) wym._exec('inserthtml', '<a href="'+url+'" class="'+width+'px:'+height+'px">LOCAL:'+url+'</a>');
