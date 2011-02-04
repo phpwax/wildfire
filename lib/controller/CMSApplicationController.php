@@ -31,21 +31,21 @@ class CMSApplicationController extends WaxController{
   public $language_param = "language";
 	public $cms_language_id = false;
 	
-	public $content_model = "CmsContent";
-	public $content_scope = "published";
+	public $cms_model = "CmsContent";
+	public $cms_model_scope = "live";
+	public $cms_preview_scope = "preview";
 	
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
 	public $cms_obj_stack = array(); //stack of objects found
 	public $cms_content = false;
-	public $cms_model = false;
 	
 	public $previewing = false;
 		
 	public $cms_view = "";
 
 	//default action when content/section is found
-	public function cms_content() {}
+	public function cms_view() {}
 
 	/**
 	 * MAIN FUNCTION - CALL IN YOUR controller_global
@@ -61,10 +61,13 @@ class CMSApplicationController extends WaxController{
 		if($page = Request::get('page')) $this->this_page = $page;
 		/**
 		 * preview system, if its set then add the filter to the front end display and 
-		 * set the internal
+		 * set the internal var & change the scope
 		 */
-		if(Request::get("preview"))
+		if(Request::get("preview")){
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
+		  $this->previewing = true;
+		  $this->cms_model_scope = $this->cms_preview_scope;
+	  }
 		//method exists check
 		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
 		if(!$this->use_format) $this->use_format="html";
@@ -81,9 +84,46 @@ class CMSApplicationController extends WaxController{
 		else $this->cms_language_id = array_shift(array_keys($this->languages));
 		//set the session
 		Session::set("wildfire_language_id", $this->cms_language_id);
-	  
-    
+	  /**
+	   * use the modified stack to find content
+	   */
+	  if($content = $this->cms_content($this->cms_stack, $this->cms_model, $this->cms_model_scope, $this->cms_language_id) ){
+      echo "found!";
+    }elseif($default_lang = $this->cms_content($this->cms_stack, $this->cms_model, $this->cms_model_scope, array_shift(array_keys($this->languages)) )){
+      echo "found - alt language";
+	  }else{
+	    echo "missing";
+	  }
+    exit;
 	}
+	
+	/**
+	 * find content matching the current stack
+	 * - check the permalink first
+	 * - otherwise loop over the stack and check each part of it
+	 */
+	protected function cms_content($stack, $model_class, $model_scope, $language_id){
+	  $permalink = implode("/", $stack);
+	  $model = new $model_class($model_scope);
+	  if($found = $model->filter("permalink", $permalink)->filter("language", $language_id)->first()){
+	    $this->cms_obj_stack[] = $found;
+	    return $found;
+	  }else{
+	    array_unshift($stack, "/");
+	    $previous = false;
+      while($url = array_shift($stack)){
+        $finder = new $model_class($model_scope);
+        if($previous) $finder->filter("parent_id", $previous);
+        if($page = $finder->filter("url", $url)->filter("language", $language_id)->first()) $this->cms_obj_stack[] = $previous = $page;
+      }
+	  }
+	  if(is_array($this->cms_obj_stack) && count($this->cms_obj_stack)) return $this->cms_obj_stack[(count($this->cms_obj_stack)-1)];
+	  else return false;
+	}
+	
+	/**
+	 * unset key elements from the stack (controller etc)
+	 */
 	protected function cms_stack($stack){
 	  unset($stack['route'],$stack['controller'],$stack['action'],$stack['id'],$stack[0], $stack['page']);
 		return $stack;
