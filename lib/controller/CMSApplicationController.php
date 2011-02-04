@@ -31,7 +31,7 @@ class CMSApplicationController extends WaxController{
   public $language_param = "language";
 	public $cms_language_id = false;
 	
-	public $cms_model = "CmsContent";
+	public $cms_model_class = "CmsContent";
 	public $cms_model_scope = "live";
 	public $cms_preview_scope = "preview";
 	
@@ -44,7 +44,7 @@ class CMSApplicationController extends WaxController{
 		
 	public $cms_view = "";
 
-	//default action when content/section is found
+	//default action when content is found
 	public function cms_view() {}
 
 	/**
@@ -64,6 +64,7 @@ class CMSApplicationController extends WaxController{
 		 * set the internal var & change the scope
 		 */
 		if(Request::get("preview")){
+		  //this needs to be moved to an event
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		  $this->previewing = true;
 		  $this->cms_model_scope = $this->cms_preview_scope;
@@ -87,9 +88,9 @@ class CMSApplicationController extends WaxController{
 	  /**
 	   * use the modified stack to find content
 	   */
-	  if($content = $this->cms_content($this->cms_stack, $this->cms_model, $this->cms_model_scope, $this->cms_language_id) ){
-      echo "found!";
-    }elseif($default_lang = $this->cms_content($this->cms_stack, $this->cms_model, $this->cms_model_scope, array_shift(array_keys($this->languages)) )){
+	  if($content = $this->content($this->cms_stack, $this->cms_model_class, $this->cms_model_scope, $this->cms_language_id) ){
+      $this->cms_content = $content;
+    }elseif($default_lang = $this->content($this->cms_stack, $this->cms_model_class, $this->cms_model_scope, array_shift(array_keys($this->languages)) )){
       echo "found - alt language";
 	  }else{
 	    echo "missing";
@@ -102,7 +103,7 @@ class CMSApplicationController extends WaxController{
 	 * - check the permalink first
 	 * - otherwise loop over the stack and check each part of it
 	 */
-	protected function cms_content($stack, $model_class, $model_scope, $language_id){
+	protected function content($stack, $model_class, $model_scope, $language_id){
 	  $permalink = implode("/", $stack);
 	  $model = new $model_class($model_scope);
 	  if($found = $model->filter("permalink", $permalink)->filter("language", $language_id)->first()){
@@ -161,49 +162,27 @@ class CMSApplicationController extends WaxController{
 	  else return array_shift(array_keys((array)$languages));
 	}
 	
+	
 	/**
-	 * Using the route array this function:
-	 *  - creates a stacking order,
-	 *  - traverses the stack,
-	 *  - checks for extension names (ie if you add .xml it will look for a view with .xml),
-	 *  - checks that the part your looking for is a number (to discount get vars) & looks up the section
-	 *  - adds the url to the stack
-	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
+	 * this function adds a preview bar to the top of content, so that users won't be confused that their preview differs from the live content
+	 *
+	 * @param string $buffer_contents
+	 * @return void
+	 * @author Sheldon
 	 */
-	protected function find_contents_by_path(){
-		
-	}
-
-	protected function find_by_permalink($link){
-		
+	public function add_preview_bar($buffer_contents, $template = false){
+	  WaxTemplate::remove_response_filter("layout", "cms-preview-bar");
+	  $preview_bar = partial("../../plugins/cms/view/shared/_preview_bar", $template, "html");
+	  $buffer_contents = preg_replace("/(<\/head>)/",'<link type="text/css" href="/stylesheets/cms/preview-bar.css" rel="stylesheet" />$1', $buffer_contents);
+	  $buffer_contents = preg_replace("/(<body.*?>)/","$1".$preview_bar, $buffer_contents);
+	  return $buffer_contents;
 	}
 
 	
-	/**
-	 * big monster that finds content
-	 * - if the url exists (ie not false) then find content in following priority
-	 *   - content with correct url in the correct section
-	 *   - content with correct url, discounting the section
-	 *   - otherwise throw a 404
-	 * - if url is false
-	 *   - find all the content pages inside the current section
-	 *
-	 * NOTE: If your logged in to the admin area - unpublished content items are accessible via the permalink, but will not show in lists
-	 *
-	 * @param string $url
-	 */
-	protected function find_content($url){
-		
-	}
-
-
-	public function change_language() {
-	 $lang_id = Request::get("id");
-	 if($this->languages[$lang_id]) Session::set("wildfire_language_id",$lang_id);
-	 if($this->referrer) $this->redirect_to($this->referrer);
-	 else $this->redirect_to("/");
-	}
-
+	
+  /** 
+   * SHOW IMAGE - USED EVERYWHERE!
+   */
 	public function show_image() {
 	  $options = (array)Request::get("params");
 	  $img_id = Request::get("id");
@@ -248,43 +227,11 @@ class CMSApplicationController extends WaxController{
     $img->show($size);
   }
 
-	
-	/**
-	 * decides what view should be used - has a more to less specific priority
-	 * also switches the layout to a language specific one, if it exists
-	 * - cms_CONTENTURL_[list|page][_language]
-	 * - cms_SECTIONNAME_[list|page][_language]
-	 * - cms_[list|page][_language]
-	 */
-	protected function pick_view() {
-	  
-	}
-
-	/**
-	 * this function adds a preview bar to the top of content, so that users won't be confused that their preview differs from the live content
-	 *
-	 * @param string $buffer_contents
-	 * @return void
-	 * @author Sheldon
-	 */
-	public function add_preview_bar($buffer_contents, $template = false){
-	  WaxTemplate::remove_response_filter("layout", "cms-preview-bar");
-	  $preview_bar = partial("../../plugins/cms/view/shared/_preview_bar", $template, "html");
-	  $buffer_contents = preg_replace("/(<\/head>)/",'<link type="text/css" href="/stylesheets/cms/preview-bar.css" rel="stylesheet" />$1', $buffer_contents);
-	  $buffer_contents = preg_replace("/(<body.*?>)/","$1".$preview_bar, $buffer_contents);
-	  return $buffer_contents;
-	}
 
   /**
-   * check to see if admin is logged in
-   * @return boolean
+   * FILE UPLOADER
+   * 
    */
-  public function is_admin_logged_in(){
-		$user = new WaxAuthDb(array("db_table"=>"wildfire_user", "encrypt"=>"false", "session_key"=>"wildfire_user_cookie"));
-		return $user->is_logged_in();
-	}
-
-
   public function file_upload() {
 	  if($urldecode = post("upload_from_url")) {
       $path = post('wildfire_file_folder');
