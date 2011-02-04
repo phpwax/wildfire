@@ -9,13 +9,28 @@
 
 class CMSApplicationController extends WaxController{
 
-  public $cms_section = false;	//Section object
-  public $cms_content = false;  //this is either an array of the content or a single content record
-  public $section_stack = array(); //array of all section found
+ 
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
-  public $crumbtrail = array();	//a pre built crumb trail
-	public $languages = array(0=>"english");
+
+  /**
+   * language in use gets set in session value - wildfire_language_id
+   * can be triggered by alternative url such as /en/xx /es/xx
+   * or by params - ?language=en / ?language=es / ?language=0
+   */
+	public $languages = array(
+	                          0=>array( //0 is the default language, is content with this language cannot be found, then it will revert to this
+	                              'name'=>"english", 
+	                              'url' =>array('en') //allows for a language to have multiple url triggers (en|english|eng etc)
+	                              ),
+	                          1=>array(
+	                            'name'=>"spanish",
+	                            'url'=>array("es")
+	                            )
+	                          );
+  public $language_param = "language";
+	public $cms_language_id = false;
+	
 	public $content_model = "CmsContent";
 	public $content_scope = "published";
 	
@@ -40,29 +55,70 @@ class CMSApplicationController extends WaxController{
 	 * action is a function within the controller then this will return false!
 	 */
 	protected function cms(){
-		//check if this is paginated
+	  /** 
+	   * pagination check
+	   */
 		if($page = Request::get('page')) $this->this_page = $page;
-		//add preview bar to output
+		/**
+		 * preview system, if its set then add the filter to the front end display and 
+		 * set the internal
+		 */
 		if(Request::get("preview"))
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		//method exists check
 		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
 		if(!$this->use_format) $this->use_format="html";
-		//get the content!
-		$this->find_contents_by_path();
-
-		//set the view
-		$this->pick_view();
-		//set the action
-		if($this->cms_content) {
-			$this->action = "cms_content";
-			$this->build_crumb();
-		}
-		//incremeant the page views counter
-    if($this->is_page() && Config::get('count_pageviews')) $this->cms_content->add_pageview();
-		//you've found a page, but no section (this happens for pages within the home section as technically there is no 'home' in the url stack)
-		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
-
+		//find the raw stack to check
+		$this->raw_stack = WaxUrl::$params;
+		//process the stack to remove some parts
+		$this->cms_stack = $this->cms_stack($this->raw_stack);
+		/**
+		 * find the language
+		 * - if we have more than 1 language, go looking for it
+		 * - otherwise shift the first one off
+		 */
+		if(count(array_keys($this->languages)) > 1) list($this->cms_language_id, $this->cms_stack) = $this->cms_language(Request::param($this->language_param), $this->cms_stack, $this->languages);
+		else $this->cms_language_id = array_shift(array_keys($this->languages));
+		//set the session
+		Session::set("wildfire_language_id", $this->cms_language_id);
+	  
+    
+	}
+	protected function cms_stack($stack){
+	  unset($stack['route'],$stack['controller'],$stack['action'],$stack['id'],$stack[0], $stack['page']);
+		return $stack;
+	}
+	/**
+	 * go over the url and look for possible languages from the languages array
+	 * - returns an array containing id as first item, stack as second
+	 */
+	protected function cms_language($request_lang, $stack, $languages){
+	  /**
+	   * - if request_lang is present and is a key on the languages array, return that value
+	   * - if its a word, then match it against each languages allowed urls
+	   * - otherwise check the stack for a part that matches a languages url
+	   * - all else fails, return the first language in the language array
+	   */
+	  if($request_lang && $languages[$request_lang]) return array($request_lang, $stack);
+	  elseif(is_string($request_lang)){
+	    foreach($languages as $lang_id => $info) foreach((array)$info['urls'] as $url) if($url == $request_lang) return array($lang_id, $stack);
+	  }else{
+	    //stack
+	    foreach($stack as $stack_pos => $url){
+	      //compare this part of the stack to the languages
+	      foreach($languages as $lang_id=>$info){
+	        //check if any of this languages matches the stack, if it does, return
+	        foreach($info['url'] as $possible_match){
+	          if($possible_match == $url){
+	            unset($stack[$stack_pos]); //remove it from the stack
+	            return array($lang_id, $stack);
+            }
+          }
+	      }
+      }
+	  }
+	  if(($id = Session::get('wildfire_language_id')) && $languages[$id]) return $id;
+	  else return array_shift(array_keys((array)$languages));
 	}
 	
 	/**
