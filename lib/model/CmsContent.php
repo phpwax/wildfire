@@ -17,7 +17,6 @@ class CmsContent extends WaxModel {
 		$this->define("pageviews", "IntegerField", array('maxlength'=>11, "editable"=>false));
 		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
 		$this->define("images", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order"));
-		$this->define("section", "ForeignKey", array('target_model'=>'CmsSection'));
 		$this->define("author", "ForeignKey", array('target_model'=>'WildfireUser', 'col_name'=>"author_id", "identifier"=>"fullname"));
 		$this->define("more_content", "HasManyField", array('target_model'=>"CmsExtraContent", 'join_field'=>"cms_content_id",'editable'=>false, "eager_loading"=>true));
 		$this->define("comments", "HasManyField", array('target_model'=>"CmsComment", 'join_field'=>"attached_id",'editable'=>false));
@@ -48,10 +47,7 @@ class CmsContent extends WaxModel {
 	public function page_status() {
 		return $this->status_options[$this->status];
 	}
-	public function sections() {
-		$section = new CmsSection;
-		return $section->all();
-	}
+
 	public function section_name() {
 		return $this->section->title;
 	}
@@ -157,10 +153,7 @@ class CmsContent extends WaxModel {
 		if($this->expires > 0) return date('d/m/Y', strtotime($this->expires));
 		else return false;
 	}
-	public function avoid_section_url_clash() {
-	  $section = new CmsSection;
-	  if($section->filter(array('url'=>$this->url))->first() ) $this->url= $this->url."-info";
-	}
+
 	public function avoid_url_clash(){
 		$test_url = $original_url = $this->url;
 		$model = new CmsContent();

@@ -13,7 +13,6 @@ class WildfireUser extends WaxModel {
     $this->define("email", "CharField");
     $this->define("password", "PasswordField");
     
-    $this->define("allowed_sections", "ManyToManyField", array('target_model' => 'CmsSection'));
     $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class', 'join_field' => 'wildfire_user_id', 'eager_loading' => true));
   }
 
@@ -34,10 +33,8 @@ class WildfireUser extends WaxModel {
   	return $allowed_section_ids;
 	}
 	
-	public function allowed_sections_model(){
-	  $sections = new CmsSection();
-		if($ids = $this->allowed_sections_ids()) $sections->filter(array("id"=>$ids));
-  	return $sections;
+	public function allowed_sections_model(){	 
+  	return false;
 	}
 	
 	public function fetch_permissions(){

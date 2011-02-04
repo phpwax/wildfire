@@ -78,12 +78,7 @@ class CMSAdminUserController extends AdminComponent {
 	**/
 	public function add_section() {
 	  $this->use_layout = false;
-		$this->model = new $this->model_class(WaxUrl::get("id"));
-		$section = new CmsSection(substr($_POST["id"], 4));
-		$this->model->allowed_sections = $section;
-		$sect = new CmsSection;
-		$this->all_sections = $sect->all();
-		$this->use_view = "_list_sections";
+		
 	}
 	/**
 	* Ajax function - removes an association between a section and a user
@@ -91,12 +86,7 @@ class CMSAdminUserController extends AdminComponent {
 	**/
 	public function remove_section() {
 		$this->use_layout=false;
-		$this->model = new $this->model_class(WaxUrl::get("id"));
-		$section = new CmsSection(Request::get("sect"));
-		$this->model->allowed_sections->unlink($section);
-		$sect = new CmsSection;
-		$this->all_sections = $sect->all();
-		$this->use_view = "_list_sections";
+		
 	}
 	
 	public function add_permission(){

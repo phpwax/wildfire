@@ -20,7 +20,7 @@ class CMSAdminHomeController extends AdminComponent {
 	
 	public static $permissions = array("stats");
 	
-	public $search_models = array("sections"=>"CmsSection","content"=>"CmsContent");
+	public $search_models = array("content"=>"CmsContent");
 	public $search_limit = 8;
 	/**
 	* As the home page of the admin area has no sub nav, this clears the links
