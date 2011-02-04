@@ -18,8 +18,16 @@ class CMSApplicationController extends WaxController{
 	public $languages = array(0=>"english");
 	public $content_model = "CmsContent";
 	public $content_scope = "published";
-	public $section_model = "CmsSection";
-	public $exclude_default_content = false; //this can be used in the cms_list / nav to check if you should show the default content
+	
+	public $raw_stack = array(); //stack from waxurl
+	public $cms_stack = array(); //stack of the url
+	public $cms_obj_stack = array(); //stack of objects found
+	public $cms_content = false;
+	public $cms_model = false;
+	
+	public $previewing = false;
+		
+	public $cms_view = "";
 
 	//default action when content/section is found
 	public function cms_content() {}
@@ -56,6 +64,7 @@ class CMSApplicationController extends WaxController{
 		if($this->is_page() && $this->cms_content->id && !$this->cms_section) $this->cms_section = $this->cms_content->section;
 
 	}
+	
 	/**
 	 * Using the route array this function:
 	 *  - creates a stacking order,
@@ -66,64 +75,14 @@ class CMSApplicationController extends WaxController{
 	 * If the initial stack has something left in it (ie a content url) look for that or look for all content in the section
 	 */
 	protected function find_contents_by_path(){
-		//use the full url params to create the stack to look though
-		if(!$stack = WaxUrl::get("route_array")) $stack = $this->route_array; //use the WaxUrl route array, revert to old controller->route_array otherwise
-		unset($stack['route']);
-		unset($stack['controller']); //remove the controller as this is set by the app, so dont want to look for this as a section
-		$permalink = str_replace(".".$this->use_format, "", $_SERVER['REQUEST_URI']);
-		if(!$this->find_by_permalink(rtrim($permalink,"/"))){
-			foreach($stack as $key => $url){
-				//check the formatting - if found then it removes the extension
-			  if($key === "format"){
-					$this->set_formatting($url);
-					unset($stack[$key]);
-				}elseif($url && $this->find_section(str_replace(".".$this->use_format, "", $url), $this->cms_section->id)){ 	//only check numeric keys, ie not page or search terms && check its a section
-					$this->section_stack[] = $url;
-					unset($stack[$key]);
-				}elseif(!$url) unset($stack[$key]);
-			}
-			//if theres something left in the stack, find the page
-			if(count($stack)) $this->find_content(end($stack));
-			//otherwise this is a section, so find all content in the section
-			else $this->find_content(false);
-		}
+		
 	}
 
 	protected function find_by_permalink($link){
-		$model = new $this->content_model();
-		if($found = $model->scope($this->content_scope)->filter("permalink", $link)->first()){
-			$this->cms_content = $found;
-			$this->cms_section = new $this->section_model($found->section->primval);
-			foreach($this->cms_section->path_from_root() as $parent) $this->section_stack[] = $parent->url;
-			return true;
-		}else return false;
+		
 	}
 
-	/**
-	 * Takes the url passed in and tries to find a section with a matching url
-	 * - if finds one, set the cms_section & return true
-	 * - if it finds more than one, then reverse stack, traverse back looking for matching parents & return true
-	 * - return false
-	 * @param String $url
-	 * @return Boolean
-	 */
-	protected function find_section($url, $parent=false){
-		$section = new $this->section_model;
-		if($parent) $section->filter(array('parent_id'=>$parent));
-		$res = $section->filter(array('url'=>$url))->all();
-		if(count($res)==1){
-			$this->cms_section = $res[0];
-			return true;
-		}elseif(count($res)>1){
-			$stack = array_reverse($this->section_stack);
-			//if empty, add home section
-			if(!count($stack)) $stack[] = "home";
-			foreach($res as $result){
-				if($result->parent->url == $stack[0]) $this->cms_section = $result;
-			}
-			return true;
-		}else return false;
-	}
+	
 	/**
 	 * big monster that finds content
 	 * - if the url exists (ie not false) then find content in following priority
@@ -138,55 +97,9 @@ class CMSApplicationController extends WaxController{
 	 * @param string $url
 	 */
 	protected function find_content($url){
-		$content = new $this->content_model();
-	  if($def_page = $this->cms_section->default_page) $content->filter("id", $def_page->id, "!=");
-		if($url){
-	    if(!($this->cms_content = $content->scope($this->content_scope)->filter('url',$url)->filter('cms_section_id', $this->cms_section->primval)->first())) //first look inside the section
-			  $this->cms_content = $content->clear()->scope($this->content_scope)->filter('url', $url)->first(); //then look anywhere for the matched url
-		  if((count($this->languages) > 1) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id] && $this->cms_content){ //look for another language version
-	      $lang_content = $content->clear()->scope($this->content_scope)->filter("status",6)->filter(array("preview_master_id"=>$this->cms_content->primval,"language"=>$lang_id))->first();
-	      if($lang_content) $this->cms_content = $lang_content;
-		  }
-
-  		if(Request::get("preview") && $this->is_admin_logged_in()){
-  		  if($this->cms_content && $this->cms_content->primval){
-  		    $this->cms_content = $content->clear()->filter("preview_master_id", $this->cms_content->primval)->first();
-  		  } else {
-  		    $this->cms_content = $content->clear()->filter("status", array(0,1,4))->filter("url", $url)->order("id DESC")->first();
-  		  }
-      }
-      if(!$this->cms_content && !$this->cms_content->primval) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
-		}else{
-			$filter = array('cms_section_id' => $this->cms_section->id);
-			if(!$this->this_page) $this->cms_content = $content->scope($this->content_scope)->filter($filter)->all();
-			else $this->cms_content = $content->scope($this->content_scope)->filter($filter)->page($this->this_page, $this->per_page);
-		}
-		if(!$this->cms_section && !$this->cms_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
-	  if(!$this->cms_content->primval && $url) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+		
 	}
 
-
-	/**
-	 * this function creates an internal crumb trail array, can be used for navigation etc
-	 */
-	protected function build_crumb(){
-		$this->crumbtrail[] = array('url'=>'/','display'=>'Home');
-		if($this->cms_section->id) $path_to_root = $this->cms_section->path_from_root();
-		else $path_to_root = array();
-		foreach($path_to_root as $section) $this->crumbtrail[] = array("url"=>$section->permalink, "display"=>$section->title);
-		if($this->is_page()) $this->crumbtrail[] = array('url'=>$this->cms_content->permalink, 'display'=>$this->cms_content->title);
-	}
-
-
-	/**
-	 * Uses the url passed in to determine what format, returns modified string
-	 * @param string $url
-	 * @return string $url
-	 */
-	protected function set_formatting($url){
-    $this->use_format=$url;
-		return $url;
-	}
 
 	public function change_language() {
 	 $lang_id = Request::get("id");
@@ -239,15 +152,7 @@ class CMSApplicationController extends WaxController{
     $img->show($size);
   }
 
-	/**
-	 * check to see if the cms_content var is indeed a page
-	 * @return void
-	 * @author charles marshall
-	 */
-	protected function is_page() {
-	  if($this->cms_content instanceof $this->content_model) return true;
-	  return false;
-	}
+	
 	/**
 	 * decides what view should be used - has a more to less specific priority
 	 * also switches the layout to a language specific one, if it exists
@@ -256,39 +161,7 @@ class CMSApplicationController extends WaxController{
 	 * - cms_[list|page][_language]
 	 */
 	protected function pick_view() {
-	  $sections = array_reverse($this->section_stack);
-	  if($this->is_page()) $type = "page";
-	  else $type = "list";
-	  $this->use_view = "cms_".$type;
-	  //if languages exist check for generics with language attached
-	  if($has_language = (count($this->langauges > 1)) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id]){
-	    $language_suffix = "_".$this->languages[$lang_id];
-	    if(!$this->use_format && $this->is_viewable($this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
-	  	if($this->is_viewable($this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
-	    if(!$this->use_format && $this->is_viewable($this->controller."/".$this->use_view.$language_suffix)) $this->use_view .= $language_suffix;
-	  	if($this->is_viewable($this->controller."/".$this->use_view.$language_suffix, $this->use_format)) $this->use_view .= $language_suffix;
-    }
-
-	  foreach($sections as $section) {
-	    $view = "cms_".$section."_".$type;
-	    $check_view = $this->controller."/".$view;
-	    if(!$this->use_format && $this->is_viewable($check_view)) $this->use_view = $view;
-	  	if($this->is_viewable($check_view, $this->use_format)) $this->use_view = $view;
-  		if($has_language){
-  	    if(!$this->use_format && $this->is_viewable($check_view.$language_suffix)) $this->use_view = $view.$language_suffix;
-  	  	if($this->is_viewable($check_view.$language_suffix, $this->use_format)) $this->use_view = $view.$language_suffix;
-  	  }
-	  }
-
-		if($this->is_page() && $this->is_viewable($this->controller."/cms_".$this->cms_content->url."_".$type,$this->use_format) ) $this->use_view = "cms_".$this->cms_content->url."_".$type;
-		if($has_language){
-  		if($this->is_page() && $this->is_viewable($this->controller."/cms_".$this->cms_content->url."_".$type.$language_suffix,$this->use_format) ) $this->use_view = "cms_".$this->cms_content->url."_".$type.$language_suffix;
-  	}
-
-		if($has_language){
-      if(!$this->use_format && is_readable(VIEW_DIR."layouts/".$this->use_layout."_".$this->languages[$lang_id])) $this->use_layout .= "_".$this->languages[$lang_id];
-  	  if(is_readable(VIEW_DIR."layouts/".$this->use_layout."_".$this->languages[$lang_id].".".$this->use_format)) $this->use_layout .= "_".$this->languages[$lang_id];
-	  }
+	  
 	}
 
 	/**
