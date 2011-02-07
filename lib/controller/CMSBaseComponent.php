@@ -8,10 +8,9 @@
 class CMSBaseComponent extends WaxController {
 
 	public $allowed_modules = array(); //all available modules for this user (ie this is just top level name)
-	public $allowed_permissions = array(); //all available modules for this user (this is all permissions)
 	public $module_name = null;	//the name of this module
 	public $model = false;	//the actuall database model to use
-	public $model_class; //the class name - ie CmsContent
+	public $model_class; //the class name - ie WildfireContent
 	public $model_scope;
 	public $redirects = array('unauthorised'=> "/admin/login",
 	                          'authorised' => "/admin/home/",
