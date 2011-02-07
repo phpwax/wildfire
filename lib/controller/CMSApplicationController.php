@@ -37,7 +37,7 @@ class CMSApplicationController extends WaxController{
 	public function cms_page() {}
 
 	/**
-   *
+   * 
 	 */
 	protected function cms(){
 	  /** 
@@ -86,19 +86,29 @@ class CMSApplicationController extends WaxController{
     /**
      * setup the layout
      */
-    if($this->cms_layout && is_readable(VIEW_DIR."layouts/".$this->cms_layout.".".$this->use_format)) $this->use_application = $this->cms_layout;
-    else $this->use_layout = $this->cms_default_layout;
+    if($this->cms_layout = $this->cms_layout($this->cms_stack)) $this->use_layout = $this->cms_layout;
+    else throw new WaxException("No layout found", "Page not found", "404");
     /**
      * finally, set the action to the default cms one
      */
-    
-    //$this->use_view = $this->cms_view($this->cms_stack, $this->cms_language_id);
-    //$this->use_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id);
+    $this->action = $this->cms_action;
 	}
-	
 	/**
+	 * go over the stack checking for applications that match, like view
+	 */
+	protected function cms_layout($stack){
+	  $accumulated = $base = "layouts/".$this->cms_default_layout;
+	  $layouts = array($base);
+	  foreach($stack as $item){
+	    $accumulated .= "_".$item;
+	    $layouts[] = $base."_".$item;
+	    $layouts[] = $accumulated;
+	  }
+	  foreach(array_reverse($layouts) as $layout) if(is_readable(VIEW_DIR.$layout.".".$this->use_format)) return basename($layout);
+	  return false;
+	}
+	/** 
 	 * from the stack and language id passed in, look for a suitable view
-	 * cms_URL_[_language_]page
 	 */
 	protected function cms_view($stack){
 	  $accumulated = "";
@@ -112,12 +122,9 @@ class CMSApplicationController extends WaxController{
 	  foreach(array_reverse($views) as $view) if($this->is_viewable($view, $this->use_format)) return $view;
 	  return false;
 	}
-	
 	/**
-	 * 
-	 * 
-	 * 
-	 */
+	 * use the cms_url_map to find a url that matches 
+   */
 	protected function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
@@ -125,7 +132,9 @@ class CMSApplicationController extends WaxController{
 	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first() ) return $this->map_to_content($found);
 	  return false;
 	}
-	
+	/**
+	 * split out what to do for a map object
+	 */
 	protected function map_to_content($map){
 	  if($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
 	  elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
