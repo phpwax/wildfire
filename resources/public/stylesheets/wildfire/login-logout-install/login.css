@@ -1,0 +1,55 @@
+#adminlogin{
+  background:#F15623;
+}
+  #adminlogin body{
+    background:url('/images/wildfire/login-background.jpg') no-repeat top left;
+    padding:100px 0 100px 254px;
+    width:310px;
+    margin:auto;
+  }
+  
+  #adminlogin h1{
+    margin:0 20px 10px 20px;
+    padding:10px 0;
+    width:260px;
+    height:88px;
+    background:url('/images/wildfire/logo.png') no-repeat center center;
+  }
+    #adminlogin h1 span{display:none;}
+  
+  #adminlogin form{
+    margin:0 20px;  
+    padding-bottom:190px;  
+  }
+    
+    #adminlogin form label{
+      font-size:108%;
+      display:block;
+      color:white;
+      font-weight:bold;
+      text-transform:uppercase;
+      margin-bottom:5px;
+    }
+    
+    #adminlogin form .text_field{
+      font-size:108%;
+      display:block;
+      padding:3px 5px;
+      width:90%;
+      margin-bottom:5px;
+    }
+    
+    #adminlogin .submit_field{
+      margin-top:10px;
+      font-size:108%;
+      display:block;
+      padding:10px 5px;
+      background:#F89E1E;
+      border:0;
+      color:white;
+      font-weight:bold;
+      display:block;
+      width:96%;
+      text-align:center;
+      text-transform:uppercase;
+    }

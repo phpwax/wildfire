@@ -1,0 +1,14 @@
+.user_information, .user_messages, .user_confirmation {
+	color:#333333;
+	background:#EEE877;
+	padding:10px;
+	border:1px solid #E8EE39;
+	margin:10px;
+}
+.user_errors {
+	color:#333333;
+	background:#ffd1d1;
+	padding:10px;
+	margin:10px;
+	border:1px solid #ff9494;
+}
