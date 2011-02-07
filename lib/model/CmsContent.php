@@ -15,19 +15,17 @@ class CmsContent extends WaxTreeModel {
 		$this->define("modified_date", "DateTimeField", array("editable"=>false));
 		$this->define("created_date", "DateTimeField", array("editable"=>false));
 		
-		$this->define("language", "IntegerField", array("editable"=>false));
-		$this->define("url", "CharField", array('maxlength'=>255, "editable"=>false));
-		
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		
 		$this->define("meta_description", "TextField");
 		$this->define("meta_keywords", "TextField");
-		
-		$this->define("permalink", "CharField");
-		
+				
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order"));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
-
+		
+		//these are here just for simplicity so dont have to cross joins all the time
+		$this->define("language", "IntegerField", array("editable"=>false));
+		$this->define("permalink", "CharField");
 	}
 		
 
