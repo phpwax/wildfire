@@ -2,7 +2,7 @@
   background:#F15623;
 }
   #admininstall body{
-    background:url('/images/wildfire/login-background.jpg') no-repeat top left;
+    background:url('/images/wildfire/backgounds/login.jpg') no-repeat top left;
     padding:100px 0 100px 254px;
     width:310px;
     margin:auto;
@@ -13,7 +13,7 @@
     padding:10px 0;
     width:260px;
     height:88px;
-    background:url('/images/wildfire/logo.png') no-repeat center center;
+    background:url('/images/wildfire/logos/white.png') no-repeat center center;
   }
     #admininstall h1 span{display:none;}
   
