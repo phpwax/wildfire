@@ -16,7 +16,7 @@ class CMSApplicationController extends WaxController{
   public $language_param = "language";
 	public $cms_language_id = false;
 
-	public $cms_mapping_class = "CmsUrlMap";
+	public $cms_mapping_class = "WildfireUrlMap";
 	public $cms_live_scope = "live";
 	public $cms_preview_scope = "preview";
 
