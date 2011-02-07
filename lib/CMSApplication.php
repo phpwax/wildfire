@@ -40,15 +40,8 @@ class CMSApplication {
 		self::$modules[$name] = $values;
 	}
 	
-	static public function get_modules($for_display=false, $usergroup=false) {
-		if(!$for_display) return self::$modules;
-		else{
-			$modules = self::$modules;
-			foreach($modules as $name => $settings){
-				if($settings['dont_display'] || ($settings['auth_level'] > $usergroup )) unset($modules[$name]);
-			}
-			return $modules;
-		}
+	static public function get_modules($for_display=false) {
+    return self::$modules;		
 	}
 	
 	static public function get_module($name) {
