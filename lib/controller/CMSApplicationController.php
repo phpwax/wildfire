@@ -9,43 +9,43 @@
 
 class CMSApplicationController extends WaxController{
 
- 
+
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
 
   public $language_param = "language";
 	public $cms_language_id = false;
-	
+
 	public $cms_mapping_class = "CmsUrlMap";
-	public $cms_live_scope = "live";	
+	public $cms_live_scope = "live";
 	public $cms_preview_scope = "preview";
-	
+
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
 	public $cms_content = false;
-	
+
 	public $previewing = false;
-		
+
 	public $cms_view = "";
 	public $cms_default_view = "cms_view";
 	public $cms_layout = "";
 	public $cms_default_layout = "application";
-	
+
 	public $cms_action = "cms_page";
 
 	//default action
 	public function cms_page() {}
 
 	/**
-   * 
+   *
 	 */
 	protected function cms(){
-	  /** 
+	  /**
 	   * pagination check
 	   */
 		if($page = Request::get('page')) $this->this_page = $page;
 		/**
-		 * preview system, if its set then add the filter to the front end display and 
+		 * preview system, if its set then add the filter to the front end display and
 		 * set the internal var & change the scope
 		 */
 		if(Request::get("preview")){
@@ -80,13 +80,13 @@ class CMSApplicationController extends WaxController{
 	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
     /**
      * find a matching view for the page, otherwise throw an error
-     */    
-    if($this->cms_view = $this->cms_view($this->cms_stack)) $this->use_view = $this->cms_view;
+     */
+    if($this->cms_view = $this->cms_view($this->cms_stack, $this->cms_language_id)) $this->use_view = $this->cms_view;
     else throw new WaxException("No view found", "Page not found", "404");
     /**
      * setup the layout
      */
-    if($this->cms_layout = $this->cms_layout($this->cms_stack)) $this->use_layout = $this->cms_layout;
+    if($this->cms_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id)) $this->use_layout = $this->cms_layout;
     else throw new WaxException("No layout found", "Page not found", "404");
     /**
      * finally, set the action to the default cms one
@@ -96,39 +96,49 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * go over the stack checking for applications that match, like view
 	 */
-	protected function cms_layout($stack){
+	protected function cms_layout($stack, $language_id){
 	  $accumulated = $base = "layouts/".$this->cms_default_layout;
 	  $layouts = array($base);
+	  //if the stack is empty, push home to it so has a custom view for home pages
+	  if((count($stack) == 0)) $stack[] = "home";
+	  //if there is one thing in the stack, and it is an allowed language, push that to the stack
+	  else if(count($stack)==1 && ($key = array_shift(array_keys($stack))) && CMSApplication::$languages[$language_id] && CMSApplication::$languages[$language_id]['url'] == $stack[$key]) $stack[] = "home";
 	  foreach($stack as $item){
 	    $accumulated .= "_".$item;
 	    $layouts[] = $base."_".$item;
 	    $layouts[] = $accumulated;
 	  }
+	  $layouts = array_unique($layouts);
 	  foreach(array_reverse($layouts) as $layout) if(is_readable(VIEW_DIR.$layout.".".$this->use_format)) return basename($layout);
 	  return false;
 	}
-	/** 
+	/**
 	 * from the stack and language id passed in, look for a suitable view
 	 */
-	protected function cms_view($stack){
+	protected function cms_view($stack, $language_id){
 	  $accumulated = "";
 	  $base = $this->controller ."/cms_%s%view";
 	  $views = array($this->controller."/".$this->cms_default_view);
+	  //if the stack is empty, push home to it so has a custom view for home pages
+	  if((count($stack) == 0)) $stack[] = "home";
+	  //if there is one thing in the stack, and it is an allowed language, push that to the stack
+	  else if(count($stack)==1 && ($key = array_shift(array_keys($stack))) && CMSApplication::$languages[$language_id] && CMSApplication::$languages[$language_id]['url'] == $stack[$key]) $stack[] = "home";
 	  foreach($stack as $item){
 	    $accumulated .= $item."_";
 	    $views[] = str_replace("%s%", $item."_", $base);
-	    $views[] = str_replace("%s%", $accumulated, $base);
+      $views[] = str_replace("%s%", $accumulated, $base);
 	  }
+	  $views = array_unique($views);
 	  foreach(array_reverse($views) as $view) if($this->is_viewable($view, $this->use_format)) return $view;
 	  return false;
 	}
 	/**
-	 * use the cms_url_map to find a url that matches 
+	 * use the cms_url_map to find a url that matches
    */
 	protected function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
-	  $model = new $model_class($model_scope); 
+	  $model = new $model_class($model_scope);
 	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first() ) return $this->map_to_content($found);
 	  return false;
 	}
@@ -171,8 +181,8 @@ class CMSApplicationController extends WaxController{
 	  }
 	  return array_shift(array_keys((array)$languages));
 	}
-	
-	
+
+
 	/**
 	 * this function adds a preview bar to the top of content, so that users won't be confused that their preview differs from the live content
 	 *
@@ -188,9 +198,9 @@ class CMSApplicationController extends WaxController{
 	  return $buffer_contents;
 	}
 
-	
-	
-  /** 
+
+
+  /**
    * SHOW IMAGE - USED EVERYWHERE!
    */
 	public function show_image() {
@@ -240,7 +250,7 @@ class CMSApplicationController extends WaxController{
 
   /**
    * FILE UPLOADER
-   * 
+   *
    */
   public function file_upload() {
 	  if($urldecode = post("upload_from_url")) {
@@ -378,7 +388,7 @@ class CMSApplicationController extends WaxController{
       if(strstr($header['Content-Type:'], "html")) $html_email = array('header'=>$headers[0], 'body'=>$c);
       else $text_email = array('header'=>$headers[0], 'body'=>$c);
     }
-    
+
     if($text_email) $email = $text_email;
     else if($html_email) $email = $html_email;
     if(!$email){
@@ -389,7 +399,7 @@ class CMSApplicationController extends WaxController{
 
     $new_email = array('body'=>$email['body']);
     foreach($email['headers'] as $k=>$v) $new_email['header'][str_replace(":", "", str_replace("=", "",strtolower($k)))] = $v;
-    
+
     if($email && $this->wildfire_email_post_process($new_email)) echo "content created";
     else echo "error creating content";
     exit;
