@@ -83,6 +83,13 @@ class CMSApplicationController extends WaxController{
      */    
     if($this->cms_view = $this->cms_view($this->cms_stack)) $this->use_view = $this->cms_view;
     else throw new WaxException("No view found", "Page not found", "404");
+    /**
+     * setup the layout
+     */
+    if($this->cms_layout && is_readable(VIEW_DIR."layouts/".$this->cms_layout.".".$this->use_format)) $this->use_application = $this->cms_layout;
+    else $this->use_layout = $this->cms_default_layout;
+    /**
+     * finally, set the action to the default cms one
      */
     
     //$this->use_view = $this->cms_view($this->cms_stack, $this->cms_language_id);
