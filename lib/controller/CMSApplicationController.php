@@ -63,8 +63,6 @@ class CMSApplicationController extends WaxController{
 		 */
 		if(count(array_keys(CMSApplication::$languages)) > 1) list($this->cms_language_id, $this->cms_stack) = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
-		//set the session
-		Session::set("wildfire_language_id", $this->cms_language_id);
 	  /**
 	   * use the modified stack to find content
 	   * - try with the set language
@@ -101,14 +99,22 @@ class CMSApplicationController extends WaxController{
 	protected function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/");
-	  $model = new $model_class($model_scope);
-	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first()){
-	    if($found->destination_url) $this->redirect_to($found->destination_url."?utm_source=".$found->origin_url."&utm_campaign=".$found->title."&utm_medium=Web Redirect", "http://", $found->header_status);
-	    elseif(($model = $found->destination_model) && ($model_id = $found->destination_id) ) return new $model($model_id);
+	  $model = new $model_class();	  
+	  //if theres more than one language, then also check for urls with the language parameter in it
+	  if((count(CMSApplication::$languages) > 1) && ($lang = CMSApplication::$languages[$language_id]) && count($lang['urls']) ){
+	    foreach($lang['urls'] as $url){
+	      $link = "/".$url.$permalink;
+	      if($found = $model->clear()->scope($model_scope)->filter("origin_url", $link)->filter("language", $language_id)->first()) return $this->map_to_content($found);
+	    }
 	  }
+	  if($found = $model->clear()->scope($model_scope)->filter("origin_url", $permalink)->filter("language", $language_id)->first() ) return $this->map_to_content($found);
 	  return false;
 	}
 	
+	protected function map_to_content($map){
+	  if($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
+	  elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
+	}
 	/**
 	 * unset key elements from the stack (controller etc)
 	 */
@@ -136,7 +142,7 @@ class CMSApplicationController extends WaxController{
 	      //compare this part of the stack to the languages
 	      foreach($languages as $lang_id=>$info){
 	        //check if any of this languages matches the stack, if it does, return
-	        foreach($info['url'] as $possible_match){
+	        foreach($info['urls'] as $possible_match){
 	          if($possible_match == $url){
 	            unset($stack[$stack_pos]); //remove it from the stack
 	            return array($lang_id, $stack);
@@ -145,8 +151,7 @@ class CMSApplicationController extends WaxController{
 	      }
       }
 	  }
-	  if(($id = Session::get('wildfire_language_id')) && $languages[$id]) return array($id, $stack);
-	  else return array(array_shift(array_keys((array)$languages)), $stack);
+	  return array(array_shift(array_keys((array)$languages)), $stack);
 	}
 	
 	
