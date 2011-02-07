@@ -16,9 +16,16 @@ class CmsUrlMap extends WaxModel{
     //start / end dates /status - these are copied over from destination model 
     $this->define("date_start", "DateTimeField");
     $this->define("date_end", "DateTimeField");
-    $this->define("status", "IntegerField", array("maxlength"=>3));
+    $this->define("status", "IntegerField", array("maxlength"=>3, 'widget'=>"SelectInput", 'choices'=>array("Draft/Revision", "Live")) );
     //allo for custom header status codes
     $this->define("header_status", "IntegerField", array('default'=>302, 'maxlength'=>5));
+  }
+  
+  public function scope_live(){
+    return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )");
+  }
+  public function scope_preview(){
+    return $this->filter("status", 2);
   }
 }
 ?>
