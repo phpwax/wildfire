@@ -1,5 +1,5 @@
 <?
-class CMSAdminLogoutController extends AdminComponent{
+class CMSAdminLogoutController extends CMSBaseComponent{
   
   public $model_class = "WildfireUser";
   public $model_scope = false;

@@ -19,6 +19,7 @@ class CMSBaseComponent extends WaxController {
 	                          );
   public $use_plugin = "cms";
 	public $display_name = 'CMS'; //display name of the module
+  public $use_layout = "admin"; //the default layout to use	
 	public $limit = 20; //the limit to use in lists
 	
   public $user_session_name = "wf_v6_user";
@@ -41,14 +42,14 @@ class CMSBaseComponent extends WaxController {
 	}
 
   protected function user_from_session($session_name="wf_v6_user"){
-    if(($id = Session::get($session_name)) && ($model = new $this->model_class($id)) && $model->primval == $id) return true;
+    if(($id = Session::get($session_name)) && ($model = new $this->model_class($id)) && $model->primval == $id) return $model;
     return false;
   }
 
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
-	private function initialise(){
+	protected function initialise(){
 	  $this->use_layout = "login";
 	}
   

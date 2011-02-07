@@ -1,5 +1,5 @@
 <?
-class CMSAdminLoginController extends AdminComponent{
+class CMSAdminLoginController extends CMSBaseComponent{
   
   public $model_class = "WildfireUser";
   public $model_scope = false;
@@ -9,10 +9,6 @@ class CMSAdminLoginController extends AdminComponent{
     $model = new $this->model_class($this->model_scope);
     $this->form = new WaxForm($model);
     if(!$model->all()->count()) $this->redirect_to($this->redirects['install']);
-    //turn off some fields
-    $this->form->firstname->editable = false;
-    $this->form->surname->editable = false;    
-    $this->form->email->editable = false;    
     
     if($model->is_posted() && ($post = Request::param($model->table)) && $post['username'] && $post['password']){
       if($found = $model->filter("password", md5($post['password']))->filter("username", $post['username'])->first() ){        
