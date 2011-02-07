@@ -33,8 +33,8 @@ class CMSApplicationController extends WaxController{
 	
 	public $cms_action = "cms_page";
 
-	//default view
-	public function view() {}
+	//default action
+	public function cms_page() {}
 
 	/**
    *
