@@ -1,6 +1,6 @@
 <?php
 
-class CmsContent extends WaxTreeModel {
+class WildfireContent extends WaxTreeModel {
   
 
 	public function setup(){
@@ -21,7 +21,7 @@ class CmsContent extends WaxTreeModel {
 		$this->define("meta_keywords", "TextField");
 				
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order"));
-		$this->define("categories", "ManyToManyField", array('target_model'=>"CmsCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
+		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
 		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser"))
 		//these are here just for simplicity so dont have to cross joins all the time
 		$this->define("language", "IntegerField", array("editable"=>false));

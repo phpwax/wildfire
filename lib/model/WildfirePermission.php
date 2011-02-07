@@ -1,5 +1,5 @@
 <?php
-class CmsPermission extends WaxModel{
+class WildfirePermission extends WaxModel{
 	public function setup(){
 	  parent::setup();
     $this->define("user", "ForeignKey", array('target_model' => 'WildfireUser'));

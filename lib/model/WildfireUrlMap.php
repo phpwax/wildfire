@@ -1,5 +1,5 @@
 <?
-class CmsUrlMap extends WaxModel{
+class WildfireUrlMap extends WaxModel{
   
   public function setup(){
     $this->define("title", "CharField", array('required'=>true));
