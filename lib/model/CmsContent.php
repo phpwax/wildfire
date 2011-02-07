@@ -7,7 +7,7 @@ class CmsContent extends WaxTreeModel {
 		$this->define("title", "CharField", array('maxlength'=>255) );
 		$this->define("excerpt", "TextField");
 		$this->define("content", "TextField");
-		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft",1=>"Published",3=>"Temporary",4=>"Preview")));
+		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live")));
 		
 		$this->define("date_start", "DateTimeField");
 		$this->define("date_end", "DateTimeField");
