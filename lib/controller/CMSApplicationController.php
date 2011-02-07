@@ -61,7 +61,7 @@ class CMSApplicationController extends WaxController{
 		 * - if we have more than 1 language, go looking for it
 		 * - otherwise shift the first one off
 		 */
-		if(count(array_keys(CMSApplication::$languages)) > 1) list($this->cms_language_id, $this->cms_stack) = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
+		if(count(array_keys(CMSApplication::$languages)) > 1) $this->cms_language_id = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
 	  /**
 	   * use the modified stack to find content
@@ -72,7 +72,7 @@ class CMSApplicationController extends WaxController{
       $this->cms_content = $content;
     }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
       $this->cms_content = $content;
-	  }//else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
     
 	  print_r($this);exit;
     /**
@@ -98,16 +98,9 @@ class CMSApplicationController extends WaxController{
 	 */
 	protected function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
-	  $permalink = "/".trim(implode("/", $stack), "/");
-	  $model = new $model_class();	  
-	  //if theres more than one language, then also check for urls with the language parameter in it
-	  if((count(CMSApplication::$languages) > 1) && ($lang = CMSApplication::$languages[$language_id]) && count($lang['urls']) ){
-	    foreach($lang['urls'] as $url){
-	      $link = "/".$url.$permalink;
-	      if($found = $model->clear()->scope($model_scope)->filter("origin_url", $link)->filter("language", $language_id)->first()) return $this->map_to_content($found);
-	    }
-	  }
-	  if($found = $model->clear()->scope($model_scope)->filter("origin_url", $permalink)->filter("language", $language_id)->first() ) return $this->map_to_content($found);
+	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
+	  $model = new $model_class($model_scope); 
+	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first() ) return $this->map_to_content($found);
 	  return false;
 	}
 	
@@ -124,7 +117,7 @@ class CMSApplicationController extends WaxController{
 	}
 	/**
 	 * go over the url and look for possible languages from the languages array
-	 * - returns an array containing id as first item, stack as second
+	 * - returns an id to use as the language
 	 */
 	protected function cms_language($request_lang, $stack, $languages){
 	  /**
@@ -134,24 +127,18 @@ class CMSApplicationController extends WaxController{
 	   * - all else fails, return the first language in the language array
 	   */
 	  if($request_lang && $languages[$request_lang]) return array($request_lang, $stack);
-	  elseif(is_string($request_lang)){
-	    foreach($languages as $lang_id => $info) foreach((array)$info['urls'] as $url) if($url == $request_lang) return array($lang_id, $stack);
+	  elseif(is_string($request_lang) ){
+	    foreach($languages as $lang_id => $info) if($info['url'] == $request_lang) return $lang_id;
 	  }else{
 	    //stack
 	    foreach($stack as $stack_pos => $url){
 	      //compare this part of the stack to the languages
 	      foreach($languages as $lang_id=>$info){
-	        //check if any of this languages matches the stack, if it does, return
-	        foreach($info['urls'] as $possible_match){
-	          if($possible_match == $url){
-	            unset($stack[$stack_pos]); //remove it from the stack
-	            return array($lang_id, $stack);
-            }
-          }
+	        if($info['url'] == $url) return $lang_id;
 	      }
       }
 	  }
-	  return array(array_shift(array_keys((array)$languages)), $stack);
+	  return array_shift(array_keys((array)$languages));
 	}
 	
 	

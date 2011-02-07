@@ -21,11 +21,11 @@ class CMSApplication {
 	public static $languages = array(
 	                          0=>array( //0 is the default language, is content with this language cannot be found, then it will revert to this
 	                              'name'=>"english", 
-	                              'urls' =>array('en') //allows for a language to have multiple url triggers (en|english|eng etc)
+	                              'url' =>''
 	                              ),
 	                          1=>array(
 	                            'name'=>"spanish",
-	                            'urls'=>array("es")
+	                            'url'=>"es"
 	                            )
 	                          );
 	
