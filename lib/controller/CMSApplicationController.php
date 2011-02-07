@@ -90,8 +90,17 @@ class CMSApplicationController extends WaxController{
 	 * from the stack and language id passed in, look for a suitable view
 	 * cms_URL_[_language_]page
 	 */
-	protected function cms_view($stack, $language_id){
-	  
+	protected function cms_view($stack){
+	  $accumulated = "";
+	  $base = $this->controller ."/cms_%s%view";
+	  $views = array($this->controller."/".$this->cms_default_view);
+	  foreach($stack as $item){
+	    $accumulated .= $item."_";
+	    $views[] = str_replace("%s%", $item."_", $base);
+	    $views[] = str_replace("%s%", $accumulated, $base);
+	  }
+	  foreach(array_reverse($views) as $view) if($this->is_viewable($view, $this->use_format)) return $view;
+	  return false;
 	}
 	
 	/**
