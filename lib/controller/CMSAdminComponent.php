@@ -10,7 +10,7 @@
 Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 
-class CMSAdminComponent extends WaxController {
+class CMSAdminComponent extends CMSBaseComponent {
 
 	public $all_modules = array(); //all available modules for this user
 	public $module_name = null;	//the name of this module										
