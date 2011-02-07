@@ -17,7 +17,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
-    
+    WaxEvent::add("cms.permission_check", function(){});
   }
 
 	/**
