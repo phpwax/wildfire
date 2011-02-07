@@ -27,6 +27,11 @@ class CMSApplicationController extends WaxController{
 	public $previewing = false;
 		
 	public $cms_view = "";
+	public $cms_default_view = "cms_view";
+	public $cms_layout = "";
+	public $cms_default_layout = "application";
+	
+	public $cms_action = "cms_page";
 
 	//default view
 	public function view() {}
