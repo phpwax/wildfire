@@ -1,0 +1,18 @@
+#logo{
+  float:left;
+  margin:10px;
+  width:177px;
+
+}
+
+#primary_navigation{
+  float:left;
+  clear:both;
+}
+
+#page_content{
+  margin-left:197px;
+  border-left:3px solid #696969;
+  padding:10px 0;
+  background:#323231;
+}
