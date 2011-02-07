@@ -75,10 +75,12 @@ class CMSApplicationController extends WaxController{
     }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
       $this->cms_content = $content;
 	  }//else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+    
 	  print_r($this);exit;
     /**
      * find a matching view for the page
-     */    
+     */
+    
     //$this->use_view = $this->cms_view($this->cms_stack, $this->cms_language_id);
     //$this->use_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id);
 	}
@@ -97,11 +99,11 @@ class CMSApplicationController extends WaxController{
 	 * 
 	 */
 	protected function content($stack, $model_class, $model_scope, $language_id){
-	  if(!$stack) $stack = array();
-	  $permalink = implode("/", $stack);
+	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
+	  $permalink = "/".trim(implode("/", $stack), "/");
 	  $model = new $model_class($model_scope);
 	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first()){
-	    if($found->destination_url) $this->redirect_to($found->destination_url."?utm_source=".$found->origin_url."&utm_campaign=".$found->name."&utm_medium=Web Redirect", "http://", $found->header_status);
+	    if($found->destination_url) $this->redirect_to($found->destination_url."?utm_source=".$found->origin_url."&utm_campaign=".$found->title."&utm_medium=Web Redirect", "http://", $found->header_status);
 	    elseif(($model = $found->destination_model) && ($model_id = $found->destination_id) ) return new $model($model_id);
 	  }
 	  return false;
