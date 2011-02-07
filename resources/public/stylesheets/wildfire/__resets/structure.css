@@ -1,13 +1,14 @@
 #logo{
   float:left;
-  margin:10px;
+  margin:10px 0;
   width:177px;
-
 }
 
 #primary_navigation{
   float:left;
   clear:both;
+  width:197px;
+  padding:10px 0;
 }
 
 #page_content{
