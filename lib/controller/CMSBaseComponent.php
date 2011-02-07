@@ -1,0 +1,58 @@
+<?php
+/**
+* Class defining basic building blocks of a CMS component
+* Uses database to provide authentication
+* @package PHP-WAX CMS
+*/
+
+class CMSBaseComponent extends WaxController {
+
+	public static $allowed_modules = array(); //all available modules for this user
+	public $module_name = null;	//the name of this module
+	public $model = false;	//the actuall database model to use
+	public $model_class; //the class name - ie CmsContent
+	public $model_scope;
+	public $redirects = array('unauthorised'=> "/admin/login",
+	                          'authorised' => "/admin/home/",
+	                          'install'=> "/admin/install/",
+	                          'logout'=>"/admin/logout"
+	                          );
+  public $use_plugin = "cms";
+	public $display_name = 'CMS'; //display name of the module
+	public $limit = 20; //the limit to use in lists
+	
+  public $user_session_name = "wf_v6_user";
+
+	function __construct($application = false, $init=true) {
+	  parent::__construct($application);
+	  if($init) $this->initialise();
+	}
+
+	public function __destruct(){
+	  $log = new WildfireLog;
+	  $log->update_attributes(array('controller'=>$this->controller,
+	                          'action'=>$this->action,
+	                          'page'=>Request::get("id"),
+	                          'param_string'=>serialize($_REQUEST),
+	                          'language'=>Request::param('lang'),
+	                          'wildfire_user_id'=>($this->current_user)?$this->current_user->primval:""
+	                          ));
+
+	}
+
+  protected function user_from_session($session_name="wf_v6_user"){
+    if(($id = Session::get($session_name)) && ($model = new $this->model_class($id)) && $model->primval == $id) return true;
+    return false;
+  }
+
+	/**
+	 * initialises authentication, default model and menu items
+	 **/
+	private function initialise(){
+	  $this->use_layout = "login";
+	}
+  
+  
+
+}
+?>
