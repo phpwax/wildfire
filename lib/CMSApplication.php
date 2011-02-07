@@ -13,7 +13,21 @@ class CMSApplication {
 	
 	static public $modules = array();
 	static public $enable_permissions = true;
-	
+	/**
+   * language in use gets set in session value - wildfire_language_id
+   * can be triggered by alternative url such as /en/xx /es/xx
+   * or by params - ?language=en / ?language=es / ?language=0
+   */
+	public static $languages = array(
+	                          0=>array( //0 is the default language, is content with this language cannot be found, then it will revert to this
+	                              'name'=>"english", 
+	                              'url' =>array('en') //allows for a language to have multiple url triggers (en|english|eng etc)
+	                              ),
+	                          1=>array(
+	                            'name'=>"spanish",
+	                            'url'=>array("es")
+	                            )
+	                          );
 	
 	/**
 	 * Lets the application know there is a module available

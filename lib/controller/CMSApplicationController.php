@@ -13,21 +13,6 @@ class CMSApplicationController extends WaxController{
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
 
-  /**
-   * language in use gets set in session value - wildfire_language_id
-   * can be triggered by alternative url such as /en/xx /es/xx
-   * or by params - ?language=en / ?language=es / ?language=0
-   */
-	public $languages = array(
-	                          0=>array( //0 is the default language, is content with this language cannot be found, then it will revert to this
-	                              'name'=>"english", 
-	                              'url' =>array('en') //allows for a language to have multiple url triggers (en|english|eng etc)
-	                              ),
-	                          1=>array(
-	                            'name'=>"spanish",
-	                            'url'=>array("es")
-	                            )
-	                          );
   public $language_param = "language";
 	public $cms_language_id = false;
 	
