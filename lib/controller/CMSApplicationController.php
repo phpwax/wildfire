@@ -16,28 +16,23 @@ class CMSApplicationController extends WaxController{
   public $language_param = "language";
 	public $cms_language_id = false;
 	
-	public $cms_model_class = "CmsContent";
-	public $cms_model_scope = "live";
+	public $cms_mapping_class = "CmsUrlMap";
+	public $cms_live_scope = "live";	
 	public $cms_preview_scope = "preview";
 	
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
-	public $cms_obj_stack = array(); //stack of objects found
 	public $cms_content = false;
 	
 	public $previewing = false;
 		
 	public $cms_view = "";
 
-	//default action when content is found
-	public function cms_view() {}
+	//default view
+	public function view() {}
 
 	/**
-	 * MAIN FUNCTION - CALL IN YOUR controller_global
-	 * This chappy uses the url to find the section & content thats appropriate by calling a bunch of others
-	 *
-	 * If the url your requesting sets an action (ie the first part of the url after the controller) and that
-	 * action is a function within the controller then this will return false!
+   *
 	 */
 	protected function cms(){
 	  /** 
@@ -52,7 +47,7 @@ class CMSApplicationController extends WaxController{
 		  //this needs to be moved to an event
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
 		  $this->previewing = true;
-		  $this->cms_model_scope = $this->cms_preview_scope;
+		  $this->cms_live_scope = $this->cms_preview_scope;
 	  }
 		//method exists check
 		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
@@ -66,45 +61,50 @@ class CMSApplicationController extends WaxController{
 		 * - if we have more than 1 language, go looking for it
 		 * - otherwise shift the first one off
 		 */
-		if(count(array_keys($this->languages)) > 1) list($this->cms_language_id, $this->cms_stack) = $this->cms_language(Request::param($this->language_param), $this->cms_stack, $this->languages);
-		else $this->cms_language_id = array_shift(array_keys($this->languages));
+		if(count(array_keys(CMSApplication::$languages)) > 1) list($this->cms_language_id, $this->cms_stack) = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
+		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
 		//set the session
 		Session::set("wildfire_language_id", $this->cms_language_id);
 	  /**
 	   * use the modified stack to find content
+	   * - try with the set language
+	   * - if cant find it, look for default language version
 	   */
-	  if($content = $this->content($this->cms_stack, $this->cms_model_class, $this->cms_model_scope, $this->cms_language_id) ){
+	  if($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, $this->cms_language_id) ){
       $this->cms_content = $content;
-    }elseif($default_lang = $this->content($this->cms_stack, $this->cms_model_class, $this->cms_model_scope, array_shift(array_keys($this->languages)) )){
-      echo "found - alt language";
-	  }else{
-	    echo "missing";
-	  }
-    exit;
+    }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
+      $this->cms_content = $content;
+	  }//else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+	  print_r($this);exit;
+    /**
+     * find a matching view for the page
+     */    
+    //$this->use_view = $this->cms_view($this->cms_stack, $this->cms_language_id);
+    //$this->use_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id);
 	}
 	
 	/**
-	 * find content matching the current stack
-	 * - check the permalink first
-	 * - otherwise loop over the stack and check each part of it
+	 * from the stack and language id passed in, look for a suitable view
+	 * cms_URL_[_language_]page
+	 */
+	protected function cms_view($stack, $language_id){
+	  
+	}
+	
+	/**
+	 * 
+	 * 
+	 * 
 	 */
 	protected function content($stack, $model_class, $model_scope, $language_id){
+	  if(!$stack) $stack = array();
 	  $permalink = implode("/", $stack);
 	  $model = new $model_class($model_scope);
-	  if($found = $model->filter("permalink", $permalink)->filter("language", $language_id)->first()){
-	    $this->cms_obj_stack[] = $found;
-	    return $found;
-	  }else{
-	    array_unshift($stack, "/");
-	    $previous = false;
-      while($url = array_shift($stack)){
-        $finder = new $model_class($model_scope);
-        if($previous) $finder->filter("parent_id", $previous);
-        if($page = $finder->filter("url", $url)->filter("language", $language_id)->first()) $this->cms_obj_stack[] = $previous = $page;
-      }
+	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first()){
+	    if($found->destination_url) $this->redirect_to($found->destination_url."?utm_source=".$found->origin_url."&utm_campaign=".$found->name."&utm_medium=Web Redirect", "http://", $found->header_status);
+	    elseif(($model = $found->destination_model) && ($model_id = $found->destination_id) ) return new $model($model_id);
 	  }
-	  if(is_array($this->cms_obj_stack) && count($this->cms_obj_stack)) return $this->cms_obj_stack[(count($this->cms_obj_stack)-1)];
-	  else return false;
+	  return false;
 	}
 	
 	/**
@@ -143,8 +143,8 @@ class CMSApplicationController extends WaxController{
 	      }
       }
 	  }
-	  if(($id = Session::get('wildfire_language_id')) && $languages[$id]) return $id;
-	  else return array_shift(array_keys((array)$languages));
+	  if(($id = Session::get('wildfire_language_id')) && $languages[$id]) return array($id, $stack);
+	  else return array(array_shift(array_keys((array)$languages)), $stack);
 	}
 	
 	
