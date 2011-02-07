@@ -12,11 +12,11 @@
 
 <body id="<?=strtolower(Inflections::underscore($display_name))?>">
 	
-  <span class="brand" id="logo">&nbsp;</span>
+  <div class="brand" id="logo"><img src="/images/wildfire/logos/small.png" alt="wildfire"></div>
   
   <ul id="primary_navigation">
     <?foreach($allowed_modules as $i=>$info):?>
-      <li class='<?=$i?><?if($i == $module_name):?> active<?endif?>'><a href="<?=$info['link']?>"><?=$info['display_name']?></a>
+      <li class='top <?=$i?>'><a href="<?=$info['link']?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a>
       </li>
     <?endforeach?>
   </ul>
