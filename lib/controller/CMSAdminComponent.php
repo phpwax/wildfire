@@ -13,19 +13,38 @@ Autoloader::register_helpers();
 class CMSAdminComponent extends CMSBaseComponent {
 
 	public $current_user=false; //the currently logged in
-  
+
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
-    WaxEvent::add("cms.permission_check", function(){});
+    
+    WaxEvent::add("cms.permissions.check_action", function() {
+      $obj = WaxEvent::$data;
+      if(!$obj->current_user->allowed(get_class($obj), $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
+    });
+    WaxEvent::run("cms.permission.check_action", $this);
+    
   }
 
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
 	protected function initialise(){
-	  if(!$this->current_user = $this->user_from_session($this->user_session_name)) $this->redirect_to($this->redirects['unauthorised']);
-	   
+	  WaxEvent::add("cms.permissions.logged_in_user", function() {
+      $obj = WaxEvent::$data;
+      if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
+    });
+    
+	  WaxEvent::add("cms.permissions.all_modules", function(){      
+	    $obj = WaxEvent::$data;
+	    foreach(CMSApplication::get_modules() as $name=>$info){
+	      $class = "CMSAdmin".Inflections::camelize($name,true)."Controller";
+	      if($obj->current_user->allowed($class, "index")) $obj->allowed_modules[$name] = $info;
+	    }
+    });
+    WaxEvent::run("cms.permissions.logged_in_user", $this);
+	  WaxEvent::run("cms.permissions.all_modules", $this);	  
+	  
 	}
 
 
