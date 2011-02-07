@@ -32,40 +32,6 @@ class CmsContent extends WaxTreeModel {
 
 
   /***** Finders for dealing with the extra_content table ******/
-	public function extra_content($name) {
-	  $model = $this;
-	  if($model->status ==4) $model = $model->master;
-    $content = $model->more_content->filter(array('name'=>$name))->first();
-    if($content->id) return $content;
-    else{
-			$extra = new CmsExtraContent;
-			$extra->name = $name;
-			$extra->cms_content_id = $this->primval;
-			return $extra;
-		}
-  }
-  
-	public function extra_content_value($name) {
-	  $model = $this;
-	  if($model->status==4) $model = $model->master;
-		return CmsTextFilter::filter("before_output", $model->more_content->filter(array('name'=>$name))->first()->extra_content);
-  }
-	
-	public function save_extra_content() {
-	  $model = $this;
-	  if($model->status ==4) $model = $model->master;
-		$attributes = $_POST["cms_extra_content"];
-		if(count($attributes)){
-			foreach($attributes as $name=>$value){
-				if(isset($value) && strlen($value)>0){
-					$model = $this->extra_content($name);
-					$model->extra_content = $value;
-					$model = $model->save();	
-				}
-			}
-		}
-  }
-
 
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
