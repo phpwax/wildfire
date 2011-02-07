@@ -13,17 +13,10 @@ class WildfireLog extends WaxModel {
     $this->define("time", "DateTimeField");
   }
 
-  public function by() {
-    return $this->user->fullname;
+  public function before_save(){
+    $this->time = date("Y-m-d H:i:s");
   }
   
-  public function action_time(){
-		return date('jS F Y @ H:i', strtotime($this->time));
-	}
-	
-	public function action_description() {
-	  return $this->controller." ".$this->action." ".$this->page;
-	}
 	
 }
 
