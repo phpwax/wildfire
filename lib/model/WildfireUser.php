@@ -13,40 +13,12 @@ class WildfireUser extends WaxModel {
     $this->define("email", "CharField");
     $this->define("password", "PasswordField");
     
-    $this->define("permissions", "HasManyField", array('target_model' => 'CmsPermission', 'join_order' => 'class', 'join_field' => 'wildfire_user_id', 'eager_loading' => true));
+    $this->define("permissions", "HasManyField", array('target_model' => 'WildfirePermission', 'join_order' => 'class', 'join_field' => 'wildfire_user_id', 'eager_loading' => true));
   }
 
-	public function fullname() {
-	  return $this->firstname." ".$this->surname;
-	}
-	
-	public function articles() {
-	  $content = new CmsContent("published");
-	  return $content->filter(array("author_id"=>$this->id))->all();
-	}
-
-	public function allowed_sections_ids(){
-	  $allowed_section_ids = array();
-	  foreach($this->allowed_sections as $section)
-	    foreach($section->tree() as $sub_section)
-	      $allowed_section_ids[] = $sub_section->primval;
-  	return $allowed_section_ids;
-	}
-	
-	public function allowed_sections_model(){	 
-  	return false;
-	}
-	
-	public function fetch_permissions(){
-	  foreach($this->permissions as $permission){
-	    $this->permissions_cache[$permission->class][$permission->operation] = $permission->allowed;
-	  }
-	}
-  
-	public function access($class, $operation){
-	  if(!CmsApplication::$enable_permissions) return true;
-	  return $this->permissions_cache[$class][$operation];
-	}
+  public function before_save(){
+    if(!$this->primval) $this->password = md5($this->password);
+  }
 	
 	
 }
