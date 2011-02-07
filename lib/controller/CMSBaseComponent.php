@@ -7,7 +7,8 @@
 
 class CMSBaseComponent extends WaxController {
 
-	public static $allowed_modules = array(); //all available modules for this user
+	public $allowed_modules = array(); //all available modules for this user (ie this is just top level name)
+	public $allowed_permissions = array(); //all available modules for this user (this is all permissions)
 	public $module_name = null;	//the name of this module
 	public $model = false;	//the actuall database model to use
 	public $model_class; //the class name - ie CmsContent
