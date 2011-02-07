@@ -9,11 +9,11 @@ class CmsContent extends WaxTreeModel {
 		$this->define("content", "TextField");
 		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft",1=>"Published",3=>"Temporary",4=>"Preview")));
 		
-		$this->define("start_date", "DateTimeField");
-		$this->define("end_date", "DateTimeField");
+		$this->define("date_start", "DateTimeField");
+		$this->define("date_end", "DateTimeField");
 		
-		$this->define("modified_date", "DateTimeField", array("editable"=>false));
-		$this->define("created_date", "DateTimeField", array("editable"=>false));
+		$this->define("date_modified", "DateTimeField", array("editable"=>false));
+		$this->define("date_created", "DateTimeField", array("editable"=>false));
 		
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		
