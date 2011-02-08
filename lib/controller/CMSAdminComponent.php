@@ -35,7 +35,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
-	protected function initialise(){
+	protected function initialise(){  
+	  
 	  WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::$data;
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
@@ -83,14 +84,11 @@ class CMSAdminComponent extends CMSBaseComponent {
 
 	public function edit(){
 	  $this->model = new $this->model_class(Request::get("id"));
-		$this->form();
 	}
 
 	public function create(){
 	  $this->model = new $this->model_class();
-  	$this->form();
 	}
-
 
   public function _handle_filters($model, $filters){
     $filterstring = "";
