@@ -1,24 +1,20 @@
-<?foreach($all_rows as $row):?>
-    <tr id="row-<?=$row->id?>">
-      <?foreach($scaffold_columns as $column=>$params):?>
-        <td class="column">
-          <?if($params["link"] && $current_user->access($module_name,"edit")):?> 
-            <a href="edit/<?=$row->id?>/"><?=$row->$column?></a>
-          <?else:?>
-          <?=$row->$column?>
-          <?endif;?>
-        </td>
-      <?endforeach?>
-      <td class="column last">
-        <?if($current_user->access($module_name,"edit")):?>
-        <div class="generic_button edit_button"><a href="edit/<?=$row->id?>/">Edit</a></div>
-        <?endif?>
-        <?if($current_user->access($module_name,"delete")):?>
-        <div class="list_button"><a href="#"></a></div>
-        <div class="list_options">
-          <div class="generic_button delete_button"><?=link_to("Delete", array("action"=>"delete", "id"=>$row->id), array("confirm"=> "Are you sure you want to do that?"))?></div>
-        </div>
-        <?endif?>
-      </td>
+<table class='data_table'>
+  <thead>
+    <tr>
+    <?foreach($scaffold_columns as $col=>$info):?>
+    <th class='<?=Inflections::underscore($col)?>'><?=Inflections::humanize($col)?></th>
+    <?endforeach?>
+    <th class='operations'></th>
     </tr>
-<?endforeach?>
+  </thead>
+  <tbody>
+  <?foreach($cms_content as $i=>$row):?>
+  <tr class='row <?=($i%2)?>' id="row_<?=$row->primval?>">
+    <?foreach($scaffold_columns as $col=>$info):?>
+    <td class='<?=$col?>'><?=((method_exists($row, "humanize"))?$row->humanize($col):$row->$col())?></td>
+    <?endforeach?>
+    <td class='operations'></td>
+  </tr>
+  <?endforeach?>
+  </tbody>
+</table>
