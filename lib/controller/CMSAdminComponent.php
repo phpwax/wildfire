@@ -84,6 +84,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
 	public function edit(){
 	  $this->model = new $this->model_class(Request::get("id"));
+	  $this->form = new WaxForm($this->model);
 	}
 
 	public function create(){
