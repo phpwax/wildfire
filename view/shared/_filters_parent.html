@@ -1,0 +1,7 @@
+<div class='parent_filter'>
+  <label for="filters_<?=$name?>">Parent:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <option value=''>-- Any --</option>
+    <?foreach((array)$possible_parents as $id=>$parent):?><option value='<?=$id?>'><?=$parent?></option><?endforeach?>
+  </select>
+</div>
