@@ -26,6 +26,7 @@ class CMSBaseComponent extends WaxController {
 	public $this_page = 1;
 	
   public $user_session_name = "wf_v6_user";
+  public $filter_fields=array();
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
