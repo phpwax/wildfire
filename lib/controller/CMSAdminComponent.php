@@ -72,7 +72,14 @@ class CMSAdminComponent extends CMSBaseComponent {
 	/**
 	* Default view - lists all model items - has shared view cms/view/shared/list.html
 	*/
-	public function index(){}
+	public function index(){
+	  WaxEvent::add("cms.index.all", function(){
+	    $obj = WaxEvent::$data;
+	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));      
+	    $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
+    });
+    WaxEvent::run("cms.index.all", $this);
+	}
 
 	public function edit(){
 	  $this->model = new $this->model_class(Request::get("id"));
