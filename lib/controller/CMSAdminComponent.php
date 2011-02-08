@@ -13,7 +13,8 @@ Autoloader::register_helpers();
 class CMSAdminComponent extends CMSBaseComponent {
 
 	public $current_user=false; //the currently logged in
-
+	//filter details
+	public $filter_partial="_filters";
 	public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text')
 	                      );
