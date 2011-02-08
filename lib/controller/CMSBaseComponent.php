@@ -11,7 +11,7 @@ class CMSBaseComponent extends WaxController {
 	public $module_name = null;	//the name of this module
 	public $model = false;	//the actuall database model to use
 	public $model_class; //the class name - ie WildfireContent
-	public $model_scope;
+	public $model_scope="admin";
 	public $redirects = array('unauthorised'=> "/admin/login",
 	                          'authorised' => "/admin/home/",
 	                          'install'=> "/admin/install/",
