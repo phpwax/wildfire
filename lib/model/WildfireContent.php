@@ -4,13 +4,13 @@ class WildfireContent extends WaxTreeModel {
   
 
 	public function setup(){
-		$this->define("title", "CharField", array('maxlength'=>255) );
+		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true) );
 		$this->define("excerpt", "TextField");
 		$this->define("content", "TextField");
-		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live")));
+		$this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live"), 'scaffold'=>true));
 		
-		$this->define("date_start", "DateTimeField");
-		$this->define("date_end", "DateTimeField");
+		$this->define("date_start", "DateTimeField", array('scaffold'=>true));
+		$this->define("date_end", "DateTimeField", array('scaffold'=>true));
 		
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
@@ -21,21 +21,22 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("meta_keywords", "TextField");
 				
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", 'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order"));
-		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id"));
-		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser"));
+		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory",'editable'=>false, "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true));
+		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true));
 		//these are here just for simplicity so dont have to cross joins all the time
 		$this->define("language", "IntegerField", array("editable"=>false));
 		$this->define("permalink", "CharField");
 	}
 		
-
-
-  /***** Finders for dealing with the extra_content table ******/
-
+		
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
+	
+	
 
+  
+  /***** Finders for dealing with the extra_content table ******/
 
   /* delete bits form join table -now handled by the field */
 	public function remove_joins($information, $value){return true;}
