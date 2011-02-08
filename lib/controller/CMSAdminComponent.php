@@ -92,6 +92,16 @@ class CMSAdminComponent extends CMSBaseComponent {
 	}
 
 
+  public function _handle_filters($model, $filters){
+    $filterstring = "";
+    foreach((array)$filters as $name=>$value){
+      if($this->filter_fields[$name]){
+        foreach($this->filter_fields[$name]['columns'] as $col) $filterstring = "`$col` LIKE '%".mysql_real_escape_string($value)."%' OR";
+      }
+    }
+    if($filterstring) $model->filter(trim($filterstring, " OR"));
+    return $model;
+  }
 
 }
 ?>
