@@ -22,7 +22,8 @@ class CMSBaseComponent extends WaxController {
   public $use_plugin = "cms";
 	public $display_name = 'CMS'; //display name of the module
   public $use_layout = "admin"; //the default layout to use	
-	public $limit = 20; //the limit to use in lists
+	public $per_page = 1; //the limit to use in lists
+	public $this_page = 1;
 	
   public $user_session_name = "wf_v6_user";
 
