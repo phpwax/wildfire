@@ -2,7 +2,7 @@
 
 class WildfireUser extends WaxModel {
 
-  public $identifier = "fullname";
+  public $identifier = "username";
   public $permissions_cache = false;
   public $enable_permissions = true;
 
