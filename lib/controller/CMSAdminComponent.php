@@ -40,12 +40,12 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::$data;
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
-    
-	  WaxEvent::add("cms.permissions.all_modules", function(){      
+
+	  WaxEvent::add("cms.permissions.all_modules", function(){
 	    $obj = WaxEvent::$data;
 	    foreach(CMSApplication::get_modules() as $name=>$info){
 	      $class = "CMSAdmin".Inflections::camelize($name,true)."Controller";
-	      if($obj->current_user->allowed($class, "index")) $obj->allowed_modules[$name] = $info;
+	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
 	    }
     });
     WaxEvent::run("cms.permissions.logged_in_user", $this);
