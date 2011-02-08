@@ -11,7 +11,7 @@
   </div>
   
   <div class='listing' id="data-listing">
-    <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns))?>
+    <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
   </div>
   
   
