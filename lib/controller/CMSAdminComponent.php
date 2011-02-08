@@ -22,13 +22,14 @@ class CMSAdminComponent extends CMSBaseComponent {
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
-    
+
     WaxEvent::add("cms.permissions.check_action", function() {
       $obj = WaxEvent::$data;
-      if(!$obj->current_user->allowed(get_class($obj), $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
+      if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
-    WaxEvent::run("cms.permission.check_action", $this);
     
+    WaxEvent::run("cms.permission.check_action", $this);
+
   }
 
 	/**
