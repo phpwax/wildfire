@@ -48,8 +48,6 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
 	    }
     });
-    WaxEvent::run("cms.permissions.logged_in_user", $this);
-	  WaxEvent::run("cms.permissions.all_modules", $this);	  
     WaxEvent::add("cms.model.pagination", function(){
       $obj = WaxEvent::$data;
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
@@ -63,6 +61,11 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
 	    }
 	  });
+	  
+    WaxEvent::run("cms.permissions.logged_in_user", $this);
+	  WaxEvent::run("cms.permissions.all_modules", $this);
+    WaxEvent::run("cms.model.pagination", $this);
+    WaxEvent::run("cms.model.column_setup", $this);
 	}
 
 
