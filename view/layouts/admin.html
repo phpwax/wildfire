@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en" id="cms-<?=Inflections::underscore($display_name)?>">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
@@ -14,16 +13,22 @@
 	
   <div class="brand" id="logo"><img src="/images/wildfire/logos/small.png" alt="wildfire"></div>
   
+  <div id="page_content" class='clearfix'>
+    <div class='clearfix full buttons_and_search'>
+    <?=partial("_buttons_and_search", array('current_user'=>$current_user))?>
+    </div>
+    
+    <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
+      <?=$content_for_layout?>
+    </div>
+  </div>
+  
   <ul id="primary_navigation">
     <?foreach($allowed_modules as $i=>$info):?>
       <li class='top <?=$i?>'><a href="<?=$info['link']?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a>
       </li>
     <?endforeach?>
   </ul>
-  
-  <div id="page_content">
-    
-  </div>
   
   
 <script src='http://www.google.com/jsapi?'  type='text/javascript'></script>
