@@ -2,18 +2,21 @@
   float:left;
   margin:10px 0;
   width:177px;
+  clear:both;
 }
 
 #primary_navigation{
   float:left;
-  clear:both;
-  width:197px;
+  width:20.8%;
   padding:10px 0;
 }
 
 #page_content{
-  margin-left:197px;
-  border-left:3px solid #696969;
-  padding:10px 0;
+  width:79%;
+  float:right;
+  border-left:2px solid #696969;
+  padding:0;
   background:#323231;
 }
+
+.full{}
