@@ -1,0 +1,15 @@
+ul.tabs{
+  display:block;
+}
+  ul.tabs li{
+    display:block;
+    float:left;
+  }
+  
+  ul.tabs li a{
+    display:block;
+    padding:9px;
+    color:white;
+    border-right:1px solid black;
+  }
+    ul.tabs li:last-child a{border-right-width:0;}
