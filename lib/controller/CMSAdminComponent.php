@@ -56,6 +56,13 @@ class CMSAdminComponent extends CMSBaseComponent {
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
 	  });
 	  
+	  WaxEvent::add("cms.model.column_setup", function(){
+	    $obj = WaxEvent::$data;
+	    if(!$obj->scaffold_columns){
+	      $model = new $obj->model_class;
+	      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
+	    }
+	  });
 	}
 
 
