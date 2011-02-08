@@ -14,6 +14,9 @@ class CMSAdminComponent extends CMSBaseComponent {
 
 	public $current_user=false; //the currently logged in
 
+	public $filter_fields=array(
+                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text')
+	                      );
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
