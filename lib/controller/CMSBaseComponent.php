@@ -13,6 +13,7 @@ class CMSBaseComponent extends WaxController {
 	public $model_class; //the class name - ie WildfireContent
 	public $model_scope="admin";
 	public $user_model_class = "WildfireUser";
+	public $possible_parents = array(); //tree content	
 	public $redirects = array('unauthorised'=> "/admin/login",
 	                          'authorised' => "/admin/home/",
 	                          'install'=> "/admin/install/",
