@@ -1,4 +1,23 @@
-<div id="top_pagiation"><?=paginate_links($all_rows, "2")?></div>
-<?=partial("_filter_block", $this)?>
-<?=partial("_list_table", $this)?>
-<div id="bottom_pagination"><?=paginate_links($all_rows, "2")?></div>
+<?if($current_user->allowed($module_name, "index")):?>
+  <div class='clearfix filters_pagination'>
+    
+    <div class='pagination pagination_top'>
+      <?=paginate_links($cms_content, "2")?>
+    </div>
+  
+  <?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
+  <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'possible_parents'=>$possible_parents ))?>
+  <?endif?>
+  </div>
+  
+  <div class='listing' id="data-listing">
+    <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns))?>
+  </div>
+  
+  
+  
+  <div class='pagination pagination_bottom'>
+    <?=paginate_links($cms_content, "2")?>
+  </div>
+  
+<?endif?>
