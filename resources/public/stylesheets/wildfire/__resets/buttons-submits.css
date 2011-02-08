@@ -1,0 +1,18 @@
+.button, .submit_field{
+  font-family:arial;
+	font-weight:bold;
+	font-size:85%;
+	color:#fff;
+	padding:9px 6px;
+	text-transform:uppercase;
+	cursor:pointer; 
+	text-decoration:none;
+}
+.button{
+  display:inline-block;
+  margin:0 10px 0 0;
+}
+.orange{
+	background:#F89E1E;
+}
+
