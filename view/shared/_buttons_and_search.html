@@ -1,0 +1,12 @@
+<?if($current_user->allowed("home", "search")):?>
+<form id="search_form" action="/admin/home/search" method="post" class='ajax-post' data-replace-html="#search_results">
+  <input type='text' value="" placeholder="QUICK CONTENT SEARCH" class='input_field text_field'>
+  <div id="search_results"></div>
+</form>
+<?endif?>
+<?if($current_user->allowed("content", "create")):?>
+<a href='/admin/content/create' title='create a new page' class='button orange content-create'><span>BUILD NEW PAGE</span></a>
+<?endif?>
+<?if($current_user->allowed("files", "index")):?>
+<a href='/admin/files/' title='manage files' class='button orange files-index'><span>MANAGE FILES</span></a>
+<?endif?>
