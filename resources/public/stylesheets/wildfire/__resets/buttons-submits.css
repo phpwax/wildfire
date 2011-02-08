@@ -12,7 +12,21 @@
   display:inline-block;
   margin:0 10px 0 0;
 }
+  .button:hover{
+    color:#fff;
+  }
 .orange{
 	background:#F89E1E;
 }
+
+.operation{
+  padding:6px 4px;
+  font-weight:normal;
+}
+  .operation_edit{
+    background:#8EA79A;
+  }
+  .operation_delete{
+    background:#FF7D86;
+  }
 

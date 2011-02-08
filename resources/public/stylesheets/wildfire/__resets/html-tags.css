@@ -5,6 +5,14 @@ h4{}
 h5{}
 h6{}
 
+a{
+  text-decoration:none;
+  color:white;
+}
+a:hover{
+  color:#AEAEAE;
+}
+
 p{}
 
 strong, b{}
