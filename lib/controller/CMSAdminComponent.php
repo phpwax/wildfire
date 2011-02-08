@@ -50,6 +50,11 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);	  
+    WaxEvent::add("cms.model.pagination", function(){
+      $obj = WaxEvent::$data;
+	    if($pg = Request::param('page')) $obj->this_page = $pg;
+      if($pp = Request::param('per_page')) $obj->per_page = $pp;
+	  });
 	  
 	}
 
