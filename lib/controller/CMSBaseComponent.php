@@ -27,6 +27,8 @@ class CMSBaseComponent extends WaxController {
 	
   public $user_session_name = "wf_v6_user";
   public $filter_fields=array();
+  
+  public $operation_actions = array('edit', 'delete');
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
