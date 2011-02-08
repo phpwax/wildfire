@@ -46,7 +46,7 @@ class CMSBaseComponent extends WaxController {
 	}
 
   public function user_from_session($session_name="wf_v6_user"){
-    if(($id = Session::get($session_name)) && ($model = new $this->model_class($id)) && $model->primval == $id) return $model;
+    if(($id = Session::get($session_name)) && ($model = new $this->user_model_class($id)) && $model->primval == $id) return $model;
     return false;
   }
 
