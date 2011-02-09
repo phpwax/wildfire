@@ -27,7 +27,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::$data;
       if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
-    
+
     WaxEvent::run("cms.permission.check_action", $this);
 
   }
@@ -35,8 +35,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
-	protected function initialise(){  
-	  
+	protected function initialise(){
+
 	  WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::$data;
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
@@ -54,7 +54,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
 	  });
-	  
+
 	  WaxEvent::add("cms.model.column_setup", function(){
 	    $obj = WaxEvent::$data;
 	    if(!$obj->scaffold_columns){
@@ -91,10 +91,14 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function index(){
 	  WaxEvent::add("cms.index.all", function(){
 	    $obj = WaxEvent::$data;
-	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));      
+	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));
 	    $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
     });
     WaxEvent::run("cms.index.all", $this);
+	}
+
+	public function create(){
+	  $this->model = new $this->model_class();
 	}
 
 	public function edit(){
@@ -114,9 +118,6 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  WaxEvent::run("cms.save", $this);
 	}
 
-	public function create(){
-	  $this->model = new $this->model_class();
-	}
 
   public function _handle_filters($model, $filters){
     $filterstring = "";
