@@ -1,0 +1,6 @@
+<?
+$class = get_class($model);
+$group = new $class;
+$cms_content = $group->filter("permalink", $model->permalink)->all();
+?>
+<?=partial("_list", array('primval'=>$model->primval, 'controller'=>$controller,'cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions))?>
