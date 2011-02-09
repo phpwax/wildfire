@@ -19,6 +19,8 @@
     </div>
     
     <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
+      <?=info_messages()?>
+      <?=error_messages()?>      
       <?=$content_for_layout?>
     </div>
   </div>
