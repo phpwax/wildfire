@@ -1,0 +1,22 @@
+.data_table .active td, .data_table .active th{
+  background:#5E5E5E;
+}
+
+.data_table th.status span{display:none;}
+.data_table td.status{
+  text-align:center;
+}
+  .data_table td.status a{
+    display:block;
+    width:10px;
+    height:10px;
+  }
+    .data_table td.status a span{
+      display:none;
+    }
+  .data_table td.live a{
+    background:green;
+  }
+  .data_table td.draftrevision a{
+    background:red;
+  }
