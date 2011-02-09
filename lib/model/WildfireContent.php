@@ -75,19 +75,15 @@ class WildfireContent extends WaxTreeModel {
     return $this->change_status(0);
   }
   //put this version of the model as being live, turn off all others
-  protected function change_status($status){
-    $class = get_class($this);
-    $model = new $class;
-    //if we find other ones that match this, turn them off
-    if($alts = $model->filter($this->primary_key, $this->primval, "!=")->filter("permalink", $this->permalink)->filter("language", $this->language)->filter("status", $status)->all()){
-      foreach($alts as $a){
-        $a->update_attributes(array('status'=>$status));
-      }
+  protected function change_status($status){    
+    //if we are putting this live, turn off all other versions
+    if($status == 1){
+      $class = get_class($this);
+      $model = new $class;
+      foreach($model->filter("permalink", $this->permalink)->filter("id", $this->primval, "!=")->filter("language", $this->language)->all() as $row) $row->update_attributes(array('status'=>0));
     }
-    //update this status for links etc
-    $this->update_attributes(array('status'=>$status));
-    
-    return $this;
+    //update this status for this model
+    return $this->update_attributes(array('status'=>$status));
   }
 
   public function url(){
