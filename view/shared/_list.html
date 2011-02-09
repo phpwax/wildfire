@@ -2,6 +2,7 @@
 $permissions = array();
 foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($module_name, $oa);
 ?>
+<?if($cms_content && $cms_content->count()):?>
 <table class='data_table'>
   <thead>
     <tr>
@@ -27,3 +28,8 @@ foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($m
   <?endforeach?>
   </tbody>
 </table>
+<?else:?>
+<table class='data_table'>
+  <tr><td>No data</td></tr>
+</table>
+<?endif?>
