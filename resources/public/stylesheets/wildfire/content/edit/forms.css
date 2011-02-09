@@ -2,8 +2,9 @@
  *
  */
 
-.WildfireContent-content{
+form fieldset div.WildfireContent-content{
   clear:both;
   margin-top:10px;
-  padding-top:10px;
+  padding:10px 0;
 }
+  form fieldset div.WildfireContent-content label{display:none;}
