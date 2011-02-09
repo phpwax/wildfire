@@ -36,6 +36,13 @@ class WildfireContent extends WaxTreeModel {
 
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
+  //shorthand functions for live & draft of content
+  public function live(){
+    return $this->change_status(1);
+  }
+  public function draft(){
+    return $this->change_status(0);
+  }
   //put this version of the model as being live, turn off all others
   protected function change_status($status){
     $class = get_class($this);
