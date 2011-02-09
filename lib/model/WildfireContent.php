@@ -40,7 +40,9 @@ class WildfireContent extends WaxTreeModel {
   }
   //after save, we need to update the url mapping
   public function after_save(){
-    $class = get_class($this);
+    //as the permalink is designed to be permanent, make sure its not set, the title is there before creatiing one
+    if(!$this->permalink && $this->primval && $this->title && ($this->permalink = $this->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
+  }
     $map = new WildfireUrlMap;
     foreach($map->filter("destination_id", $this->primval)->filter("destination_model", $class)->all() as $url){
       $url->update_attributes(array('status'=>$this->status, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language) );
