@@ -36,6 +36,9 @@ class WildfireContent extends WaxTreeModel {
 
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
+  public function before_save(){
+    if(!$this->permalink) $this->permalink = $this->generate_permalink();
+  }
   //after save, we need to update the url mapping
   public function after_save(){
     $class = get_class($this);
