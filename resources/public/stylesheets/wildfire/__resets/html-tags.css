@@ -59,3 +59,26 @@ table{width:100%;}
   }
     table th:last-child, table td:last-child;{border-right-width:0;}
     table .operations{border-right-width:0;}
+    
+form{}
+  form fieldset{
+    padding:10px 2%;
+    border-bottom:1px solid black;
+  }
+    form fieldset label{
+      text-transform:uppercase;
+      display:block;
+      width:100%;
+      font-weight:bold;
+      color:white;
+      margin-bottom:8px;
+    }
+    form fieldset .field{
+      margin-bottom:10px;
+    }
+    form fieldset .text_field, form fieldset textarea{
+      padding:4px 6px;
+      display:block;
+      width:98%;
+    }
+    form fieldset textarea{height:90px;}
