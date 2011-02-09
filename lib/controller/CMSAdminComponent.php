@@ -62,11 +62,26 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
 	    }
 	  });
-	  
+
+    WaxEvent::add("cms.save.before", function(){
+      $obj = WaxEvent::$data;
+      $obj->save_before();
+    });
+    WaxEvent::add("cms.save.after", function(){
+      $obj = WaxEvent::$data;
+      $obj->save_after();
+    });
+    WaxEvent::add("cms.save.success", function(){
+      $obj = WaxEvent::$data;
+      $obj->save_success();
+    });
+
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);
     WaxEvent::run("cms.model.pagination", $this);
     WaxEvent::run("cms.model.column_setup", $this);
+    WaxEvent::run("cms.model.setup", $this);
+    WaxEvent::run("cms.form.setup", $this);
 	}
 
 
@@ -85,6 +100,18 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function edit(){
 	  $this->model = new $this->model_class(Request::get("id"));
 	  $this->form = new WaxForm($this->model);
+    //the save event
+	  WaxEvent::add("cms.save", function(){
+	    $obj = WaxEvent::$data;
+	    WaxEvent::run("cms.save.before", $obj);
+	    if($obj->saved = $obj->form->save()){
+	      $obj->model = $obj->saved;
+	      WaxEvent::run("cms.save.success", $obj);
+	    }
+	    WaxEvent::run("cms.save.after", $obj);
+	  });
+	  
+	  WaxEvent::run("cms.save", $this);
 	}
 
 	public function create(){
