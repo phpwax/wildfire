@@ -35,7 +35,8 @@ class WildfireContent extends WaxTreeModel {
 	}
 
   public function before_save(){
-    if(!$this->permalink) $this->permalink = $this->generate_permalink();
+    if(!$this->date_start) $this->date_start = date("Y-m-d H:i:s");
+
   }
   //after save, we need to update the url mapping
   public function after_save(){
