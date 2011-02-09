@@ -50,9 +50,9 @@ class WildfireContent extends WaxTreeModel {
     $map = new WildfireUrlMap;
     $class = get_class($this);
     $permalink = $this->language_permalink($this->language);
-    $maps = $map->filter("origin_url", $permalink)->filter("destination_model", $class)->all();    
-    //putting a page live    
-    if($status == 1){      
+    $maps = $map->filter("origin_url", $permalink)->filter("destination_model", $class)->all();
+    //putting a page live
+    if($status == 1){
       //first thing is look for other mappings with this permalink and update them to point to the new model - ie moving a revision to live
       if($maps && $maps->count()){
         foreach($maps as $url){
