@@ -36,6 +36,15 @@ class WildfireContent extends WaxTreeModel {
 
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
+  //after save, we need to update the url mapping
+  public function after_save(){
+    $class = get_class($this);
+    $map = new WildfireUrlMap;
+    foreach($map->filter("destination_id", $this->primval)->filter("destination_model", $class)->all() as $url){
+      $url->update_attributes(array('status'=>$this->status, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language) );
+    }
+  }
+  
   //shorthand functions for live & draft of content
   public function live(){
     return $this->change_status(1);
