@@ -66,9 +66,9 @@ class WildfireContent extends WaxTreeModel {
         $url->update_attributes(array('date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
       }
     }
-    
+
   }
-  
+
   //shorthand functions for live & draft of content
   public function show(){
     return $this->change_status(1);
@@ -77,7 +77,7 @@ class WildfireContent extends WaxTreeModel {
     return $this->change_status(0);
   }
   //put this version of the model as being live, turn off all others
-  protected function change_status($status){    
+  protected function change_status($status){
     //if we are putting this live, turn off all other versions
     if($status == 1){
       $class = get_class($this);
