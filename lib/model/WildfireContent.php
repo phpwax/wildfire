@@ -28,7 +28,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("meta_keywords", "TextField", array('group'=>'others'));
 
 		//hidden extras
-		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'editable'=>false));
+		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput', 'group'=>"others"));
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
