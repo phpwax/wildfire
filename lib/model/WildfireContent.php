@@ -36,6 +36,20 @@ class WildfireContent extends WaxTreeModel {
 
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
+  //put this version of the model as being live, turn off all others
+  protected function change_status($status){
+    $class = get_class($this);
+    $model = new $class;
+    //if we find other ones that match this, turn them off
+    if($alts = $model->filter($this->primary_key, $this->primval, "!=")->filter("permalink", $this->permalink)->filter("language", $this->language)->filter("status", $status)->all()){
+      foreach($alts as $a){
+        $a->update_attributes(array('status'=>$status));
+      }
+    }
+    //update this status for links etc
+    $this->update_attributes(array('status'=>$status));
+    
+    return $this;
   }
 
 
