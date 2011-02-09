@@ -98,7 +98,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 	}
 
 	public function create(){
-	  $this->model = new $this->model_class();
+	  $model = new $this->model_class();
+	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/");
 	}
 
 	public function edit(){
