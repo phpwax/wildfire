@@ -1,10 +1,9 @@
 form{}
   form fieldset{
-    padding:10px 2%;
+    padding:10px 0;
     border-bottom:1px solid black;
   }
     form fieldset label{
-      text-transform:uppercase;
       display:block;
       width:100%;
       font-weight:bold;
@@ -16,6 +15,7 @@ form{}
     }
     form fieldset .field{
       margin-bottom:10px;
+      padding:5px 2%;
     }
     form fieldset .text_field, form fieldset textarea{
       padding:4px 6px;
