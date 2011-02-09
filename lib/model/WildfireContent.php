@@ -5,7 +5,7 @@ class WildfireContent extends WaxTreeModel {
 
 	public function setup(){
 	  $this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live"), 'scaffold'=>true, 'editable'=>false));
-		
+
 		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true) );
 		$this->define("content", "TextField");
 
@@ -68,39 +68,10 @@ class WildfireContent extends WaxTreeModel {
     return $this;
   }
 
-
-
-
-  /***** Finders for dealing with the extra_content table ******/
-
-  /* delete bits form join table -now handled by the field */
-	public function remove_joins($information, $value){return true;}
-
-	// extend copy to also copy related links, even though they're not technically a join, we need them to copy over for the preview/language copies to work right with related links
-	public function copy($dest = false){
-	  $ret = parent::copy($dest);
-    if($dest){
-      foreach(CmsRelated::fetch($dest)->all() as $rel) $rel->delete();
-      //only recreate new links if destination is set, because when desitnation is false WaxModel->copy is recursive, it will get here anyway. If we put it outside the if, it would end up being called twice as a result of the recursion.
-      foreach(CmsRelated::fetch($this)->all() as $rel){
-        $rel->id = false;
-        $rel->source_model = get_class($this);
-        $rel->source_id = $ret->primval();
-        $rel->save();
-      }
-    }
-    return $ret;
   public function url(){
     return Inflections::to_url($this->title);
   }
 
-	// extend delete to get rid of related items for that piece of content
-	public function delete(){
-	  $ret = parent::delete();
-	  $rel = new CmsRelated;
-	  $rel->filter("(source_model = ? AND source_id = ?) OR (dest_model = ? AND dest_id = ?)", array(get_class($this), $this->primval(), get_class($this), $this->primval()))->delete();
-	  return $ret;
-	}
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
