@@ -28,5 +28,13 @@ class CMSAdminContentController extends AdminComponent {
     
 	}
 	
+	//use the after to check if this was published or not
+	public function save_success(){
+	  parent::save_success();
+	  //put this model live if its set to
+	  if(Request::param('live')) $this->model->live();
+	  else $this->model->draft();
+	}
+	
 }
 ?>
