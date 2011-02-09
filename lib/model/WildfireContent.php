@@ -20,7 +20,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
     //main grouping field
-		$this->define("permalink", "CharField", array('group'=>'versions'));
+		$this->define("permalink", "CharField", array('group'=>'all versions'));
 
 		$this->define("excerpt", "TextField", array('group'=>'others'));
 		$this->define("meta_description", "TextField", array('group'=>'others'));
