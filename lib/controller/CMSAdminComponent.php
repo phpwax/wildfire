@@ -121,6 +121,14 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  WaxEvent::run("cms.save", $this);
 	}
 
+  public function copy(){
+    $this->use_layout = $this->use_view = false;
+    $source_model = new $this->model_class(Request::param("source"));
+    $destination_model = $source_model->copy();
+    if($changes = Request::param('change')) $destination_model->update_attributes($changes);
+    $this->redirect_to("/".trim($this->controller,"/")."/edit/".$destination_model->primval."/");
+  }
+
 
   public function _handle_filters($model, $filters){
     $filterstring = "";
