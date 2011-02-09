@@ -13,4 +13,3 @@ ul.tabs{
     color:white;
     border-right:1px solid black;
   }
-    ul.tabs li:last-child a{border-right-width:0;}
