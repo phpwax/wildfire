@@ -81,10 +81,11 @@ class WildfireContent extends WaxTreeModel {
   }
   //ignore the language, as we are grouping by this field
   protected function generate_permalink(){
-    $urls = array();
-    $tree = $this->path_to_root();
-    foreach($tree as $r) $urls[] = $r->url();
-    return "/".trim(implode("/",array_reverse($urls)), "/")."/";
+    if($this->permalink) return $this->permalink;
+    else if($this->parent_id) return $this->parent->permalink.$this->url()."/";
+    else if($url = $this->url()) return "/".$url."/";
+    else return false;
+  }
   }
 
 }
