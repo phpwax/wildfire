@@ -115,7 +115,6 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      Session::add_message('Content saved.');
 	      $obj->model = $obj->saved;
 	      WaxEvent::run("cms.save.success", $obj);
-	      $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");
 	    }
 	    WaxEvent::run("cms.save.after", $obj);
 	  });

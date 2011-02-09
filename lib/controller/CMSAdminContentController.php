@@ -42,6 +42,7 @@ class CMSAdminContentController extends AdminComponent {
 	  if(Request::param('live')) $this->model->show()->update_url_map(1);
 	  elseif(Request::param('hide')) $this->model->hide()->update_url_map(0);
 	  elseif(Request::param('revision')) $this->model->hide();
+	  $this->redirect_to("/".trim($this->controller,"/")."/edit/".$this->model->primval."/");
 	}
 	
 }
