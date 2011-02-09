@@ -129,5 +129,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     return $model;
   }
 
+
+  public function save_before(){}
+  public function save_after(){}  
+  public function save_success(){}  
+
 }
 ?>
