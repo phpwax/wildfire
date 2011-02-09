@@ -57,11 +57,11 @@ class WildfireContent extends WaxTreeModel {
       if($maps && $maps->count()){
         foreach($maps as $url){
           $url->update_attributes(array('destination_id'=>$this->primval,'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
-        }             
+        }
       }elseif($this->permalink){ //if there is no map for this url then create one
         $saved = $map->clear()->update_attributes(array('title'=>$this->title,'origin_url'=>$permalink, 'destination_id'=>$this->primval, 'destination_model'=>$class, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
-      }      
-    }elseif($status == 0 && $maps && $maps->count()){ //turning a page off, so look for those pages and hide them
+      }
+    }elseif($status == 0 && ($maps = $maps->filter("destination_id", $this->primval)->all()) && $maps->count()){ //turning a page off, so look for those pages and hide them
       foreach($maps as $url){
         $url->update_attributes(array('date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
       }
