@@ -1,5 +1,6 @@
 ul.tabs{
   display:block;
+  border-bottom:1px solid black;
 }
   ul.tabs li{
     display:block;
