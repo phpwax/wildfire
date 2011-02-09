@@ -43,10 +43,28 @@ class WildfireContent extends WaxTreeModel {
     //as the permalink is designed to be permanent, make sure its not set, the title is there before creatiing one
     if(!$this->permalink && $this->primval && $this->title && ($this->permalink = $this->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
   }
+
+  public function update_url_map($status){
     $map = new WildfireUrlMap;
-    foreach($map->filter("destination_id", $this->primval)->filter("destination_model", $class)->all() as $url){
-      $url->update_attributes(array('status'=>$this->status, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language) );
+    $class = get_class($this);
+    $permalink = $this->language_permalink($this->language);
+    $maps = $map->filter("origin_url", $permalink)->filter("destination_model", $class)->all();    
+    //putting a page live    
+    if($status == 1){      
+      //first thing is look for other mappings with this permalink and update them to point to the new model - ie moving a revision to live
+      if($maps && $maps->count()){
+        foreach($maps as $url){
+          $url->update_attributes(array('destination_id'=>$this->primval,'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
+        }             
+      }elseif($this->permalink){ //if there is no map for this url then create one
+        $saved = $map->clear()->update_attributes(array('title'=>$this->title,'origin_url'=>$permalink, 'destination_id'=>$this->primval, 'destination_model'=>$class, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
+      }      
+    }elseif($status == 0 && $maps && $maps->count()){ //turning a page off, so look for those pages and hide them
+      foreach($maps as $url){
+        $url->update_attributes(array('date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
+      }
     }
+    
   }
   
   //shorthand functions for live & draft of content
