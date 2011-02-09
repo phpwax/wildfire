@@ -31,7 +31,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-		
+
 	}
 
   public function before_save(){
@@ -87,7 +87,8 @@ class WildfireContent extends WaxTreeModel {
   }
 
   public function url(){
-    return Inflections::to_url($this->title);
+    if($this->title != $this->columns['title'][1]['default']) return Inflections::to_url($this->title);
+    else return false;
   }
 
 	public function format_content() {
