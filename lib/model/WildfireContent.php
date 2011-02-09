@@ -33,9 +33,6 @@ class WildfireContent extends WaxTreeModel {
 		
 	}
 
-
-	public function format_content() {
-    return CmsTextFilter::filter("before_output", $this->content);
   public function before_save(){
     if(!$this->permalink) $this->permalink = $this->generate_permalink();
   }
@@ -104,6 +101,9 @@ class WildfireContent extends WaxTreeModel {
 	  $rel->filter("(source_model = ? AND source_id = ?) OR (dest_model = ? AND dest_id = ?)", array(get_class($this), $this->primval(), get_class($this), $this->primval()))->delete();
 	  return $ret;
 	}
+	public function format_content() {
+    return CmsTextFilter::filter("before_output", $this->content);
+  }
   //ignore the language, as we are grouping by this field
   protected function generate_permalink(){
     $urls = array();
