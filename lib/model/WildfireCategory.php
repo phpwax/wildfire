@@ -9,24 +9,15 @@ class WildfireCategory extends WaxModel {
    * setup the columns, fields, relationships etc
    */  
 	public function setup(){
-		$this->define("title", "CharField", array('maxlength'=>255) );
-		$this->define("url", "CharField", array('maxlength'=>255) );
-		$this->define("attached_to", "ManyToManyField", array('target_model'=>"WildfireContent"));		
+		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true) );
+		$this->define("url", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'disabled'=>'disabled') );
+		$this->define("attached_to", "ManyToManyField", array('target_model'=>"WildfireContent", 'editable'=>false));		
 	}
 	/**
 	 * set the url up
 	 */	
 	public function before_save() {
-	  $this->url = to_url($this->name);
-	}
-	/**
-	 * create an array structure from drop downs used elsewhere
-	 */	
-	public function sections_as_collection() {	
-		$model = new WildfireCategory;
-		$collection = array();
-		foreach($model->all() as $item) $collection["{$item->id}"] = $item->title;
-		return $collection;
+	  if(!$this->url) $this->url = Inflections::to_url($this->title);
 	}
 	
 }
