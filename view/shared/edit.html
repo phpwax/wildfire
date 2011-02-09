@@ -12,6 +12,7 @@ $partial_paths = array_reverse($partial_paths);
 $grouping = array();
 foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "editing ".$module_name)) && $ele->editable) $grouping[strtolower($g)][$k] = $ele;
 
+$counter = 0;
 ?>
 <form action="" class="form_container <?=Inflections::to_url($controller)?>-<?=$action?> clearfix" method="post" enctype="multipart/form-data" data-model-class="<?=get_class($model)?>" data-model-primval="<?=$model->primval?>">
   <?if(count($grouping)):?>
@@ -21,7 +22,7 @@ foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "editing ".$module_na
         <li id="<?=$tabid?>"><a href="#<?=$tabhash?>"><?=ucwords($name)?></a></li>
       <?endforeach?>
     </ul>
-
+    
     <?foreach($grouping as $name=>$fields):?>
       <?$tabhash = Inflections::to_url($name);
         $partial_name = "_".Inflections::underscore(Inflections::to_url($name));
@@ -39,7 +40,9 @@ foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "editing ".$module_na
       <?else:?>   
         <?foreach($fields as $n=>$f):?><?$nm = Inflections::to_url($n)?><div class='field field-<?=$nm?> field-<?=$tabhash?>-<?=$nm?> <?=$model_class?>-<?=$nm?> clearfix'><?=$f->render()?></div><?endforeach?>
       <?endif?>
+      <?if($counter == 0):?><?=partial("_submit", array('model'=>$model, 'controller'=>$controller))?><?endif?>
       </fieldset>
+      <?$counter++;?>
     <?endforeach?>
 
   <?endif?>
