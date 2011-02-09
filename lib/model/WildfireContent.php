@@ -4,9 +4,9 @@ class WildfireContent extends WaxTreeModel {
 
 
 	public function setup(){
-	  $this->define("status", "IntegerField", array('maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live"), 'scaffold'=>true, 'editable'=>false));
+	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live"), 'scaffold'=>true, 'editable'=>false));
 
-		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true) );
+		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here") );
 		$this->define("content", "TextField");
 
 		$this->define("date_start", "DateTimeField", array('scaffold'=>true));
