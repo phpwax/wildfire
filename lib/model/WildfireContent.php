@@ -17,21 +17,20 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"SelectInput"));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
-		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));		
-
+		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
+    //main grouping field
+		$this->define("permalink", "CharField", array('group'=>'versions'));
+    
 		$this->define("excerpt", "TextField", array('group'=>'others'));
 		$this->define("meta_description", "TextField", array('group'=>'others'));
 		$this->define("meta_keywords", "TextField", array('group'=>'others'));
 
 		//hidden extras
-		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true,'group'=>'others', 'editable'=>false));
+		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'editable'=>false));
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-
-		//these are here just for simplicity so dont have to cross joins all the time
-		$this->define("language", "IntegerField", array("editable"=>false));
-		$this->define("permalink", "CharField", array('editable'=>false));
+		
 	}
 
 
