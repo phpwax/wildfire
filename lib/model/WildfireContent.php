@@ -14,7 +14,8 @@ class WildfireContent extends WaxTreeModel {
     //these are here just for simplicity so dont have to cross joins all the time
     $langs = array();
     foreach(CMSApplication::$languages as $i=>$l) $langs[$i] = $l['name'];
-		$this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"SelectInput"));
+    $default = array_shift(array_keys(CMSApplication::$languages));
+		$this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"SelectInput", 'default'=>$default));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
