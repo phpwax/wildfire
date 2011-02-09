@@ -36,7 +36,7 @@ $counter = 0;
       ?>
       <fieldset class='tab-contents clearfix' id="<?=$tabhash?>" >
       <?if($readable):?>      
-        <?=partial($partial_name, array('model'=>$model, 'controller'=>$controller, 'fields'=>$fields))?>
+        <?=partial($partial_name, array('model'=>$model, 'controller'=>$controller, 'fields'=>$fields, 'partial_paths'=>$partial_paths))?>
       <?else:?>   
         <?foreach($fields as $n=>$f):?><?$nm = Inflections::to_url($n)?><div class='field field-<?=$nm?> field-<?=$tabhash?>-<?=$nm?> <?=$model_class?>-<?=$nm?> clearfix'><?=$f->render()?></div><?endforeach?>
       <?endif?>
