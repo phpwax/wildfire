@@ -11,6 +11,9 @@ form{}
       color:white;
       margin-bottom:8px;
     }
+    form fieldset select{
+      width:98%;
+    }
     form fieldset .field{
       margin-bottom:10px;
     }

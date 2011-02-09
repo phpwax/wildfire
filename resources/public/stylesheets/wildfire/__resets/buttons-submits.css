@@ -7,6 +7,7 @@
 	text-transform:uppercase;
 	cursor:pointer; 
 	text-decoration:none;
+	border:0;
 }
 .button{
   display:inline-block;
@@ -15,6 +16,7 @@
   .button:hover{
     color:#fff;
   }
+  
 .orange{
 	background:#F89E1E;
 }
@@ -29,4 +31,10 @@
   .operation_delete{
     background:#FF7D86;
   }
+
+.submit_field{
+  display:inline-block;
+  margin:0 10px 0 0;
+  background:#8EA79A;
+}
 
