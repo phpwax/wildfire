@@ -60,7 +60,9 @@ class WildfireContent extends WaxTreeModel {
       }
     }
     return $ret;
-	}
+  public function url(){
+    return Inflections::to_url($this->title);
+  }
 
 	// extend delete to get rid of related items for that piece of content
 	public function delete(){
