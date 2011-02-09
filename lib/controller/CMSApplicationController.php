@@ -73,6 +73,7 @@ class CMSApplicationController extends WaxController{
 		if(count(array_keys(CMSApplication::$languages)) > 1) $this->cms_language_id = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
 		WaxEvent::add("cms.cms_language_id_set", function(){});
+		
 	  /**
 	   * use the modified stack to find content
 	   * - try with the set language
@@ -147,7 +148,8 @@ class CMSApplicationController extends WaxController{
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
 	  $model = new $model_class($model_scope);
-	  if($found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first() ) return $this->map_to_content($found);
+	  $found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first();
+	  if($found) return $this->map_to_content($found);
 	  return false;
 	}
 	/**
@@ -161,7 +163,7 @@ class CMSApplicationController extends WaxController{
 	 * unset key elements from the stack (controller etc)
 	 */
 	protected function cms_stack($stack){
-	  unset($stack['route'],$stack['controller'],$stack['action'],$stack['id'],$stack[0], $stack['page']);
+	  unset($stack['route'],$stack['controller'],$stack['action'],$stack['id'],$stack[0], $stack['page'], $stack['params']);
 		return $stack;
 	}
 	/**
