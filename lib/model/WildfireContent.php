@@ -21,7 +21,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
     //main grouping field
 		$this->define("permalink", "CharField", array('group'=>'versions'));
-    
+
 		$this->define("excerpt", "TextField", array('group'=>'others'));
 		$this->define("meta_description", "TextField", array('group'=>'others'));
 		$this->define("meta_keywords", "TextField", array('group'=>'others'));
