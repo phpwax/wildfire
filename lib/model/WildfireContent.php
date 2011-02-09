@@ -68,10 +68,10 @@ class WildfireContent extends WaxTreeModel {
   }
   
   //shorthand functions for live & draft of content
-  public function live(){
+  public function show(){
     return $this->change_status(1);
   }
-  public function draft(){
+  public function hide(){
     return $this->change_status(0);
   }
   //put this version of the model as being live, turn off all others
