@@ -24,7 +24,11 @@ class CMSAdminContentController extends AdminComponent {
 	    if(Request::param('revision')){
   	    $obj->model = $obj->model->copy();
   	    $obj->form = new WaxForm($obj->model);
-      }
+      }      
+    });
+    WaxEvent::add("cms.form.setup", function(){
+      $obj = WaxEvent::$data;      
+      if($obj->model->revision()) $obj->form->{$obj->model->parent_column}->editable=false;
     });
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
