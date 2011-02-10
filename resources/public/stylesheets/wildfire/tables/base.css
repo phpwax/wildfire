@@ -10,6 +10,7 @@
     display:block;
     width:10px;
     height:10px;
+    margin:auto;
   }
     .data_table td.status a span{
       display:none;
