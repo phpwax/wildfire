@@ -4,9 +4,10 @@
   <div id="search_results"></div>
 </form>
 <?endif?>
-<?if($current_user->allowed("content", "create")):?>
-<a href='/admin/content/create' title='create a new page' class='button orange content-create'><span>BUILD NEW PAGE</span></a>
-<?endif?>
-<?if($current_user->allowed("files", "index")):?>
-<a href='/admin/files/' title='manage files' class='button orange files-index'><span>MANAGE FILES</span></a>
-<?endif?>
+
+<?WaxEvent::run("cms.layout.sublinks", $obj);?>
+
+<?foreach($obj->quick_links as $name=>$link):?>
+<a href='<?=$link?>' title='create a new page' class='button orange content-create'><span><?=strtoupper($name)?></span></a>
+<?endforeach?>
+
