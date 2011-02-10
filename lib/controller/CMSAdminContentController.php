@@ -31,6 +31,7 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::add("cms.form.setup", function(){
       $obj = WaxEvent::$data;      
       if($obj->model->revision() || $obj->model->alt_language()) $obj->form->{$obj->model->parent_column}->editable=false;
+      else $obj->form->{$obj->model->parent_column}->choices = $obj->model->allowed_parents();
     });
     //status changing after save
     WaxEvent::add("cms.save.success", function(){

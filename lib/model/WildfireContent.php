@@ -32,7 +32,11 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
+		//need a custom view for this - a pretty tree diagram with drag / drop
+		$this->define($this->parent_column, "ForeignKey", array("col_name" => $this->parent_join_field, "target_model" => get_class($this), 'group'=>'parent'));
 	}
+	
+
 	
 	public function scope_admin(){
 	  return $this->order("status DESC");
