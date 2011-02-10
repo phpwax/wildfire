@@ -32,7 +32,6 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-
 	}
 	
 	public function scope_admin(){
@@ -45,7 +44,7 @@ class WildfireContent extends WaxTreeModel {
   public function scope_preview(){
     return $this->filter("status", 2);
   }
-
+  
   public function before_save(){
     if(!$this->date_start) $this->date_start = date("Y-m-d H:i:s");
     if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
@@ -78,6 +77,15 @@ class WildfireContent extends WaxTreeModel {
       }
     }
 
+  }
+  
+  public function revision(){
+    $map = new WildfireUrlMap;
+    $class = get_class($this);
+    $permalink = $this->language_permalink($this->language);
+    $found = $map->filter("origin_url", $permalink)->filter("destination_id", $this->primval, "!=")->filter("destination_model", $class)->all();
+    if($found && $found->count()) return true;
+    else return false;
   }
 
   //shorthand functions for live & draft of content
