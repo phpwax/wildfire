@@ -1,9 +1,12 @@
 .user_information, .user_messages, .user_confirmation {
 	color:#333333;
-	background:#EEE877;
+	background:url("/images/wildfire/jqueryui/ui-bg_flat_100_eee877_40x100.png") repeat-x scroll 50% 50% #EEE877;
 	padding:10px;
-	border:1px solid #E8EE39;
+	border:1px solid #EEE877;
 	margin:10px;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 }
 .user_errors {
 	color:#333333;
