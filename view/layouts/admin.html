@@ -9,7 +9,7 @@
 	<title>Content Management System</title>
 </head>
 
-<body id="wf-<?=strtolower(Inflections::underscore($display_name))?>">
+<body id="white-cms" class='wildfire'>
 	
   <div class="brand" id="logo"><img src="/images/wildfire/logos/small.png" alt="wildfire"></div>
   
@@ -36,6 +36,7 @@
 <script src='http://www.google.com/jsapi?'  type='text/javascript'></script>
 <script type='text/javascript'>
   google.load('jquery', '1.4');
+  google.load('jqueryui', '1.8');
 </script>	
 <?=js_bundle("wildfire", array(), "cms")?>
 <?=js_bundle("wymeditor", array(), "cms")?>
