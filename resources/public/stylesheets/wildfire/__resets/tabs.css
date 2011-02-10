@@ -10,6 +10,5 @@ ul.tabs{
   ul.tabs li a{
     display:block;
     padding:9px;
-    color:white;
     border-right:1px solid black;
   }

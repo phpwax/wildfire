@@ -1,13 +1,12 @@
-form{}
-  form fieldset{
+form{border:0;background:none;}
+  body.wildfire form.form_container fieldset{
     padding:10px 0;
-    border-bottom:1px solid black;
+    border:0;
   }
     form fieldset label{
       display:block;
       width:100%;
       font-weight:bold;
-      color:white;
       margin-bottom:8px;
     }
     form fieldset select{
@@ -18,9 +17,10 @@ form{}
       padding:5px 2%;
     }
     form fieldset .text_field, form fieldset textarea{
-      padding:4px 6px;
+      padding:6px 6px;
       display:block;
       width:98%;
+      font-size:116%;
     }
     form fieldset textarea{height:90px;}
 

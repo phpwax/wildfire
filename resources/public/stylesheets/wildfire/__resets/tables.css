@@ -4,14 +4,12 @@ table{width:100%;}
     padding:8px;
   }
   table th{
-    color:white;
     padding:8px;
   }
 
   table caption{}
   
   table th, table td{
-    color:white;
     border-bottom:1px solid black;
     border-top:1px solid black;
     border-right:1px solid black;    

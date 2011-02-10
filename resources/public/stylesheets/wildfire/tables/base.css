@@ -1,6 +1,3 @@
-.data_table .active td, .data_table .active th{
-  background:#5E5E5E;
-}
 
 .data_table th.status span{display:none;}
 .data_table td.status{

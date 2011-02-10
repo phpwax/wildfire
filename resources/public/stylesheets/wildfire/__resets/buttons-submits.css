@@ -2,7 +2,6 @@
   font-family:arial;
 	font-weight:bold;
 	font-size:85%;
-	color:#fff;
 	padding:9px 6px;
 	text-transform:uppercase;
 	cursor:pointer; 
@@ -13,9 +12,7 @@
   display:inline-block;
   margin:0 10px 0 0;
 }
-  .button:hover{
-    color:#fff;
-  }
+  .button:hover{}
   
 .orange{
 	background:#F89E1E;
