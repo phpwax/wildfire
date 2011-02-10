@@ -135,10 +135,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     $this->events();
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);
-    WaxEvent::run("cms.model.pagination", $this);
-    WaxEvent::run("cms.model.column_setup", $this);
-    WaxEvent::run("cms.model.setup", $this);
-    WaxEvent::run("cms.form.setup", $this);
+    WaxEvent::run("cms.model.setup", $this);    
 	}
 
 
