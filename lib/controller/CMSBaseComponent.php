@@ -29,6 +29,7 @@ class CMSBaseComponent extends WaxController {
   public $model_filters=array();
   
   public $operation_actions = array('edit', 'delete');
+  public $quick_links = array();
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
@@ -57,11 +58,13 @@ class CMSBaseComponent extends WaxController {
     return false;
   }
   
-  protected function events(){}
+  protected function events(){
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::$data;
   	  $obj->use_layout = "login";
     });
+    WaxEvent::add("cms.layout.sublinks", function(){});
+  }
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
