@@ -48,6 +48,12 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
 	    }
     });
+    /** 
+     * models
+     */
+    WaxEvent::add("cms.model.init", function(){
+      $obj = WaxEvent::$data;
+      $obj->model = new $obj->model_class($obj->model_scope);
     });
     WaxEvent::add("cms.pagination", function(){
       $obj = WaxEvent::$data;
