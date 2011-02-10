@@ -1,0 +1,20 @@
+.filters .parent_filter{
+  float:left;
+  display:block;
+  margin-right:2%;
+}
+  .filters_1 .parent_filter, .filters_2 .parent_filter{
+    width:35%;
+  }
+  .filters_3 .parent_filter{
+    width:30%;
+  }
+  .filters .parent_filter label{
+    display:none;
+  }
+  .filters .parent_filter select{
+    float:left;
+    display:block;
+    margin-top:6px;
+    width:90%;
+  }

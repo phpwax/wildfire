@@ -7,43 +7,5 @@
   width:56%;
   float:left;
 }
-  .filters .text_field{
-    display:block;
-    float:left;
-    padding:4px;
-    margin-right:2%;
-  }
 
-  .filters_1 .text_field, .filters_2 .text_field{
-    width:42%;
-  }
-  .filters_3 .text_field{
-    width:35%;
-  }
-
-.filters .parent_filter{
-  float:left;
-  display:block;
-  margin-right:2%;
-}
-  .filters_1 .parent_filter, .filters_2 .parent_filter{
-    width:49%;
-  }
-  .filters_3 .parent_filter{
-    width:45%;
-  }
-  .filters .parent_filter label{
-    color:white;
-    font-weight:bold;
-    padding:6px 0;
-    display:block;
-    float:left;
-    margin-right:2%;
-  }
-  .filters .parent_filter select{
-    float:left;
-    display:block;
-    margin-top:6px;
-    width:74%;
-  }
   

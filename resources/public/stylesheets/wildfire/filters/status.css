@@ -1,0 +1,20 @@
+.filters .status_filter{
+  float:left;
+  display:block;
+  margin-right:2%;
+}
+  .filters_1 .status_filter, .filters_2 .status_filter{
+    width:20%;
+  }
+  .filters_3 .status_filter{
+    width:15%;
+  }
+  .filters .status_filter label{
+    display:none;
+  }
+  .filters .status_filter select{
+    float:left;
+    display:block;
+    margin-top:6px;
+    width:90%;
+  }
