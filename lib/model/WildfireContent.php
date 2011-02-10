@@ -9,8 +9,8 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here") );
 		$this->define("content", "TextField");
 
-		$this->define("date_start", "DateTimeField", array('scaffold'=>true));
-		$this->define("date_end", "DateTimeField", array('scaffold'=>true));
+		$this->define("date_start", "DateTimeField", array('scaffold'=>true, 'default'=>date("jS F Y H:i"), 'output_format'=>"j F Y H:i"));
+		$this->define("date_end", "DateTimeField", array('scaffold'=>true, 'default'=>date("jS F Y H:i"), 'output_format'=>"j F Y H:i" ));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
