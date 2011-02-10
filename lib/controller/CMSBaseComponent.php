@@ -34,6 +34,11 @@ class CMSBaseComponent extends WaxController {
 	  parent::__construct($application);
 	  if($init) $this->initialise();
 	}
+	
+	public function controller_global(){
+	  parent::controller_global();
+	  WaxEvent::run("cms.layout.set", $this);
+	}
 
 	public function __destruct(){
 	  $log = new WildfireLog;
@@ -53,11 +58,14 @@ class CMSBaseComponent extends WaxController {
   }
   
   protected function events(){}
+    WaxEvent::add("cms.layout.set", function(){
+      $obj = WaxEvent::$data;
+  	  $obj->use_layout = "login";
+    });
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
 	protected function initialise(){
-	  $this->use_layout = "login";
 	  $this->events();
 	}  
 
