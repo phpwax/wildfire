@@ -88,6 +88,14 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  });
 
     WaxEvent::add("cms.save.before", function(){
+	  
+	  WaxEvent::add("cms.model.setup", function(){
+	    $obj = WaxEvent::$data;
+	    WaxEvent::run("cms.model.init", $obj);
+	    WaxEvent::run("cms.pagination", $obj);
+	    WaxEvent::run("cms.model.columns", $obj);
+	    WaxEvent::run("cms.model.filters", $obj);	    
+	  });
     /**
      * view setups
      */
