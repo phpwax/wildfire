@@ -92,7 +92,23 @@ class WildfireContent extends WaxTreeModel {
     if($found && $found->count()) return $found->first();
     else return false;
   }
-
+  /**
+   * similar to revision checking function
+   * if this uses the default language, then return false straight away
+   * otherwise look for the permalink of the primary language in the mapping table, if that exists then this is a language copy
+   */
+  public function alt_language(){
+    $default = array_shift(array_keys(CMSApplication::$languages));
+    if($default == $this->language) return false;
+    else{
+      $map = new WildfireUrlMap;
+      $permalink = $this->language_permalink($default);
+      $class = get_class($this);
+      $found = $map->filter("origin_url", $permalink)->filter("language", $default)->filter("destination_model", $class)->all();
+      if($found && $found->count()) return $found->first();
+      else return false;
+    }
+  }
   //shorthand functions for live & draft of content
   public function show(){
     return $this->change_status(1);
