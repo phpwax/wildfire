@@ -62,6 +62,25 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  });
 
 	  WaxEvent::add("cms.model.column_setup", function(){
+	  
+    WaxEvent::add("cms.model.filters", function(){
+      $obj = WaxEvent::$data;
+      if(!$filters = $obj->model_filters) $obj->model_filters = Request::param('filters');
+      $filterstring = "";
+      
+      foreach((array)$obj->model_filters as $name=>$value){
+        $col_filter = "";
+        if($filter = $obj->filter_fields[$name]){
+          foreach($filter['columns'] as $col){
+            if($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".mysql_real_escape_string($value)."%' OR";
+            else $col_filter .= "`$col`='".mysql_real_escape_string($value)."' OR";
+          }
+          $filterstring .= "(".trim($col_filter, " OR").") AND ";
+        }
+      }
+      if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
+    });
+    
 	    $obj = WaxEvent::$data;
 	    if(!$obj->scaffold_columns){
 	      $model = new $obj->model_class;
