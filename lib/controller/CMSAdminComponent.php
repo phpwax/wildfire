@@ -153,10 +153,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	}
 
 	public function edit(){
-	  $this->model = new $this->model_class(Request::get("id"));
-	  $this->form = new WaxForm($this->model);
-	  //check for join to users
-	  if($this->model->columns['author']) $this->form->author->value = $this->current_user->primval;
+	  WaxEvent::run("cms.form.setup", $this);	  
     //run the save event	  
 	  WaxEvent::run("cms.save", $this);
 	}
