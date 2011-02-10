@@ -23,3 +23,11 @@ form{}
       width:98%;
     }
     form fieldset textarea{height:90px;}
+
+/*fordepth*/
+option.select-depth-1{padding-left:10px;}
+  option.select-depth-2{padding-left:20px;}
+    option.select-depth-3{padding-left:30px;}
+      option.select-depth-4{padding-left:45px;}
+        option.select-depth-5{padding-left:55px;}
+          option.select-depth-6{padding-left:65px;}        
