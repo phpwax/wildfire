@@ -23,16 +23,19 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function controller_global(){
     parent::controller_global();
 
-    WaxEvent::add("cms.permissions.check_action", function() {
-      $obj = WaxEvent::$data;
-      if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
-    });
-
     WaxEvent::run("cms.permission.check_action", $this);
 
   }
 
   protected function events(){
+    /**
+     * permissions
+     */
+    WaxEvent::add("cms.permissions.check_action", function() {
+      $obj = WaxEvent::$data;
+      if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
+    });
+    
     WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::$data;
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
