@@ -79,12 +79,17 @@ class WildfireContent extends WaxTreeModel {
 
   }
   
+  /**
+   * function to check the wildfire url map to see if this is the primary content or not
+   * - as the permalink is unique for the language, check to see if there is another
+   *   version of this piece of content that is in use
+   */
   public function revision(){
     $map = new WildfireUrlMap;
     $class = get_class($this);
     $permalink = $this->language_permalink($this->language);
     $found = $map->filter("origin_url", $permalink)->filter("destination_id", $this->primval, "!=")->filter("destination_model", $class)->all();
-    if($found && $found->count()) return true;
+    if($found && $found->count()) return $found->first();
     else return false;
   }
 
