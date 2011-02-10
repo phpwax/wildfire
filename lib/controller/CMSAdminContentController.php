@@ -16,23 +16,38 @@ class CMSAdminContentController extends AdminComponent {
 
 	protected function events(){
 	  parent::events();
-	  //custom events
-	  WaxEvent::add("cms.index.all", function(){
+	  //overwrite existing events - handle the revision change
+	  WaxEvent::add("cms.save.before", function(){
 	    $obj = WaxEvent::$data;
-	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));
-	    $obj->cms_content = $obj->model->tree();
-      //foreach($obj->cms_content as $c) print_r($c);
-      //exit;
-    });
-
-    WaxEvent::add("cms.permissions.tree_creation", function() {
-      $obj = WaxEvent::$data;
-      $model = new $obj->model_class;
-	    foreach($model->tree() as $r){ //all sections
-    	  $tmp = str_replace("*", "&nbsp;&nbsp;",str_pad("", $r->get_level(), "*", STR_PAD_LEFT));
-    	  $obj->possible_parents[$r->primval] = $tmp.$r->title;
+	    if(Request::param('revision')){
+  	    $obj->model = $obj->model->copy();
+  	    $obj->form = new WaxForm($obj->model);
       }
     });
+    //status changing after save
+    WaxEvent::add("cms.save.success", function(){
+	    $obj = WaxEvent::$data;
+	    if(Request::param('live')) $obj->model->show()->update_url_map(1);
+  	  elseif(Request::param('hide')) $obj->model->hide()->update_url_map(0);
+  	  elseif(Request::param('revision')) $obj->model->hide();
+  	  $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");
+    });
+    //modify the post filter function to enforce a status filter - they bubble..
+    WaxEvent::add("cms.model.filters", function(){
+      $obj = WaxEvent::$data;
+      if(!isset($obj->model_filters['status'])){
+        $obj->model_filters['status'] = array_pop(array_keys($obj->model->columns['status'][1]['choices']));
+        $obj->model->filter("status",  $obj->model_filters['status']);
+      }
+    });
+    
+    WaxEvent::clear("cms.index.setup");
+    WaxEvent::add("cms.index.setup", function(){
+	    $obj = WaxEvent::$data;
+	    //if the parent filter isn't set, then
+	    if(!isset($obj->model_filters['parent'])) $obj->cms_content = $obj->model->roots();
+    });
+
 	}
 
 	protected function initialise(){
