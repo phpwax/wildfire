@@ -48,11 +48,6 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
 	    }
     });
-    
-    WaxEvent::add("cms.index.all", function(){
-	    $obj = WaxEvent::$data;
-	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));
-	    $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
     });
     
     WaxEvent::add("cms.model.pagination", function(){
@@ -70,8 +65,12 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  });
 
     WaxEvent::add("cms.save.before", function(){
+    /**
+     * view setups
+     */
+    WaxEvent::add("cms.index.setup", function(){
       $obj = WaxEvent::$data;
-      $obj->save_before();
+      $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
     });
     
     WaxEvent::add("cms.save.after", function(){
