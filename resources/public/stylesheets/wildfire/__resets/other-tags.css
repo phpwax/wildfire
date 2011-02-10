@@ -13,11 +13,11 @@ a{
 }
 a:hover{}
 
-p{}
+p{font-size:100%;}
 
-strong, b{}
+strong, b{font-weight:bold;}
 
-em,i{}
+em,i{font-style:italic;}
 
 code{}
 
