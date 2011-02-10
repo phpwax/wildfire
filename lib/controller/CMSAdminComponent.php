@@ -80,10 +80,8 @@ class CMSAdminComponent extends CMSBaseComponent {
     
 	  WaxEvent::add("cms.model.columns", function(){
 	    $obj = WaxEvent::$data;
-	    if(!$obj->scaffold_columns){
-	      $model = new $obj->model_class;
-	      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
-	    }
+      $model = new $obj->model_class;
+      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
 	  });
 	  
 	  WaxEvent::add("cms.model.setup", function(){
