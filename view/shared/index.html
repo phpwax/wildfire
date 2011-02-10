@@ -6,7 +6,7 @@
     </div>
   
   <?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
-  <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'possible_parents'=>$possible_parents ))?>
+  <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
   <?endif?>
   </div>
   
