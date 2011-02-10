@@ -40,7 +40,6 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::$data;
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
-
 	  WaxEvent::add("cms.permissions.all_modules", function(){
 	    $obj = WaxEvent::$data;
 	    foreach(CMSApplication::get_modules() as $name=>$info){
@@ -143,8 +142,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html
 	*/
 	public function index(){
-	  
-    WaxEvent::run("cms.index.all", $this);
+    WaxEvent::run("cms.index.setup", $this);
 	}
 
 	public function create(){
