@@ -25,6 +25,8 @@ $counter = 0;
       <?endforeach?>
     </ul>
     
+    <div class='intro info-container'><?=partial("_intro", array('model'=>$model, 'controller'=>$controller))?></div>
+    
     <?foreach($grouping as $name=>$fields):?>
       <?$tabhash = Inflections::to_url($name);
         $partial_name = "_".Inflections::underscore(Inflections::to_url($name));
