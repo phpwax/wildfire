@@ -15,7 +15,7 @@ class CMSAdminContentController extends AdminComponent {
 	                      );
   //throw in a new scaffold that doesnt exist
   public $scaffold_columns = array('view_children'=>true);
-  
+
 	protected function events(){
 	  parent::events();
 	  //overwrite existing events - handle the revision change
@@ -42,12 +42,13 @@ class CMSAdminContentController extends AdminComponent {
         $obj->model->filter("status",  $obj->model_filters['status']);
       }
     });
-    
+
     WaxEvent::clear("cms.index.setup");
     WaxEvent::add("cms.index.setup", function(){
 	    $obj = WaxEvent::$data;
 	    //if the parent filter isn't set, then
-	    if(!isset($obj->model_filters['parent'])) $obj->cms_content = $obj->model->roots();
+	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->roots();
+	    else $obj->cms_content = $obj->model->all();
     });
 
     WaxEvent::add("cms.model.tree", function(){});

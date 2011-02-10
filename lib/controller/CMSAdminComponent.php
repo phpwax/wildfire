@@ -62,12 +62,12 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  
     WaxEvent::add("cms.model.filters", function(){
       $obj = WaxEvent::$data;
-      if(!$filters = $obj->model_filters) $obj->model_filters = Request::param('filters');
+      if(!$obj->model_filters) $obj->model_filters = Request::param('filters');
       $filterstring = "";
       
       foreach((array)$obj->model_filters as $name=>$value){
         $col_filter = "";
-        if($filter = $obj->filter_fields[$name]){
+        if(strlen($value) && $filter = $obj->filter_fields[$name]){
           foreach($filter['columns'] as $col){
             if($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".mysql_real_escape_string($value)."%' OR";
             else $col_filter .= "`$col`='".mysql_real_escape_string($value)."' OR";
