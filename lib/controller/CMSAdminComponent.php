@@ -60,8 +60,6 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
 	  });
-
-	  WaxEvent::add("cms.model.column_setup", function(){
 	  
     WaxEvent::add("cms.model.filters", function(){
       $obj = WaxEvent::$data;
@@ -81,6 +79,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
     
+	  WaxEvent::add("cms.model.columns", function(){
 	    $obj = WaxEvent::$data;
 	    if(!$obj->scaffold_columns){
 	      $model = new $obj->model_class;
