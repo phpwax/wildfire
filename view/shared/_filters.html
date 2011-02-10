@@ -1,5 +1,5 @@
 <form action="/admin/<?=$module_name?>/filter" method="post" id="filters" class='clearfix filters filters-<?=$module_name?> filters_<?=count($filter_fields)?>'>
   <?foreach($filter_fields as $name=>$field):?>    
-  <?=partial($field['partial'], array('module_name'=>$module_name, 'field'=>$field, 'name'=>$name, 'data'=>$data, 'model'=>$model, 'possible_parents'=>$possible_parents))?>
+  <?=partial($field['partial'], array('module_name'=>$module_name, 'field'=>$field, 'name'=>$name, 'data'=>$data, 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
   <?endforeach?>
 </form>
