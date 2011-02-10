@@ -51,15 +51,15 @@ class CMSBaseComponent extends WaxController {
     if(($id = Session::get($session_name)) && ($model = new $this->user_model_class($id)) && $model->primval == $id) return $model;
     return false;
   }
-
+  
+  protected function events(){}
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
 	protected function initialise(){
 	  $this->use_layout = "login";
-	}
-  
-  
+	  $this->events();
+	}  
 
 }
 ?>
