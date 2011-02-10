@@ -1,0 +1,14 @@
+<?
+$root = new $model_class($model_scope);
+
+?>
+<div class='parent_filter'>
+  <label for="filters_<?=$name?>">Parent:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <option value=''>-- All Parents --</option>
+    <?if(!$depth) $depth=1;?>
+    <?foreach($root->filter("status", $model_filters['status'])->tree() as $node):?>
+      <option value='<?=$node->primval?>' class='select-depth-<?=$node->get_level()?>'><?=$node->title?></option>  
+    <?endforeach?>
+  </select>
+</div>
