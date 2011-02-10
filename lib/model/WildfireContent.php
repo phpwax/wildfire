@@ -78,7 +78,6 @@ class WildfireContent extends WaxTreeModel {
     }
 
   }
-  
   /**
    * function to check the wildfire url map to see if this is the primary content or not
    * - as the permalink is unique for the language, check to see if there is another
@@ -108,6 +107,15 @@ class WildfireContent extends WaxTreeModel {
       if($found && $found->count()) return $found->first();
       else return false;
     }
+  }
+  /**
+   * if this page has an entry in the mapping table, then this is the master version
+   */
+  public function master(){
+    $map = new WildfireUrlMap;
+    $class = get_class($this);
+    $permalink = $this->language_permalink($this->language);
+    return $map->filter("origin_url", $permalink)->filter("destination_id", $this->primval)->filter("destination_model", $class)->first();
   }
   //shorthand functions for live & draft of content
   public function show(){
