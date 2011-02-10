@@ -1,17 +1,13 @@
-
-div.content_index .tree-children .view_children a{
-  display:block;
-  width:16px;
-  height:16px;
-  margin:auto;
-  background: url("/images/wildfire/jqueryui/ui-icons_ffffff_256x240.png") no-repeat top left;
-  background-position: 0 -192px;
+.view_children{
+  text-align:center;
+  border-right-width:0;
+  padding:8px 2px;
 }
-  div.content_index th.view_children span, div.content_index .tree-children .view_children span{display:none;}
-  div.content_index .view_children{
-    text-align:center;
-    border-right-width:0;
-    padding:8px 2px;
+  .view_children a{
+    display:block;
+    width:16px;
+    height:16px;
+    margin:auto;
+    background-position: 0 -192px;
   }
-  
-.ui-icon-circle-minus { background-position: -16px -192px; }
+  .view_children span{display:none;}
