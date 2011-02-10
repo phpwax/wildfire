@@ -14,7 +14,7 @@ foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($m
   </thead>
   <tbody>
   <?foreach($cms_content as $i=>$row):?>
-  <tr class='row <?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?>' id="row_<?=$row->primval?>">
+  <tr class='row <?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>">
     <?foreach($scaffold_columns as $col=>$info):?>
     <?$value = ((method_exists($row, "humanize"))?$row->humanize($col):$row->$col());?>
     <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/"><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>
