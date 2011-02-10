@@ -86,8 +86,6 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
 	    }
 	  });
-
-    WaxEvent::add("cms.save.before", function(){
 	  
 	  WaxEvent::add("cms.model.setup", function(){
 	    $obj = WaxEvent::$data;
@@ -114,15 +112,11 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::$data;
       $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
     });
+
+    WaxEvent::add("cms.save.before", function(){});    
+    WaxEvent::add("cms.save.after", function(){});
+    WaxEvent::add("cms.save.success", function(){});
     
-    WaxEvent::add("cms.save.after", function(){
-      $obj = WaxEvent::$data;
-      $obj->save_after();
-    });
-    WaxEvent::add("cms.save.success", function(){
-      $obj = WaxEvent::$data;
-      $obj->save_success();
-    });
     WaxEvent::add("cms.save", function(){
 	    $obj = WaxEvent::$data;
 	    WaxEvent::run("cms.save.before", $obj);
