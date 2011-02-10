@@ -129,7 +129,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	 * initialises authentication, default model and menu items
 	 **/
 	protected function initialise(){  
-    $this->events();
+    parent::initialise();
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);
     WaxEvent::run("cms.model.setup", $this);    
