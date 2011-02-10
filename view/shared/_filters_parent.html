@@ -8,7 +8,7 @@ $root = new $model_class($model_scope);
     <option value=''>-- Any Parent --</option>
     <?if(!$depth) $depth=1;?>
     <?foreach($root->tree() as $node):?>
-      <option value='<?=$node->primval?>' class='select-depth-<?=$node->get_level()?>'><?=$node->title?></option>  
+      <option value='<?=$node->primval?>' class='select-depth-<?=$node->get_level()?>' <?if($model_filters[$name] == $node->primval):?> selected="selected"<?endif?>><?=$node->title?></option>  
     <?endforeach?>
   </select>
 </div>
