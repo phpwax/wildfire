@@ -22,9 +22,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
-
     WaxEvent::run("cms.permission.check_action", $this);
-
   }
 
   protected function events(){
@@ -33,6 +31,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::$data;
   	  $obj->use_layout = "admin";
+    });
+    WaxEvent::add("cms.layout.sublinks", function(){
+      $obj = WaxEvent::$data;
+      $obj->quick_links = array("create new $obj->module_name"=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
     });
     /**
      * permissions
