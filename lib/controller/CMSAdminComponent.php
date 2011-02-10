@@ -28,6 +28,12 @@ class CMSAdminComponent extends CMSBaseComponent {
   }
 
   protected function events(){
+    WaxEvent::clear("cms.layout.set");
+    
+    WaxEvent::add("cms.layout.set", function(){
+      $obj = WaxEvent::$data;
+  	  $obj->use_layout = "admin";
+    });
     /**
      * permissions
      */
