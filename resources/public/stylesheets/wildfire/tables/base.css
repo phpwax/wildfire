@@ -5,12 +5,13 @@
 .data_table th.status span{display:none;}
 .data_table td.status{
   text-align:center;
+  padding:8px 6px 8px 2px;
 }
   .data_table td.status a{
     display:block;
-    width:10px;
-    height:10px;
-    margin:auto;
+    width:16px;
+    height:16px;
+    margin:auto;    
   }
     .data_table td.status a span{
       display:none;
