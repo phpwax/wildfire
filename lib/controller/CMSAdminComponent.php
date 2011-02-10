@@ -49,8 +49,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    }
     });
     });
-    
-    WaxEvent::add("cms.model.pagination", function(){
+    WaxEvent::add("cms.pagination", function(){
       $obj = WaxEvent::$data;
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
