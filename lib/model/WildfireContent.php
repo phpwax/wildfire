@@ -34,6 +34,17 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
 
 	}
+	
+	public function scope_admin(){
+	  return $this->filter("language", array_shift(array_keys(CMSApplication::$languages)))->order("status DESC");
+	}
+	
+	public function scope_live(){
+    return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )");
+  }
+  public function scope_preview(){
+    return $this->filter("status", 2);
+  }
 
   public function before_save(){
     if(!$this->date_start) $this->date_start = date("Y-m-d H:i:s");
