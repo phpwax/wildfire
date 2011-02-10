@@ -1,0 +1,10 @@
+/*reset the font size*/
+.ui-widget{font-size:1em;}
+
+/*tabs*/
+.ui-tabs,.ui-tabs-nav{
+  border-radius:0;
+  -moz-border-radius:0;
+  -webkit-border-radius:0;
+}
+.ui-tabs .ui-tabs-panel, .ui-tabs, .ui-tabs .ui-tabs-nav{padding:0;}
