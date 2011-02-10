@@ -13,7 +13,9 @@ class CMSAdminContentController extends AdminComponent {
                           'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),
                           'status' => array('columns'=>array('status'), 'partial'=>"_filters_status")
 	                      );
-
+  //throw in a new scaffold that doesnt exist
+  public $scaffold_columns = array('view_children'=>true);
+  
 	protected function events(){
 	  parent::events();
 	  //overwrite existing events - handle the revision change
