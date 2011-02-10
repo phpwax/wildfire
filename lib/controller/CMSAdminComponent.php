@@ -96,6 +96,17 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    WaxEvent::run("cms.model.columns", $obj);
 	    WaxEvent::run("cms.model.filters", $obj);	    
 	  });
+	  /**
+	   * forms
+	   */
+	  WaxEvent::add("cms.form.setup", function(){
+	    $obj = WaxEvent::$data;
+	    $obj->model = new $obj->model_class(Request::get("id"));
+  	  $obj->form = new WaxForm($obj->model);
+  	  //check for join to users
+  	  if($obj->model->columns['author']) $obj->form->author->value = $obj->current_user->primval;
+	  });
+	  
     /**
      * view setups
      */
