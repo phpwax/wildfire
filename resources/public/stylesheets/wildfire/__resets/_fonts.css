@@ -1,8 +1,3 @@
-@import url('http://fonts.googleapis.com/css?family=Arimo:bold');
-
-.brand{
-  font-family: 'Arimo', arial, serif;
-  font-size:334%;
-  font-weight:bold;
-  letter-spacing:0.1px;
+*{
+  font-family:helvetica, arial, sans-serif;
 }
