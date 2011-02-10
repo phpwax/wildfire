@@ -21,7 +21,6 @@ table td, table th{
 #white-cms .row_1 td, #white-cms .row_1 th{
   background:#ececec;
 }
-  #white-cms tbody tr:hover td, #white-cms tbody tr:hover th,
-  #white-cms .data_table .active td, #white-cms .data_table .active th{
-    background:#D2F5E3;
-  }
+  
+  #white-cms .active td, #white-cms .active th{background:#DAFFEC;}
+  #white-cms tbody tr:hover td, #white-cms tbody tr:hover th{background:#CEF1DF;}
