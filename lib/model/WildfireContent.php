@@ -18,7 +18,7 @@ class WildfireContent extends WaxTreeModel {
     $langs = array();
     foreach(CMSApplication::$languages as $i=>$l) $langs[$i] = $l['name'];
     $default = array_shift(array_keys(CMSApplication::$languages));
-    $this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"HiddenInput", 'default'=>$default, 'group'=>'languages', 'editable'=>(count(CMSApplication::$languages)>1)?true:false ));
+    $this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"HiddenInput", 'default'=>$default, 'group'=>'languages', 'editable'=>(count(CMSApplication::$languages)>1)?true:false, 'scaffold'=> (count(CMSApplication::$languages)>1)?true:false));
 
     //main grouping field
 		$this->define("permalink", "CharField", array('group'=>'all versions'));
@@ -35,7 +35,7 @@ class WildfireContent extends WaxTreeModel {
 	}
 	
 	public function scope_admin(){
-	  return $this->filter("language", array_shift(array_keys(CMSApplication::$languages)))->order("status DESC");
+	  return $this->order("status DESC");
 	}
 	
 	public function scope_live(){

@@ -11,7 +11,8 @@ class CMSAdminContentController extends AdminComponent {
 	public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),
-                          'status' => array('columns'=>array('status'), 'partial'=>"_filters_status")
+                          'status' => array('columns'=>array('status'), 'partial'=>"_filters_status"),
+                          'language' => array('columns'=>array('language'), 'partial'=>"_filters_language")
 	                      );
   //throw in a new scaffold that doesnt exist
   public $scaffold_columns = array('view_children'=>true);
@@ -26,6 +27,7 @@ class CMSAdminContentController extends AdminComponent {
   	    $obj->form = new WaxForm($obj->model);
       }      
     });
+    //if the model is a revision or alt language dont let them edit the parent as this would break the nav
     WaxEvent::add("cms.form.setup", function(){
       $obj = WaxEvent::$data;      
       if($obj->model->revision() || $obj->model->alt_language()) $obj->form->{$obj->model->parent_column}->editable=false;
@@ -45,8 +47,12 @@ class CMSAdminContentController extends AdminComponent {
         $obj->model_filters['status'] = array_pop(array_keys($obj->model->columns['status'][1]['choices']));
         $obj->model->filter("status",  $obj->model_filters['status']);
       }
+      if(!isset($obj->model_filters['language'])){
+        $obj->model_filters['language'] = array_shift(array_keys($obj->model->columns['language'][1]['choices']));
+        $obj->model->filter("language",  $obj->model_filters['language']);
+      }
     });
-
+    
     WaxEvent::clear("cms.index.setup");
     WaxEvent::add("cms.index.setup", function(){
 	    $obj = WaxEvent::$data;
@@ -54,8 +60,6 @@ class CMSAdminContentController extends AdminComponent {
 	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->roots();
 	    else $obj->cms_content = $obj->model->all();
     });
-
-    WaxEvent::add("cms.model.tree", function(){});
 
 	}
 
