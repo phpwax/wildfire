@@ -16,7 +16,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	//filter details
 	public $filter_partial="_filters";
 	public $filter_fields=array(
-                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text')
+                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
   //check user is allowed to do this!
