@@ -32,12 +32,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 
   }
 
-	/**
-	 * initialises authentication, default model and menu items
-	 **/
-	protected function initialise(){
-
-	  WaxEvent::add("cms.permissions.logged_in_user", function() {
+  protected function events(){
+    WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::$data;
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
@@ -49,6 +45,13 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
 	    }
     });
+    
+    WaxEvent::add("cms.index.all", function(){
+	    $obj = WaxEvent::$data;
+	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));
+	    $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
+    });
+    
     WaxEvent::add("cms.model.pagination", function(){
       $obj = WaxEvent::$data;
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
@@ -67,6 +70,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::$data;
       $obj->save_before();
     });
+    
     WaxEvent::add("cms.save.after", function(){
       $obj = WaxEvent::$data;
       $obj->save_after();
@@ -75,7 +79,22 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::$data;
       $obj->save_success();
     });
-
+    WaxEvent::add("cms.save", function(){
+	    $obj = WaxEvent::$data;
+	    WaxEvent::run("cms.save.before", $obj);
+	    if($obj->saved = $obj->form->save()){
+	      Session::add_message('Content saved.');
+	      $obj->model = $obj->saved;
+	      WaxEvent::run("cms.save.success", $obj);
+	    }
+	    WaxEvent::run("cms.save.after", $obj);
+	  });
+  }
+	/**
+	 * initialises authentication, default model and menu items
+	 **/
+	protected function initialise(){  
+    $this->events();
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);
     WaxEvent::run("cms.model.pagination", $this);
@@ -89,11 +108,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	* Default view - lists all model items - has shared view cms/view/shared/list.html
 	*/
 	public function index(){
-	  WaxEvent::add("cms.index.all", function(){
-	    $obj = WaxEvent::$data;
-	    $obj->model = $obj->_handle_filters(new $obj->model_class($obj->model_scope), Request::param('filters'));
-	    $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
-    });
+	  
     WaxEvent::run("cms.index.all", $this);
 	}
 
@@ -107,18 +122,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  $this->form = new WaxForm($this->model);
 	  //check for join to users
 	  if($this->model->columns['author']) $this->form->author->value = $this->current_user->primval;
-    //the save event
-	  WaxEvent::add("cms.save", function(){
-	    $obj = WaxEvent::$data;
-	    WaxEvent::run("cms.save.before", $obj);
-	    if($obj->saved = $obj->form->save()){
-	      Session::add_message('Content saved.');
-	      $obj->model = $obj->saved;
-	      WaxEvent::run("cms.save.success", $obj);
-	    }
-	    WaxEvent::run("cms.save.after", $obj);
-	  });
-	  
+    //run the save event	  
 	  WaxEvent::run("cms.save", $this);
 	}
 
