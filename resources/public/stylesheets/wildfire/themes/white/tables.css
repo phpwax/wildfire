@@ -1,0 +1,27 @@
+
+/**
+ * tables
+ */
+table td, table th{
+  border-bottom-width:0;
+  border-top-width:0;
+  border-color:#D8D8D8;
+}
+  table thead th{
+    border-bottom-width:1px;
+    text-transform:uppercase;
+    font-weight:bold;
+    font-size:85%;
+  }
+
+#white-cms div.content_index .tree-children .view_children a{
+  background-image: url("/images/wildfire/jqueryui/ui-icons_323231_256x240.png");
+}
+
+#white-cms .row_1 td, #white-cms .row_1 th{
+  background:#ececec;
+}
+  #white-cms tbody tr:hover td, #white-cms tbody tr:hover th,
+  #white-cms .data_table .active td, #white-cms .data_table .active th{
+    background:#D2F5E3;
+  }

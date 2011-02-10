@@ -1,0 +1,13 @@
+/**
+ * forms
+ */
+#white-cms form.form_container{
+  background:white;
+}
+#white-cms #data-listing{
+  background:white;
+}
+  #white-cms form.form_container .text_field:focus, #white-cms form.form_container textarea:focus{
+    border-color:#F89E1E;
+    border-style:solid;
+  }
