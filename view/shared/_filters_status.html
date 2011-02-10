@@ -1,0 +1,6 @@
+<div class='status_filter'>
+  <label for="filters_<?=$name?>">Status:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <?foreach(array_reverse($model->columns[$name][1]['choices']) as $id=>$value):?><option value='<?=$id?>'><?=$value?></option><?endforeach?>
+  </select>
+</div>
