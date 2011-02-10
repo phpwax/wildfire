@@ -9,8 +9,9 @@ class CMSAdminContentController extends AdminComponent {
 	public $display_name = "Content";
   public $per_page = false; //not paginated, instead using roots of the tree to start and filters afterwards
 	public $filter_fields=array(
-                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text'),
-                          'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent')
+                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
+                          'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),
+                          'status' => array('columns'=>array('status'), 'partial'=>"_filters_status")
 	                      );
 
 	protected function events(){
