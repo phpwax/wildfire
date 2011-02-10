@@ -167,11 +167,5 @@ class CMSAdminComponent extends CMSBaseComponent {
   }
 
 
-
-
-  public function save_before(){}
-  public function save_after(){}  
-  public function save_success(){}  
-
 }
 ?>
