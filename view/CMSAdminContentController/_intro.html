@@ -1,13 +1,13 @@
-<?if(($revision = $model->revision()) || ($master = $model->master()) || ($lang = $model->alt_language())):?>
+<?if(($revision = $model->revision()) || ($master = $model->is_live()) || ($lang = $model->alt_language())):?>
 <div class="ui-widget">
   <div class="ui-state-highlight ui-corner-all"> 
     <?if($revision):?>
     <p><span class="ui-icon ui-icon-info"></span>You are editing a revision of <a href="/<?=trim($controller,"/")?>/edit/<?=$revision->primval?>/">another page</a>.</p>
     <?endif?>
-    <?if($master = $model->master()):?>
-    <p><span class="ui-icon ui-icon-alert"></span>You are editing the master version. <strong>Please check for unpublished versions</strong>.</p>
+    <?if($master):?>
+    <p><span class="ui-icon ui-icon-alert"></span>You are editing the LIVE version. <strong>Please check for unpublished versions</strong>.</p>
     <?endif?>
-    <?if($lang = $model->alt_language()):?>
+    <?if($lang):?>
     <p><span class="ui-icon ui-icon-info"></span>You are editing an alternative language (<?=ucwords(CMSApplication::$languages[$model->language]['name'])?>) version of <a href="/<?=trim($controller,"/")?>/edit/<?=$lang->primval?>/">another page</a>.</p>
     <?endif?>
 	</div>
