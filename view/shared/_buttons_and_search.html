@@ -5,9 +5,9 @@
 </form>
 <?endif?>
 
-<?WaxEvent::run("cms.layout.sublinks", $obj);?>
 
-<?foreach($obj->quick_links as $name=>$link):?>
+
+<?foreach($quick_links as $name=>$link):?>
 <a href='<?=$link?>' title='create a new page' class='button orange content-create'><span><?=strtoupper($name)?></span></a>
 <?endforeach?>
 

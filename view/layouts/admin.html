@@ -15,7 +15,8 @@
   
   <div id="page_content" class='clearfix'>
     <div class='clearfix full buttons_and_search'>
-    <?=partial("_buttons_and_search", array('current_user'=>$current_user, 'obj'=>$this))?>
+    <?WaxEvent::run("cms.layout.sublinks", $this);?>
+    <?=partial("_buttons_and_search", array('current_user'=>$current_user, 'quick_links'=>$this->quick_links))?>
     </div>
     
     <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
