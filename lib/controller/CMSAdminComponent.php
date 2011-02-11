@@ -29,27 +29,27 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::clear("cms.layout.set");
     
     WaxEvent::add("cms.layout.set", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
   	  $obj->use_layout = "admin";
     });
     WaxEvent::add("cms.layout.sublinks", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
       $obj->quick_links = array("create new $obj->module_name"=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
     });
     /**
      * permissions
      */
     WaxEvent::add("cms.permissions.check_action", function() {
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
       if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
     
     WaxEvent::add("cms.permissions.logged_in_user", function() {
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
 	  WaxEvent::add("cms.permissions.all_modules", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();
 	    foreach(CMSApplication::get_modules() as $name=>$info){
 	      $class = "CMSAdmin".Inflections::camelize($name,true)."Controller";
 	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
@@ -59,17 +59,17 @@ class CMSAdminComponent extends CMSBaseComponent {
      * models
      */
     WaxEvent::add("cms.model.init", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
       $obj->model = new $obj->model_class($obj->model_scope);
     });
     WaxEvent::add("cms.pagination", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
 	  });
 	  
     WaxEvent::add("cms.model.filters", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
       if(!$obj->model_filters) $obj->model_filters = Request::param('filters');
       $filterstring = "";
       
@@ -87,13 +87,13 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
     
 	  WaxEvent::add("cms.model.columns", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();
       $model = new $obj->model_class;
       foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
 	  });
 	  
 	  WaxEvent::add("cms.model.setup", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.model.init", $obj);
 	    WaxEvent::run("cms.pagination", $obj);
 	    WaxEvent::run("cms.model.columns", $obj);
@@ -103,7 +103,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	   * forms
 	   */
 	  WaxEvent::add("cms.form.setup", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();
 	    $obj->model = new $obj->model_class(Request::get("id"));
   	  $obj->form = new WaxForm($obj->model);
   	  //check for join to users
@@ -114,7 +114,7 @@ class CMSAdminComponent extends CMSBaseComponent {
      * view setups
      */
     WaxEvent::add("cms.index.setup", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();
       $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
     });
 
@@ -123,7 +123,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.save.success", function(){});
     
     WaxEvent::add("cms.save", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.save.before", $obj);
 	    if($obj->saved = $obj->form->save()){
 	      Session::add_message('Saved.');
