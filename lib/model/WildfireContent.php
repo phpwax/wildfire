@@ -18,10 +18,10 @@ class WildfireContent extends WaxTreeModel {
     $langs = array();
     foreach(CMSApplication::$languages as $i=>$l) $langs[$i] = $l['name'];
     $default = array_shift(array_keys(CMSApplication::$languages));
-    $this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"HiddenInput", 'default'=>$default, 'group'=>'languages', 'editable'=>(count(CMSApplication::$languages)>1)?true:false, 'scaffold'=> (count(CMSApplication::$languages)>1)?true:false));
+    $this->define("language", "IntegerField", array('choices'=>$langs, 'widget'=>"HiddenInput", 'default'=>$default, 'group'=>'all versions', 'editable'=>(count(CMSApplication::$languages)>1)?true:false, 'scaffold'=> (count(CMSApplication::$languages)>1)?true:false));
 
     //main grouping field
-		$this->define("permalink", "CharField", array('group'=>'all versions'));
+		$this->define("permalink", "CharField", array('group'=>'urls'));
 
 		$this->define("excerpt", "TextField", array('group'=>'others'));
 		$this->define("meta_description", "TextField", array('group'=>'others'));
@@ -32,8 +32,6 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-		//need a custom view for this - a pretty tree diagram with drag / drop
-		$this->define($this->parent_column, "ForeignKey", array("col_name" => $this->parent_join_field, "target_model" => get_class($this), 'group'=>'parent'));
 	}
 	
 
