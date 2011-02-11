@@ -23,12 +23,12 @@ class WildfireContent extends WaxTreeModel {
     //main grouping field
 		$this->define("permalink", "CharField", array('group'=>'urls'));
 
-		$this->define("excerpt", "TextField", array('group'=>'others'));
-		$this->define("meta_description", "TextField", array('group'=>'others'));
-		$this->define("meta_keywords", "TextField", array('group'=>'others'));
+		$this->define("excerpt", "TextField", array('group'=>'others', 'editable'=>false));
+		$this->define("meta_description", "TextField", array('group'=>'others', 'editable'=>false));
+		$this->define("meta_keywords", "TextField", array('group'=>'others', 'editable'=>false));
 
 		//hidden extras
-		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput', 'group'=>"others"));
+		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput'));
 		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
