@@ -5,20 +5,21 @@ if(!$tree){
   $tree = new $model_class($model_scope);
   $tree = $tree->filter("language", $model->language)->roots();
 }
+if(!$master_primval && !$model->master() && ($master_model = $model->find_master()) ) $master_primval = $master_model->destination_id;
 ?>
 <?if($depth == 0):?>
   <?foreach($fields as $field):?><?=$field->render()?><?endforeach?>
 <?endif?>
 
-<ul class='tree tree-depth-<?=$depth?>' id="tree-<?=$depth?>" data-parent-form-element="<?=$model->table?>_parent" data-parent-value="<?=$parent_id?>" data-depth="<?=$depth?>">
+<ul class='tree tree-depth-<?=$depth?> tree-master-<?=$master_primval?>' id="tree-<?=$depth?>" data-parent-form-element="<?=$model->table?>_parent" data-sort-form-element="<?=$model->table?>_sort" data-parent-value="<?=$parent_id?>" data-depth="<?=$depth?>">
 <?if($tree && $tree->count()):?>
 
   <?foreach($tree as $branch):?>
   <?if($branch->master()):?>
     <?$kids = $branch->children;?>
-    <li class='branch branch-depth-<?=$depth?> branch-<?if($kids && $kids->count()):?>has-children<?else:?>no-children<?endif?> <?if($branch->primval == $model->primval):?>active-branch<?endif?>' data-primval="<?=$branch->primval?>">
-      <a href="#" class='node node-<?if($branch->status == 1):?>live<?else:?>draft<?endif?> <?if($branch->primval == $model->primval):?>active<?endif?>'><?if($branch->primval == $model->primval):?>THIS PAGE<?else:?><?=$branch->title?><?endif?></a>
-      <?=partial("_parent", array('tree'=>$kids, 'depth'=>($depth+1), 'model'=>$model, 'parent_id'=>$branch->primval))?>
+    <li class='branch branch-depth-<?=$depth?> branch-<?if($kids && $kids->count()):?>has-children<?else:?>no-children<?endif?> <?if($branch->primval == $model->primval || $branch->primval == $master_primval):?>active-branch<?endif?>' data-primval="<?=$branch->primval?>">
+      <a href="#" class='node node-<?if($branch->status == 1):?>live<?else:?>draft<?endif?> <?if($branch->primval == $model->primval || $branch->primval == $master_primval):?>active<?endif?>'><?if($branch->primval == $model->primval || $branch->primval == $master_primval):?>THIS PAGE<?else:?><?=$branch->title?><?endif?></a>
+      <?=partial("_parent", array('tree'=>$kids, 'depth'=>($depth+1), 'model'=>$model, 'parent_id'=>$branch->primval, 'master_primval'=>$master_primval))?>
     </li>
   <?endif?>
   <?endforeach?>

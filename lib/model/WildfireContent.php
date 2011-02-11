@@ -29,7 +29,7 @@ class WildfireContent extends WaxTreeModel {
 
 		//hidden extras
 		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput'));
-		$this->define("sort", "IntegerField", array('maxlength'=>3, "editable"=>false, 'default'=>0));
+		$this->define("sort", "IntegerField", array('maxlength'=>3, 'default'=>0, 'widget'=>"HiddenInput", 'group'=>'parent'));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
 	}
@@ -122,6 +122,13 @@ class WildfireContent extends WaxTreeModel {
     $permalink = $this->language_permalink($this->language);
     return $map->filter("origin_url", $permalink)->filter("destination_id", $this->primval)->filter("destination_model", $class)->first();
   }
+  public function find_master(){
+    $map = new WildfireUrlMap;
+    $class = get_class($this);
+    $permalink = $this->language_permalink($this->language);
+    return $map->filter("origin_url", $permalink)->filter("destination_id", $this->primval, "!=")->filter("destination_model", $class)->first();
+  }
+  
   //shorthand functions for live & draft of content
   public function show(){
     return $this->change_status(1);

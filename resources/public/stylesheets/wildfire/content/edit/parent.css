@@ -1,9 +1,11 @@
 fieldset#parent{
-  padding:0 2%;
 }
 
+#tree-0{
+  margin:0 2%;
+}
 .tree{
-
+  
 }
 
   .tree li{margin:0 0 5px 0;}

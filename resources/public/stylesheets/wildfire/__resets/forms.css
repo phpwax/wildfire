@@ -23,6 +23,7 @@ form{border:0;background:none;}
       font-size:116%;
     }
     form fieldset textarea{height:90px;}
+    form fieldset .form-submit{padding:10px 2%;}
 
 /*fordepth*/
 option.select-depth-1{padding-left:10px;}

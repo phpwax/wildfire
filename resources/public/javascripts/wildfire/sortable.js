@@ -13,8 +13,10 @@ jQuery(document).ready(function(){
         p_tree = moved.parents("ul.tree")[0], 
         parent_id = jQuery(p_tree).attr('data-parent-value'), 
         pos = moved.index(),
-        form_ele = jQuery("#"+jQuery(p_tree).attr("data-parent-form-element"))
+        parent_ele = jQuery("#"+jQuery(p_tree).attr("data-parent-form-element")),
+        sort_ele = jQuery("#"+jQuery(p_tree).attr("data-sort-form-element"))
         ;
-    form_ele.val(parent_id);
+    parent_ele.val(parent_id);
+    sort_ele.val(pos);
   });
 });

@@ -59,7 +59,7 @@ class CMSAdminContentController extends AdminComponent {
       $obj = WaxEvent::$data;
       WaxEvent::run('cms.url.delete', $obj);
         
-      if($obj->model->revision() || $obj->model->alt_language()) $obj->form->permalink->editable = $obj->form->{$obj->model->parent_column}->editable=false;
+      if($obj->model->revision() || $obj->model->alt_language()) $obj->form->permalink->editable =false;
       else $obj->form->{$obj->model->parent_column}->choices = $obj->model->allowed_parents();
     });
     
