@@ -142,7 +142,13 @@ class WildfireContent extends WaxTreeModel {
   }
 
   public function url(){
-    if($this->title != $this->columns['title'][1]['default']) return Inflections::to_url($this->title);
+    if($this->title != $this->columns['title'][1]['default']){
+      $test = $base = Inflections::to_url($this->title);
+      $class = get_class($this);
+      $model = new $class;
+      while($model->clear()->filter("permalink", "/".trim($test, "/")."/")->first()) $test = $base."-".rand(0,99);
+      return $test;
+    }
     else return false;
   }
 
