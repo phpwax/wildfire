@@ -30,7 +30,7 @@ class CMSAdminContentController extends AdminComponent {
 	  WaxEvent::add('cms.url.add', function(){	    
 	    $obj = WaxEvent::$data;
 	    $saved = $obj->model;	    
-	    if(($maps = Request::param('url_map')) && $saved->master()){
+	    if(($maps = Request::param('url_map')) ){
 	      
 	      $check = new WildfireUrlMap;
 	      foreach($maps as $primval=>$permalink){
@@ -57,13 +57,16 @@ class CMSAdminContentController extends AdminComponent {
     //if the model is a revision or alt language dont let them edit the parent as this would break the nav
     WaxEvent::add("cms.form.setup", function(){
       $obj = WaxEvent::$data;
-      WaxEvent::run('cms.url.delete', $obj);	    
+      WaxEvent::run('cms.url.delete', $obj);
+        
       if($obj->model->revision() || $obj->model->alt_language()) $obj->form->permalink->editable = $obj->form->{$obj->model->parent_column}->editable=false;
       else $obj->form->{$obj->model->parent_column}->choices = $obj->model->allowed_parents();
     });
+    
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
 	    $obj = WaxEvent::$data;
+	    
 	    if(Request::param('live')) $obj->model->show()->update_url_map(1);
   	  elseif(Request::param('hide')) $obj->model->hide()->update_url_map(0);
   	  elseif(Request::param('revision')) $obj->model->hide();
@@ -74,6 +77,7 @@ class CMSAdminContentController extends AdminComponent {
     //modify the post filter function to enforce a status filter - they bubble..
     WaxEvent::add("cms.model.filters", function(){
       $obj = WaxEvent::$data;
+      
       if(!isset($obj->model_filters['status'])){
         $obj->model_filters['status'] = array_pop(array_keys($obj->model->columns['status'][1]['choices']));
         $obj->model->filter("status",  $obj->model_filters['status']);
