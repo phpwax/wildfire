@@ -9,8 +9,12 @@ jQuery(document).ready(function(){
   
   
   jQuery(".tree" ).bind("sortstop", function(eve, ui) {
-    var moved = jQuery(ui.item), pos = (moved.index() > 0)?moved.index()-1:0,     
-        pp = (pos==0)? jQuery('.tree').attr('data-parent-value'): jQuery(".tree li").eq(pos).attr('data-primval');
-    console.log("pos:"+pos+" parent:"+pp);
+    var moved = jQuery(ui.item), 
+        p_tree = moved.parents("ul.tree")[0], 
+        parent_id = jQuery(p_tree).attr('data-parent-value'), 
+        pos = moved.index(),
+        form_ele = jQuery("#"+jQuery(p_tree).attr("data-parent-form-element"))
+        ;
+    form_ele.val(parent_id);
   });
 });
