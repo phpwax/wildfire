@@ -110,6 +110,9 @@ class WildfireContent extends WaxTreeModel {
       else return false;
     }
   }
+  public function is_live(){
+    return $this->status;
+  }
   /**
    * if this page has an entry in the mapping table, then this is the master version
    */
