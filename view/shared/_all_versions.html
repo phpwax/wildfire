@@ -3,7 +3,7 @@
   <?foreach(CMSApplication::$languages as $i=>$lang):?>
   <div class='clearfix'>
     <div class='clearfix headers'>
-    <a href='/<?=trim($controller,"/")?>/copy/?source=<?=$model->primval?>&amp;change[language]=<?=$i?>&amp;change[status]=0' class='button create create-<?=get_class($model)?> create-lang create-lang<?=$i?>'>CREATE NEW <?=$lang['name']?> VERSION</a>
+    <a href='/<?=trim($controller,"/")?>/copy/?source=<?=$model->primval?>&amp;change[language]=<?=$i?>&amp;change[status]=0&amp;change[revision]=<?=$model->primval?>' class='button create create-<?=get_class($model)?> create-lang create-lang<?=$i?>'>CREATE NEW <?=$lang['name']?> VERSION</a>
     <h3><?=ucwords($lang['name'])?></h3>
     </div>
     <?
@@ -11,7 +11,7 @@
     $group = new $class;
     $cms_content = $group->filter("permalink", $model->permalink)->filter("language", $i)->all();
     ?>
-    <?=partial("_list", array('primval'=>$model->primval, 'controller'=>$controller, 'cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions))?>
+    <?=partial("_list", array('no_filter'=>true,'primval'=>$model->primval, 'controller'=>$controller, 'cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions))?>
   </div>
   <?endforeach?>
 </div>
