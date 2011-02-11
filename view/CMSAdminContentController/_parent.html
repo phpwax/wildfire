@@ -11,9 +11,9 @@ if(!$tree){
   <?foreach($tree as $branch):?>
   <?$kids = $branch->children;?>
   <li class='branch branch-depth-<?=$depth?> branch-<?if($kids && $kids->count()):?>has-children<?else:?>no-children<?endif?>' data-primval="<?=$branch->primval?>">
-    <a href="#" class='node node-<?if($branch->status == 1):?>live<?else:?>draft<?endif?>'><?=$branch->title?></a>
+    <a href="#" class='node node-<?if($branch->status == 1):?>live<?else:?>draft<?endif?> <?if($branch->primval == $model->primval):?>active<?endif?>'><?=$branch->title?></a>
     <?if($kids && $kids->count()):?>
-    <?=partial("_parent", array('tree'=>$kids, 'depth'=>($depth+1)))?>
+    <?=partial("_parent", array('tree'=>$kids, 'depth'=>($depth+1), 'model'=>$model))?>
     <?endif?>
   </li>
   <?endforeach?>

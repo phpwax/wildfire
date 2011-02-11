@@ -11,3 +11,7 @@
     border-color:#F89E1E;
     border-style:solid;
   }
+
+#white-cms form input[disabled=disabled]{
+  background:#ececec;
+}

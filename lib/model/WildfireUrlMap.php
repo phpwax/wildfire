@@ -27,5 +27,17 @@ class WildfireUrlMap extends WaxModel{
   public function scope_preview(){
     return $this->filter("status", 2);
   }
+  
+  public function map_to($permalink, $model){
+    return $this->update_attributes(array('title'=>$model->title,
+                                    'origin_url'=>$permalink,
+                                    'destination_id'=>$model->primval,
+                                    'destination_model'=>get_class($model),
+                                    'status'=>$model->status,
+                                    'date_start'=>$model->date_start,
+                                    'date_end'=>$model->date_end,
+                                    'language'=>$model->language
+                                    ));
+  }
 }
 ?>

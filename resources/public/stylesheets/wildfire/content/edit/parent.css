@@ -1,0 +1,27 @@
+fieldset#parent{
+  padding:0 2%;
+}
+
+.tree{
+
+}
+
+  .tree li{margin:0 0 5px 0;}
+
+  .tree a{
+    display:block;
+    padding:8px 10px;
+    margin:;
+    font-size:116%;
+  }
+    .tree a.active{background:#DAFFEC;}
+
+
+.tree .branch-depth-0{}
+  .tree .branch-depth-1{margin-left:30px;}
+    .tree .branch-depth-2{margin-left:60px;}
+      .tree .branch-depth-3{margin-left:90px;}
+        .tree .branch-depth-4{margin-left:120px;}
+          .tree .branch-depth-5{margin-left:150px;}
+            .tree .branch-depth-6{margin-left:180px;}
+              .tree .branch-depth-7{margin-left:210px;}            
