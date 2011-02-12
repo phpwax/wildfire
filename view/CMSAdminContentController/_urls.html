@@ -12,7 +12,7 @@ $primval = ($model->revision)? $model->revision : $model->primval;
 
 <?foreach($map->filter("destination_id", $primval)->filter("destination_model", get_class($model))->filter("language", $model->language)->filter("origin_url", $model->permalink, "!=")->all() as $i=>$url ):?>
 <div class='field permalink permalink-others clearfix'>
-  <a href='/<?=trim($controller,"/")?>/edit/<?=$model->primval?>/?map_remove=<?=$url->primval?>#<?=$tabhash?>' class='remove remove-<?=$i?>'><span class='ui-icon ui-icon-circle-minus'>&nbsp;<span></a>
+  <?if($primval == $model->primval):?><a href='/<?=trim($controller,"/")?>/edit/<?=$model->primval?>/?map_remove=<?=$url->primval?>#<?=$tabhash?>' class='remove remove-<?=$i?>'><span class='ui-icon ui-icon-circle-minus'>&nbsp;<span></a><?endif?>
   <?if(!$label):?><label for="map_<?=$i?>">Secondary URLS</label><?$label=true;?><?endif?>
   <input type="text" name="url_map[<?=$url->primval?>]" value="<?=$url->origin_url?>" id="map_<?=$i?>" disabled="disabled" class="input_field text_field validate valid-length valid-length">
 </div>
