@@ -98,7 +98,7 @@ class CMSAdminContentController extends AdminComponent {
 
 
   public function _list(){
-    $this->index();
+    if($this->use_format == "ajax") $this->index();
   }
 
 }
