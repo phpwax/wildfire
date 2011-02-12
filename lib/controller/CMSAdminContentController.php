@@ -49,6 +49,7 @@ class CMSAdminContentController extends AdminComponent {
 	  WaxEvent::add("cms.save.before", function(){
 	    $obj = WaxEvent::$data;
 	    if(Request::param('revision')){
+	      $obj->master = $obj->model;
   	    $obj->model = $obj->model->copy();
   	    $obj->form = new WaxForm($obj->model);
       }
@@ -66,7 +67,7 @@ class CMSAdminContentController extends AdminComponent {
 	    
 	    if(Request::param('live')) $obj->model->show()->url_map()->save();
   	  elseif(Request::param('hide')) $obj->model->hide()->url_map()->save();
-  	  elseif(Request::param('revision')) $obj->model->hide()->save();
+  	  elseif(Request::param('revision')) $obj->model->hide()->update_attributes(array('revision'=>$obj->master->primval));
   	  //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
   	  $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");

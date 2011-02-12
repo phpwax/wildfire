@@ -91,7 +91,7 @@ class WildfireContent extends WaxTreeModel {
    * - as the permalink is unique for the language, check to see if there is another
    *   version of this piece of content that is in use
    */
-  public function revision(){
+  public function revision($set=false){
     return $this->revision;
   }
   /**
@@ -128,7 +128,12 @@ class WildfireContent extends WaxTreeModel {
   //put this version of the model as being live, turn off all others
   protected function change_status($status){
     $this->status = $status;
-    $this->revision = ($this->revision && $status ==1) ? 0: $this->revision;
+    if($this->revision){
+      $class = get_class($this);
+      $mod = new $class($this->revision);
+      if($status == 1) $mod->update_attributes(array('revision'=>$this->primval, 'status'=>0));
+    }
+    $this->revision = ($status == 1) ? 0: $this->revision;
     return $this;
   }
 
