@@ -28,12 +28,12 @@ class WildfireUrlMap extends WaxModel{
     return $this->filter("status", 2);
   }
   
-  public function map_to($permalink, $model){
+  public function map_to($permalink, $model, $id, $status){
     return $this->update_attributes(array('title'=>$model->title,
                                     'origin_url'=>$permalink,
-                                    'destination_id'=>$model->primval,
+                                    'destination_id'=>$id,
                                     'destination_model'=>get_class($model),
-                                    'status'=>$model->status,
+                                    'status'=>$status,
                                     'date_start'=>$model->date_start,
                                     'date_end'=>$model->date_end,
                                     'language'=>$model->language

@@ -18,33 +18,39 @@ class CMSAdminContentController extends AdminComponent {
 
 	protected function events(){
 	  parent::events();
-	  
+
 	  WaxEvent::add("cms.url.delete", function(){
 	    if(($id = Request::param('map_remove')) && ($check = new WildfireUrlMap($id)) && $check->primval){
 	      Session::add_message($check->origin_url.' has been deleted.');
 	      $check->delete();
       }
 	  });
-	  
-	  WaxEvent::add('cms.url.add', function(){	    
+
+	  WaxEvent::add('cms.url.add', function(){
 	    $obj = WaxEvent::$data;
-	    $saved = $obj->model;	    
-	    if(($maps = Request::param('url_map')) ){
-	      
-	      $check = new WildfireUrlMap;
-	      foreach($maps as $primval=>$permalink){
-	        if($permalink = trim($permalink)){
-	          //tidy the url map
-	          $permalink = "/".trim($permalink,"/")."/";
-	          if(is_numeric($primval)) $model = new WildfireUrlMap($primval);
-	          else $model = new WildfireUrlMap();
-	          if($check->filter("origin_url", $permalink)->filter('id', $primval, '!=')->first()) Session::add_error('Cannot add url ('.$permalink.'), it is already in use');
-	          else if($newmap = $model->map_to($permalink, $saved) ) if(is_numeric($primval)) Session::add_message($permalink.' has been added to your urls.');
-          }
-	      }
-	    }
+	    $saved = $obj->model;
+	    $class = get_class($saved);
+      if($revision = $saved->revision()){
+        $primval = $revision;
+        $status = 0;
+      }else{
+        $primval = $saved->primval;
+        $status = $saved->status;
+      }
+      if($maps = Request::param('url_map')){
+        $map_model = new WildfireUrlMap;
+        foreach($maps as $map_id=>$permalink){
+         $permalink = "/".trim($permalink,"/")."/";
+         if(!is_numeric($map_id)){
+           $to_save = new WildfireUrlMap;
+           if($map_model->clear()->filter("origin_url", $permalink)->first()) Session::add_error('Cannot add url ('.$permalink.'), it is already in use');
+           else if($newmap = $to_save->map_to($permalink, $saved, $primval, $status) ) Session::add_message($permalink.' has been added to your urls.');
+         }
+        }
+      }
+	   
 	  });
-	  
+
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
 	    $obj = WaxEvent::$data;
