@@ -26,6 +26,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   }
 
   protected function events(){
+    parent::events();
     WaxEvent::clear("cms.layout.set");
     
     WaxEvent::add("cms.layout.set", function(){
@@ -141,6 +142,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);
     WaxEvent::run("cms.model.setup", $this);    
+    WaxEvent::run("cms.format.set",$this);
 	}
 
 

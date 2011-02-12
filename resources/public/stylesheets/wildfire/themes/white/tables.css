@@ -17,10 +17,9 @@ table td, table th{
 #white-cms div.content_index .tree-children .view_children a{
   background-image: url("/images/wildfire/jqueryui/ui-icons_323231_256x240.png");
 }
-
-#white-cms .row_1 td, #white-cms .row_1 th{
-  background:#ececec;
-}
+  #white-cms div.content_index .tree-children .view_children a.open{
+    background-position: -16px -192px;
+  }
   
   #white-cms .active td, #white-cms .active th{background:#DAFFEC;}
-  #white-cms tbody tr:hover td, #white-cms tbody tr:hover th{background:#CEF1DF;}
+  #white-cms tbody tr.row:hover td, #white-cms tbody tr.row:hover th{background:#CEF1DF;}

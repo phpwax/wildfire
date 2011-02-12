@@ -28,7 +28,7 @@ class CMSBaseComponent extends WaxController {
   public $filter_fields=array();
   public $model_filters=array();
   
-  public $operation_actions = array('edit', 'delete');
+  public $operation_actions = array('edit');
   public $quick_links = array();
 
 	function __construct($application = false, $init=true) {
@@ -39,6 +39,7 @@ class CMSBaseComponent extends WaxController {
 	public function controller_global(){
 	  parent::controller_global();
 	  WaxEvent::run("cms.layout.set", $this);
+	  WaxEvent::run("cms.format.set", $this);
 	}
 
 	public function __destruct(){
@@ -59,9 +60,14 @@ class CMSBaseComponent extends WaxController {
   }
   
   protected function events(){
+
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::$data;
   	  $obj->use_layout = "login";
+    });
+    WaxEvent::add("cms.format.set", function(){
+      $obj = WaxEvent::$data;
+  	  if($obj->use_format == "ajax") $obj->use_layout = false;
     });
     WaxEvent::add("cms.layout.sublinks", function(){});
   }

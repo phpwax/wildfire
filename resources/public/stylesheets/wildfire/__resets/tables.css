@@ -12,7 +12,8 @@ table{width:100%;}
   table th, table td{
     border-bottom:1px solid black;
     border-top:1px solid black;
-    border-right:1px solid black;    
   }
     table th:last-child, table td:last-child;{border-right-width:0;}
     table .operations{border-right-width:0;}
+    
+  table .children-list td.list{padding:0;}
