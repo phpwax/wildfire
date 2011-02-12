@@ -40,11 +40,11 @@ class CMSAdminContentController extends AdminComponent {
       if($maps = Request::param('url_map')){
         $map_model = new WildfireUrlMap;
         foreach($maps as $map_id=>$permalink){
-         $permalink = "/".trim($permalink,"/")."/";
-         if(!is_numeric($map_id)){
+         $link = "/".trim($permalink,"/")."/";
+         if(!is_numeric($map_id) && strlen($permalink)){
            $to_save = new WildfireUrlMap;
-           if($map_model->clear()->filter("origin_url", $permalink)->first()) Session::add_error('Cannot add url ('.$permalink.'), it is already in use');
-           else if($newmap = $to_save->map_to($permalink, $saved, $primval, $status) ) Session::add_message($permalink.' has been added to your urls.');
+           if($map_model->clear()->filter("origin_url", $link)->first()) Session::add_error('Cannot add url ('.$link.'), it is already in use');
+           else if($newmap = $to_save->map_to($link, $saved, $primval, $status) ) Session::add_message($link.' has been added to your urls.');
          }
         }
       }
