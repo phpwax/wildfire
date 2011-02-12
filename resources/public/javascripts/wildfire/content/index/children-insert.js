@@ -29,8 +29,6 @@ jQuery(document).ready(function(){
       data: form_data,
       success:function(res){
         link.addClass("open").addClass("fetched");
-        console.log(row);
-        //var insert_at = (jQ)
         row.after("<tr class='children children-list children-of-"+form_val+"' data-parent='"+form_val+"'><td colspan='"+cols+"' class='list'>"+res+"</td></tr>");
       },
       error:function(){}
