@@ -11,7 +11,8 @@ foreach($model->$name as $r) $existing[] = $r->primval;
   <ul>
     <?foreach($all as $row):?>
     <li class='clearfix join-<?if(in_array($row->primval, $existing)):?>yes<?else:?>no<?endif?>'>
-      <input type='checkbox' id="<?=$name?>_<?=$row->primval?>" name='<?=$name?>[<?=$row->primval?>]' value="<?=$row->primval?>" <?if(in_array($row->primval, $existing)):?>checked="checked"<?endif?> >
+      <input type='hidden' id="<?=$name?>_<?=$row->primval?>_hidden" name='joins[<?=$name?>][<?=$row->primval?>]' value="0">
+      <input type='checkbox' id="<?=$name?>_<?=$row->primval?>" name='joins[<?=$name?>][<?=$row->primval?>]' value="<?=$row->primval?>" <?if(in_array($row->primval, $existing)):?>checked="checked"<?endif?> >
       <label for="<?=$name?>_<?=$row->primval?>"><?=$row->humanize()?></label>
     </li>
     <?endforeach?>

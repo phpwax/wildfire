@@ -50,10 +50,31 @@ class CMSAdminContentController extends AdminComponent {
       }
 	   
 	  });
-
+    /**
+     * joins such as categories are handled by this funciton
+     * - the join post array is key value where the key is the join name (ie categories) and 
+     *   the value is an array of data
+     * - first thing we do is remove all the joins for the join you are posting 
+     *   and then re join to the data in the array that is set
+     * this allows for 0 based values to be posted to remove the join
+     */
+    WaxEvent::add("cms.joins.handle", function(){
+      $obj = WaxEvent::$data;
+	    $saved = $obj->model;
+      if(isset($_REQUEST['joins'])){
+        foreach($_REQUEST['joins'] as $join=>$values){
+          $saved->$join->unlink($saved->$join);
+          foreach($values as $id=>$v){
+            $class = $saved->columns[$join][1]['target_model'];
+            if($v) $saved->$join = new $class($id);
+          }
+        }
+      }
+    });
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
 	    $obj = WaxEvent::$data;
+	  
 	    if(Request::param('revision')){
 	      $obj->master = $obj->model;
   	    $obj->model = $obj->model->copy();
@@ -64,7 +85,6 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::add("cms.form.setup", function(){
       $obj = WaxEvent::$data;
       WaxEvent::run('cms.url.delete', $obj);
-      
     });
     
     //status changing after save
@@ -76,6 +96,8 @@ class CMSAdminContentController extends AdminComponent {
   	  elseif(Request::param('revision')) $obj->model->hide()->update_attributes(array('revision'=>$obj->master->primval));
   	  //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
+	    //generic join handling
+	    WaxEvent::run('cms.joins.handle', $obj);
   	  $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");
     });
     //modify the post filter function to enforce a status filter - they bubble..
