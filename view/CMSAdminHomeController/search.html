@@ -1,8 +1,0 @@
-<?if(count($results)):?>
-  <span><strong>Content</strong></span>
-  <?foreach($results as $result):?>
-    <li><div class="generic_button"><a href="/admin/<?=$result->module?>/edit/<?=$result->id?>/" data-model="<?=get_class($result)?>" data-id="<?=$result->id?>" data-title="<?=$result->title?>" data-url="<?=$result->permalink()?>"><?=$button_text?$button_text:"Edit"?></a></div><?=$result->title?></li>
-  <?endforeach?>
-<?else:?>
-  <li><strong>No Results Found</strong></li>
-<?endif?>
