@@ -23,7 +23,7 @@ jQuery(document).ready(function(){
   
   jQuery(".file-tree-container a.node").live("click", function(){
     jQuery(".file-info").html('');
-    jQuery("a.active").removeClass('active');
+    jQuery(".file-tree-container a.active").removeClass('active');
     jQuery(this).addClass('active');
     jQuery(".filepath").val(jQuery(this).attr("data-dir"));
     jQuery(".upload-destination span").html(jQuery(this).attr("data-name"));

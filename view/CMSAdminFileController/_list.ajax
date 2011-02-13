@@ -6,7 +6,7 @@
       <li class='directory collapsed clearfix'>
         <span class='options'>
           <a href="/<?=trim($controller,"/")?>/child/?file=<?=htmlentities($this->dir.$file)?>" data-dest="/<?=trim($controller,"/")?>/child.ajax?file=<?=htmlentities($this->dir.$file)?>" class='new_folder'><span class='ui-icon ui-icon-circle-plus'>add</span></a>
-          <a href="/<?=trim($controller,"/")?>/delete/?file=<?=htmlentities($this->dir.$file)?>" data-dest="/<?=trim($controller,"/")?>/delete.ajax?file=<?=htmlentities($this->dir.$file)?>" class='delete_folder'><span class='ui-icon ui-icon-circle-minus'>remove</span></a>
+          <a href="/<?=trim($controller,"/")?>/delete/?dir=<?=htmlentities($this->dir.$file)?>" data-dest="/<?=trim($controller,"/")?>/delete.ajax?dir=<?=htmlentities($this->dir.$file)?>" class='delete_folder'><span class='ui-icon ui-icon-circle-minus'>remove</span></a>
         </span>
         <a href='#' rel="<?=htmlentities($this->dir.$file)?>/" class='top node' data-dir="<?=htmlentities($this->dir.$file)?>/" data-name="<?=basename($this->dir.$file)?>"><?=$file?></a>
       </li>

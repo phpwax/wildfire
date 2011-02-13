@@ -5,9 +5,7 @@
   overflow:auto;
   overflow-x:hidden;
 }
-  #page_content .file-tree-container ul li{
-    font-size:108%;
-  }
+  #page_content .file-tree-container ul li{}
   #page_content .file-tree-container ul li a{
     padding:6px 2px 6px 25px;
     background-position:5px 5px;

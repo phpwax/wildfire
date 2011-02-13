@@ -1,5 +1,6 @@
-<form action="" method="post" class='new-folder'>
+<form action="/<?=trim($controller, "/")?>/create" method="post" class='new-folder' data-dest="/<?=trim($controller, "/")?>/create.ajax">
   <input type="hidden" name="path" value="<?=$file_system_base?>" class="filepath">
   <h3 class='upload-destination'>Create a folder underneath <span>files</span></h3>
-  <input type="text" value="" placeholder="Enter fodler name">
+  <input type="text" name="folder" value="" placeholder="Enter fodler name">
+  <input type="submit" value="Create">
 </form>

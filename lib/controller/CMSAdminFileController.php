@@ -5,13 +5,13 @@
 */
 
 class CMSAdminFileController extends AdminComponent {
-	public $module_name = "files";												
+	public $module_name = "files";
 	public $model_class="WildfireFile";
 	public $model_scope = "available";
 	public $display_name = "Files";
-	
-	
-	
+
+
+
 	public function _list(){
 	  $this->files = array();
 	  if($this->dir = Request::param('dir')){
@@ -20,7 +20,7 @@ class CMSAdminFileController extends AdminComponent {
 	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
 	  }
 	}
-	
+
 	public function _info(){
 	  if($filename = Request::param('file')){
 	    $file = new WildfireFile($this->model_scope);
@@ -30,25 +30,43 @@ class CMSAdminFileController extends AdminComponent {
 	  }
 	}
 
+  public function create(){
+    $this->use_view=false;
+    if(($new = Request::param('folder')) && ($base = Request::param('path')) ){
+      $path = PUBLIC_DIR.trim($base,"/")."/".trim($new,"/");
+      if(!is_dir($path) && !is_file($path)) mkdir($path,0777,true);
+    }
+  }
+
   public function delete(){
     $this->use_view=false;
     if($file = Request::param('file')){
       $path = PUBLIC_DIR.$file;
-      if(is_file($path)){
+      if(is_readable($path)){
         $name = basename($path);
         $rpath = str_replace($name, "", $file);
         $model = new $this->model_class;
         unlink($path);
-        foreach($found = $model->filter("rpath", $rpath)->filter("filename", $name)->all() as $f) $f->delete(); 
+        foreach($found = $model->filter("rpath", $rpath)->filter("filename", $name)->all() as $f) $f->delete();
+      }
+    }
+    if($file = Request::param('dir')){
+      $path = rtrim(PUBLIC_DIR.$file."/", "/")."/";
+      if(is_readable($path)){
+        exec('rm -Rf "'.$path.'"');
+        $model = new $this->model_class;
+        $name = basename($path);
+        $rpath = rtrim($file, "/")."/";
+        foreach($found = $model->filter("rpath", $rpath)->all() as $f) $f->delete();
       }
     }
   }
-  
+
   public function upload(){
     $this->use_view= false;
     $rpath = $_SERVER['HTTP_X_FILE_PATH'];
     $path = PUBLIC_DIR. $rpath;
-    $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);    
+    $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);
     $putdata = fopen("php://input", "r");
     $put = "";
     while ($data = fread($putdata, 2048)) $put .= $data;
@@ -57,7 +75,7 @@ class CMSAdminFileController extends AdminComponent {
     $this->sync($rpath);
     exit;
   }
-  
+
   protected function sync($path){
     $model = new $this->model_class;
     //check existing db entries
@@ -71,14 +89,14 @@ class CMSAdminFileController extends AdminComponent {
       $stats = stat($file);
       $fileid = $stats[9];
       $check = new $this->model_class($fileid);
-      if(!$found = $model->filter("id", $fileid)->first()) $this->add_file($path, basename($file), $path, $fileid);
+      if(!$found = $model->filter("id", $fileid)->first() && is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
       elseif($found->filename != basename($file)){
         touch($file, time() - rand(3600, 9000));
         $ts = date("YMdHis") - rand(3600, 9000);
         exec('touch -t '+$ts+ ' '+$file);
         $stats = stat($file);
         $fileid = $stats[9];
-        $this->add_file($path, basename($file), $path, $fileid);
+        if(is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
       }
     }
   }
@@ -94,12 +112,12 @@ class CMSAdminFileController extends AdminComponent {
   	}else{
   		$type = exec("file --mime -b ".escapeshellarg("$folderpath/$filename"));
   	}
-  	$size = filesize($folderpath);
+  	$size = filesize($folderpath."/".$filename);
   	$model = new $this->model_class;
   	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$rpath','$type','$size','found')";
     WaxLog::log("error", "[DB] ".$query);
     try{
-      $res = $model->query($query);
+      if($type != "directory") $res = $model->query($query);
     }catch (Exception $e){}
   }
 
