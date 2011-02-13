@@ -54,6 +54,7 @@
 		xhr.addEventListener("load", function () {
 			progressBarContainer.className += " uploaded";
 			progressBar.innerHTML = "Uploaded!";
+			jQuery(li).fadeOut(15000);
 		}, false);
 		
 		xhr.open("post", jQuery("#upload-form").attr("data-html5-upload"), true);
