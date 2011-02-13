@@ -1,11 +1,24 @@
 <div class='info clearfix'>
+  
+  <form  method="post" action="/<?=trim($controller,"/")?>/" class='upload-form clearfix' id="upload-form" data-html5-upload="/<?=trim($controller,"/")?>/upload/">
+    <input type="hidden" name="path" value="<?=$file_system_base?>" id="filepath">
+    <input id="files-upload" type="file" multiple="multiple">
+    <div id="drop-area">
+    	<h3>Drag &amp; Drop your files here.</h3>
+    </div>
+    <ul id="file-list">
+    	<li class="no-items"></li>
+    </ul>
+  </form>
+  
   <div class='file-info clearfix'>
-    
-  </div>
-  <div class='upload-form clearfix'>
-    
+
   </div>
   
 </div>
-<div class='file-tree' data-file-root="<?=$file_system_base?>" data-list="/<?=trim($controller, "/")?>/_list" data-info="/<?=trim($controller, "/")?>/_info">
+<div class='file-tree-container'>
+  <ul>
+    <li class="directory collapsed"><a data-dir="files/" class="top active" rel="files/" href="#">Your Files</a></li>
+    <li class='file-tree' data-file-root="<?=$file_system_base?>" rel="<?=$file_system_base?>" data-list="/<?=trim($controller, "/")?>/_list" data-info="/<?=trim($controller, "/")?>/_info"></li>
+  <ul>
 </div>

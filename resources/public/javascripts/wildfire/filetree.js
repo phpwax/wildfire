@@ -9,15 +9,19 @@ jQuery(document).ready(function(){
         url:info,
         data:{file:file},
         type:'post',
-        success:function(res){
-          jQuery("a.active").removeClass('active');
-          jQuery('a[rel='+file+']').addClass('active');
+        success:function(res){          
           jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');
         }
       })
     });
   });
   
-  
+  jQuery(".file-tree a").live("click", function(){
+    jQuery(".file-info").html('');
+    jQuery("a.active").removeClass('active');
+    jQuery(this).addClass('active');
+    jQuery("#filepath").val(jQuery(this).attr("data-dir"));
+    return false;
+  });
   
 });

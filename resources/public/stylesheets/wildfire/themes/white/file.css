@@ -1,13 +1,13 @@
 #white-cms .files_index{
   background:white;
-  padding:10px;
 }
-#white-cms ul.jqueryFileTree a:hover{ 
+#white-cms .file-tree-container a:hover{ 
   background-color:#CEF1DF;
 }
-  #white-cms ul.jqueryFileTree a.active{
+  #white-cms .file-tree-container a.active{
     background-color:#DAFFEC;
+    font-weight:bold;
   }
-  #white-cms .loaded {
-    border:3px solid #DAFFEC;
-  }
+  
+
+  

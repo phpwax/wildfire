@@ -15,8 +15,7 @@ class CMSAdminFileController extends AdminComponent {
 	public function _list(){
 	  $this->files = array();
 	  if($this->dir = Request::param('dir')){
-	    $files = scandir(PUBLIC_DIR . $this->dir);
-	    natcasesort($files);
+	    $files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
 	    $this->files = $files;
 	  }
 	}
@@ -29,6 +28,18 @@ class CMSAdminFileController extends AdminComponent {
       $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();
 	  }
 	}
+
+  
+  public function upload(){
+    $this->use_view = $this->use_layout = false;
+    $path = PUBLIC_DIR. $_SERVER['HTTP_X_FILE_PATH'];
+    $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);    
+    $putdata = fopen("php://input", "r");
+    $put = "";
+    while ($data = fread($putdata, 2048)) $put .= $data;
+    file_put_contents($path.$filename, $put);
+  }
+
 
 }
 ?>

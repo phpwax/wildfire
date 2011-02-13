@@ -79,10 +79,10 @@ if(jQuery) (function($){
 						} else {
 							h($(this).attr('rel'));
 						}
-						return false;
+						
 					});
 					// Prevent A from triggering the # on non-click events
-					if( o.folderEvent.toLowerCase != 'click' ) $(t).find('LI A').bind('click', function() { return false; });
+					if( o.folderEvent.toLowerCase != 'click' ) $(t).find('LI A').bind('click', function() {  });
 				}
 				// Loading message
 				$(this).html('<ul class="jqueryFileTree start"><li class="wait">' + o.loadMessage + '<li></ul>');
