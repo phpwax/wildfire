@@ -2,5 +2,5 @@
 <img src="<?=$file->permalink(250)?>" class='thumb' alt="">
 <h4><?=$file->filename?></h4>
 <h5><?=$file->type?></h5>
-<h5><?=$file->size?></h5>
+<h5><?=number_format($file->size/1024, 2)?> kb</h5>
 <?endif?>
