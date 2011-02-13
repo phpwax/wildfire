@@ -13,12 +13,23 @@
     background-position:5px 5px;
   }
     
+
+#page_content .file-tree-container li.directory .options{
+  float:right;
+  width:70px;
+  padding:6px 2px;
+  margin-right:10px;
+}
+  #page_content .file-tree-container li.directory .options a{
+    float:right;
+    padding:0;
+    background:none;
+  }
   
 .info{
   float:right;
   width:40%;
 }
-  .file-info{}
   
   
   

@@ -62,6 +62,8 @@
 		xhr.setRequestHeader("X-File-Name", file.fileName);
 		xhr.setRequestHeader("X-File-Size", file.fileSize);
 		xhr.setRequestHeader("X-File-Path", jQuery('#filepath').val());
+		xhr.setRequestHeader("X-Model-Class", jQuery('#model-class').val());
+		xhr.setRequestHeader("X-Model-Primval", jQuery('#model-primval').val());
 		xhr.setRequestHeader("X-File-Type", file.type);
 
 		// Send the file (doh)

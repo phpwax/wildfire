@@ -3,7 +3,13 @@
     <?foreach($files as $file):?>
       <!-- <?=($file)?> -->
       <?if($file && $file[0] != "." && is_dir(PUBLIC_DIR.$this->dir.$file)):?>
-      <li class='directory collapsed'><a href='#' rel="<?=htmlentities($this->dir.$file)?>/" class='top' data-dir="<?=htmlentities($this->dir.$file)?>/"><?=$file?></a></li>
+      <li class='directory collapsed clearfix'>
+        <span class='options'>
+          <a href="?new-child-of=<?=htmlentities($this->dir.$file)?>"><span class='ui-icon ui-circle-plus'>add</span></a>
+          <a href="?delete=<?=htmlentities($this->dir.$file)?>"><span class='ui-icon ui-circle-minus'>remove</span></a>
+        </span>
+        <a href='#' rel="<?=htmlentities($this->dir.$file)?>/" class='top' data-dir="<?=htmlentities($this->dir.$file)?>/"><?=$file?></a>
+      </li>
       <?elseif($file && $file[0] != "." && is_file(PUBLIC_DIR.$this->dir.$file)):?>
       <?$ext = preg_replace('/^.*\./', '', $file);?>
       <li class='file ext_<?=$ext?>'><a href="#" rel="<?=htmlentities($this->dir.$file)?>" data-dir="<?=$this->dir?>"><?=$file?></a></li>
