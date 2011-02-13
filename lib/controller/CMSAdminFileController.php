@@ -11,6 +11,29 @@ class CMSAdminFileController extends AdminComponent {
 	public $display_name = "Files";
 
 
+  protected function events(){
+    parent::events();
+    WaxEvent::clear("cms.layout.sublinks");
+    WaxEvent::add("cms.layout.sublinks", function(){
+      $obj = WaxEvent::data();
+      $obj->quick_links = array();
+    });
+    WaxEvent::add('cms.file.old_upload', function(){
+      $obj = WaxEvent::data();
+      if(($up = $_FILES['upload']) && ($dir=Request::param('path'))){
+        $path = PUBLIC_DIR.$dir;
+        $safe_name = File::safe_file_save($path, $up['name']);
+        move_uploaded_file($up['tmp_name'], $path.$safe_name);
+        exec("chmod -Rf 0777 ".$path.$safe_name);
+        $obj->sync($dir);
+      }
+    });
+  }
+
+  public function index(){
+    parent::index();
+    WaxEvent::run('cms.file.old_upload', $this);
+  }
 
 	public function _list(){
 	  $this->files = array();
@@ -76,7 +99,7 @@ class CMSAdminFileController extends AdminComponent {
     exit;
   }
 
-  protected function sync($path){
+  public function sync($path){
     $model = new $this->model_class;
     //check existing db entries
     foreach($model->filter("rpath", $path)->all() as $file){
