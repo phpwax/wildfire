@@ -125,3 +125,5 @@
 		evt.stopPropagation();
 	}, false);										
 })();
+
+jQuery('#upload-form').find('.submit_field').hide();
