@@ -31,6 +31,8 @@ class CMSBaseComponent extends WaxController {
   public $operation_actions = array('edit');
   public $quick_links = array();
 
+  public $file_system_base = "files/";
+
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
 	  if($init) $this->initialise();

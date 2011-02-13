@@ -23,68 +23,16 @@ class WildfireFile extends WaxModel {
   }
   
   public function scope_available() {
-    $this->filter(array("status"=>"found"));
+    return $this->filter("status", "found");
   }
   
   
-  public function find_filter_images($filter, $limit = false) {
-    $params = array("conditions"=>"type LIKE '%image%' AND (id LIKE '%$filter%' OR filename LIKE '%$filter%' OR description LIKE '%$filter%')");
-    if($limit) $params['limit']=$limit;
-	  return $this->find_all($params);
-	}
-	
-	public function find_all_images($params=array()) {
-    if($params["conditions"]) $params["conditions"].=" AND type LIKE '%image%'";
-    else $params["conditions"] = "type LIKE '%image%'";
-	  return $this->find_all($params);
-	}
-	public function flash_files(){
-		$model = new WildfireFile();
-		return $model->filter(array("status"=>"found"))->filter("`filename` LIKE '%.swf'")->all();
-	}
-	
+  
 	public function extension() {
 	  return ".".File::get_extension($this->filename);
 	}
-	
-	public function find_all_files() {
-		$model = new WildfireFile();
-	  return $model->filter(array("status"=>"found"))->filter("type NOT LIKE '%image%'")->all();
-	}
-	
-	public function scan_full_filelist(){
-	  $filearray = array();
-		$fs = new CmsFilesystem();
-		$base_dir = $fs->defaultFileStore.$fs->relativepath;
-		$dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir), true);
-		foreach ( $dir as $file ) {
-      if(substr($dir->getFilename(),0,1) != "."){
-        $filearray[]=array("path"=>str_replace($base_dir,"",$file->getPathname()), "filename"=>str_repeat('&nbsp;&nbsp;', $dir->getDepth()+1).$file->getFilename(), "is_file"=>$file->isFile());
-      }
-		}
-		return $filearray;
-		return File::list_filesystem_recursive($dir);
-	}
-	
-	public function url() {
-	  return "/".$this->rpath."/".$this->filename;
-	}	
-	
-	public function folder_options($selected = false){
-		$fs = new CmsFilesystem();
-		$dir = $fs->defaultFileStore.$fs->relativepath;
-		$options = content_tag("option", "Your Folder", array("value"=>$fs->relativepath, "selected"=>"selected"));
-		$folders = File::get_folders($dir);
 
-		if(is_array($folders)){
-  	 	foreach($folders as $folder) {
-  	    $path = str_replace(PUBLIC_DIR, "", $folder["path"]);
-  	    $options .= content_tag("option", $folder["name"], array("value"=>$path));
-  	  }
-    }
-		return $options;
-	}
-	
+
 	/**
 	 * permalink function returns the path to the show image function
 	 * @return string url

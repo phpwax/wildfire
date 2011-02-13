@@ -1,0 +1,15 @@
+<ul class="jqueryFileTree" style="display: none;">
+  <?if(count($files)>2):?>
+    <?foreach($files as $file):?>
+      <!-- <?=($file)?> -->
+      <?if($file && $file[0] != "." && is_dir(PUBLIC_DIR.$this->dir.$file)):?>
+      <li class='directory collapsed'><a href='#' rel="<?=htmlentities($this->dir.$file)?>/"><?=$file?></a></li>
+      <?elseif($file && $file[0] != "." && is_file(PUBLIC_DIR.$this->dir.$file)):?>
+      <?$ext = preg_replace('/^.*\./', '', $file);?>
+      <li class='file ext_<?=$ext?>'><a href="#" rel="<?=htmlentities($this->dir.$file)?>"><?=$file?></a></li>
+      <?endif?>
+    <?endforeach?>
+  <?else:?>
+  <li>no files</li>
+  <?endif?>
+</ul>
