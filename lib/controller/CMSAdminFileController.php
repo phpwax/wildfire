@@ -30,9 +30,21 @@ class CMSAdminFileController extends AdminComponent {
 	  }
 	}
 
+  public function delete(){
+    $this->use_view=false;
+    if($file = Request::param('file')){
+      $path = PUBLIC_DIR.$file;
+      if(is_file($path)){
+        $name = basename($path);
+        $rpath = str_replace($name, "", $file);
+        $model = new $this->model_class;
+        unlink($path);
+        foreach($found = $model->filter("rpath", $rpath)->filter("filename", $name)->all() as $f) $f->delete(); 
+      }
+    }
+  }
   
   public function upload(){
-    $this->use_view = $this->use_layout = false;
     $rpath = $_SERVER['HTTP_X_FILE_PATH'];
     $path = PUBLIC_DIR. $rpath;
     $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);    

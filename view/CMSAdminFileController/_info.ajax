@@ -3,6 +3,4 @@
 <h4><?=$file->filename?></h4>
 <h5><?=$file->type?></h5>
 <h5><?=$file->size?></h5>
-<?else:?>
-<p>No data</p>
 <?endif?>
