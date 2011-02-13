@@ -71,7 +71,7 @@
 		xhr.send(file);
 		
 		// Present file info and append it to the list of files
-		fileInfo = "<strong>Name:</strong><span>" + jQuery('#filepath').val()+file.name + "</span>";
+		fileInfo = "<strong>Name:</strong><span title='"+file.name+"'>" +file.name + "</span>";
 		fileInfo += "<strong>Size:</strong><span>" + parseInt(file.size / 1024, 10) + " kb</span>";
 		fileInfo += "<strong>Type:</strong><span>" + file.type + "</span>";
 		jQuery(div).addClass('file-details clearfix');

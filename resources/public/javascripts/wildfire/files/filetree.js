@@ -20,8 +20,8 @@ jQuery(document).ready(function(){
     jQuery(".file-info").html('');
     jQuery("a.active").removeClass('active');
     jQuery(this).addClass('active');
-    jQuery("#filepath").val(jQuery(this).attr("data-dir"));
-    jQuery("#upload-destination span").html(jQuery(this).attr("data-name"));
+    jQuery(".filepath").val(jQuery(this).attr("data-dir"));
+    jQuery(".upload-destination span").html(jQuery(this).attr("data-name"));
     return false;
   });
   

@@ -7,9 +7,7 @@
   #drop-area h3{margin-bottom:0;}
 
 #file-list{
-  height:330px;
-  overflow:auto;
-  overflow-x:hidden;
+  
 }
   #file-list img{
     width:100px;
@@ -30,6 +28,7 @@
     float:left;
     width:130px;
     display:block;
+    overflow:hidden;
   }
   
   .progress-bar-container{

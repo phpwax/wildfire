@@ -1,9 +1,9 @@
 <form  method="post" action="/<?=trim($controller,"/")?>/" class='upload-form clearfix' id="upload-form" data-html5-upload="/<?=trim($controller,"/")?>/upload/">
-  <input type="hidden" name="path" value="<?=$file_system_base?>" id="filepath">
+  <input type="hidden" name="path" value="<?=$file_system_base?>" class="filepath">
   <input type="hidden" name="model-class" value="<?=$model_class?>" id="model-class">
   <input type="hidden" name="model-primval" value="<?=$model_primval?>" id="model-primval">
   
-  <h3 id="upload-destination">Upload to <span>files</span></h3>
+  <h3 class="upload-destination">Upload to <span>files</span></h3>
   
   <input id="files-upload" type="file" multiple="multiple">
   <div id="drop-area">
@@ -13,7 +13,3 @@
   	<li class="no-items"></li>
   </ul>
 </form>
-
-<div class='file-info clearfix'>
-
-</div>

@@ -14,13 +14,13 @@
   }
     
 
-#page_content .file-tree-container li.directory .options{
+#page_content .file-tree-container li .options{
   float:right;
   width:70px;
   padding:6px 2px;
   margin-right:10px;
 }
-  #page_content .file-tree-container li.directory .options a{
+  #page_content .file-tree-container li .options a{
     float:right;
     padding:0;
     background:none;

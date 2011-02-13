@@ -1,6 +1,10 @@
 <div class='info clearfix'>
   
-  <?=partial("_upload", array('controller'=>$controller))?>
+  <?=partial("_new_folder", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
+  
+  <div class='file-info clearfix'></div>
+  
+  <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
   
 
   
