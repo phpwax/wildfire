@@ -45,6 +45,7 @@ class CMSAdminFileController extends AdminComponent {
   }
   
   public function upload(){
+    $this->use_view= false;
     $rpath = $_SERVER['HTTP_X_FILE_PATH'];
     $path = PUBLIC_DIR. $rpath;
     $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);    
@@ -54,6 +55,7 @@ class CMSAdminFileController extends AdminComponent {
     file_put_contents($path.$filename, $put);
     chmod($path.$filename, 0777);
     $this->sync($rpath);
+    exit;
   }
   
   protected function sync($path){
