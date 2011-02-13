@@ -1,0 +1,12 @@
+<div class='file-tree-container'>
+  <ul>
+    <li class="directory collapsed clearfix">
+      <span class='options'>
+        <a href="?new-folder=<?=$file_system_base?>"><span class='ui-icon ui-icon-circle-plus'>add</span></a>
+        <a href="?delete-folder=<?=$file_system_base?>"><span class='ui-icon ui-icon-circle-minus'>remove</span></a>
+      </span>
+      <a data-dir="<?=$file_system_base?>" class="top active" rel="<?=$file_system_base?>" data-name="files" href="#">files</a>
+    </li>
+    <li class='file-tree' data-file-root="<?=$file_system_base?>" rel="<?=$file_system_base?>" data-list="/<?=trim($controller, "/")?>/_list" data-info="/<?=trim($controller, "/")?>/_info"></li>
+  <ul>
+</div>

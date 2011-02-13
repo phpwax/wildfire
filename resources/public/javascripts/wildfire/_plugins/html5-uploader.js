@@ -12,13 +12,10 @@
 			reader,
 			xhr,
 			fileInfo;
-			
-		li.appendChild(div);
 		
-		progressBarContainer.className = "progress-bar-container";
-		progressBar.className = "progress-bar";
-		progressBarContainer.appendChild(progressBar);
-		li.appendChild(progressBarContainer);
+		li.appendChild(div);
+		jQuery(li).addClass('clearfix upload-item-block');	
+		
 		
 		/*
 			If the file is an image and the web browser supports FileReader,
@@ -35,6 +32,10 @@
 			}(img));
 			reader.readAsDataURL(file);
 		}
+		progressBarContainer.className = "progress-bar-container";
+		progressBar.className = "progress-bar";
+		progressBarContainer.appendChild(progressBar);
+		li.appendChild(progressBarContainer);
 		
 		// Uploading - for Firefox, Google Chrome and Safari
 		xhr = new XMLHttpRequest();
@@ -70,9 +71,10 @@
 		xhr.send(file);
 		
 		// Present file info and append it to the list of files
-		fileInfo = "<div><strong>Name:</strong> " + jQuery('#filepath').val()+"/"+file.name + "</div>";
-		fileInfo += "<div><strong>Size:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
-		fileInfo += "<div><strong>Type:</strong> " + file.type + "</div>";
+		fileInfo = "<strong>Name:</strong><span>" + jQuery('#filepath').val()+file.name + "</span>";
+		fileInfo += "<strong>Size:</strong><span>" + parseInt(file.size / 1024, 10) + " kb</span>";
+		fileInfo += "<strong>Type:</strong><span>" + file.type + "</span>";
+		jQuery(div).addClass('file-details clearfix');
 		div.innerHTML = fileInfo;
 		
 		fileList.appendChild(li);
