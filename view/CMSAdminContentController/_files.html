@@ -1,11 +1,12 @@
 <div class='files file-listing clearfix'>
   <div class='info clearfix'>
     <div class='file-info clearfix'></div>
+    <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base, 'model'=>$model))?>
   </div>
   
   <?=partial("_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller, 'model'=>$model))?>
   
 </div>
-<div class='exisiting-files clearfix'>
+<div class='exisiting-files clearfix' id="exisiting-files" data-dest="/<?=trim($controller,"/")?>/_existing_files/<?=$model->primval?>">
   <?=partial("_existing_files",array('model'=>$model))?>
 </div>

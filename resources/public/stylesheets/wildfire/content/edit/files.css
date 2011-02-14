@@ -25,6 +25,8 @@ li.file input{
   float:left;
   width:15%;
   margin-left:1%;
+  height:120px;
+  overflow:hidden;
 }
   .joined-file label{float:left;width:80%;margin-left:10px;}
   .joined-file .checkbox_field{float:left;}

@@ -128,7 +128,12 @@ class CMSAdminContentController extends AdminComponent {
   public function _list(){
     if($this->use_format == "ajax") $this->index();
   }
-  
+  public function _existing_files(){
+    if($this->use_format == "ajax"){
+      $this->use_format = "html";
+      $this->model = new $this->model_class(Request::param('id'));
+    }
+  }
   public function _file_list(){
     $this->exising = $this->files = array();
 	  if($this->dir = Request::param('dir')){
@@ -149,6 +154,27 @@ class CMSAdminContentController extends AdminComponent {
       foreach($model->files as $f) if($f->primval == $this->file->primval) $this->exists=true;
 	  }
 	}
+	
+	public function upload(){
+    $this->use_view= false;
+    $rpath = $_SERVER['HTTP_X_FILE_PATH'];
+    $path = PUBLIC_DIR. $rpath;
+    $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);
+    $putdata = fopen("php://input", "r");
+    $put = "";
+    while ($data = fread($putdata, 2048)) $put .= $data;
+    file_put_contents($path.$filename, $put);
+    chmod($path.$filename, 0777);
+    $this->sync($rpath);
+    $model = new WildfireFile;
+    if($found = $model->filter('rpath', $rpath)->filter('filename',$filename)->all()){
+      if(($id = $_SERVER['HTTP_X_PRIMVAL']) && ($class = $_SERVER['HTTP_X_CLASS'])){
+        $content = new $class($id);
+        foreach($found as $f) $content->files = $f;
+      }
+    }
+  }
+  
 
 }
 ?>

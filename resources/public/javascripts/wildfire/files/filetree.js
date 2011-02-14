@@ -17,6 +17,19 @@ function file_tree_refresh(){
   });
 }
 
+function joined_files_refresh(){
+  var ef = jQuery('#exisiting-files'), dest=ef.attr('data-dest')+".ajax";
+  if(ef && dest){
+    jQuery.ajax({
+      url:dest,
+      type:'post',
+      success:function(res){
+        ef.html(res);
+      }
+    });
+  }
+}
+
 jQuery(document).ready(function(){
   
   file_tree_refresh();

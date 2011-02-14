@@ -4,7 +4,9 @@
   
   <div class='file-info clearfix'></div>
   
+  <form method="post" action="/<?=trim($controller,"/")?>/" class='upload-form clearfix' enctype="multipart/form-data" id="upload-form" data-html5-upload="/<?=trim($controller,"/")?>/upload.ajax">
   <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
+  </form>
   
 
   

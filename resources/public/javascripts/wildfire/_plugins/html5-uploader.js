@@ -64,8 +64,8 @@
 		xhr.setRequestHeader("X-File-Name", file.fileName);
 		xhr.setRequestHeader("X-File-Size", file.fileSize);
 		xhr.setRequestHeader("X-File-Path", jQuery('.filepath').val());
-		xhr.setRequestHeader("X-Model-Class", jQuery('#model-class').val());
-		xhr.setRequestHeader("X-Model-Primval", jQuery('#model-primval').val());
+		xhr.setRequestHeader("X-Class", jQuery('#model-class').val());
+		xhr.setRequestHeader("X-Primval", jQuery('#model-primval').val());
 		xhr.setRequestHeader("X-File-Type", file.type);
 
 		// Send the file (doh)
@@ -87,6 +87,7 @@
 				uploadFile(files[i]);
 			}
 			file_tree_refresh();
+			joined_files_refresh();
 		}
 		else {
 			fileList.innerHTML = "No support for the File API in this web browser";
@@ -124,4 +125,4 @@
   }
 })();
 
-jQuery('#upload-form').find('.submit_field').hide();
+jQuery('.info').find('.submit_field').hide();

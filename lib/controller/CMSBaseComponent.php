@@ -80,5 +80,50 @@ class CMSBaseComponent extends WaxController {
 	  $this->events();
 	}  
 
+  public function sync($path){
+    $model = new WildfireFile;
+    //check existing db entries
+    foreach($model->filter("rpath", $path)->all() as $file){
+      $full_path = PUBLIC_DIR.$file->rpath.$file->filename;
+      if(!file_exists($full_path)) $file->update_attributes(array('status'=>'lost'));
+    }
+    //check filesystem files
+    foreach(glob(PUBLIC_DIR.$path."*") as $file){
+      chmod($file, 0777);
+      $stats = stat($file);
+      $fileid = $stats[9];
+      $check = new $this->model_class($fileid);
+      if(!$found = $model->filter("id", $fileid)->first() && is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
+      elseif($found->filename != basename($file)){
+        touch($file, time() - rand(3600, 9000));
+        $ts = date("YMdHis") - rand(3600, 9000);
+        exec('touch -t '+$ts+ ' '+$file);
+        $stats = stat($file);
+        $fileid = $stats[9];
+        if(is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
+      }
+    }
+  }
+
+  protected function add_file($folderpath,$filename,$rpath,$fileid){
+    $folderpath = rtrim($folderpath, "/");
+    if(function_exists('finfo_file')) {
+      $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+      $type = finfo_file($finfo, "$folderpath/$filename");
+      finfo_close($finfo);
+    }elseif(function_exists('mime_content_type') ){
+  		$type = mime_content_type("$folderpath/$filename");
+  	}else{
+  		$type = exec("file --mime -b ".escapeshellarg("$folderpath/$filename"));
+  	}
+  	$size = filesize($folderpath."/".$filename);
+  	$model = new $this->model_class;
+  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$rpath','$type','$size','found')";
+    WaxLog::log("error", "[DB] ".$query);
+    try{
+      if($type != "directory") $res = $model->query($query);
+    }catch (Exception $e){}
+  }
+
 }
 ?>
