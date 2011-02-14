@@ -2,7 +2,7 @@
 <div class="ui-widget">
   <div class="ui-state-highlight ui-corner-all"> 
     <?if($revision):?>
-    <p><span class="ui-icon ui-icon-info"></span>You are editing a revision of <a href="/<?=trim($controller,"/")?>/edit/<?=$revision->primval?>/">another page</a>.</p>
+    <p><span class="ui-icon ui-icon-info"></span>You are editing a revision of <a href="/<?=trim($controller,"/")?>/edit/<?=$revision?>/">another page</a>.</p>
     <?endif?>
     <?if($master):?>
     <p><span class="ui-icon ui-icon-alert"></span>You are editing the LIVE version. <strong>Please check for unpublished versions</strong>.</p>
