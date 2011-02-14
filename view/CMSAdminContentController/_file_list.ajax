@@ -9,7 +9,7 @@
       <?
       $ext = preg_replace('/^.*\./', '', $file);
       ?>
-      <li class='file ext_<?=$ext?> clearfix <?if(in_array($this->dir.$file, $existing)):?> is_joined<?endif?>'>
+      <li class='file ext_<?=$ext?> clearfix <?if(in_array($this->dir.$file, (array)$existing)):?> is_joined<?endif?>'>
         <a href="#" rel="<?=htmlentities($this->dir.$file)?>" data-dir="<?=$this->dir?>" data-name="<?=basename($this->dir)?>" class='node'><?=$file?></a>
       </li>
       <?endif?>
