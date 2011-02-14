@@ -15,10 +15,12 @@
 }
 .dashboard-adminhome{
   width:42%;
-  height:600px;
+  height:840px;
   float:right;
 }
-  .client-analytics-graph-loaded table.traffic-data{display:none;}
+  .client-analytics-graph-loaded table.traffic-data,
+  .client-analytics-graph-loaded table.traffic-sources
+  {display:none;}
   .dashboard-adminhome .client-analytics-graph-loaded #client-analytics-graph{
     height:200px;
     width:90%;
