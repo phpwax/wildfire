@@ -1,3 +1,5 @@
-#white-cms .info-container .ui-state-highlight .ui-icon-alert{
+#white-cms .info-container .ui-state-highlight .ui-icon-alert,
+#white-cms .url-issues .ui-state-highlight .ui-icon-alert{
   background-image:url('/images/wildfire/jqueryui/ui-icons_cd0a0a_256x240.png');
 }
+#white-cms .url-issues .ui-state-highlight{background:none;border:none;}

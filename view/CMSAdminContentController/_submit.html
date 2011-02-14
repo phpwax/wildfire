@@ -1,11 +1,24 @@
+
 <div class='form-submit clearfix'>
   <?if($model->status == 1):?>
   <input type="submit" name='revision' value='SAVE FOR LATER' class='submit_field input_field revision <?=get_class($model)?>-revision'>
   <input type="submit" name='live' value='UPDATE LIVE VERSION' class='submit_field input_field live <?=get_class($model)?>-live'>
-  
+
   <input type="submit" name='hide' value='HIDE' class='submit_field input_field hide <?=get_class($model)?>-hide'>
-  <?else:?>  
+  <?else:?>
   <input type="submit" name='hide' value='SAVE FOR LATER' class='submit_field input_field hide <?=get_class($model)?>-hide'>
   <input type="submit" name='live' value='PUT LIVE' class='submit_field input_field live <?=get_class($model)?>-live'>
   <?endif?>
 </div>
+<?if(($master_id = $model->revision()) && ($master = new $model_class($master_id)) && ($url_changes = $model->url_compare($master)) && count($url_changes) && count($url_changes['remove'])):?>
+<div class="url-issues">
+  <div class="ui-widget">
+    <div class="ui-state-highlight ui-corner-all">
+      <p><span class="ui-icon ui-icon-alert"></span>Putting this page live <strong>would remove</strong> some urls:
+      <?foreach((array)$url_changes['remove'] as $i=>$r):?><?if($i>0):?>, <?endif?><span class='<?=$i?>'><?=$r?></span><?endforeach?>
+      </p>
+    </div>
+  </div>
+</div>
+<?endif?>
+

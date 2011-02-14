@@ -67,7 +67,17 @@ class WildfireContent extends WaxTreeModel {
     //as the permalink is designed to be permanent, make sure its not set, the title is there before creatiing one
     if(!$this->permalink && $this->primval && $this->title && ($this->permalink = $this->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
   }
-
+  /**
+   * compare the url maps of this model to another and return the results (remove & add)
+   */
+  public function url_compare($alt){
+    $map = new WildfireUrlMap;
+    $current_urls = $alt_urls = array();
+    //this models urls
+    foreach($map->clear()->filter("destination_model", get_class($this))->filter('destination_id', $this->primval)->all() as $url) $current_urls[] = $url->origin_url;
+    foreach($map->clear()->filter("destination_model", get_class($alt))->filter('destination_id', $alt->primval)->all() as $url) $alt_urls[] = $url->origin_url;
+    return array('remove'=>array_reverse(array_unique(array_diff($alt_urls,$current_urls))), 'add'=> array_reverse(array_unique(array_diff($current_urls, $alt_urls))));
+  }
   /**
    * making live mapping urls
    */
@@ -93,7 +103,9 @@ class WildfireContent extends WaxTreeModel {
 
     return $this;
   }
-
+  /**
+   * turn off the urls for this model
+   */
   public function map_hide(){
     $map = new WildfireUrlMap;
     $class = get_class($this);
