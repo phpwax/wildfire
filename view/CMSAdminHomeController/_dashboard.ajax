@@ -1,0 +1,12 @@
+<h3>Analytics</h3>
+<div id="client-analytics-graph"></div>
+<table class='traffic-data' id="traffic-data">  
+  <?foreach($this->visit_data as $d=>$info):?>
+    <?foreach($info as $day=>$data):?>
+    <tr class='<?=$day?>'>
+      <th><?=date("d M", strtotime($day))?></th>
+      <td><?=array_shift($data)?></td>
+    </tr>
+    <?endforeach?>
+  <?endforeach?>
+</table>

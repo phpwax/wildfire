@@ -11,5 +11,16 @@
   width:50%;
 }
 .dashboard-adminfiles{
-  width:41%;
+  width:50%;
 }
+.dashboard-adminhome{
+  width:42%;
+  height:600px;
+  float:right;
+}
+  .client-analytics-graph-loaded table.traffic-data{display:none;}
+  .dashboard-adminhome .client-analytics-graph-loaded #client-analytics-graph{
+    height:200px;
+    width:90%;
+    margin:0 auto;
+  }
