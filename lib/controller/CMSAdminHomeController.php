@@ -10,6 +10,7 @@ class CMSAdminHomeController extends AdminComponent {
 	public $model_name = "wildfire_user";
 	public $model_class = "WildfireUser";
 	public $display_name = "Dashboard";
+	public $dashboard = false;
 	
 	public function events(){
 	  parent::events();

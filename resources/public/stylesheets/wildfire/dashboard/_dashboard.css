@@ -1,0 +1,12 @@
+.dashboard{
+  width:28%;
+  float:left;
+  margin:10px 1%;
+  padding:10px 1%;
+  background:white;
+  overflow:hidden;
+}
+
+.dashboard-admincontent{
+  width:50%;
+}

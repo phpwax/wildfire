@@ -2,7 +2,7 @@
 $permissions = array();
 foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($module_name, $oa);
 ?>
-<?if($cms_content):?>
+<?if($cms_content && $scaffold_columns):?>
 <table class='data_table' data-action="/<?=trim($controller,"/")?>/_list">
   <thead>
     <tr>

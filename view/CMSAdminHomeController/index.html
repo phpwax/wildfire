@@ -1,0 +1,3 @@
+<?foreach(CMSApplication::get_modules() as $name=>$info):?>
+<?=partial(substr($info['link'],1)."_dashboard", array('origin'=>'home'))?>
+<?endforeach?>

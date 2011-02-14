@@ -103,7 +103,7 @@ class CMSAdminContentController extends AdminComponent {
     //modify the post filter function to enforce a status filter - they bubble..
     WaxEvent::add("cms.model.filters", function(){
       $obj = WaxEvent::$data;
-      if(!isset($obj->model_filters['language'])){
+      if(!isset($obj->model_filters['language']) && $obj->model && $obj->model->columns['language']){
         $obj->model_filters['language'] = array_shift(array_keys($obj->model->columns['language'][1]['choices']));
         $obj->model->filter("language",  $obj->model_filters['language']);
       }

@@ -19,6 +19,9 @@ class CMSAdminComponent extends CMSBaseComponent {
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
+  
+  public $dashboard = true;
+  
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
