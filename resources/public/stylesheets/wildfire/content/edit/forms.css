@@ -9,4 +9,4 @@ form fieldset div.WildfireContent-content{
 }
   form fieldset div.WildfireContent-content label{display:none;}
   
-.WildfireContent-author, .WildfireContent-revision, .WildfireContent-altlanguage{display:none;}
+div.WildfireContent-author, div.WildfireContent-revision, div.WildfireContent-altlanguage{display:none;}
