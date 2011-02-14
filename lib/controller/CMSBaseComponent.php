@@ -121,7 +121,6 @@ class CMSBaseComponent extends WaxController {
   	$size = filesize($folderpath."/".$filename);
   	$model = new $this->model_class;
   	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$rpath','$type','$size','found')";
-    WaxLog::log("error", "[DB] ".$query);
     try{
       if($type != "directory") $res = $model->query($query);
     }catch (Exception $e){}
