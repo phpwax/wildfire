@@ -44,7 +44,7 @@ $counter = 0;
       <?else:?>   
         <?foreach($fields as $n=>$f):?><?$nm = Inflections::to_url($n)?><div class='field field-<?=$nm?> field-<?=$tabhash?>-<?=$nm?> <?=$model_class?>-<?=$nm?> clearfix'><?=$f->render()?></div><?endforeach?>
       <?endif?>
-      <?=partial("_submit", array('model'=>$model, 'controller'=>$controller))?>
+      <?=partial("_submit", array('model'=>$model, 'controller'=>$controller, 'model_class'=>$model_class))?>
       </fieldset>
     <?endforeach?>
     
