@@ -8,3 +8,5 @@ form fieldset div.WildfireContent-content{
   padding:10px 0;
 }
   form fieldset div.WildfireContent-content label{display:none;}
+  
+.WildfireContent-author, .WildfireContent-revision, .WildfireContent-altlanguage{display:none;}
