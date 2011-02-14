@@ -30,17 +30,14 @@ class CMSAdminContentController extends AdminComponent {
 	    $obj = WaxEvent::$data;
 	    $saved = $obj->model;
 	    $class = get_class($saved);
-      if($revision = $saved->revision()){
-        $primval = $revision;
-        $status = 0;
-      }else{
-        $primval = $saved->primval;
-        $status = $saved->status;
-      }
+	    $primval = $saved->primval;
+	    //if its a revision, status should be hidden
+      if($revision = $saved->revision()) $status = 0;
+      else $status = $saved->status;
       if($maps = Request::param('url_map')){
         $map_model = new WildfireUrlMap;
         foreach($maps as $map_id=>$permalink){
-         $link = "/".trim($permalink,"/")."/";
+         $link = "/".trim($permalink,"/")."/";         
          if(!is_numeric($map_id) && strlen($permalink)){
            $to_save = new WildfireUrlMap;
            if($map_model->clear()->filter("origin_url", $link)->first()) Session::add_error('Cannot add url ('.$link.'), it is already in use');
@@ -93,7 +90,7 @@ class CMSAdminContentController extends AdminComponent {
 	    
 	    if(Request::param('live')) $obj->model->map_live()->children_move()->show()->save();
   	  elseif(Request::param('hide')) $obj->model->map_hide()->hide()->save();
-  	  elseif(Request::param('revision')) $obj->model->hide()->update_attributes(array('revision'=>$obj->master->primval));
+  	  elseif(Request::param('revision')) $obj->model->hide()->update_attributes(array('revision'=>$obj->master->primval))->map_revision();
   	  //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
 	    //generic join handling

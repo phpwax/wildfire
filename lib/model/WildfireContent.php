@@ -14,7 +14,7 @@ class WildfireContent extends WaxTreeModel {
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
-    
+
     $langs = array();
     foreach(CMSApplication::$languages as $i=>$l) $langs[$i] = $l['name'];
     $default = array_shift(array_keys(CMSApplication::$languages));
@@ -32,11 +32,11 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("sort", "IntegerField", array('maxlength'=>3, 'default'=>0, 'widget'=>"HiddenInput", 'group'=>'parent'));
 		$this->define("date_modified", "DateTimeField", array("editable"=>false));
 		$this->define("date_created", "DateTimeField", array("editable"=>false));
-		
+
 		$this->define("revision", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
 	}
-	
+
 	public function tree_setup(){
 	  if(!$this->parent_column) $this->parent_column = "parent";
     if(!$this->children_column) $this->children_column = "children";
@@ -44,18 +44,18 @@ class WildfireContent extends WaxTreeModel {
 	  $this->define($this->parent_column, "ForeignKey", array("col_name" => "parent_id", "target_model" => get_class($this), 'group'=>'parent', 'widget'=>'HiddenInput', 'default'=>0));
     $this->define($this->children_column, "HasManyField", array("target_model" => get_class($this), "join_field" => $this->parent_join_field, "eager_loading" => true, 'associations_block'=>true));
 	}
-	
+
 	public function scope_admin(){
 	  return $this->order("status DESC");
 	}
-	
+
 	public function scope_live(){
     return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )");
   }
   public function scope_preview(){
     return $this->filter("status", 2);
   }
-  
+
   public function before_save(){
     if(!$this->date_start) $this->date_start = date("Y-m-d H:i:s");
     if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
@@ -68,33 +68,60 @@ class WildfireContent extends WaxTreeModel {
     if(!$this->permalink && $this->primval && $this->title && ($this->permalink = $this->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
   }
 
-  public function url_map(){
-    return $this;
-    
-    // $map = new WildfireUrlMap;
-    //     $class = get_class($this);
-    //     $permalink = $this->language_permalink($this->language);
-    //     $maps = $map->filter("origin_url", $permalink)->filter("destination_model", $class)->all();
-    //     //putting a page live
-    //     if($status == 1){
-    //       //first thing is look for other mappings with this permalink and update them to point to the new model - ie moving a revision to live
-    //       if($maps && $maps->count()){
-    //         foreach($maps as $url){
-    //           $url->update_attributes(array('destination_id'=>$this->primval,'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
-    //         }
-    //       }elseif($this->permalink){ //if there is no map for this url then create one
-    //         $saved = $map->clear()->update_attributes(array('title'=>$this->title,'origin_url'=>$permalink, 'destination_id'=>$this->primval, 'destination_model'=>$class, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
-    //       }
-    //     }elseif($status == 0 && ($maps = $maps->filter("destination_id", $this->primval)->all()) && $maps->count()){ //turning a page off, so look for those pages and hide them
-    //       foreach($maps as $url){
-    //         $url->update_attributes(array('date_start'=>$this->date_start, 'date_end'=>$this->date_end, 'language'=>$this->language, 'status'=>$status) ); //status is updated else where
-    //       }
-    //     }
+  /**
+   * making live mapping urls
+   */
+  public function map_live(){
+    $map = new WildfireUrlMap;
+    $class = get_class($this);
+    $mod = new $class;
+    $permalink = $this->language_permalink($this->language);
+    //look for all urls linked to this model and put them live
+    foreach($map->clear()->filter("destination_model", $class)->filter("destination_id", $this->primval)->all() as $row){
+      $row->update_attributes(array('status'=>1, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
+      //for each of these models permalinks look for one from an alternative model
+      foreach($map->clear()->filter("origin_url", $row->permalink)->filter("language", $this->language)->filter($row->primary_key,$row->primval, "!=")->all() as $alt) $alt->update_attributes(array('status'=>0));
+    }
+    //look for any urls that were linked to the master version of this content item
+    if($master_id = $this->revision()){
+      //if you find items linked to the master & turn them off
+      foreach($map->clear()->filter("destination_id", $master_id)->filter("destination_model",$class)->all() as $row) $row->update_attributes(array('status'=>0));
+    }
+    //if have no existing maps then create one
+    if(!$map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->first()) $map->map_to($permalink, $this, $this->primval, 1);
+    //tidy up duplicate permalinks
 
+    return $this;
+  }
+
+  public function map_hide(){
+    $map = new WildfireUrlMap;
+    $class = get_class($this);
+    $permalink = $this->language_permalink($this->language);
+    //look for all urls linked to this model and hide them
+    foreach($map->filter("destination_id", $this->primval)->filter("destination_model",$class)->all() as $row) $row->update_attributes(array('status'=>0, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
+    //if have no existing maps then create one
+    if(!$map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->first()) $map->map_to($permalink, $this, $this->primval, 0);
+    return $this;
+  }
+  /**
+   * if this is a revision then we will copy over everything from the mapping table to this one
+   */
+  public function map_revision(){
+    $map = new WildfireUrlMap;
+    $class = get_class($this);
+    if($id = $this->revision()){
+      foreach($map->filter("destination_id", $id)->filter("destination_model", $class)->all() as $r) $r->copy()->update_attributes(array('status'=>0, 'destination_id'=>$this->primval));
+    }elseif($this->revision == 0){
+      $mod = new $class;
+      //for all revisions of this content copy the url maps over for them with status of 0
+      foreach($mod->clear()->filter($this->primary_key, $this->primval, "!=")->filter("permalink", $this->permalink)->filter("language", $this->language)->all() as $rev) $rev->map_revision();
+    }
+    return $this;
   }
   /**
    * when putting a revision item live need to grab its children and move them over
-   * as this is disabled on this model to avoid children of live being moved to hidden 
+   * as this is disabled on this model to avoid children of live being moved to hidden
    * revisions!
    */
   public function children_move(){
@@ -105,7 +132,7 @@ class WildfireContent extends WaxTreeModel {
         $model->children->unlink($c);
         $this->children = $c;
       }
-    }    
+    }
     return $this;
   }
 
@@ -114,7 +141,7 @@ class WildfireContent extends WaxTreeModel {
    * - as the permalink is unique for the language, check to see if there is another
    *   version of this piece of content that is in use
    */
-  public function revision($set=false){
+  public function revision(){
     return $this->revision;
   }
   /**
@@ -140,25 +167,21 @@ class WildfireContent extends WaxTreeModel {
       return new $class($this->revision);
     }
   }
-  
-  //shorthand functions for live & draft of content
+
   public function show(){
-    return $this->change_status(1);
-  }
-  public function hide(){
-    return $this->change_status(0);
-  }
-  //put this version of the model as being live, turn off all others
-  protected function change_status($status){
-    $this->status = $status;
-    if($this->revision){
-      $class = get_class($this);
-      $mod = new $class($this->revision);
-      if($status == 1) $mod->update_attributes(array('revision'=>$this->primval, 'status'=>0));
-    }
-    $this->revision = ($status == 1) ? 0: $this->revision;
+    $class = get_class($this);
+    $model = new $class;
+    //find all content with this language and permalink and update their revision values & status
+    foreach($model->filter("permalink", $this->permalink)->filter("language", $this->language)->all() as $r) $r->update_attributes(array('status'=>0, 'revision'=>$this->primval));
+    $this->status = 1;
+    $this->revision = 0;
     return $this;
   }
+  public function hide(){
+    $this->status = 0;
+    return $this;
+  }
+
 
   public function url(){
     if($this->title != $this->columns['title'][1]['default']){
@@ -186,5 +209,6 @@ class WildfireContent extends WaxTreeModel {
     if(CMSApplication::$languages[$lang_id] && ($url = CMSApplication::$languages[$lang_id]['url'])) $lang_url = "/".$url;
     return $lang_url.$this->generate_permalink();
   }
+
 
 }
