@@ -93,6 +93,23 @@ class WildfireContent extends WaxTreeModel {
 
   }
   /**
+   * when putting a revision item live need to grab its children and move them over
+   * as this is disabled on this model to avoid children of live being moved to hidden 
+   * revisions!
+   */
+  public function children_move(){
+    if($id = $this->revision()){
+      $class = get_class($class);
+      $model = new $class($id);
+      foreach($model->children as $c){
+        $model->children->unlink($c);
+        $this->children = $c;
+      }
+    }    
+    return $this;
+  }
+
+  /**
    * function to check the wildfire url map to see if this is the primary content or not
    * - as the permalink is unique for the language, check to see if there is another
    *   version of this piece of content that is in use

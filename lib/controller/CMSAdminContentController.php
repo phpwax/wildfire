@@ -91,8 +91,8 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::add("cms.save.success", function(){
 	    $obj = WaxEvent::$data;
 	    
-	    if(Request::param('live')) $obj->model->show()->url_map()->save();
-  	  elseif(Request::param('hide')) $obj->model->hide()->url_map()->save();
+	    if(Request::param('live')) $obj->model->map_live()->children_move()->show()->save();
+  	  elseif(Request::param('hide')) $obj->model->map_hide()->hide()->save();
   	  elseif(Request::param('revision')) $obj->model->hide()->update_attributes(array('revision'=>$obj->master->primval));
   	  //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
