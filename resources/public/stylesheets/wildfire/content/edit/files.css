@@ -1,0 +1,32 @@
+.file-listing .info{
+  height:300px;
+}
+.file-listing .file-tree-container{
+  height:320px;
+}
+
+
+.exisiting-files{
+  padding:10px;
+  border-top:1px solid black;
+  border-bottom:1px solid black;
+}
+
+li.file input{
+  float:right;
+  margin:6px 5px 0 0;
+}
+
+.file-listing .file-info .checkbox_field{float:left;}
+.file-listing .file-info img{float:right;}
+.file-listing .file-info label{float:left;width:80%;margin-left:10px;}
+
+.joined-file{
+  float:left;
+  width:15%;
+  margin-left:1%;
+}
+  .joined-file label{float:left;width:80%;margin-left:10px;}
+  .joined-file .checkbox_field{float:left;}
+  
+

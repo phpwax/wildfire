@@ -1,0 +1,11 @@
+<div class='files file-listing clearfix'>
+  <div class='info clearfix'>
+    <div class='file-info clearfix'></div>
+  </div>
+  
+  <?=partial("_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller, 'model'=>$model))?>
+  
+</div>
+<div class='exisiting-files clearfix'>
+  <?=partial("_existing_files",array('model'=>$model))?>
+</div>

@@ -128,6 +128,27 @@ class CMSAdminContentController extends AdminComponent {
   public function _list(){
     if($this->use_format == "ajax") $this->index();
   }
+  
+  public function _file_list(){
+    $this->exising = $this->files = array();
+	  if($this->dir = Request::param('dir')){
+	    $file = new WildfireFile("available");
+	    $this->model = new $this->model_class(Request::param('id'));
+	    foreach($this->model->files as $f) $this->existing[] = $f->rpath.$f->filename;
+	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
+	  }
+  }
+  public function _file_info(){
+	  if($filename = Request::param('file')){
+	    $model = new $this->model_class(Request::param('id'));
+	    $file = new WildfireFile("available");
+	    $base = basename($filename);
+	    $path = str_replace($base, "", $filename);
+      $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();
+      $this->exists= false;
+      foreach($model->files as $f) if($f->primval == $this->file->primval) $this->exists=true;
+	  }
+	}
 
 }
 ?>
