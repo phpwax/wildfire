@@ -148,31 +148,20 @@ class WildfireContent extends WaxTreeModel {
     return $this;
   }
 
-  /**
-   * function to check the wildfire url map to see if this is the primary content or not
-   * - as the permalink is unique for the language, check to see if there is another
-   *   version of this piece of content that is in use
-   */
+  
   public function revision(){
     return $this->revision;
   }
-  /**
-   * similar to revision checking function
-   * if this uses the default language, then return false straight away
-   * otherwise look for the permalink of the primary language in the mapping table, if that exists then this is a language copy
-   */
   public function alt_language(){
     return $this->alt_language;
   }
   public function is_live(){
     return $this->status;
   }
-  /**
-   * if this page has an entry in the mapping table, then this is the master version
-   */
   public function master(){
     return !$this->revision;
   }
+  
   public function find_master(){
     if($this->revision){
       $class = get_class($this);
