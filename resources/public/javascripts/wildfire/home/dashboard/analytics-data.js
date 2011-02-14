@@ -48,14 +48,16 @@ function analytics_sources(){
 
 jQuery(document).ready(function(){
   var analytics_container = jQuery("#client-analytics");
-  analytics_container.addClass('loading');
-  jQuery.ajax({
-    url:analytics_container.attr('data-dest'),
-    type:"post",
-    success:function(res){
-      analytics_container.html(res).removeClass('loading');
-      analytics_traffic();  
-      analytics_sources();    
-    }
-  });
+  if(analytics_container && analytics_container.length){
+    analytics_container.addClass('loading');
+    jQuery.ajax({
+      url:analytics_container.attr('data-dest'),
+      type:"post",
+      success:function(res){
+        analytics_container.html(res).removeClass('loading');
+        analytics_traffic();  
+        analytics_sources();    
+      }
+    });
+  }
 });
