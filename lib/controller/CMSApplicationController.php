@@ -19,6 +19,7 @@ class CMSApplicationController extends WaxController{
 	public $cms_mapping_class = "WildfireUrlMap";
 	public $cms_live_scope = "live";
 	public $cms_preview_scope = "preview";
+	public $cms_content_class = "WildfireContent";
 
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
@@ -43,7 +44,7 @@ class CMSApplicationController extends WaxController{
 	  /**
 	   * pagination check
 	   */
-		if($page = Request::get('page')) $this->this_page = $page;		
+		if($page = Request::get('page')) $this->this_page = $page;
 		//method exists check
 		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
 		/**
@@ -73,14 +74,16 @@ class CMSApplicationController extends WaxController{
 		if(count(array_keys(CMSApplication::$languages)) > 1) $this->cms_language_id = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
 		WaxEvent::add("cms.cms_language_id_set", function(){});
-		
+
 	  /**
 	   * use the modified stack to find content
 	   * - try with the set language
 	   * - if cant find it, look for default language version
 	   */
-	  if($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, $this->cms_language_id) ){
-      $this->cms_content = $content;      
+	  if(($preview_id = Request::param('preview')) && is_numeric($preview_id) && ($m = new $this->cms_content_class($preview_id)) && $m && $m->primval){
+	    $this->cms_content = $m;
+	  }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, $this->cms_language_id) ){
+      $this->cms_content = $content;
     }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
       $this->cms_content = $content;
 	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
@@ -149,6 +152,7 @@ class CMSApplicationController extends WaxController{
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
 	  $model = new $model_class($model_scope);
 	  $found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first();
+
 	  if($found) return $this->map_to_content($found);
 	  return false;
 	}
