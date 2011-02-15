@@ -30,7 +30,7 @@ jQuery(document).ready(function(){
 
       auto_interval = setInterval(function(){
         auto_save_form(auto_span,auto_saver,auto_image);
-      }, 10000);
+      }, 60000);
 
   jQuery('#auto-save').live("click", function(){
     auto_span.toggleClass('enabled');
