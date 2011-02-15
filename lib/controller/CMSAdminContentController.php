@@ -139,6 +139,18 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::run("cms.model.tree",$this);
 	}
 
+  public function _parent(){
+    if($this->use_format == "ajax"){
+      $this->model_tree = array();
+      $this->model = new $this->model_class(Request::param('model'));
+      $this->base = new $this->model_class(Request::param('base'));
+      $model = new $this->model_class(Request::param('id'));
+      $this->tree = $model->children;
+      $this->depth = Request::param('depth');
+      foreach($this->base->tree() as $node) $this->model_tree[] = $node->primval;
+      $this->use_format = "html";
+    }
+  }
 
   public function _list(){
     if($this->use_format == "ajax") $this->index();
