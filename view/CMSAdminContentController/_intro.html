@@ -15,7 +15,7 @@ else $endpoint = "/".trim($controller,"/")."/edit/".$model->primval.".json?revis
     <?if($master):?>
       <p><span class="ui-icon ui-icon-alert"></span>You are editing the LIVE version.</p>
       <?if(($r=$model->has_revisions()) && $r->count() && ($first_r = $r->first())):?>
-      <p><span class="ui-icon ui-icon-circle-zoomout"></span><a href="/<?=trim($controller,"/")?>/edit/<?=$first_r?>">Edit latest revision</a></p>
+      <p><span class="ui-icon ui-icon-circle-zoomout"></span><a href="/<?=trim($controller,"/")?>/edit/<?=$first_r?>/">Edit latest revision</a></p>
       <p><span class="ui-icon ui-icon-help"></span><a href="#" class='make_editable'>Edit the live version</a></p>
       <?endif?>
     <?endif?>
