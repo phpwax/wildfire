@@ -25,3 +25,11 @@ table td, table th{
   #white-cms tbody tr.row:hover td, #white-cms tbody tr.row:hover th{background:#CEF1DF;}
 
 #white-cms ul li.is_joined{font-weight:bold;}
+
+
+.data_table td.live a{
+  background:green;
+}
+.data_table td.draftrevision a{
+  background:red;
+}

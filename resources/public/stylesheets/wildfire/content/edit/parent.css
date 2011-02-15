@@ -10,13 +10,15 @@
   }
     .tree .active label{font-weight:bold;}
     .tree .self label{font-weight:bold;font-style:italic;}
-  .tree .view_children{
+    
+  .tree .view_children, .tree span.status{
     display:block;
     float:left;
     padding:0;
     margin-right:5px;
   }
-  .tree .view_children a{padding:0;}
+  .tree span.status a, .tree .view_children a{padding:0;}
+  .tree span.status a{display:block;width:16px;height:16px;}
   
 .content_parent ul{margin-left:15px;}
   

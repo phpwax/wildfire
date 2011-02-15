@@ -36,7 +36,8 @@ if(!$model_tree && $base){
           <input id="depth_<?=$depth?>_node_<?=$i?>" class='checkbox node' type="radio" name="<?=$model->table?>[parent]" value="<?=$branch->primval?>" <?if($model->parent_id == $branch->primval):?>checked="checked"<?endif?>>
           <?endif?>
           <span class='view_children<?=(($kids && $kids->count())?" has-children":"")?>'><a href="/<?=trim($controller,"/")?>/_parent/<?=$branch->primval?>.ajax?base=<?=$base->primval?>&amp;model=<?=$model->primval?>&amp;depth=<?=($depth+1)?>"<?if(in_array($branch->primval, $path_to_root) && $kids):?> class="open fetched"<?endif?>>&nbsp;</a></span>
-          <label for="depth_<?=$depth?>_node_<?=$i?>"><?=$branch->title?></label>
+          <span class="status <?=Inflections::to_url($branch->humanize("status"))?>"><a href="#">&nbsp;</a></span>
+          <label for="depth_<?=$depth?>_node_<?=$i?>"><?=(($branch->primval == $base->primval)?" THIS PAGE":$branch->title)?></label>
         </div>
         <?if(in_array($branch->primval, $path_to_root) && $kids):?>
         <?=partial("_parent", array('tree'=>$kids, 'path_to_root'=>$path_to_root, 'base'=>$base, 'model'=>$model, 'depth'=>($depth+1), 'model_tree'=>$model_tree))?>

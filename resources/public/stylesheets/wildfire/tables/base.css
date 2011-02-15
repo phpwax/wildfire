@@ -13,9 +13,3 @@
     .data_table td.status a span{
       display:none;
     }
-  .data_table td.live a{
-    background:green;
-  }
-  .data_table td.draftrevision a{
-    background:red;
-  }

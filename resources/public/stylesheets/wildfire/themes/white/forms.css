@@ -24,3 +24,10 @@
     background-position: -16px -192px;
   }
 #white-cms .content_parent .field:hover{background:#CEF1DF;}
+
+.tree span.live a{
+  background:green;
+}
+.tree span.draftrevision a{
+  background:red;
+}
