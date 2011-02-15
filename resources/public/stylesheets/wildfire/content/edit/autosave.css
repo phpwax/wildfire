@@ -6,3 +6,7 @@
   height:30px;
 }
   #auto-save span{display:none;}
+  
+.preview-button{
+  float:right;
+}
