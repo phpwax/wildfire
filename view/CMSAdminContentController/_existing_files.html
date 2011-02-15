@@ -1,9 +1,9 @@
 <?foreach($model->files as $i=>$file):?>
 <div class='joined-file clearfix'>
   <?if(strstr($file->type, "image")):?>
-  <img src="<?=$file->permalink(150)?>" alt="">
+  <img src="<?=$file->permalink(150)?>" alt="<?=$file->filename?>">
   <?endif?>
-  <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field" checked="checked">
+  <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field joined_field" checked="checked">
   <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
 </div>
 <?endforeach?>

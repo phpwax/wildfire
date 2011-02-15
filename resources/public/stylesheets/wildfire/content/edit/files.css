@@ -31,4 +31,15 @@ li.file input{
   .joined-file label{float:left;width:80%;margin-left:10px;}
   .joined-file .checkbox_field{float:left;}
   
+/**
+ * javascript inserted buttons
+ */
+.js-added{
+  display:block;
+  padding:6px 10px;
+  font-size:108%;
+  margin:5px auto 0 auto;
+  text-align:center;
+}
+  
 
