@@ -28,4 +28,9 @@ jQuery(document).ready(function(){
     
   });
   
+  jQuery('.content_parent input[type=radio]').live("click", function(){
+    jQuery(".content_parent .active").removeClass('active');
+    jQuery(this).parents("div.field").addClass("active");
+  });
+  
 });
