@@ -10,7 +10,15 @@
 </div>
 <?endif?>
 
-
+<?if(($master_id = $model->revision()) && ($master = new $model_class($master_id)) && $master->parent_id != $model->parent_id):?>
+<div class="parent-issues">
+  <div class="ui-widget">
+    <div class="ui-state-highlight ui-corner-all">
+      <p><span class="ui-icon ui-icon-alert"></span>Putting this page live will change the structure of the site.</p>
+    </div>
+  </div>
+</div>
+<?endif?>
 
 
 <div class='form-submit clearfix'>
