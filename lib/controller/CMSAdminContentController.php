@@ -37,7 +37,7 @@ class CMSAdminContentController extends AdminComponent {
       if($maps = Request::param('url_map')){
         $map_model = new WildfireUrlMap;
         foreach($maps as $map_id=>$permalink){
-         $link = "/".trim($permalink,"/")."/";         
+         $link = "/".trim($permalink,"/")."/";
          if(!is_numeric($map_id) && strlen($permalink)){
            $to_save = new WildfireUrlMap;
            if($map_model->clear()->filter("origin_url", $link)->first()) Session::add_error('Cannot add url ('.$link.'), it is already in use');
@@ -45,13 +45,13 @@ class CMSAdminContentController extends AdminComponent {
          }
         }
       }
-	   
+
 	  });
     /**
      * joins such as categories are handled by this funciton
-     * - the join post array is key value where the key is the join name (ie categories) and 
+     * - the join post array is key value where the key is the join name (ie categories) and
      *   the value is an array of data
-     * - first thing we do is remove all the joins for the join you are posting 
+     * - first thing we do is remove all the joins for the join you are posting
      *   and then re join to the data in the array that is set
      * this allows for 0 based values to be posted to remove the join
      */
@@ -181,7 +181,7 @@ class CMSAdminContentController extends AdminComponent {
       foreach($model->files as $f) if($f->primval == $this->file->primval) $this->exists=true;
 	  }
 	}
-	
+
 	public function upload(){
     $this->use_view= false;
     $rpath = $_SERVER['HTTP_X_FILE_PATH'];
@@ -201,7 +201,7 @@ class CMSAdminContentController extends AdminComponent {
       }
     }
   }
-  
+
 
 }
 ?>
