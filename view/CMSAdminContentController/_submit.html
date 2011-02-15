@@ -22,6 +22,8 @@
 
 
 <div class='form-submit clearfix'>
+  <a href="<?=$model->permalink?>?preview=<?=$model->primval?>" class='preview button preview-button'>PREVIEW</a>
+    
   <?if($model->status == 1):?>
   <input type="submit" name='revision' value='SAVE FOR LATER' class='submit_field input_field revision <?=get_class($model)?>-revision'>
   <input type="submit" name='live' value='UPDATE LIVE VERSION' class='submit_field input_field live <?=get_class($model)?>-live'>
