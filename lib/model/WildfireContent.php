@@ -63,13 +63,7 @@ class WildfireContent extends WaxTreeModel {
     $this->date_modified = date("Y-m-d H:i:s");
   }
   //after save, we need to update the url mapping
-  public function after_save(){
-    $class = get_class($this);
-    $mo = new $class($this->primval);
-
-    //as the permalink is designed to be permanent, make sure its not set, the title is there before creatiing one
-    if(!$this->permalink && $this->primval && $this->title != $this->columns['title'][1]['default'] && ($this->permalink = $mo->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
-  }
+  public function after_save(){}
   /**
    * compare the url maps of this model to another and return the results (remove & add)
    */
@@ -202,15 +196,15 @@ class WildfireContent extends WaxTreeModel {
     return CmsTextFilter::filter("before_output", $this->content);
   }
   //ignore the language, as we are grouping by this field
-  protected function generate_permalink(){
+  public function generate_permalink(){
     $class = get_class($this);
-    if($this->permalink) return $this->permalink;
+    if($this->permalink) return $this;
     else if($this->parent_id){
       $p = new $class($this->parent_id);
-      return $p->permalink.$this->url()."/";
+      $this->permalink = $p->permalink.$this->url()."/";
     }
-    else if($url = $this->url()) return "/".$url."/";
-    else return false;
+    else if($url = $this->url()) $this->permalink = "/".$url."/";
+    return $this;
   }
   protected function language_permalink($lang_id){
     $lang_url = "";

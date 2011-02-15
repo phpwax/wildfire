@@ -103,11 +103,11 @@ class CMSAdminContentController extends AdminComponent {
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
 	    $obj = WaxEvent::$data;
-	    
-	    if(Request::param('live')) $obj->model->map_live()->children_move()->show()->save();
-  	  elseif(Request::param('hide')) $obj->model->map_hide()->hide()->save();
-  	  elseif(Request::param('revision')) $obj->model->hide()->update_attributes(array('revision'=>$obj->master->primval))->map_revision();
-  	  //look for url map saves
+      // 
+      if(Request::param('live')) $obj->model->generate_permalink()->map_live()->children_move()->show()->save();
+      elseif(Request::param('hide')) $obj->model->generate_permalink()->map_hide()->hide()->save();
+      elseif(Request::param('revision')) $obj->model->generate_permalink()->hide()->update_attributes(array('revision'=>$obj->master->primval))->map_revision();
+      //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
 	    //generic join handling
 	    WaxEvent::run('cms.joins.handle', $obj);
