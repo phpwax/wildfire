@@ -25,7 +25,7 @@ class WildfireUrlMap extends WaxModel{
     return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )");
   }
   public function scope_preview(){
-    return $this->filter("status", 2);
+    return $this->filter("status", 0);
   }
   
   public function map_to($permalink, $model, $id, $status){
