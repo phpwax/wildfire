@@ -11,8 +11,9 @@ function checkboxes_to_button(container){
     jQuery("#button-"+obj.attr('id')).click(function(){
       var bu = jQuery(this), checkbox_ele = jQuery("#"+bu.attr('data-input-link'));
       if(bu.hasClass('remove-button')){
-        bu.removeClass('remove-button').addClass('add-button').html('ADD');
+        bu.removeClass('remove-button').addClass('add-button').html('ADD');        
         checkbox_ele.attr('checked', false);
+        if(checkbox_ele.hasClass('joined_field')) checkbox_ele.parent().remove();
       }else{
         bu.removeClass('add-button').addClass('remove-button').html('REMOVE');
         checkbox_ele.attr('checked', 'checked');
