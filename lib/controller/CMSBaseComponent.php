@@ -71,7 +71,7 @@ class CMSBaseComponent extends WaxController {
     });
     WaxEvent::add("cms.format.set", function(){
       $obj = WaxEvent::$data;
-  	  if($obj->use_format == "ajax") $obj->use_layout = false;
+  	  if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
     });
     WaxEvent::add("cms.layout.sublinks", function(){});
   }

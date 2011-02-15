@@ -28,5 +28,5 @@
   .info-container .ui-icon, .url-issues .ui-icon, .tree-issues .ui-icon, .parent-issues .ui-icon{float:left;margin-right:5px;}
 
 .url-issues, .tree-issues, .parent-issues{
-  margin:5px auto;
+  margin:0px auto;
 }
