@@ -27,6 +27,7 @@ jQuery(document).ready(function(){
     jQuery.ajax({
       url:table.attr("data-action")+".ajax",
       data: form_data,
+      type:"post",
       success:function(res){
         link.addClass("open").addClass("fetched");
         row.after("<tr class='children children-list children-of-"+form_val+"' data-parent='"+form_val+"'><td colspan='"+cols+"' class='list'>"+res+"</td></tr>");
