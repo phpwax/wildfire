@@ -68,10 +68,26 @@ class CMSAdminContentController extends AdminComponent {
         }
       }
     });
+    /**
+     * a sanity check to stop recursive loops on trees - not used at the moment, disabled
+     * - if the parent of the model has the model as its parent change the parent to avoid infinite loop
+     * the front end shouldnt allow this, but check for it incase someone does something insane
+     */
+    WaxEvent::add("cms.save.sanity_check", function(){
+      $obj = WaxEvent::$data;
+      //if old parent doesnt match the new parent then check for weirdness
+      if($obj->model->parent_id != $obj->old_parent_id){
+        $old_parent = new $obj->model_class($obj->old_parent_id);
+        $new_parent = new $obj->model_class($obj->model->parent_id);
+        //if the parents parent is the model, then fix that by setting the new parents id to the old parent 
+        if($new_parent->parent_id == $obj->model->primval) $new_parent->update_attributes(array('parent_id'=>0));
+        
+      }
+    });
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
 	    $obj = WaxEvent::$data;
-	  
+	    $obj->old_parent_id = $obj->model->parent_id;
 	    if(Request::param('revision')){
 	      $obj->master = $obj->model;
   	    $obj->model = $obj->model->copy();
@@ -95,6 +111,8 @@ class CMSAdminContentController extends AdminComponent {
 	    WaxEvent::run('cms.url.add', $obj);
 	    //generic join handling
 	    WaxEvent::run('cms.joins.handle', $obj);
+	    //checking for cicular references..
+	    WaxEvent::run("cms.save.sanity_check", $obj);
   	  $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");
     });
     //modify the post filter function to enforce a status filter - they bubble..
