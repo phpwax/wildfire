@@ -1,5 +1,5 @@
 <?foreach($model->files as $i=>$file):?>
-<div class='joined-file clearfix'>
+<div class='joined-file clearfix f<?=$file->primval?>'>
   <?if(strstr($file->type, "image")):?>
   <img src="<?=$file->permalink(150)?>" alt="<?=$file->filename?>">
   <?endif?>
