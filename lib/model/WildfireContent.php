@@ -166,6 +166,12 @@ class WildfireContent extends WaxTreeModel {
     }
   }
 
+  public function has_revisions(){
+    $class = get_class($this);
+    $model = new $class;
+    return $model->filter("revision", $this->primval)->all();
+  }
+
   public function show(){
     $class = get_class($this);
     $model = new $class;
