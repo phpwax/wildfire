@@ -3,3 +3,8 @@
   background-repeat:no-repeat;
   background-position:center 5%;
 }
+
+#files .loading{
+  background-image:url('/images/wildfire/backgrounds/small-loader-on-green.gif');
+  background-position:95% 5%;
+}
