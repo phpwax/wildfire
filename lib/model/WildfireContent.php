@@ -41,7 +41,7 @@ class WildfireContent extends WaxTreeModel {
 	  if(!$this->parent_column) $this->parent_column = "parent";
     if(!$this->children_column) $this->children_column = "children";
     if(!$this->parent_join_field) $this->parent_join_field = $this->parent_column."_".$this->primary_key;
-	  $this->define($this->parent_column, "ForeignKey", array("col_name" => "parent_id", "target_model" => get_class($this), 'group'=>'parent', 'widget'=>'HiddenInput', 'default'=>0));
+	  $this->define($this->parent_column, "ForeignKey", array("col_name" => "parent_id", "target_model" => get_class($this), 'group'=>'parent', 'widget'=>'HiddenInput'));
     $this->define($this->children_column, "HasManyField", array("target_model" => get_class($this), "join_field" => $this->parent_join_field, "eager_loading" => true, 'associations_block'=>true));
 	}
 
@@ -64,8 +64,11 @@ class WildfireContent extends WaxTreeModel {
   }
   //after save, we need to update the url mapping
   public function after_save(){
+    $class = get_class($this);
+    $mo = new $class($this->primval);
+
     //as the permalink is designed to be permanent, make sure its not set, the title is there before creatiing one
-    if(!$this->permalink && $this->primval && $this->title && ($this->permalink = $this->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
+    if(!$this->permalink && $this->primval && $this->title != $this->columns['title'][1]['default'] && ($this->permalink = $mo->generate_permalink()) ) $this->update_attributes(array('permalink'=> $this->permalink));
   }
   /**
    * compare the url maps of this model to another and return the results (remove & add)
@@ -200,8 +203,12 @@ class WildfireContent extends WaxTreeModel {
   }
   //ignore the language, as we are grouping by this field
   protected function generate_permalink(){
+    $class = get_class($this);
     if($this->permalink) return $this->permalink;
-    else if($this->parent_id) return $this->parent->permalink.$this->url()."/";
+    else if($this->parent_id){
+      $p = new $class($this->parent_id);
+      return $p->permalink.$this->url()."/";
+    }
     else if($url = $this->url()) return "/".$url."/";
     else return false;
   }
