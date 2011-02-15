@@ -1,26 +1,22 @@
-fieldset#parent{
-}
-
-#tree-0{
-  margin:0 2%;
-}
-.tree{
-  
-}
-
-  .tree li{margin:0 0 5px 0;}
-
-  .tree a{
-    display:block;
-    padding:8px 10px;
-    margin:;
-    font-size:116%;
-  }
-    .tree a.active{background:#DAFFEC;}
-
-
 .tree{}
-  .tree li .tree{
-    padding:20px;
-    border:1px dotted #323231;
+  form .tree .field{
+    padding:8px 2%;
+    margin:0;
   }
+  .tree .field .node{float:right;}
+  .tree .field label{
+    margin-bottom:0;
+    font-weight:normal;
+  }
+    .tree .active label{font-weight:bold;}
+    .tree .self label{font-weight:bold;font-style:italic;}
+  .tree .view_children{
+    display:block;
+    float:left;
+    padding:0;
+    margin-right:5px;
+  }
+  .tree .view_children a{padding:0;}
+  
+.content_parent ul{margin-left:15px;}
+  

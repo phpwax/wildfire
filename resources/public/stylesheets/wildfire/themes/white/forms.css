@@ -15,3 +15,12 @@
 #white-cms form input[disabled=disabled]{
   background:#ececec;
 }
+/** parents **/
+#white-cms .tree .active{background:#DAFFEC;}
+#white-cms .content_parent .has-children a{
+  background-image: url("/images/wildfire/jqueryui/ui-icons_323231_256x240.png");
+}
+  #white-cms .content_parent .has-children a.open{
+    background-position: -16px -192px;
+  }
+#white-cms .content_parent .field:hover{background:#CEF1DF;}

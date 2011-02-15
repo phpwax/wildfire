@@ -17,16 +17,16 @@
 }
 
 
-.info-container, .url-issues{
+.info-container, .url-issues, .tree-issues{
   padding:0px 2%;
   margin:15px auto;
 }
-  .info-container .ui-state-highlight, .url-issues .ui-state-highlight{padding:10px;}
-  .info-container p, .url-issues p{font-size:108%;margin-bottom:10px;}
-  .info-container p:last-child, .url-issues p:last-child{margin-bottom:0;}
-  .info-container a, .url-issues a{text-decoration:underline;}
-  .info-container .ui-icon, .url-issues .ui-icon{float:left;margin-right:5px;}
+  .info-container .ui-state-highlight, .url-issues .ui-state-highlight, .tree-issues .ui-state-highlight{padding:10px;}
+  .info-container p, .url-issues p,.tree-issues p{font-size:108%;margin-bottom:10px;}
+  .info-container p:last-child, .url-issues p:last-child, .tree-issues p:last-child{margin-bottom:0;}
+  .info-container a, .url-issues a, .tree-issues a{text-decoration:underline;}
+  .info-container .ui-icon, .url-issues .ui-icon, .tree-issues .ui-icon{float:left;margin-right:5px;}
 
-.url-issues{
+.url-issues, .tree-issues{
   margin:5px auto;
 }
