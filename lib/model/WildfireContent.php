@@ -13,7 +13,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("date_end", "DateTimeField", array('scaffold'=>true, 'default'=>date("j F Y H:i",mktime(0,0,0, date("m"), date("j"), date("y")+10 )), 'output_format'=>"j F Y H:i" ));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
-		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'joins'));
+		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'relationships'));
 
     $langs = array();
     foreach(CMSApplication::$languages as $i=>$l) $langs[$i] = $l['name'];
