@@ -130,8 +130,7 @@ class CMSAdminContentController extends AdminComponent {
 	    //if the parent filter isn't set, then
 	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->filter('revision',0)->roots();
 	    else $obj->cms_content = $obj->model->all();
-    });
-
+    });    
 	}
 
 	protected function initialise(){

@@ -34,6 +34,8 @@ class CMSBaseComponent extends WaxController {
   public $file_system_base = "files/";
   
   public $dashboard = false;
+  
+  public $search_results = array();
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
@@ -73,7 +75,8 @@ class CMSBaseComponent extends WaxController {
       $obj = WaxEvent::$data;
   	  if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
     });
-    WaxEvent::add("cms.layout.sublinks", function(){});
+    WaxEvent::add("cms.layout.sublinks", function(){});    
+    WaxEvent::add('cms.search.'.$this->module_name, function(){});
   }
 	/**
 	 * initialises authentication, default model and menu items
