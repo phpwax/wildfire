@@ -1,0 +1,4 @@
+<div class='listing search_listing' id="data-listing">
+  <h2>Results matching '<?=$search_term?>'</h2>
+  <?=partial("admin/content/_list", array('cms_content'=>$search_results, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
+</div>

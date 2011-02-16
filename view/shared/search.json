@@ -1,0 +1,5 @@
+<?
+$info = array();
+foreach($search_results as $r) $info[] = array('id'=>$r->primval, 'label'=>$r->title);
+?>
+<?=json_encode($info);?>
