@@ -21,7 +21,7 @@ jQuery(document).ready(function(){
   var filter_listener = false;
   jQuery('form.filters').find("input[type='text'],select").each(function(){
     var obj = jQuery(this), parent_form = obj.parents("form");
-    obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form);}, 800);});
+    obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form);}, 500);});
   });
   
 });
