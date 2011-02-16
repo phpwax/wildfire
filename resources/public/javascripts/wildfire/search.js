@@ -5,7 +5,7 @@ jQuery(document).ready(function(){
     source: search_form.attr('action')+".json",
     minLength:1,
     select: function( event, ui ) {
-      window.open(search_form.attr("data-view")+ui.item.id+"/");
+      window.location = search_form.attr("data-view")+ui.item.id+"/";
   	} 
   });
   
