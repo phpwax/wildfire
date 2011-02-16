@@ -5,6 +5,17 @@ $cols = count($scaffold_columns);
 ?>
 <?if($cms_content):?>
 <table class='data_table' data-action="/<?=trim($controller,"/")?>/_list">
+  <?if(Request::param('show_cols')):?>
+  <thead>
+    <tr>
+    <?foreach($scaffold_columns as $col=>$info):?>
+    <th class='<?=Inflections::underscore($col)?>'><span><?=Inflections::humanize($col)?></span></th>
+    <?endforeach?>
+    <th class='operations'></th>
+    </tr>
+  </thead>
+  <?endif?>
+  <tbody>
   <?foreach($cms_content as $i=>$row):?>
     <?if($row->master() || $no_filter === true):?>
       <tr class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>" data-child-of="<?=$row->parent_id?>" data-parent-param="filters[parent]" data-parent-value="<?=$row->primval?>">
@@ -20,6 +31,7 @@ $cols = count($scaffold_columns);
       </tr>
     <?endif?>
   <?endforeach?>
+  </tbody>
 </table>
 <?else:?>
 <table class='data_table' data-action="/<?=trim($controller,"/")?>/_list">
