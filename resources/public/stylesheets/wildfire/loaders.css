@@ -8,3 +8,8 @@
   background-image:url('/images/wildfire/backgrounds/small-loader-on-green.gif');
   background-position:95% 5%;
 }
+
+.filters_pagination form.loading{
+  background-image:url('/images/wildfire/backgrounds/small-loader-on-black.gif');
+  background-position:right 5%;
+}
