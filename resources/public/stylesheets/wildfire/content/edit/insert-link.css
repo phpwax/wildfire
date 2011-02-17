@@ -1,0 +1,6 @@
+#wildfire-link-dialog label, #wildfire-link-dialog input, #wildfire-link-dialog select{
+  display:block;
+  margin-bottom:5px;
+  width:95%;
+  padding:4px 0;
+}

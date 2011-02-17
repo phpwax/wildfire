@@ -1114,7 +1114,7 @@
          winMan.open({
           ui_dialog: "#wildfire-table-insert",
  					width : 300,
- 					height : 200,
+ 					height : 250,
  					inline : 1,
  					button_actions:{
  					  'Insert':function(){

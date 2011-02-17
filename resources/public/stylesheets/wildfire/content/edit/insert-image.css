@@ -6,3 +6,9 @@
         background-position: 5px 5px;
         padding: 6px 2px 6px 25px;
     }
+    #wildfire-image-dialog label, #wildfire-image-dialog input, #wildfire-image-dialog select{
+      display:block;
+      margin-bottom:5px;
+      width:95%;
+      padding:4px 0;
+    }
