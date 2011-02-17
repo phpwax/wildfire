@@ -7,11 +7,11 @@ jQuery(document).ready(function(){
     skin:'o2k7',
     skin_variant : "silver",
     //
-    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,wflink,wfimage,wfhtml',
+    plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,wflink,wfimage,wfhtml,wftable',
     // Theme options
-		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,image,|,hr,|,code",
-		theme_advanced_buttons2 : "tablecontrols",
-		theme_advanced_buttons3 : "styleselect,formatselect,template",
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,image,|,hr,|,code,|,table,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col",
+		theme_advanced_buttons2 : "styleselect,formatselect,template",
+		theme_advanced_buttons3 : "",
 		theme_advanced_buttons4 : "",
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
