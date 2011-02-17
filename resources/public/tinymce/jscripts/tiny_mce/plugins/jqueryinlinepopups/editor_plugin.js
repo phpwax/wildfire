@@ -4,6 +4,9 @@
  * @developer : badsyntax (Richard Willis)
  * @contact : http://badsyntax.co
  * @moreinfo : http://is.gd/j1FuI
+ *
+ *
+ * modified to accept custom buttons etc
  */
 
 (function() {
@@ -29,9 +32,7 @@
 		getInfo : function() {
 			return {
 				longname : 'jQueryInlinePopups',
-				author : 'Richard Willis',
-				authorurl : 'http://badsyntax.co',
-				infourl : 'http://blog.badsyntax.co/post/2365205144/tinymce-jquery-ui-inline-popups',
+				author : 'Richard Willis - (modified by OBB)',
 				version : '0.1a'
 			};
 		}

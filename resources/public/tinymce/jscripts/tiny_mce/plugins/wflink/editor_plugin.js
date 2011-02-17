@@ -12,7 +12,6 @@
 	tinymce.create('tinymce.plugins.WildfireLinkPlugin', {
 		init : function(ed, url) {
 			this.editor = ed;
-
 			// Register commands
 			ed.addCommand('wfAdvLink', function() {
 				var se = ed.selection;
@@ -29,10 +28,16 @@
 					button_actions:{
 					  'Insert':function(){
               var e = ed.dom.getParent(se.getNode(), 'A'), 
-                  linkd=jQuery('#wildfire-link-dialog'), 
+                  linkd=jQuery('#wildfire-link-dialog'),
+                  siteaddress = linkd.attr("data-server");
                   href=(jQuery('#wf_ld_internal') && jQuery('#wf_ld_internal').val())?jQuery('#wf_ld_internal').val(): jQuery('#wf_ld_url').val(),
                   href_target=(jQuery('#wf_ld_tar').val())
                   ;
+                  
+              console.log(href);
+              if(href.charAt(0) == "/") href = siteaddress+href;
+              else if(href.substring(0,4) != "http") href = "http://"+href;
+              console.log(href);              
               // Create new anchor elements
           		if (e == null) {
           			ed.getDoc().execCommand("unlink", false, null);
