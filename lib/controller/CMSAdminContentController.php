@@ -181,26 +181,7 @@ class CMSAdminContentController extends AdminComponent {
 	  }
 	}
 
-	public function upload(){
-    $this->use_view= false;
-    $rpath = $_SERVER['HTTP_X_FILE_PATH'];
-    $path = PUBLIC_DIR. $rpath;
-    $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);
-    $putdata = fopen("php://input", "r");
-    $put = "";
-    while ($data = fread($putdata, 2048)) $put .= $data;
-    file_put_contents($path.$filename, $put);
-    chmod($path.$filename, 0777);
-    $this->sync($rpath);
-    sleep(1);
-    $model = new WildfireFile;
-    if($found = $model->filter('rpath', $rpath)->filter('filename',$filename)->all()){
-      if(($id = $_SERVER['HTTP_X_PRIMVAL']) && ($class = $_SERVER['HTTP_X_CLASS'])){
-        $content = new $class($id);
-        foreach($found as $f) $content->files = $f;
-      }
-    }
-  }
+
 
 
 }
