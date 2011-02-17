@@ -1,0 +1,10 @@
+<div id="wildfire-templates" class='clearfix'>
+  <label for="wd_t_rows">Templates</label>
+  <select name="wildfire-available-templates">
+    <?foreach(glob(CMS_DIR."/view/CMSAdminTemplatesController/*") as $f):?>
+    <option value="<?="/admin/templates/".basename($f)?>"><?=basename($f)?></option>
+    <?endforeach?>
+  </select>
+  <iframe width="500" height="300" src=""></iframe>
+</div>
+
