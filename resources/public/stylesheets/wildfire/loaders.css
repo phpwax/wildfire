@@ -4,7 +4,7 @@
   background-position:center 5%;
 }
 
-#files .loading{
+#files .loading, .files_index .loading{
   background-image:url('/images/wildfire/backgrounds/small-loader-on-green.gif');
   background-position:95% 5%;
 }
