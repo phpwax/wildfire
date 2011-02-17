@@ -52,6 +52,7 @@ $counter = 0;
 </form>
 
 
-<?=partial("_dialog_links", array('model'=>$model))?>
-<?=partial("_dialog_source_code", array('model'=>$model))?>
+<?=partial("_dialog_links", array('controller'=>$controller))?>
+<?=partial("_dialog_source_code", array('controller'=>$controller))?>
 <?=partial("_dialog_images", $this)?>
+<?=partial("_dialog_tables", array('controller'=>$controller))?>
