@@ -11,7 +11,8 @@ function file_tree_refresh(){
         type:'post',
         success:function(res){          
           jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');
-        }
+        },
+        error:function(){}
       })
     });
   });
@@ -19,7 +20,7 @@ function file_tree_refresh(){
 
 function joined_files_refresh(){
   var ef = jQuery('#exisiting-files'), dest=ef.attr('data-dest')+".ajax";
-  if(ef && dest){
+  if(ef && ef.length && dest){
     jQuery.ajax({
       url:dest,
       type:'post',
