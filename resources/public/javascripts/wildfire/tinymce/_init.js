@@ -6,9 +6,9 @@ jQuery(document).ready(function(){
     skin:'o2k7',
     skin_variant : "silver",
     //
-    plugins: 'advhr,contextmenu,directionality,inlinepopups,noneditable,paste,style,table,template,xhtmlxtras',
+    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,xhtmlxtras,wflink',
     // Theme options
-		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,outdent,indent,|,link,unlink,|,hr",
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,|,hr",
 		theme_advanced_buttons2 : "tablecontrols",
 		theme_advanced_buttons3 : "styleselect,formatselect,template",
 		theme_advanced_buttons4 : "",
