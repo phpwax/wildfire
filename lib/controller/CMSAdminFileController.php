@@ -55,7 +55,7 @@ class CMSAdminFileController extends AdminComponent {
 
   public function create(){
     $this->use_view=false;
-    if(($new = Request::param('folder')) && ($base = Request::param('path')) ){
+    if(($new = Inflections::to_url(Request::param('folder'))) && ($base = Request::param('path')) ){
       $path = PUBLIC_DIR.trim($base,"/")."/".trim($new,"/");
       if(!is_dir($path) && !is_file($path)) mkdir($path,0777,true);
     }
