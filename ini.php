@@ -4,4 +4,5 @@
  * DO NOT DO ANYTHING COMPLICATED HERE!
  */
 Autoloader::add_asset_type("help", "help");
+Autoloader::add_asset_type('tinymce', 'tinymce');
 ?>
