@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-  jQuery('textarea.tinymce').tinymce({
+  var tinymce = jQuery('textarea.tinymce').tinymce({
     // Location of TinyMCE script
     script_url : '/tinymce/jscripts/tiny_mce/tiny_mce.js',
     relative_urls: false,
@@ -7,7 +7,7 @@ jQuery(document).ready(function(){
     skin:'o2k7',
     skin_variant : "silver",
     //
-    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,xhtmlxtras,wflink',
+    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,xhtmlxtras,wflink,wfhtml',
     // Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,|,hr,|,code",
 		theme_advanced_buttons2 : "tablecontrols",
@@ -23,5 +23,8 @@ jQuery(document).ready(function(){
   //hide the dialog boxes etc
   jQuery('#wildfire-link-dialog').hide();
   jQuery('#wildfire-image-dialog').hide();
+  jQuery('#wildfire-source-code').hide().bind("dialogopen", function(){
+    jQuery('#wildfire-source-code').html(jQuery('textarea.tinymce').html());
+  });
   
 });
