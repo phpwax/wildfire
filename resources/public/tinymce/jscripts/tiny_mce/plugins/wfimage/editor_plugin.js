@@ -27,6 +27,7 @@
 					        cl = jQuery("#wf_img_pos").val(),
 					        alt = jQuery("#wf_img_cap").val(),
 					        imgstr = "<img src='"+img.attr('src').replace("150", sz)+"' class='"+cl+"' alt='"+alt+"'>"
+					        ;					        
 					    tinymce.execCommand('mceInsertContent',false,imgstr);
 					    jQuery(this).dialog("close");
 					  },
