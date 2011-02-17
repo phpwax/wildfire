@@ -68,7 +68,7 @@
 
 			// Register buttons
 			ed.addButton('link', {
-				title : 'wflink.link_desc',
+				title : 'Insert Link',
 				cmd : 'wfAdvLink'
 			});
 

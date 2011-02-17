@@ -9,22 +9,20 @@
  */
 
 (function() {
-	tinymce.create('tinymce.plugins.WildfireHtmlPlugin', {
+	tinymce.create('tinymce.plugins.WildfireImagePlugin', {
 		init : function(ed, url) {
 			this.editor = ed;
 			// Register commands
-			ed.addCommand('wfHtmlLink', function() {
+			ed.addCommand('wfImageLink', function() {
 
 				ed.windowManager.open({
-					ui_dialog: "#wildfire-source-code",
+					ui_dialog: "#wildfire-image-dialog",
 					width : 800,
-					height : 300,
+					height : 520,
 					inline : 1,
 					button_actions:{
-					  'Update':function(){
-					    ed.setContent(document.getElementById('wildfire-source-code').value, {source_view : true});
-					    jQuery("#wildfire-source-code").html('');
-          		jQuery(this).dialog("close");
+					  'Insert':function(){
+					    
 					  },
 					  'Cancel':function(){jQuery(this).dialog("close");}
 					}
@@ -34,9 +32,9 @@
 			});
 
 			// Register buttons
-			ed.addButton('code', {
-				title : 'HMTL VIEW',
-				cmd : 'wfHtmlLink'
+			ed.addButton('image', {
+				title : 'Insert Image',
+				cmd : 'wfImageLink'
 			});
 
 		},
@@ -45,5 +43,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('wflink', tinymce.plugins.WildfireHtmlPlugin);
+	tinymce.PluginManager.add('wfimage', tinymce.plugins.WildfireImagePlugin);
 })();

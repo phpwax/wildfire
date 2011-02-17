@@ -7,9 +7,9 @@ jQuery(document).ready(function(){
     skin:'o2k7',
     skin_variant : "silver",
     //
-    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,xhtmlxtras,wflink,wfhtml',
+    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,xhtmlxtras,wflink,wfhtml,wfimage',
     // Theme options
-		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,|,hr,|,code",
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,image,|,hr,|,code",
 		theme_advanced_buttons2 : "tablecontrols",
 		theme_advanced_buttons3 : "styleselect,formatselect,template",
 		theme_advanced_buttons4 : "",
@@ -22,9 +22,15 @@ jQuery(document).ready(function(){
   
   //hide the dialog boxes etc
   jQuery('#wildfire-link-dialog').hide();
-  jQuery('#wildfire-image-dialog').hide();
+
   jQuery('#wildfire-source-code').hide().bind("dialogopen", function(){
     jQuery('#wildfire-source-code').html(jQuery('textarea.tinymce').html());
   });
+  
+  var cloned_files = jQuery("#files .file-listing").clone();
+  
+  jQuery("#wildfire-image-dialog").html(jQuery(cloned_files).html()).hide().find(".upload-destination, #files-upload, #drop-area, #file-list").remove();
+  
+  if(tinymce && tinymce.length) file_tree_refresh();
   
 });
