@@ -34,23 +34,20 @@
                   href_target=(jQuery('#wf_ld_tar').val())
                   ;
                   
-              console.log(href);
               if(href.charAt(0) == "/") href = siteaddress+href;
               else if(href.substring(0,4) != "http") href = "http://"+href;
-              console.log(href);              
               // Create new anchor elements
           		if (e == null) {
           			ed.getDoc().execCommand("unlink", false, null);
           			tinymce.execCommand("mceInsertLink", false, "#mce_temp_url#", {skip_undo : 1});
-
           			tinymce.each(ed.dom.select("a"), function(n) {
           				if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
           					e = n;
-
-          					ed.dom.setAttribs(e, {
-          						href : href,
-          						target : href_target
-          					});
+                                        
+                    ed.dom.setAttribs(e, {
+                     href : href,
+                     target : href_target
+                    });
           				}
           			});
           		} else {

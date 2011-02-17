@@ -2,6 +2,7 @@ jQuery(document).ready(function(){
   jQuery('textarea.tinymce').tinymce({
     // Location of TinyMCE script
     script_url : '/tinymce/jscripts/tiny_mce/tiny_mce.js',
+    relative_urls: false,
     theme: 'advanced',
     skin:'o2k7',
     skin_variant : "silver",
