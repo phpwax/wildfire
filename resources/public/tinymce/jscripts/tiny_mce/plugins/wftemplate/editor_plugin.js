@@ -17,12 +17,14 @@
 
 				ed.windowManager.open({
 					ui_dialog: "#wildfire-templates",
-					width : 600,
-					height : 500,
+					width : 800,
+					height : 400,
 					inline : 1,
 					button_actions:{
 					  'Insert':function(){
-					    
+              var contents = jQuery("#wildfire-templates").find("iframe").contents().find("body").html();
+					    tinymce.execCommand('mceInsertContent',false,contents);
+ 					    jQuery(this).dialog("close");
 					  },
 					  'Cancel':function(){jQuery(this).dialog("close");}
 					}

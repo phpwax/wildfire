@@ -37,7 +37,13 @@ jQuery(document).ready(function(){
   //table insert
   jQuery("#wildfire-table-insert").hide();
   //template insert
-  //jQuery("#wildfire-templates").hide();
+  jQuery("#wildfire-templates").hide();
+  jQuery('#wildfire-templates').hide().bind("dialogopen", function(){
+    jQuery('#wildfire-templates').find("iframe").attr('src', jQuery('#wildfire-templates').find("select").val());
+    jQuery('#wildfire-templates').find("select").bind("change", function(){
+      jQuery('#wildfire-templates').find("iframe").attr('src', jQuery(this).val());
+    });
+  });
   
   if(tinymce && tinymce.length) file_tree_refresh();
   
