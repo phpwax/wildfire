@@ -7,7 +7,7 @@ jQuery(document).ready(function(){
     skin:'o2k7',
     skin_variant : "silver",
     //
-    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,xhtmlxtras,wflink,wfhtml,wfimage',
+    plugins: 'advhr,contextmenu,directionality,jqueryinlinepopups,noneditable,paste,style,table,template,wflink,wfimage,wfhtml',
     // Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,image,|,hr,|,code",
 		theme_advanced_buttons2 : "tablecontrols",

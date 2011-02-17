@@ -13,7 +13,7 @@
 		init : function(ed, url) {
 			this.editor = ed;
 			// Register commands
-			ed.addCommand('wfHtmlLink', function() {
+			ed.addCommand('wfHtmlView', function() {
 
 				ed.windowManager.open({
 					ui_dialog: "#wildfire-source-code",
@@ -36,7 +36,7 @@
 			// Register buttons
 			ed.addButton('code', {
 				title : 'HMTL VIEW',
-				cmd : 'wfHtmlLink'
+				cmd : 'wfHtmlView'
 			});
 
 		},
@@ -45,5 +45,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('wflink', tinymce.plugins.WildfireHtmlPlugin);
+	tinymce.PluginManager.add('wfhtml', tinymce.plugins.WildfireHtmlPlugin);
 })();
