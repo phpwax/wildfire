@@ -53,7 +53,6 @@
           		} else {
           			ed.dom.setAttribs(e, {
           				href : href,
-          				title : f.linktitle.value,
           				target : href_target
           			});
           		}
