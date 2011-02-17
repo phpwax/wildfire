@@ -13,8 +13,7 @@
 		init : function(ed, url) {
 			this.editor = ed;
 			// Register commands
-			ed.addCommand('wfHtmlView', function() {
-
+			ed.addCommand('wfhtml_view', function() {
 				ed.windowManager.open({
 					ui_dialog: "#wildfire-source-code",
 					width : 800,
@@ -23,7 +22,6 @@
 					button_actions:{
 					  'Update':function(){
 					    ed.setContent(document.getElementById('wildfire-source-code').value, {source_view : true});
-					    jQuery("#wildfire-source-code").html('');
           		jQuery(this).dialog("close");
 					  },
 					  'Cancel':function(){jQuery(this).dialog("close");}
@@ -35,13 +33,11 @@
 
 			// Register buttons
 			ed.addButton('code', {
-				title : 'HMTL VIEW',
-				cmd : 'wfHtmlView'
+				title : 'View Source',
+				cmd : 'wfhtml_view'
 			});
 
-		},
-
-		
+		}		
 	});
 
 	// Register plugin

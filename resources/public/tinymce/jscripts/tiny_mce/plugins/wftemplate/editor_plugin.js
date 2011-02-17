@@ -45,5 +45,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('wfhtml', tinymce.plugins.WildfireTemplatePlugin);
+	tinymce.PluginManager.add('wftemplate', tinymce.plugins.WildfireTemplatePlugin);
 })();
