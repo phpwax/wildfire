@@ -18,11 +18,17 @@
 				ed.windowManager.open({
 					ui_dialog: "#wildfire-image-dialog",
 					width : 800,
-					height : 520,
+					height : 450,
 					inline : 1,
 					button_actions:{
 					  'Insert':function(){
-					    
+					    var img = jQuery(".file-info .thumb"),
+					        sz = jQuery("#wf_img_size").val(),
+					        cl = jQuery("#wf_img_pos").val(),
+					        alt = jQuery("#wf_img_cap").val(),
+					        imgstr = "<img src='"+img.attr('src').replace("150", sz)+"' class='"+cl+"' alt='"+alt+"'>"
+					    tinymce.execCommand('mceInsertContent',false,imgstr);
+					    jQuery(this).dialog("close");
 					  },
 					  'Cancel':function(){jQuery(this).dialog("close");}
 					}

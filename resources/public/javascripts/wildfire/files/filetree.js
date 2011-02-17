@@ -1,6 +1,6 @@
 function file_tree_refresh(){
   jQuery(".file-tree").each(function(){
-    var froot = jQuery(this).attr("data-file-root"), dest = jQuery(this).attr('data-list')+".ajax", info=jQuery(this).attr('data-info')+".ajax";
+    var ftree = jQuery(this), froot = jQuery(this).attr("data-file-root"), dest = jQuery(this).attr('data-list')+".ajax", info=jQuery(this).attr('data-info')+".ajax";
     
     jQuery(this).fileTree({ root: froot, script: dest }, function(file) { 
       
