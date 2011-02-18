@@ -85,12 +85,12 @@ class CmsTextFilter  {
   
 	static public function videos($text){
 		/*standard youtube*/
-		$youtube = '<object width="$2" height="$3">
+		$youtube = '<object width="$6" height="$7">
 		  <param name="movie" value="http://www.youtube.com/v/$3" />
-		  <embed src="http://www.youtube.com/v/$3" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
+		  <embed src="http://www.youtube.com/v/$3" type="application/x-shockwave-flash" width="$6" height="$7"></embed>
 		</object>';
 
-		$text = preg_replace("/<a class=\"wildfire_youtube\" href=\"([^<]*)youtube([^<]*)\/v\/([a-zA-Z\-0-9_]*)&?[^<]*\">.*<\/a>/", $youtube, $text);
+		$text = preg_replace("/<a class=\"wildfire_youtube\" href=\"([^<]*)youtube([^<]*)\/v\/([a-zA-Z\-0-9_]*)&?[^<]*\"><img src=\"([^<]*)\" alt=\"([^<]*)\" width=\"([^<]*)\" height=\"([^<]*)\" \/><\/a>/", $youtube, $text);
     
 		/*extra youtube - no rel bits*/
 		$youtube2 = '<object width="{%WIDTH%}" height="{%HEIGHT%}">
