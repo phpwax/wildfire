@@ -13,7 +13,7 @@
     margin-bottom:10px;
     border-bottom:1px solid #ececec;
   }
-  .file-info img{float:left;}
+  .file-info img{float:right;margin-left:10px;}
   
 .new-folder{
   padding-bottom:10px;
