@@ -35,6 +35,8 @@ class WildfireContent extends WaxTreeModel {
 
 		$this->define("revision", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
+		
+		$this->define("view", "CharField", array('widget'=>'HiddenInput'));
 	}
 
 	public function tree_setup(){
