@@ -87,11 +87,11 @@ class CmsTextFilter  {
 		/*standard youtube*/
 		$youtube = '<object width="$2" height="$3">
 		  <param name="movie" value="http://www.youtube.com/v/$6" />
-		  <embed src="http://www.youtube.com/v/$6" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
+		  <embed src="http://www.youtube.com/v/$2" type="application/x-shockwave-flash" width="$2" height="$3"></embed>
 		</object>';
 
-		$text = preg_replace("/<a href=\"([^\"]*)\" rel=\"([0-9]*px):([0-9]*px)\">([^<]*)youtube([^<]*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*<\/a>/", $youtube, $text);
-		
+		$text = preg_replace("/<a class=\"wildfire_youtube\" href=\"([^<]*)youtube([^<]*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*\">.*<\/a>/", $youtube, $text);
+    
 		/*extra youtube - no rel bits*/
 		$youtube2 = '<object width="{%WIDTH%}" height="{%HEIGHT%}">
 		  <param name="movie" value="http://www.youtube.com/v/{%VIDEO%}" />
