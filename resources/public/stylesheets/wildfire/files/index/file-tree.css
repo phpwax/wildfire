@@ -5,19 +5,17 @@
   overflow:auto;
   overflow-x:hidden;
 }
-  #page_content .file-tree-container ul li{}
+  #page_content .file-tree-container ul li{
+    text-align:right;
+  }
   #page_content .file-tree-container ul li a{
     padding:6px 2px 6px 25px;
     background-position:5px 5px;
+    text-align:left;
   }
     
 
-#page_content .file-tree-container li .options{
-  float:right;
-  width:36px;
-  padding:6px 2px;
-  margin-right:10px;
-}
+
   #page_content .file-tree-container li .options a{
     float:right;
     padding:0;
