@@ -1,6 +1,8 @@
 #relationships .joins{
   width:33%;
   float:left;
+}
+#relationships .joins ul{
   height:330px;
   overflow:auto;
   overflow-x:hidden;
