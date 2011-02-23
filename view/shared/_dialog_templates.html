@@ -1,7 +1,7 @@
 <div id="wildfire-templates" class='clearfix'>
   <label for="wd_t_rows">Templates</label>
   <select name="wildfire-available-templates">
-    <?foreach(glob(CMS_DIR."/view/CMSAdminTemplatesController/*") as $f):?>
+    <?foreach(array_merge((array)glob(CMS_DIR."/view/CMSAdminTemplatesController/*"), (array)glob(APP_DIR."/view/admin/templates/*") ) as $f):?>
     <option value="<?="/admin/templates/".basename($f)?>"><?=basename($f)?></option>
     <?endforeach?>
   </select>
