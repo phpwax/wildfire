@@ -59,13 +59,13 @@ class CMSApplicationController extends WaxController{
 		  $this->cms_live_scope = $this->cms_preview_scope;
 	  }
 		if(!$this->use_format) $this->use_format="html";
-		WaxEvent::add("cms.use_format_set", function(){});
+		WaxEvent::run("cms.use_format_set", $this);
 		//find the raw stack to check
 		$this->raw_stack = WaxUrl::$params;
-		WaxEvent::add("cms.raw_stack_set", function(){});
+		WaxEvent::run("cms.raw_stack_set", $this);
 		//process the stack to remove some parts
 		$this->cms_stack = $this->cms_stack($this->raw_stack);
-		WaxEvent::add("cms.cms_stack_set", function(){});
+		WaxEvent::run("cms.cms_stack_set", $this);
 		/**
 		 * find the language
 		 * - if we have more than 1 language, go looking for it
@@ -73,7 +73,7 @@ class CMSApplicationController extends WaxController{
 		 */
 		if(count(array_keys(CMSApplication::$languages)) > 1) $this->cms_language_id = $this->cms_language(Request::param($this->language_param), $this->cms_stack, CMSApplication::$languages);
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
-		WaxEvent::add("cms.cms_language_id_set", function(){});
+		WaxEvent::run("cms.cms_language_id_set", $this);
 
 	  /**
 	   * use the modified stack to find content
@@ -87,7 +87,7 @@ class CMSApplicationController extends WaxController{
     }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
       $this->cms_content = $content;
 	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
-	  WaxEvent::add("cms.cms_content_set", function(){});
+	  WaxEvent::run("cms.cms_content_set", $this);
     /**
      * find a matching view for the page, otherwise throw an error
      */
@@ -102,8 +102,7 @@ class CMSApplicationController extends WaxController{
      * finally, set the action to the default cms one
      */
     $this->action = $this->cms_action;
-    WaxEvent::add("cms.action_set", function(){});
-    //print_r($this);exit;
+    WaxEvent::run("cms.action_set", $this);
 	}
 	/**
 	 * go over the stack checking for applications that match, like view
