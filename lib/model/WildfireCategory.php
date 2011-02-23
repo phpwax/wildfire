@@ -17,7 +17,7 @@ class WildfireCategory extends WaxModel {
 	 * set the url up
 	 */	
 	public function before_save() {
-	  if(!$this->url) $this->url = Inflections::to_url($this->title);
+    $this->url = Inflections::to_url($this->title);
 	}
 	
 }
