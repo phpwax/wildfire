@@ -14,7 +14,7 @@ $files = $model->order($model->primary_key." DESC")->limit(5)->all();
   <tbody>
     <?foreach($files as $f):?>
     <tr>
-      <td><?=$f->permalink(150)?></td>
+      <td><img src='<?=$f->permalink(100)?>' alt=""></td>
       <td><?=$f->filename?></td>
     </tr>
     <?endforeach?>
