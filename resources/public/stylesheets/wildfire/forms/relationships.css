@@ -1,0 +1,7 @@
+#relationships .joins{
+  width:33%;
+  float:left;
+  height:330px;
+  overflow:auto;
+  overflow-x:hidden;
+}
