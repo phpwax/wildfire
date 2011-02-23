@@ -206,8 +206,9 @@ class CMSAdminComponent extends CMSBaseComponent {
 	}
 
 	public function edit(){
-	  WaxEvent::run("cms.form.setup", $this);	  
-    //run the save event	  
+	  WaxEvent::run("cms.form.setup", $this);
+	  WaxEvent::run("cms.edit.init", $this);
+    //run the save event
 	  WaxEvent::run("cms.save", $this);
 	}
 
