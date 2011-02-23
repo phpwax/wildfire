@@ -199,6 +199,20 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function _list(){
     if($this->use_format == "ajax") $this->index();
   }
+  
+  public function _filter_inline(){
+    $this->results = array();
+    if($this->use_format == "ajax" && ($filters = Request::param('inline_filter') ) && ($search_class = Request::param('search_model'))){
+      $filter = array_shift($filters);
+      $search_model = new $search_class;
+      $this->results = $search_model->filter($search_model->identifier ." LIKE '$filter%'")->all();
+      $model_class = Request::param('origin_model');
+      $primval = Request::param('origin_primval');
+      $this->model = new $model_class($primval);
+      $this->name = Request::param("name");
+      $this->type = Request::param("type");
+    }
+  }
 
 	public function create(){
 	  $model = new $this->model_class();

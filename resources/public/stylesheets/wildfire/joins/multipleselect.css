@@ -17,3 +17,8 @@
     .multipleselect li input{
       float:left;
     }
+
+    form .multipleselect .inline-filter{
+      width:95%;
+      margin-bottom:8px;
+    }
