@@ -40,7 +40,7 @@ $counter = 0;
       ?>
       <fieldset class='tab-contents clearfix' id="<?=$tabhash?>" >
       <?if($readable):?>      
-        <?=partial($partial_name, array('tabhash'=>$tabhash, 'model'=>$model, 'controller'=>$controller, 'fields'=>$fields, 'partial_paths'=>$partial_paths, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions))?>
+        <?=partial($partial_name, array('tabhash'=>$tabhash, 'model'=>$model, 'controller'=>$controller, 'fields'=>$fields, 'partial_paths'=>$partial_paths, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions, 'file_system_base'=>$file_system_base))?>
       <?else:?>   
         <?foreach($fields as $n=>$f):?><?$nm = Inflections::to_url($n)?><div class='field field-<?=$nm?> field-<?=$tabhash?>-<?=$nm?> <?=$model_class?>-<?=$nm?> clearfix'><?=$f->render()?></div><?endforeach?>
       <?endif?>      
