@@ -1,19 +1,19 @@
-.admincontent-edit fieldset#all-versions .create-WildfireContent{
-  float:right;
-}
-.admincontent-edit fieldset#all-versions h3{
+
+fieldset#all-versions h3{
   float:left;
   width:40%;
   margin:0;
 }
-.admincontent-edit fieldset#all-versions .data_table{
+fieldset#all-versions .data_table{
   margin-bottom:20px;
 }
-.admincontent-edit fieldset#all-versions .headers{
+fieldset#all-versions .headers{
   padding:0 20px 10px 20px;
 }
-.admincontent-edit fieldset#all-versions .create-lang{
+fieldset#all-versions .create-lang{
   background:#8EA79A;
   display:block;
+  width:180px;
   margin:0;
+  float:right;
 }
