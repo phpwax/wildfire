@@ -7,7 +7,7 @@ foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($m
   <thead>
     <tr>
     <?foreach($scaffold_columns as $col=>$info):?>
-    <th class='<?=Inflections::underscore($col)?>'><span><?=Inflections::humanize($col)?></span></th>
+    <th class='<?=Inflections::underscore($col)?>'><span><?if($model->columns[$col][1]['label']):?><?=$model->columns[$col][1]['label']?><?else:?><?=Inflections::humanize($col)?><?endif?></span></th>
     <?endforeach?>
     <th class='operations'></th>
     </tr>
