@@ -5,6 +5,7 @@
  */
 
 class WildfireCategory extends WaxModel {
+  public $identifier = "title";
   /**
    * setup the columns, fields, relationships etc
    */  

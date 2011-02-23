@@ -1,7 +1,7 @@
 <?php
 
 class WildfireContent extends WaxTreeModel {
-
+  public $identifier = "title";
 
 	public function setup(){
 	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live"), 'scaffold'=>true, 'editable'=>false));

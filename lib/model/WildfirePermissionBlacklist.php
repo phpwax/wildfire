@@ -1,5 +1,6 @@
 <?php
 class WildfirePermissionBlacklist extends WaxModel{
+  public $identifier = "operation";
 	public function setup(){
 	  parent::setup();
     $this->define("user", "ForeignKey", array('target_model' => 'WildfireUser'));

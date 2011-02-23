@@ -1,7 +1,7 @@
 <?php
 
 class WildfireLog extends WaxModel {
-  
+  public $identifier = "action";
     
   public function setup() {
     $this->define("language", "CharField");
