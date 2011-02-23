@@ -94,7 +94,7 @@ class CMSBaseComponent extends WaxController {
     }
     //check filesystem files
     foreach(glob(PUBLIC_DIR.$path."*") as $file){
-      chmod($file, 0777);
+      if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
       $stats = stat($file);
       $fileid = $stats[9];
       $check = new $this->model_class($fileid);

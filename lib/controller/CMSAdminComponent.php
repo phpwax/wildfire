@@ -242,7 +242,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     $put = "";
     while ($data = fread($putdata, 2048)) $put .= $data;
     file_put_contents($path.$filename, $put);
-    chmod($path.$filename, 0777);
+    @chmod($path.$filename, 0777);
     $this->sync($rpath);
     sleep(1);
     $model = new WildfireFile;
