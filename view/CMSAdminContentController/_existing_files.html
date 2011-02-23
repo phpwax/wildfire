@@ -10,7 +10,7 @@
   <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field joined_field" checked="checked">
   <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
   <div class='tag_options clearfix t_<?=$info->tag?> o_<?=$info->join_order?>'>
-    <input type="hidden" name="tags[<?=$file->primval?>][order]" value="<?=$info->join_order?>" class='join-order-field'>
+    <input type="hidden" name="tags[<?=$file->primval?>][order]" value="<?=$i?>" class='join-order-field'>
     <?foreach($file_tags as $i=>$tag):?>
     <div class='clearfix tag_<?=$i?>'>
       <input type="radio" name="tags[<?=$file->primval?>][tag]" value="<?=$tag?>" id="tf_<?=$file->primval?>_<?=$i?>" class="radio_field"<?if((!$info && $i==0) || ($tag == $info->tag)):?> checked="checked"<?endif?> >
