@@ -22,7 +22,7 @@
 
 
 <div class='form-submit clearfix'>
-  <a href="<?=$model->permalink?>?preview=<?=$model->primval?>" class='preview button preview-button'>PREVIEW</a>
+  <?if($autosave):?><a href="<?=$model->permalink?>?preview=<?=$model->primval?>" class='preview button preview-button'>PREVIEW</a><?endif?>
     
   <?if($model->status == 1):?>
   <input type="submit" name='revision' value='SAVE FOR LATER' class='submit_field input_field revision <?=get_class($model)?>-revision'>
