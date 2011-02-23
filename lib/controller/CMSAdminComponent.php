@@ -139,8 +139,13 @@ class CMSAdminComponent extends CMSBaseComponent {
         }
       }
     });
-    
-    
+    WaxEvent::add('cms.file.tag', function(){
+      $obj = WaxEvent::$data;
+      $tags = Request::param('tags');
+      foreach((array)$tags as $fileid=>$tag_order){
+        if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);
+      }
+    });    
 	  
     /**
      * view setups
@@ -155,6 +160,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.save.success", function(){
       $obj = WaxEvent::data();
       WaxEvent::run('cms.joins.handle', $obj);
+      WaxEvent::run('cms.file.tag', $obj);
     });
     
     WaxEvent::add("cms.save", function(){
