@@ -30,7 +30,7 @@ jQuery(document).ready(function(){
     //
     plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink',
     // Theme options
-		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,link,unlink,|,hr,|,code",
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,link,unlink,|,hr",
 		theme_advanced_buttons2 : "",
 		theme_advanced_buttons3 : "",
 		theme_advanced_buttons4 : "",

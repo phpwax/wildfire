@@ -22,7 +22,7 @@ li.file input{
   .file-listing .file-info img.file_thumb{
     float:none;
     display:block;
-    margin:auto;
+    margin:auto auto 15px auto;
   }
 .file-listing .file-info label{float:left;width:80%;margin-left:10px;}
 
