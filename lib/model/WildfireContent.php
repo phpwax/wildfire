@@ -57,6 +57,9 @@ class WildfireContent extends WaxTreeModel {
   public function scope_preview(){
     return $this->filter("status", 0);
   }
+  public function scope_multipleselect(){
+    return $this->scope_live()->filter("id", $this->primval, "!=");
+  }
 
   public function before_save(){
     if(!$this->date_start) $this->date_start = date("Y-m-d H:i:s");

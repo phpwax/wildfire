@@ -1,6 +1,6 @@
 <?
 $join_class = $model->columns[$name][1]['target_model'];
-$join_model = new $join_class;
+$join_model = new $join_class("multipleselect");
 $all = $join_model->all();
 $existing = array();
 foreach($model->$name as $r) $existing[] = $r->primval;
