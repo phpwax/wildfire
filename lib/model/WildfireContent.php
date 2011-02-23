@@ -12,7 +12,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("date_start", "DateTimeField", array('scaffold'=>true, 'default'=>date("j F Y H:i"), 'output_format'=>"j F Y H:i"));
 		$this->define("date_end", "DateTimeField", array('scaffold'=>true, 'default'=>date("j F Y H:i",mktime(0,0,0, date("m"), date("j"), date("y")+10 )), 'output_format'=>"j F Y H:i" ));
 
-		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'group'=>'files'));
+		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'relationships'));
 
     $langs = array();
@@ -198,6 +198,20 @@ class WildfireContent extends WaxTreeModel {
       return $test;
     }
     else return false;
+  }
+
+  public function file_meta_set($fileid, $tag, $order=0){
+    $model = new WaxModel;
+    $model->table = "wildfire_content_wildfire_file";
+    foreach($model->filter("wildfire_content_id", $this->primval)->filter("wildfire_file_id", $fileid)->all() as $r){
+      $sql = "UPDATE `wildfire_content_wildfire_file` SET `join_order`=$order, `tag`='$tag' WHERE `id`=$r->primval";
+      $model->query($sql);
+    }
+  }
+  public function file_meta_get($fileid){
+    $model = new WaxModel;
+    $model->table = "wildfire_content_wildfire_file";
+    return $model->filter("wildfire_content_id", $this->primval)->filter("wildfire_file_id", $fileid)->first();
   }
 
 	public function format_content() {

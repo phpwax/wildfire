@@ -25,7 +25,7 @@ class CMSAdminContentController extends AdminComponent {
 	      $check->delete();
       }
 	  });
-
+    
 	  WaxEvent::add('cms.url.add', function(){
 	    $obj = WaxEvent::$data;
 	    $saved = $obj->model;
@@ -67,6 +67,12 @@ class CMSAdminContentController extends AdminComponent {
           }
         }
       }
+    });
+    
+    WaxEvent::add('cms.file.tag', function(){
+      $obj = WaxEvent::$data;
+      $tags = Request::param('tags');
+      foreach($tags as $fileid=>$tag) $obj->model->file_meta_set($fileid,$tag);
     });
     /**
      * a sanity check to stop recursive loops on trees - not used at the moment, disabled
@@ -113,6 +119,8 @@ class CMSAdminContentController extends AdminComponent {
 	    WaxEvent::run('cms.url.add', $obj);
 	    //generic join handling
 	    WaxEvent::run('cms.joins.handle', $obj);
+	    //file tagging
+	    WaxEvent::run('cms.file.tag', $obj);
 	    //checking for cicular references..
 	    WaxEvent::run("cms.save.sanity_check", $obj);
   	  if($obj->use_layout) $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");

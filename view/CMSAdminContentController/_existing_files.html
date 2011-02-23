@@ -1,15 +1,18 @@
 <?foreach($model->files as $i=>$file):?>
+  <?
+  $info = $model->file_meta_get($file->primval);
+  ?>
 <div class='joined-file clearfix f<?=$file->primval?>'>
   <?if(strstr($file->type, "image")):?>
   <img src="<?=$file->permalink(150)?>" alt="<?=$file->filename?>">
   <?endif?>
   <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field joined_field" checked="checked">
   <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
-  <div class='tag_options clearfix'>
+  <div class='tag_options clearfix t_<?=$info->tag?> o_<?=$info->join_order?>'>
     <?foreach($file_tags as $i=>$tag):?>
-    <div class='clearfix'>
-      <input type="radio" name="tags[<?=$file->primval?>]" value="<?=$tag?>" id="tag_file_<?=$file->primval?>_<?=$i?>" class="radio_field">
-      <label for="tag_file_<?=$file->primval?>_<?=$i?>>"><?=$tag?></label>
+    <div class='clearfix tag_<?=$i?>'>
+      <input type="radio" name="tags[<?=$file->primval?>]" value="<?=$tag?>" id="tf_<?=$file->primval?>_<?=$i?>" class="radio_field"<?if((!$info && $i==0) || ($tag == $info->tag)):?> checked="checked"<?endif?> >
+      <label for="tf_<?=$file->primval?>_<?=$i?>"><?=$tag?></label>
     </div>
     <?endforeach?>
   </div>
