@@ -36,7 +36,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("revision", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput", 'editable'=>false));
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
 		
-		$this->define("view", "CharField", array('widget'=>'HiddenInput'));
+		$this->define("view", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_views() ));
 	}
 
 	public function tree_setup(){
@@ -199,6 +199,21 @@ class WildfireContent extends WaxTreeModel {
     }
     else return false;
   }
+  /**
+   * find all the possible views for the cms in the default location
+   */
+  public function cms_views(){
+    $dir = VIEW_DIR."page/";
+    $return = array();    
+    if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
+      foreach($files as $f){
+        $i = str_replace($dir, "", $f);
+        $return[$i] = basename($f, ".html");
+      }
+    }
+    return $return;
+  }
+  
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0){
     $model = new WaxModel;
@@ -231,11 +246,13 @@ class WildfireContent extends WaxTreeModel {
     else if($url = $this->url()) $this->permalink = "/".$url."/";
     return $this;
   }
+  
   protected function language_permalink($lang_id){
     $lang_url = "";
     if(CMSApplication::$languages[$lang_id] && ($url = CMSApplication::$languages[$lang_id]['url'])) $lang_url = "/".$url;
     return $lang_url.$this->generate_permalink()->permalink;
   }
+  
 
 
 }
