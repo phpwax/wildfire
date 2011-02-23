@@ -199,7 +199,7 @@ class WildfireContent extends WaxTreeModel {
     }
     else return false;
   }
-
+  //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0){
     $model = new WaxModel;
     $model->table = "wildfire_content_wildfire_file";
