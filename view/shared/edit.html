@@ -25,7 +25,7 @@ $counter = 0;
       <?endforeach?>
     </ul>
     
-    <div class='intro info-container'><?=partial("_intro", array('model'=>$model, 'controller'=>$controller))?></div>
+    <div class='intro info-container'><?=partial("_intro", array('model'=>$model, 'controller'=>$controller, 'autosave'=>$autosave))?></div>
     
     <?foreach($grouping as $name=>$fields):?>
       <?$tabhash = Inflections::to_url($name);

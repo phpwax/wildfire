@@ -4,7 +4,7 @@ if($model->revision()) $endpoint = "/".trim($controller,"/")."/edit/".$model->pr
 //otherwise this is the master, so to start with the endpoint is a revision call
 else $endpoint = "/".trim($controller,"/")."/edit/".$model->primval.".json?revision=1";
 ?>
-<a id="auto-save" title="Autosave Enabled"><img src="/images/wildfire/icons/save.png" alt="Autosave Enabled"><span class='enabled' data-save-point="<?=$endpoint?>" data-controller="/<?=trim($controller,"/")?>/">Autosave enabled</span></a>
+<?if($autosave):?><a id="auto-save" title="Autosave Enabled"><img src="/images/wildfire/icons/save.png" alt="Autosave Enabled"><span class='enabled' data-save-point="<?=$endpoint?>" data-controller="/<?=trim($controller,"/")?>/">Autosave enabled</span></a><?endif?>
 
 <?if(($revision = $model->revision()) || ($master = $model->is_live()) || $model->alt_language()):?>
 <div class="ui-widget">

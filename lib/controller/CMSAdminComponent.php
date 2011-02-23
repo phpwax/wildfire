@@ -24,6 +24,8 @@ class CMSAdminComponent extends CMSBaseComponent {
   //used to tag images on joins
   public $file_tags = array('image', 'document');
   
+  public $autosave = false;
+  
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
