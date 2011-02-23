@@ -19,6 +19,9 @@
 					width : 800,
 					height : 300,
 					inline : 1,
+					on_open:function(){
+					  jQuery('#wildfire-source-code').html(ed.getContent());
+					},
 					button_actions:{
 					  'Update':function(){
 					    ed.setContent(document.getElementById('wildfire-source-code').value, {source_view : true});

@@ -44,9 +44,7 @@ jQuery(document).ready(function(){
   //hide the dialog boxes etc
   jQuery('#wildfire-link-dialog').hide();
   //source code view
-  jQuery('#wildfire-source-code').hide().bind("dialogopen", function(){
-    jQuery('#wildfire-source-code').html(jQuery('textarea.tinymce').html());
-  });
+  jQuery('#wildfire-source-code').hide();
   //inline image picker
   var cloned_files = jQuery("#files .file-listing").clone();
   cloned_files.find("#root_node").attr("id", "inline_root_node");

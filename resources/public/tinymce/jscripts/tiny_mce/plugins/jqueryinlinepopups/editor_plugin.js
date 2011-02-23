@@ -68,7 +68,7 @@
 					modal: true,
 					resizable: false,
 					draggable: true,
-					dialogClass: 'ui-dialog-tinymce',
+					dialogClass: 'ui-dialog-tinymce',					
 					buttons: (f.button_actions)?f.button_actions:{}
 				},
 				dialog = (!f.ui_dialog)? $('<div />').attr('id', 'dialog-' + id).hide().appendTo('body') : $(f.ui_dialog),
@@ -79,7 +79,8 @@
 					features : f,
 					element: dialog
 				};
-
+      
+      if(f.on_open) config.open = f.on_open;
 		
 			if (f.title)
 					dialog.attr('title', f.title);
