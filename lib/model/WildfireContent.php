@@ -35,7 +35,7 @@ class WildfireContent extends WaxTreeModel {
 
 		$this->define("revision", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput", 'editable'=>false));
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
-		
+
 		$this->define("view", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_views() ));
 		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts() ));
 	}
@@ -151,7 +151,7 @@ class WildfireContent extends WaxTreeModel {
     return $this;
   }
 
-  
+
   public function revision(){
     return $this->revision;
   }
@@ -164,7 +164,7 @@ class WildfireContent extends WaxTreeModel {
   public function master(){
     return !$this->revision;
   }
-  
+
   public function find_master(){
     if($this->revision){
       $class = get_class($this);
@@ -208,7 +208,7 @@ class WildfireContent extends WaxTreeModel {
    */
   public function cms_views(){
     $dir = VIEW_DIR."page/";
-    $return = array();    
+    $return = array(''=>'-- Select View --');
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
       foreach($files as $f){
         $i = str_replace($dir, "", $f);
@@ -217,10 +217,10 @@ class WildfireContent extends WaxTreeModel {
     }
     return $return;
   }
-  
+
   public function cms_layouts(){
     $dir = VIEW_DIR."layouts/";
-    $return = array();    
+    $return = array(''=>'-- Select Layout --');
     if(is_dir($dir) && ($files = glob($dir."*.html"))){
       foreach($files as $f){
         $i = str_replace($dir, "", $f);
@@ -229,7 +229,7 @@ class WildfireContent extends WaxTreeModel {
     }
     return $return;
   }
-  
+
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0){
     $model = new WaxModel;
@@ -262,13 +262,13 @@ class WildfireContent extends WaxTreeModel {
     else if($url = $this->url()) $this->permalink = "/".$url."/";
     return $this;
   }
-  
+
   protected function language_permalink($lang_id){
     $lang_url = "";
     if(CMSApplication::$languages[$lang_id] && ($url = CMSApplication::$languages[$lang_id]['url'])) $lang_url = "/".$url;
     return $lang_url.$this->generate_permalink()->permalink;
   }
-  
+
 
 
 }
