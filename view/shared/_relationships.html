@@ -1,4 +1,4 @@
-<div class='joins joins_<?=count($fields)?>'>
+<div class='joins joins_<?=count($fields)?> clearfix'>
   <?foreach($fields as $name=>$join):?>
     <?
     $type = "_".str_replace("input", "", Inflections::to_url(get_class($join)));
