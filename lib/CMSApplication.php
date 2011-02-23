@@ -22,11 +22,7 @@ class CMSApplication {
 	                          0=>array( //0 is the default language, is content with this language cannot be found, then it will revert to this
 	                              'name'=>"english", 
 	                              'url' =>''
-	                              ),
-	                          1=>array(
-	                            'name'=>"spanish",
-	                            'url'=>"es"
-	                            )
+	                              )
 	                          );
 	
 	/**
