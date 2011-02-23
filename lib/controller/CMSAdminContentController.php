@@ -147,6 +147,7 @@ class CMSAdminContentController extends AdminComponent {
 	    $file = new WildfireFile("available");
 	    $this->model = new $this->model_class(Request::param('id'));
 	    foreach($this->model->files as $f) $this->existing[] = $f->rpath.$f->filename;
+	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
 	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
 	  }
   }
