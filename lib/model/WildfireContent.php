@@ -37,6 +37,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
 		
 		$this->define("view", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_views() ));
+		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts() ));
 	}
 
 	public function tree_setup(){
@@ -209,6 +210,18 @@ class WildfireContent extends WaxTreeModel {
     $dir = VIEW_DIR."page/";
     $return = array();    
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
+      foreach($files as $f){
+        $i = str_replace($dir, "", $f);
+        $return[$i] = basename($f, ".html");
+      }
+    }
+    return $return;
+  }
+  
+  public function cms_layouts(){
+    $dir = VIEW_DIR."layouts/";
+    $return = array();    
+    if(is_dir($dir) && ($files = glob($dir."*.html"))){
       foreach($files as $f){
         $i = str_replace($dir, "", $f);
         $return[$i] = basename($f, ".html");
