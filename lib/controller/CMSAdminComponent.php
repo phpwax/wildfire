@@ -42,7 +42,8 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
     WaxEvent::add("cms.layout.sublinks", function(){
       $obj = WaxEvent::data();
-      $obj->quick_links = array("create new $obj->module_name"=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
+      $mods = CMSApplication::get_modules();
+      $obj->quick_links = array("create new ".$mods[$obj->module_name]['display_name']=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
     });
     /**
      * permissions

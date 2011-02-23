@@ -10,7 +10,8 @@ $partial_paths = array(
 $partial_paths = array_reverse($partial_paths);
 
 $grouping = array();
-foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "editing ".$module_name)) && $ele->editable) $grouping[strtolower($g)][$k] = $ele;
+$mods = CMSApplication::get_modules();
+foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "editing ".$mods[$module_name]['display_name'])) && $ele->editable) $grouping[strtolower($g)][$k] = $ele;
 
 $counter = 0;
 ?>
