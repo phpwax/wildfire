@@ -1,6 +1,6 @@
 <?if($file):?>
-<img src="<?=$file->permalink(250)?>" class='thumb' alt="<?=$file->filename?>">
 <h4><?=$file->filename?></h4>
+<img src="<?=$file->permalink(200)?>" class='thumb' alt="<?=$file->filename?>">
 <h5><?=$file->type?></h5>
 <h5><?=number_format($file->size/1024, 2)?> kb</h5>
 <?endif?>

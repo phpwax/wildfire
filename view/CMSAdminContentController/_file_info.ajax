@@ -1,9 +1,11 @@
 <?if($file):?>
-<img src="<?=$file->permalink(150)?>" class='thumb' alt="<?=$file->filename?>">
-<h4><?=$file->filename?></h4>
-<h5><?=$file->type?></h5>
-<h5><?=number_format($file->size/1024, 2)?> kb</h5>
-<input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field" <?if($exists):?>checked="checked"<?endif?>>
-<label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
+<img src="<?=$file->permalink(150)?>" class='file_thumb' alt="<?=$file->filename?>">
+<div class='clearfix'>
+  <h4><?=$file->filename?></h4>
+  <h5><?=$file->type?></h5>
+  <h5><?=number_format($file->size/1024, 2)?> kb</h5>
+  <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field" <?if($exists):?>checked="checked"<?endif?>>
+  <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
+</div>
 
 <?endif?>

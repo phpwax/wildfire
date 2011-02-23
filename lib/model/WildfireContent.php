@@ -203,6 +203,7 @@ class WildfireContent extends WaxTreeModel {
   public function file_meta_set($fileid, $tag, $order=0){
     $model = new WaxModel;
     $model->table = "wildfire_content_wildfire_file";
+    if(!$order) $order = 0;
     foreach($model->filter("wildfire_content_id", $this->primval)->filter("wildfire_file_id", $fileid)->all() as $r){
       $sql = "UPDATE `wildfire_content_wildfire_file` SET `join_order`=$order, `tag`='$tag' WHERE `id`=$r->primval";
       $model->query($sql);

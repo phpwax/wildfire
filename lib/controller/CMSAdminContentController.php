@@ -72,7 +72,9 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::add('cms.file.tag', function(){
       $obj = WaxEvent::$data;
       $tags = Request::param('tags');
-      foreach($tags as $fileid=>$tag) $obj->model->file_meta_set($fileid,$tag);
+      foreach((array)$tags as $fileid=>$tag_order){
+        if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);
+      }
     });
     /**
      * a sanity check to stop recursive loops on trees - not used at the moment, disabled

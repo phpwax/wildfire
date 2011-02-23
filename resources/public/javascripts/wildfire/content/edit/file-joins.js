@@ -38,10 +38,10 @@ jQuery(document).ready(function(){
       if(!checkbox_ele.hasClass('joined_field')){
         tag_option_str = "<div class='tag_options clearfix'>";
         for(x in file_tags){
-          tag_option_str += "<div class='clearfix'><input type='radio' name='tags["+fid+"]' value='"+file_tags[x]+"' id='inserted_tag_"+fid+"_"+x+"' class='radio_field'"+(x==0?" checked='checked'": "")+"><label for='inserted_tag_"+fid+"_"+x+"'>"+file_tags[x]+"</label></div>";
+          tag_option_str += "<div class='clearfix'><input type='radio' name='tags["+fid+"][tag]' value='"+file_tags[x]+"' id='inserted_tag_"+fid+"_"+x+"' class='radio_field'"+(x==0?" checked='checked'": "")+"><label for='inserted_tag_"+fid+"_"+x+"'>"+file_tags[x]+"</label></div>";
         }
         tag_option_str += "</div>";
-        insert_str = '<div class="joined-file clearfix f'+fid+'"><img src="'+jQuery(imgs).attr('src')+'" alt="'+jQuery(imgs).attr('alt')+'">'+tag_option_str+'<a id="button-joined_file_'+fid+'" class="button js-added remove-button" data-input-link="join_file_'+fid+'" data-fileid="'+fid+'" href="#">REMOVE</a></div>';
+        insert_str = '<div class="joined-file clearfix f'+fid+'"><input type="hidden" name="tags['+fid+'][order]" value="0" class="join-order-field"><img src="'+jQuery(imgs).attr('src')+'" alt="'+jQuery(imgs).attr('alt')+'">'+tag_option_str+'<a id="button-joined_file_'+fid+'" class="button js-added remove-button" data-input-link="join_file_'+fid+'" data-fileid="'+fid+'" href="#">REMOVE</a></div>';
         jQuery('#exisiting-files').append(insert_str);
       }
       checkbox_ele.attr('checked', 'checked');
