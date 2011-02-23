@@ -245,13 +245,6 @@ class CMSAdminComponent extends CMSBaseComponent {
     @chmod($path.$filename, 0777);
     $this->sync($rpath);
     sleep(1);
-    $model = new WildfireFile;
-    if($found = $model->filter('rpath', $rpath)->filter('filename',$filename)->all()){
-      if(($id = $_SERVER['HTTP_X_PRIMVAL']) && ($class = $_SERVER['HTTP_X_CLASS'])){
-        $content = new $class($id);
-        foreach($found as $f) $content->files = $f;
-      }
-    }
   }
 
 
