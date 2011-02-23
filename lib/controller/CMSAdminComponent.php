@@ -116,6 +116,30 @@ class CMSAdminComponent extends CMSBaseComponent {
   	  if($obj->model->columns['author']) $obj->form->author->value = $obj->current_user->primval;
 	  });
 	  
+	  /**
+     * joins such as categories are handled by this funciton
+     * - the join post array is key value where the key is the join name (ie categories) and
+     *   the value is an array of data
+     * - first thing we do is remove all the joins for the join you are posting
+     *   and then re join to the data in the array that is set
+     * this allows for 0 based values to be posted to remove the join
+     */
+    WaxEvent::add("cms.joins.handle", function(){
+      $obj = WaxEvent::$data;
+	    $saved = $obj->model;
+      if(isset($_REQUEST['joins'])){
+        foreach($_REQUEST['joins'] as $join=>$values){
+          $saved->$join->unlink($saved->$join);
+          foreach($values as $id=>$v){
+            $class = $saved->columns[$join][1]['target_model'];
+            if($v) $saved->$join = new $class($id);
+          }
+        }
+      }
+    });
+    
+    
+	  
     /**
      * view setups
      */
@@ -126,7 +150,10 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     WaxEvent::add("cms.save.before", function(){});    
     WaxEvent::add("cms.save.after", function(){});
-    WaxEvent::add("cms.save.success", function(){});
+    WaxEvent::add("cms.save.success", function(){
+      $obj = WaxEvent::data();
+      WaxEvent::run('cms.joins.handle', $obj);
+    });
     
     WaxEvent::add("cms.save", function(){
 	    $obj = WaxEvent::data();

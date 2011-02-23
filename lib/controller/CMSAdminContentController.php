@@ -47,28 +47,7 @@ class CMSAdminContentController extends AdminComponent {
       }
 
 	  });
-    /**
-     * joins such as categories are handled by this funciton
-     * - the join post array is key value where the key is the join name (ie categories) and
-     *   the value is an array of data
-     * - first thing we do is remove all the joins for the join you are posting
-     *   and then re join to the data in the array that is set
-     * this allows for 0 based values to be posted to remove the join
-     */
-    WaxEvent::add("cms.joins.handle", function(){
-      $obj = WaxEvent::$data;
-	    $saved = $obj->model;
-      if(isset($_REQUEST['joins'])){
-        foreach($_REQUEST['joins'] as $join=>$values){
-          $saved->$join->unlink($saved->$join);
-          foreach($values as $id=>$v){
-            $class = $saved->columns[$join][1]['target_model'];
-            if($v) $saved->$join = new $class($id);
-          }
-        }
-      }
-    });
-    
+
     WaxEvent::add('cms.file.tag', function(){
       $obj = WaxEvent::$data;
       $tags = Request::param('tags');
@@ -76,6 +55,7 @@ class CMSAdminContentController extends AdminComponent {
         if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);
       }
     });
+
     /**
      * a sanity check to stop recursive loops on trees - not used at the moment, disabled
      * - if the parent of the model has the model as its parent change the parent to avoid infinite loop
@@ -108,21 +88,18 @@ class CMSAdminContentController extends AdminComponent {
       WaxEvent::run('cms.url.delete', $obj);
     });
     
+    WaxEvent::clear("cms.save.success");
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
 	    $obj = WaxEvent::$data;
       // 
       if(Request::param('live')) $obj->model->generate_permalink()->map_live()->children_move()->show()->save();
       elseif(Request::param('hide')) $obj->model->generate_permalink()->map_hide()->hide()->save();
-      elseif(Request::param('revision')){
-        $obj->model->generate_permalink()->hide()->update_attributes(array('revision'=>Request::param('id')))->map_revision();
-      }
+      elseif(Request::param('revision')) $obj->model->generate_permalink()->hide()->update_attributes(array('revision'=>Request::param('id')))->map_revision();
       //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
-	    //generic join handling
 	    WaxEvent::run('cms.joins.handle', $obj);
-	    //file tagging
-	    WaxEvent::run('cms.file.tag', $obj);
+      WaxEvent::run('cms.file.tag', $obj);      
 	    //checking for cicular references..
 	    WaxEvent::run("cms.save.sanity_check", $obj);
   	  if($obj->use_layout) $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");
