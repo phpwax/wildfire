@@ -3,16 +3,7 @@
 }
   .joins *{color:black;}
   .joins h3{padding-bottom:5px;border-bottom:1px solid black;}
-  .joins .join{}
-  
-  .joins_1 .join{}
-  
-  .joins_2 .join{
-    width:45%;
-    float:left;
-  }
-  
-  .joins_3 .join{
+  .joins .join{
     width:29%;
     float:left;
   }
