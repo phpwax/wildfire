@@ -1,0 +1,11 @@
+<?
+$class = $model->columns[$name][1]['target_model'];
+$col = new $class;
+?>
+<div class='status_filter'>
+  <label for="filters_<?=$name?>"><?=$name?>:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <option value="">-- Any --</option>
+    <?foreach($col->all() as $id=>$row):?><option value='<?=$row->primval?>'  <?if($model_filters[$name] == $row->primval):?> selected="selected"<?endif?>><?=$row->humanize()?></option><?endforeach?>
+  </select>
+</div>
