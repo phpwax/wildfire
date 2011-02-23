@@ -13,3 +13,7 @@
   background-image:url('/images/wildfire/backgrounds/small-loader-on-black.gif');
   background-position:right 5%;
 }
+form .multipleselect input.loading{
+  background-image:url('/images/wildfire/backgrounds/small-loader-on-white.gif');
+  background-position:right 5%;
+}

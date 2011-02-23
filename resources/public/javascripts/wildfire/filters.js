@@ -29,6 +29,7 @@ function inline_filter(form_input){
   data['origin_primval'] = form_input.attr('data-origin-primval');
   data['name'] = form_input.attr('data-name');
   data['type'] = form_input.parents(".join").attr('data-type');
+  form_input.addClass('loading');
   
   if(val != pl) data[nm] = val;
   else data[nm]='';
