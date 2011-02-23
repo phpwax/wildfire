@@ -16,7 +16,28 @@ jQuery(document).ready(function(){
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
 		theme_advanced_statusbar_location : "bottom",
-		theme_advanced_resizing : true,
+		theme_advanced_resizing : true
+		//
+  });
+  
+  var simpletinymce = jQuery('textarea.simpletinymce').tinymce({
+    // Location of TinyMCE script
+    script_url : '/tinymce/jscripts/tiny_mce/tiny_mce.js',
+    relative_urls: false,
+    theme: 'advanced',
+    skin:'o2k7',
+    skin_variant : "silver",
+    //
+    plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink',
+    // Theme options
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,link,unlink,|,hr,|,code",
+		theme_advanced_buttons2 : "",
+		theme_advanced_buttons3 : "",
+		theme_advanced_buttons4 : "",
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",
+		theme_advanced_resizing : true
 		//
   });
 
