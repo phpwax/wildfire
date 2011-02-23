@@ -22,7 +22,7 @@
 					inline : 1,
 					button_actions:{
 					  'Insert':function(){
-					    var img = jQuery(".file-info .thumb"),
+					    var img = jQuery(".file-info .file_thumb"),
 					        sz = jQuery("#wf_img_size").val(),
 					        cl = jQuery("#wf_img_pos").val(),
 					        alt = jQuery("#wf_img_cap").val(),
