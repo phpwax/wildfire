@@ -22,7 +22,7 @@ function file_tree_refresh(alt_selector){
 }
 
 function joined_files_refresh(){
-  var ef = jQuery('#exisiting-files'), dest=ef.attr('data-dest')+".ajax";
+  var ef = jQuery('#existing-files'), dest=ef.attr('data-dest')+".ajax";
   if(ef && ef.length && dest){
     jQuery.ajax({
       url:dest,

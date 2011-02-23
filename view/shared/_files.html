@@ -7,6 +7,6 @@
   <?=partial("_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller, 'model'=>$model))?>
   
 </div>
-<div class='exisiting-files clearfix' id="exisiting-files" data-dest="/<?=trim($controller,"/")?>/_existing_files/<?=$model->primval?>">
+<div class='existing-files clearfix' id="existing-files" data-dest="/<?=trim($controller,"/")?>/_existing_files/<?=$model->primval?>">
   <?=partial("_existing_files",array('model'=>$model))?>
 </div>
