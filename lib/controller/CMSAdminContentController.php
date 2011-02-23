@@ -140,9 +140,7 @@ class CMSAdminContentController extends AdminComponent {
     }
   }
 
-  public function _list(){
-    if($this->use_format == "ajax") $this->index();
-  }
+  
   public function _existing_files(){
     if($this->use_format == "ajax"){
       $this->use_format = "html";

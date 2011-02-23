@@ -185,6 +185,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.index.setup", $this);
 	}
 
+  public function _list(){
+    if($this->use_format == "ajax") $this->index();
+  }
+
 	public function create(){
 	  $model = new $this->model_class();
 	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/");
