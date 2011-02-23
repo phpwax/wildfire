@@ -204,13 +204,13 @@ class CMSAdminComponent extends CMSBaseComponent {
     $this->results = array();
     if($this->use_format == "ajax" && ($filters = Request::param('inline_filter') ) && ($search_class = Request::param('search_model'))){
       $filter = array_shift($filters);
-      $search_model = new $search_class;
+      $this->type = Request::param("type");
+      $search_model = new $search_class($this->type);
       $this->results = $search_model->filter($search_model->identifier ." LIKE '$filter%'")->all();
       $model_class = Request::param('origin_model');
       $primval = Request::param('origin_primval');
       $this->model = new $model_class($primval);
-      $this->name = Request::param("name");
-      $this->type = Request::param("type");
+      $this->name = Request::param("name");      
     }
   }
 
