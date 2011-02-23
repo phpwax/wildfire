@@ -1,20 +1,23 @@
-function file_tree_refresh(){
-  jQuery(".file-tree").each(function(){
+
+
+function file_tree_refresh(alt_selector){
+  var sel = (alt_selector)? alt_selector : ".file-tree";
+  jQuery(sel).each(function(){
     var ftree = jQuery(this), froot = jQuery(this).attr("data-file-root"), dest = jQuery(this).attr('data-list')+".ajax", info=jQuery(this).attr('data-info')+".ajax";
-    
-    jQuery(this).fileTree({ root: froot, script: dest }, function(file) { 
-      
+
+    ftree.fileTree({ root: froot, script: dest }, function(file) {     
       jQuery('.info').addClass('loading').removeClass('loaded');
       jQuery.ajax({
         url:info,
         data:{file:file},
         type:'post',
         success:function(res){          
-          jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');
+          jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');          
         },
         error:function(){}
       })
     });
+
   });
 }
 
