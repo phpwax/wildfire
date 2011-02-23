@@ -40,6 +40,7 @@ class CMSAdminFileController extends AdminComponent {
 	  if($this->dir = Request::param('dir')){
 	    $this->sync($this->dir);
 	    $file = new WildfireFile($this->model_scope);
+	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
 	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
 	  }
 	}
