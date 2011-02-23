@@ -242,5 +242,36 @@ class CMSAdminComponent extends CMSBaseComponent {
     }
   }
 
+
+  public function _existing_files(){
+    if($this->use_format == "ajax"){
+      $this->use_format = "html";
+      $this->model = new $this->model_class(Request::param('id'));
+    }
+  }
+  public function _file_list(){
+    $this->exising = $this->files = array();
+	  if($this->dir = Request::param('dir')){
+	    $file = new WildfireFile("available");
+	    $this->model = new $this->model_class(Request::param('id'));
+	    foreach($this->model->files as $f) $this->existing[] = $f->rpath.$f->filename;
+	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
+	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
+	  }
+  }
+  public function _file_info(){
+	  if($filename = Request::param('file')){
+	    $model = new $this->model_class(Request::param('id'));
+	    $file = new WildfireFile("available");
+	    $base = basename($filename);
+	    $path = str_replace($base, "", $filename);
+      $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();
+      $this->exists= false;
+      foreach($model->files as $f) if($f->primval == $this->file->primval) $this->exists=true;
+	  }
+	}
+
+
+
 }
 ?>
