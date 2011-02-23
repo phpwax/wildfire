@@ -43,11 +43,13 @@ $counter = 0;
         <?=partial($partial_name, array('tabhash'=>$tabhash, 'model'=>$model, 'controller'=>$controller, 'fields'=>$fields, 'partial_paths'=>$partial_paths, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions))?>
       <?else:?>   
         <?foreach($fields as $n=>$f):?><?$nm = Inflections::to_url($n)?><div class='field field-<?=$nm?> field-<?=$tabhash?>-<?=$nm?> <?=$model_class?>-<?=$nm?> clearfix'><?=$f->render()?></div><?endforeach?>
-      <?endif?>
-      <?=partial("_submit", array('model'=>$model, 'controller'=>$controller, 'model_class'=>$model_class))?>
+      <?endif?>      
       </fieldset>
+      
     <?endforeach?>
-    
+    <fieldset class='submit'>
+    <?=partial("_submit", array('model'=>$model, 'controller'=>$controller, 'model_class'=>$model_class))?>
+    </fieldset>
   <?endif?>
 </form>
 
