@@ -1,0 +1,19 @@
+
+.select{}
+
+  .select li{
+    padding:5px;
+    margin:0 0 3px 0;
+  }
+    .select li.join-yes{
+      background:#8EA79A;
+    }
+
+    .select li label{
+      float:left;
+      width:80%;
+      margin:0 0 0 1%;
+    }
+    .select li input{
+      float:left;
+    }
