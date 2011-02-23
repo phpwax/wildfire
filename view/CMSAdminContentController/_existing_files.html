@@ -5,5 +5,17 @@
   <?endif?>
   <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field joined_field" checked="checked">
   <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
+  <div class='tag_options clearfix'>
+    <?foreach($file_tags as $i=>$tag):?>
+    <div class='clearfix'>
+      <input type="radio" name="tags[<?=$file->primval?>]" value="<?=$tag?>" id="tag_file_<?=$file->primval?>_<?=$i?>" class="radio_field">
+      <label for="tag_file_<?=$file->primval?>_<?=$i?>>"><?=$tag?></label>
+    </div>
+    <?endforeach?>
+  </div>
 </div>
 <?endforeach?>
+
+<script type="text/javascript" charset="utf-8">
+var file_tags = <?=json_encode($file_tags);?>;
+</script>

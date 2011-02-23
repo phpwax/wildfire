@@ -21,6 +21,8 @@ class CMSAdminComponent extends CMSBaseComponent {
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
   
   public $dashboard = true;
+  //used to tag images on joins
+  public $file_tags = array('image', 'document');
   
   //check user is allowed to do this!
   public function controller_global(){
