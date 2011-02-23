@@ -9,7 +9,10 @@ foreach($model->$name as $r) $existing[] = $r->primval;
 <div class='field clearfix join multipleselect' data-type="multipleselect" data-origin-class="<?=get_class($model)?>" data-origin-primval="<?=$model->primval?>" data-destination-class="<?=$join_class?>">
   <h3><?=Inflections::humanize($name, true)?></h3>
   
+  <?if($all->count() > 12):?>
   <input type="text" name="inline_filter[<?=$name?>]" data-name="<?=$name?>" data-origin-class="<?=get_class($model)?>" data-origin-primval="<?=$model->primval?>" data-model-class="<?=get_class($join_model)?>" data-filter-destination="/<?=trim($controller,"/")?>/_filter_inline.ajax" class='inline-filter text_field' placeholder="SEARCH">
+  <?endif?>
+  
   <?foreach($existing as $e):?>
   <input type='hidden' id="<?=$name?>_<?=$e?>_hidden" name='joins[<?=$name?>][<?=$e?>]' value="1">
   <?endforeach?>
