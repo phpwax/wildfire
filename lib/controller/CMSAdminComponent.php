@@ -19,13 +19,13 @@ class CMSAdminComponent extends CMSBaseComponent {
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
-  
+
   public $dashboard = true;
   //used to tag images on joins
   public $file_tags = array('image', 'document');
-  
+
   public $autosave = false;
-  
+
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
@@ -35,7 +35,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   protected function events(){
     parent::events();
     WaxEvent::clear("cms.layout.set");
-    
+
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::data();
   	  $obj->use_layout = "admin";
@@ -51,7 +51,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
-    
+
     WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::data();
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
@@ -63,7 +63,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
 	    }
     });
-    /** 
+    /**
      * models
      */
     WaxEvent::add("cms.model.init", function(){
@@ -75,12 +75,12 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    if($pg = Request::param('page')) $obj->this_page = $pg;
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
 	  });
-	  
+
     WaxEvent::add("cms.model.filters", function(){
       $obj = WaxEvent::data();
       if(!$obj->model_filters) $obj->model_filters = Request::param('filters');
       $filterstring = "";
-      
+
       foreach((array)$obj->model_filters as $name=>$value){
         $col_filter = "";
         if(strlen($value) && $filter = $obj->filter_fields[$name]){
@@ -93,19 +93,19 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
-    
+
 	  WaxEvent::add("cms.model.columns", function(){
 	    $obj = WaxEvent::data();
       $model = new $obj->model_class;
       foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
 	  });
-	  
+
 	  WaxEvent::add("cms.model.setup", function(){
 	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.model.init", $obj);
 	    WaxEvent::run("cms.pagination", $obj);
 	    WaxEvent::run("cms.model.columns", $obj);
-	    WaxEvent::run("cms.model.filters", $obj);	    
+	    WaxEvent::run("cms.model.filters", $obj);
 	  });
 	  /**
 	   * forms
@@ -117,7 +117,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   	  //check for join to users
   	  if($obj->model->columns['author']) $obj->form->author->value = $obj->current_user->primval;
 	  });
-	  
+
 	  /**
      * joins such as categories are handled by this funciton
      * - the join post array is key value where the key is the join name (ie categories) and
@@ -145,8 +145,8 @@ class CMSAdminComponent extends CMSBaseComponent {
       foreach((array)$tags as $fileid=>$tag_order){
         if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);
       }
-    });    
-	  
+    });
+
     /**
      * view setups
      */
@@ -155,17 +155,17 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
     });
 
-    WaxEvent::add("cms.save.before", function(){});    
+    WaxEvent::add("cms.save.before", function(){});
     WaxEvent::add("cms.save.after", function(){});
     WaxEvent::add("cms.save.success", function(){
       $obj = WaxEvent::data();
       if(Request::param('live') && $obj->model->columns['status']) $obj->model->update_attributes(array('status'=>1));
       elseif(Request::param('hide') && $obj->model->columns['status']) $obj->model->update_attributes(array('status'=>0));
-      
+
       WaxEvent::run('cms.joins.handle', $obj);
       WaxEvent::run('cms.file.tag', $obj);
     });
-    
+
     WaxEvent::add("cms.save", function(){
 	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.save.before", $obj);
@@ -180,11 +180,11 @@ class CMSAdminComponent extends CMSBaseComponent {
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
-	protected function initialise(){  
+	protected function initialise(){
     parent::initialise();
     WaxEvent::run("cms.permissions.logged_in_user", $this);
 	  WaxEvent::run("cms.permissions.all_modules", $this);
-    WaxEvent::run("cms.model.setup", $this);    
+    WaxEvent::run("cms.model.setup", $this);
     WaxEvent::run("cms.format.set",$this);
 	}
 
