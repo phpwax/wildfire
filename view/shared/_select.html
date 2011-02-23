@@ -11,7 +11,7 @@ $existing = array($model->$name->primval);
     <?foreach($all as $row):?>
     <li class='clearfix join-option join-<?if(in_array($row->primval, $existing)):?>yes<?else:?>no<?endif?>'>
       <input type='hidden' id="<?=$name?>_<?=$row->primval?>_hidden" name='joins[<?=$name?>][0]' value="0">
-      <input type='radio' id="<?=$name?>_<?=$row->primval?>" name='joins[<?=$name?>][0]' value="<?=$row->primval?>" <?if(in_array($row->primval, $existing)):?>checked="checked"<?endif?> >
+      <input type='radio' class='boolean' id="<?=$name?>_<?=$row->primval?>" name='joins[<?=$name?>][0]' value="<?=$row->primval?>" <?if(in_array($row->primval, $existing)):?>checked="checked"<?endif?> >
       <label for="<?=$name?>_<?=$row->primval?>"><?=$row->humanize()?></label>
     </li>
     <?endforeach?>
