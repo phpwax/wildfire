@@ -9,15 +9,18 @@ jQuery(document).ready(function(){
         form_param = row.attr("data-parent-param"),
         form_val = row.attr("data-parent-value")
         ;
+    row.addClass('loading');
     //if its already open, then we hide the contents
     if(link.hasClass('open')){
       link.removeClass("open");
+      row.removeClass('loading');
       jQuery('.children-of-'+form_val).slideUp("fast");
       return false;
     }
     //if the data has already been fetch for this, then dont fetch again, just show it
     else if(link.hasClass('fetched')){
       link.addClass("open");
+      row.removeClass('loading');
       jQuery('.children-of-'+form_val).slideDown("fast");
       return false;
     }
@@ -29,6 +32,7 @@ jQuery(document).ready(function(){
       data: form_data,
       type:"post",
       success:function(res){
+        row.removeClass('loading');
         link.addClass("open").addClass("fetched");
         row.after("<tr class='children children-list children-of-"+form_val+"' data-parent='"+form_val+"'><td colspan='"+cols+"' class='list'>"+res+"</td></tr>");
       },

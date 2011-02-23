@@ -17,3 +17,10 @@ form .multipleselect input.loading{
   background-image:url('/images/wildfire/backgrounds/small-loader-on-white.gif');
   background-position:right 5%;
 }
+
+.data_table .loading{background-image:none;}
+.data_table .loading .operations{
+  background-repeat:no-repeat;
+  background-image:url('/images/wildfire/backgrounds/small-loader-on-white.gif');
+  background-position:right 8px;
+}
