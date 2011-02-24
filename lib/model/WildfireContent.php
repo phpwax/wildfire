@@ -146,7 +146,7 @@ class WildfireContent extends WaxTreeModel {
       $model = new $class($id);
       foreach($model->children as $c){
         $model->children->unlink($c);
-        $this->children = $c;
+        $c->update_attributes(array($this->parent_column."_".$this->primary_key => $this->primval));
       }
     }
     return $this;
