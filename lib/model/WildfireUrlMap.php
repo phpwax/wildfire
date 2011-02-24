@@ -22,6 +22,10 @@ class WildfireUrlMap extends WaxModel{
     $this->define("header_status", "IntegerField", array('default'=>302, 'maxlength'=>5));
   }
   
+  public function before_save(){
+    if(!$this->langauge) $this->language = 0;
+  }
+  
   public function scope_live(){
     return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )");
   }
