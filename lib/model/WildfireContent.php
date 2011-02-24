@@ -241,11 +241,13 @@ class WildfireContent extends WaxTreeModel {
       $model->query($sql);
     }
   }
-  public function file_meta_get($fileid){
+  public function file_meta_get($fileid=false, $tag=false){
     $model = new WaxModel;
     $model->table = $this->table."_wildfire_file";
     $col = $this->table."_".$this->primary_key;
-    return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->first();
+    if($fileid) return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->order('join_order ASC')->first();
+    elseif($tag) return $model->filter($col, $this->primval)->filter("tag", $tag)->order('join_order ASC')->all();
+    else return false;
   }
 
 	public function format_content() {
