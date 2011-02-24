@@ -213,9 +213,11 @@ class WildfireContent extends WaxTreeModel {
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
       foreach($files as $f){
         $i = str_replace($dir, "", $f);
-        $return[$i] = basename($f, ".html");
+        $nm = trim(trim(str_replace("cms", "",basename($f, "_view.html"))),"_");
+        $return[$i] = (strlen($nm))?ucwords(str_replace("_", " ", $nm)):"Default";
       }
     }
+    asort($return);
     return $return;
   }
 
@@ -225,7 +227,7 @@ class WildfireContent extends WaxTreeModel {
     if(is_dir($dir) && ($files = glob($dir."*.html"))){
       foreach($files as $f){
         $i = str_replace($dir, "", $f);
-        $return[$i] = basename($f, ".html");
+        $return[$i] = str_replace("_", " ", basename($f, ".html"));
       }
     }
     return $return;
