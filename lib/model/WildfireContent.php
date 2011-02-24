@@ -36,8 +36,8 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("revision", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput", 'editable'=>false));
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
 
-		$this->define("view", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_views() ));
-		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts() ));
+		$this->define("view", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_views(),'group'=>'advanced'));
+		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts(),'group'=>'advanced'));
 	}
 
 	public function tree_setup(){
