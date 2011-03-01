@@ -8,9 +8,11 @@ jQuery(document).ready(function(){
     skin_variant : "silver",
     //
     plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink,wfimage,wfhtml,wftable,wftemplate',
+    theme_advanced_blockformats: "p,h2,h3,h4,blockquote",
+    content_css: "/stylesheets/build/wildfire-templates_combined.css",
     // Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,image,|,hr,|,code,|,table,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col",
-		theme_advanced_buttons2 : "styleselect,formatselect,template",
+		theme_advanced_buttons2 : "formatselect,template",
 		theme_advanced_buttons3 : "",
 		theme_advanced_buttons4 : "",
 		theme_advanced_toolbar_location : "top",
