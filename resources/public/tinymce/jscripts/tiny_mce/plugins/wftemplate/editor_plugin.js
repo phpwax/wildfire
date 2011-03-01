@@ -18,11 +18,11 @@
 				ed.windowManager.open({
 					ui_dialog: "#wildfire-templates",
 					width : 800,
-					height : 400,
+					height : 500,
 					inline : 1,
 					button_actions:{
 					  'Insert':function(){
-              var contents = jQuery("#wildfire-templates").find("iframe").contents().find("body").html();
+              var contents = jQuery("#wildfire-templates").find("iframe").contents().find("#template_start").html();
 					    tinymce.execCommand('mceInsertContent',false,contents);
  					    jQuery(this).dialog("close");
 					  },
