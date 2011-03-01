@@ -6,6 +6,7 @@ jQuery(document).ready(function(){
     theme: 'advanced',
     skin:'o2k7',
     skin_variant : "silver",
+    height:300,
     //
     plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink,wfimage,wfhtml,wftable,wftemplate',
     theme_advanced_blockformats: "p,h2,h3,h4,blockquote",
