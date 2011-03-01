@@ -128,7 +128,7 @@ class CMSAdminComponent extends CMSBaseComponent {
      * this allows for 0 based values to be posted to remove the join
      */
     WaxEvent::add("cms.joins.handle", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
 	    $saved = $obj->model;
       if(isset($_REQUEST['joins'])){
         foreach($_REQUEST['joins'] as $join=>$values){
@@ -139,7 +139,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
     });
     WaxEvent::add('cms.file.tag', function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
       $tags = Request::param('tags');
       foreach((array)$tags as $fileid=>$tag_order){
         if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);

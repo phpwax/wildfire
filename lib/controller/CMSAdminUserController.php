@@ -15,7 +15,7 @@ class CMSAdminUserController extends AdminComponent {
 	  parent::events();
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();;
 	    if($pwd = Request::param('new_password')) $obj->model = $obj->model->update_attributes(array('password'=>md5($pwd)));
     });
   }

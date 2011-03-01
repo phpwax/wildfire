@@ -28,7 +28,7 @@ class CMSAdminContentController extends AdminComponent {
 	  });
     
 	  WaxEvent::add('cms.url.add', function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();;
 	    $saved = $obj->model;
 	    $class = get_class($saved);
 	    $primval = $saved->primval;
@@ -56,7 +56,7 @@ class CMSAdminContentController extends AdminComponent {
      * the front end shouldnt allow this, but check for it incase someone does something insane
      */
     WaxEvent::add("cms.save.sanity_check", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
       //if old parent doesnt match the new parent then check for weirdness
       if($obj->model->parent_id != $obj->old_parent_id){
         $old_parent = new $obj->model_class($obj->old_parent_id);
@@ -68,7 +68,7 @@ class CMSAdminContentController extends AdminComponent {
     });
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();;
 	    $obj->old_parent_id = $obj->model->parent_id;
 	    if(Request::param('revision')){
 	      $obj->master = $obj->model;
@@ -78,14 +78,14 @@ class CMSAdminContentController extends AdminComponent {
     });
     //if the model is a revision or alt language dont let them edit the parent as this would break the nav
     WaxEvent::add("cms.form.setup", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
       WaxEvent::run('cms.url.delete', $obj);
     });
     
     WaxEvent::clear("cms.save.success");
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();;
       // 
       if(Request::param('live')) $obj->model->generate_permalink()->map_live()->children_move()->show()->save();
       elseif(Request::param('hide')) $obj->model->generate_permalink()->map_hide()->hide()->save();
@@ -100,7 +100,7 @@ class CMSAdminContentController extends AdminComponent {
     });
     //modify the post filter function to enforce a status filter - they bubble..
     WaxEvent::add("cms.model.filters", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
       if(!isset($obj->model_filters['language']) && $obj->model && $obj->model->columns['language']){
         $obj->model_filters['language'] = array_shift(array_keys($obj->model->columns['language'][1]['choices']));
         $obj->model->filter("language",  $obj->model_filters['language']);
@@ -109,7 +109,7 @@ class CMSAdminContentController extends AdminComponent {
 
     WaxEvent::clear("cms.index.setup");
     WaxEvent::add("cms.index.setup", function(){
-	    $obj = WaxEvent::$data;
+	    $obj = WaxEvent::data();;
 	    //if the parent filter isn't set, then
 	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->filter('revision',0)->roots();
 	    else $obj->cms_content = $obj->model->all();

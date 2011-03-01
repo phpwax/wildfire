@@ -18,11 +18,11 @@ class CMSAdminHomeController extends AdminComponent {
 	  parent::events();
 	  WaxEvent::clear("cms.layout.sublinks");
 	  WaxEvent::add("cms.layout.sublinks", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
       $obj->quick_links = array("create new content"=>'/admin/content/create/', 'manage files'=>"/admin/files/");
     });
     WaxEvent::add("cms.search.".$this->module_name, function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
       if($search = Request::param('term')){
         $obj->search_term = $search;
         $model = new $obj->search_class;

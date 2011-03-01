@@ -68,11 +68,11 @@ class CMSBaseComponent extends WaxController {
   protected function events(){
 
     WaxEvent::add("cms.layout.set", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
   	  $obj->use_layout = "login";
     });
     WaxEvent::add("cms.format.set", function(){
-      $obj = WaxEvent::$data;
+      $obj = WaxEvent::data();;
   	  if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
     });
     WaxEvent::add("cms.layout.sublinks", function(){});    
