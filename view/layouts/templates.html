@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" id="<?=Inflections::to_url($controller)?>">
 <head>
-  <?=css_bundle("wildfire-templates", array('media'=>'all'), "cms")?>
+  <?=css_bundle("wildfire-templates", array('media'=>'all'))?>
   
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -11,6 +11,6 @@
 <body>
   <?=$content_for_layout?>
   
-  <?=js_bundle("wildfire-templates", array(), "cms")?>
+  <?#=js_bundle("wildfire-templates")?>
 </body>
 </html>
