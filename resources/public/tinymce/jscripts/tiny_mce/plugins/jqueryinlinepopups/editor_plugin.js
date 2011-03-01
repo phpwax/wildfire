@@ -63,10 +63,10 @@
 			var
 				config = {
 					title: f.title || '',
-					width: f.width + 1,
-					height: f.height + 25,
+					width: f.width,
+					height: f.height,
 					modal: true,
-					resizable: false,
+					resizable: true,
 					draggable: true,
 					dialogClass: 'ui-dialog-tinymce',					
 					buttons: (f.button_actions)?f.button_actions:{}
