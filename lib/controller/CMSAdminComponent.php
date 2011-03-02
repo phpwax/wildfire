@@ -120,7 +120,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  });
 
 	  /**
-     * joins such as categories are handled by this funciton
+     * joins such as categories are handled by this function
      * - the join post array is key value where the key is the join name (ie categories) and
      *   the value is an array of data
      * - first thing we do is remove all the joins for the join you are posting
