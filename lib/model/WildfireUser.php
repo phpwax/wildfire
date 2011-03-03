@@ -3,7 +3,7 @@
 class WildfireUser extends WaxModel {
 
   public $identifier = "username";
-  public $permissions_cache = false;
+  public static $permissions_cache = false;
   public $enable_permissions = true;
 
   public function setup() {
@@ -20,13 +20,12 @@ class WildfireUser extends WaxModel {
     if(!$this->primval) $this->password = md5($this->password);
   }
 
-	public function allowed($classname=false,$action=false){
-	  $data = $this->permissions;
-	  if($classname) $data->filter("class", $classname);
-	  if($action) $data->filter("operation", $action);
-    if($data->all()->count()) return false;
-    else return true;
-	}
+  public function allowed($classname=false,$action=false){
+    if(!$this->primval()) return false;
+    if(!self::$permissions_cache) self::$permissions_cache[get_class($this)][$this->primval()] = $this->permissions;
+    foreach(self::$permissions_cache[get_class($this)][$this->primval()] as $perm) if($perm->class == $classname && $perm->operation = $action) return false;
+    return true;
+  }
 
 
 }
