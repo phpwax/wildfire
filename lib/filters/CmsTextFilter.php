@@ -10,7 +10,7 @@ class CmsTextFilter  {
   
   static public $filters = array(
     "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images"),
-    "before_output"=> array("strip_slashes", "yt_video", "videos", "flash_object", "inline_audio")
+    "before_output"=> array("strip_slashes","empty_paragraphs", "yt_video", "videos", "flash_object", "inline_audio")
   );
   
   static public function add_filter($trigger, $method) {
@@ -62,6 +62,9 @@ class CmsTextFilter  {
   
   static public function dots_to_hr($text) {
     return preg_replace("/\.{4,}/", "<hr />", $text);
+  }
+  static public function empty_paragraphs($text){
+    return str_ireplace("<p>&nbsp;</p>", "",str_ireplace("<p></p>", "", $text));
   }
   
   static public function no_widows($text) {
