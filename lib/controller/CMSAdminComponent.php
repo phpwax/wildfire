@@ -48,7 +48,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     /**
      * permissions
      */
-    WaxEvent::add("cms.permissions.check_action", function() {
+    WaxEvent::add("cms.permission.check_action", function() {
       $obj = WaxEvent::data();
       if(!$obj->current_user->allowed($obj->module_name, $obj->action)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
