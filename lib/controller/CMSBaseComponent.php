@@ -25,6 +25,7 @@ class CMSBaseComponent extends WaxController {
 	public $this_page = 1;
 	
   public $user_session_name = "wf_v6_user";
+  public static $logged_in_user = false;
   public $filter_fields=array();
   public $model_filters=array();
   
@@ -61,7 +62,10 @@ class CMSBaseComponent extends WaxController {
 	}
 
   public function user_from_session($session_name="wf_v6_user"){
-    if(($id = Session::get($session_name)) && ($model = new $this->user_model_class($id)) && $model->primval == $id) return $model;
+    if($id = Session::get($session_name)){
+      if(self::$logged_in_user) return self::$logged_in_user;
+      if(($model = new $this->user_model_class($id)) && $model->primval == $id) return self::$logged_in_user = $model;
+    }
     return false;
   }
   
