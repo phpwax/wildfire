@@ -2,7 +2,7 @@
   <label for="wd_t_rows">Templates</label>
   <select name="wildfire-available-templates">
     <?foreach(array_merge((array)glob(CMS_DIR."/view/CMSAdminTemplatesController/*"), (array)glob(APP_DIR."/view/admin/templates/*") ) as $f):?>
-    <option value="<?="/admin/templates/".basename($f)?>"><?=basename($f)?></option>
+    <option value="<?="/admin/templates/".basename($f)?>"><?=ucwords(str_replace("_", " ", basename($f, ".html")))?></option>
     <?endforeach?>
   </select>
   <iframe width="98%" height="300" src=""></iframe>
