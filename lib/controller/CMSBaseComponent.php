@@ -40,6 +40,7 @@ class CMSBaseComponent extends WaxController {
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
+	  if($application) $this->events();
 	  if($init) $this->initialise();
 	}
 	
@@ -85,9 +86,7 @@ class CMSBaseComponent extends WaxController {
 	/**
 	 * initialises authentication, default model and menu items
 	 **/
-	protected function initialise(){
-	  $this->events();
-	}  
+	protected function initialise(){}
 
   public function sync($path){
     $model = new WildfireFile;
