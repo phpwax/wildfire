@@ -175,6 +175,13 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    }
 	    WaxEvent::run("cms.save.after", $obj);
 	  });
+	  
+	  WaxEvent::add("cms.model.copy", function(){
+	    $obj = WaxEvent::data();
+	    $destination_model = $obj->source_model->copy();
+      if($changes = Request::param('change')) $destination_model->update_attributes($changes);
+      $this->redirect_to("/".trim($this->controller,"/")."/edit/".$destination_model->primval."/");
+	  });
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -227,10 +234,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 
   public function copy(){
     $this->use_layout = $this->use_view = false;
-    $source_model = new $this->model_class(Request::param("source"));
-    $destination_model = $source_model->copy();
-    if($changes = Request::param('change')) $destination_model->update_attributes($changes);
-    $this->redirect_to("/".trim($this->controller,"/")."/edit/".$destination_model->primval."/");
+    $this->source_model = new $this->model_class(Request::param("source"));
+    WaxEvent::run("cms.model.copy", $this);
   }
 
 
