@@ -116,9 +116,10 @@ class WildfireContent extends WaxTreeModel {
     $class = get_class($this);
     $permalink = $this->language_permalink($this->language);
     //look for all urls linked to this model and hide them
-    foreach($map->filter("destination_id", $this->primval)->filter("destination_model",$class)->all() as $row) $row->update_attributes(array('status'=>0, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
+    if(($maps = $map->filter("destination_id", $this->primval)->filter("destination_model",$class)->all()) && $maps->count()){
+      foreach($maps as $row) $row->update_attributes(array('status'=>0, 'date_end'=>$this->date_end, 'date_start'=>$this->date_start));
+    }else $map->clear()->map_to($permalink, $this, $this->primval, 0);
     //if have no existing maps then create one
-    if(!$map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->first()) $map->map_to($permalink, $this, $this->primval, 0);
     return $this;
   }
   /**
