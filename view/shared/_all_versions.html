@@ -6,7 +6,7 @@
   ?>
   <div class='clearfix'>
     <div class='clearfix headers'>
-    <a href='/<?=trim($controller,"/")?>/copy/?source=<?=$model->primval?>&amp;change[language]=<?=$i?>&amp;change[status]=0&amp;change[revision]=<?=$revision?>&amp;change[alt_language]=<?=$master?>' class='button create create-<?=get_class($model)?> create-lang create-lang<?=$i?>'>CREATE NEW <?=$lang['name']?> VERSION</a>
+    <a href='/<?=trim($controller,"/")?>/copy/?source=<?=$model->primval?>&amp;change[language]=<?=$i?>&amp;change[status]=0&amp;change[revision]=<?=$revision?>&amp;change[alt_language]=<?=(($master->language != $i)?$master:0)?>' class='button create create-<?=get_class($model)?> create-lang create-lang<?=$i?>'>CREATE NEW <?=$lang['name']?> VERSION</a>
     <h3><?=ucwords($lang['name'])?></h3>
     </div>
     <?
