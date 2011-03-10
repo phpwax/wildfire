@@ -86,7 +86,7 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::clear("cms.save.success");
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
-	    $obj = WaxEvent::data();;
+	    $obj = WaxEvent::data();
       // 
       if(Request::param('live')) $obj->model->generate_permalink()->map_live()->children_move()->show()->save();
       elseif(Request::param('hide')) $obj->model->generate_permalink()->map_hide()->hide()->save();
