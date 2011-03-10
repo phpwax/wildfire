@@ -114,7 +114,17 @@ class CMSAdminContentController extends AdminComponent {
 	    //if the parent filter isn't set, then
 	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->filter('revision',0)->roots();
 	    else $obj->cms_content = $obj->model->all();
-    });    
+    });  
+    
+    WaxEvent::clear("cms.model.copy");
+    WaxEvent::add("cms.model.copy", function(){
+	    $obj = WaxEvent::data();
+	    $destination_model = $obj->source_model->copy();
+      if($changes = Request::param('change')) $destination_model->update_attributes($changes);
+      if($destination_model) $destination_model->map_revision();
+      $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
+	  });
+      
 	}
 
 	protected function initialise(){
