@@ -128,7 +128,7 @@ class CMSAdminComponent extends CMSBaseComponent {
      * this allows for 0 based values to be posted to remove the join
      */
     WaxEvent::add("cms.joins.handle", function(){
-      $obj = WaxEvent::data();;
+      $obj = WaxEvent::data();
 	    $saved = $obj->model;
       if(isset($_REQUEST['joins'])){
         foreach($_REQUEST['joins'] as $join=>$values){
