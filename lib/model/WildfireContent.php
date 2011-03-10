@@ -68,6 +68,7 @@ class WildfireContent extends WaxTreeModel {
     if(!$this->{$this->parent_column."_".$this->primary_key}) $this->{$this->parent_column."_".$this->primary_key} = 0;
     if(!$this->language) $this->language = 0;    
     if(!$this->status) $this->status = 0;
+    if(!$this->revision) $this->revision = 0;    
     $this->date_modified = date("Y-m-d H:i:s");
   }
   //after save, we need to update the url mapping
