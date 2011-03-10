@@ -133,7 +133,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       if(isset($_REQUEST['joins'])){
         foreach($_REQUEST['joins'] as $join=>$values){
           $class = $saved->columns[$join][1]['target_model'];
-          if($j = $saved->$join) $saved->unlink($saved->$join);
+          if($j = $saved->$join) $saved->$join->unlink($j);
           foreach($values as $id=>$v) if($v) $saved->$join = new $class($v);
         }
       }
