@@ -4,4 +4,14 @@ $this->form->firstname->editable = false;
 $this->form->surname->editable = false;    
 $this->form->email->editable = false;
 ?>
-<?=$form->render()?>
+<form id="" method="post" class="waxform" enctype="multipart/form-data">
+  <p>Enter your user cedentials below to sign in</p>
+  <fieldset>
+    <?foreach($form as $el):?>
+      <?=$el->render()?>
+    <?endforeach?>
+    <input type="submit" name="Login" value="Login" id="Login" class="input_field submit_field" placeholder="Login">
+  </fieldset>
+  <?=info_messages()?>
+  <?=error_messages()?>
+</form>

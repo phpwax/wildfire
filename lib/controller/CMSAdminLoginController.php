@@ -8,6 +8,7 @@ class CMSAdminLoginController extends CMSBaseComponent{
     //if($this->user_from_session($this->user_session_name)) $this->redirect_to($this->redirects['authorised']);    
     $model = new $this->model_class($this->model_scope);
     $this->form = new WaxForm($model);
+    $this->form->submit_text = "Login";
     if(!$model->all()->count()) $this->redirect_to($this->redirects['install']);
     
     if($model->is_posted() && ($post = Request::param($model->table)) && $post['username'] && $post['password']){
