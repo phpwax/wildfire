@@ -13,6 +13,8 @@ class CMSAdminHomeController extends AdminComponent {
 	public $display_name = "Dashboard";
 	
 	public $visit_data = array();
+	public $sources_data = array();
+	public $search_data = array();
 	
 	public function events(){
 	  parent::events();
