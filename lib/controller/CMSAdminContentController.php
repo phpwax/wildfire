@@ -73,7 +73,12 @@ class CMSAdminContentController extends AdminComponent {
 	    $obj->old_parent_id = $obj->model->parent_id;
 	    if(Request::param('revision')){
 	      $obj->master = $obj->model;
-  	    $obj->model = $obj->model->save()->copy();
+	      if($saved = $obj->model->save()) $obj->model = $saved->copy();
+	      else{
+	        WaxLog::log('error', print_r($obj->model,1), 'save_errors');
+	        Session::add_error("Failed!");
+	        $this->redirect_to("/".trim($obj->controller,"/")."/");
+	      }
   	    $obj->form = new WaxForm($obj->model);
       }
     });
