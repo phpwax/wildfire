@@ -73,13 +73,13 @@ class CMSAdminContentController extends AdminComponent {
 	    $obj->old_parent_id = $obj->model->parent_id;
 	    if(Request::param('revision')){
 	      $obj->master = $obj->model;
-  	    $obj->model = $obj->model->copy();
+  	    $obj->model = $obj->model->save()->copy();
   	    $obj->form = new WaxForm($obj->model);
       }
     });
     //if the model is a revision or alt language dont let them edit the parent as this would break the nav
     WaxEvent::add("cms.form.setup", function(){
-      $obj = WaxEvent::data();;
+      $obj = WaxEvent::data();
       WaxEvent::run('cms.url.delete', $obj);
     });
     
