@@ -130,7 +130,13 @@ class WildfireContent extends WaxTreeModel {
     $map = new WildfireUrlMap;
     $class = get_class($this);
     if($id = $this->revision()){
-      foreach($map->filter("destination_id", $id)->filter("destination_model", $class)->all() as $r) $r->copy()->update_attributes(array('status'=>0, 'destination_id'=>$this->primval));
+      $maps = $map->filter("destination_id", $id)->filter("destination_model", $class)->all();
+      if($maps && $maps->count()) foreach($maps as $r) $r->copy()->update_attributes(array('status'=>0, 'destination_id'=>$this->primval));
+      else{
+        $permalink = $this->language_permalink($this->language);
+        $m = new WildfireUrlMap;
+        $m->map_to($permalink, $this, $this->primval, 1);
+      }      
     }elseif($this->revision == 0){
       $mod = new $class;
       //for all revisions of this content copy the url maps over for them with status of 0
