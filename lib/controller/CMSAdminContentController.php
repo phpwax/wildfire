@@ -77,7 +77,7 @@ class CMSAdminContentController extends AdminComponent {
 	      else{
 	        WaxLog::log('error', print_r($obj->model,1), 'save_errors');
 	        Session::add_error("Failed!");
-	        $this->redirect_to("/".trim($obj->controller,"/")."/");
+	        $obj->redirect_to("/".trim($obj->controller,"/")."/");
 	      }
   	    $obj->form = new WaxForm($obj->model);
       }
