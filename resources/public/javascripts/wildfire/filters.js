@@ -52,7 +52,7 @@ jQuery(document).ready(function(){
     var obj = jQuery(this), parent_form = obj.parents("form");
     obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form);}, 500);});
   });
-  jQuery("input.inline-filter").each(function(){
+  jQuery(".inline-filter").each(function(){
     var obj = jQuery(this);
     obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(inline_filter_listener); inline_filter_listener = setTimeout(function(){inline_filter(obj);}, 500);});
   });
