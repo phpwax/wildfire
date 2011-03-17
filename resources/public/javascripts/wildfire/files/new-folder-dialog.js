@@ -5,13 +5,13 @@ jQuery(document).ready(function(){
   			autoOpen:false,
   			title:jQuery('.new-folder h3').text()
   		});
-  jQuery('.options .new_folder').live("click", function(){
+  jQuery('.options .new_folder').live("click", function(e){
     jQuery(this).parents("li").children("a").trigger("click");
     jQuery(".new-folder").dialog('open');
-    return false;
+    e.preventDefault();
   });
   
-  jQuery('.new-folder').live('submit',function(){
+  jQuery('.new-folder').live('submit',function(e){
     var data = jQuery(this).serialize(), dest=jQuery(this).attr('data-dest');
     jQuery.ajax({
       url:dest,
@@ -22,7 +22,7 @@ jQuery(document).ready(function(){
         jQuery(".new-folder").dialog('close');
       }
     });
-    return false;
+    e.preventDefault();
   });
   
 });

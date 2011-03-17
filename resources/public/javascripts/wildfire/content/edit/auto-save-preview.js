@@ -34,18 +34,18 @@ jQuery(document).ready(function(){
         if(auto_span.hasClass('enabled')) auto_save_form(auto_span,auto_saver,auto_image);
       }, 60000);
 
-  jQuery('#auto-save').live("click", function(){
+  jQuery('#auto-save').live("click", function(e){
     auto_span.toggleClass('enabled');
     if(auto_span.hasClass('enabled')) auto_image.attr('src', auto_image.attr('src').replace('-off', ''));
     else auto_image.attr('src', auto_image.attr('src').replace('.png', '-off.png'));
-    return false;
+    e.preventDefault();;
   });
   
-  jQuery('.preview').live("click", function(){
+  jQuery('.preview').live("click", function(e){
     var preview_button = jQuery(this);
     preview_button.addClass('loading');
     auto_save_form(auto_span,auto_saver,auto_image, preview_button);
-    return false;
+    e.preventDefault();
   });
   
 });

@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
   
-  jQuery('.content_parent .has-children a').live("click",function(){
+  jQuery('.content_parent .has-children a').live("click",function(e){
     var link = jQuery(this),
         dest = link.attr("href"),
         branch = jQuery(link.parents('li')[0])
@@ -8,11 +8,11 @@ jQuery(document).ready(function(){
     if(link.hasClass('open')){
       link.removeClass("open");
       branch.children("ul").slideUp("fast");
-      return false;
+      e.preventDefault();
     }else if(link.hasClass('fetched')){
       link.addClass("open");
       branch.children("ul").slideDown("fast");
-      return false;
+      e.preventDefault();
     }
     jQuery.ajax({
       url:dest,
@@ -24,11 +24,11 @@ jQuery(document).ready(function(){
       error:function(){}
     });
     
-    return false;
+    e.preventDefault();
     
   });
   
-  jQuery('.content_parent input[type=radio]').live("click", function(){
+  jQuery('.content_parent input[type=radio]').live("click", function(e){
     jQuery(".content_parent .active").removeClass('active');
     jQuery(this).parents("div.field").addClass("active");
   });
