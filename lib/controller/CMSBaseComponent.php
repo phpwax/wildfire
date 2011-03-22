@@ -100,7 +100,7 @@ class CMSBaseComponent extends WaxController {
       if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
       $stats = stat($file);
       $fileid = $stats[9];
-      $check = new $this->model_class($fileid);
+      $check = new WildfireFile($fileid);
       while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
         $ts = date("YMdHis") - rand(3600, 9000);
         touch($file, $ts);
@@ -125,7 +125,7 @@ class CMSBaseComponent extends WaxController {
   		$type = exec("file --mime -b ".escapeshellarg("$folderpath/$filename"));
   	}
   	$size = filesize($folderpath."/".$filename);
-  	$model = new $this->model_class;
+  	$model = new WaxModel;
   	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$rpath','$type','$size','found')";
     try{
       if($type != "directory") $res = $model->query($query);
