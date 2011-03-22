@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){  
-  jQuery('a.delete_folder, a.delete_file').unbind("click").live("click", function(){
+  jQuery('a.delete_folder, a.delete_file').unbind("click").live("click", function(e){
     if(confirm('Are you sure?')){
       var dest = jQuery(this).attr('data-dest');
       jQuery.ajax({
@@ -9,6 +9,6 @@ jQuery(document).ready(function(){
         }
       });
     }
-    return false;
+    e.preventDefault();
   });
 });

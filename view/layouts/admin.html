@@ -25,10 +25,10 @@
       <?=$content_for_layout?>
     </div>
   </div>
-  
+  <?$cachelink = Config::get('cacheissue')?>
   <ul id="primary_navigation">
     <?foreach($allowed_modules as $i=>$info):?>
-      <li class='top <?=$i?>'><a href="<?=$info['link']?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
+      <li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
       <?if($info['split']):?>
       <li class='group_split'>&nbsp;</li>
       <?endif?>

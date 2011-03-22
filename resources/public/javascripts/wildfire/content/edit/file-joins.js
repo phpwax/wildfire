@@ -19,7 +19,7 @@ jQuery(document).ready(function(){
   });
 
   //on clicking the buttons, update the input and swap the classes&copy
-  jQuery(".js-added").live("click",function(){
+  jQuery(".js-added").live("click",function(e){
     var bu = jQuery(this), checkbox_ele = jQuery("#"+bu.attr('data-input-link')),
         field_block = bu.parents(".file-info"),
         imgs = jQuery(field_block).find('img'),
@@ -49,7 +49,7 @@ jQuery(document).ready(function(){
       }
       checkbox_ele.attr('checked', 'checked');
     }
-    return false;
+    e.preventDefault();
   });
 
 });

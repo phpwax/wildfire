@@ -222,7 +222,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 
 	public function create(){
 	  $model = new $this->model_class();
-	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/");
+	  $cachelink = Config::get('cacheissue');
+	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/".(($cachelink)?"?r=".rand():""));
 	}
 
 	public function edit(){
