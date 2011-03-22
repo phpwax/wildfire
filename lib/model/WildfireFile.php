@@ -30,7 +30,7 @@ class WildfireFile extends WaxModel {
 	  return ".".File::get_extension($this->filename);
 	}
 
-
+  public function url(){ return "/".$this->rpath.$this->filename;}
 	/**
 	 * permalink function returns the path to the show image function
 	 * @return string url
