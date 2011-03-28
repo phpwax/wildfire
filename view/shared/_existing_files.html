@@ -5,8 +5,9 @@
   ?>
 <div class='joined-file clearfix f<?=$file->primval?>'>
   <?if(strstr($file->type, "image")):?>
-  <img src="<?=$file->permalink(150)?>" alt="<?=$file->filename?>">
+  <img src="<?=$file->permalink(150)?>" alt="<?=$file->filename?>" title="<?=$file->filename?>">
   <?endif?>
+  <p><a href="<?=$file->url()?>"><?=$file->filename?></a></p>
   <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field joined_field" checked="checked">
   <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
   <div class='tag_options clearfix t_<?=$info->tag?> o_<?=$info->join_order?>'>
