@@ -29,10 +29,10 @@ jQuery(document).ready(function(){
   var auto_saver = jQuery('#auto-save'),
       auto_span = auto_saver.find("span"),
       auto_image = auto_saver.find("img"),
-
+      auto_save_time = 120000,
       auto_interval = setInterval(function(){
         if(auto_span.hasClass('enabled')) auto_save_form(auto_span,auto_saver,auto_image);
-      }, 60000);
+      }, (auto_save_time_override typeof != "undefined")?auto_save_time_override : auto_save_time );
 
   jQuery('#auto-save').live("click", function(e){
     auto_span.toggleClass('enabled');
