@@ -38,7 +38,7 @@ class CMSAdminFileController extends AdminComponent {
 	public function _list(){
 	  $this->files = array();
 	  if($this->dir = Request::param('dir')){
-	    $this->sync($this->dir);
+	    if(Request::param('sync')) $this->sync($this->dir);
 	    $file = new WildfireFile($this->model_scope);
 	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
 	    foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$this->dir), "#^[^\.]#i") as $file) $this->files[] = basename($file->getPathName());
