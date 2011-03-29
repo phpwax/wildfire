@@ -179,7 +179,7 @@ class WildfireContent extends WaxTreeModel {
     if($this->revision){
       $class = get_class($this);
       return new $class($this->revision);
-    }
+    }else return false;
   }
 
   public function has_revisions(){
