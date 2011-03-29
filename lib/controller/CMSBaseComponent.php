@@ -96,20 +96,22 @@ class CMSBaseComponent extends WaxController {
       if(!file_exists($full_path)) $file->update_attributes(array('status'=>'lost'));
     }
     //check filesystem files
-    foreach(glob(PUBLIC_DIR.$path."*") as $file){
-      if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
-      $stats = stat($file);
-      $fileid = $stats[9];
-      $check = new WildfireFile($fileid);
-      while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
-        $ts = date("YMdHis") - rand(3600, 9000);
-        touch($file, $ts);
-        exec('touch -t '+$ts+ ' '+$file);
+    foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$path), "#^[^\.]#i") as $file){
+      $file = $file->getPathName();
+      if(!is_dir($file)){
+        if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
         $stats = stat($file);
         $fileid = $stats[9];
+        $check = new WildfireFile($fileid);
+        while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
+          $ts = date("YMdHis") - rand(3600, 9000);
+          touch($file, $ts);
+          exec('touch -t '+$ts+ ' '+$file);
+          $stats = stat($file);
+          $fileid = $stats[9];
+        }
+        if(is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
       }
-      if(is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
-      
     }
   }
 
