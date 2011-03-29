@@ -41,7 +41,9 @@ class CMSAdminFileController extends AdminComponent {
 	    $this->sync($this->dir);
 	    $file = new WildfireFile($this->model_scope);
 	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
-	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
+	    $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(PUBLIC_DIR.$this->dir), true); 
+	    foreach($dir as $file) $this->files[] = $file->getPathName();
+	    $this->files = array_reverse((array)$this->files);
 	  }
 	}
 
