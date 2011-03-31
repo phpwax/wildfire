@@ -17,7 +17,6 @@ class CMSAdminContentController extends AdminComponent {
   //throw in a new scaffold that doesnt exist
   public $scaffold_columns = array('view_children'=>true);
   public $autosave = true;
-  public $succes_method ="success.extended";
   
 	protected function events(){
 	  parent::events();
@@ -89,8 +88,9 @@ class CMSAdminContentController extends AdminComponent {
       WaxEvent::run('cms.url.delete', $obj);
     });
     
+    WaxEvent::clear("cms.save.success");
     //status changing after save
-    WaxEvent::add("cms.save.success.extended", function(){
+    WaxEvent::add("cms.save.success", function(){
 	    $obj = WaxEvent::data();
       // 
       if(Request::param('live')) $obj->model->generate_permalink()->map_live()->children_move()->show()->save();
