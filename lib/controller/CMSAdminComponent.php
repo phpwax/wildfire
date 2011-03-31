@@ -25,7 +25,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public $file_tags = array('image', 'document');
 
   public $autosave = false;
-
+  public $succes_method = "success";
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
@@ -156,7 +156,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     WaxEvent::add("cms.save.before", function(){});
     WaxEvent::add("cms.save.after", function(){});
-    WaxEvent::add("cms.save.success", function(){
+    WaxEvent::add("cms.save.".$this->succes_method, function(){
       $obj = WaxEvent::data();
       if(Request::param('live') && $obj->model->columns['status']) $obj->model->update_attributes(array('status'=>1));
       elseif(Request::param('hide') && $obj->model->columns['status']) $obj->model->update_attributes(array('status'=>0));
@@ -171,7 +171,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    if($obj->saved = $obj->form->save()){
 	      if($obj->use_layout) Session::add_message('Saved.');
 	      $obj->model = $obj->saved;
-	      WaxEvent::run("cms.save.success", $obj);
+	      WaxEvent::run("cms.save.".$obj->succes_method, $obj);
 	    }
 	    WaxEvent::run("cms.save.after", $obj);
 	  });
