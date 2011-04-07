@@ -86,9 +86,15 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 		if (typeof files !== "undefined") {
 			for (var i=0, l=files.length; i<l; i++) {
 				uploadFile(files[i]);
-			}
-			file_tree_refresh();
+			}			
 			joined_files_refresh();
+      if(jQuery('input[name="path"]').val()){      
+        var node_to_refresh_attr = jQuery('input[name="path"]').val(), node_to_refresh = jQuery('a[rel="'+node_to_refresh_attr+'"]').parents("li");
+        console.log(node_to_refresh);
+        file_tree_refresh(node_to_refresh);
+      }else{
+        file_tree_refresh();
+      }
 		}
 		else {
 			fileList.innerHTML = "No support for the File API in this web browser";
