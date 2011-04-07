@@ -1,3 +1,4 @@
+var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems that safari < 533 doesnt support files, but tells us it does..
 (function () {
 	var filesUpload = document.getElementById("files-upload"),
 		dropArea = document.getElementById("drop-area"),
@@ -93,7 +94,7 @@
 			fileList.innerHTML = "No support for the File API in this web browser";
 		}
 	}
-	if(filesUpload){
+	if(filesUpload && (!saf || (saf && vn >= 533) ) ){
 	  filesUpload.addEventListener("change", function () {
 		  traverseFiles(this.files);
 	  }, false);
@@ -125,4 +126,9 @@
   }
 })();
 
-jQuery('.info').find('.submit_field').hide();
+if(typeof files != "undefined" && (!saf || (saf && vn >= 533))){
+  jQuery('.info').find('.submit_field').hide();
+}else{
+  jQuery("#drop-area").hide();
+  jQuery("input[multiple='multiple']").attr('multiple', '');
+}
