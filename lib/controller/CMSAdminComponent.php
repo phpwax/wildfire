@@ -182,6 +182,19 @@ class CMSAdminComponent extends CMSBaseComponent {
       if($changes = Request::param('change')) $destination_model->update_attributes($changes);
       $this->redirect_to("/".trim($this->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
+	  
+	  
+	  WaxEvent::add('cms.file.old_upload', function(){
+      $obj = WaxEvent::data();
+      if(($up = $_FILES['upload']) && ($dir=Request::param('path'))){
+        $path = PUBLIC_DIR.$dir;
+        $safe_name = File::safe_file_save($path, $up['name']);
+        move_uploaded_file($up['tmp_name'], $path.$safe_name);
+        exec("chmod -Rf 0777 ".$path.$safe_name);
+        $obj->sync($dir);
+      }
+    });
+	  
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -229,6 +242,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function edit(){
 	  WaxEvent::run("cms.form.setup", $this);
 	  WaxEvent::run("cms.edit.init", $this);
+	  WaxEvent::run('cms.file.old_upload', $this);
     //run the save event
 	  WaxEvent::run("cms.save", $this);
 	}
