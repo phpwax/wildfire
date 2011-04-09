@@ -12,7 +12,7 @@ html {
 	padding:15px 10px 0 10px;
 }
 
-#v2-cms .dashboard {
+#v2-cms .dashboard, #cms-files #v2-cms #page_content {
 	background:#36424a;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -60,11 +60,109 @@ html {
    background:url(/images/wildfire/themes/v2/draft.png) no-repeat center center ;
 }
 
-#v2-cms #client-analytics-graph, #v2-cms #client-sources-graph, #v2-cms #traffic-keywords {
+#v2-cms #client-analytics-graph, 
+#v2-cms #client-sources-graph, 
+#v2-cms #traffic-keywords,
+#v2-cms .file-tree-container,
+#v2-cms .files_content .info {
 	background:#cedfea;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 	margin-bottom:10px;
+}
+#v2-cms .ui-tabs-nav {background:transparent !important;border:0;}
+#v2-cms .tabs_container {background:none;border:0;}
+#v2-cms .info-container {
+	background:#cedfea;
+	margin-top:0;
+	margin-bottom:0;
+	padding:15px;
+}
+#v2-cms .tab-contents {
+	background:#cedfea;
+}
+#v2-cms .tabs_container {
+	background:#36424a;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	padding:10px;
+}
+#v2-cms .field-datestart,#v2-cms .field-dateend {
+	width:22%;
+	float:left;
+	margin-right:3%;
+}
+#v2-cms .ui-state-default {
+	background:#9ec5d5;
+	border:0;
+}
+#v2-cms .ui-state-active {
+	background:#FFF;
+	border:0;
+}
+#v2-cms .ui-state-default a {
+	text-shadow:#222 1px 1px 1px 3px;
+}
+#v2-cms .form_datepicker {
+	background:#fff url(/images/wildfire/themes/v2/calendar.gif) no-repeat center right;
+}
+#v2-cms .ui-datepicker-header {
+	background:#373737 url(/images/wildfire/themes/v2/calendar_header_bg.png) repeat-x;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
+}
+
+
+#v2-cms .ui-datepicker {
+	border:0;
+	padding:0;
+	-moz-box-shadow:  	1px 1px 6px rgba(0, 0, 0, .6);
+	-webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, .6);
+	box-shadow:  				1px 1px 6px rgba(0, 0, 0, .6);
+}
+#v2-cms .ui-datepicker td {
+	border-collapse:collapse;
+	background-color:none;
+	background:#e4e4e4;
+}
+#v2-cms .ui-datepicker td a {
+	color: #666;
+	background: #e3e3e3;
+	line-height: 190%;
+	text-align: center;
+	margin:0;
+	border-left: 1px solid #FFF;
+	border-top: 1px solid #FFF;
+	border-bottom: 1px solid #e4e4e4;
+	border-right: 1px solid #e4e4e4;	
+}
+#v2-cms .ui-timepicker-div {
+	margin:0 5px;
+}
+#v2-cms .file-tree-container {
+	margin:15px;
+	width:55%;
+}
+#v2-cms .files_content .info {
+	margin:15px;
+	margin-left:0;
+	width:35.2%;
+}
+#v2-cms .text_field {
+	border:1px solid #c6dade;
+	-moz-border-radius: 		5px;
+	-webkit-border-radius: 	5px;
+	-khtml-border-radius: 	5px;
+	border-radius: 					5px;
+	color:#437182;
+	text-transform:none;
+}
+#v2-cms .ui-slider-horizontal {
+	border-color:#c6dade;	
 }

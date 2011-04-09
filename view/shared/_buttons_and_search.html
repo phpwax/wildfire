@@ -1,11 +1,11 @@
 <?if($current_user->allowed("home", "search")):?>
 <form id="search_form" action="/admin/home/search" method="post" class='ajax-post' data-view="/admin/content/edit/">
-  <input type='text' value="" placeholder="QUICK CONTENT SEARCH" class='input_field text_field' name='term' id="search_box">
+  <input type='text' value="" placeholder="Quick Content Search" class='input_field text_field' name='term' id="search_box">
 </form>
 <?endif?>
 
 
 <?foreach($quick_links as $name=>$link):?>
-<a href='<?=$link?>' class='button orange quick-<?=underscore($name)?>'><span><?=strtoupper($name)?></span></a>
+<a href='<?=$link?>' class='button orange quick-<?=underscore($name)?>'><span><?=ucfirst($name)?></span></a>
 <?endforeach?>
 
