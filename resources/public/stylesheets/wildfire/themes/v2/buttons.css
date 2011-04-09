@@ -1,0 +1,61 @@
+.button, .submit_field{
+  color:#323231;
+}
+
+/**
+ * js inserted on files
+ */
+.remove-button{
+  background:#F89E1E;
+}
+.add-button{
+  background:#8EA79A;
+}
+
+.preview-button{
+  background:#F89E1E;
+}
+a.orange, a.preview-button {
+	background:#feda71;
+	border:1px solid #f5b74e;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	color:#996633;
+	-moz-box-shadow:  	inset 0px 0px 15px rgba(254,187,74,1);
+	-webkit-box-shadow: inset 0px 0px 15px rgba(254,187,74,1);
+	box-shadow:  				inset 0px 0px 15px rgba(254,187,74,1);
+	text-shadow: #FFF 1px 1px 1px;
+}
+.quick-create_new_content {margin-left:50px;}
+a.operation {
+	border:1px solid #a2afb8;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	background:#88a1b4 url(/images/wildfire/themes/v2/operation_button_bg.png) repeat-x top left;
+	color:#515f6a;
+	text-shadow: #FFF 1px 1px 1px;
+	text-transform:none;
+	font-weight:bold;
+	padding:4px 9px;
+}
+input.live, input.hide, input.revision {
+	background:#9fcb57 url(/images/wildfire/themes/v2/green_button_bg.png) repeat-x;
+	color:#5d7731;
+	text-shadow: #FFF 1px 1px 1px;
+	border:1px solid #adc671;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	text-transform:none;
+}
+input.hide {
+	background:#f5687a url(/images/wildfire/themes/v2/red_button_bg.png) repeat-x;
+	border:1px solid #df6f8b;
+	color:#913944;
+	text-shadow:#f89ca9 1px 1px 1px;
+}

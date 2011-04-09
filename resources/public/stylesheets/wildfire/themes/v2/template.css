@@ -1,0 +1,70 @@
+html {
+	background:#2c3234;
+	-webkit-box-shadow: 0 0 200px #000000 inset;
+	-moz-box-shadow: 0 0 200px #000000 inset;
+	box-shadow: 0 0 200px #000000 inset;
+}
+#v2-cms #header {
+	background:#1b2325 url(/images/wildfire/backgrounds/header_bg.png) repeat-x;
+	min-height:40px;
+}
+#v2-cms .buttons_and_search {
+	padding:15px 10px 0 10px;
+}
+
+#v2-cms .dashboard {
+	background:#36424a;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+#v2-cms .dashboard h3 {
+	text-shadow: rgb(0,0,0) 1px 1px 5px;
+	text-shadow: rgba(0,0,0,0.7) 2px 2px 2px;
+	color:white;
+	font-weight:normal;
+}
+#v2-cms .dashboard table, #v2-cms .data_table {
+	background:#cedfea;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+#v2-cms .dashboard table tr:nth-child(even) td, #v2-cms .data_table tr:nth-child(even) td  {
+	background:#bccfdb;
+	border-top:1px solid #9cafbc;
+	border-bottom:1px solid #9cafbc;
+	
+}
+#v2-cms .dashboard table tr td {
+	padding-left:10px;
+	border-top:1px solid #9cafbc;
+	color:#36424a;
+}
+#v2-cms .dashboard table tr td a {color:#36424a;}
+#v2-cms .dashboard table tr td a:hover {color:#9cafbc;}
+
+#v2-cms #page_content {
+	background:none;
+	border:0;
+	width:80%;
+	overflow:hidden;
+	margin-right:20px;
+}
+#v2-cms .data_table td.live a {
+   background:url(/images/wildfire/themes/v2/published.png) no-repeat center center ;
+}
+#v2-cms .data_table td.draftrevision a {
+   background:url(/images/wildfire/themes/v2/draft.png) no-repeat center center ;
+}
+
+#v2-cms #client-analytics-graph, #v2-cms #client-sources-graph, #v2-cms #traffic-keywords {
+	background:#cedfea;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	margin-bottom:10px;
+}

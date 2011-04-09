@@ -9,15 +9,15 @@
 	<title>Content Management System</title>
 </head>
 
-<body id="white-cms" class='wildfire'>
-	
-  <div class="brand" id="logo"><img src="/images/wildfire/logos/small.png" alt="wildfire"></div>
-  
-  <div id="page_content" class='clearfix'>
+<body id="v2-cms" class='wildfire'>
+	<div id="header">
+    <div class="brand" id="logo"><img src="/images/wildfire/logos/v2_small.png" alt="wildfire"></div>
     <div class='clearfix full buttons_and_search'>
     <?WaxEvent::run("cms.layout.sublinks", $this);?>
     <?=partial("_buttons_and_search", array('current_user'=>$current_user, 'quick_links'=>$this->quick_links))?>
     </div>
+  </div>
+  <div id="page_content" class='clearfix'>
     
     <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
       <?=info_messages()?>

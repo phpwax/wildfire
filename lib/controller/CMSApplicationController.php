@@ -46,7 +46,7 @@ class CMSApplicationController extends WaxController{
 	   */
 		if($page = Request::get('page')) $this->this_page = $page;
 		//method exists check
-		if($this->is_public_method($this, Inflections::underscore($this->action)) ) return false;
+		if(WaxApplication::is_public_method($this, Inflections::underscore($this->action)) ) return false;
 		/**
 		 * preview system, if its set then add the filter to the front end display and
 		 * set the internal var & change the scope
