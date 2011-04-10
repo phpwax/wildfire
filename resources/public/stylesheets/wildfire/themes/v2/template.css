@@ -166,3 +166,22 @@ html {
 #v2-cms .ui-slider-horizontal {
 	border-color:#c6dade;	
 }
+
+#v2-cms .ui-dialog {
+	border:0;
+	-moz-box-shadow:  	1px 1px 6px rgba(0, 0, 0, .6);
+	-webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, .6);
+	box-shadow:  				1px 1px 6px rgba(0, 0, 0, .6);
+	padding:0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
+}
+#v2-cms .ui-dialog-titlebar {
+	background:#373737 url(/images/wildfire/themes/v2/calendar_header_bg.png) repeat-x;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
+}
