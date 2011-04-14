@@ -1,5 +1,5 @@
 <ul class="jqueryFileTree" style="display: none;">
-  <?if(count($files)>2):?>
+  <?if(count($files)):?>
     <?foreach($files as $file):?>
       <!-- <?=($file)?> -->
       <?if($file && $file[0] != "." && is_dir(PUBLIC_DIR.$this->dir.$file)):?>

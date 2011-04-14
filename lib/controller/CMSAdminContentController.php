@@ -102,6 +102,7 @@ class CMSAdminContentController extends AdminComponent {
       WaxEvent::run('cms.file.tag', $obj);      
 	    //checking for cicular references..
 	    WaxEvent::run("cms.save.sanity_check", $obj);
+  	  WaxEvent::run("cms.save.success.finished", $obj);
   	  if($obj->use_layout) $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$obj->model->primval."/");
     });
     //modify the post filter function to enforce a status filter - they bubble..

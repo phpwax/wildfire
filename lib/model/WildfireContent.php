@@ -96,7 +96,7 @@ class WildfireContent extends WaxTreeModel {
     foreach($map->clear()->filter("destination_model", $class)->filter("destination_id", $this->primval)->all() as $row){
       $row->update_attributes(array('status'=>1, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
       //for each of these models permalinks look for one from an alternative model
-      foreach($map->clear()->filter("origin_url", $row->permalink)->filter("language", $this->language)->filter($row->primary_key,$row->primval, "!=")->all() as $alt) $alt->update_attributes(array('status'=>0));
+      foreach($map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->filter("destination_id", $this->primval, "!=")->all() as $alt) $alt->update_attributes(array('status'=>0));
     }
     //look for any urls that were linked to the master version of this content item
     if($master_id = $this->revision()){
@@ -179,7 +179,7 @@ class WildfireContent extends WaxTreeModel {
     if($this->revision){
       $class = get_class($this);
       return new $class($this->revision);
-    }
+    }else return false;
   }
 
   public function has_revisions(){
