@@ -17,7 +17,7 @@ class CMSAdminContentController extends AdminComponent {
   //throw in a new scaffold that doesnt exist
   public $scaffold_columns = array('view_children'=>true);
   public $autosave = true;
-  
+
 	protected function events(){
 	  parent::events();
 
@@ -27,7 +27,7 @@ class CMSAdminContentController extends AdminComponent {
 	      $check->delete();
       }
 	  });
-    
+
 	  WaxEvent::add('cms.url.add', function(){
 	    $obj = WaxEvent::data();;
 	    $saved = $obj->model;
@@ -62,9 +62,9 @@ class CMSAdminContentController extends AdminComponent {
       if($obj->model->parent_id != $obj->old_parent_id){
         $old_parent = new $obj->model_class($obj->old_parent_id);
         $new_parent = new $obj->model_class($obj->model->parent_id);
-        //if the parents parent is the model, then fix that by setting the new parents id to the old parent 
+        //if the parents parent is the model, then fix that by setting the new parents id to the old parent
         if($new_parent->parent_id == $obj->model->primval) $new_parent->update_attributes(array('parent_id'=>0));
-        
+
       }
     });
 	  //overwrite existing events - handle the revision change
@@ -87,19 +87,19 @@ class CMSAdminContentController extends AdminComponent {
       $obj = WaxEvent::data();
       WaxEvent::run('cms.url.delete', $obj);
     });
-    
+
     WaxEvent::clear("cms.save.success");
     //status changing after save
     WaxEvent::add("cms.save.success", function(){
 	    $obj = WaxEvent::data();
-      // 
+      //
       if(Request::param('live')) $obj->model->generate_permalink()->map_live()->children_move()->show()->save();
       elseif(Request::param('hide')) $obj->model->generate_permalink()->map_hide()->hide()->save();
       elseif(Request::param('revision')) $obj->model->generate_permalink()->hide()->update_attributes(array('revision'=>Request::param('id')))->map_revision();
       //look for url map saves
 	    WaxEvent::run('cms.url.add', $obj);
 	    WaxEvent::run('cms.joins.handle', $obj);
-      WaxEvent::run('cms.file.tag', $obj);      
+      WaxEvent::run('cms.file.tag', $obj);
 	    //checking for cicular references..
 	    WaxEvent::run("cms.save.sanity_check", $obj);
   	  WaxEvent::run("cms.save.success.finished", $obj);
@@ -120,8 +120,8 @@ class CMSAdminContentController extends AdminComponent {
 	    //if the parent filter isn't set, then
 	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->filter('revision',0)->roots();
 	    else $obj->cms_content = $obj->model->all();
-    });  
-    
+    });
+
     WaxEvent::clear("cms.model.copy");
     WaxEvent::add("cms.model.copy", function(){
 	    $obj = WaxEvent::data();
@@ -130,7 +130,7 @@ class CMSAdminContentController extends AdminComponent {
       if($destination_model) $destination_model->map_revision();
       $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
-      
+
 	}
 
 	protected function initialise(){
@@ -151,7 +151,61 @@ class CMSAdminContentController extends AdminComponent {
     }
   }
 
-  
+  public function tidy(){
+    //remove everything thats draft
+    $model = new $this->model_class;
+    echo strtoupper($this->model_class).":<br>";
+    echo "draft:<br>";
+    foreach($model->filter("status", 0)->all() as $remove){
+      echo "[$remove->primval] $remove->title: $remove->permalink<br>\n";
+      //find all mappings related to this model
+      $map = new WildfireUrlMap;
+      foreach($map->clear()->filter("destination_model", $this->model_class)->filter("destination_id", $remove->primval)->all() as $url){
+        echo "--> (url) [$url->primval] $url->origin_url<br>\n";
+        $url->delete();
+      }
+      foreach($map->clear()->filter("destination_url", $remove->permalink)->filter("status", 0)->all() as $url){
+        echo "--> (url) [$url->primval] $url->origin_url<br>\n";
+        $url->delete();
+      }
+      //go over joins
+      foreach($remove->columns as $column => $data){
+        if($data[0] == "ManyToManyField"){
+          foreach($remove->$column as $joined){
+            echo "--> ($column) [$joined->primval] ".$joined->humanize()."<br>\n";
+            $remove->$column->unlink($joined);
+          }
+        }
+      }
+      $remove->delete();
+      echo "<hr>\n\n";
+    }    
+    echo "live:<br>";
+    //go over the live ones and call url mapping on them
+    foreach($model->clear()->scope("live")->all() as $live){
+      echo "[$live->primval] $live->title: $live->permalink<br>\n";
+      $live->generate_permalink()->map_live()->children_move()->show()->save();
+    }
+    
+    echo "children:<br>";
+    //go over everything that has a child and make sure its in the right place..
+    foreach($model->clear()->filter("parent_id > 0")->all() as $row){
+      echo "[$row->primval] $row->title: $row->permalink : $row->parent_id<br>\n";
+      $tmp = new $this->model_class($row->parent_id);
+      if($tmp->primval == $row->parent_id) echo "ok";
+      else{
+        //so trim off the last part of the url
+        $sub = substr($row->permalink,0,-1);
+        $parent = substr($sub, 0, strrpos($sub, "/")+1);
+        echo "--> parent:".$parent."<br>";
+        $p = new $this->model_class("live");
+        if($found = $p->filter("permalink", $parent)->first()) $row->update_attributes(array('parent_id'=>$found->primval));
+      }
+      echo "<hr>";
+    }
+    
+    $this->use_layout = $this->use_view = false;
+  }
 
 
 
