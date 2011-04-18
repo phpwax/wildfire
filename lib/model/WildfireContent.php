@@ -151,8 +151,9 @@ class WildfireContent extends WaxTreeModel {
    */
   public function children_move(){
     if($id = $this->revision()){
-      $class = get_class($class);
+      $class = get_class($this);
       $model = new $class($id);
+      WaxLog::log('error', "[move] $id - $class", 'children_move');
       if($model && $model->primval){
         foreach($model->children as $c){
           $model->children->unlink($c);
