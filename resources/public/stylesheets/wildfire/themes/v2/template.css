@@ -38,6 +38,9 @@ html {
 	border-bottom:1px solid #9cafbc;
 	
 }
+#v2-cms .dashboard table tr.active td, #v2-cms .data_table tr.active td  {
+  background:#9FCB57;
+}
 #v2-cms .dashboard table tr td {
 	padding-left:10px;
 	border-top:1px solid #9cafbc;
