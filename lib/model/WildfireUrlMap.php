@@ -3,7 +3,7 @@ class WildfireUrlMap extends WaxModel{
   public $identifier = "origin_url";
   
   public function setup(){
-    $this->define("title", "CharField", array('required'=>true));
+    $this->define("title", "CharField");
     $this->define("content", "CharField");
     
     $this->define("origin_url", "CharField");    
