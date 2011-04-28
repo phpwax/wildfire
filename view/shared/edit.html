@@ -1,13 +1,12 @@
 <?
 $partial_paths = array(
-                      PLUGIN_DIR.$use_plugin."/view/shared/%s%.html",
-                      PLUGIN_DIR.$use_plugin."/resources/app/view/shared/%s%.html",
-                      PLUGIN_DIR.$use_plugin."/view/".strtoupper($use_plugin).Inflections::camelize(str_replace("/","_",$controller),true)."Controller/%s%.html",
-                      PLUGIN_DIR.$use_plugin."/resources/app/view/".$controller."/%s%.html",
-                      APP_DIR."view/shared/%s%.html",
-                      APP_DIR."view/".$controller."/%s%.html"
+                      APP_DIR."view/".$controller."/%s%.html",
+                      APP_DIR."view/shared/%s%.html"
                       );
-$partial_paths = array_reverse($partial_paths);
+foreach((array)Autoloader::view_paths("plugin") as $path){
+  $partial_paths[] = $path.strtoupper($use_plugin).Inflections::camelize(str_replace("/","_",$controller),true)."Controller/%s%.html";
+  $partial_paths[] = $path."shared/%s%.html";
+}
 
 $grouping = array();
 $mods = CMSApplication::get_modules();
