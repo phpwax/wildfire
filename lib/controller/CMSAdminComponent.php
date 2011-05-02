@@ -158,9 +158,6 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.save.after", function(){});
     WaxEvent::add("cms.save.success", function(){
       $obj = WaxEvent::data();
-      if(Request::param('live') && $obj->model->columns['status']) $obj->model->update_attributes(array('status'=>1));
-      elseif(Request::param('hide') && $obj->model->columns['status']) $obj->model->update_attributes(array('status'=>0));
-
       WaxEvent::run('cms.joins.handle', $obj);
       WaxEvent::run('cms.file.tag', $obj);
     });
@@ -186,7 +183,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  
 	  WaxEvent::add('cms.file.old_upload', function(){
       $obj = WaxEvent::data();
-      if(($up = $_FILES['upload']) && ($dir=Request::param('path'))){
+      if(($up = $_FILES['upload']) && ($up['name']) && ($dir=Request::param('path'))){
         $path = PUBLIC_DIR.$dir;
         $safe_name = File::safe_file_save($path, $up['name']);
         move_uploaded_file($up['tmp_name'], $path.$safe_name);

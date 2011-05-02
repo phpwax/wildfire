@@ -90,7 +90,7 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 			joined_files_refresh();
       if(jQuery('input[name="path"]').val()){      
         var node_to_refresh_attr = jQuery('input[name="path"]').val(), node_to_refresh = jQuery('a[rel="'+node_to_refresh_attr+'"]').parents("li");
-        file_tree_refresh(node_to_refresh);
+        file_tree_refresh();
       }else{
         file_tree_refresh();
       }
