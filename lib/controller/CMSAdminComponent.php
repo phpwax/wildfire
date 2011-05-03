@@ -275,7 +275,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function _file_list(){
     $this->exising = $this->files = array();
 	  if($this->dir = Request::param('dir')){
-	    $file = new WildfireFile("available");
+	    $file = new $this->file_system_model("available");
 	    $this->model = new $this->model_class(Request::param('id'));
 	    foreach($this->model->files as $f) $this->existing[] = $f->rpath.$f->filename;
 	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
@@ -285,7 +285,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function _file_info(){
 	  if($filename = Request::param('file')){
 	    $model = new $this->model_class(Request::param('id'));
-	    $file = new WildfireFile("available");
+	    $file = new $this->file_system_model("available");
 	    $base = basename($filename);
 	    $path = str_replace($base, "", $filename);
       $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();

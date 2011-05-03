@@ -21,6 +21,8 @@ class CMSApplicationController extends WaxController{
 	public $cms_preview_scope = "preview";
 	public $cms_content_class = "WildfireContent";
 
+  public $file_system_model = "WildfireFile";
+
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
 	public $cms_content = false;
@@ -227,7 +229,7 @@ class CMSApplicationController extends WaxController{
 		$this->use_layout=false;
   	if(!$size = $img_size) $size=110;
   	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
-  	$img = new WildfireFile($img_id);
+  	$img = new $this->file_system_model($img_id);
   	$ext = File::get_extension($img->filename);
   	switch($ext) {
   	  case "mp4":

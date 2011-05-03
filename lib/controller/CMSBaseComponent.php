@@ -32,6 +32,7 @@ class CMSBaseComponent extends WaxController {
   public $operation_actions = array('edit');
   public $quick_links = array();
 
+  public $file_system_model = "WildfireFile";
   public $file_system_base = "files/";
   
   public $dashboard = false;
@@ -90,7 +91,7 @@ class CMSBaseComponent extends WaxController {
 	protected function initialise(){}
 
   public function sync($path){
-    $model = new WildfireFile;
+    $model = new $this->file_system_model;
     //check existing db entries
     foreach($model->filter("rpath", $path)->all() as $file){
       $full_path = PUBLIC_DIR.$file->rpath.$file->filename;
@@ -103,7 +104,7 @@ class CMSBaseComponent extends WaxController {
         if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
         $stats = stat($file);
         $fileid = $stats[9];
-        $check = new WildfireFile($fileid);
+        $check = new $this->file_system_model($fileid);
         while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
           $ts = date("YMdHis") - rand(3600, 9000);
           touch($file, $ts);
