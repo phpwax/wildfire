@@ -183,7 +183,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  
 	  WaxEvent::add('cms.file.old_upload', function(){
       $obj = WaxEvent::data();
-      if(($up = $_FILES['upload']) && ($dir=Request::param('path'))){
+      if(($up = $_FILES['upload']) && ($up['name']) && ($dir=Request::param('path'))){
         $path = PUBLIC_DIR.$dir;
         $safe_name = File::safe_file_save($path, $up['name']);
         move_uploaded_file($up['tmp_name'], $path.$safe_name);
