@@ -1,4 +1,4 @@
-<div class='files file-listing clearfix'>
+<div class='files file-listing clearfix pattern-source' data-input-pattern="tags[%s]">
   <div class='info clearfix'>
     <div class='file-info clearfix'></div>
     <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base, 'model'=>$model))?>
@@ -7,6 +7,6 @@
   <?=partial("_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller, 'model'=>$model))?>
   
 </div>
-<div class='existing-files clearfix' id="existing-files" data-dest="/<?=trim($controller,"/")?>/_existing_files/<?=$model->primval?>">
+<div class='existing-files clearfix pattern-source' id="existing-files" data-dest="/<?=trim($controller,"/")?>/_existing_files/<?=$model->primval?>" data-input-pattern="tags[%s]">
   <?=partial("_existing_files",array('model'=>$model))?>
 </div>
