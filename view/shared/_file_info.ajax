@@ -4,7 +4,7 @@
   <h4><a href="<?=$file->url()?>"><?=$file->filename?></a></h4>
   <h5><?=$file->type?></h5>
   <h5><?=number_format($file->size/1024, 2)?> kb</h5>
-  <input type="checkbox" name="joins[files][<?=$file->primval?>]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field" <?if($exists):?>checked="checked"<?endif?>>
+  <input type="checkbox" name="joins[files][<?=$file->primval?>][id]" value="<?=$file->primval?>" id="join_file_<?=$file->primval?>" class="checkbox_field" <?if($exists):?>checked="checked"<?endif?>>
   <label for="join_file_<?=$file->primval?>"><?=$file->filename?></label>
 </div>
 
