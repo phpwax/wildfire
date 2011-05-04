@@ -43,7 +43,7 @@ jQuery(document).ready(function(){
         }
         tag_option_str += "</div>";
         var ord = jQuery('#existing-files .joined-file').length;
-        insert_str = '<div class="joined-file clearfix f'+fid+'"><input type="hidden" name="'+tag_pattern.replace("%s", fid)+'[order]" value="'+ord+'" class="join-order-field"><img src="'+jQuery(imgs).attr('src')+'" alt="'+jQuery(imgs).attr('alt')+'">'+tag_option_str+'<a id="button-joined_file_'+fid+'" class="button js-added remove-button" data-input-link="join_file_'+fid+'" data-fileid="'+fid+'" href="#">REMOVE</a></div>';
+        insert_str = '<div class="joined-file clearfix f'+fid+'"><input type="hidden" name="'+tag_pattern.replace("%s", fid)+'[join_order]" value="'+ord+'" class="join-order-field"><img src="'+jQuery(imgs).attr('src')+'" alt="'+jQuery(imgs).attr('alt')+'">'+tag_option_str+'<a id="button-joined_file_'+fid+'" class="button js-added remove-button" data-input-link="join_file_'+fid+'" data-fileid="'+fid+'" href="#">REMOVE</a></div>';
         jQuery('#existing-files').append(insert_str);
         checkbox_ele.clone(false,false).attr("checked", "checked").appendTo("#existing-files .f"+fid);
         

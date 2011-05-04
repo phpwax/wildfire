@@ -147,7 +147,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       $tags = Request::param('tags');
       foreach((array)$tags as $fileid=>$tag_order){
-        if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);
+        if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order']);
       }
     });
 
