@@ -70,6 +70,7 @@ class WildfireContent extends WaxTreeModel {
     if(!$this->status) $this->status = 0;
     if(!$this->revision) $this->revision = 0;    
     $this->date_modified = date("Y-m-d H:i:s");
+    $this->content =  CmsTextFilter::filter("before_save", $this->content);
   }
   //after save, we need to update the url mapping
   public function after_save(){}
