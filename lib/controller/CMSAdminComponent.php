@@ -134,7 +134,12 @@ class CMSAdminComponent extends CMSBaseComponent {
         foreach($_REQUEST['joins'] as $join=>$values){
           $class = $saved->columns[$join][1]['target_model'];
           if($j = $saved->$join) $saved->$join->unlink($j);
-          foreach($values as $id=>$v) if($v) $saved->$join = new $class($v);
+          foreach($values as $id=>$v) if(is_array($v) && $v['id']){
+            $target = new $class($v['id']);
+            foreach((array)$v['extra_fields'] as $extra_field => $extra_value)
+              $target->$extra_field = $extra_value;
+            $saved->$join = $target;
+          }elseif($v) $saved->$join = new $class($v);
         }
       }
     });
@@ -142,7 +147,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       $tags = Request::param('tags');
       foreach((array)$tags as $fileid=>$tag_order){
-        if($tag_order['tag'] && isset($tag_order['order'])) $obj->model->file_meta_set($fileid,$tag_order['tag'], $tag_order['order']);
+        if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order']);
       }
     });
 
