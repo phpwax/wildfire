@@ -93,20 +93,18 @@ class WildfireContent extends WaxTreeModel {
     $class = get_class($this);
     $mod = new $class;
     $permalink = $this->language_permalink($this->language);
+    //for each of these models permalinks look for one from an alternative model
+    foreach($map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->filter("destination_id", $this->primval, "!=")->all() as $alt) $alt->update_attributes(array('status'=>0));
     //look for all urls linked to this model and put them live
-    foreach($map->clear()->filter("destination_model", $class)->filter("destination_id", $this->primval)->all() as $row){
-      $row->update_attributes(array('status'=>1, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
-      //for each of these models permalinks look for one from an alternative model
-      foreach($map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->filter("destination_id", $this->primval, "!=")->all() as $alt) $alt->update_attributes(array('status'=>0));
-    }
+    foreach($map->clear()->filter("destination_model", $class)->filter("destination_id", $this->primval)->all() as $row) $row->update_attributes(array('status'=>1, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
     //look for any urls that were linked to the master version of this content item
     if($master_id = $this->revision()){
       //if you find items linked to the master & turn them off
       foreach($map->clear()->filter("destination_id", $master_id)->filter("destination_model",$class)->all() as $row) $row->update_attributes(array('status'=>0));
     }
     //if have no existing maps then create one
-    if(!$map->clear()->filter("destination_model", $class)->filter("origin_url", $permalink)->first()) $map->map_to($permalink, $this, $this->primval, 1);
-    //tidy up duplicate permalinks
+    if(!($f = $map->clear()->filter("destination_id", $this->primval)->filter("origin_url", $permalink)->first())) $map->map_to($permalink, $this, $this->primval, 1);
+    else if($f && $f->status != 1) $f->update_attributes(array('status'=>1, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
 
     return $this;
   }
