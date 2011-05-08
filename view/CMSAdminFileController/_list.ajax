@@ -12,7 +12,7 @@
       </li>
       <?elseif($file && $file[0] != "." && is_file(PUBLIC_DIR.$this->dir.$file)):?>
       <?$ext = preg_replace('/^.*\./', '', $file);?>
-      <li class='file ext_<?=$ext?>'>
+      <li class='file ext_<?=strtolower($ext)?>'>
         
         <a href="#" rel="<?=htmlentities($this->dir.$file)?>" data-dir="<?=$this->dir?>" data-name="<?=basename($this->dir)?>" class='node'><?=$file?></a>
       </li>
