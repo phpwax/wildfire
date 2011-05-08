@@ -27,9 +27,9 @@ table td, table th{
 #white-cms ul li.is_joined{font-weight:bold;}
 
 
-.data_table td.live a{
-  background:green;
+.data_table td.live a, #v2-cms .dashboard table td.live a{
+  color:#73AD48;
 }
-.data_table td.draftrevision a{
-  background:red;
+.data_table td.not-live a, #v2-cms .dashboard table td.not-live a{
+  color:#AB3633;
 }

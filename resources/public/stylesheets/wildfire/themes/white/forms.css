@@ -26,8 +26,8 @@
 #white-cms .content_parent .field:hover{background:#CEF1DF;}
 
 .tree span.live a{
-  background:green;
+  color:#73AD48;
 }
-.tree span.draftrevision a{
-  background:red;
+.tree span.not-live a{
+  color:#AB3633;
 }

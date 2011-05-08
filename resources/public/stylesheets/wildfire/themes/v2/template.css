@@ -33,12 +33,19 @@ html {
 	border-radius: 5px;
 }
 #v2-cms .data_grid{padding:8px;}
-#v2-cms .dashboard table tr:nth-child(even) td, #v2-cms .data_table tr:nth-child(even) td  {
-	background:#bccfdb;
-	border-top:1px solid #9cafbc;
+#v2-cms .dashboard table tr td, #v2-cms .data_table tr td {
 	border-bottom:1px solid #9cafbc;
-	
 }
+#v2-cms .dashboard table tr:nth-child(even) td, #v2-cms .data_table tr:nth-child(even) td {
+	background:#bccfdb;
+}
+#v2-cms .content_index .data_table tr:nth-child(even) td {
+	background:#CEDFEA;
+}
+#v2-cms .data_table tr:last-child td, #v2-cms .dashboard table tr:last-child td {
+	border-bottom:none;
+}
+#v2-cms .data_table .children-list table {border-left:1px solid #9cafbc;}
 #v2-cms .dashboard table tr.active td, #v2-cms .data_table tr.active td  {
   background:#9FCB57;
 }
@@ -57,12 +64,6 @@ html {
 	overflow:hidden;
 	margin-right:20px;
 }
-#v2-cms .data_table td.live a {
-   background:url(/images/wildfire/themes/v2/published.png) no-repeat center center ;
-}
-#v2-cms .data_table td.draftrevision a {
-   background:url(/images/wildfire/themes/v2/draft.png) no-repeat center center ;
-}
 
 #v2-cms #client-analytics-graph, 
 #v2-cms #client-sources-graph, 
@@ -75,6 +76,9 @@ html {
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 	margin-bottom:10px;
+}
+#v2-cms #traffic-keywords tr:first-child td {
+  border-top:none;
 }
 #v2-cms .ui-tabs-nav {background:transparent !important;border:0;}
 #v2-cms .tabs_container {background:none;border:0;}

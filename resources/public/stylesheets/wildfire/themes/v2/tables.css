@@ -1,11 +1,17 @@
-#v2-cms div.content_index .tree-children .view_children a{
-  background-image: url("/images/wildfire/jqueryui/ui-icons_323231_256x240.png");
+#v2-cms div.content_index .data_table .tree-children .view_children{
+  background:#9CAFBC;
 }
-  #v2-cms div.content_index .tree-children .view_children a.open{
-    background-position: -16px -192px;
+#v2-cms div.content_index .data_table .tree-children:hover .view_children{
+  background:#B5CEBA;
+}
+  #v2-cms div.content_index .tree-children .view_children a{
+    background-image: url("/images/wildfire/jqueryui/ui-icons_323231_256x240.png");
   }
+    #v2-cms div.content_index .tree-children .view_children a.open{
+      background-position: -16px -192px;
+    }
   
-  #v2-cms .active td, #v2-cms .active th{background:#DAFFEC;}
-  #v2-cms tbody tr.row:hover td, #v2-cms tbody tr.row:hover th{background:#CEF1DF;}
+    #v2-cms .active td, #v2-cms .active th{background:#DAFFEC;}
+    #v2-cms tbody tr.row:hover td, #v2-cms tbody tr.row:hover th, #v2-cms .content_index .data_table tr.row:hover td {background:#CEF1DF;}
 
 #v2-cms ul li.is_joined{font-weight:bold;}

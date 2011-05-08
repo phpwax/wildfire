@@ -4,8 +4,6 @@ class WildfireContent extends WaxTreeModel {
   public $identifier = "title";
 
 	public function setup(){
-	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Draft/Revision",1=>"Live"), 'scaffold'=>true, 'editable'=>false));
-
 		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here") );
 		$this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
 
@@ -38,6 +36,9 @@ class WildfireContent extends WaxTreeModel {
 
 		$this->define("view", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_views(),'group'=>'advanced'));
 		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts(),'group'=>'advanced'));
+
+	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Not Live",1=>"Live"), 'scaffold'=>true, 'editable'=>false, 'label'=>"Live"));
+
 	}
 
 	public function tree_setup(){
