@@ -25,13 +25,14 @@ html {
 	color:white;
 	font-weight:normal;
 }
-#v2-cms .dashboard table, #v2-cms .data_table {
+#v2-cms .dashboard table, #v2-cms .data_table, #v2-cms .data_grid {
 	background:#cedfea;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 }
+#v2-cms .data_grid{padding:8px;}
 #v2-cms .dashboard table tr:nth-child(even) td, #v2-cms .data_table tr:nth-child(even) td  {
 	background:#bccfdb;
 	border-top:1px solid #9cafbc;

@@ -4,21 +4,14 @@ $model =  new $model_class($model_scope);
 $files = $model->order($model->primary_key." DESC")->limit(5)->all();
 ?>
 <div class='dashboard dashboard-<?=Inflections::to_url($controller)?> clearfix'>
-<h3>Latest Files Uploaded</h3>
-<table class='data_table'>
-  <thead>
-    <tr>
-      <th colspan='2'>Filename</th>
-    </tr>
-  </thead>
-  <tbody>
+  <h3>Latest Files Uploaded</h3>
+  <div class='data_grid clearfix'>
     <?foreach($files as $f):?>
-    <tr>
-      <td><img src='<?=$f->permalink(100)?>' alt=""></td>
-      <td><?=$f->filename?></td>
-    </tr>
+    <div class="dashboard_file">
+      <img src='<?=$f->permalink(100)?>' alt="<?=$f->filename?>">
+      <?=$f->filename?>
+    </div>
     <?endforeach?>
-  </tbody>  
-</table>
+  </div>
 </div>
 <?endif?>
