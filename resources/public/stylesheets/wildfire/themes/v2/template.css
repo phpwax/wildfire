@@ -42,7 +42,7 @@ html {
 #v2-cms .content_index .data_table tr:nth-child(even) td {
 	background:#CEDFEA;
 }
-#v2-cms .data_table tr:last-child td, #v2-cms .dashboard table tr:last-child td {
+#v2-cms .data_table tr:last-child > td, #v2-cms .dashboard table tr:last-child > td {
 	border-bottom:none;
 }
 #v2-cms .data_table .children-list table {border-left:1px solid #9cafbc;}
