@@ -17,7 +17,7 @@
       <?=small(select($model, "parent_id", $possible_parents, array(), "Parent Section"))?>
       <?=small(select($model, "default_page_id", options_from_collection($model->published_content, "id", "title", "None"), array(), "Default Content"))?>
       <hr />
-      <?=large(text_area($model, "introduction", array(), "Introduction"))?>
+      <?=large(text_area($model, "introduction", array("class"=>"jqwysi"), "Introduction"))?>
     </fieldset>
     <div class="clearfix"></div>
     <fieldset id="submit">
