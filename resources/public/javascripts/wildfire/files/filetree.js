@@ -12,7 +12,7 @@ function file_tree_refresh(alt_selector, recursive){
         data:{file:file},
         type:'post',
         success:function(res){
-          jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');          
+          jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');
         },
         error:function(){}
       })
@@ -46,5 +46,35 @@ jQuery(document).ready(function(){
     jQuery(".upload-destination span").html(jQuery(this).attr("data-name"));
     e.preventDefault();
   });
-
 });
+
+function drags(){
+	$(".jqueryFileTree li.file").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
+	$(".file-tree-container li.directory").droppable({
+		accept:"li.file",
+		hoverClass:'file_drop_active',
+		drop:	function (event, ui) {
+			var el = $(ui.draggable).find(".node");
+			var dir = el.attr("data-dir");
+			var file = el.attr("rel");
+			var dest = $(this).find(".node").attr("data-dir");
+			$.ajax({
+			  url: "/admin/files/move",
+			  type: "POST",
+			  data: {origin_dir:dir,origin_file:file,destination:dest},			
+			  complete: function() {},
+			  success: function() {
+					$(ui.draggable).remove();
+					file_tree_refresh();
+			 	},
+			
+			  error: function() {},
+			});
+		}
+	})
+}
+
+$(document).bind("filetree.loaded",function() {
+	drags();
+});
+

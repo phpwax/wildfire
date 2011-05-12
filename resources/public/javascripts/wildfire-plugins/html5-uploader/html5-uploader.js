@@ -131,7 +131,7 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
   }
 })();
 
-if(typeof files != "undefined" && (!saf || (saf && vn >= 533))){
+if(typeof(File) !="undefined" && (!saf || (saf && vn >= 533))){
   jQuery('.info').find('.submit_field').hide();
 }else{
   jQuery("#drop-area").hide();

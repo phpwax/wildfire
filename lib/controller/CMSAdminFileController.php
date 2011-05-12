@@ -78,6 +78,15 @@ class CMSAdminFileController extends AdminComponent {
     }
   }
 
+  public function move() {
+    $origin = post("origin_dir");
+    $file = basename(post("origin_file"));
+    $f = WildfireFile::find("first",array("filter"=>array("rpath = ? AND filename=?",array($origin,$file))));
+    $destination = post("destination");
+    $f->rpath = $destination;
+    $f->path = $destination;
+    $f->save();
+  }
 
   
 

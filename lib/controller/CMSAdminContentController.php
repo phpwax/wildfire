@@ -17,6 +17,7 @@ class CMSAdminContentController extends AdminComponent {
   //throw in a new scaffold that doesnt exist
   public $scaffold_columns = array('view_children'=>true);
   public $autosave = true;
+  
 
 	protected function events(){
 	  parent::events();

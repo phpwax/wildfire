@@ -21,4 +21,6 @@
     padding:0;
     background:none;
   }  
-  
+.file_drop_active {
+	background:#CEF1DF;
+}

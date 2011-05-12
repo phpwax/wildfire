@@ -5,6 +5,7 @@ class WildfireFile extends WaxModel {
   public $primary_options = array("auto"=>false);
   public static $queue_images = false;
   public static $image_sizes = array();
+  public $_row_cache = false;
   
   public function setup() {
     $this->define("filename", "CharField");
@@ -102,4 +103,26 @@ class WildfireFile extends WaxModel {
     return false;
 	}
 	
+	public function before_save() {
+	  $res = $this->filter(array($this->primary_key => $params))->first();
+	  $this->_row_cache = $res->row;
+	}
+	
+	public function after_save() {
+	  if($this->rpath !== $this->_row_cache->rpath) {
+	    $this->handle_move();
+	  }
+	}
+	
+	public function handle_move() {
+    $path = PUBLIC_DIR. $this->rpath;
+    $new_filename = $path.File::safe_file_save($path, $this->filename);
+    rename(PUBLIC_DIR.$this->_row_cache["rpath"].$this->filename, $new_filename);
+	}
+	
 }
+
+
+
+
+
