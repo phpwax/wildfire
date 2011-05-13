@@ -112,7 +112,7 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function after_save() {
-	  if($this->rpath !== $this->_row_cache->rpath) {
+	  if($this->rpath !== $this->_row_cache["rpath"]) {
 	    $this->handle_move();
 	  }
 	}
