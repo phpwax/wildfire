@@ -107,7 +107,7 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function before_save() {
-	  $res = $this->filter($this->primary_key, $this->{$this->primary_key})->first();
+	  $res = $this->clear()->filter($this->primary_key, $this->{$this->primary_key})->first();
 	  print_r($res); exit;
 	  $this->_row_cache = $res->row;
 	}
