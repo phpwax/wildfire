@@ -31,7 +31,10 @@ class WildfireFile extends WaxModel {
 	  return ".".File::get_extension($this->filename);
 	}
 
-  public function url(){ return "/".$this->rpath.$this->filename;}
+  public function url($relative=false){ 
+    if(!$relative) return "/".$this->rpath.$this->filename;
+    else return $this->rpath.$this->filename;
+  }
 	/**
 	 * permalink function returns the path to the show image function
 	 * @return string url
@@ -79,14 +82,14 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function width() {
-	  if(!is_readable($this->path.'/'.$this->filename)) return false;
-	  if($info = @getimagesize($this->path.'/'.$this->filename)) return $info[0];
+	  if(!is_readable(PUBLIC_DIR.$this->rpath.$this->filename)) return false;
+	  if($info = @getimagesize(PUBLIC_DIR.$this->rpath.$this->filename)) return $info[0];
 	  return $this->tryffmpeg("width");
 	  return false;
 	}
 	public function height() {
-	  if(!is_readable($this->path.'/'.$this->filename)) return false;
-	  if($info = @getimagesize($this->path.'/'.$this->filename)) return $info[1];
+	  if(!is_readable(PUBLIC_DIR.$this->rpath.$this->filename)) return false;
+	  if($info = @getimagesize(PUBLIC_DIR.$this->rpath.$this->filename)) return $info[1];
 	  return $this->tryffmpeg("height");
 	  return false;
 	}

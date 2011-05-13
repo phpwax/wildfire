@@ -65,7 +65,7 @@ function drags(){
 			  complete: function() {},
 			  success: function() {
 					$(ui.draggable).remove();
-					file_tree_refresh();
+					//file_tree_refresh();
 			 	},
 			
 			  error: function() {},

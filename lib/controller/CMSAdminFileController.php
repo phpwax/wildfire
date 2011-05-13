@@ -87,6 +87,18 @@ class CMSAdminFileController extends AdminComponent {
     $f->path = $destination;
     $f->save();
   }
+  
+  public function edit() {
+    $this->image = new WildfireFile(get("id"));
+    if(post("operation")=="crop") {
+      $location = PUBLIC_DIR. $this->image->url();		
+			File::crop_image($location, $location, post("x1"), post("y1"), post("w"), post("h"));
+			File::clear_image_cache($this->image->id);
+			echo $this->image->id;
+			exit;
+    }
+  }
+  
 
   
 

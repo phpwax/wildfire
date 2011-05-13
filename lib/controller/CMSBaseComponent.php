@@ -135,6 +135,7 @@ class CMSBaseComponent extends WaxController {
       if($type != "directory") $res = $model->query($query);
     }catch (Exception $e){}
   }
+  
 
 }
 ?>
