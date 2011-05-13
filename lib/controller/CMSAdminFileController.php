@@ -85,7 +85,11 @@ class CMSAdminFileController extends AdminComponent {
     $destination = post("destination");
     $f->rpath = $destination;
     $f->path = $destination;
-    $f->save();
+    if($f->save()) {
+      echo $f->id;
+			exit;
+    }
+    
   }
   
   public function edit() {
