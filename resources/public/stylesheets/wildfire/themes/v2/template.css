@@ -9,7 +9,7 @@ html {
 	min-height:40px;
 }
 #v2-cms .buttons_and_search {
-	padding:15px 10px 0 10px;
+	padding:16px 10px 0 10px;
 }
 
 #v2-cms .dashboard, #cms-files #v2-cms #page_content {
@@ -20,10 +20,10 @@ html {
 	border-radius: 5px;
 }
 #v2-cms .dashboard h3 {
-	text-shadow: rgb(0,0,0) 1px 1px 5px;
-	text-shadow: rgba(0,0,0,0.7) 2px 2px 2px;
+	text-shadow: rgb(0,0,0) 1px 1px 1px;
+	text-shadow: rgba(0,0,0,0.7) 1px 1px 1px;
 	color:white;
-	font-weight:normal;
+	font-weight:bold;
 }
 #v2-cms .dashboard table, #v2-cms .data_table, #v2-cms .data_grid {
 	background:#cedfea;
@@ -33,13 +33,13 @@ html {
 	border-radius: 5px;
 }
 #v2-cms .data_grid{padding:8px;}
-#v2-cms .dashboard table tr td, #v2-cms .data_table tr td {
+#v2-cms .dashboard table tr td, #v2-cms .data_table tr td, #v2-cms .dashboard table tr th, #v2-cms .data_table tr th {
 	border-bottom:1px solid #9cafbc;
 }
-#v2-cms .dashboard table tr:nth-child(even) td, #v2-cms .data_table tr:nth-child(even) td {
+#v2-cms .dashboard table tr:nth-child(odd) td, #v2-cms .data_table tr:nth-child(odd) td {
 	background:#bccfdb;
 }
-#v2-cms .content_index .data_table tr:nth-child(even) td {
+#v2-cms .content_index .data_table tr:nth-child(odd) td {
 	background:#CEDFEA;
 }
 #v2-cms .data_table tr:last-child > td, #v2-cms .dashboard table tr:last-child > td {
@@ -54,8 +54,11 @@ html {
 	border-top:1px solid #9cafbc;
 	color:#36424a;
 }
-#v2-cms .dashboard table tr td a {color:#36424a;}
-#v2-cms .dashboard table tr td a:hover {color:#9cafbc;}
+#v2-cms .dashboard table tr th{
+	padding-left:10px;
+}
+#v2-cms .dashboard table tr td a, #v2-cms .dashboard table tr th{color:#36424a;}
+#v2-cms .dashboard table tr td a:hover {color:#e2edf4;}
 
 #v2-cms #page_content {
 	background:none;

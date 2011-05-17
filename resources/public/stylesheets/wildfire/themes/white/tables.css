@@ -6,12 +6,12 @@ table td, table th{
   border-bottom-width:0;
   border-top-width:0;
   border-color:#D8D8D8;
+  font-size:12px;
 }
   table thead th{
     border-bottom-width:1px;
-    text-transform:uppercase;
     font-weight:bold;
-    font-size:85%;
+    font-size:93%;
   }
 
 #white-cms div.content_index .tree-children .view_children a{

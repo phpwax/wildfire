@@ -10,7 +10,7 @@
 	background:url(/images/wildfire/themes/v2/nav_button_bg.png) repeat;
 	color:#9fa8b0;
 	text-shadow: rgb(0,0,0) 1px 1px 5px;
-	text-shadow: rgba(0,0,0,0.7) 2px 2px 2px;
+	text-shadow: rgba(0,0,0,0.7) 1px 1px 1px;
 	margin-bottom:0;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -22,6 +22,7 @@
 	padding:5px 10px;
 	text-transform:none;
 	font-size:113%;
+	font-weight:bold;
 	line-height:140%;
 	border:1px solid #4f595f;
 }

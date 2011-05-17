@@ -12,6 +12,6 @@
     }
   
     #v2-cms .active td, #v2-cms .active th{background:#DAFFEC;}
-    #v2-cms tbody tr.row:hover td, #v2-cms tbody tr.row:hover th, #v2-cms .content_index .data_table tr.row:hover td {background:#CEF1DF;}
+    #v2-cms tbody tr.row:hover td, #v2-cms tbody tr.row:hover th, #v2-cms .content_index .data_table tr.row:hover td, #v2-cms .dashboard .data_table tr.row:hover td{background:#d9e8f1;}
 
 #v2-cms ul li.is_joined{font-weight:bold;}

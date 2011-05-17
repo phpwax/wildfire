@@ -17,16 +17,27 @@
 }
 a.orange, a.preview-button {
 	background:#feda71;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, rgb(254,219,113)),
+    color-stop(1, rgb(254,188,74))
+  );
+  background-image: -moz-linear-gradient(
+    center top,
+    rgb(254,219,113) 0%,
+    rgb(254,188,74) 100%
+  );
 	border:1px solid #f5b74e;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 	color:#996633;
-	-moz-box-shadow:  	inset 0px 0px 15px rgba(254,187,74,1);
-	-webkit-box-shadow: inset 0px 0px 15px rgba(254,187,74,1);
-	box-shadow:  				inset 0px 0px 15px rgba(254,187,74,1);
 	text-shadow: #FFF 1px 1px 1px;
+	font-size:93%;
+	padding:7px 6px;
 }
 .quick-create_new_content {margin-left:50px;}
 a.operation {
@@ -40,7 +51,7 @@ a.operation {
 	text-shadow: #FFF 1px 1px 1px;
 	text-transform:none;
 	font-weight:bold;
-	padding:4px 9px;
+	padding:6px 10px;
 }
 input.live, input.hide, input.revision {
 	background:#9fcb57 url(/images/wildfire/themes/v2/green_button_bg.png) repeat-x;
