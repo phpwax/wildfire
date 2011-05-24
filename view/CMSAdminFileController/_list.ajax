@@ -13,7 +13,9 @@
       <?elseif($file && $file[0] != "." && is_file(PUBLIC_DIR.$this->dir.$file)):?>
       <?$ext = preg_replace('/^.*\./', '', $file);?>
       <li class='file ext_<?=strtolower($ext)?>'>
-        
+        <span class='options'>
+          <a href="/<?=trim($controller,"/")?>/delete/?file=<?=htmlentities($this->dir.$file)?>" data-dest="/<?=trim($controller,"/")?>/delete.ajax?file=<?=htmlentities($this->dir.$file)?>" class='delete_file'><span class='ui-icon ui-icon-circle-minus'>remove</span></a>
+        </span>
         <a href="#" rel="<?=htmlentities($this->dir.$file)?>" data-dir="<?=$this->dir?>" data-name="<?=basename($this->dir)?>" class='node'><?=$file?></a>
       </li>
       <?endif?>
