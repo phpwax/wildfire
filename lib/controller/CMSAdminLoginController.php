@@ -15,7 +15,7 @@ class CMSAdminLoginController extends CMSBaseComponent{
       if($found = $model->filter("password", md5($post['password']))->filter("username", $post['username'])->first() ){        
         Session::set($this->user_session_name, $found->primval);
         if(($goto = Session::get('wf_referer')) && $goto != "/admin/login") $this->redirect_to($goto);
-        else $this->redirect_to($this->redirects['authorised']);
+        elseif($this->use_format == "html" || !$this->use_format) $this->redirect_to($this->redirects['authorised']);
         
       }else Session::add_error("Could not login with those details.");
     }elseif($model->is_posted()) Session::add_error("Could not login with those details.");
