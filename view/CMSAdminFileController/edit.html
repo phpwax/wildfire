@@ -1,21 +1,22 @@
-<script>
-  var srcwidth = <?=$image->width()?>;
-  var srcheight = <?=$image->height()?>;
-</script>
-<div id="crop_container" class="crop_container">
-  <img src="<?=$image->url()?>" width="<?=$image->width()?>" height="<?=$image->height()?>" class="croppable">
-</div>
-
-<div class='crop-submit clearfix'>
-  <form class="coords">
-    <input type="hidden" id="x1" name="x1" />
-  	<input type="hidden" id="y1" name="y1" />
-  	<input type="hidden" id="x2" name="x2" />
-  	<input type="hidden" id="y2" name="y2" />
-  	<input type="hidden" id="w" name="w" />
-  	<input type="hidden" id="h" name="h" />
-  	<input type="hidden" name="operation" value="crop" />
-  </form>
-  <a class="button operation operation_save" id="crop_save" href="/admin/files/edit/<?=$image->id?>">Save Image</a>
+<?=partial("_form_start", $this)?>
+  <label for="image_zoom_<?=$image->id?>">Zoom</label>
+  <select name="image_zoom" id="image_zoom_<?=$image->id?>" class="image_zoom_select" data-zoom-target="#zoomable_image_<?=$image->id?> img">
+    <option value="to_fit" selceted="selected">To Fit</option>
+    <option value="2">200%</option>
+    <option value="1.75">175%</option>
+    <option value="1.5">150%</option>
+    <option value="1.25">125%</option>
+    <option value="1">100%</option>
+    <option value="0.75">75%</option>
+    <option value="0.50">50%</option>
+    <option value="0.25">25%</option>
+  </select>
   
-</div>
+  <div class="zoomable_image" id="zoomable_image_<?=$image->id?>">
+    <img src="<?=$image->url()?>" data-original-width="<?=$image->width()?>" data-original-height="<?=$image->height()?>">
+  </div>
+  
+  <fieldset class='submit'>
+    <?=partial("_submit", array('model'=>$model, 'controller'=>$controller, 'model_class'=>$model_class, 'autosave'=>$autosave))?>
+  </fieldset>
+</form>
