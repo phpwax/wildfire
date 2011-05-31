@@ -6,7 +6,7 @@
 
 class CMSAdminUserController extends AdminComponent {
 
-  public $module_name = "user";
+  public $module_name = "users";
   public $model_class = 'WildfireUser';
 	public $display_name = "Admin Users";
 	public $dashboard = false;
