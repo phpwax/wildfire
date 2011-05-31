@@ -18,6 +18,7 @@ html {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
+	margin-top:10px;
 }
 #v2-cms .dashboard h3 {
 	text-shadow: rgb(0,0,0) 1px 1px 1px;
@@ -101,6 +102,7 @@ html {
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 	padding:10px;
+	margin-top:10px;
 }
 #v2-cms .field-datestart,#v2-cms .field-dateend {
 	width:22%;
@@ -119,7 +121,7 @@ html {
 	text-shadow:#222 1px 1px 1px 3px;
 }
 #v2-cms .form_datepicker {
-	background:#fff url(/images/wildfire/themes/v2/calendar.gif) no-repeat center right;
+	background:#fff url(/images/wildfire/themes/v2/calendar.png) no-repeat center right;
 }
 #v2-cms .ui-datepicker-header {
 	background:#373737 url(/images/wildfire/themes/v2/calendar_header_bg.png) repeat-x;
