@@ -11,8 +11,8 @@ class CMSAdminInstallController extends CMSBaseComponent{
     else if($saved = $this->form->save()){
       
       //setup session
-      Session::set($this->user_session_name, $saved->primval);
-      if(($goto = Session::get('wf_referer')) && $goto != "/admin/login") $this->redirect_to($goto);
+      $this->session->set($this->user_session_var_name, $saved->primval);
+      if(($goto = $this->session->get('wf_referer')) && $goto != "/admin/login") $this->redirect_to($goto);
       else $this->redirect_to($this->redirects['authorised']);
     }
   }

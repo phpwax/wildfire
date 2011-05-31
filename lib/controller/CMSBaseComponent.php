@@ -24,7 +24,9 @@ class CMSBaseComponent extends WaxController {
 	public $per_page = 20; //the limit to use in lists
 	public $this_page = 1;
 	
+  public $session; //session object
   public $user_session_name = "wf_v6_user";
+  public $user_session_var_name = "user_id";
   public static $logged_in_user = false;
   public $filter_fields=array();
   public $model_filters=array();
@@ -43,6 +45,7 @@ class CMSBaseComponent extends WaxController {
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
 	  if($application) $this->events();
+    WaxEvent::run("cms.session.setup", $this);
 	  if($init) $this->initialise();
 	}
 	
@@ -65,7 +68,7 @@ class CMSBaseComponent extends WaxController {
 	}
 
   public function user_from_session($session_name="wf_v6_user"){
-    if($id = Session::get($session_name)){
+    if($id = $this->session->get($session_name)){
       if(self::$logged_in_user) return self::$logged_in_user;
       if(($model = new $this->user_model_class($id)) && $model->primval == $id) return self::$logged_in_user = $model;
     }
@@ -73,7 +76,10 @@ class CMSBaseComponent extends WaxController {
   }
   
   protected function events(){
-
+    WaxEvent::add("cms.session.setup", function(){
+      $controller = WaxEvent::data();
+      $controller->session = new WaxSession(array("session_name"=>$controller->user_session_name,"session_lifetime"=>time()+60*60*24*30));
+    });
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::data();;
   	  $obj->use_layout = "login";
