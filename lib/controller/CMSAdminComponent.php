@@ -238,6 +238,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function create(){
 	  $model = new $this->model_class();
 	  $cachelink = Config::get('cacheissue');
+	  $model->validation_groups = array("skip_validation"); //put this in to be able to create "empty" cms models
 	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/".(($cachelink)?"?r=".rand():""));
 	}
 

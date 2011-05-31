@@ -30,7 +30,7 @@ class CMSAdminContentController extends AdminComponent {
 	  });
 
 	  WaxEvent::add('cms.url.add', function(){
-	    $obj = WaxEvent::data();;
+	    $obj = WaxEvent::data();
 	    $saved = $obj->model;
 	    $class = get_class($saved);
 	    $primval = $saved->primval;

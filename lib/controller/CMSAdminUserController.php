@@ -6,7 +6,7 @@
 
 class CMSAdminUserController extends AdminComponent {
 
-  public $module_name = "user";
+  public $module_name = "users";
   public $model_class = 'WildfireUser';
 	public $display_name = "Admin Users";
 	public $dashboard = false;
@@ -15,8 +15,8 @@ class CMSAdminUserController extends AdminComponent {
 	  parent::events();
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
-	    $obj = WaxEvent::data();;
-	    if($pwd = Request::param('new_password')) $obj->model = $obj->model->update_attributes(array('password'=>md5($pwd)));
+	    $obj = WaxEvent::data();
+	    if($pwd = Request::param('new_password')) $obj->model->password = md5($pwd);
     });
   }
 }
