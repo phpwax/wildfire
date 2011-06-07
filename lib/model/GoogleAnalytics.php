@@ -174,12 +174,13 @@ class GoogleAnalytics {
 	 *   a value for each metric.
 	 */
 	//---------------------------------------------------------------------------------------------
-	public function data($id, $dimension, $metric, $sort = false, $start = false, $end = false, $max_results = 10, $start_index = 1) {
+	public function data($id, $dimension, $metric, $sort = false, $start = false, $end = false, $max_results = 10, $start_index = 1, $segment=false) {
 	//---------------------------------------------------------------------------------------------
 		if(!$sort) $sort = "-$metric";
 		if(!$start) $start = date('Y-m-d', strtotime('1 month ago'));
 		if(!$end) $end = date('Y-m-d', strtotime('yesterday'));
-		$string = "https://www.google.com/analytics/feeds/data?ids=ga:$id&dimensions=$dimension&metrics=$metric&sort=$sort&start-date=$start&end-date=$end&max-results=$max_results&start-index=$start_index";
+		$string = "https://www.google.com/analytics/feeds/data?ids=ga:$id&dimensions=$dimension&metrics=$metric&".($segment?"segment=$segment&":"")."sort=$sort&start-date=$start&end-date=$end&start-index=$start_index&max-results=$max_results";
+		echo $string."<hr>";
 		$xml = $this->call($string);
 		if(!$xml) {
 			return false;
