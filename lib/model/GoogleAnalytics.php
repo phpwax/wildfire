@@ -179,7 +179,7 @@ class GoogleAnalytics {
 		if(!$sort) $sort = "-$metric";
 		if(!$start) $start = date('Y-m-d', strtotime('1 month ago'));
 		if(!$end) $end = date('Y-m-d', strtotime('yesterday'));
-		$string = "https://www.google.com/analytics/feeds/data?ids=ga:$id&dimensions=$dimension&metrics=$metric&".($segment?"segment=$segment&":"")."sort=$sort&start-date=$start&end-date=$end&start-index=$start_index&max-results=$max_results";
+		$string = "https://www.google.com/analytics/feeds/data?ids=".urlencode($id)."&dimensions=".urlencode($dimension)."&metrics=".urlencode($metric)."&".($segment?"segment=".urlencode($segment)."&":"")."sort=".urlencode($sort)."&start-date=$start&end-date=$end&start-index=$start_index&max-results=$max_results";
 		echo $string."<hr>";
 		$xml = $this->call($string);
 		if(!$xml) {

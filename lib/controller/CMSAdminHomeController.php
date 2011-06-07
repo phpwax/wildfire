@@ -169,7 +169,7 @@ class CMSAdminHomeController extends AdminComponent {
       $api = new GoogleAnalytics();
       if($api->login($analytics_email, $analytics_password)) {
       	$api->load_accounts();
-      	$this->visit_data = $api->data($analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
+      	$this->visit_data = $api->data('ga:'.$analytics_id, 'ga:day,ga:date', 'ga:visitors', "-ga:date",false,false,7);
       	$chart = new OpenFlashChart();
       	$chart->add_title("");
       	$labels = array();
@@ -211,7 +211,7 @@ class CMSAdminHomeController extends AdminComponent {
       if(!$analytics_email || !$analytics_password) return false;
       if($api->login($analytics_email, $analytics_password)) {
       	$api->load_accounts();
-      	$this->pages_data = $api->data($analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
+      	$this->pages_data = $api->data('ga:'.$analytics_id, 'ga:source,ga:referralPath', 'ga:visits');
       	foreach($this->pages_data as $source=>$pages) {
       	  foreach($pages as $page=>$visits) {
       	    $subs[$visits["ga:visits"]]=array("name"=>$source, "url"=>"http://".str_replace("(direct)","strangeglue",$source).str_replace("(not set)",".com",$page),"visits"=>$visits["ga:visits"]);
@@ -234,7 +234,7 @@ class CMSAdminHomeController extends AdminComponent {
       $api = new GoogleAnalytics();
       if($api->login($analytics_email, $analytics_password)) {
       	$api->load_accounts();
-      	$this->pages_data = $api->data($analytics_id, 'ga:keyword', 'ga:visits');
+      	$this->pages_data = $api->data('ga:'.$analytics_id, 'ga:keyword', 'ga:visits');
       	array_shift($this->pages_data);
       	foreach($this->pages_data as $source=>$count) {
       	  $subs[]=array("link"=>"http://google.co.uk/search?q=".$source, "keyword"=>$source,"count"=>$count["ga:visits"]);
