@@ -174,12 +174,12 @@ class GoogleAnalytics {
 	 *   a value for each metric.
 	 */
 	//---------------------------------------------------------------------------------------------
-	public function data($id, $dimension, $metric, $sort = false, $start = false, $end = false, $max_results = 10, $start_index = 1, $segment=false) {
+	public function data($id, $dimension, $metric, $sort = false, $start = false, $end = false, $max_results = 10, $start_index = 1, $segment=false, $version=2) {
 	//---------------------------------------------------------------------------------------------
 		if(!$sort) $sort = "-$metric";
 		if(!$start) $start = date('Y-m-d', strtotime('1 month ago'));
 		if(!$end) $end = date('Y-m-d', strtotime('yesterday'));
-		$string = "https://www.google.com/analytics/feeds/data?ids=".urlencode($id)."&dimensions=".urlencode($dimension)."&metrics=".urlencode($metric)."&".($segment?"segment=".urlencode($segment)."&":"")."sort=".urlencode($sort)."&start-date=$start&end-date=$end&start-index=$start_index&max-results=$max_results";
+		$string = "https://www.google.com/analytics/feeds/data?ids=".urlencode($id)."&dimensions=".urlencode($dimension)."&metrics=".urlencode($metric)."&".($segment?"segment=".urlencode($segment)."&":"")."sort=".urlencode($sort)."&start-date=$start&end-date=$end&start-index=$start_index&max-results=$max_results&v=".$version;
 		echo $string."<hr>";
 		$xml = $this->call($string);
 		if(!$xml) {
