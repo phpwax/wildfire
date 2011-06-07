@@ -268,6 +268,15 @@ class WildfireContent extends WaxTreeModel {
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
+  
+  public function images() {
+    $attached = $this->file_meta_get(false, "image");
+    $rowset = array();
+    foreach($attached as $img) $rowset[]=$img->wildfire_file_id;
+    return  new WaxRecordset(new WildfireFile, $rowset);
+  }
+  
+  
   //ignore the language, as we are grouping by this field
   public function generate_permalink(){
     $class = get_class($this);
