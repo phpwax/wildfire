@@ -47,7 +47,7 @@ class CMSAdminSectionController extends AdminComponent {
 		elseif($res = $this->form->save()) {
 		  Session::add_message($this->display_name." Successfully Saved");
 		  if(Session::get("list_refer")) $this->redirect_to(Session::get("list_refer"));
-		  else $this->redirect_to("/admin/sections/index");
+		  else $this->redirect_to("/admin/".$this->module_name."/");
 		}
   }
 
@@ -57,7 +57,7 @@ class CMSAdminSectionController extends AdminComponent {
 	 */	
 	public function filters() {
 	  $this->use_layout = false;
-	  $sect = new CmsSection();
+	  $sect = new $this->model_class;
 	  if($filter = Request::param('filter')) $sect->filter("title",'%'.$filter.'%', "LIKE");
   	$this->all_sections = $sect->tree();
   	$this->use_view = "_section_list";
