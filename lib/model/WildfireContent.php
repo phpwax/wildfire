@@ -205,13 +205,8 @@ class WildfireContent extends WaxTreeModel {
 
 
   public function url(){
-    if($this->title != $this->columns['title'][1]['default']){
-      $test = $base = Inflections::to_url($this->title);
-      $class = get_class($this);
-      $model = new $class;
-      while($model->clear()->filter("permalink", "/".trim($test, "/")."/")->first()) $test = $base."-".rand(0,99);
-      return $test;
-    }
+    
+    if($this->title != $this->columns['title'][1]['default']) return Inflections::to_url($this->title);
     else return false;
   }
   /**
@@ -272,9 +267,19 @@ class WildfireContent extends WaxTreeModel {
     if($this->permalink) return $this;
     else if($this->parent_id){
       $p = new $class($this->parent_id);
-      $this->permalink = $p->permalink.$this->url()."/";
+      $this->permalink = $p->permalink.$this->url()."/";      
+    }else if($url = $this->url()) $this->permalink = "/".$url."/";
+    
+    if($this->permalink){
+      
+      $test = $base = $this->permalink;
+      $class = get_class($this);
+      $model = new $class;
+      $c=0;
+      $tests = array('',date("Y-m-d"), $this->primval, date("Y-m-d-H"));
+      while($model->clear()->filter("permalink", "/".trim($test, "/")."/" )->first() && ($c = $c+1)) $test = substr($base,0,-1)."-".(($tests[$c])?$tests[$c]:rand(10,99))."/";
+      $this->permalink = $test;
     }
-    else if($url = $this->url()) $this->permalink = "/".$url."/";
     return $this;
   }
 
