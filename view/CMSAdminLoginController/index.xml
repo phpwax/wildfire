@@ -1,0 +1,1 @@
+<wxsession><?=Session::get($user_session_name)?session_id():''?></wxsession>
