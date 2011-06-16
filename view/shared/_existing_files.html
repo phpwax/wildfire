@@ -18,6 +18,9 @@
       <label for="tf_<?=$file->primval?>_<?=$i?>"><?=$tag?></label>
     </div>
     <?endforeach?>
+    <div class='join_title'>
+      <input type='text' name='<?=$field_prefix?>[title]' value='<?=$info->title?>' placeholder='caption'>
+    </div>
   </div>
 </div>
 <?endforeach?>

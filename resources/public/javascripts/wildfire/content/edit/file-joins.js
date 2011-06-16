@@ -41,7 +41,7 @@ jQuery(document).ready(function(){
         for(x in file_tags){
           tag_option_str += "<div class='clearfix'><input type='radio' name='"+tag_pattern.replace("%s", fid)+"[tag]' value='"+file_tags[x]+"' id='inserted_tag_"+fid+"_"+x+"' class='radio_field'"+(x==0?" checked='checked'": "")+"><label for='inserted_tag_"+fid+"_"+x+"'>"+file_tags[x]+"</label></div>";
         }
-        tag_option_str += "</div>";
+        tag_option_str += "<div class='join_title'><input type='text' name='"+tag_pattern.replace("%s", fid)+"[title]' value='' placeholder='caption'></div></div>";
         var ord = jQuery('#existing-files .joined-file').length;
         insert_str = '<div class="joined-file clearfix f'+fid+'"><input type="hidden" name="'+tag_pattern.replace("%s", fid)+'[join_order]" value="'+ord+'" class="join-order-field"><img src="'+jQuery(imgs).attr('src')+'" alt="'+jQuery(imgs).attr('alt')+'">'+tag_option_str+'<a id="button-joined_file_'+fid+'" class="button js-added remove-button" data-input-link="join_file_'+fid+'" data-fileid="'+fid+'" href="#">REMOVE</a></div>';
         jQuery('#existing-files').append(insert_str);
