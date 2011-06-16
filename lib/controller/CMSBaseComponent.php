@@ -78,7 +78,7 @@ class CMSBaseComponent extends WaxController {
   protected function events(){
     WaxEvent::add("cms.session.setup", function(){
       $controller = WaxEvent::data();
-      $controller->session = new WaxSession(array("session_name"=>$controller->user_session_name,"session_lifetime"=>time()+60*60*24*30));
+      $controller->session = new WaxSession(array("name"=>$controller->user_session_name,"lifetime"=>time()+60*60*24*30));
     });
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::data();;
