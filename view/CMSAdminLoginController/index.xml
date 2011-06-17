@@ -1,1 +1,1 @@
-<wxsession><?=$session->get($user_session_var_name)?session_id():''?></wxsession>
+<wxsession><?=$session->get($user_session_var_name)?$session->id:''?></wxsession>
