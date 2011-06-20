@@ -134,12 +134,13 @@ class CMSAdminComponent extends CMSBaseComponent {
         foreach($_REQUEST['joins'] as $join=>$values){
           $class = $saved->columns[$join][1]['target_model'];
           if($j = $saved->$join) $saved->$join->unlink($j);
-          foreach($values as $id=>$v) if(is_array($v) && $v['id']){
-            $target = new $class($v['id']);
-            foreach((array)$v['extra_fields'] as $extra_field => $extra_value)
-              $target->$extra_field = $extra_value;
-            $saved->$join = $target;
-          }elseif($v) $saved->$join = new $class($v);
+          foreach($values as $id=>$v){
+            if(is_array($v) && $v['id']){
+              $target = new $class($v['id']);
+              foreach((array)$v['extra_fields'] as $extra_field => $extra_value) $target->$extra_field = $extra_value;
+              $saved->$join = $target;
+            }elseif($v) $saved->$join = new $class($v);
+          }
         }
       }
     });
