@@ -55,7 +55,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::data();
-      if(!$obj->current_user = $obj->user_from_session($obj->user_session_name)) $obj->redirect_to($obj->redirects['unauthorised']);
+      if(!$obj->current_user = $obj->user_from_session($obj->user_session_var_name)) $obj->redirect_to($obj->redirects['unauthorised']);
     });
 	  WaxEvent::add("cms.permissions.all_modules", function(){
 	    $obj = WaxEvent::data();
@@ -171,7 +171,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.save.before", $obj);
 	    if($obj->saved = $obj->form->save()){
-	      if($obj->use_layout) Session::add_message('Saved.');
+	      if($obj->use_layout) $obj->session->add_message('Saved.');
 	      $obj->model = $obj->saved;
 	      WaxEvent::run("cms.save.success", $obj);
 	    }

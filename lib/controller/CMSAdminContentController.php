@@ -24,7 +24,7 @@ class CMSAdminContentController extends AdminComponent {
 
 	  WaxEvent::add("cms.url.delete", function(){
 	    if(($id = Request::param('map_remove')) && ($check = new WildfireUrlMap($id)) && $check->primval){
-	      Session::add_message($check->origin_url.' has been deleted.');
+	      WaxEvent::data()->session->add_message($check->origin_url.' has been deleted.');
 	      $check->delete();
       }
 	  });
@@ -43,8 +43,8 @@ class CMSAdminContentController extends AdminComponent {
          $link = "/".trim($permalink,"/")."/";
          if(!is_numeric($map_id) && strlen($permalink)){
            $to_save = new WildfireUrlMap;
-           if($map_model->clear()->filter("origin_url", $link)->first()) Session::add_error('Cannot add url ('.$link.'), it is already in use');
-           else if($newmap = $to_save->map_to($link, $saved, $primval, $status) ) Session::add_message($link.' has been added to your urls.');
+           if($map_model->clear()->filter("origin_url", $link)->first()) $obj->session->add_error('Cannot add url ('.$link.'), it is already in use');
+           else if($newmap = $to_save->map_to($link, $saved, $primval, $status) ) $obj->session->add_message($link.' has been added to your urls.');
          }
         }
       }
@@ -77,7 +77,7 @@ class CMSAdminContentController extends AdminComponent {
 	      if($saved = $obj->model->save()) $obj->model = $saved->copy();
 	      else{
 	        WaxLog::log('error', print_r($obj->model,1), 'save_errors');
-	        Session::add_error("Failed!");
+	        $obj->session->add_error("Failed!");
 	        $obj->redirect_to("/".trim($obj->controller,"/")."/");
 	      }
   	    $obj->form = new WaxForm($obj->model);

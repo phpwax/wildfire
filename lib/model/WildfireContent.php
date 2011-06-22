@@ -219,7 +219,7 @@ class WildfireContent extends WaxTreeModel {
     $return = array(''=>'-- Select View --');
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
       foreach($files as $f){
-        $i = str_replace($dir, "", $f);
+        $i = trim(str_replace($dir, "", $f), ".html");
         $nm = trim(trim(str_replace("cms", "",basename($f, "_view.html"))),"_");
         $return[$i] = (strlen($nm))?ucwords(str_replace("_", " ", $nm)):"Default";
       }
