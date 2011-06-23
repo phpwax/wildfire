@@ -3,6 +3,7 @@ html {
 	-webkit-box-shadow: 0 0 200px #000000 inset;
 	-moz-box-shadow: 0 0 200px #000000 inset;
 	box-shadow: 0 0 200px #000000 inset;
+	padding-bottom:20px;
 }
 #v2-cms #header {
 	background:#1b2325 url(/images/wildfire/backgrounds/header_bg.png) repeat-x;
