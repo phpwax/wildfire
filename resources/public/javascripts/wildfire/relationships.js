@@ -8,4 +8,16 @@ jQuery(document).ready(function(){
     
   });
   
+  jQuery(".multipleselect ul").filter(":has(.join-order-field)").each(function(){
+    jQuery(this).sortable({
+      items:".join-yes",
+      update:function(event, ui){
+        jQuery(this).find(".join-yes .join-order-field").each(function(i){
+          jQuery(this).val(i);
+          console.log(jQuery(this));
+        });
+      }
+    });
+  });
+  jQuery(".multipleselect ul .join-yes").disableSelection();
 });

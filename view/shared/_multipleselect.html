@@ -2,29 +2,16 @@
 $join_class = $model->columns[$name][1]['target_model'];
 $join_model = new $join_class("multipleselect");
 $all = $join_model->all();
-$existing = array();
-foreach($model->$name as $r) $existing[] = $r->primval;
+$model_class = get_class($model);
 ?>
 <?if($all && $all->count()):?>
-<div class='field clearfix join multipleselect' data-type="multipleselect" data-origin-class="<?=get_class($model)?>" data-origin-primval="<?=$model->primval?>" data-destination-class="<?=$join_class?>">
+<div class='field clearfix join multipleselect' data-type="multipleselect" data-origin-class="<?=$model_class?>" data-origin-primval="<?=$model->primval?>" data-destination-class="<?=$join_class?>">
   <h3><?=Inflections::humanize($name, true)?></h3>
   
   <?if($all->count() > 12):?>
-  <input type="text" name="inline_filter[<?=$name?>]" data-name="<?=$name?>" data-origin-class="<?=get_class($model)?>" data-origin-primval="<?=$model->primval?>" data-model-class="<?=get_class($join_model)?>" data-filter-destination="/<?=trim($controller,"/")?>/_filter_inline.ajax" class='inline-filter text_field' placeholder="SEARCH">
+  <input type="text" name="inline_filter[<?=$name?>]" data-name="<?=$name?>" data-origin-class="<?=$model_class?>" data-origin-primval="<?=$model->primval?>" data-model-class="<?=$join_class?>" data-filter-destination="/<?=trim($controller,"/")?>/_filter_inline.ajax" class='inline-filter text_field' placeholder="SEARCH">
   <?endif?>
   
-  <?foreach($existing as $e):?>
-  <input type='hidden' id="<?=$name?>_<?=$e?>_hidden" name='joins[<?=$name?>][<?=$e?>]' value="1">
-  <?endforeach?>
-  
-  <ul>
-    <?foreach($all as $row):?>
-    <li class='clearfix join-option join-<?if(in_array($row->primval, $existing)):?>yes<?else:?>no<?endif?>'>
-      <input type='hidden' id="<?=$name?>_<?=$row->primval?>_hidden" name='joins[<?=$name?>][<?=$row->primval?>]' value="0">
-      <input type='checkbox' id="<?=$name?>_<?=$row->primval?>" name='joins[<?=$name?>][<?=$row->primval?>]' value="<?=$row->primval?>" <?if(in_array($row->primval, $existing)):?>checked="checked"<?endif?> >
-      <label for="<?=$name?>_<?=$row->primval?>"><?=$row->humanize()?></label>
-    </li>
-    <?endforeach?>
-  </ul>
+  <?=partial("_filter_inline", array("name"=>$name, "type"=>"multipleselect", "search_model"=>$join_model, "origin_model"=>$model), "ajax")?>
 </div>
 <?endif?>

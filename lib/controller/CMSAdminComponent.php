@@ -222,17 +222,50 @@ class CMSAdminComponent extends CMSBaseComponent {
   }
   
   public function _filter_inline(){
-    $this->results = array();
-    if($this->use_format == "ajax" && ($filters = Request::param('inline_filter') ) && ($search_class = Request::param('search_model'))){
-      $filter = array_shift($filters);
-      $this->type = Request::param("type");
-      $search_model = new $search_class($this->type);
-      $this->results = $search_model->filter($search_model->identifier ." LIKE '$filter%'")->all();
-      $model_class = Request::param('origin_model');
-      $primval = Request::param('origin_primval');
-      $this->model = new $model_class($primval);
-      $this->name = Request::param("name");      
+    //setup incoming data
+    if(!$this->inline_filters) $this->inline_filters = Request::param('inline_filter');
+    if(!$this->name) $this->name = Request::param("name");
+    if(!$this->type) $this->type = Request::param("type");
+    
+    if(!$this->search_class) $this->search_class = Request::param('search_model');
+    if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->type);
+    
+    if(!$this->origin_class) $this->origin_class = Request::param('origin_model');
+    if(!$this->origin_primval) $this->origin_primval = Request::param('origin_primval');
+    if(!$this->origin_model && $this->origin_class && $this->origin_primval) $this->origin_model = new $this->origin_class($this->origin_primval);
+    if(!$this->origin_col && $this->name && $this->origin_model) $this->origin_col = $this->origin_model->get_col($this->name);
+    
+    //get existing joins
+    $this->existing = array();
+    if($this->origin_model){
+      if($this->type == "multipleselect"){
+        $this->origin_col->eager_loading = 1;
+        foreach($this->origin_col->get() as $r)
+          $this->existing[$r->primval] = $r->{$this->origin_col->join_order};
+      }else $this->existing[$this->origin_model->{$this->name}->primval] = 0;
     }
+    
+    //apply filters if needed
+    if($this->inline_filters){
+      $filter = "{$this->search_model->identifier} LIKE '".array_shift($this->inline_filters)."%'";
+      if($this->existing)
+        $this->search_model->filter("($filter OR {$this->search_model->primary_key} IN(".implode(",", array_fill(0, count($this->existing), "?"))."))", array_keys($this->existing))->all();
+      else $this->search_model->filter($filter);
+    }
+    
+    $this->results = $this->search_model?$this->search_model->all():array();
+    
+    //order joined items to come out first, and to be ordered by their column's join_order if it's set
+    $existing = $this->existing;
+    usort($this->results->rowset, function($a, $b) use ($existing){
+      $ak = array_key_exists($a['id'], $existing);
+      $bk = array_key_exists($b['id'], $existing);
+      
+      if($ak && $bk) return ($existing[$a['id']] < $existing[$b['id']]) ? -1 : 1; //both are joined, then sort on join_order
+      if(!$ak && !$bk) return 0; //neither are joined, don't bother reordering
+      return ($ak > $bk) ? -1 : 1; //one is joined and the other isn't, sort with joined first
+    });
+    
   }
 
 	public function create(){
