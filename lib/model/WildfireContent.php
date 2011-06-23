@@ -54,7 +54,7 @@ class WildfireContent extends WaxTreeModel {
 	}
 
 	public function scope_live(){
-    return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )")->order("? DESC", array("date_start"));
+    return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )")->order("date_start DESC");
   }
   public function scope_preview(){
     return $this->filter("status", 0);
@@ -219,7 +219,7 @@ class WildfireContent extends WaxTreeModel {
     $return = array(''=>'-- Select View --');
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
       foreach($files as $f){
-        $i = str_replace($dir, "", $f);
+        $i = trim(str_replace($dir, "", $f), ".html");
         $nm = trim(trim(str_replace("cms", "",basename($f, "_view.html"))),"_");
         $return[$i] = (strlen($nm))?ucwords(str_replace("_", " ", $nm)):"Default";
       }
