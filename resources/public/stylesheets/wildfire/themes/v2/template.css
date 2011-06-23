@@ -96,7 +96,7 @@ html {
 #v2-cms .tab-contents {
 	background:#cedfea;
 }
-#v2-cms .tabs_container {
+#v2-cms .tabs_container, #v2-cms .index_container {
 	background:#36424a;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -104,6 +104,19 @@ html {
 	border-radius: 5px;
 	padding:10px;
 	margin-top:10px;
+}
+#v2-cms .index_container .filters{
+  padding-left:0;
+}
+#v2-cms .index_container .filters_pagination{
+  padding:0 0 10px;
+}
+#v2-cms .index_container .pagination_bottom{
+  margin-top:10px;
+}
+#v2-cms .index_container .filters .text_field{
+  font-size:93%;
+  padding:7px 9px;
 }
 #v2-cms .field-datestart,#v2-cms .field-dateend {
 	width:22%;

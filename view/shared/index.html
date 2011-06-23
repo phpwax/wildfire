@@ -1,23 +1,22 @@
 <?if($current_user->allowed($module_name, "index")):?>
-  <div class='clearfix filters_pagination'>
+  <div class='index_container'>
+    <div class='clearfix filters_pagination'>
+      
+      <div class='pagination pagination_top'>
+        <?=paginate_links($cms_content, "2")?>
+      </div>
+      
+      <?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
+        <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
+      <?endif?>
+    </div>
     
-    <div class='pagination pagination_top'>
+    <div class='listing' id="data-listing">
+      <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
+    </div>
+    
+    <div class='pagination pagination_bottom clearfix'>
       <?=paginate_links($cms_content, "2")?>
     </div>
-  
-  <?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
-  <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
-  <?endif?>
   </div>
-  
-  <div class='listing' id="data-listing">
-    <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
-  </div>
-  
-  
-  
-  <div class='pagination pagination_bottom'>
-    <?=paginate_links($cms_content, "2")?>
-  </div>
-  
 <?endif?>
