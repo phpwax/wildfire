@@ -58,7 +58,7 @@ class CMSAdminContentController extends AdminComponent {
      * the front end shouldnt allow this, but check for it incase someone does something insane
      */
     WaxEvent::add("cms.save.sanity_check", function(){
-      $obj = WaxEvent::data();;
+      $obj = WaxEvent::data();
       //if old parent doesnt match the new parent then check for weirdness
       if($obj->model->parent_id != $obj->old_parent_id){
         $old_parent = new $obj->model_class($obj->old_parent_id);
@@ -108,7 +108,7 @@ class CMSAdminContentController extends AdminComponent {
     });
     //modify the post filter function to enforce a status filter - they bubble..
     WaxEvent::add("cms.model.filters", function(){
-      $obj = WaxEvent::data();;
+      $obj = WaxEvent::data();
       if(!isset($obj->model_filters['language']) && $obj->model && $obj->model->columns['language']){
         $obj->model_filters['language'] = array_shift(array_keys($obj->model->columns['language'][1]['choices']));
         $obj->model->filter("language",  $obj->model_filters['language']);

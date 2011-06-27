@@ -81,11 +81,11 @@ class CMSBaseComponent extends WaxController {
       $controller->session = new WaxSession(array("name"=>$controller->user_session_name,"lifetime"=>60*60*24*30));
     });
     WaxEvent::add("cms.layout.set", function(){
-      $obj = WaxEvent::data();;
+      $obj = WaxEvent::data();
   	  $obj->use_layout = "login";
     });
     WaxEvent::add("cms.format.set", function(){
-      $obj = WaxEvent::data();;
+      $obj = WaxEvent::data();
   	  if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
     });
     WaxEvent::add("cms.layout.sublinks", function(){});    

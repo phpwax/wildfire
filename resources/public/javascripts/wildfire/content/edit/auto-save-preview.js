@@ -38,7 +38,7 @@ jQuery(document).ready(function(){
     auto_span.toggleClass('enabled');
     if(auto_span.hasClass('enabled')) auto_image.attr('src', auto_image.attr('src').replace('-off', ''));
     else auto_image.attr('src', auto_image.attr('src').replace('.png', '-off.png'));
-    e.preventDefault();;
+    e.preventDefault();
   });
   
   jQuery('.preview').live("click", function(e){
