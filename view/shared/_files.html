@@ -4,7 +4,7 @@
     <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base, 'model'=>$model))?>
   </div>
   
-  <?=partial("_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller, 'model'=>$model))?>
+  <?=partial("_file_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller, 'model'=>$model))?>
   
 </div>
 <div class='existing-files clearfix pattern-source' id="existing-files" data-dest="/<?=trim($controller,"/")?>/_existing_files/<?=$model->primval?>" data-input-pattern="<?=$model->columns['files'][1]['input_pattern']?>">

@@ -1,0 +1,8 @@
+<div class='file-tree-container'>
+  <ul>
+    <li class="directory collapsed clearfix">      
+      <a data-dir="<?=$file_system_base?>" class="top active node" rel="<?=$file_system_base?>" data-name="files" href="#"><?=basename($file_system_base)?></a>
+    </li>
+    <li class='file-tree' id="root_node" data-file-root="<?=$file_system_base?>" rel="<?=$file_system_base?>" data-list="/<?=trim($controller,"/")?>/_file_list/<?=$model->primval?>/" data-info="/<?=trim($controller,"/")?>/_file_info/<?=$model->primval?>/"></li>
+  </ul>
+</div>
