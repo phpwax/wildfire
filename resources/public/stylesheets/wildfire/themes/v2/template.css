@@ -78,16 +78,20 @@ html {
 #v2-cms .data_table tr:nth-child(odd) td{
 	background:#bccfdb;
 }
-#v2-cms .data_table tr:last-child > td, #v2-cms .data_tree li:last-child{
+#v2-cms .data_table tr:last-child td, #v2-cms .data_tree li:last-child{
   border-bottom:none;
-  -webkit-border-bottom-right-radius: 5px;
+}
+#v2-cms .data_table tr:last-child td:first-child{
   -webkit-border-bottom-left-radius: 5px;
-  -moz-border-radius-bottomright: 5px;
   -moz-border-radius-bottomleft: 5px;
-  -khtml-border-radius-bottomright: 5px;
   -khtml-border-radius-bottomleft: 5px;
-  border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+}
+#v2-cms .data_table tr:last-child td:last-child{
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -khtml-border-radius-bottomright: 5px;
+  border-bottom-right-radius: 5px;
 }
 #v2-cms .data_table .children-list table {border-left:1px solid #9cafbc;}
 #v2-cms .dashboard table tr.active td, #v2-cms .data_table tr.active td, #v2-cms .data_tree li.active {
