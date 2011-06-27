@@ -26,10 +26,40 @@ table td, table th{
 
 #white-cms ul li.is_joined{font-weight:bold;}
 
-
-.data_table td.live a, #v2-cms .dashboard table td.live a{
-  color:#73AD48;
+.data_table .status{
+  text-align:center;
 }
-.data_table td.not-live a, #v2-cms .dashboard table td.not-live a{
-  color:#AB3633;
+.data_table .live a, .data_table .not-live a, .data_tree .live, .data_tree .not-live{
+  font-size:10px;
+  text-transform:uppercase;
+  padding:4px 6px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+}
+.data_tree .live, .data_tree .not-live{
+  font-size:9px;
+  padding:3px 4px;
+}
+.data_table .live a, .data_tree .live{
+  background:#73AD48;
+  color:#31421c;
+}
+.data_table .not-live a, .data_tree .not-live{
+  background:#d0576e;
+  color:#661a29;
+}
+.data_tree .not-live{
+  margin:2px 20px 0 0;
+}
+.data_tree .live{
+  margin:2px 30px 0 0;
+}
+.data_tree .ui-icon{
+  float:left;
+  margin-right:5px;
+}
+.data_tree .ui-icon-empty{
+  background-position:-500% -500%;
 }

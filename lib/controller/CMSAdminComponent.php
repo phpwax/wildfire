@@ -200,6 +200,13 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
     });
 	  
+	  WaxEvent::add("cms.tree.setup", function(){
+      $controller = WaxEvent::data();
+      $controller->tree_model = clone $controller->model;
+      if($controller->model_filters['parent']){
+        $controller->load_whole_tree = false;
+      }
+    });
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -335,7 +342,14 @@ class CMSAdminComponent extends CMSBaseComponent {
       foreach($model->files as $f) if($f->primval == $this->file->primval) $this->exists=true;
 	  }
 	}
-
+  
+  public function _tree(){
+    WaxEvent::run("cms.tree.setup", $this);
+    if($this->use_format == "ajax"){
+      $this->use_view = "_tree_nodes";
+      $this->use_format = "html";
+    }
+  }
 
 
 }

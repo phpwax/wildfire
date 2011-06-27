@@ -1,0 +1,3 @@
+<?foreach($permissions as $action=>$i):?>
+  <a href="/<?=trim($controller,"/")?>/<?=$action?>/<?=$row->primval?>/<?=(($cachelink)?"?rl=".rand():"")?>" class='button operation operation_<?=$action?>'><?=Inflections::humanize($action)?></a>
+<?endforeach?>

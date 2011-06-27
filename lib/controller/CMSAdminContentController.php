@@ -8,14 +8,12 @@ class CMSAdminContentController extends AdminComponent {
 	public $model_class = 'WildfireContent';
 	public $model_scope = 'admin';
 	public $display_name = "Content";
-  public $per_page = false; //not paginated, instead using roots of the tree to start and filters afterwards
+  public $per_page = 5; //lower per page since there's a tree underneath
 	public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),
                           'language' => array('columns'=>array('language'), 'partial'=>"_filters_language")
 	                      );
-  //throw in a new scaffold that doesnt exist
-  public $scaffold_columns = array('view_children'=>true);
   public $autosave = true;
   
 
@@ -115,12 +113,9 @@ class CMSAdminContentController extends AdminComponent {
       }
     });
 
-    WaxEvent::clear("cms.index.setup");
-    WaxEvent::add("cms.index.setup", function(){
-	    $obj = WaxEvent::data();;
-	    //if the parent filter isn't set, then
-	    if(!strlen($obj->model_filters['parent'])) $obj->cms_content = $obj->model->filter('revision',0)->roots();
-	    else $obj->cms_content = $obj->model->all();
+    WaxEvent::add("cms.tree.setup", function(){
+      $controller = WaxEvent::data();
+      $controller->tree_model->filter('revision',0);
     });
 
     WaxEvent::clear("cms.model.copy");

@@ -1,7 +1,7 @@
 <?
 $cachelink = Config::get('cacheissue');
-$permissions = array();
-foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($module_name, $oa);
+$permissions = $current_user->permissions($operation_actions, $module_name);
+if(!$primval && $model instanceof WaxTreeModel) $primval = $cms_content[0]->primval;
 ?>
 <?if($cms_content && $scaffold_columns):?>
 <table class='data_table' data-action="/<?=trim($controller,"/")?>/_list">
@@ -15,15 +15,20 @@ foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($m
   </thead>
   <tbody>
   <?foreach($cms_content as $i=>$row):?>
-  <tr class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>" data-model-id="<?=$row->primval?>">
+  <tr class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?>' id="row_<?=$row->primval?>" data-model-id="<?=$row->primval?>"
+    <?foreach($row->columns as $col_name => $col):?>
+      <?if($col[1]['info_preview']):?>
+        <?$value = ((method_exists($row, "humanize"))?$row->humanize($col_name):$row->$col_name());?>
+        data-<?=$col_name?>="<?=$value?>"
+      <?endif?>
+    <?endforeach?>
+  >
     <?foreach($scaffold_columns as $col=>$info):?>
     <?$value = ((method_exists($row, "humanize"))?$row->humanize($col):$row->$col());?>
     <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/<?=(($cachelink)?"?rl=".rand():"")?>" class='<?=$col?>_link'><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>
     <?endforeach?>
     <td class='operations'>
-      <?foreach($permissions as $action=>$i):?>   
-      <a href="/<?=trim($controller,"/")?>/<?=$action?>/<?=$row->primval?>/<?=(($cachelink)?"?rl=".rand():"")?>" class='button operation operation_<?=$action?>'><?=Inflections::humanize($action)?></a>
-      <?endforeach?>
+      <?=partial("_operations", array("permissions"=>$permissions, "controller"=>$controller, "action"=>$action, "row"=>$row, "cachelink"=>$cachelink))?>
     </td>
   </tr>
   <?endforeach?>

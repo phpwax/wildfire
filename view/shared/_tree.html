@@ -1,8 +1,11 @@
-<div class='file-tree-container'>
-  <ul>
-    <li class="directory collapsed clearfix">      
-      <a data-dir="<?=$file_system_base?>" class="top active node" rel="<?=$file_system_base?>" data-name="files" href="#"><?=basename($file_system_base)?></a>
-    </li>
-    <li class='file-tree' id="root_node" data-file-root="<?=$file_system_base?>" rel="<?=$file_system_base?>" data-list="/<?=trim($controller,"/")?>/_file_list/<?=$model->primval?>/" data-info="/<?=trim($controller,"/")?>/_file_info/<?=$model->primval?>/"></li>
-  </ul>
-</div>
+<?if($tree_model instanceof WaxTreeModel):?>
+  <?$permissions = $current_user->permissions($operation_actions, $module_name)?>
+  <div class='index_container tree_item_details'>
+    <h3><?=$mods[$module_name]['display_name']?> Information</h3>
+    <?=partial("_info", array("row"=>$cms_content[0]))?>
+  </div>
+  <div class='index_container tree_list'>
+    <h3><?=$mods[$module_name]['display_name']?> Tree</h3>
+    <?=partial("_tree_nodes", array("tree_model"=>$tree_model, "permissions"=>$permissions, "controller"=>$controller, "action"=>$action, "row"=>$node, "cachelink"=>$cachelink, "show_headers"=>true))?>
+  </div>
+<?endif?>

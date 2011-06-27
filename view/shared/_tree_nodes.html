@@ -1,0 +1,40 @@
+<?
+  if(!$permissions) $permissions = $current_user->permissions($operation_actions, $module_name);
+  if($model_filters['parent']) $nodes = $tree_model->all();
+  else if($load_whole_tree) $nodes = $tree_model->tree();
+  else $nodes = $tree_model->roots();
+?>
+<ul class='data_tree' <?=$load_whole_tree?'':"data-action='/".trim($controller,"/")."/_tree'"?> >
+  <?if($show_headers):?>
+    <li class="tree_headers"><?=Inflections::humanize($tree_model->identifier)?></li>
+  <?endif?>
+  <?foreach($nodes as $node):?>
+    <li class="tree_node tree_depth_<?=$node->get_level()?> clearfix" data-row-id="<?=$node->primval?>"
+      <?foreach($node->columns as $col_name => $col):?>
+        <?if($col[1]['info_preview']):?>
+          <?$value = ((method_exists($node, "humanize"))?$node->humanize($col_name):$node->$col_name());?>
+          data-<?=$col_name?>="<?=$value?>"
+        <?endif?>
+      <?endforeach?>
+    >
+      <span class="tree_operations">
+        <?=partial("_operations", array("permissions"=>$permissions, "controller"=>$controller, "action"=>$action, "row"=>$node, "cachelink"=>$cachelink))?>
+      </span>
+      <?foreach($node->columns as $col_name => $col_data):?>
+        <?if($col_data[1]['tree_scaffold']):?>
+          <?$value = ((method_exists($node, "humanize"))?$node->humanize($col_name):$node->$col_name());?>
+          <span class="tree_col tree_col_<?=$col_name?> <?=Inflections::to_url($value)?>"><?=$value?></span>
+        <?endif?>
+      <?endforeach?>
+      <?if(count($node->children)):?>
+        <a class="ui-icon ui-icon-circle-triangle-e view_children_link <?=$load_whole_tree?'':'ajax_tree_load'?> " href="#"></a>
+      <?else:?>
+        <span class="ui-icon ui-icon-empty"></span>
+      <?endif?>
+      <?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$node->primval?>/<?=(($cachelink)?"?rl=".rand():"")?>" class='<?=$col?>_link'><?endif?>
+      <span class="ui-icon ui-icon-document"></span>
+      <?=$node->{$node->identifier}?>
+      <?if($permissions['edit']):?></a><?endif?>
+    </li>
+  <?endforeach?>
+</ul>

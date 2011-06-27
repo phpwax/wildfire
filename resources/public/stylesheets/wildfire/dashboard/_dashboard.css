@@ -1,7 +1,7 @@
 .dashboard{
   width:28%;
   float:left;
-  margin:10px 1%;
+  margin:10px 1% 10px 0;
   padding:10px 1%;
   background:white;
   overflow:hidden;

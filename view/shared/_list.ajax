@@ -17,7 +17,14 @@ $cols = count($scaffold_columns);
   <?endif?>
   <tbody>
   <?foreach($cms_content as $i=>$row):?>
-    <tr class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>" data-child-of="<?=$row->parent_id?>" data-parent-param="filters[parent]" data-parent-value="<?=$row->primval?>">
+    <tr class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>" data-child-of="<?=$row->parent_id?>" data-parent-param="filters[parent]" data-parent-value="<?=$row->primval?>"
+      <?foreach($row->columns as $col_name => $col):?>
+        <?if($col[1]['info_preview']):?>
+          <?$value = ((method_exists($row, "humanize"))?$row->humanize($col_name):$row->$col_name());?>
+          data-<?=$col_name?>="<?=$value?>"
+        <?endif?>
+      <?endforeach?>
+      >
       <?foreach($scaffold_columns as $col=>$info):?>
       <?$value = ((method_exists($row, "humanize"))?$row->humanize($col):$row->$col());?>
       <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/" class='<?=$col?>_link'><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>

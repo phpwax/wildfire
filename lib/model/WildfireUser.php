@@ -27,5 +27,10 @@ class WildfireUser extends WaxModel {
     return true;
   }
 
-
+  public function permissions($operation_actions, $module_name){
+    $permissions = array();
+    foreach($operation_actions as $oa) $permissions[$oa] = $this->allowed($module_name, $oa);
+    return $permissions;
+  }
+  
 }
