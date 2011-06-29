@@ -1,7 +1,6 @@
 <?
 $cachelink = Config::get('cacheissue');
 $permissions = $current_user->permissions($operation_actions, $module_name);
-if(!$primval && $model instanceof WaxTreeModel) $primval = $cms_content[0]->primval;
 ?>
 <?if($model instanceof WaxTreeModel):?>
 <table class='data_table empty_data_table' data-action="/<?=trim($controller,"/")?>/_list">

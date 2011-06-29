@@ -2,7 +2,7 @@
   <?$permissions = $current_user->permissions($operation_actions, $module_name)?>
   <div class='index_container tree_item_details'>
     <h3><?=$mods[$module_name]['display_name']?> Information</h3>
-    <?=partial("_info", array("row"=>$cms_content[0]))?>
+    <?=partial("_info", array("row"=>new $model))?>
   </div>
   <div class='index_container tree_list'>
     <h3><?=$mods[$module_name]['display_name']?> Tree</h3>
