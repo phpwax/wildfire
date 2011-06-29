@@ -126,7 +126,26 @@ class CMSAdminContentController extends AdminComponent {
       if($destination_model) $destination_model->map_revision();
       $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
-
+    
+    WaxEvent::add("cms.edit.init", function(){
+      $controller = WaxEvent::data();
+      
+      $message = array();
+      if($controller->model->is_live()){
+        $message[] = "You are editing the live version of this content.";
+        if(($r = $controller->model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first())){
+          $message[] = "<a href=\"/".trim($controller->controller,"/")."/edit/$first_r/\">Click here to see the last modified version instead.</a>";
+        }
+      }elseif($revision = $controller->model->revision()){
+        $message[] = "You are editing an alternative version of <a href=\"/".trim($controller->controller,"/")."/edit/$revision/\">another page</a>.";
+      }
+      
+      if($controller->model->alt_language()){
+        $message[] = "You are editing an alternative language (" . ucwords(CMSApplication::$languages[$controller->model->language]['name']) . ") version of <a href=\"/".trim($controller->controller,"/")."/edit/<?=$controller->lang?>/\">another page</a>.";
+      }
+      
+      if($message) $controller->messages[] = array("message"=>implode(" ", $message), "class"=>"warning");
+    });
 	}
 
 	protected function initialise(){

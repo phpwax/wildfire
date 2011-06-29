@@ -1,9 +1,6 @@
 #auto-save{
-  position:absolute;
-  right:20px;
-  margin-top:5px;
-  width:30px;
-  height:30px;
+  float:right;
+  margin-bottom:3px;
 }
   #auto-save span{display:none;}
   
