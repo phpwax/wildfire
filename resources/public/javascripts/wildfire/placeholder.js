@@ -1,6 +1,14 @@
+/**
+ * @author stvhl00@gmail.com (Steven Hall)
+ */
+
+(function() {
+  var i = document.createElement('input');
+  jQuery.support.placeholder = 'placeholder' in i;
+})();
+
 jQuery(document).ready(function(){
-  var ua_placeholder = (jQuery.browser == "webkit")?true:false; 
-  if(!ua_placeholder){
+  if(!jQuery.support.placeholder){
     jQuery('input[type="text"]').each(function(){
       if(jQuery(this).attr('placeholder') && (jQuery(this).val() == jQuery(this).attr('placeholder') || jQuery(this).val() == '' || jQuery(this).val() == 0 || jQuery(this).val() == 0.0 )) jQuery(this).val(jQuery(this).attr('placeholder'));
     }).live("focus", function(){          

@@ -1,39 +1,43 @@
-function auto_save_form(auto_span, auto_saver, auto_image, preview){
-  var endpoint = auto_span.attr('data-save-point'),
-      action = auto_span.attr("data-controller")+"edit/";
-      form_container = auto_span.parents("form"),
-      form_data = jQuery(form_container).serialize(),
-      blink_image = function(){auto_image.fadeToggle("fast");},
-      blink_timer = setInterval(function(){blink_image();}, 10);
-      ;
-  
-  jQuery.ajax({
-    url:endpoint,
-    data:form_data,
-    type:"post",
-    dataType:"json",
-    success:function(res){
-      if(res['id']) auto_span.attr('data-save-point', action+res['id']+".json");
-      clearInterval(blink_timer);
-      auto_image.fadeIn("fast");
-      if(preview){
-        preview.attr("href", res['permalink']+"?preview="+res['id']).removeClass('loading');
-        window.open(res['permalink']+"?preview="+res['id']);
-      }      
-    },
-    error:function(){clearInterval(blink_timer);}
-  });
-}
-
 jQuery(document).ready(function(){
+  function auto_save_form(auto_span, auto_saver, auto_image, preview){
+    var endpoint = auto_span.attr('data-save-point'),
+        action = auto_span.attr("data-controller")+"edit/";
+        form_container = auto_span.closest("form"),
+        form_data = form_container.serialize();
+    
+    if(auto_save_signature == form_data) return;
+    
+    var blink_image = function(){auto_image.fadeToggle("fast");},
+        blink_timer = setInterval(function(){blink_image();}, 10);
+    
+    jQuery.ajax({
+      url:endpoint,
+      data:form_data,
+      type:"post",
+      dataType:"json",
+      success:function(res){
+        if(res['id']) auto_span.attr('data-save-point', action+res['id']+".json");
+        clearInterval(blink_timer);
+        auto_image.fadeIn("fast");
+        auto_save_signature = form_data;
+        if(preview){
+          preview.attr("href", res['permalink']+"?preview="+res['id']).removeClass('loading');
+          window.open(res['permalink']+"?preview="+res['id']);
+        }      
+      },
+      error:function(){clearInterval(blink_timer);}
+    });
+  }
+  
   var auto_saver = jQuery('#auto-save'),
       auto_span = auto_saver.find("span"),
       auto_image = auto_saver.find("img"),
-      auto_save_time = (typeof auto_save_time_override != "undefined")?auto_save_time_override : 120000,
+      auto_save_time = (typeof auto_save_time_override != "undefined")?auto_save_time_override : 30000,
+      auto_save_signature = auto_span.closest("form").serialize(),
       auto_interval = setInterval(function(){
         if(auto_span.hasClass('enabled')) auto_save_form(auto_span,auto_saver,auto_image);
-      },  auto_save_time);
-
+      }, auto_save_time);
+  
   jQuery('#auto-save').live("click", function(e){
     auto_span.toggleClass('enabled');
     if(auto_span.hasClass('enabled')) auto_image.attr('src', auto_image.attr('src').replace('-off', ''));
