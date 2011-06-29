@@ -23,7 +23,10 @@ jQuery(document).ready(function(){
             .css("display", "none")
             .insertAfter(row.removeClass('loading'))
             .addClass("children-of-"+id)
-            .slideDown("fast");
+            .slideDown("fast", function(){
+              var r = jQuery(this);
+              r.css("height", r.css("height"));
+            });
         },
         error:function(){}
       });
