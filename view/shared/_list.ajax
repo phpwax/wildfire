@@ -3,7 +3,11 @@ $permissions = array();
 foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($module_name, $oa);
 $cols = count($scaffold_columns);
 ?>
-<?if($cms_content):?>
+<?foreach($model_filters as $filter) if($filter) $actual_filters = 1?>
+<?if($model instanceof WaxTreeModel && !$actual_filters):?>
+<table class='data_table empty_data_table' data-action="/<?=trim($controller,"/")?>/_list">
+</table>
+<?elseif($cms_content):?>
 <table class='data_table' data-action="/<?=trim($controller,"/")?>/_list">
   <?if(Request::param('show_cols')):?>
   <thead>

@@ -34,6 +34,8 @@ html {
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 }
+#v2-cms .data_table{margin-top:10px;}
+#v2-cms .empty_data_table{margin-top:0;}
 #v2-cms .data_grid, #v2-cms .data_info{padding:8px;}
 #v2-cms .data_info .info_col{
   display:block;
@@ -151,7 +153,7 @@ html {
   padding-left:0;
 }
 #v2-cms .index_container .filters_pagination{
-  padding:0 0 10px;
+  padding:0;
 }
 #v2-cms .index_container .pagination_bottom{
   margin-top:10px;
