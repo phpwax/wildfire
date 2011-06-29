@@ -55,7 +55,7 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 		xhr.addEventListener("load", function () {
 			progressBarContainer.className += " uploaded";
 			progressBar.innerHTML = "Uploaded!";
-			jQuery(li).fadeOut(15000);
+			jQuery(li).delay(15000).fadeOut();
 			jQuery("#files-upload").replaceWith(clear_file_upload);
   	  clear_file_upload = jQuery("#files-upload").clone();
 		}, false);
