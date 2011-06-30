@@ -174,7 +174,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.save.before", $obj);
 	    if($obj->saved = $obj->form->save()){
-	      if($obj->use_layout) $obj->session->add_message('Saved.');
+	      if($obj->use_layout) $obj->add_message("Saved.", "confirm");
 	      $obj->model = $obj->saved;
 	      WaxEvent::run("cms.save.success", $obj);
 	    }
