@@ -112,11 +112,13 @@ class CMSBaseComponent extends WaxController {
         if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
         $stats = stat($file);
         $fileid = $stats[9];
-        $check = new $this->file_system_model($fileid);
         while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
-          $ts = date("YMdHis") - rand(3600, 9000);
+          $ts = time() - rand(3600, 9000);
+          
           touch($file, $ts);
-          exec('touch -t '+$ts+ ' '+$file);
+          exec('touch -t '+date("YmdHis",$ts)+' '+$file);
+          
+          clearstatcache();
           $stats = stat($file);
           $fileid = $stats[9];
         }
