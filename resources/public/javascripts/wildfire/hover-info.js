@@ -14,7 +14,11 @@ jQuery(function(){
           
           els.each(function(){
             var el = jQuery(this);
-            el.text(hover_target.attr(el.attr("data-hover-fetch")));
+            console.log(el);
+            var data_hover_fetch = el.attr("data-hover-fetch");
+            if(data_hover_fetch) el.text(hover_target.attr(data_hover_fetch));
+            var data_hover_fetch_href = el.attr("data-hover-fetch-href");
+            if(data_hover_fetch_href) el.attr("href", hover_target.attr(data_hover_fetch_href));
           });
         }, timeout:400});
         jQuery(this).trigger('mouseover');

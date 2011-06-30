@@ -1,7 +1,10 @@
 <?if($tree_model instanceof WaxTreeModel):?>
   <?$permissions = $current_user->permissions($operation_actions, $module_name)?>
-  <div class='index_container tree_item_details'>
-    <h3><?=$mods[$module_name]['display_name']?> Information</h3>
+  <div class='index_container tree_item_details hover_update' data-hover-selector=".tree_node, .row">
+    <h3 class='clearfix'>
+      <a class="operation hover_el" href="/<?=trim($controller,"/")?>/create/" data-hover-fetch-href="data-add-child-url">Add Child</a>
+      <?=$mods[$module_name]['display_name']?> Information
+    </h3>
     <?=partial("_info", array("row"=>new $model))?>
   </div>
   <div class='index_container tree_list'>

@@ -1,4 +1,4 @@
-<ul class="data_info hover_update" data-hover-selector=".tree_node, .row">
+<ul class="data_info">
   <?foreach($row->columns as $col_name => $col):?>
     <?if($col[1]['info_preview']):?>
       <?$value = ((method_exists($row, "humanize"))?$row->humanize($col_name):$row->$col_name());?>
