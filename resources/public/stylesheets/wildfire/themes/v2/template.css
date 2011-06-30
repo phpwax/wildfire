@@ -272,7 +272,10 @@ html {
   font-size: 108%;
   text-shadow: 1px 1px 2px #000;
 }
-#v2-cms .messages a{color:#fff;}
+#v2-cms .messages a{
+  color:#fff;
+  text-decoration:underline;
+}
 #v2-cms .messages a:hover{color:#9FA8B0;}
 #v2-cms .messages .message{
   display:block;
