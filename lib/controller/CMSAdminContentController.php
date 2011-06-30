@@ -68,16 +68,11 @@ class CMSAdminContentController extends AdminComponent {
     });
 	  //overwrite existing events - handle the revision change
 	  WaxEvent::add("cms.save.before", function(){
-	    $obj = WaxEvent::data();;
+	    $obj = WaxEvent::data();
 	    $obj->old_parent_id = $obj->model->parent_id;
 	    if(Request::param('revision')){
 	      $obj->master = $obj->model;
-	      if($saved = $obj->model->save()) $obj->model = $saved->copy();
-	      else{
-	        WaxLog::log('error', print_r($obj->model,1), 'save_errors');
-	        $obj->session->add_error("Failed!");
-	        $obj->redirect_to("/".trim($obj->controller,"/")."/");
-	      }
+	      $obj->model = $obj->model->copy();
   	    $obj->form = new WaxForm($obj->model);
       }
     });
@@ -131,15 +126,13 @@ class CMSAdminContentController extends AdminComponent {
       $controller = WaxEvent::data();
       
       $message = array();
-      if($controller->model->is_live()){
-        $message[] = "You are editing the live version of this content.";
-        if(($r = $controller->model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first())){
-          $message[] = "<a href=\"/".trim($controller->controller,"/")."/edit/$first_r/\">Click here to see the last modified version instead.</a>";
-        }
-      }elseif($revision = $controller->model->revision()){
-        $message[] = "You are editing an alternative version of <a href=\"/".trim($controller->controller,"/")."/edit/$revision/\">another page</a>.";
+      
+      //warn user if there's a more recent version of the content, with a link to that version
+      if($controller->model->is_live() && ($r = $controller->model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first()) && strtotime($first_r->date_modified) > strtotime($controller->model->date_modified)){
+        $message[] = "This is the live version of this content. <a href=\"/".trim($controller->controller,"/")."/edit/$first_r/\">Edit the latest version instead.</a>";
       }
       
+      //warn user if they're editing an alternative language version, with a link to the main lang ver
       if($controller->model->alt_language()){
         $message[] = "You are editing an alternative language (" . ucwords(CMSApplication::$languages[$controller->model->language]['name']) . ") version of <a href=\"/".trim($controller->controller,"/")."/edit/<?=$controller->lang?>/\">another page</a>.";
       }
