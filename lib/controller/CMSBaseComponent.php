@@ -104,6 +104,7 @@ class CMSBaseComponent extends WaxController {
     foreach($model->filter("rpath", $path)->all() as $file){
       $full_path = PUBLIC_DIR.$file->rpath.$file->filename;
       if(!file_exists($full_path)) $file->update_attributes(array('status'=>'lost'));
+      elseif($file->status == "lost") $file->update_attributes(array('status'=>'found'));
     }
     //check filesystem files
     foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$path), "#^[^\.]#i") as $file){
