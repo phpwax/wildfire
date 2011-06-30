@@ -55,7 +55,9 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 		xhr.addEventListener("load", function () {
 			progressBarContainer.className += " uploaded";
 			progressBar.innerHTML = "Uploaded!";
-			jQuery(li).fadeOut(15000);
+			jQuery(li).delay(15000).fadeOut();
+			jQuery("#files-upload").replaceWith(clear_file_upload);
+  	  clear_file_upload = jQuery("#files-upload").clone();
 		}, false);
 
 		xhr.open("post", jQuery("#upload-form").attr("data-html5-upload"), true);
@@ -99,8 +101,11 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 			fileList.innerHTML = "No support for the File API in this web browser";
 		}
 	}
+  var clear_file_upload;
 	if(filesUpload && (!saf || (saf && vn >= 533) ) ){
-	  filesUpload.addEventListener("change", function () {
+	  clear_file_upload = jQuery("#files-upload").clone();
+	  
+	  jQuery("#files-upload").live("change", function () {
 		  traverseFiles(this.files);
 	  }, false);
 

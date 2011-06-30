@@ -17,6 +17,8 @@ $counter = 0;
 ?>
 <?=partial("_form_start", $this)?>
   <?if(count($grouping)):?>
+    <?=partial("_intro", array('model'=>$model, 'controller'=>$controller, 'autosave'=>$autosave))?>
+    
     <ul class='tabs clearfix'>
       <?$k=0;?>
       <?foreach($grouping as $name=>$info):?>
@@ -25,8 +27,6 @@ $counter = 0;
         <?$k++;?>
       <?endforeach?>
     </ul>
-    
-    <div class='intro info-container'><?=partial("_intro", array('model'=>$model, 'controller'=>$controller, 'autosave'=>$autosave))?></div>
     
     <?foreach($grouping as $name=>$fields):?>
       <?$tabhash = Inflections::to_url($name);

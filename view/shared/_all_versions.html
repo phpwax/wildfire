@@ -12,9 +12,9 @@
     <?
     $class = get_class($model);
     $group = new $class;
-    $cms_content = $group->filter("permalink", $model->permalink)->filter("language", $i)->all();
+    $cms_content = $group->filter("permalink", $model->permalink)->filter("language", $i)->order("date_modified DESC")->all();
     ?>
-    <?=partial("_list", array('no_filter'=>true,'primval'=>$model->primval, 'controller'=>$controller, 'cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions))?>
+    <?=partial("_list", array('no_filter'=>true,'primval'=>$model->primval, 'controller'=>$controller, 'cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions, 'show_unfiltered_results'=>true))?>
   </div>
   <?endforeach?>
 </div>

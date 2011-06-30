@@ -34,6 +34,8 @@ html {
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 }
+#v2-cms .data_table{margin-top:10px;}
+#v2-cms .empty_data_table{margin-top:0;}
 #v2-cms .data_grid, #v2-cms .data_info{padding:8px;}
 #v2-cms .data_info .info_col{
   display:block;
@@ -78,16 +80,20 @@ html {
 #v2-cms .data_table tr:nth-child(odd) td{
 	background:#bccfdb;
 }
-#v2-cms .data_table tr:last-child > td, #v2-cms .data_tree li:last-child{
+#v2-cms .data_table tr:last-child td, #v2-cms .data_tree li:last-child{
   border-bottom:none;
-  -webkit-border-bottom-right-radius: 5px;
+}
+#v2-cms .data_table tr:last-child td:first-child{
   -webkit-border-bottom-left-radius: 5px;
-  -moz-border-radius-bottomright: 5px;
   -moz-border-radius-bottomleft: 5px;
-  -khtml-border-radius-bottomright: 5px;
   -khtml-border-radius-bottomleft: 5px;
-  border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+}
+#v2-cms .data_table tr:last-child td:last-child{
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -khtml-border-radius-bottomright: 5px;
+  border-bottom-right-radius: 5px;
 }
 #v2-cms .data_table .children-list table {border-left:1px solid #9cafbc;}
 #v2-cms .dashboard table tr.active td, #v2-cms .data_table tr.active td, #v2-cms .data_tree li.active {
@@ -147,7 +153,7 @@ html {
   padding-left:0;
 }
 #v2-cms .index_container .filters_pagination{
-  padding:0 0 10px;
+  padding:0;
 }
 #v2-cms .index_container .pagination_bottom{
   margin-top:10px;
@@ -166,7 +172,7 @@ html {
 	border:0;
 }
 #v2-cms .ui-state-active {
-	background:#FFF;
+	background:#CEDFEA;
 	border:0;
 }
 #v2-cms .ui-state-default a {
@@ -249,4 +255,60 @@ html {
 	-webkit-border-radius: 0;
 	-khtml-border-radius: 0;
 	border-radius: 0;
+}
+#v2-cms .messages li{
+  color:#fff;
+  background: #36424A;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  padding: 4px 8px;
+  margin: 10px 0;
+  -webkit-box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
+  -moz-box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
+  font-weight: bold;
+  font-size: 108%;
+  text-shadow: 1px 1px 2px #000;
+}
+#v2-cms .messages a{color:#fff;}
+#v2-cms .messages a:hover{color:#9FA8B0;}
+#v2-cms .messages .message{
+  display:block;
+  margin-top:5px;
+}
+#v2-cms .messages .icon{
+  display:block;
+  float:left;
+  width:28px;
+  height:28px;
+  margin-right:6px;
+  background:transparent url(/images/wildfire/icons/info.png) center center no-repeat;
+}
+#v2-cms .messages .warning{
+  background:#734c0e;
+}
+#v2-cms .messages .warning .icon{
+  background:transparent url(/images/wildfire/icons/warning.png) center center no-repeat;
+}
+#v2-cms .messages .error{
+  background:#7f1b2f;
+}
+#v2-cms .messages .error .icon{
+  background:transparent url(/images/wildfire/icons/error.png) center center no-repeat;
+}
+#v2-cms .messages .confirm{
+  background:#2a4106;
+}
+#v2-cms .messages .confirm .icon{
+  background:transparent url(/images/wildfire/icons/confirm.png) center center no-repeat;
+}
+#v2-cms .messages .close_button{
+  display:block;
+  float:right;
+  width:14px;
+  height:14px;
+  margin-top:7px;
+  background:transparent url(/images/wildfire/icons/white-cross.png) center center no-repeat;
 }

@@ -41,6 +41,8 @@ class CMSBaseComponent extends WaxController {
   
   public $search_results = array();
   public $use_cache = false;
+  
+  public $messages = array();
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);

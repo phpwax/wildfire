@@ -1,7 +1,6 @@
 <?if($current_user->allowed($module_name, "index")):?>
   <?$mods = CMSApplication::get_modules()?>
   <div class='index_container'>
-    <h3>Latest <?=$mods[$module_name]['display_name']?></h3>
     <div class='clearfix filters_pagination'>
       
       <div class='pagination pagination_top'>
