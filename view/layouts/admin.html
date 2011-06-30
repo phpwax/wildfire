@@ -37,7 +37,7 @@
           <?if(is_array($message)){
             $class = $message['class'];
             $message = $message['message'];
-          }?>
+          }else $class = false?>
           <li class="clearfix <?=$class?>"><a class="close_button" href="#"></a><span class="icon"></span><span class="message"><?=$message?></span></li>
         <?endforeach?>
       </ul>
