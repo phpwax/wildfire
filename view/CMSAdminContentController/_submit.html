@@ -1,26 +1,3 @@
-<?if(($master_id = $model->revision()) && ($master = new $model_class($master_id)) && ($url_changes = $model->url_compare($master)) && count($url_changes) && count($url_changes['remove'])):?>
-<div class="url-issues">
-  <div class="ui-widget">
-    <div class="ui-state-highlight ui-corner-all">
-      <p><span class="ui-icon ui-icon-alert"></span>Putting this page live <strong>would remove</strong> some urls:
-      <?foreach((array)$url_changes['remove'] as $i=>$r):?><?if($i>0):?>, <?endif?><span class='<?=$i?>'><?=$r?></span><?endforeach?>
-      </p>
-    </div>
-  </div>
-</div>
-<?endif?>
-
-<?if(($master_id = $model->revision()) && ($master = new $model_class($master_id)) && $master->parent_id != $model->parent_id):?>
-<div class="parent-issues">
-  <div class="ui-widget">
-    <div class="ui-state-highlight ui-corner-all">
-      <p><span class="ui-icon ui-icon-alert"></span>Putting this page live will change the structure of the site.</p>
-    </div>
-  </div>
-</div>
-<?endif?>
-
-
 <div class='form-submit clearfix'>
   <?if($autosave):?><a href="<?=$model->permalink?>?preview=<?=$model->primval?>" class='preview button preview-button'>Preview</a><?endif?>
     

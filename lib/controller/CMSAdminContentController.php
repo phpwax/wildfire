@@ -124,20 +124,31 @@ class CMSAdminContentController extends AdminComponent {
     
     WaxEvent::add("cms.edit.init", function(){
       $controller = WaxEvent::data();
+      $model = $controller->model;
       
       $message = array();
       
       //warn user if there's a more recent version of the content, with a link to that version
-      if($controller->model->is_live() && ($r = $controller->model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first()) && strtotime($first_r->date_modified) > strtotime($controller->model->date_modified)){
+      if($model->is_live() && ($r = $model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first()) && strtotime($first_r->date_modified) > strtotime($model->date_modified)){
         $message[] = "This is the live version of this content. <a href=\"/".trim($controller->controller,"/")."/edit/$first_r/\">Edit the latest version instead.</a>";
       }
       
       //warn user if they're editing an alternative language version, with a link to the main lang ver
-      if($controller->model->alt_language()){
-        $message[] = "You are editing an alternative language (" . ucwords(CMSApplication::$languages[$controller->model->language]['name']) . ") version of <a href=\"/".trim($controller->controller,"/")."/edit/<?=$controller->lang?>/\">another page</a>.";
+      if($model->alt_language()){
+        $message[] = "You are editing an alternative language (" . ucwords(CMSApplication::$languages[$model->language]['name']) . ") version of <a href=\"/".trim($controller->controller,"/")."/edit/<?=$controller->lang?>/\">another page</a>.";
       }
       
       if($message) $controller->messages[] = array("message"=>implode(" ", $message), "class"=>"warning");
+      
+      //warn user if they could remove some urls by putting something live
+      if(($master_id = $model->revision()) && ($master = new $controller->model_class($master_id)) && ($url_changes = $model->url_compare($master)) && count($url_changes) && count($url_changes['remove'])){
+        $controller->messages[] = array("message"=>"Putting this page live <strong>would remove</strong> some urls: ".implode(" ", $url_changes['remove']), "class"=>"error");
+      }
+      
+      //warn user that they could modify the site structure
+      if(($master_id = $model->revision()) && ($master = new $controller->model_class($master_id)) && $master->parent_id != $model->parent_id){
+        $controller->messages[] = array("message"=>"Putting this page live will change the structure of the site.", "class"=>"error");
+      }
     });
 	}
 
