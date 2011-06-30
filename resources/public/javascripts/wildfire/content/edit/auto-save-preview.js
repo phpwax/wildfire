@@ -5,28 +5,27 @@ jQuery(document).ready(function(){
         form_container = auto_span.closest("form"),
         form_data = form_container.serialize();
     
-    if(auto_save_signature == form_data) return;
-    
-    var blink_image = function(){auto_image.fadeToggle("fast");},
-        blink_timer = setInterval(function(){blink_image();}, 10);
-    
-    jQuery.ajax({
-      url:endpoint,
-      data:form_data,
-      type:"post",
-      dataType:"json",
-      success:function(res){
-        if(res['id']) auto_span.attr('data-save-point', action+res['id']+".json");
-        clearInterval(blink_timer);
-        auto_image.fadeIn("fast");
-        auto_save_signature = form_data;
-        if(preview){
+    if(auto_save_signature != form_data){
+      var blink_image = function(){auto_image.fadeToggle("fast");},
+          blink_timer = setInterval(function(){blink_image();}, 10);
+      
+      jQuery.ajax({
+        url:endpoint,
+        data:form_data,
+        type:"post",
+        dataType:"json",
+        async:preview?false:true,
+        success:function(res){
+          if(res['id']) auto_span.attr('data-save-point', action+res['id']+".json");
+          clearInterval(blink_timer);
+          auto_image.fadeIn("fast");
+          auto_save_signature = form_data;
           preview.attr("href", res['permalink']+"?preview="+res['id']).removeClass('loading');
-          window.open(res['permalink']+"?preview="+res['id']);
-        }      
-      },
-      error:function(){clearInterval(blink_timer);}
-    });
+          if(preview) window.open(preview.attr("href"));
+        },
+        error:function(){clearInterval(blink_timer);}
+      });
+    }else if(preview) window.open(preview.attr("href"));
   }
   
   var auto_saver = jQuery('#auto-save'),
