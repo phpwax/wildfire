@@ -5,4 +5,4 @@ if($model->revision()) $endpoint = "/".trim($controller,"/")."/edit/".$model->pr
 else $endpoint = "/".trim($controller,"/")."/edit/".$model->primval.".json?revision=1";
 ?>
 
-<?if($autosave):?><a id="auto-save" title="Autosave Enabled"><img src="/images/wildfire/icons/save.png" alt="Autosave Enabled"><span class='enabled' data-save-point="<?=$endpoint?>" data-controller="/<?=trim($controller,"/")?>/">Autosave enabled</span></a><?endif?>
+<?if($autosave):?><a id="auto-save" title="Autosave Enabled" class="button orange enabled"><img src="/images/wildfire/icons/autosave-on.png" alt="Autosave Enabled" data-saving="/images/wildfire/icons/autosaving.gif" data-off="/images/wildfire/icons/autosave-off.png"><span data-save-point="<?=$endpoint?>" data-controller="/<?=trim($controller,"/")?>/">Auto Save Enabled</span></a><?endif?>

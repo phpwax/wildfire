@@ -1,8 +1,16 @@
 #auto-save{
   float:right;
-  margin-bottom:3px;
+  padding:4px;
+  margin:0px;
 }
-  #auto-save span{display:none;}
+  #auto-save span{
+    margin-right:5px;
+    white-space:nowrap;
+  }
+  #auto-save img{
+    float:right;
+    vertical-align:middle;
+  }
   
 .preview-button{
   float:right;
