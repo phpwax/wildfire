@@ -72,7 +72,7 @@ jQuery(document).ready(function(){
   jQuery('#auto-save').live("click", function(e){
     var show_timeout;
     clearTimeout(show_timeout);
-    auto_saver.toggleClass('enabled');
+    auto_saver.toggleClass('enabled disabled');
     if(auto_saver.hasClass('enabled')){
       auto_image.attr('src', auto_image_src);
       auto_span.text("Auto Save Enabled");

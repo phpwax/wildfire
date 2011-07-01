@@ -39,6 +39,30 @@ a.orange, a.preview-button {
 	font-size:93%;
 	padding:7px 6px;
 }
+a.red, #auto-save.disabled{
+	background:#ff6a8a;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, rgb(255,117,148)),
+    color-stop(1, rgb(255,84,116))
+  );
+  background-image: -moz-linear-gradient(
+    center top,
+    rgb(255,117,148) 0%,
+    rgb(255,84,116) 100%
+  );
+	border:1px solid #e83c5d;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	color:#9e2d41;
+	text-shadow: #FFF 1px 1px 1px;
+	font-size:93%;
+	padding:7px 6px;
+}
 .quick-create_new_content {margin-left:50px;}
 a.operation {
 	border:1px solid #a2afb8;
