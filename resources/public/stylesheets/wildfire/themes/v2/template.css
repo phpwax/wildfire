@@ -37,6 +37,10 @@ html {
 #v2-cms .data_table{margin-top:10px;}
 #v2-cms .empty_data_table{margin-top:0;}
 #v2-cms .data_grid, #v2-cms .data_info{padding:8px;}
+#v2-cms .tree_item_details .operation{
+  float:right;
+  font-size:77%;
+}
 #v2-cms .data_info .info_col{
   display:block;
   float:left;
@@ -272,7 +276,10 @@ html {
   font-size: 108%;
   text-shadow: 1px 1px 2px #000;
 }
-#v2-cms .messages a{color:#fff;}
+#v2-cms .messages a{
+  color:#fff;
+  text-decoration:underline;
+}
 #v2-cms .messages a:hover{color:#9FA8B0;}
 #v2-cms .messages .message{
   display:block;

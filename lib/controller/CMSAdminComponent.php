@@ -174,7 +174,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    $obj = WaxEvent::data();
 	    WaxEvent::run("cms.save.before", $obj);
 	    if($obj->saved = $obj->form->save()){
-	      if($obj->use_layout) $obj->session->add_message('Saved.');
+	      if($obj->use_layout) $obj->add_message("Saved.", "confirm");
 	      $obj->model = $obj->saved;
 	      WaxEvent::run("cms.save.success", $obj);
 	    }
@@ -282,6 +282,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  $model = new $this->model_class();
 	  $cachelink = Config::get('cacheissue');
 	  $model->validation_groups = array("skip_validation"); //put this in to be able to create "empty" cms models
+	  if($data = Request::param($model->table)) $model->set_attributes($data);
 	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/".(($cachelink)?"?r=".rand():""));
 	}
 

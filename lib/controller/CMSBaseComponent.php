@@ -147,6 +147,10 @@ class CMSBaseComponent extends WaxController {
     }catch (Exception $e){}
   }
   
-
+  public function add_message($message, $class){
+    $messages = $this->session->get("messages");
+    $messages[] = array('message'=>$message, 'class'=>$class);
+    $this->session->set("messages", $messages);
+  }
 }
 ?>
