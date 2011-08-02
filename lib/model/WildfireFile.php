@@ -5,7 +5,8 @@ class WildfireFile extends WaxModel {
   public $primary_options = array("auto"=>false);
   public static $queue_images = false;
   public static $image_sizes = array();
-  public $_row_cache = false;
+  public $_path_cache = false;
+  public $base_dir = PUBLIC_DIR;
   
   public function setup() {
     $this->define("filename", "CharField");
@@ -50,7 +51,7 @@ class WildfireFile extends WaxModel {
 	 * @param string $size 
 	 */	
 	public function show($size=110, $compress = false){
-		$source = PUBLIC_DIR. $this->rpath."/".$this->filename;    
+		$source = $this->local_path().$this->filename;
 		$extension = File::get_extension($this->filename);
 		if(!is_dir(CACHE_DIR."images/")){
 		  @mkdir(CACHE_DIR."images/");
@@ -82,14 +83,14 @@ class WildfireFile extends WaxModel {
 	}
 	
 	public function width() {
-	  if(!is_readable(PUBLIC_DIR.$this->rpath.$this->filename)) return false;
-	  if($info = @getimagesize(PUBLIC_DIR.$this->rpath.$this->filename)) return $info[0];
+	  if(!is_readable($this->local_path().$this->filename)) return false;
+	  if($info = @getimagesize($this->local_path().$this->filename)) return $info[0];
 	  return $this->tryffmpeg("width");
 	  return false;
 	}
 	public function height() {
-	  if(!is_readable(PUBLIC_DIR.$this->rpath.$this->filename)) return false;
-	  if($info = @getimagesize(PUBLIC_DIR.$this->rpath.$this->filename)) return $info[1];
+	  if(!is_readable($this->local_path().$this->filename)) return false;
+	  if($info = @getimagesize($this->local_path().$this->filename)) return $info[1];
 	  return $this->tryffmpeg("height");
 	  return false;
 	}
@@ -108,21 +109,24 @@ class WildfireFile extends WaxModel {
 	
 	public function before_save() {
 	  $res = new WildfireFile($this->{$this->primary_key});
-	  $this->_row_cache = $res->row;
+	  $this->_path_cache = $this->local_path();
 	}
 	
 	public function after_save() {
-	  if($this->rpath !== $this->_row_cache["rpath"]) {
+	  if($this->local_path() !== $this->_path_cache) {
 	    $this->handle_move();
 	  }
 	}
 	
 	public function handle_move() {
-    $path = PUBLIC_DIR. $this->rpath;
+    $path = $this->local_path();
     $new_filename = $path.File::safe_file_save($path, $this->filename);
-    rename(PUBLIC_DIR.$this->_row_cache["rpath"].$this->filename, $new_filename);
+    rename($this->_path_cache.$this->filename, $new_filename);
 	}
 	
+	public function local_path(){
+	  return $this->base_dir.$this->rpath;
+	}
 }
 
 
