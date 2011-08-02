@@ -2,10 +2,8 @@
   <?foreach($results as $order => $row):?>
   <?$row_is_joined = array_key_exists($row->primval, $existing)?>
   <li class='clearfix join-option join-<?=$row_is_joined?"yes":"no"?>'>
+    <input type='hidden' id="<?=$name?>_<?=$row->primval?>_join_order" name='joins[<?=$name?>][<?=$row->primval?>][<?=$row->primary_key?>]' value="0">
     <input type='checkbox' id="<?=$name?>_<?=$row->primval?>" name='joins[<?=$name?>][<?=$row->primval?>][<?=$row->primary_key?>]' value="<?=$row->primval?>" <?=$row_is_joined?'checked="checked"':''?>>
-    <?if($row_is_joined && $origin_col->join_order && $origin_col->join_order != $row->primary_key):?>
-      <input type='hidden' id="<?=$name?>_<?=$row->primval?>_join_order" name='joins[<?=$name?>][<?=$row->primval?>][extra_fields][<?=$origin_col->join_order?>]' value="<?=$existing[$row->primval]?$existing[$row->primval]:$order?>" class="join-order-field">
-    <?endif?>
     
     <label for="<?=$name?>_<?=$row->primval?>"><?=$row->humanize()?></label>
   </li>
