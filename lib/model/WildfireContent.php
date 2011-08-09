@@ -140,7 +140,7 @@ class WildfireContent extends WaxTreeModel {
     }elseif($this->revision == 0){
       $mod = new $class;
       //for all revisions of this content copy the url maps over for them with status of 0
-      foreach($mod->clear()->filter($this->primary_key, $this->primval, "!=")->filter("permalink", $this->permalink)->filter("language", $this->language)->all() as $rev) $rev->map_revision();
+      foreach($mod->clear()->filter($this->primary_key, $this->primval, "!=")->filter("revision", $this->primval)->filter("language", $this->language)->all() as $rev) $rev->map_revision();
     }
     return $this;
   }
