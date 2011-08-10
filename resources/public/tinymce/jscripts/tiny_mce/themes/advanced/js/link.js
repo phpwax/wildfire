@@ -39,6 +39,7 @@ var LinkDialog = {
 		// Remove element if there is no href
 		if (!f.href.value) {
 			if (e) {
+				tinyMCEPopup.execCommand("mceBeginUndoLevel");
 				b = ed.selection.getBookmark();
 				ed.dom.remove(e, 1);
 				ed.selection.moveToBookmark(b);
@@ -47,6 +48,8 @@ var LinkDialog = {
 				return;
 			}
 		}
+
+		tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
 		// Create new anchor elements
 		if (e == null) {

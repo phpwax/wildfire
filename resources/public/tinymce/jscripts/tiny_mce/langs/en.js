@@ -196,8 +196,7 @@ langs:"Languages",
 wait:"Please wait...",
 sug:"Suggestions",
 no_sug:"No suggestions",
-no_mpell:"No misspellings found.",
-learn_word:"Learn word" 
+no_mpell:"No misspellings found."
 },
 pagebreak:{
 desc:"Insert page break."
