@@ -128,6 +128,11 @@ class CMSAdminContentController extends AdminComponent {
       
       $message = array();
       
+      //warn user if they are editing a revision of a live piece of content
+      if(($master = $model->find_master()) && $master->is_live()){
+        $message[] = "This is a revision of a live page. <a href=\"/".trim($controller->controller,"/")."/edit/$master->id/\">Edit the live version instead.</a>";
+      }
+      
       //warn user if there's a more recent version of the content, with a link to that version
       if($model->is_live() && ($r = $model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first()) && strtotime($first_r->date_modified) > strtotime($model->date_modified)){
         $message[] = "This is the live version of this content. <a href=\"/".trim($controller->controller,"/")."/edit/$first_r/\">Edit the latest version instead.</a>";
