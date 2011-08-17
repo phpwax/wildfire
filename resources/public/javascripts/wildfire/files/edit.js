@@ -36,6 +36,8 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$('#crop_container .croppable').resizable({aspectRatio:true});
+	
 });
 
 

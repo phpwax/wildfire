@@ -3,3 +3,7 @@
 
 .crop-submit {padding:20px 20px 20px 20px;width:auto;}
 .crop-submit #crop_save {float:left;}
+.crop_container .ui-wrapper img {
+	width:100%;
+	height:100%;
+}
