@@ -134,7 +134,7 @@ html {
   border-top:none;
 }
 #v2-cms .ui-tabs-nav {background:transparent !important;border:0;}
-#v2-cms .tabs_container {background:none;border:0;}
+#v2-cms .tabs_container {background:none;border:0;overflow:hidden;}
 #v2-cms .info-container {
 	background:#cedfea;
 	margin-top:0;
