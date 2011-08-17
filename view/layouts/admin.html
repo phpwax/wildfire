@@ -7,7 +7,7 @@
     <?=($plugin['name'] != "cms")?css_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
   <?endforeach?>
   <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
-
+  <!--[if lte IE 8]> <link href="/stylesheets/wildfire/ie/compat.css" type="text/css" rel="stylesheet" /><![endif]-->
 	<title>Content Management System</title>
 </head>
 

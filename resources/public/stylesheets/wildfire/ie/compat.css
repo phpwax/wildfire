@@ -1,0 +1,6 @@
+.form-submit a,
+.form-submit input {
+	display:block;
+	float:left;
+	margin-right:10px;
+}
