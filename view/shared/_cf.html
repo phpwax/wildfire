@@ -1,10 +1,9 @@
 <!--[if IE]>
     <script>
       var jquery_loaded = false;
-      var jqtest = setTimeout("jquery_loaded",10);
+      var jqtest = setInterval("jquery_loaded",10);
       function jquery_loaded() {
-        if(jquery_loaded) {clearTimeout(jqtest);return true;}
-				console.log(typeof jQuery);
+        if(jquery_loaded) {clearInterval(jqtest);return true;}
         if(typeof jQuery =="function") {
 					alert("JQuery Loaded");
           jquery_loaded = true;
