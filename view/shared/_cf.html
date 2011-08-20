@@ -5,11 +5,12 @@
       function jquery_load_check() {
         if(jquery_loaded) {clearInterval(jqtest);return true;}
         if(typeof jQuery =="function") {
-					alert("JQuery Loaded");
           jquery_loaded = true;
-          $.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js");
-          $.getScript("/javascripts/wildfire-plugins/chromeframe.js");
-          $.chromeframebar({icons_path:"/images/wildfire/icons/",force:true});
+					$(document).ready(function() {
+						$.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js");
+	          $.getScript("/javascripts/wildfire-plugins/chromeframe.js");
+	          $.chromeframebar({icons_path:"/images/wildfire/icons/",force:true});
+					});
         }
       }
     </script>
