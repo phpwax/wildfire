@@ -1,10 +1,16 @@
 <!--[if IE]>
     <script>
-      $(document).ready(function() {
-        $.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js");
-        $.getScript("/javascripts/wildfire-plugins/chromeframe.js");
-        $.chromeframebar({icons_path:"/images/wildfire/icons/",force:true});
-      });
+      var jquery_loaded = false;
+      var jqtest = setTimeout(jquery_loaded,10);
+      function jquery_loaded() {
+        if(jquery_loaded) clearTimeout(jqtest);
+        if(window.jQuery) {
+          jquery_loaded = true;
+          $.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js");
+          $.getScript("/javascripts/wildfire-plugins/chromeframe.js");
+          $.chromeframebar({icons_path:"/images/wildfire/icons/",force:true});
+        }
+      }
     </script>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <![endif]-->
