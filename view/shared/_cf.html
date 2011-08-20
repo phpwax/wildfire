@@ -7,9 +7,11 @@
         if(typeof jQuery =="function") {
           jquery_loaded = true;
 					$(document).ready(function() {
-						$.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js");
-	          $.getScript("/javascripts/wildfire-plugins/chromeframe.js");
-	          $.chromeframebar({icons_path:"/images/wildfire/icons/",force:true});
+						$.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js",function(){
+							$.getScript("/javascripts/wildfire-plugins/chromeframe.js",function(){
+								$.chromeframebar({icons_path:"/images/wildfire/icons/",force:true});
+							});
+						});	          
 					});
         }
       }
