@@ -5,6 +5,7 @@
       function jquery_loaded() {
         if(jquery_loaded) {clearTimeout(jqtest);return true;}
         if(typeof(jQuery !="undefined")) {
+					alert("JQuery Loaded");
           jquery_loaded = true;
           $.getScript("http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js");
           $.getScript("/javascripts/wildfire-plugins/chromeframe.js");
