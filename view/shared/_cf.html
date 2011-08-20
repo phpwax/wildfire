@@ -1,7 +1,7 @@
 <!--[if IE]>
     <script>
       var jquery_loaded = false;
-      var jqtest = setTimeout(jquery_loaded,10);
+      var jqtest = setTimeout("jquery_loaded",10);
       function jquery_loaded() {
         if(jquery_loaded) {clearTimeout(jqtest);return true;}
         if(window.jQuery) {
