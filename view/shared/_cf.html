@@ -4,6 +4,7 @@
       var jqtest = setTimeout("jquery_loaded",10);
       function jquery_loaded() {
         if(jquery_loaded) {clearTimeout(jqtest);return true;}
+				alert(typeof jQuery);
         if(typeof jQuery =="function") {
 					alert("JQuery Loaded");
           jquery_loaded = true;
