@@ -2,6 +2,7 @@
 <html lang="en" id="cms-<?=Inflections::underscore($display_name)?>" class="clearfix">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<?=partial("_cf")?>
   <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
   <?foreach(Autoloader::$plugin_array as $plugin):?>
     <?=($plugin['name'] != "cms")?css_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
