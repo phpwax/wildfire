@@ -133,7 +133,7 @@ class CMSApplicationController extends WaxController{
 	protected function cms_view($stack, $language_id){
 	  $accumulated = "";
 	  $base = $this->controller ."/cms_%s%view";
-	  $views = array($this->controller."/".$this->cms_default_view);
+	  $views = array($this->controller."/".$this->cms_default_view, "shared/".$this->cms_default_view);
 	  //if the stack is empty, push home to it so has a custom view for home pages
 	  if((count($stack) == 0)) $stack[] = "home";
 	  //if there is one thing in the stack, and it is an allowed language, push that to the stack
