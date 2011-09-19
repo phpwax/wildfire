@@ -89,7 +89,7 @@ class CMSApplicationController extends WaxController{
     }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
       $this->cms_content = $content;
     }elseif(WaxApplication::is_public_method($this, "method_missing")){
-      $this->method_missing();
+      return $this->method_missing();
 	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	  WaxEvent::run("cms.cms_content_set", $this);
     /**
