@@ -5,7 +5,7 @@ $primval = $model->primval;
 ?>
 
 
-<?foreach($map->filter("destination_id", $primval)->filter("destination_model", get_class($model))->filter("language", $model->language)->all() as $i=>$url ):?>
+<?foreach($map->filter("(destination_id='$primval' or destination_url='$model->permalink')")->filter("destination_model", get_class($model))->filter("language", $model->language)->all() as $i=>$url ):?>
 <div class='field permalink permalink-others clearfix'>
   <?if($primval == $model->primval):?><a href='/<?=trim($controller,"/")?>/edit/<?=$model->primval?>/?map_remove=<?=$url->primval?>#<?=$tabhash?>' class='remove remove-<?=$i?>'><span class='ui-icon ui-icon-circle-minus'>&nbsp;<span></a><?endif?>
   <?if(!$label):?><label for="map_<?=$i?>">URLS</label><?$label=true;?><?endif?>
