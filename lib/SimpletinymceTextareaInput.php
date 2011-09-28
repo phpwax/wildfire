@@ -11,7 +11,7 @@ class SimpletinymceTextareaInput extends TextareaInput {
   public $class = "input_field textarea_field simpletinymce";
   
   public function tag_content(){
-    return  CmsTextFilter::filter("before_output", $this->value);
+    return  $this->value;
   }
 
 

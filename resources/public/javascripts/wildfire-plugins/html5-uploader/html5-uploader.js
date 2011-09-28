@@ -64,8 +64,8 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 
 		// Set appropriate headers
 		xhr.setRequestHeader("Content-Type", "multipart/form-data");
-		xhr.setRequestHeader("X-File-Name", file.fileName);
-		xhr.setRequestHeader("X-File-Size", file.fileSize);
+		xhr.setRequestHeader("X-File-Name", file.name);
+		xhr.setRequestHeader("X-File-Size", file.size);
 		xhr.setRequestHeader("X-File-Path", jQuery('.filepath').val());
 		xhr.setRequestHeader("X-Class", jQuery('#model-class').val());
 		xhr.setRequestHeader("X-Primval", jQuery('#model-primval').val());
