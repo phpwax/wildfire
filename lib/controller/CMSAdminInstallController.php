@@ -18,34 +18,86 @@ class CMSAdminInstallController extends CMSBaseComponent{
 
   /*convert old cms to new cms*/
   public function convert(){
-    $new_check = new WildfireContent;
-    if($new->first()){
-      Session::add_message("Content present, presuming converted already");
-      $this->redirect_to("/admin/home/");
-    }else{
-      //convert users
-      if($this->convert_users()) Session::add_error("User conversion complete");
-      else Session::add_error("User conversion failed");
-      //convert sections
-      if($sections = $this->convert_sections()) Session::add_error("Section conversion complete");
-      else Session::add_error("Section conversion failed");
-      //convert content
-      if($this->convert_content($sections)) Session::add_error("Content conversion complete");
+    $new_check = new WaxModel;
+    $res = $new_check->query("SHOW TABLES LIKE '%wildfire_content%';")->fetchAll();
+    // if(count($res)){
+    //   Session::add_message("Content present, presuming converted already");
+    //   $this->redirect_to("/admin/home/");
+    // }else{
+      // //convert users
+      // if($this->convert_users()) Session::add_error("User conversion complete");
+      // else Session::add_error("User conversion failed");
+      //convert all content over
+      if($sections = $this->convert_content()) Session::add_error("Content conversion complete");
       else Session::add_error("Content conversion failed");
-    }
+
+    //}
 
   }
   /* copy over old users to new users */
-  public function convert_users(){
-    $old = new WaxModel;
+  protected function convert_users(){
+    $u = new WildfireUser;
+    $old = $u->all();
+    foreach($old as $user) $user->update_attributes(array('password'=>md5($user->password)));
+    return true;
   }
-  /* move sections over to new tree content */
-  public function convert_sections(){
-    
-  }
+
   /* move over to new tree content */
-  public function convert_content($sections){
+  protected function convert_content(){
+    $node = new WildfireContent;
+    $node->syncdb();
+    $map = new WildfireUrlMap;
+    $map->syncdb();
     
+    $old = new WaxModel;
+    $res = $old->query("SELECT * FROM `cms_section` WHERE `parent_id`=0 ORDER BY id ASC")->fetchAll();
+    //so we start at the top...
+    foreach($res as $root){
+      $this->traverse($root,0,0);
+      exit;
+    }
+    exit;
+  }
+
+  protected function traverse($section, $parent=0, $depth=0){
+    echo str_pad("", ($depth)*12, "&nbsp;")."$section[title]:<br>";
+    $new_parent_id = 0;
+    //now we create a new content item for this section
+    if(strtolower($section['title']) != "home" && $section['url'] != "home"){      
+      $node->title = $section['title'];
+      $node->content = $section['introduction'];
+      $node->parent_id = $parent;
+      $saved = $node->save()->generate_permalink()->map_live()->show()->save();
+      $new_parent_id = $saved->primval;
+    }
+    //now find all content pages underneath this that are turned on
+    $old = new WaxModel;
+    $res = $old->query("SELECT * FROM `cms_content` WHERE `status` IN (1,0) AND `cms_section_id`=".$section['id'])->fetchAll();
+    foreach($res as $content){
+      echo str_pad("", ($depth+1)*12, "&nbsp;")."$content[title]:<br>";
+      $node = new WildfireContent;
+      $node->syncdb();
+      $info = array('title'=>$content['title'],
+                    'content'=>$content['content'],
+                    'date_start'=>$content['published'],
+                    'date_end'=>$content['expires'],
+                    'date_modified'=>$content['date_modified'],
+                    'date_created'=>$content['date_created'],
+                    'wildfire_user_id'=>$content['author_id'],
+                    'status'=>$content['status'],
+                    'parent_id'=>$new_parent_id,                    
+                    'meta_description'=>$content['meta_description'],
+                    'meta_keywords'=>$content['meta_keywords'],
+                    'old_id'=>$content['id']
+                    );
+      $node->update_attributes($info)->generate_permalink()->map_live()->show()->save();
+    }
+    //now look for child sections
+    $sec = $old->query("SELECT * FROM `cms_section` WHERE `parent_id`=".$section['id'])->fetchAll();
+    foreach($sec as $sub){
+      echo str_pad("", ($depth+1)*12, "&nbsp;")."kids:<br>";
+      $this->traverse($root,$new_parent_id,$depth+1);
+    }
   }
 
 }
