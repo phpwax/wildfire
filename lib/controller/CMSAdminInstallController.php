@@ -105,13 +105,21 @@ class CMSAdminInstallController extends CMSBaseComponent{
       //now do file and category joins
       $mo = new WaxModel;
       $fj = $mo->query("SELECT * FROM `cms_content_wildfire_file` WHERE `cms_content_id`='".$content['id']."'")->fetchAll();
-      echo str_pad("", ($depth+1)*12, "&nbsp;")."files:<br>";
+      echo str_pad("", ($depth+1)*12, "&nbsp;")."files (".count($fj)."):<br>";
       foreach($fj as $join){
         $file = new WildfireFile($join['wildfire_file_id']);
-        str_pad("", ($depth+1)*12, "&nbsp;").$file->filename."<br>";
+        echo str_pad("", ($depth+2)*12, "&nbsp;").$file->filename."<br>";
         if(strstr($file->type, "image")) $type = "image";
         else $type = "document";
         $saved->file_meta_set($join['wildfire_file_id'], $type,$join['join_order']);
+      }
+      
+      $cats = $mo->query("SELECT * FROM `cms_category_cms_content` WHERE `cms_content_id`='".$content['id']."'")->fetchAll();
+      echo str_pad("", ($depth+1)*12, "&nbsp;")."categories (".count($fj)."):<br>";
+      foreach($cats as $join){
+        $cat = new WildfireCategory($join['cms_category_id']);
+        echo str_pad("", ($depth+2)*12, "&nbsp;").$cat->title."<br>";
+        $saved->categories = $cat;
       }
     }
     //now look for child sections
