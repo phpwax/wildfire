@@ -52,7 +52,13 @@ class CMSAdminInstallController extends CMSBaseComponent{
     $m->syncdb();
     $m = new WildfireUrlMap;
     $m->syncdb();
-
+    
+    $old = new WaxModel;
+    foreach($old->query("SELECT * FROM `cms_category`")->fetchAll() as $j){
+      $cat = new WildfireCategory;
+      $cat->update_attributes(array('title'=>$j['name']));
+    }    
+    
     $old = new WaxModel;
     $res = $old->query("SELECT * FROM `cms_section` WHERE `parent_id`=0 ORDER BY id ASC")->fetchAll();
     //so we start at the top...
