@@ -71,6 +71,7 @@ class CMSAdminInstallController extends CMSBaseComponent{
       $node->title = $section['title'];
       $node->content = $section['introduction'];
       $node->parent_id = $parent;
+      $node->old_id = $section['id'];
       $saved = $node->save()->generate_permalink()->map_live()->show()->save();
       $new_parent_id = $saved->primval;
     }
