@@ -48,13 +48,12 @@ class CMSAdminInstallController extends CMSBaseComponent{
     $node->syncdb();
     $map = new WildfireUrlMap;
     $map->syncdb();
-    
+
     $old = new WaxModel;
     $res = $old->query("SELECT * FROM `cms_section` WHERE `parent_id`=0 ORDER BY id ASC")->fetchAll();
     //so we start at the top...
     foreach($res as $root){
       $this->traverse($root,0,0);
-      exit;
     }
     exit;
   }
@@ -63,7 +62,8 @@ class CMSAdminInstallController extends CMSBaseComponent{
     echo str_pad("", ($depth)*12, "&nbsp;")."$section[title]:<br>";
     $new_parent_id = 0;
     //now we create a new content item for this section
-    if(strtolower($section['title']) != "home" && $section['url'] != "home"){      
+    if(strtolower($section['title']) != "home" && $section['url'] != "home"){
+      $node = new WildfireContent;
       $node->title = $section['title'];
       $node->content = $section['introduction'];
       $node->parent_id = $parent;
@@ -85,7 +85,7 @@ class CMSAdminInstallController extends CMSBaseComponent{
                     'date_created'=>$content['date_created'],
                     'wildfire_user_id'=>$content['author_id'],
                     'status'=>$content['status'],
-                    'parent_id'=>$new_parent_id,                    
+                    'parent_id'=>$new_parent_id,
                     'meta_description'=>$content['meta_description'],
                     'meta_keywords'=>$content['meta_keywords'],
                     'old_id'=>$content['id']
@@ -93,10 +93,11 @@ class CMSAdminInstallController extends CMSBaseComponent{
       $node->update_attributes($info)->generate_permalink()->map_live()->show()->save();
     }
     //now look for child sections
-    $sec = $old->query("SELECT * FROM `cms_section` WHERE `parent_id`=".$section['id'])->fetchAll();
+    $sql="SELECT * FROM `cms_section` WHERE `parent_id`=".$section['id'];
+    $sec = $old->query($sql)->fetchAll();
     foreach($sec as $sub){
       echo str_pad("", ($depth+1)*12, "&nbsp;")."kids:<br>";
-      $this->traverse($root,$new_parent_id,$depth+1);
+      $this->traverse($sub,$new_parent_id,$depth+1);
     }
   }
 
