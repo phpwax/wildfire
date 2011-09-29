@@ -95,7 +95,14 @@ class CMSAdminInstallController extends CMSBaseComponent{
                     'meta_keywords'=>$content['meta_keywords'],
                     'old_id'=>$content['id']
                     );
-      $node->update_attributes($info)->generate_permalink()->map_live()->show()->save();
+      $saved = $node->update_attributes($info)->generate_permalink()->map_live()->show()->save();
+      //now do file and category joins
+      $mo = new WaxModel;
+      $fj = $mo->query("SELECT * FROM `cms_content_wildfire_file` WHERE `cms_content_id`='".$content['id']."'")->fetchAll();
+      foreach($fj as $join){
+        $file = new WildfireFile($join['wildfire_file_id']);
+        $saved->files = $file;
+      }
     }
     //now look for child sections
     $sql="SELECT * FROM `cms_section` WHERE `parent_id`=".$section['id'];
