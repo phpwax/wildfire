@@ -44,10 +44,14 @@ class CMSAdminInstallController extends CMSBaseComponent{
 
   /* move over to new tree content */
   protected function convert_content(){
-    $node = new WildfireContent;
-    $node->syncdb();
-    $map = new WildfireUrlMap;
-    $map->syncdb();
+    $m = new WildfireCategory;
+    $m->syncdb();
+    $m = new WildfireFile;
+    $m->syncdb();
+    $m = new WildfireContent;
+    $m->syncdb();
+    $m = new WildfireUrlMap;
+    $m->syncdb();
 
     $old = new WaxModel;
     $res = $old->query("SELECT * FROM `cms_section` WHERE `parent_id`=0 ORDER BY id ASC")->fetchAll();
