@@ -1,0 +1,27 @@
+#v2-cms li a.node {
+	background: url("/images/wildfire/themes/v2/files_folder_closed.png") no-repeat left top;
+	padding-left:30px !important;
+}
+#v2-cms li.expanded a {
+	background: url("/images/wildfire/themes/v2/files_folder_open.png") no-repeat left top;
+}
+#v2-cms .file-tree-container li {border-bottom:1px solid #9cafbc;}
+
+#v2-cms .jqueryFileTree {border-top:1px solid #9CAFBC;}
+
+#v2-cms li.file a {
+	background: url("/images/wildfire/themes/v2/files_document.png") no-repeat left top;
+}
+#v2-cms .jqueryFileTree li:last-child {border:0;}
+#v2-cms .file-tree-container li .options a {
+	background:url("/images/wildfire/themes/v2/operation_button_bg.png") repeat-x scroll left top #88A1B4;
+	padding:3px 5px; 
+	margin-top:3px;
+}
+#v2-cms .info {
+	background:#bccfdb;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin-right:10px;
+}
