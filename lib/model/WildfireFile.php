@@ -109,7 +109,7 @@ class WildfireFile extends WaxModel {
 	
 	public function before_save() {
 	  $res = new WildfireFile($this->{$this->primary_key});
-	  $this->_path_cache = $this->local_path();
+	  $this->_path_cache = $this->base_dir.$res->rpath;
 	}
 	
 	public function after_save() {

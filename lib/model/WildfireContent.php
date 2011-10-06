@@ -38,7 +38,8 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts(),'group'=>'advanced'));
 
 	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Not Live",1=>"Live"), 'scaffold'=>true, 'editable'=>false, 'label'=>"Live", 'info_preview'=>1, "tree_scaffold"=>1));
-
+    
+    $this->define("old_id", "IntegerField", array('editable'=>false));
 	}
 
 	public function tree_setup(){
@@ -246,8 +247,13 @@ class WildfireContent extends WaxTreeModel {
     $model->table = $this->table."_wildfire_file";
     $col = $this->table."_".$this->primary_key;
     if(!$order) $order = 0;
-    foreach($model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->all() as $r){
-      $sql = "UPDATE `".$model->table."` SET `join_order`=$order, `tag`='$tag', `title`='$title' WHERE `id`=$r->primval";
+    if(($found = $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->all()) && $found->count()){
+      foreach($found as $r){
+        $sql = "UPDATE `".$model->table."` SET `join_order`=$order, `tag`='$tag', `title`='$title' WHERE `id`=$r->primval";
+        $model->query($sql);
+      }
+    }else{
+      $sql = "INSERT INTO `".$model->table."` (`wildfire_file_id`, `$col`, `join_order`, `tag`, `title`) VALUES ('$fileid', '$this->primval', '$order', '$tag', '$title')";
       $model->query($sql);
     }
   }
