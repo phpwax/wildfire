@@ -209,7 +209,7 @@ class CMSAdminContentController extends AdminComponent {
     //go over the live ones and call url mapping on them
     foreach($model->clear()->scope("live")->all() as $live){
       echo "[$live->primval] $live->title: $live->permalink<br>\n";
-      $live->generate_permalink()->map_live();
+      $live->generate_permalink()->map_live()->children_move()->show()->save();
     }
     
     echo "children:<br>";
