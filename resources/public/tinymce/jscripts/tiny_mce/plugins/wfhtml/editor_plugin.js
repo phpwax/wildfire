@@ -27,7 +27,7 @@
 					    ed.setContent(document.getElementById('wildfire-source-code').value, {source_view : true});
           		jQuery(this).dialog("close");
 					  },
-					  'Cancel':function(){jQuery(this).dialog("close");}
+					  'Cancel':function(){jQuery('#wildfire-source-code').html(""); jQuery(this).dialog("close");}
 					}
 				}, {
 					plugin_url : url
