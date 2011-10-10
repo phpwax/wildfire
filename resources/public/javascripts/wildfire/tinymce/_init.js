@@ -29,7 +29,7 @@ var tinymce_config = {
       skin:'o2k7',
       skin_variant : "silver",
       //
-      plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink',
+      plugins: 'directionality,jqueryinlinepopups,paste,wflink',
       // Theme options
   		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,link,unlink,|,hr",
   		theme_advanced_buttons2 : "",
