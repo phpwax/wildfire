@@ -7,7 +7,7 @@ var tinymce_config = {
       skin_variant : "silver",
       height:300,
       //
-      plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink,wfimage,wfhtml,wftable,wftemplate',
+      plugins: 'directionality,jqueryinlinepopups,paste,wflink,wfimage,wfhtml,wftable,wftemplate',
       theme_advanced_blockformats: "p,h2,h3,h4,blockquote",
       content_css: "/stylesheets/build/wildfire-templates_combined.css",
       // Theme options
@@ -29,7 +29,7 @@ var tinymce_config = {
       skin:'o2k7',
       skin_variant : "silver",
       //
-      plugins: 'contextmenu,directionality,jqueryinlinepopups,noneditable,paste,wflink',
+      plugins: 'directionality,jqueryinlinepopups,paste,wflink',
       // Theme options
   		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,link,unlink,|,hr",
   		theme_advanced_buttons2 : "",
