@@ -2,6 +2,9 @@
 
 class WildfireContent extends WaxTreeModel {
   public $identifier = "title";
+  public static $view_listing_cache = array();
+  public static $layout_listing_cache = array();
+  
 
 	public function setup(){
 		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
@@ -216,6 +219,8 @@ class WildfireContent extends WaxTreeModel {
    * find all the possible views for the cms in the default location
    */
   public function cms_views(){
+    if(count(WildfireContent::$view_listing_cache)) return WildfireContent::$view_listing_cache;
+    
     $dir = VIEW_DIR."page/";
     $return = array(''=>'-- Select View --');
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
@@ -226,10 +231,12 @@ class WildfireContent extends WaxTreeModel {
       }
     }
     asort($return);
+    WildfireContent::$view_listing_cache = $return;
     return $return;
   }
 
   public function cms_layouts(){
+    if(count(WildfireContent::$layout_listing_cache)) return WildfireContent::$layout_listing_cache;
     $dir = VIEW_DIR."layouts/";
     $return = array(''=>'-- Select Layout --');
     if(is_dir($dir) && ($files = glob($dir."*.html"))){
@@ -238,6 +245,7 @@ class WildfireContent extends WaxTreeModel {
         $return[$i] = str_replace("_", " ", basename($f, ".html"));
       }
     }
+    WildfireContent::$layout_listing_cache = $return;
     return $return;
   }
 

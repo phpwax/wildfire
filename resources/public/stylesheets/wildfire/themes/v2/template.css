@@ -117,6 +117,9 @@ html {
 	overflow:hidden;
 	margin-right:20px;
 }
+.nochrome #v2-cms #page_content{
+  width:98%;
+}
 
 #v2-cms #client-analytics-graph, 
 #v2-cms #client-sources-graph, 

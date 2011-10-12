@@ -9,6 +9,7 @@ class WildfireUrlMap extends WaxModel{
     $this->define("origin_url", "CharField");    
     //optional end points
     $this->define("destination_url", "CharField");
+    $this->define("track_url", "IntegerField");
     //or pick the model & id
     $this->define("destination_model", "CharField");
     $this->define("destination_id", "CharField"); 

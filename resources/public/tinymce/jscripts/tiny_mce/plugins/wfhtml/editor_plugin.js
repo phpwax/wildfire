@@ -20,14 +20,14 @@
 					height : 300,
 					inline : 1,
 					on_open:function(){
-					  jQuery('#wildfire-source-code').html(ed.getContent());
+					  jQuery('#wildfire-source-code').val(ed.getContent({source_view : true}));
 					},
 					button_actions:{
 					  'Update':function(){
 					    ed.setContent(document.getElementById('wildfire-source-code').value, {source_view : true});
           		jQuery(this).dialog("close");
 					  },
-					  'Cancel':function(){jQuery(this).dialog("close");}
+					  'Cancel':function(){jQuery('#wildfire-source-code').html(""); jQuery(this).dialog("close");}
 					}
 				}, {
 					plugin_url : url
