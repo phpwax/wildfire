@@ -22,7 +22,7 @@
   </div>
   
   
-  
+<?if(!Request::param('nojs')):?>  
 <script src='//www.google.com/jsapi?'  type='text/javascript'></script>
 <script type='text/javascript'>
   google.load('jquery', '1.5');
@@ -39,6 +39,6 @@
   <?=($plugin['name'] != "cms")?js_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
 <?endforeach?>
 <?=js_bundle("wildfire-overwrites", array())?>
-
+<?endif?>
 </body>
 </html>
