@@ -1,7 +1,7 @@
 .button, .submit_field{
   color:#323231;
 }
-
+.button {margin-right:0;}
 /**
  * js inserted on files
  */
