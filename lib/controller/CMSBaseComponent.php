@@ -92,6 +92,9 @@ class CMSBaseComponent extends WaxController {
   	  elseif($obj->use_format == "nochrome"){
   	    $obj->use_format = "html";
   	    $obj->use_layout = "nochrome";
+	    }elseif($obj->use_format == "nolayout"){
+	      $obj->use_format = "html";
+  	    $obj->use_layout = "nolayout";
 	    }
     });
     WaxEvent::add("cms.layout.sublinks", function(){});    
