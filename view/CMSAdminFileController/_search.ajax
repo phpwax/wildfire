@@ -1,0 +1,3 @@
+<div class='data_table data_result_table clearfix'>
+  <?=partial("_list", array('cms_content'=>$cms_content, 'show_unfiltered_results'=>false,'scaffold_columns'=>array('preview'=>'preview', 'filename'=>'Filename', 'path'=>'path'), 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
+</div>

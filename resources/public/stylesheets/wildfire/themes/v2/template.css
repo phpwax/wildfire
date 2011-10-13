@@ -13,7 +13,7 @@ html {
 	padding:16px 10px 0 10px;
 }
 
-#v2-cms .dashboard, #cms-files #v2-cms #page_content {
+#v2-cms .dashboard{
 	background:#36424a;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -225,12 +225,12 @@ html {
 	margin:0 5px;
 }
 #v2-cms .file-tree-container {
-	margin:15px 15px 15px;
+	margin:0px;
 	width:51%;
 	padding:10px 2%;
 }
 #v2-cms .files_content .info {
-	margin:15px;
+	margin:0;
 	margin-left:0;
 	width:35.2%;
 }
