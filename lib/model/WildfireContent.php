@@ -333,7 +333,7 @@ class WildfireContent extends WaxTreeModel {
     return $this;
   }
 
-  protected function language_permalink($lang_id){
+  public function language_permalink($lang_id){
     $lang_url = "";
     if(CMSApplication::$languages[$lang_id] && ($url = CMSApplication::$languages[$lang_id]['url'])) $lang_url = "/".$url;
     return $lang_url.$this->generate_permalink()->permalink;
