@@ -24,7 +24,7 @@ class WildfireUrlMap extends WaxModel{
   }
   
   public function before_save(){
-    if(!$this->langauge) $this->language = 0;
+    if(!$this->language) $this->language = 0;
   }
   
   public function scope_live(){
