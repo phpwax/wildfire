@@ -116,8 +116,17 @@ class CMSAdminContentController extends AdminComponent {
     WaxEvent::clear("cms.model.copy");
     WaxEvent::add("cms.model.copy", function(){
 	    $obj = WaxEvent::data();
+	    $source = $obj->source_model;
+	    $changes = Request::param('change');
 	    $destination_model = $obj->source_model->copy();
-      if($changes = Request::param('change')) $destination_model->update_attributes($changes);
+	    //check to see if the source has a parent, if it has, then look for a matching language version
+	    if($source->parent_id && $changes && isset($changes['language'])){
+	      $class = get_class($source);
+	      $model = new $class("live");
+	      if($alt_parent = $model->filter("permalink", $source->parent->permalink)->filter("language", $changes['language'])->first()) $changes['parent_id'] = $alt_parent->primval;
+	      
+	    }
+      if($changes) $destination_model->update_attributes($changes);
       if($destination_model) $destination_model->map_revision();
       $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
