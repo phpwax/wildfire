@@ -123,7 +123,7 @@ class WildfireContent extends WaxTreeModel {
     //look for all urls linked to this model and hide them
     if(($maps = $map->filter("destination_id", $this->primval)->filter("destination_model",$class)->all()) && $maps->count()){
       foreach($maps as $row) $row->update_attributes(array('status'=>0, 'date_end'=>$this->date_end, 'date_start'=>$this->date_start));
-    }else $map->clear()->map_to($permalink, $this, $this->primval, 0);
+    }else $map->clear()->map_to($permalink, $this, $this->primval, 0, $this->language);
     //if have no existing maps then create one
     return $this;
   }
@@ -139,7 +139,7 @@ class WildfireContent extends WaxTreeModel {
       else{
         $permalink = $this->language_permalink($this->language);
         $m = new WildfireUrlMap;
-        $m->map_to($permalink, $this, $this->primval, 1);
+        $m->map_to($permalink, $this, $this->primval, 1, $this->language);
       }      
     }elseif($this->revision == 0){
       $mod = new $class;
