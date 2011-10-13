@@ -1,14 +1,22 @@
-<div class='info clearfix'>
+<div class='index_container clearfix'>
+  <div class='clearfix filters_pagination'>
+  <?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
+    <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
+  <?endif?>
+  </div>
+
+  <div class='info clearfix'>
   
-  <?=partial("_new_folder", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
+    <?=partial("_new_folder", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
   
-  <div class='file-info clearfix'></div>
+    <div class='file-info clearfix'></div>
   
-  <form method="post" action="/<?=trim($controller,"/")?>/" class='upload-form clearfix' enctype="multipart/form-data" id="upload-form" data-html5-upload="/<?=trim($controller,"/")?>/upload.ajax">
-  <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
-  </form>
+    <form method="post" action="/<?=trim($controller,"/")?>/" class='upload-form clearfix' enctype="multipart/form-data" id="upload-form" data-html5-upload="/<?=trim($controller,"/")?>/upload.ajax">
+    <?=partial("_upload", array('controller'=>$controller, 'file_system_base'=>$file_system_base))?>
+    </form>
   
 
   
+  </div>
+  <?=partial("_file_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller))?>
 </div>
-<?=partial("_file_tree", array('file_system_base'=>$file_system_base, 'controller'=>$controller))?>

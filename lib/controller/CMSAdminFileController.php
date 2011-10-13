@@ -9,6 +9,9 @@ class CMSAdminFileController extends AdminComponent {
 	public $model_class="WildfireFile";
 	public $model_scope = "available";
 	public $display_name = "Files";
+	public $filter_fields=array(
+                          'text' => array('columns'=>array('title', 'id', 'path', 'rpath'), 'partial'=>'_filters_text', 'fuzzy'=>true)
+	                      );
 
 
   protected function events(){

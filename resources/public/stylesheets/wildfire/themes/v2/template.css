@@ -225,8 +225,9 @@ html {
 	margin:0 5px;
 }
 #v2-cms .file-tree-container {
-	margin:15px;
-	width:55%;
+	margin:15px 15px 15px;
+	width:51%;
+	padding:10px 2%;
 }
 #v2-cms .files_content .info {
 	margin:15px;
