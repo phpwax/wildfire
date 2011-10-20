@@ -9,6 +9,10 @@ class CMSAdminFileController extends AdminComponent {
 	public $model_class="WildfireFile";
 	public $model_scope = "available";
 	public $display_name = "Files";
+	public $filter_fields=array(
+                          'text' => array('columns'=>array('id', 'path', 'rpath', 'filename'), 'partial'=>'_filters_text', 'fuzzy'=>true),
+                          'folder' => array('columns'=>array('path'), 'partial'=>'_filters_folder', 'fuzzy_right'=>true),
+	                      );
 
 
   protected function events(){
@@ -36,6 +40,10 @@ class CMSAdminFileController extends AdminComponent {
 	    $this->files = array_reverse((array)$this->files);
 	  }
 	}
+
+  public function _search(){
+    $this->cms_content = $this->model->scope("available")->all();
+  }
 
 	public function _info(){
 	  if($filename = Request::param('file')){

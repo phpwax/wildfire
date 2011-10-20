@@ -22,7 +22,7 @@
   </div>
   
   <?if($tree_view = partial("_tree", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name, 'full_tree'=>$full_tree, 'mods'=>$mods))):?>
-    <div class='tree' id="data-tree">
+    <div class='tree clearfix' id="data-tree">
       <?=$tree_view?>
     </div>
   <?endif?>

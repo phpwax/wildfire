@@ -13,7 +13,7 @@ html {
 	padding:16px 10px 0 10px;
 }
 
-#v2-cms .dashboard, #cms-files #v2-cms #page_content {
+#v2-cms .dashboard{
 	background:#36424a;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -35,6 +35,7 @@ html {
 	border-radius: 5px;
 }
 #v2-cms .data_table{margin-top:10px;}
+#v2-cms .data_result_table{margin-top:0;}
 #v2-cms .empty_data_table{margin-top:0;}
 #v2-cms .data_grid, #v2-cms .data_info{padding:8px;}
 #v2-cms .tree_item_details .operation{
@@ -44,7 +45,7 @@ html {
 #v2-cms .data_info .info_col{
   display:block;
   float:left;
-  width:36%;
+  width:35%;
   padding-right:2%;
   font-weight:bold;
   text-align:right;
@@ -116,6 +117,9 @@ html {
 	width:80%;
 	overflow:hidden;
 	margin-right:20px;
+}
+.nochrome #v2-cms #page_content{
+  width:98%;
 }
 
 #v2-cms #client-analytics-graph, 
@@ -222,11 +226,12 @@ html {
 	margin:0 5px;
 }
 #v2-cms .file-tree-container {
-	margin:15px;
-	width:55%;
+	margin:0px;
+	width:51%;
+	padding:10px 2%;
 }
 #v2-cms .files_content .info {
-	margin:15px;
+	margin:0;
 	margin-left:0;
 	width:35.2%;
 }

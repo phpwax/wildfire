@@ -87,6 +87,8 @@ class CMSAdminComponent extends CMSBaseComponent {
         if(strlen($value) && $filter = $obj->filter_fields[$name]){
           foreach($filter['columns'] as $col){
             if($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".($value)."%' OR";
+            elseif($filter['fuzzy_right']) $col_filter .= "`$col` LIKE '".($value)."%' OR";
+            elseif($filter['fuzzy_left']) $col_filter .= "`$col` LIKE '%".($value)."' OR";
             else $col_filter .= "`$col`='".($value)."' OR";
           }
           $filterstring .= "(".trim($col_filter, " OR").") AND ";

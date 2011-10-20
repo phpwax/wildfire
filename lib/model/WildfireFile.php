@@ -26,7 +26,9 @@ class WildfireFile extends WaxModel {
     return $this->filter("status", "found");
   }
   
-  
+  public function preview(){
+    return "<img src='".$this->permalink(80)."' alt='' data-large='".$this->permalink(160)."'>";
+  }
   
 	public function extension() {
 	  return ".".File::get_extension($this->filename);
