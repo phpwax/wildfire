@@ -77,8 +77,8 @@ class WildfireFile extends WaxModel {
     }
     if($smart_resize_image){
       File::smart_resize_image($source, $file, $size, false, "nocrop");
-      return true;
-    }elseif($this->image = File::display_image($file) ) {
+    }  
+    if($this->image = File::display_image($file) ) {
 			return true;
 		}
 		return false;
