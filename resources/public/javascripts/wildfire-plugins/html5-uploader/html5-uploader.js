@@ -111,13 +111,13 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
     
 	  jQuery(dropArea).bind("dragleave", function (evt) {
 		  var target = evt.target;
-		  if (target && target === dropArea) this.className = "";
+		  if (target && target === dropArea) jQuery(this).removeClass("over");
 		  evt.preventDefault();
 		  evt.stopPropagation();
 	  }, false);
 
 	  jQuery(dropArea).bind("dragenter", function (evt) {
-		  this.className = "over";
+			jQuery(this).addClass("over");
 		  evt.preventDefault();
 		  evt.stopPropagation();
 	  }, false);
@@ -127,11 +127,11 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 		  evt.stopPropagation();
 	  }, false);
 
-	  jQuery(dropArea).bind("drop", function (evt) {
-		  traverseFiles(evt.dataTransfer.files);
-		  this.className = "";
-		  evt.preventDefault();
+	  dropArea.addEventListener("drop", function (evt) {
+			evt.preventDefault();
 		  evt.stopPropagation();
+		  traverseFiles(evt.dataTransfer.files);
+			jQuery(this).removeClass("over");
 	  }, false);
   }
 })();
