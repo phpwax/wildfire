@@ -43,16 +43,16 @@ class WildfireFile extends WaxModel {
 	 * @return string url
 	 * @param string $size 
 	 */	
-	public function permalink($size=110){
+	public function permalink($size=110, $smart_resize_image=false){
 		$ext = File::get_extension($this->filename);		
-		return "/show_image/".$this->id."/".$size.".".$ext;
+		return "/show_image/".$this->id."/".$size.".".$ext."?smart_resize_image=".(($smart_resize_image)?1:0);
 	}
 	/**
 	 * show function - this is now moved from the contoller level so can differ for each model
 	 * NOTE: this function exits
 	 * @param string $size 
 	 */	
-	public function show($size=110, $compress = false){
+	public function show($size=110, $compression = false, $smart_resize_image=false){
 		$source = $this->local_path().$this->filename;
 		$extension = File::get_extension($this->filename);
 		if(!is_dir(CACHE_DIR."images/")){
@@ -75,9 +75,13 @@ class WildfireFile extends WaxModel {
         File::display_image(PLUGIN_DIR."cms/resources/public/images/cms/indicator.gif");
   		} else File::resize_image($source, $file, $size, $compression);
     }
-		if($this->image = File::display_image($file) ) {
+    if($smart_resize_image){
+      File::smart_resize_image($source, $file, $size, false, "nocrop");
+    }  
+    if($this->image = File::display_image($file) ) {
 			return true;
-		} return false;
+		}
+		return false;
 	}
 	
 	public function is_image() {
