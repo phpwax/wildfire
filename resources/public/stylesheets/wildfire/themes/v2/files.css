@@ -5,6 +5,9 @@
 #v2-cms li.expanded a {
 	background: url("/images/wildfire/themes/v2/files_folder_open.png") no-repeat left top;
 }
+#v2-cms li.collapsed a {
+	background: url("/images/wildfire/themes/v2/files_folder_closed.png") no-repeat left top;
+}
 #v2-cms .file-tree-container li {border-bottom:1px solid #9cafbc;}
 
 #v2-cms .jqueryFileTree {border-top:1px solid #9CAFBC;}
@@ -25,3 +28,4 @@
 	border-radius: 5px;
 	margin-right:10px;
 }
+#v2-cms .delete_folder {margin-right:4px;}
