@@ -54,7 +54,8 @@ class CMSAdminUserController extends AdminComponent {
   	}
     
 		if($_POST['cancel']) $this->redirect_to(Session::get("list_refer-".$this->module_name));
-		if($_POST) {
+		
+		if($_POST && $this->model->primval && $_POST["user_permission"]) {
       $this->model->fetch_permissions();
       $this->model->permissions->unlink();
       foreach((array)$_POST["user_permission"] as $perm) {
