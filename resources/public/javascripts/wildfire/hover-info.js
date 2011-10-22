@@ -14,7 +14,6 @@ jQuery(function(){
           
           els.each(function(){
             var el = jQuery(this);
-            console.log(el);
             var data_hover_fetch = el.attr("data-hover-fetch");
             if(data_hover_fetch) el.text(hover_target.attr(data_hover_fetch));
             var data_hover_fetch_href = el.attr("data-hover-fetch-href");
