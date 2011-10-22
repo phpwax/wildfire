@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" id="cms-<?=Inflections::underscore($display_name)?>" class="clearfix nochrome">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<?=partial("_cf")?>
+  <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
+  <?foreach(Autoloader::$plugin_array as $plugin):?>
+    <?=($plugin['name'] != "cms")?css_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
+  <?endforeach?>
+  <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
+  <!--[if lte IE 8]> <link href="/stylesheets/wildfire/ie/compat.css" type="text/css" rel="stylesheet" /><![endif]-->
+	<title>Content Management System</title>
+</head>
+
+<body id="v2-cms" class='wildfire'>
+	
+  <div id="page_content" class='clearfix'>
+    
+    
+      <?=$content_for_layout?>
+    </div>
+  </div>
+  
+  
+<?if(!Request::param('nojs')):?>  
+<script src='//www.google.com/jsapi?'  type='text/javascript'></script>
+<script type='text/javascript'>
+  google.load('jquery', '1.5');
+  google.load('jqueryui', '1.8');
+</script>
+
+<!-- EDITOR -->
+<script src="/tinymce/jscripts/tiny_mce/jquery.tinymce.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- CMS -->
+<?=js_bundle("wildfire-plugins", array(), "cms")?>
+<?=js_bundle("wildfire", array(), "cms")?>
+<?foreach(Autoloader::$plugin_array as $plugin):?>
+  <?=($plugin['name'] != "cms")?js_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
+<?endforeach?>
+<?=js_bundle("wildfire-overwrites", array())?>
+<?endif?>
+</body>
+</html>

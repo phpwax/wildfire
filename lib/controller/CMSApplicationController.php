@@ -265,7 +265,7 @@ class CMSApplicationController extends WaxController{
 	    case "pdf":
 	      $this->redirect_to("/images/fs/large/pdf.png");exit;break;
   	}
-    $img->show($size);
+    $img->show($size,false, Request::param('smart_resize_image'));
   }
 
 

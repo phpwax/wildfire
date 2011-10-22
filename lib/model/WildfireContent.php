@@ -10,8 +10,8 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
 		$this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
 
-		$this->define("date_start", "DateTimeField", array('default'=>date("Y-m-d h:i:s"), 'output_format'=>"Y-m-d h:i", 'info_preview'=>1));
-		$this->define("date_end", "DateTimeField", array('default'=>date("Y-m-d h:i:s",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"Y-m-d h:i", 'info_preview'=>1));
+		$this->define("date_start", "DateTimeField", array('default'=>date("Y-m-d h:i:s"), 'output_format'=>"jS M Y g:ia", 'info_preview'=>1));
+		$this->define("date_end", "DateTimeField", array('default'=>date("Y-m-d h:i:s",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"jS M Y g:ia", 'info_preview'=>1));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'input_pattern'=>'tags[%s]', 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>false, 'group'=>'relationships', 'info_preview'=>1));
@@ -108,7 +108,7 @@ class WildfireContent extends WaxTreeModel {
       foreach($map->clear()->filter("destination_id", $master_id)->filter("destination_model",$class)->all() as $row) $row->update_attributes(array('status'=>0));
     }
     //if have no existing maps then create one
-    if(!($f = $map->clear()->filter("destination_id", $this->primval)->filter("origin_url", $permalink)->first())) $map->map_to($permalink, $this, $this->primval, 1);
+    if(!($f = $map->clear()->filter("destination_id", $this->primval)->filter("origin_url", $permalink)->first())) $map->map_to($permalink, $this, $this->primval, 1, $this->language);
     else if($f && $f->status != 1) $f->update_attributes(array('status'=>1, 'date_start'=>$this->date_start, 'date_end'=>$this->date_end));
 
     return $this;
@@ -123,7 +123,7 @@ class WildfireContent extends WaxTreeModel {
     //look for all urls linked to this model and hide them
     if(($maps = $map->filter("destination_id", $this->primval)->filter("destination_model",$class)->all()) && $maps->count()){
       foreach($maps as $row) $row->update_attributes(array('status'=>0, 'date_end'=>$this->date_end, 'date_start'=>$this->date_start));
-    }else $map->clear()->map_to($permalink, $this, $this->primval, 0);
+    }else $map->clear()->map_to($permalink, $this, $this->primval, 0, $this->language);
     //if have no existing maps then create one
     return $this;
   }
@@ -139,7 +139,7 @@ class WildfireContent extends WaxTreeModel {
       else{
         $permalink = $this->language_permalink($this->language);
         $m = new WildfireUrlMap;
-        $m->map_to($permalink, $this, $this->primval, 1);
+        $m->map_to($permalink, $this, $this->primval, 1, $this->language);
       }      
     }elseif($this->revision == 0){
       $mod = new $class;
@@ -284,6 +284,31 @@ class WildfireContent extends WaxTreeModel {
     foreach($attached as $img) $rowset[]=$img->wildfire_file_id;
     return  new WaxRecordset(new WildfireFile, $rowset);
   }
+
+	public function image($index=0) {
+		$imgs = $this->images();
+		return $imgs[$index];
+	}
+	
+  public function humanize($column=false){
+    if($column == "date_end" ) {
+      $start = strtotime($this->date_start);
+      $end = strtotime($this->date_end);
+      if($end < $start) return "No Expiry";
+    }
+    return parent::humanize($column);
+  }
+	
+	
+	// Finder methods to get quick access to content groupings
+	public static function find_by_parent($permalink) {
+	  $class= get_called_class();
+		$s = new $class("live");
+		$parent = $s->filter("permalink",$permalink)->first();
+		$finder = new $class("live");
+		$finder->filter("parent_id",$parent->id);
+		return $finder->all();
+	}
   
   
   //ignore the language, as we are grouping by this field
@@ -308,7 +333,7 @@ class WildfireContent extends WaxTreeModel {
     return $this;
   }
 
-  protected function language_permalink($lang_id){
+  public function language_permalink($lang_id){
     $lang_url = "";
     if(CMSApplication::$languages[$lang_id] && ($url = CMSApplication::$languages[$lang_id]['url'])) $lang_url = "/".$url;
     return $lang_url.$this->generate_permalink()->permalink;

@@ -89,6 +89,13 @@ class CMSBaseComponent extends WaxController {
     WaxEvent::add("cms.format.set", function(){
       $obj = WaxEvent::data();
   	  if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
+  	  elseif($obj->use_format == "nochrome"){
+  	    $obj->use_format = "html";
+  	    $obj->use_layout = "nochrome";
+	    }elseif($obj->use_format == "nolayout"){
+	      $obj->use_format = "html";
+  	    $obj->use_layout = "nolayout";
+	    }
     });
     WaxEvent::add("cms.layout.sublinks", function(){});    
     WaxEvent::add('cms.search.'.$this->module_name, function(){});

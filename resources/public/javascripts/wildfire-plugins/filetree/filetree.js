@@ -46,6 +46,7 @@ if(jQuery) (function($){
 			if( o.multiFolder == undefined ) o.multiFolder = true;
 			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
 			
+			
 			$(this).each( function() {
 				
 				function showTree(c, t) {
