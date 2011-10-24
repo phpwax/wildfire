@@ -14,7 +14,6 @@ jQuery(document).ready(function(){
       update:function(event, ui){
         jQuery(this).find(".join-yes .join-order-field").each(function(i){
           jQuery(this).val(i);
-          console.log(jQuery(this));
         });
       }
     });

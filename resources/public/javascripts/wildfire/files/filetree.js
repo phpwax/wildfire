@@ -1,9 +1,12 @@
 
 
-function file_tree_refresh(alt_selector, recursive){
-  var sel = (alt_selector)? alt_selector : ".file-tree";
-  jQuery(sel).each(function(){
-    var ftree = jQuery(this), froot = jQuery(this).attr("data-file-root"), dest = jQuery(this).attr('data-list')+".ajax", info=jQuery(this).attr('data-info')+".ajax";
+function file_tree_refresh(fileroot){
+  var sel = (fileroot) ? $("a[rel='"+fileroot+"']").parent().find(".jqueryFileTree") :$(".file-tree");
+	var froot = (fileroot) ? fileroot : $(".file-tree").attr("data-file-root");
+  sel.each(function(){
+    var ftree = jQuery(this), 
+				dest = 	jQuery(".file-tree").attr('data-list')+".ajax", 
+				info =	jQuery(".file-tree").attr('data-info')+".ajax";
 
     ftree.fileTree({ root: froot, script: dest }, function(file) {
       jQuery('.info').addClass('loading').removeClass('loaded');
@@ -15,7 +18,7 @@ function file_tree_refresh(alt_selector, recursive){
           jQuery('.info').removeClass('loading').find(".file-info").html(res).addClass('loaded');
         },
         error:function(){}
-      })
+      });
     });
 
   });
@@ -65,7 +68,7 @@ function drags(){
 			  complete: function() {},
 			  success: function() {
 					$(ui.draggable).remove();
-					//file_tree_refresh();
+					file_tree_refresh();
 			 	},
 			
 			  error: function() {},

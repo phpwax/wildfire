@@ -64,8 +64,8 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 
 		// Set appropriate headers
 		xhr.setRequestHeader("Content-Type", "multipart/form-data");
-		xhr.setRequestHeader("X-File-Name", file.fileName);
-		xhr.setRequestHeader("X-File-Size", file.fileSize);
+		xhr.setRequestHeader("X-File-Name", file.name);
+		xhr.setRequestHeader("X-File-Size", file.size);
 		xhr.setRequestHeader("X-File-Path", jQuery('.filepath').val());
 		xhr.setRequestHeader("X-Class", jQuery('#model-class').val());
 		xhr.setRequestHeader("X-Primval", jQuery('#model-primval').val());
@@ -90,12 +90,7 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 				uploadFile(files[i]);
 			}			
 			joined_files_refresh();
-      if(jQuery('input[name="path"]').val()){      
-        var node_to_refresh_attr = jQuery('input[name="path"]').val(), node_to_refresh = jQuery('a[rel="'+node_to_refresh_attr+'"]').parents("li");
-        file_tree_refresh();
-      }else{
-        file_tree_refresh();
-      }
+      file_tree_refresh(jQuery('input[name="path"]').val());
 		}
 		else {
 			fileList.innerHTML = "No support for the File API in this web browser";
@@ -111,13 +106,13 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
     
 	  jQuery(dropArea).bind("dragleave", function (evt) {
 		  var target = evt.target;
-		  if (target && target === dropArea) this.className = "";
+		  if (target && target === dropArea) jQuery(this).removeClass("over");
 		  evt.preventDefault();
 		  evt.stopPropagation();
 	  }, false);
 
 	  jQuery(dropArea).bind("dragenter", function (evt) {
-		  this.className = "over";
+			jQuery(this).addClass("over");
 		  evt.preventDefault();
 		  evt.stopPropagation();
 	  }, false);
@@ -127,10 +122,10 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 		  evt.stopPropagation();
 	  }, false);
 
-	  jQuery(dropArea).bind("drop", function (evt) {
-		  traverseFiles(evt.dataTransfer.files);
-		  this.className = "";
-		  evt.preventDefault();
+	  dropArea.addEventListener("drop", function (evt) {
+			traverseFiles(evt.dataTransfer.files);
+			jQuery(this).removeClass("over");
+			evt.preventDefault();
 		  evt.stopPropagation();
 	  }, false);
   }

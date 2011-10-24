@@ -33,8 +33,8 @@
                   href=(jQuery('#wf_ld_internal') && jQuery('#wf_ld_internal').val())?jQuery('#wf_ld_internal').val(): jQuery('#wf_ld_url').val(),
                   href_target=(jQuery('#wf_ld_tar').val())
                   ;
-                  
               if(href.charAt(0) == "/") href = siteaddress+href;
+              else if(href.substring(0,7) == "mailto:") href=href;
               else if(href.substring(0,4) != "http") href = "http://"+href;
               // Create new anchor elements
           		if (e == null) {

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" id="<?=Inflections::to_url($controller)?>">
 <head>
-  <script src='http://www.google.com/jsapi?'  type='text/javascript'></script>
+  <script src='//www.google.com/jsapi?'  type='text/javascript'></script>
   <script type='text/javascript'>
     google.load('jquery', '1.5');
   </script>
   <?=partial("_cf")?>
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
   <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
   
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,9 +16,9 @@
 
 <body>
   <div class="middle">
-    <h1><img src="/images/wildfire/logos/white.png" alt="Wildfire" title="Wildfire">Content Management Login</h1>
+    <h1><img src="/images/wildfire/logos/white.png" alt="Wildfire" title="Wildfire" id="wf_logo">Content Management Login</h1>
     <?=$content_for_layout?>
-    <div id="footer"><a href="">Wildfire CMS MMXI</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="">Supported Browsers</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="">Credits</a></div>
+    <div id="footer"><a href="#wf_logo">Wildfire CMS MMXI</a>&nbsp;&nbsp;|&nbsp;&nbsp;</div>
   </div>
 </body>
 </html>

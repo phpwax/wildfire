@@ -88,6 +88,8 @@ class CMSApplicationController extends WaxController{
       $this->cms_content = $content;
     }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
       $this->cms_content = $content;
+    }elseif(WaxApplication::is_public_method($this, "method_missing")){
+      return $this->method_missing();
 	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	  WaxEvent::run("cms.cms_content_set", $this);
     /**
@@ -133,7 +135,7 @@ class CMSApplicationController extends WaxController{
 	protected function cms_view($stack, $language_id){
 	  $accumulated = "";
 	  $base = $this->controller ."/cms_%s%view";
-	  $views = array($this->controller."/".$this->cms_default_view);
+	  $views = array($this->controller."/".$this->cms_default_view, "shared/".$this->cms_default_view);
 	  //if the stack is empty, push home to it so has a custom view for home pages
 	  if((count($stack) == 0)) $stack[] = "home";
 	  //if there is one thing in the stack, and it is an allowed language, push that to the stack
@@ -163,7 +165,8 @@ class CMSApplicationController extends WaxController{
 	 * split out what to do for a map object
 	 */
 	protected function map_to_content($map){
-	  if($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
+		if($map->destination_url && !$map->track_url) $this->redirect_to($map->destination_url);
+	  elseif($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
 	  elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
 	}
 	/**
@@ -262,7 +265,7 @@ class CMSApplicationController extends WaxController{
 	    case "pdf":
 	      $this->redirect_to("/images/fs/large/pdf.png");exit;break;
   	}
-    $img->show($size);
+    $img->show($size,false, Request::param('smart_resize_image'));
   }
 
 

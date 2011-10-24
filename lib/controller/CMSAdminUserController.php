@@ -10,6 +10,9 @@ class CMSAdminUserController extends AdminComponent {
   public $model_class = 'WildfireUser';
 	public $display_name = "Admin Users";
 	public $dashboard = false;
+	public $filter_fields=array(
+                          'text' => array('columns'=>array('username', 'firstname', 'surname'), 'partial'=>'_filters_text', 'fuzzy'=>true)
+	                      );
 	
 	protected function events(){
 	  parent::events();

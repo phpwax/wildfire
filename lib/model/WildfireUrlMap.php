@@ -9,6 +9,7 @@ class WildfireUrlMap extends WaxModel{
     $this->define("origin_url", "CharField");    
     //optional end points
     $this->define("destination_url", "CharField");
+    $this->define("track_url", "IntegerField");
     //or pick the model & id
     $this->define("destination_model", "CharField");
     $this->define("destination_id", "CharField"); 
@@ -23,7 +24,7 @@ class WildfireUrlMap extends WaxModel{
   }
   
   public function before_save(){
-    if(!$this->langauge) $this->language = 0;
+    if(!$this->language) $this->language = 0;
   }
   
   public function scope_live(){
@@ -33,7 +34,7 @@ class WildfireUrlMap extends WaxModel{
     return $this->filter("status", 0);
   }
   
-  public function map_to($permalink, $model, $id, $status){
+  public function map_to($permalink, $model, $id, $status, $lang=0){
     return $this->update_attributes(array('title'=>$model->title,
                                     'origin_url'=>$permalink,
                                     'destination_id'=>$id,
@@ -41,8 +42,9 @@ class WildfireUrlMap extends WaxModel{
                                     'status'=>$status,
                                     'date_start'=>$model->date_start,
                                     'date_end'=>$model->date_end,
-                                    'language'=>$model->language
+                                    'language'=>$lang
                                     ));
+
   }
 }
 ?>

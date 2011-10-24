@@ -5,6 +5,7 @@
   text-align:center;
 }
   #drop-area h3{margin-bottom:0;}
+	#upload-form .over {background-color:white !important;}
 
 #file-list{
   
