@@ -1,8 +1,8 @@
 <?
 $dir = new RecursiveIteratorIterator(new RecursiveRegexIterator(new RecursiveDirectoryIterator(PUBLIC_DIR."files/", RecursiveDirectoryIterator::FOLLOW_SYMLINKS), '#^[^\.]*$#i'), true);
 $nodes = array();
-foreach($dir as $node) if(is_dir($node)) $nodes[] = $node;
-asort($nodes);
+foreach($dir as $node) if(is_dir($node)) $nodes[str_replace(PUBLIC_DIR."files/", "", $node)] = $node;
+ksort($nodes, SORT_LOCALE_STRING);
 ?>
 <div class='parent_filter'>
   <label for="filters_<?=$name?>">Folder:</label>
