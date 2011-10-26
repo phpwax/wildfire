@@ -38,6 +38,7 @@ class CMSAdminFileController extends AdminComponent {
 	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
 	    foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$this->dir), "#^[^\.]#i") as $file) $this->files[] = basename($file->getPathName());
 	    $this->files = array_reverse((array)$this->files);
+	    asort($this->files);
 	  }
 	}
 
