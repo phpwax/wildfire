@@ -1,13 +1,15 @@
 <?
 $dir = new RecursiveIteratorIterator(new RecursiveRegexIterator(new RecursiveDirectoryIterator(PUBLIC_DIR."files/", RecursiveDirectoryIterator::FOLLOW_SYMLINKS), '#^[^\.]*$#i'), true);
-
+$files = array();
+foreach($dir as $node) $files[] = $node;
+asort($files);
 ?>
 <div class='parent_filter'>
   <label for="filters_<?=$name?>">Folder:</label>
   <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
     <option value='files'>-- All Folders --</option>
     <?if(!$depth) $depth=1;?>
-    <?foreach($dir as $node):?>
+    <?foreach($files as $node):?>
       <?$chunk = str_replace(PUBLIC_DIR."files/", "", $node); $depth = substr_count($chunk, "/") + 1?>
       <option value='<?=str_replace(PUBLIC_DIR, "", $node)?>' class='select-depth-<?=$depth?>' <?if($model_filters[$name] == $node):?> selected="selected"<?endif?>><?=($chunk)?></option>  
     <?endforeach?>
