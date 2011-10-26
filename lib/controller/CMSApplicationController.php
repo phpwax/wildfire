@@ -103,7 +103,7 @@ class CMSApplicationController extends WaxController{
      */
     if($this->cms_layout = $this->cms_content->layout) $this->use_layout = $this->cms_layout;
     elseif($this->cms_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id)) $this->use_layout = $this->cms_layout;
-    else throw new WXRoutingException("No layout found", "Page not found", "404");
+    
     /**
      * finally, set the action to the default cms one
      */
