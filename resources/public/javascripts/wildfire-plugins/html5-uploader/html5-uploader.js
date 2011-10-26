@@ -90,12 +90,7 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 				uploadFile(files[i]);
 			}			
 			joined_files_refresh();
-      if(jQuery('input[name="path"]').val()){      
-        var node_to_refresh_attr = jQuery('input[name="path"]').val(), node_to_refresh = jQuery('a[rel="'+node_to_refresh_attr+'"]').parents("li");
-        file_tree_refresh();
-      }else{
-        file_tree_refresh();
-      }
+      file_tree_refresh(jQuery('input[name="path"]').val());
 		}
 		else {
 			fileList.innerHTML = "No support for the File API in this web browser";
@@ -128,10 +123,10 @@ var saf = jQuery.browser.safari, vn = parseInt(jQuery.browser.version); //seems 
 	  }, false);
 
 	  dropArea.addEventListener("drop", function (evt) {
+			traverseFiles(evt.dataTransfer.files);
+			jQuery(this).removeClass("over");
 			evt.preventDefault();
 		  evt.stopPropagation();
-		  traverseFiles(evt.dataTransfer.files);
-			jQuery(this).removeClass("over");
 	  }, false);
   }
 })();
