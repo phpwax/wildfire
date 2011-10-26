@@ -126,6 +126,7 @@ class CMSApplicationController extends WaxController{
 	    $layouts[] = $accumulated;
 	  }
 	  $layouts = array_unique($layouts);
+	  
 	  foreach(array_reverse($layouts) as $layout) if(is_readable(VIEW_DIR.$layout.".".$this->use_format)) return basename($layout);
 	  return false;
 	}
@@ -143,10 +144,18 @@ class CMSApplicationController extends WaxController{
 	  foreach($stack as $item){
 	    $accumulated .= $item."_";
 	    $views[] = str_replace("%s%", $item."_", $base);
-      $views[] = str_replace("%s%", $accumulated, $base);
+      $views[] = str_replace("%s%", $accumulated, $base); 
+      foreach((array)Autoloader::view_paths("plugin") as $path){
+  	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", $item."_", $base)), 'plugin'=>true);
+  	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $item."_", $base), 'plugin'=>true);
+  	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $accumulated, $base), 'plugin'=>true);
+      } 	  
 	  }
-	  $views = array_unique($views);
-	  foreach(array_reverse($views) as $view) if($this->is_viewable($view, $this->use_format)) return $view;
+    	  
+	  foreach(array_reverse($views) as $view){
+	    if(is_array($view) && $this->is_viewable($view['path'], $this->use_format, $view['plugin'])) return $view['path'];
+	    else if(!is_array($view) && $this->is_viewable($view, $this->use_format)) return $view;
+    }
 	  return false;
 	}
 	/**
