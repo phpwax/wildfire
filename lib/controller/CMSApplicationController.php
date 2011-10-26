@@ -153,7 +153,7 @@ class CMSApplicationController extends WaxController{
 	  }
     	  
 	  foreach(array_reverse($views) as $view){
-	    if(is_array($view) && $this->is_viewable($view['path'], $this->use_format, $view['plugin'])) return $view['path'];
+	    if(is_array($view) && $this->is_viewable($view['path'], $this->use_format, $view['plugin'])) return basename($view['path']);
 	    else if(!is_array($view) && $this->is_viewable($view, $this->use_format)) return $view;
     }
 	  return false;
