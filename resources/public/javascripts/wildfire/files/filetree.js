@@ -1,8 +1,10 @@
 
 
-function file_tree_refresh(fileroot){
-  var sel = (fileroot) ? $("a[rel='"+fileroot+"']").parent().find(".jqueryFileTree") :$(".file-tree");
-	var froot = (fileroot) ? fileroot : $(".file-tree").attr("data-file-root");
+function file_tree_refresh(fileroot, selector){
+  var sel = (fileroot) ? jQuery("a[rel='"+fileroot+"']").parent().find(".jqueryFileTree") :jQuery(".file-tree");
+	var froot = (fileroot) ? fileroot : jQuery(".file-tree").attr("data-file-root");
+	if(typeof selector != "undefined") sel = jQuery(selector);
+
   sel.each(function(){
     var ftree = jQuery(this), 
 				dest = 	jQuery(".file-tree").attr('data-list')+".ajax", 
@@ -52,22 +54,22 @@ jQuery(document).ready(function(){
 });
 
 function drags(){
-	$(".jqueryFileTree li.file").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
-	$(".file-tree-container li.directory").droppable({
+	jQuery(".jqueryFileTree li.file").draggable({opacity:0.5, revert:true, scroll:true, containment:'window', helper:'clone'});
+	jQuery(".file-tree-container li.directory").droppable({
 		accept:"li.file",
 		hoverClass:'file_drop_active',
 		drop:	function (event, ui) {
-			var el = $(ui.draggable).find(".node");
+			var el = jQuery(ui.draggable).find(".node");
 			var dir = el.attr("data-dir");
 			var file = el.attr("rel");
-			var dest = $(this).find(".node").attr("data-dir");
-			$.ajax({
+			var dest = jQuery(this).find(".node").attr("data-dir");
+			jQuery.ajax({
 			  url: "/admin/files/move",
 			  type: "POST",
 			  data: {origin_dir:dir,origin_file:file,destination:dest},			
 			  complete: function() {},
 			  success: function() {
-					$(ui.draggable).remove();
+					jQuery(ui.draggable).remove();
 					file_tree_refresh();
 			 	},
 			
@@ -77,7 +79,7 @@ function drags(){
 	})
 }
 
-$(document).bind("filetree.loaded",function() {
+jQuery(document).bind("filetree.loaded",function() {
 	drags();
 });
 

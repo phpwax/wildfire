@@ -56,6 +56,7 @@ jQuery(document).ready(function(){
   //inline image picker
   var cloned_files = jQuery("#files .file-listing").clone();
   cloned_files.find("#root_node").attr("id", "inline_root_node");
+
   jQuery("#wildfire-image-dialog").html(jQuery(cloned_files).html()).hide().ajaxSuccess(function(){
     if(!jQuery("#wildfire-image-dialog").find(".image-info").length && jQuery("#wildfire-image-dialog").find(".file-info img").length){
       jQuery("#wildfire-image-dialog").find("input,label").remove();
@@ -73,6 +74,6 @@ jQuery(document).ready(function(){
     });
   });
 
-  if(tinymce && tinymce.length) file_tree_refresh("#inline_root_node");
+  if(tinymce && tinymce.length) file_tree_refresh(false, "#inline_root_node");
 
 });
