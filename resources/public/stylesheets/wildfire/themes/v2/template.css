@@ -222,6 +222,10 @@ html {
 	border-bottom: 1px solid #e4e4e4;
 	border-right: 1px solid #e4e4e4;	
 }
+  #v2-cms .ui-datepicker td a.ui-state-active{
+    background:#373737;
+    color:white;
+  }
 #v2-cms .ui-timepicker-div {
 	margin:0 5px;
 }
