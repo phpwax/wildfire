@@ -19,6 +19,9 @@
     .filters_3 .small_filter, .filters_4 .small_filter{
       width:15%;
     }
+    .filters_5 .small_filter{
+      width:13%;
+    }
     .filters .small_filter label{
       display:none;
     }
