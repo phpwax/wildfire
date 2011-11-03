@@ -54,11 +54,11 @@ class WildfireContent extends WaxTreeModel {
 	}
 
 	public function scope_admin(){
-	  return $this->order("date_modified DESC");
+	  return $this->order("sort ASC, date_modified DESC");
 	}
 
 	public function scope_live(){
-    return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )")->order("date_start DESC");
+    return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )")->order("sort ASC, date_start DESC");
   }
   public function scope_preview(){
     return $this->filter("status", 0);
