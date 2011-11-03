@@ -211,6 +211,16 @@ class CMSAdminComponent extends CMSBaseComponent {
         $controller->load_whole_tree = false;
       }
     });
+    
+    WaxEvent::add("cms.sort.all", function(){
+      $controller = WaxEvent::data();
+      if($sort = Request::param('sort')){
+        foreach($sort as $id=>$pos){
+          $model = new $controller->model_class($id);
+          $model->update_attributes(array("sort"=>$pos));
+        }
+      }
+    });
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -226,6 +236,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function sort(){
     WaxEvent::run("cms.form.setup", $this);
 	  WaxEvent::run("cms.edit.init", $this);
+	  WaxEvent::run("cms.sort.all", $this);
   }
 	/**
 	* Default view - lists all model items - has shared view cms/view/shared/list.html
