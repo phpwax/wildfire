@@ -329,3 +329,6 @@ html {
   margin-top:7px;
   background:transparent url(/images/wildfire/icons/white-cross.png) center center no-repeat;
 }
+
+
+#v2-cms .index_container h3 a{color:white;}
