@@ -19,7 +19,7 @@ class CMSAdminComponent extends CMSBaseComponent {
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
-
+  public $sort_scope = "live";
   public $dashboard = true;
   //used to tag images on joins
   public $file_tags = array('image', 'document');
