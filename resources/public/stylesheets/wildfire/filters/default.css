@@ -9,3 +9,22 @@
 }
 
   
+  .filters .small_filter{
+    float:left;
+    display:block;
+  }
+    .filters_1 .small_filter, .filters_2 .small_filter{
+      width:20%;
+    }
+    .filters_3 .small_filter, .filters_4 .small_filter{
+      width:15%;
+    }
+    .filters .small_filter label{
+      display:none;
+    }
+    .filters .small_filter select{
+      float:left;
+      display:block;
+      margin-top:6px;
+      width:90%;
+    }
