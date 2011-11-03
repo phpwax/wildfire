@@ -14,8 +14,8 @@ jQuery(document).ready(function(){
         url:dest,
         type:"post",
         data:{sort:ordering},
-        success:function(res){
-          
+        success:function(res){          
+          jQuery("#content").prepend('<ul class="messages"><li class="clearfix confirm"><a class="close_button" href="#"></a><span class="icon"></span><span class="message">Sorted.</span></li></ul>');
         },
         fail:function(){}
       });
