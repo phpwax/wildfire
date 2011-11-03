@@ -332,3 +332,9 @@ html {
 
 
 #v2-cms .index_container h3 a{color:white;}
+
+#v2-cms .sortable-tree .data_tree .tree_col_status{display:none;}
+#v2-cms .sortable-tree li{
+  display:block;
+  cursor:move;
+}
