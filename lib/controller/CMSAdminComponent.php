@@ -20,6 +20,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
   public $sort_scope = "live";
+  public $sortable = false;
   public $dashboard = true;
   //used to tag images on joins
   public $file_tags = array('image', 'document');
@@ -44,6 +45,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       $mods = CMSApplication::get_modules();
       $obj->quick_links = array("create new ".$mods[$obj->module_name]['display_name']=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
+      if($obj->sortable) $obj->quick_links["Sort ".$mods[$obj->module_name]['display_name']] = '/admin/'.$obj->module_name."/sort/";
     });
     /**
      * permissions

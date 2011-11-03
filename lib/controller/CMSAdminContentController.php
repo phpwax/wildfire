@@ -8,6 +8,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $model_class = 'WildfireContent';
 	public $model_scope = 'admin';
 	public $display_name = "Content";
+  public $sortable = false;
   public $per_page = 5; //lower per page since there's a tree underneath
 	public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
@@ -21,7 +22,7 @@ class CMSAdminContentController extends AdminComponent {
 
 	protected function events(){
 	  parent::events();
-
+    
 	  WaxEvent::add("cms.url.delete", function(){
 	    if(($id = Request::param('map_remove')) && ($check = new WildfireUrlMap($id)) && $check->primval){
 	      WaxEvent::data()->session->add_message($check->origin_url.' has been deleted.');
