@@ -3,7 +3,7 @@
   if(!$permissions) $permissions = $current_user->permissions($operation_actions, $module_name);
   if($model_filters['parent']) $nodes = $tree_model->all();
   else if($load_whole_tree) $nodes = $tree_model->tree();
-  else if($live_only) $nodes = $tree_model->scope("live")->roots();
+  else if($scoped) $nodes = $tree_model->scope($scoped)->all();
   else $nodes = $tree_model->roots();
 ?>
 <ul class='data_tree' <?=$load_whole_tree?'':"data-action='/".trim($controller,"/")."/_tree'"?> >
