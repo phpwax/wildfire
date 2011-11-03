@@ -223,7 +223,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.format.set",$this);
 	}
 
-
+  public function sort(){
+    WaxEvent::run("cms.form.setup", $this);
+	  WaxEvent::run("cms.edit.init", $this);
+  }
 	/**
 	* Default view - lists all model items - has shared view cms/view/shared/list.html
 	*/
