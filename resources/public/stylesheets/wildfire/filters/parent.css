@@ -1,12 +1,12 @@
 .filters .parent_filter{
   float:left;
   display:block;
-  margin-right:2%;
+  margin-right:0%;
 }
   .filters_1 .parent_filter, .filters_2 .parent_filter{
     width:35%;
   }
-  .filters_3 .parent_filter{
+  .filters_3 .parent_filter, .filters_4 .parent_filter{
     width:30%;
   }
   .filters .parent_filter label{
