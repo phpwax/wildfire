@@ -12,7 +12,8 @@ class CMSAdminContentController extends AdminComponent {
 	public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),
-                          'language' => array('columns'=>array('language'), 'partial'=>"_filters_language")
+                          'author' => array('columns'=>array('wildfire_user_id'), 'partial'=>"_filters_author"),
+                          'language' => array('columns'=>array('language'), 'partial'=>"_filters_language")                          
 	                      );
   public $autosave = true;
   
