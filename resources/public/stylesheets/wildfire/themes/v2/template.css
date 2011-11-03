@@ -41,6 +41,7 @@ html {
 #v2-cms .tree_item_details .operation{
   float:right;
   font-size:77%;
+  margin-left:5px;
 }
 #v2-cms .data_info .info_col{
   display:block;
@@ -331,7 +332,7 @@ html {
 }
 
 
-#v2-cms .index_container h3 a{color:white;}
+#v2-cms .index_container h3 a.link{color:white;}
 
 #v2-cms .sortable-tree .data_tree .tree_col_status{display:none;}
 #v2-cms .sortable-tree li{
