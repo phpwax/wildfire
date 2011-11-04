@@ -1,0 +1,13 @@
+<?
+$root = new WildfireUser();
+
+?>
+<div class='author_filter small_filter'>
+  <label for="filters_<?=$name?>">Author:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <option value=''>-- Author --</option>
+    <?foreach($root->order("username ASC")->all() as $node):?>
+      <option value='<?=$node->primval?>' class='select-depth-0' <?if($model_filters[$name] == $node->primval):?> selected="selected"<?endif?>><?=$node->username?></option>  
+    <?endforeach?>
+  </select>
+</div>

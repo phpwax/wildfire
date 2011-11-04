@@ -19,7 +19,8 @@ class CMSAdminComponent extends CMSBaseComponent {
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
-
+  public $sort_scope = "live";
+  public $sortable = false;
   public $dashboard = true;
   //used to tag images on joins
   public $file_tags = array('image', 'document');
@@ -44,6 +45,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       $mods = CMSApplication::get_modules();
       $obj->quick_links = array("create new ".$mods[$obj->module_name]['display_name']=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
+      if($obj->sortable) $obj->quick_links["Sort ".$mods[$obj->module_name]['display_name']] = '/admin/'.$obj->module_name."/sort/";
     });
     /**
      * permissions
@@ -211,6 +213,16 @@ class CMSAdminComponent extends CMSBaseComponent {
         $controller->load_whole_tree = false;
       }
     });
+    
+    WaxEvent::add("cms.sort.all", function(){
+      $controller = WaxEvent::data();
+      if($sort = Request::param('sort')){
+        foreach($sort as $id=>$pos){
+          $model = new $controller->model_class($id);
+          $model->update_attributes(array("sort"=>$pos));
+        }
+      }
+    });
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -223,7 +235,11 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.format.set",$this);
 	}
 
-
+  public function sort(){
+    WaxEvent::run("cms.form.setup", $this);
+	  WaxEvent::run("cms.edit.init", $this);
+	  WaxEvent::run("cms.sort.all", $this);
+  }
 	/**
 	* Default view - lists all model items - has shared view cms/view/shared/list.html
 	*/

@@ -1,0 +1,22 @@
+<?
+$now_month = date("m")+1;
+$now_year = date("Y");
+$dates = range(0,24);
+?>
+<div class='date_filter small_filter'>
+  <label for="filters_<?=$name?>">Date:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <option value=''>-- Date --</option>
+    <?foreach($dates as $d):?>      
+    <?
+    $now_month = $now_month - 1;
+    if($now_month == 0){
+      $now_month = 12;
+      $now_year--;
+    }
+    $date = $now_year."-".(($now_month < 10)? "0".$now_month: $now_month);
+    ?>
+    <option value='<?=$date?>'  <?if($model_filters[$name] == $date):?> selected="selected"<?endif?>><?=$date?></option>
+    <?endforeach?>
+  </select>
+</div>
