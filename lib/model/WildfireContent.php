@@ -309,6 +309,13 @@ class WildfireContent extends WaxTreeModel {
 		$finder->filter("parent_id",$parent->id);
 		return $finder->all();
 	}
+	
+	// Finder methods to get quick access to content
+	public static function find_by_permalink($permalink) {
+	  $class= get_called_class();
+		$s = new $class("live");
+		return $s->filter("permalink",$permalink)->first();
+	}
   
   
   //ignore the language, as we are grouping by this field
