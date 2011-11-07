@@ -164,7 +164,8 @@ class CMSApplicationController extends WaxController{
 	protected function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
-	  $model = new $model_class($model_scope);
+	  $model = new $model_class();
+	  $model = $model->scope($model_scope);
 	  $found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first();
 
 	  if($found) return $this->map_to_content($found);
