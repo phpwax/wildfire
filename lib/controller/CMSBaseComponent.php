@@ -100,7 +100,7 @@ class CMSBaseComponent extends WaxController {
 	      $obj->use_format = "html";
   	    $obj->use_layout = "nolayout";
 	    }elseif($obj->use_format == "csv"){
-	      $name = str_replace("/", "-", $obj->controller). "-".date("Ymdh")."csv";
+	      $name = str_replace("/", "-", $obj->controller). "-".date("Ymdh").".csv";
 	      header("Content-type: application/csv");
         header("Content-Disposition: attachment; filename=".$name);
         header("Pragma: no-cache");
