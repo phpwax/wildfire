@@ -7,11 +7,11 @@ class WildfireContent extends WaxTreeModel {
   
 
 	public function setup(){
-		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
+		$this->define("title", "CharField", array('export'=>true, 'maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
 		$this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
 
-		$this->define("date_start", "DateTimeField", array('default'=>date("Y-m-d h:i:s"), 'output_format'=>"j F Y",'input_format'=> 'j F Y H:i', 'info_preview'=>1));
-		$this->define("date_end", "DateTimeField", array('default'=>date("Y-m-d h:i:s",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"j F Y", 'input_format'=> 'j F Y H:i','info_preview'=>1));
+		$this->define("date_start", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d h:i:s"), 'output_format'=>"j F Y",'input_format'=> 'j F Y H:i', 'info_preview'=>1));
+		$this->define("date_end", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d h:i:s",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"j F Y", 'input_format'=> 'j F Y H:i','info_preview'=>1));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'input_pattern'=>'tags[%s]', 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>false, 'group'=>'relationships', 'info_preview'=>1));
@@ -19,20 +19,20 @@ class WildfireContent extends WaxTreeModel {
     $langs = array();
     foreach(CMSApplication::$languages as $i=>$l) $langs[$i] = $l['name'];
     $default = array_shift(array_keys(CMSApplication::$languages));
-    $this->define("language", "IntegerField", array('choices'=>$langs, 'default'=>$default, 'group'=>'all versions', 'editable'=>true, 'scaffold'=> (count(CMSApplication::$languages)>1)?true:false, 'info_preview'=>1));
+    $this->define("language", "IntegerField", array('export'=>true, 'choices'=>$langs, 'default'=>$default, 'group'=>'all versions', 'editable'=>true, 'scaffold'=> (count(CMSApplication::$languages)>1)?true:false, 'info_preview'=>1));
 
     //main grouping field
-		$this->define("permalink", "CharField", array('group'=>'urls'));
+		$this->define("permalink", "CharField", array('export'=>true, 'group'=>'urls'));
 
 		$this->define("excerpt", "TextField", array('group'=>'others', 'editable'=>false));
 		$this->define("meta_description", "TextField", array('group'=>'others', 'editable'=>false));
 		$this->define("meta_keywords", "TextField", array('group'=>'others', 'editable'=>false));
 
 		//hidden extras
-		$this->define("author", "ForeignKey", array('target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
+		$this->define("author", "ForeignKey", array('export'=>true, 'target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
 		$this->define("sort", "IntegerField", array('maxlength'=>3, 'default'=>0, 'widget'=>"HiddenInput", 'group'=>'parent'));
-		$this->define("date_modified", "DateTimeField", array('scaffold'=>true, "editable"=>false));
-		$this->define("date_created", "DateTimeField", array("editable"=>false));
+		$this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
+		$this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
 
 		$this->define("revision", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput", 'editable'=>false));
 		$this->define("alt_language", "IntegerField", array("default"=>0, 'widget'=>"HiddenInput"));
