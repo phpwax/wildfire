@@ -20,6 +20,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	                      );
   public $scaffold_columns = false; //when this is false, uses columns from the model automatically
   public $sort_scope = "live";
+  public $export_scope = "live";  
   public $sortable = false;
   public $dashboard = true;
   //used to tag images on joins
@@ -372,6 +373,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     }
   }
 
+  public function export(){
+    WaxEvent::run("cms.form.setup", $this);
+	  WaxEvent::run("cms.edit.init", $this);
+  }
 
 }
 ?>
