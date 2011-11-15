@@ -178,6 +178,12 @@ class WildfireContent extends WaxTreeModel {
   public function is_live(){
     return $this->status;
   }
+  public function live(){
+    $class = get_class($this);
+    $model = new $class();
+    if($model->scope("live")->filter($this->primary_key, $this->primval)->first()) return true;
+    else return false;
+  }
   public function master(){
     return !$this->revision;
   }
@@ -308,6 +314,13 @@ class WildfireContent extends WaxTreeModel {
 		$finder = new $class("live");
 		$finder->filter("parent_id",$parent->id);
 		return $finder->all();
+	}
+	
+	// Finder methods to get quick access to content
+	public static function find_by_permalink($permalink) {
+	  $class= get_called_class();
+		$s = new $class("live");
+		return $s->filter("permalink",$permalink)->first();
 	}
   
   
