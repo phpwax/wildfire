@@ -40,6 +40,7 @@ class CMSBaseComponent extends WaxController {
   public $dashboard = false;
   public $sort_scope;
   public $export_scope;
+  public $exportable = false;
   public $sortable = false;
   
   public $search_results = array();
