@@ -178,6 +178,11 @@ class WildfireContent extends WaxTreeModel {
   public function is_live(){
     return $this->status;
   }
+  public function live(){
+    $model = new get_class($this);
+    if($model->scope("live")->filter($this->primary_key, $this->primval)->first()) return true;
+    else return false;
+  }
   public function master(){
     return !$this->revision;
   }
