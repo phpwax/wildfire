@@ -1,0 +1,12 @@
+<?
+$cols = array();
+foreach($model->columns as $col=>$info) if($info[1] && $info[1]['export']) $cols[] = $col;
+
+$m = new $model_class($export_scope);
+?>
+<?foreach($cols as $i=>$col):?><?if($i > 0):?>,<?endif?>"<?=$col?>"<?endforeach?>
+
+<?foreach($m->all() as $row):?>
+<?foreach($cols as $i=>$col):?><?if($i > 0):?>,<?endif?>"<?=$row->humanize($col)?>"<?endforeach?>
+
+<?endforeach?>

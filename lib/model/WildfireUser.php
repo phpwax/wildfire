@@ -7,10 +7,10 @@ class WildfireUser extends WaxModel {
   public $enable_permissions = true;
 
   public function setup() {
-    $this->define("username", "CharField", array("required"=>true, "blank"=>false,"unique"=>true, 'scaffold'=>true));
-    $this->define("firstname", "CharField", array('scaffold'=>true));
-    $this->define("surname", "CharField",array('scaffold'=>true));
-    $this->define("email", "CharField", array('scaffold'=>true));
+    $this->define("username", "CharField", array("required"=>true, 'export'=>true, "blank"=>false,"unique"=>true, 'scaffold'=>true));
+    $this->define("firstname", "CharField", array('scaffold'=>true, 'export'=>true));
+    $this->define("surname", "CharField",array('scaffold'=>true, 'export'=>true));
+    $this->define("email", "CharField", array('scaffold'=>true, 'export'=>true));
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password'));
 
     $this->define("permissions", "HasManyField", array('target_model' => 'WildfirePermissionBlacklist', 'eager_loading' => true, 'group'=>'permissions'));
