@@ -41,6 +41,7 @@ class CMSBaseComponent extends WaxController {
   public $sort_scope = "";
   public $export_scope = "";
   public $exportable = false;
+  public $export_group = false; //splits the results by this field, make multiple csv files and zips them
   public $sortable = false;
   public $scaffold_columns = false;
   
@@ -106,6 +107,8 @@ class CMSBaseComponent extends WaxController {
         header("Content-Disposition: attachment; filename=".$name);
         header("Pragma: no-cache");
         header("Expires: 0");
+	    }elseif($obj->use_format == "zip"){
+	      $obj->use_view = $obj->use_layout = false;	      
 	    }
     });
     WaxEvent::add("cms.layout.sublinks", function(){});    
