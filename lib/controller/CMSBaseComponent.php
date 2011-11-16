@@ -38,10 +38,11 @@ class CMSBaseComponent extends WaxController {
   public $file_system_base = "files/";
   
   public $dashboard = false;
-  public $sort_scope;
-  public $export_scope;
+  public $sort_scope = "";
+  public $export_scope = "";
   public $exportable = false;
   public $sortable = false;
+  public $scaffold_columns = false;
   
   public $search_results = array();
   public $use_cache = false;
