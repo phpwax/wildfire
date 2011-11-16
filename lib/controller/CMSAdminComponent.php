@@ -221,6 +221,54 @@ class CMSAdminComponent extends CMSBaseComponent {
         }
       }
     });
+
+    WaxEvent::add("cms.export.init", function(){
+      $controller = WaxEvent::data();
+      $model_class = $controller->model_class;
+      $controller->cols = array();
+      $model = new $model_class;
+      foreach($model->columns as $col=>$info) if($info[1] && $info[1]['export']) $controller->cols[] = $col;
+
+      if($controller->exportable && !$controller->export_group){
+        $controller->model = new $model_class($controller->export_scope);
+  	    WaxEvent::run("cms.model.filters", $controller);
+      }elseif($controller->export_group){
+        //if its an export group, then we find each instance of the column
+        $model = new $model_class($controller->export_scope);
+        $groups = array();
+        foreach($model->group($controller->export_group)->all() as $r) $groups[] = $r->{$controller->export_group};
+        //now we make a tmp dir
+        $folder = WAX_ROOT."tmp/export/";
+        $hash = date("Ymdhis");
+        mkdir($folder.$hash, 0777, true);
+        //now we render the export as a partial per group and save to a file
+        foreach($groups as $g){
+          $model = new $model_class($controller->export_scope);
+          $model = $model->filter($controller->export_group, $g);
+          $res = partial("shared/_export", array('model'=>$model, 'cols'=>$controller->cols), "csv");
+          $file = $folder .$hash. "/".Inflections::to_url($g).".csv";        
+          file_put_contents($file, $res);          
+        }
+        //afterwards, create zip
+        $cmd = "cd ".$folder." && zip -j ".$hash.".zip $hash/*";
+        exec($cmd);      
+        $content = "";
+        if(is_file($folder.$hash.".zip") && ($content = file_get_contents($folder.$hash.".zip"))){
+          $name = str_replace("/", "-", $controller->controller). "-".date("Ymdh").".zip";
+  	      header("Content-type: application/zip");
+          header("Content-Disposition: attachment; filename=".$name);
+          header("Pragma: no-cache");
+          header("Expires: 0");          
+        }
+        //tidy up
+        unlink($folder.$hash.".zip");
+        foreach(glob($folder.$hash."/*") as $f) unlink($f);
+        rmdir($folder.$hash);
+        
+        echo $content;
+        exit;
+      }
+    });
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -373,6 +421,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function export(){
     WaxEvent::run("cms.form.setup", $this);
 	  WaxEvent::run("cms.edit.init", $this);
+	  WaxEvent::run("cms.export.init", $this);
   }
 
 }
