@@ -43,7 +43,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $mods = CMSApplication::get_modules();
       $obj->quick_links = array("create new ".$mods[$obj->module_name]['display_name']=>'/admin/'.$obj->module_name."/create/", 'manage files'=>"/admin/files/");
       if($obj->sortable) $obj->quick_links["Sort ".$mods[$obj->module_name]['display_name']] = '/admin/'.$obj->module_name."/sort/";
-      if($obj->exportable) $obj->quick_links["Export ".$mods[$obj->module_name]['display_name'] ." as csv"] = '/admin/'.$obj->module_name."/export.csv";
+      if($obj->exportable) $obj->quick_links["Export ".$mods[$obj->module_name]['display_name'] ." as csv"] = '/admin/'.$obj->module_name."/export.".(($obj->export_group) ? "zip" : "csv");
     });
     /**
      * permissions
