@@ -283,18 +283,7 @@ class WildfireContent extends WaxTreeModel {
 	public function format_content() {
     return CmsTextFilter::filter("before_output", $this->content);
   }
-  
-  public function images() {
-    $attached = $this->file_meta_get(false, "image");
-    $rowset = array();
-    foreach($attached as $img) $rowset[]=$img->wildfire_file_id;
-    return  new WaxRecordset(new WildfireFile, $rowset);
-  }
 
-	public function image($index=0) {
-		$imgs = $this->images();
-		return $imgs[$index];
-	}
 	
   public function humanize($column=false){
     if($column == "date_end" ) {
@@ -305,24 +294,6 @@ class WildfireContent extends WaxTreeModel {
     return parent::humanize($column);
   }
 	
-	
-	// Finder methods to get quick access to content groupings
-	public static function find_by_parent($permalink) {
-	  $class= get_called_class();
-		$s = new $class("live");
-		$parent = $s->filter("permalink",$permalink)->first();
-		$finder = new $class("live");
-		$finder->filter("parent_id",$parent->id);
-		return $finder->all();
-	}
-	
-	// Finder methods to get quick access to content
-	public static function find_by_permalink($permalink) {
-	  $class= get_called_class();
-		$s = new $class("live");
-		return $s->filter("permalink",$permalink)->first();
-	}
-  
   
   //ignore the language, as we are grouping by this field
   public function generate_permalink(){
