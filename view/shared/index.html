@@ -2,11 +2,11 @@
   <?$mods = CMSApplication::get_modules()?>
   <div class='index_container'>
     <div class='clearfix filters_pagination'>
-      
+      <?if(!$model instanceof WaxTreeModel):?>
       <div class='pagination pagination_top'>
         <?=paginate_links($cms_content, "2")?>
       </div>
-      
+      <?endif?>
       <?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
         <?=partial($filter_partial, array('current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
       <?endif?>
@@ -15,10 +15,11 @@
     <div class='listing' id="data-listing">
       <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
     </div>
-    
+    <?if(!$model instanceof WaxTreeModel):?>
     <div class='pagination pagination_bottom clearfix'>
       <?=paginate_links($cms_content, "2")?>
     </div>
+    <?endif?>
   </div>
   
   <?if($tree_view = partial("_tree", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name, 'full_tree'=>$full_tree, 'mods'=>$mods, 'sortable'=>$sortable))):?>
