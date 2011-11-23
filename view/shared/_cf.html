@@ -7,7 +7,7 @@
 <style>
          .chromeFrameInstallDefaultStyle {
            width: 800px;
-           border: 5px solid blue;
+           border: 2px solid #222;
            z-index: 99999;
          }
         </style>
@@ -17,10 +17,12 @@
          // Therefore we can use the IE-specific attachEvent without worry
          window.attachEvent("onload", function() {
            CFInstall.check({
-             mode: "inline", // the default
+             mode: "overlay", // the default
+             url: "http://www.google.com/chromeframe?user=true"
              oninstall: function(){
                  alert("Chrome Frame is now installed. You may need to restart your browser.");
-             }
+             },
+             onmissing: function(){ alert("For a faster and more secure experience Wildfire CMS requires the Chrome Frame plugin.") }
            });
          });
         </script>
