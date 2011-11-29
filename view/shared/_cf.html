@@ -7,7 +7,7 @@
 <style>
          .chromeFrameInstallDefaultStyle {
            width: 800px;
-           border: 5px solid blue;
+           border: 2px solid #222;
            z-index: 99999;
          }
         </style>
@@ -16,12 +16,15 @@
          // The conditional ensures that this code will only execute in IE,
          // Therefore we can use the IE-specific attachEvent without worry
          window.attachEvent("onload", function() {
-           CFInstall.check({
-             mode: "inline", // the default
-             oninstall: function(){
-                 alert("Chrome Frame is now installed. You may need to restart your browser.");
-             }
-           });
+            if(typeof(chromeframe_disable) == "undefined") {
+               CFInstall.check({
+                 mode: "inline", // the default
+                 oninstall: function(){
+                    alert("Chrome Frame is now installed. You may need to restart your browser.");
+                 }
+               });
+            }
          });
+        
         </script>
 <![endif]-->
