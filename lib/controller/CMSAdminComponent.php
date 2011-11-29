@@ -305,6 +305,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     if(!$this->search_class) $this->search_class = Request::param('search_model');
     if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->type);
+    
 
     if(!$this->origin_class) $this->origin_class = Request::param('origin_model');
     if(!$this->origin_primval) $this->origin_primval = Request::param('origin_primval');
@@ -333,12 +334,16 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     //order joined items to come out first, and to be ordered by their column's join_order if it's set
     $existing = $this->existing;
-    usort($this->results->rowset, function($a, $b) use ($existing){
+    $order_col = $this->search_model->identifier;
+    usort($this->results->rowset, function($a, $b) use ($existing, $order_col){
       $ak = array_key_exists($a['id'], $existing);
       $bk = array_key_exists($b['id'], $existing);
 
       if($ak && $bk) return ($existing[$a['id']] < $existing[$b['id']]) ? -1 : 1; //both are joined, then sort on join_order
-      if(!$ak && !$bk) return 0; //neither are joined, don't bother reordering
+      if(!$ak && !$bk){
+        if($a[$order_col] < $b[$order_col]) return -1;
+        else return 1;
+      }
       return ($ak > $bk) ? -1 : 1; //one is joined and the other isn't, sort with joined first
     });
 
