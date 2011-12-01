@@ -11,7 +11,7 @@ Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 
 class CMSAdminComponent extends CMSBaseComponent {
-
+  public $tree_layout = false;
 	public $current_user=false; //the currently logged in
 	//filter details
 	public $filter_partial="_filters";
@@ -133,6 +133,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
 	    $saved = $obj->model;
       if(isset($_REQUEST['joins'])){
+
         foreach($_REQUEST['joins'] as $join=>$values){
           $class = $saved->columns[$join][1]['target_model'];
           if($j = $saved->$join) $saved->$join->unlink($j);
