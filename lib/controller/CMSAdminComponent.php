@@ -301,10 +301,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     //setup incoming data
     if(!$this->inline_filters) $this->inline_filters = Request::param('inline_filter');
     if(!$this->name) $this->name = Request::param("name");
-    if(!$this->type) $this->type = Request::param("type");
+    if(!$this->filter_type) $this->filter_type = Request::param("type");
 
     if(!$this->search_class) $this->search_class = Request::param('search_model');
-    if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->type);
+    if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->filter_type);
     
 
     if(!$this->origin_class) $this->origin_class = Request::param('origin_model');
@@ -315,7 +315,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     //get existing joins
     $this->existing = array();
     if($this->origin_model){
-      if($this->type == "multipleselect"){
+      if($this->filter_type == "multipleselect"){
         $this->origin_col->eager_loading = 1;
         foreach($this->origin_col->get() as $r)
           $this->existing[$r->primval] = $r->{$this->origin_col->join_order};
@@ -330,7 +330,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       else $this->search_model->filter($filter);
     }
 
-    $this->results = $this->search_model?$this->search_model->all():array();
+    $this->results = $this->search_model?$this->search_model->scope($this->filter_type)->all():array();
 
     //order joined items to come out first, and to be ordered by their column's join_order if it's set
     $existing = $this->existing;
