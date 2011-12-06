@@ -4,6 +4,7 @@
 * @package PHP-WAX CMS
 */
 class CMSAdminContentController extends AdminComponent {
+  public $tree_layout = true;
 	public $module_name = "content";
 	public $model_class = 'WildfireContent';
 	public $model_scope = 'admin';
