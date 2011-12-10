@@ -43,10 +43,10 @@
 	box-shadow:  2px 2px 3px rgba(0, 0, 0, .4);
 }
 #v2-cms .tag_options label {
-	margin:2px 0;
+	margin:0 0 2px 0;
 	float:right;
 	width:86%;
 	color:#333;
 	font-weight:normal;
 }
-#v2-cms .joined-file p {font-size:10px;font-weight:bold;}
+#v2-cms .joined-file p {font-size:10px;font-weight:bold;margin-bottom:4px;}
