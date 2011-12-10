@@ -54,3 +54,9 @@
 	font-weight:normal;
 }
 #v2-cms .joined-file p {font-size:10px;font-weight:bold;margin-bottom:4px;}
+#v2-cms .file-info .image_wrap {
+	float:left;
+	width:155px;
+}
+
+
