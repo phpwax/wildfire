@@ -45,5 +45,9 @@
 }
 #v2-cms .tag_options label {
 	margin:2px 0;
+	float:right;
+	width:86%;
+	color:#333;
+	font-weight:normal;
 }
 #v2-cms .joined-file p {font-size:10px;}
