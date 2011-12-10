@@ -43,7 +43,8 @@
 	padding:5px;
 	min-height:0;
 }
-#v2-cms .joined-file img {
+#v2-cms .joined-file img,
+#v2-cms .file-info img {
 	box-shadow:  2px 2px 3px rgba(0, 0, 0, .4);
 }
 #v2-cms .tag_options label {
