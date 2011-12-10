@@ -1,6 +1,6 @@
 <?if($file):?>
-<img src="<?=$file->permalink(150)?>" class='file_thumb' alt="<?=$file->filename?>">
-<div class='clearfix'>
+<div class="image_wrap"><img src="<?=$file->permalink(150)?>" class='file_thumb' alt="<?=$file->filename?>"></img>
+<div class='clearfix file-info-panel'>
   <h4><a href="<?=$file->url()?>"><?=$file->filename?></a></h4>
   <h5><?=$file->type?></h5>
   <h5><?=number_format($file->size/1024, 2)?> kb</h5>
