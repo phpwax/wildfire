@@ -32,6 +32,7 @@
 	height:150px;
 	position:relative;
 	overflow:hidden;
+	padding:4px;
 }
 #v2-cms .joined-file {
 	background:#BCCFDB;
