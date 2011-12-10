@@ -41,3 +41,6 @@
 #v2-cms .joined-file img {
 	box-shadow:  3px 3px 3px rgba(0, 0, 0, .7);
 }
+#v2-cms .tag_options label {
+	margin:2px 0;
+}
