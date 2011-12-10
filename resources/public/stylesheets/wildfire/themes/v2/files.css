@@ -36,7 +36,7 @@
 }
 #v2-cms .joined-file {
 	background:#BCCFDB;
-	width:150px;
+	width:154px;
 	padding:5px;
 	min-height:0;
 }
@@ -50,4 +50,4 @@
 	color:#333;
 	font-weight:normal;
 }
-#v2-cms .joined-file p {font-size:10px;}
+#v2-cms .joined-file p {font-size:10px;font-weight:bold;}
