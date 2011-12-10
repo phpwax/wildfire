@@ -37,6 +37,7 @@
 	background:#BCCFDB;
 	width:150px;
 	padding:5px;
+	min-height:0;
 }
 #v2-cms .joined-file img {
 	box-shadow:  3px 3px 3px rgba(0, 0, 0, .7);
