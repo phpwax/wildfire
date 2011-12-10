@@ -67,5 +67,16 @@
 }
 #v2-cms .index_container .file-info .image_wrap {
 	width:205px;
+	height:205px;
 }
-
+#v2-cms .index_container .file-info .image_wrap img {
+	float:none;
+	margin:0;
+}
+#v2-cms .index_container .file-info-panel {
+	width:135px;
+}
+#v2-cms .index_container .file-info-panel .button {
+	display:block;
+	text-align:center;
+}
