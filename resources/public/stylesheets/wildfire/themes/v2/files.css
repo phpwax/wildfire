@@ -80,7 +80,7 @@
 	display:block;
 	text-align:center;
 }
-#v2-cms .upload-form h3 {
+#v2-cms .index_container .upload-form h3 {
 	text-shadow:1px 1px 1px rgba(210, 210, 210, 0.7);
 	color:#222;
 }
