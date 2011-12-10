@@ -1,6 +1,7 @@
 <?if($file):?>
-
-<div class="image_wrap"><img src="<?=$file->permalink(200)?>" class='thumb' alt="<?=$file->filename?>"></div>
+<?if(strstr($file->type, "image")):?>
+	<div class="image_wrap"><img src="<?=$file->permalink(200)?>" class='thumb' alt="<?=$file->filename?>"></div>
+<?endif?>
 <div class="file-info-panel">
 <h4><?=$file->filename?></h4>
 <h5><?=$file->type?></h5>
