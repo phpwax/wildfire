@@ -2,7 +2,7 @@
   <?$mods = CMSApplication::get_modules()?>
   <div class='index_container'>
     <div class='clearfix filters_pagination'>
-      <?if(!$model instanceof WaxTreeModel):?>
+      <?if(!$tree_layout):?>
       <div class='pagination pagination_top'>
         <?=paginate_links($cms_content, "2")?>
       </div>
@@ -13,16 +13,16 @@
     </div>
     
     <div class='listing' id="data-listing">
-      <?=partial("_list", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
+      <?=partial("_list", array('tree_layout'=>$tree_layout, 'cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name))?>
     </div>
-    <?if(!$model instanceof WaxTreeModel):?>
+    <?if(!$tree_layout):?>
     <div class='pagination pagination_bottom clearfix'>
       <?=paginate_links($cms_content, "2")?>
     </div>
     <?endif?>
   </div>
   
-  <?if($tree_view = partial("_tree", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name, 'full_tree'=>$full_tree, 'mods'=>$mods, 'sortable'=>$sortable))):?>
+  <?if($tree_layout && ($tree_view = partial("_tree", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name, 'full_tree'=>$full_tree, 'mods'=>$mods, 'sortable'=>$sortable)))):?>
     <div class='tree clearfix' id="data-tree">
       <?=$tree_view?>
     </div>

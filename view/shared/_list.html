@@ -2,7 +2,7 @@
 $cachelink = Config::get('cacheissue');
 $permissions = $current_user->permissions($operation_actions, $module_name);
 ?>
-<?if(!$show_unfiltered_results && $model instanceof WaxTreeModel):?>
+<?if(!$show_unfiltered_results && $tree_layout):?>
 <table class='data_table empty_data_table' data-action="/<?=trim($controller,"/")?>/_list">
 </table>
 <?elseif($cms_content && $scaffold_columns):?>
