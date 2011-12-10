@@ -32,7 +32,6 @@
 	height:150px;
 	position:relative;
 	overflow:hidden;
-	padding:4px;
 }
 #v2-cms .joined-file {
 	background:#BCCFDB;
@@ -41,7 +40,7 @@
 	min-height:0;
 }
 #v2-cms .joined-file img {
-	box-shadow:  3px 3px 3px rgba(0, 0, 0, .7);
+	box-shadow:  2px 2px 3px rgba(0, 0, 0, .4);
 }
 #v2-cms .tag_options label {
 	margin:2px 0;
