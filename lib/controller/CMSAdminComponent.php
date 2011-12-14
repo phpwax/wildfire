@@ -11,7 +11,7 @@ Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
 
 class CMSAdminComponent extends CMSBaseComponent {
-
+  public $tree_layout = false;
 	public $current_user=false; //the currently logged in
 	//filter details
 	public $filter_partial="_filters";
@@ -133,6 +133,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
 	    $saved = $obj->model;
       if(isset($_REQUEST['joins'])){
+
         foreach($_REQUEST['joins'] as $join=>$values){
           $class = $saved->columns[$join][1]['target_model'];
           if($j = $saved->$join) $saved->$join->unlink($j);
@@ -301,10 +302,11 @@ class CMSAdminComponent extends CMSBaseComponent {
     //setup incoming data
     if(!$this->inline_filters) $this->inline_filters = Request::param('inline_filter');
     if(!$this->name) $this->name = Request::param("name");
-    if(!$this->type) $this->type = Request::param("type");
+    if(!$this->filter_type) $this->filter_type = Request::param("type");
 
     if(!$this->search_class) $this->search_class = Request::param('search_model');
-    if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->type);
+    if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->filter_type);
+    
 
     if(!$this->origin_class) $this->origin_class = Request::param('origin_model');
     if(!$this->origin_primval) $this->origin_primval = Request::param('origin_primval');
@@ -314,7 +316,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     //get existing joins
     $this->existing = array();
     if($this->origin_model){
-      if($this->type == "multipleselect"){
+      if($this->filter_type == "multipleselect"){
         $this->origin_col->eager_loading = 1;
         foreach($this->origin_col->get() as $r)
           $this->existing[$r->primval] = $r->{$this->origin_col->join_order};
@@ -329,16 +331,20 @@ class CMSAdminComponent extends CMSBaseComponent {
       else $this->search_model->filter($filter);
     }
 
-    $this->results = $this->search_model?$this->search_model->all():array();
+    $this->results = $this->search_model?$this->search_model->scope($this->filter_type)->all():array();
 
     //order joined items to come out first, and to be ordered by their column's join_order if it's set
     $existing = $this->existing;
-    usort($this->results->rowset, function($a, $b) use ($existing){
+    $order_col = $this->search_model->identifier;
+    usort($this->results->rowset, function($a, $b) use ($existing, $order_col){
       $ak = array_key_exists($a['id'], $existing);
       $bk = array_key_exists($b['id'], $existing);
 
       if($ak && $bk) return ($existing[$a['id']] < $existing[$b['id']]) ? -1 : 1; //both are joined, then sort on join_order
-      if(!$ak && !$bk) return 0; //neither are joined, don't bother reordering
+      if(!$ak && !$bk){
+        if($a[$order_col] < $b[$order_col]) return -1;
+        else return 1;
+      }
       return ($ak > $bk) ? -1 : 1; //one is joined and the other isn't, sort with joined first
     });
 

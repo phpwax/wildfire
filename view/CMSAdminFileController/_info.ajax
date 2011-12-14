@@ -1,9 +1,14 @@
 <?if($file):?>
+<?if(strstr($file->type, "image")):?>
+	<div class="image_wrap"><img src="<?=$file->permalink(200)?>" class='thumb' alt="<?=$file->filename?>"></div>
+<?endif?>
+<div class="file-info-panel">
 <h4><?=$file->filename?></h4>
-<img src="<?=$file->permalink(200)?>" class='thumb' alt="<?=$file->filename?>">
 <h5><?=$file->type?></h5>
 <h5><?=number_format($file->size/1024, 2)?> kb</h5>
 <a class="button operation operation_dl" href="<?=$file->url()?>">Download</a>
-<?if($file->is_image()):?><a class="button operation operation_edit" href="/admin/files/edit/<?=$file->primval?>">Edit</a><?endif?>
+<?if($file->is_image()):?><a class="button operation operation_edit" href="/admin/files/edit/<?=$file->primval?>">Edit</a>
+<?endif?>
 <a class="button operation operation_delete" href="/admin/files/delete?file=<?=$file->url()?>" data-file="<?=$file->url(true)?>">Delete</a>
+</div>
 <?endif?>

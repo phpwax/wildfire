@@ -12,6 +12,6 @@ $model_class = get_class($model);
   <input type="text" name="inline_filter[<?=$name?>]" data-name="<?=$name?>" data-origin-class="<?=$model_class?>" data-origin-primval="<?=$model->primval?>" data-model-class="<?=$join_class?>" data-filter-destination="/<?=trim($controller,"/")?>/_filter_inline.ajax" class='inline-filter text_field' placeholder="SEARCH">
   <?endif?>
   
-  <?=partial("_filter_inline", array("name"=>$name, "type"=>"multipleselect", "search_model"=>$join_model, "origin_model"=>$model), "ajax")?>
+  <?=partial("_filter_inline", array("name"=>$name, "filter_type"=>"multipleselect", "search_model"=>$join_model, "origin_model"=>$model), "ajax")?>
 </div>
 <?endif?>
