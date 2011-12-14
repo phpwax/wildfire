@@ -276,6 +276,7 @@ class WildfireContent extends WaxTreeModel {
     $model->table = $this->table."_wildfire_file";
     $col = $this->table."_".$this->primary_key;
     if($fileid) return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->order('join_order ASC')->first();
+    elseif($tag=="all") return $model->filter($col, $this->primval)->order('join_order ASC')->all();    
     elseif($tag) return $model->filter($col, $this->primval)->filter("tag", $tag)->order('join_order ASC')->all();
     else return false;
   }
