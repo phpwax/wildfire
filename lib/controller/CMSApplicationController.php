@@ -145,7 +145,9 @@ class CMSApplicationController extends WaxController{
 	  foreach($stack as $item){
 	    $accumulated .= $item."_";
 	    $views[] = str_replace("%s%", $item."_", $base);
+	    $views[] = str_replace($this->controller."/", "shared/", str_replace("%s%", $item."_", $base));
       $views[] = str_replace("%s%", $accumulated, $base); 
+      
       foreach((array)Autoloader::view_paths("plugin") as $path){
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", "", $base)), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", $item."_", $base)), 'plugin'=>true);
@@ -153,6 +155,7 @@ class CMSApplicationController extends WaxController{
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $accumulated, $base), 'plugin'=>true);
       } 	  
 	  }
+
 	  foreach(array_reverse($views) as $view){
 	    if(is_array($view) && $this->is_viewable($view['path'], $this->use_format, $view['plugin'])) return basename($view['path']);
 	    else if(!is_array($view) && $this->is_viewable($view, $this->use_format)) return $view;
