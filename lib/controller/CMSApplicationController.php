@@ -9,7 +9,7 @@
 
 class CMSApplicationController extends WaxController{
 
-
+  public $cms_called = false;
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
 
@@ -43,6 +43,7 @@ class CMSApplicationController extends WaxController{
    *
 	 */
 	protected function cms(){
+	  $this->cms_called = true;
 	  /**
 	   * pagination check
 	   */
