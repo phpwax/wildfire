@@ -96,12 +96,12 @@ class CMSAdminFileController extends AdminComponent {
     $origin = Request::param("origin_dir");
     $file = basename(Request::param("origin_file"));
     $model = new $this->model_class;
-    $f = $model->filter(array("rpath = ? AND filename=?",array($origin,$file)))->first();
     $destination = Request::param("destination");
     $f->rpath = $destination;
     $f->path = $destination;
     if($f->save()) {
       echo $f->id;
+    $f = $model->filter("rpath", $origin)->filter("filename",$file)->first();
 			exit;
     }
     
