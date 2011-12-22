@@ -258,7 +258,9 @@ class WildfireContent extends WaxTreeModel {
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0, $title=''){
     $model = new WaxModel;
-    $model->table = $this->table."_wildfire_file";
+    if($this->table < "wildfire_file") $model->table = $this->table."_wildfire_file";
+    else $model->table = "wildfire_file_".$this->table;
+    
     $col = $this->table."_".$this->primary_key;
     if(!$order) $order = 0;
     if(($found = $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->all()) && $found->count()){
@@ -273,7 +275,8 @@ class WildfireContent extends WaxTreeModel {
   }
   public function file_meta_get($fileid=false, $tag=false){
     $model = new WaxModel;
-    $model->table = $this->table."_wildfire_file";
+    if($this->table < "wildfire_file") $model->table = $this->table."_wildfire_file";
+    else $model->table = "wildfire_file_".$this->table;
     $col = $this->table."_".$this->primary_key;
     if($fileid) return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->order('join_order ASC')->first();
     elseif($tag=="all") return $model->filter($col, $this->primval)->order('join_order ASC')->all();    
