@@ -108,8 +108,9 @@ class CMSAdminFileController extends AdminComponent {
   }
   
   public function edit() {
-    $this->image = new WildfireFile(get("id"));
     if(post("operation")=="crop") {
+    $class = $this->model_class;
+    $this->image = new $class(Request::param("id"));
       $location = PUBLIC_DIR. $this->image->url();		
 			File::crop_image($location, $location, post("x1"), post("y1"), post("w"), post("h"));
 			File::clear_image_cache($this->image->id);
