@@ -97,9 +97,9 @@ class CMSAdminFileController extends AdminComponent {
     $file = basename(Request::param("origin_file"));
     $model = new $this->model_class;
     $destination = Request::param("destination");
-      echo $f->id;
     $f = $model->filter("rpath", $origin)->filter("filename",$file)->first();
     if($f->update_attributes(array('rpath'=>$destination, 'path'=>$destination)) ) {
+      echo $f->primval;
 			exit;
     }
     
