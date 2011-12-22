@@ -113,8 +113,8 @@ class CMSAdminFileController extends AdminComponent {
     if(Request::param("operation")=="crop" && $this->image->primval) {
       $location = PUBLIC_DIR. $this->image->url();		
 			File::crop_image($location, $location, post("x1"), post("y1"), post("w"), post("h"));
-			File::clear_image_cache($this->image->id);
-			echo $this->image->id;
+			File::clear_image_cache($this->image->primval);
+			echo $this->image->primval;
 			exit;
     }
   }
