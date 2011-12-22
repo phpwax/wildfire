@@ -92,12 +92,12 @@ class CMSAdminFileController extends AdminComponent {
     }
   }
 
-  public function move() {
-    $origin = post("origin_dir");
-    $file = basename(post("origin_file"));
-    $destination = post("destination");
+  public function move(){
+    $origin = Request::param("origin_dir");
+    $file = basename(Request::param("origin_file"));
     $model = new $this->model_class;
     $f = $model->filter(array("rpath = ? AND filename=?",array($origin,$file)))->first();
+    $destination = Request::param("destination");
     $f->rpath = $destination;
     $f->path = $destination;
     if($f->save()) {
