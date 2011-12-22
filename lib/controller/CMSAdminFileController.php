@@ -51,8 +51,13 @@ class CMSAdminFileController extends AdminComponent {
 	    $file = new $this->model_class($this->model_scope);
 	    $base = basename($filename);
 	    $path = str_replace($base, "", $filename);
-      $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();
+      if($f = $file->filter("rpath", $path)->filter("filename", $base)->first()) $this->file = $f;
+  	  else{
+  	    $this->sync($path, $base);
+  	    $this->file = $file->clear()->scope($this->model_scope)->filter("rpath", $path)->filter("filename", $base)->first();
+  	  }
 	  }
+	  
 	}
 
   public function create(){
