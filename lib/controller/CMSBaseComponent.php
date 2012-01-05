@@ -20,23 +20,23 @@ class CMSBaseComponent extends WaxController {
 	                          );
   public $use_plugin = "cms";
 	public $display_name = 'CMS'; //display name of the module
-  public $use_layout = "admin"; //the default layout to use	
+  public $use_layout = "admin"; //the default layout to use
 	public $per_page = 20; //the limit to use in lists
 	public $this_page = 1;
-	
+
   public $session; //session object
   public $user_session_name = "wf_v6_user";
   public $user_session_var_name = "user_id";
   public static $logged_in_user = false;
   public $filter_fields=array();
   public $model_filters=array();
-  
+
   public $operation_actions = array('edit');
   public $quick_links = array();
 
   public $file_system_model = "WildfireFile";
   public $file_system_base = "files/";
-  
+
   public $dashboard = false;
   public $sort_scope = "";
   public $export_scope = "";
@@ -44,10 +44,10 @@ class CMSBaseComponent extends WaxController {
   public $export_group = false; //splits the results by this field, make multiple csv files and zips them
   public $sortable = false;
   public $scaffold_columns = false;
-  
+
   public $search_results = array();
   public $use_cache = false;
-  
+
   public $messages = array();
 
 	function __construct($application = false, $init=true) {
@@ -56,7 +56,7 @@ class CMSBaseComponent extends WaxController {
     WaxEvent::run("cms.session.setup", $this);
 	  if($init) $this->initialise();
 	}
-	
+
 	public function controller_global(){
 	  parent::controller_global();
 	  WaxEvent::run("cms.layout.set", $this);
@@ -82,7 +82,7 @@ class CMSBaseComponent extends WaxController {
     }
     return false;
   }
-  
+
   protected function events(){
     WaxEvent::add("cms.session.setup", function(){
       $controller = WaxEvent::data();
@@ -108,10 +108,10 @@ class CMSBaseComponent extends WaxController {
         header("Pragma: no-cache");
         header("Expires: 0");
 	    }elseif($obj->use_format == "zip"){
-	      $obj->use_view = $obj->use_layout = false;	      
+	      $obj->use_view = $obj->use_layout = false;
 	    }
     });
-    WaxEvent::add("cms.layout.sublinks", function(){});    
+    WaxEvent::add("cms.layout.sublinks", function(){});
     WaxEvent::add('cms.search.'.$this->module_name, function(){});
   }
 	/**
@@ -119,8 +119,13 @@ class CMSBaseComponent extends WaxController {
 	 **/
 	protected function initialise(){}
 
-  public function sync($path){
+  public function sync($path, $filename=""){
     $model = new $this->file_system_model;
+    //if the filename is passed then add a filter to the db check and swap the regex to be based the filename
+    if($filename){
+      $model->filter("filename", $filename);
+      $pattern = "#($filename)#i";
+    }else $pattern = "#^[^\.]#i";
     //check existing db entries
     foreach($model->filter("rpath", $path)->all() as $file){
       $full_path = PUBLIC_DIR.$file->rpath.$file->filename;
@@ -128,7 +133,7 @@ class CMSBaseComponent extends WaxController {
       elseif($file->status == "lost") $file->update_attributes(array('status'=>'found'));
     }
     //check filesystem files
-    foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$path), "#^[^\.]#i") as $file){
+    foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$path), $pattern) as $file){
       $file = $file->getPathName();
       if(!is_dir($file)){
         if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
@@ -136,10 +141,10 @@ class CMSBaseComponent extends WaxController {
         $fileid = $stats[9];
         while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
           $ts = time() - rand(3600, 9000);
-          
+
           touch($file, $ts);
           exec('touch -t '+date("YmdHis",$ts)+' '+$file);
-          
+
           clearstatcache();
           $stats = stat($file);
           $fileid = $stats[9];
@@ -167,7 +172,7 @@ class CMSBaseComponent extends WaxController {
       if($type != "directory") $res = $model->query($query);
     }catch (Exception $e){}
   }
-  
+
   public function add_message($message, $class){
     $messages = $this->session->get("messages");
     $messages[] = array('message'=>$message, 'class'=>$class);

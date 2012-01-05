@@ -40,4 +40,7 @@ class WildfireCategory extends WaxModel {
     else return false;
   }
 	
+	public function scope_multipleselect(){
+	  return $this->order("title ASC");
+	}
 }

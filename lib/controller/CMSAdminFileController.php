@@ -51,8 +51,13 @@ class CMSAdminFileController extends AdminComponent {
 	    $file = new $this->model_class($this->model_scope);
 	    $base = basename($filename);
 	    $path = str_replace($base, "", $filename);
-      $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();
+      if($f = $file->filter("rpath", $path)->filter("filename", $base)->first()) $this->file = $f;
+  	  else{
+  	    $this->sync($path, $base);
+  	    $this->file = $file->clear()->scope($this->model_scope)->filter("rpath", $path)->filter("filename", $base)->first();
+  	  }
 	  }
+	  
 	}
 
   public function create(){
@@ -87,27 +92,27 @@ class CMSAdminFileController extends AdminComponent {
     }
   }
 
-  public function move() {
-    $origin = post("origin_dir");
-    $file = basename(post("origin_file"));
-    $f = WildfireFile::find("first",array("filter"=>array("rpath = ? AND filename=?",array($origin,$file))));
-    $destination = post("destination");
-    $f->rpath = $destination;
-    $f->path = $destination;
-    if($f->save()) {
-      echo $f->id;
+  public function move(){
+    $origin = Request::param("origin_dir");
+    $file = basename(Request::param("origin_file"));
+    $model = new $this->model_class;
+    $destination = Request::param("destination");
+    $f = $model->filter("rpath", $origin)->filter("filename",$file)->first();
+    if($f->update_attributes(array('rpath'=>$destination, 'path'=>$destination)) ) {
+      echo $f->primval;
 			exit;
     }
     
   }
   
-  public function edit() {
-    $this->image = new WildfireFile(get("id"));
-    if(post("operation")=="crop") {
+  public function edit(){
+    $class = $this->model_class;
+    $this->image = new $class(Request::param("id"));
+    if(Request::param("operation")=="crop" && $this->image->primval) {
       $location = PUBLIC_DIR. $this->image->url();		
-			File::crop_image($location, $location, post("x1"), post("y1"), post("w"), post("h"));
-			File::clear_image_cache($this->image->id);
-			echo $this->image->id;
+			File::crop_image($location, $location, Request::param("x1"), Request::param("y1"), Request::param("w"), Request::param("h"));
+			File::clear_image_cache($this->image->primval);
+			echo $this->image->primval;
 			exit;
     }
   }

@@ -49,7 +49,7 @@ class WildfireContent extends WaxTreeModel {
 	  if(!$this->parent_column) $this->parent_column = "parent";
     if(!$this->children_column) $this->children_column = "children";
     if(!$this->parent_join_field) $this->parent_join_field = $this->parent_column."_".$this->primary_key;
-	  $this->define($this->parent_column, "ForeignKey", array("col_name" => "parent_id", "target_model" => get_class($this), 'group'=>'parent', 'widget'=>'HiddenInput'));
+	  $this->define($this->parent_column, "ForeignKey", array("col_name" => "parent_id", "target_model" => get_class($this), 'widget'=>'HiddenInput'));
     $this->define($this->children_column, "HasManyField", array("target_model" => get_class($this), "join_field" => $this->parent_join_field, "eager_loading" => true, 'associations_block'=>true));
 	}
 
@@ -258,7 +258,9 @@ class WildfireContent extends WaxTreeModel {
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0, $title=''){
     $model = new WaxModel;
-    $model->table = $this->table."_wildfire_file";
+    if($this->table < "wildfire_file") $model->table = $this->table."_wildfire_file";
+    else $model->table = "wildfire_file_".$this->table;
+    
     $col = $this->table."_".$this->primary_key;
     if(!$order) $order = 0;
     if(($found = $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->all()) && $found->count()){
@@ -273,9 +275,11 @@ class WildfireContent extends WaxTreeModel {
   }
   public function file_meta_get($fileid=false, $tag=false){
     $model = new WaxModel;
-    $model->table = $this->table."_wildfire_file";
+    if($this->table < "wildfire_file") $model->table = $this->table."_wildfire_file";
+    else $model->table = "wildfire_file_".$this->table;
     $col = $this->table."_".$this->primary_key;
     if($fileid) return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->order('join_order ASC')->first();
+    elseif($tag=="all") return $model->filter($col, $this->primval)->order('join_order ASC')->all();    
     elseif($tag) return $model->filter($col, $this->primval)->filter("tag", $tag)->order('join_order ASC')->all();
     else return false;
   }

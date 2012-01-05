@@ -64,7 +64,7 @@ a.red, #auto-save.disabled{
 	padding:7px 6px;
 }
 .quick-create_new_content {margin-left:50px;}
-a.operation {
+a.operation, a.add-button {
 	border:1px solid #a2afb8;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -77,7 +77,7 @@ a.operation {
 	font-weight:bold;
 	padding:6px 10px;
 }
-input.live, input.hide, input.revision {
+input.live, input.hide, input.revision, a.remove-button {
 	background:#9fcb57 url(/images/wildfire/themes/v2/green_button_bg.png) repeat-x;
 	color:#5d7731;
 	text-shadow: #FFF 1px 1px 1px;
@@ -88,7 +88,7 @@ input.live, input.hide, input.revision {
 	border-radius: 5px;
 	text-transform:none;
 }
-input.hide {
+input.hide, a.remove-button {
 	background:#f5687a url(/images/wildfire/themes/v2/red_button_bg.png) repeat-x;
 	border:1px solid #df6f8b;
 	color:#913944;
