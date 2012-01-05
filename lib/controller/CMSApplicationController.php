@@ -9,7 +9,7 @@
 
 class CMSApplicationController extends WaxController{
 
-
+  public $cms_called = false;
 	public $per_page = 5;	//number of content items to list per page
 	public $this_page = 1;	//the current page number
 
@@ -27,6 +27,9 @@ class CMSApplicationController extends WaxController{
 	public $cms_stack = array(); //stack of the url
 	public $cms_content = false;
 
+	public $cms_throw_missing_content = false;
+  public $cms_throw_missing_view = false;
+
 	public $previewing = false;
 
 	public $cms_view = "";
@@ -43,6 +46,9 @@ class CMSApplicationController extends WaxController{
    *
 	 */
 	protected function cms(){
+	  $this->event_setup();
+
+	  $this->cms_called = true;
 	  /**
 	   * pagination check
 	   */
@@ -77,38 +83,63 @@ class CMSApplicationController extends WaxController{
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
 		WaxEvent::run("cms.cms_language_id_set", $this);
 
-	  /**
-	   * use the modified stack to find content
-	   * - try with the set language
-	   * - if cant find it, look for default language version
-	   */
-	  if(($preview_id = Request::param('preview')) && is_numeric($preview_id) && ($m = new $this->cms_content_class($preview_id)) && $m && $m->primval){
-	    $this->cms_content = $m;
-	  }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, $this->cms_language_id) ){
-      $this->cms_content = $content;
-    }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
-      $this->cms_content = $content;
-    }elseif(WaxApplication::is_public_method($this, "method_missing")){
-      return $this->method_missing();
-	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+		//content look up event
+	  WaxEvent::run("cms.content.lookup", $this);
+	  if($this->cms_throw_missing_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+	  WaxEvent::run("cms.content.set", $this);
 	  WaxEvent::run("cms.cms_content_set", $this);
     /**
      * find a matching view for the page, otherwise throw an error
      */
-    if($this->cms_view = $this->cms_content->view) $this->use_view = $this->cms_view;
-    elseif($this->cms_view = $this->cms_view($this->cms_stack, $this->cms_language_id)) $this->use_view = $this->cms_view;
-    else throw new WXRoutingException("No view found", "Page not found", "404");
+    WaxEvent::run("cms.view.lookup", $this);
+    if($this->cms_throw_missing_view) throw new WXRoutingException("No view found", "Page not found", "404");
     /**
      * setup the layout
      */
-    if($this->cms_layout = $this->cms_content->layout) $this->use_layout = $this->cms_layout;
-    elseif($this->cms_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id)) $this->use_layout = $this->cms_layout;
-    
+    WaxEvent::run("cms.view.set", $this);
+
     /**
      * finally, set the action to the default cms one
      */
     $this->action = $this->cms_action;
     WaxEvent::run("cms.action_set", $this);
+	}
+
+	protected function event_setup(){
+	  //look for cms content by calling functions etc
+	  WaxEvent::add("cms.content.lookup", function(){
+	    $obj = WaxEvent::data();
+	    /**
+  	   * use the modified stack to find content
+  	   * - try with the set language
+  	   * - if cant find it, look for default language version
+  	   */
+  	  if(($preview_id = Request::param('preview')) && is_numeric($preview_id) && ($m = new $obj->cms_content_class($preview_id)) && $m && $m->primval){
+  	    $obj->cms_content = $m;
+  	  }elseif($content = $obj->content($obj->cms_stack, $obj->cms_mapping_class, $obj->cms_live_scope, $obj->cms_language_id) ){
+        $obj->cms_content = $content;
+      }elseif($content = $obj->content($obj->cms_stack, $obj->cms_mapping_class, $obj->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
+        $obj->cms_content = $content;
+      }elseif(WaxApplication::is_public_method($obj, "method_missing")){
+        return $obj->method_missing();
+  	  }else $obj->cms_throw_missing_content = true;
+	  });
+
+	  //look for views
+	  WaxEvent::add("cms.view.lookup", function(){
+	    $obj = WaxEvent::data();
+	    if($obj->cms_view = $obj->cms_content->view) $obj->use_view = $obj->cms_view;
+      elseif($obj->cms_view = $obj->cms_view($obj->cms_stack, $obj->cms_language_id)) $obj->use_view = $obj->cms_view;
+      else $obj->cms_throw_missing_view = true;
+	  });
+    //set the views
+
+	  WaxEvent::add("cms.view.set", function(){
+	    $obj = WaxEvent::data();
+	    if($obj->cms_layout = $obj->cms_content->layout) $obj->use_layout = $obj->cms_layout;
+      elseif($obj->cms_layout = $obj->cms_layout($obj->cms_stack, $obj->cms_language_id)) $obj->use_layout = $obj->cms_layout;
+	  });
+
 	}
 	/**
 	 * go over the stack checking for applications that match, like view
