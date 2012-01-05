@@ -113,7 +113,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * go over the stack checking for applications that match, like view
 	 */
-	protected function cms_layout($stack, $language_id){
+	public function cms_layout($stack, $language_id){
 	  $accumulated = $base = "layouts/".$this->cms_default_layout;
 	  $layouts = array($base);
 	  //if the stack is empty, push home to it so has a custom view for home pages
@@ -126,14 +126,14 @@ class CMSApplicationController extends WaxController{
 	    $layouts[] = $accumulated;
 	  }
 	  $layouts = array_unique($layouts);
-	  
+
 	  foreach(array_reverse($layouts) as $layout) if(is_readable(VIEW_DIR.$layout.".".$this->use_format)) return basename($layout);
 	  return false;
 	}
 	/**
 	 * from the stack and language id passed in, look for a suitable view
 	 */
-	protected function cms_view($stack, $language_id){
+	public function cms_view($stack, $language_id){
 	  $accumulated = "";
 	  $base = $this->controller ."/cms_%s%view";
 	  $views = array($this->controller."/".$this->cms_default_view, "shared/".$this->cms_default_view);
@@ -144,14 +144,17 @@ class CMSApplicationController extends WaxController{
 	  foreach($stack as $item){
 	    $accumulated .= $item."_";
 	    $views[] = str_replace("%s%", $item."_", $base);
-      $views[] = str_replace("%s%", $accumulated, $base); 
+	    $views[] = str_replace($this->controller."/", "shared/", str_replace("%s%", $item."_", $base));
+      $views[] = str_replace("%s%", $accumulated, $base);
+
       foreach((array)Autoloader::view_paths("plugin") as $path){
+  	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", "", $base)), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", $item."_", $base)), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $item."_", $base), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $accumulated, $base), 'plugin'=>true);
-      } 	  
+      }
 	  }
-    	  
+
 	  foreach(array_reverse($views) as $view){
 	    if(is_array($view) && $this->is_viewable($view['path'], $this->use_format, $view['plugin'])) return basename($view['path']);
 	    else if(!is_array($view) && $this->is_viewable($view, $this->use_format)) return $view;
@@ -161,7 +164,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * use the cms_url_map to find a url that matches
    */
-	protected function content($stack, $model_class, $model_scope, $language_id){
+	public function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
 	  $model = new $model_class();
@@ -174,7 +177,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * split out what to do for a map object
 	 */
-	protected function map_to_content($map){
+	public function map_to_content($map){
 		if($map->destination_url && !$map->track_url) $this->redirect_to($map->destination_url);
 	  elseif($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
 	  elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
@@ -182,7 +185,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * unset key elements from the stack (controller etc)
 	 */
-	protected function cms_stack($stack){
+	public function cms_stack($stack){
 	  foreach($stack as $k=>$v) if(!is_numeric($k)) unset($stack[$k]);
 	  unset($stack[0]);
 		return $stack;
@@ -191,7 +194,7 @@ class CMSApplicationController extends WaxController{
 	 * go over the url and look for possible languages from the languages array
 	 * - returns an id to use as the language
 	 */
-	protected function cms_language($request_lang, $stack, $languages){
+	public function cms_language($request_lang, $stack, $languages){
 	  /**
 	   * - if request_lang is present and is a key on the languages array, return that value
 	   * - if its a word, then match it against each languages allowed urls
