@@ -1,10 +1,11 @@
 <?
   if(!$ignore_cols) $ignore_cols = array();
   if(!$permissions) $permissions = $current_user->permissions($operation_actions, $module_name);
+  $tree_model = $tree_model->scope($tree_scope);
   if($model_filters['parent']) $nodes = $tree_model->all();
   else if($load_whole_tree) $nodes = $tree_model->tree();
   else if($scoped) $nodes = $tree_model->scope($scoped)->all();
-  else $nodes = $tree_model->scope($model_scope)->roots();
+  else $nodes = $tree_model->roots();
 ?>
 <ul class='data_tree' <?=$load_whole_tree?'':"data-action='/".trim($controller,"/")."/_tree'"?> >
   <?if($show_headers):?>
