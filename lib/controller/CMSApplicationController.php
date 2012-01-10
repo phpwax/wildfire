@@ -27,6 +27,9 @@ class CMSApplicationController extends WaxController{
 	public $cms_stack = array(); //stack of the url
 	public $cms_content = false;
 
+	public $cms_throw_missing_content = false;
+  public $cms_throw_missing_view = false;
+
 	public $previewing = false;
 
 	public $cms_view = "";
@@ -43,6 +46,8 @@ class CMSApplicationController extends WaxController{
    *
 	 */
 	protected function cms(){
+	  $this->event_setup();
+
 	  $this->cms_called = true;
 	  /**
 	   * pagination check
@@ -78,43 +83,68 @@ class CMSApplicationController extends WaxController{
 		else $this->cms_language_id = array_shift(array_keys(CMSApplication::$languages));
 		WaxEvent::run("cms.cms_language_id_set", $this);
 
-	  /**
-	   * use the modified stack to find content
-	   * - try with the set language
-	   * - if cant find it, look for default language version
-	   */
-	  if(($preview_id = Request::param('preview')) && is_numeric($preview_id) && ($m = new $this->cms_content_class($preview_id)) && $m && $m->primval){
-	    $this->cms_content = $m;
-	  }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, $this->cms_language_id) ){
-      $this->cms_content = $content;
-    }elseif($content = $this->content($this->cms_stack, $this->cms_mapping_class, $this->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
-      $this->cms_content = $content;
-    }elseif(WaxApplication::is_public_method($this, "method_missing")){
-      return $this->method_missing();
-	  }else throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+		//content look up event
+	  WaxEvent::run("cms.content.lookup", $this);
+	  if($this->cms_throw_missing_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
+	  WaxEvent::run("cms.content.set", $this);
 	  WaxEvent::run("cms.cms_content_set", $this);
     /**
      * find a matching view for the page, otherwise throw an error
      */
-    if($this->cms_view = $this->cms_content->view) $this->use_view = $this->cms_view;
-    elseif($this->cms_view = $this->cms_view($this->cms_stack, $this->cms_language_id)) $this->use_view = $this->cms_view;
-    else throw new WXRoutingException("No view found", "Page not found", "404");
+    WaxEvent::run("cms.view.lookup", $this);
+    if($this->cms_throw_missing_view) throw new WXRoutingException("No view found", "Page not found", "404");
     /**
      * setup the layout
      */
-    if($this->cms_layout = $this->cms_content->layout) $this->use_layout = $this->cms_layout;
-    elseif($this->cms_layout = $this->cms_layout($this->cms_stack, $this->cms_language_id)) $this->use_layout = $this->cms_layout;
-    
+    WaxEvent::run("cms.view.set", $this);
+
     /**
      * finally, set the action to the default cms one
      */
     $this->action = $this->cms_action;
     WaxEvent::run("cms.action_set", $this);
 	}
+
+	protected function event_setup(){
+	  //look for cms content by calling functions etc
+	  WaxEvent::add("cms.content.lookup", function(){
+	    $obj = WaxEvent::data();
+	    /**
+  	   * use the modified stack to find content
+  	   * - try with the set language
+  	   * - if cant find it, look for default language version
+  	   */
+  	  if(($preview_id = Request::param('preview')) && is_numeric($preview_id) && ($m = new $obj->cms_content_class($preview_id)) && $m && $m->primval){
+  	    $obj->cms_content = $m;
+  	  }elseif($content = $obj->content($obj->cms_stack, $obj->cms_mapping_class, $obj->cms_live_scope, $obj->cms_language_id) ){
+        $obj->cms_content = $content;
+      }elseif($content = $obj->content($obj->cms_stack, $obj->cms_mapping_class, $obj->cms_live_scope, array_shift(array_keys(CMSApplication::$languages)) )){
+        $obj->cms_content = $content;
+      }elseif(WaxApplication::is_public_method($obj, "method_missing")){
+        return $obj->method_missing();
+  	  }else $obj->cms_throw_missing_content = true;
+	  });
+
+	  //look for views
+	  WaxEvent::add("cms.view.lookup", function(){
+	    $obj = WaxEvent::data();
+	    if($obj->cms_view = $obj->cms_content->view) $obj->use_view = $obj->cms_view;
+      elseif($obj->cms_view = $obj->cms_view($obj->cms_stack, $obj->cms_language_id)) $obj->use_view = $obj->cms_view;
+      else $obj->cms_throw_missing_view = true;
+	  });
+    //set the views
+
+	  WaxEvent::add("cms.view.set", function(){
+	    $obj = WaxEvent::data();
+	    if($obj->cms_layout = $obj->cms_content->layout) $obj->use_layout = $obj->cms_layout;
+      elseif($obj->cms_layout = $obj->cms_layout($obj->cms_stack, $obj->cms_language_id)) $obj->use_layout = $obj->cms_layout;
+	  });
+
+	}
 	/**
 	 * go over the stack checking for applications that match, like view
 	 */
-	protected function cms_layout($stack, $language_id){
+	public function cms_layout($stack, $language_id){
 	  $accumulated = $base = "layouts/".$this->cms_default_layout;
 	  $layouts = array($base);
 	  //if the stack is empty, push home to it so has a custom view for home pages
@@ -127,14 +157,14 @@ class CMSApplicationController extends WaxController{
 	    $layouts[] = $accumulated;
 	  }
 	  $layouts = array_unique($layouts);
-	  
+
 	  foreach(array_reverse($layouts) as $layout) if(is_readable(VIEW_DIR.$layout.".".$this->use_format)) return basename($layout);
 	  return false;
 	}
 	/**
 	 * from the stack and language id passed in, look for a suitable view
 	 */
-	protected function cms_view($stack, $language_id){
+	public function cms_view($stack, $language_id){
 	  $accumulated = "";
 	  $base = $this->controller ."/cms_%s%view";
 	  $views = array($this->controller."/".$this->cms_default_view, "shared/".$this->cms_default_view);
@@ -153,7 +183,7 @@ class CMSApplicationController extends WaxController{
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", $item."_", $base)), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $item."_", $base), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace("%s%", $accumulated, $base), 'plugin'=>true);
-      } 	  
+      }
 	  }
 
 	  foreach(array_reverse($views) as $view){
@@ -165,7 +195,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * use the cms_url_map to find a url that matches
    */
-	protected function content($stack, $model_class, $model_scope, $language_id){
+	public function content($stack, $model_class, $model_scope, $language_id){
 	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
 	  $model = new $model_class();
@@ -178,7 +208,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * split out what to do for a map object
 	 */
-	protected function map_to_content($map){
+	public function map_to_content($map){
 		if($map->destination_url && !$map->track_url) $this->redirect_to($map->destination_url);
 	  elseif($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
 	  elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
@@ -186,7 +216,7 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * unset key elements from the stack (controller etc)
 	 */
-	protected function cms_stack($stack){
+	public function cms_stack($stack){
 	  foreach($stack as $k=>$v) if(!is_numeric($k)) unset($stack[$k]);
 	  unset($stack[0]);
 		return $stack;
@@ -195,7 +225,7 @@ class CMSApplicationController extends WaxController{
 	 * go over the url and look for possible languages from the languages array
 	 * - returns an id to use as the language
 	 */
-	protected function cms_language($request_lang, $stack, $languages){
+	public function cms_language($request_lang, $stack, $languages){
 	  /**
 	   * - if request_lang is present and is a key on the languages array, return that value
 	   * - if its a word, then match it against each languages allowed urls
