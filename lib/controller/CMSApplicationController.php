@@ -42,6 +42,7 @@ class CMSApplicationController extends WaxController{
   public $body_class = "";
   public $body_id = "";
   public $content_object_stack = array();
+  public $content_id_stack = array();
   public $top_level = false;
 	//default action
 	public function cms_page() {}
@@ -51,6 +52,7 @@ class CMSApplicationController extends WaxController{
       $this->body_class = "";
 		  foreach($path as $obj){
 		    $content_object_stack[] = $obj;
+		    $this->content_id_stack[] = $obj->primval;
 		    $css = str_replace("/", "_", trim($obj->permalink, "/"));
 		    $this->body_id = $css;
 		    $this->body_class = $css . " ". $this->body_class;
