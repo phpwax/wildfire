@@ -47,7 +47,7 @@ class CMSApplicationController extends WaxController{
 	//default action
 	public function cms_page() {}
     
-  protected function cms_stack(){
+  protected function cms_stacks(){
     if($this->cms_content && ($path = $this->cms_content->path_to_root())){
       $this->body_class = "";
 		  foreach($path as $obj){
