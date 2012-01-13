@@ -68,14 +68,14 @@ class WildfireContent extends WaxTreeModel {
   }
 
   public function before_save(){
-    if(!$this->date_start) $this->date_start = date("Y-m-d H:i:s");
-    if(!$this->date_created) $this->date_created = date("Y-m-d H:i:s");
+    if($this->columns['date_start'] && !$this->date_start) $this->date_start = date("Y-m-d H:i:s");
+    if($this->columns['date_created'] && !$this->date_created) $this->date_created = date("Y-m-d H:i:s");
     if(!$this->{$this->parent_column."_".$this->primary_key}) $this->{$this->parent_column."_".$this->primary_key} = 0;
-    if(!$this->language) $this->language = 0;    
-    if(!$this->status) $this->status = 0;
-    if(!$this->revision) $this->revision = 0;    
-    $this->date_modified = date("Y-m-d H:i:s");
-    $this->content =  CmsTextFilter::filter("before_save", $this->content);
+    if($this->columns['language'] && !$this->language) $this->language = 0;    
+    if($this->columns['status'] && !$this->status) $this->status = 0;
+    if($this->columns['revision'] && !$this->revision) $this->revision = 0;    
+    if($this->columns['date_modified']) $this->date_modified = date("Y-m-d H:i:s");
+    if($this->columns['content']) $this->content =  CmsTextFilter::filter("before_save", $this->content);
   }
   //after save, we need to update the url mapping
   public function after_save(){}
