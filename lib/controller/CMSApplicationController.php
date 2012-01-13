@@ -39,8 +39,28 @@ class CMSApplicationController extends WaxController{
 
 	public $cms_action = "cms_page";
 
+  public $body_class = "";
+  public $body_id = "";
+  public $content_object_stack = array();
+  public $top_level = false;
 	//default action
 	public function cms_page() {}
+    
+  protected function cms_stack(){
+    if($this->cms_content && ($path = $this->cms_content->path_to_root())){
+      $this->body_class = "";
+		  foreach($path as $obj){
+		    $content_object_stack[] = $obj;
+		    $css = str_replace("/", "_", trim($obj->permalink, "/"));
+		    $this->body_id = $css;
+		    $this->body_class = $css . " ". $this->body_class;
+	    }
+		  $this->content_object_stack = array_reverse($content_object_stack);
+		  $this->top_level = $this->content_object_stack[0];
+		}else{
+		  $this->body_class = $this->body_id = $this->controller."-".$this->action;
+		}
+  }
 
 	/**
    *
