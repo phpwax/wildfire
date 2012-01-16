@@ -80,6 +80,6 @@ function drags(){
 }
 
 jQuery(document).bind("filetree.loaded",function() {
-	drags();
+	//drags();
 });
 
