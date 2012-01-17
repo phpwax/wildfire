@@ -13,5 +13,16 @@ CMSApplication::register_module("users", array("display_name"=>"CMS Users", "lin
 
 Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();
-//use the expiry date filter on cms_content models
-//Config::set('use_expiry_date', true);
+
+//set the default media types
+WildfireMedia::$allowed  = array(
+                            'jpg'=>'WildfireDiskFile',
+                            'png'=>'WildfireDiskFile',
+                            'gif'=>'WildfireDiskFile',
+                            'txt'=>'WildfireDiskFile',
+                            'doc'=>'WildfireDiskFile',
+                            'xsl'=>'WildfireDiskFile',
+                            'zip'=>'WildfireDiskFile'
+                          );
+
+?>
