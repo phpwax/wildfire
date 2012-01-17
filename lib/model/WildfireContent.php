@@ -69,6 +69,7 @@ class WildfireContent extends WaxTreeModel {
   }
 
   public function before_save(){
+    parent::before_save();
     if($this->columns['date_start'] && !$this->date_start) $this->date_start = date("Y-m-d H:i:s");
     if($this->columns['date_created'] && !$this->date_created) $this->date_created = date("Y-m-d H:i:s");
     if(!$this->{$this->parent_column."_".$this->primary_key}) $this->{$this->parent_column."_".$this->primary_key} = 0;
