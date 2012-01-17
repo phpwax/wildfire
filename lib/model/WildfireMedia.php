@@ -22,17 +22,16 @@ class WildfireMedia extends WaxModel{
     $this->define("date_created", "DateTimeField");
     $this->define("date_modified", "DateTimeField");
 
-
     parent::setup();
   }
 
   public function permalink($size=false){
     $obj = new $this->media_class;
-    $obj->get($this);
+    return $obj->get($this, $size);
   }
   public function show($size=false){
     $obj = new $this->media_class;
-    $obj->show($this, $size);
+    return $obj->show($this, $size);
   }
 
   public function before_save(){
