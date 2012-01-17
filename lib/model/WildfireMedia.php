@@ -15,7 +15,6 @@ class WildfireMedia extends WaxModel{
     $this->define("file_mod_time", "CharField"); //modification time of the file
     $this->define("status", "BooleanField");
 
-    $this->define("media_account", "ForeignKey", array('target_model'=>'WildfireMediaAccount'));
     $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser'));
 
     $this->define("date_created", "DateTimeField");
