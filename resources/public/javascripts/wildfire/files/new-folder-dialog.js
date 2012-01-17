@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
   			title:jQuery('.new-folder h3').text()
   		});
   jQuery('.options .new_folder').live("click", function(e){
-    jQuery(this).parents("li").children("a").trigger("click");
+    jQuery(this).closest("li").children("a").trigger("click"); //select this node on renaming
     jQuery(".new-folder").dialog('open');
     e.preventDefault();
   });
