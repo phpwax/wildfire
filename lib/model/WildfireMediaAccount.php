@@ -1,7 +1,7 @@
 <?
 class WildfireMediaAccount extends WaxModel{
   
-  public static $api_classes = array(''=>'-- Select --', 'WildfireDiskFile');
+  public static $api_classes = array(''=>'-- Select --', 'WildfireDiskFile'=>'Local');
 
   public function setup(){
     $this->define("title", "CharField", array('required'=>true)); //visible name used
