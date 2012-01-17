@@ -5,7 +5,12 @@ class WildfireMedia extends WaxModel{
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextareaField");
     $this->define("file_type", "CharField", array('scaffold'=>true));
-    $this->define("source", "CharField"); //this is where the file sits - if disk based then the relative path from public_dir
+    /**
+     * the source is used as where media sits
+     * - file it would be the path relative from public_dir
+     * - flickr it would be the image id etc
+     */
+    $this->define("source", "CharField"); 
     $this->define("file_mod_time", "CharField"); //modification time of the file
     $this->define("status", "BooleanField");
 
