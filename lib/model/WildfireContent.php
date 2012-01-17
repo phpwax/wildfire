@@ -7,6 +7,7 @@ class WildfireContent extends WaxTreeModel {
   
 
 	public function setup(){
+    parent::setup();
 		$this->define("title", "CharField", array('export'=>true, 'maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
 		$this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
 
