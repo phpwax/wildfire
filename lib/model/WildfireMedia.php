@@ -3,7 +3,7 @@ class WildfireMedia extends WaxModel{
   
   public function setup(){
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
-    $this->define("content", "TextareaField");
+    $this->define("content", "TextField");
     $this->define("file_type", "CharField", array('scaffold'=>true));
     /**
      * the source is used as where media sits
