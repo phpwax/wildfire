@@ -14,12 +14,26 @@ class WildfireDiskFile{
     }
     return false;
   }
-
-  public function get($media_item){
-    
+  //should return a url to display the image 
+  public function get($media_item, $size=false){
+    if($size === false) return "/".$media_item->source;
+    //we'll make a new controller called M (for media) which will simply map things smartly
+    else return "/m/".$media_item->hash."/".$size.".".$media_item->ext;
   }
 
-  public function show($media_item){
+  //this will actually render the contents of the image
+  public function show($media_item, $size=false){
+    if(!$size) $size = 100; //default size
+    $dir = CACHE_DIR."images/".$media_item->hash."/";
+    $cache_file = $dir . $size .".".$media_item->ext;    
+    if(!is_readable($dir)) mkdir($dir, 0777, true);
+    if(!is_readable($cache_file)){
+      File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
+    }         
+    File::display_image($cache_file);    
+  }
+
+  public function sync($media_item){
     
   }
 
