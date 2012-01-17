@@ -22,7 +22,7 @@ class WildfireDiskFile{
     
     if($size === false) return "/".$media_item->source;
     //we'll make a new controller called M (for media) which will simply map things smartly
-    else return "/m/".$media_item->hash."/".$size.".".$media_item->ext;
+    else return "/m/".$hash."/".$size.".".$media_item->ext;
   }
 
   //this will actually render the contents of the image
