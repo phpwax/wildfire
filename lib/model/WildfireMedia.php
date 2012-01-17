@@ -5,6 +5,7 @@ class WildfireMedia extends WaxModel{
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextField"); //description
     $this->define("file_type", "CharField", array('scaffold'=>true));
+    $this->define("ext", "CharField");
     /**
      * the source is used as where media sits
      * - file it would be the path relative from public_dir
