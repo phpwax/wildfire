@@ -17,7 +17,6 @@ jQuery(document).ready(function(){
 				progress_bar = file_div.find("span.percentage"),
 				xhr = new XMLHttpRequest()
 				;
-		console.log(dest);
 		// Update progress bar
 		xhr.upload.addEventListener("progress", function (evt) {
 			if (evt.lengthComputable) progress_bar.find("span").html((evt.loaded / evt.total) * 100);
