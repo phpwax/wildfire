@@ -1,6 +1,7 @@
 <?
 class WildfireDiskFile{
   
+  public static $hash_length = 6;
   /**
    * this should handle the saving of the media to the disc
    **/
@@ -16,6 +17,9 @@ class WildfireDiskFile{
   }
   //should return a url to display the image 
   public function get($media_item, $size=false){
+    if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
+    else $hash = $media_item->hash;
+    
     if($size === false) return "/".$media_item->source;
     //we'll make a new controller called M (for media) which will simply map things smartly
     else return "/m/".$media_item->hash."/".$size.".".$media_item->ext;
