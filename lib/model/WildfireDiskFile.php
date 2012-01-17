@@ -2,6 +2,7 @@
 class WildfireDiskFile{
   
   public static $hash_length = 6;
+  public static $name = "Local storage";
   /**
    * this should handle the saving of the media to the disc
    **/
@@ -11,7 +12,7 @@ class WildfireDiskFile{
       $media_item->update_attributes(array('status'=>0));
       //the disk file has very little to do, just update with information about the file:
       $file = PUBLIC_DIR.$media_item->uploaded_location;
-      if(is_readable($file)) return $media_item->update_attributes(array('status'=>1, 'source'=>$media_item->uploaded_location, 'media_class'=>get_class($this)));
+      if(is_readable($file)) return $media_item->update_attributes(array('status'=>1, 'source'=>$media_item->uploaded_location, 'media_class'=>get_class($this), 'media_type'=>self::$name));
     }
     return false;
   }
@@ -27,9 +28,9 @@ class WildfireDiskFile{
 
   //this will actually render the contents of the image
   public function show($media_item, $size=false){
-    if(!$size) $size = 100; //default size
     //if its not an image, redirect to a static image
     if(!strstr($media_item->file_type, "image")) $this->redirect_to("/images/wildfire/icons/red-cross.png");
+    if(!$size) $size = 100; //default size
     $dir = CACHE_DIR."images/".$media_item->hash."/";
     $cache_file = $dir . $size .".".$media_item->ext;    
     if(!is_readable($dir)) mkdir($dir, 0777, true);
@@ -39,7 +40,13 @@ class WildfireDiskFile{
     File::display_image($cache_file);    
   }
 
-  public function sync($media_item){
+  /**
+   * a sync option will be added to the cms via event
+   * that page will let you pick what sync types are allowed (ie a drop down of classes -> self::$name)
+   * the called event (cms.$model.sync.$x) will return set of options to sync with (file system would be folder, flickr would be sets etc)
+   * the confirmed sync will then run this
+   */  
+  public function sync(){
     
   }
 
