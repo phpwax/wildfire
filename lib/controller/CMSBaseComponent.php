@@ -35,8 +35,6 @@ class CMSBaseComponent extends WaxController {
   public $operation_actions = array('edit');
   public $quick_links = array();
 
-  public $file_system_model = "WildfireFile";
-  public $file_system_base = "files/";
 
   public $dashboard = false;
   public $sort_scope = "";
