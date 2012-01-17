@@ -79,8 +79,6 @@ class WildfireContent extends WaxTreeModel {
     if($this->columns['date_modified']) $this->date_modified = date("Y-m-d H:i:s");
     if($this->columns['content']) $this->content =  CmsTextFilter::filter("before_save", $this->content);
   }
-  //after save, we need to update the url mapping
-  public function after_save(){}
   /**
    * compare the url maps of this model to another and return the results (remove & add)
    */
