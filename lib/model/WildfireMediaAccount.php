@@ -7,6 +7,7 @@ class WildfireMediaAccount extends WaxModel{
     $this->define("title", "CharField", array('required'=>true)); //visible name used
     $this->define("token", "CharField"); //access token
     $this->define("class", "CharField", array('widget'=>'SelectInput', 'choices'=>WildfireMediaAccount::$api_classes));
+    parent::setup();
   }
 
   public function before_save(){
