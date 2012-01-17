@@ -21,8 +21,6 @@ class CMSApplicationController extends WaxController{
 	public $cms_preview_scope = "preview";
 	public $cms_content_class = "WildfireContent";
 
-  public $file_system_model = "WildfireFile";
-
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
 	public $cms_content = false;
@@ -284,58 +282,6 @@ class CMSApplicationController extends WaxController{
 	  $buffer_contents = preg_replace("/(<body.*?>)/","$1".$preview_bar, $buffer_contents);
 	  return $buffer_contents;
 	}
-
-
-
-  /**
-   * SHOW IMAGE - USED EVERYWHERE!
-   */
-	public function show_image() {
-	  $options = (array)Request::get("params");
-	  $img_id = Request::get("id");
-	  $img_size = $options[0];
-  	$this->use_view=false;
-		$this->use_layout=false;
-  	if(!$size = $img_size) $size=110;
-  	elseif(strrpos($size, ".")>0) $size = substr($size, 0, strrpos($size, "."));
-  	$img = new $this->file_system_model($img_id);
-  	$ext = File::get_extension($img->filename);
-  	switch($ext) {
-  	  case "mp4":
-  	  case "mov":
-  	  case "avi":
-  	  case "m4v":
-  	  case "mpg":
-  	  case "flv":
-  	    $this->redirect_to("/images/fs/large/video.png");exit;break;
-  	  case "xls":
-  	  case "csv":
-	      $this->redirect_to("/images/fs/large/excel.png");exit;break;
-	    case "wav":
-	    case "wma":
-	    case "aac":
-	    case "mp3":
-	      $this->redirect_to("/images/fs/large/mp3.png");exit;break;
-	    case "swf":
-	      $this->redirect_to("/images/fs/large/flash.png");exit;break;
-	    case "docx":
-	    case "txt":
-	    case "doc":
-	      $this->redirect_to("/images/fs/large/word.png");exit;break;
-	    case "ppt":
-	      $this->redirect_to("/images/fs/large/powerpoint.png");exit;break;
-	    case "pub":
-	      $this->redirect_to("/images/fs/large/publisher.png");exit;break;
-	    case "mdb":
-	      $this->redirect_to("/images/fs/large/access.png");exit;break;
-	    case "pdf":
-	      $this->redirect_to("/images/fs/large/pdf.png");exit;break;
-  	}
-    $img->show($size,false, Request::param('smart_resize_image'));
-  }
-
-
-
 
   /**
    * this series of methods is for handling posted emails and creating content from them
