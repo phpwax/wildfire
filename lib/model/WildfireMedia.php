@@ -1,6 +1,7 @@
 <?
 class WildfireMedia extends WaxModel{
   
+  public static $allowed = array();
   public function setup(){
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextField"); //description
@@ -17,6 +18,7 @@ class WildfireMedia extends WaxModel{
     $this->define("hash", "CharField"); //md5 hash of file contents
 
     $this->define("media_class", "CharField");
+    $this->define("media_type", "CharField"); //friendly name of the media class - Local storage / youtube etc
     $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser', 'editable'=>false));
 
     $this->define("date_created", "DateTimeField");
