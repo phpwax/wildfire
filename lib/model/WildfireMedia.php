@@ -11,6 +11,7 @@ class WildfireMedia extends WaxModel{
      * - flickr it would be the image id etc
      */
     $this->define("source", "CharField"); 
+    $this->define("uploaded_location", "CharField");
     $this->define("file_mod_time", "CharField"); //modification time of the file
     $this->define("status", "BooleanField");
 
