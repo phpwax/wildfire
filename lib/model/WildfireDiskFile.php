@@ -19,8 +19,8 @@ class WildfireDiskFile{
   public function get($media_item, $size=false){
     if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
     else $hash = $media_item->hash;
-    
-    if($size === false) return "/".$media_item->source;
+    //if its not an image, return the normal url anyway
+    if($size === false || !strstr($media_item->file_type, "image")) return "/".$media_item->source;
     //we'll make a new controller called M (for media) which will simply map things smartly
     else return "/m/".$hash."/".$size.".".$media_item->ext;
   }
@@ -28,6 +28,8 @@ class WildfireDiskFile{
   //this will actually render the contents of the image
   public function show($media_item, $size=false){
     if(!$size) $size = 100; //default size
+    //if its not an image, redirect to a static image
+    if(!strstr($media_item->file_type, "image")) $this->redirect_to("/images/wildfire/icons/red-cross.png");
     $dir = CACHE_DIR."images/".$media_item->hash."/";
     $cache_file = $dir . $size .".".$media_item->ext;    
     if(!is_readable($dir)) mkdir($dir, 0777, true);
