@@ -26,6 +26,15 @@ class WildfireMedia extends WaxModel{
     parent::setup();
   }
 
+  public function permalink($size=false){
+    $obj = new $this->media_class;
+    $obj->get($this);
+  }
+  public function show($size=false){
+    $obj = new $this->media_class;
+    $obj->show($this, $size);
+  }
+
   public function before_save(){
     parent::setup();
     if(!$this->title && $this->columns['title']) $this->title = "Media Item";
