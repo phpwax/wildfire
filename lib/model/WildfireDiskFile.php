@@ -34,9 +34,7 @@ class WildfireDiskFile{
     $dir = CACHE_DIR."images/".$media_item->hash."/";
     $cache_file = $dir . $size .".".$media_item->ext;    
     if(!is_readable($dir)) mkdir($dir, 0777, true);
-    if(!is_readable($cache_file)){
-      File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
-    }         
+    if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
     File::display_image($cache_file);    
   }
 
