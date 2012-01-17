@@ -120,59 +120,9 @@ class CMSBaseComponent extends WaxController {
 	 **/
 	protected function initialise(){}
 
-  public function sync($path, $filename=""){
-    $model = new $this->file_system_model;
-    //if the filename is passed then add a filter to the db check and swap the regex to be based the filename
-    if($filename){
-      $model->filter("filename", $filename);
-      $pattern = "#($filename)#i";
-    }else $pattern = "#^[^\.]#i";
-    //check existing db entries
-    foreach($model->filter("rpath", $path)->all() as $file){
-      $full_path = PUBLIC_DIR.$file->rpath.$file->filename;
-      if(!file_exists($full_path)) $file->update_attributes(array('status'=>'lost'));
-      elseif($file->status == "lost") $file->update_attributes(array('status'=>'found'));
-    }
-    //check filesystem files
-    foreach(new RegexIterator(new DirectoryIterator(PUBLIC_DIR.$path), $pattern) as $file){
-      $file = $file->getPathName();
-      if(!is_dir($file)){
-        if(is_readable($file)) exec("chmod -Rf 0777 ".$file);
-        $stats = stat($file);
-        $fileid = $stats[9];
-        while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
-          $ts = time() - rand(3600, 9000);
+  public function sync($path, $filename=""){}
 
-          touch($file, $ts);
-          exec('touch -t '+date("YmdHis",$ts)+' '+$file);
-
-          clearstatcache();
-          $stats = stat($file);
-          $fileid = $stats[9];
-        }
-        if(is_file($file)) $this->add_file($path, basename($file), $path, $fileid);
-      }
-    }
-  }
-
-  protected function add_file($folderpath,$filename,$rpath,$fileid){
-    $folderpath = rtrim($folderpath, "/");
-    if(function_exists('finfo_file')) {
-      $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-      $type = finfo_file($finfo, "$folderpath/$filename");
-      finfo_close($finfo);
-    }elseif(function_exists('mime_content_type') ){
-  		$type = mime_content_type("$folderpath/$filename");
-  	}else{
-  		$type = exec("file --mime -b ".escapeshellarg("$folderpath/$filename"));
-  	}
-  	$size = filesize($folderpath."/".$filename);
-  	$model = new WaxModel;
-  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$rpath','$type','$size','found')";
-    try{
-      if($type != "directory") $res = $model->query($query);
-    }catch (Exception $e){}
-  }
+  protected function add_file($folderpath,$filename,$rpath,$fileid){}
 
   public function add_message($message, $class){
     $messages = $this->session->get("messages");

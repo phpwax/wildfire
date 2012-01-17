@@ -373,49 +373,6 @@ class CMSAdminComponent extends CMSBaseComponent {
   }
 
 
-  public function upload(){
-    $this->use_view= false;
-    $rpath = $_SERVER['HTTP_X_FILE_PATH'];
-    $path = PUBLIC_DIR. $rpath;
-    $filename = File::safe_file_save($path, $_SERVER['HTTP_X_FILE_NAME']);
-    $putdata = fopen("php://input", "r");
-    $put = "";
-    while ($data = fread($putdata, 2048)) $put .= $data;
-    file_put_contents($path.$filename, $put);
-    @chmod($path.$filename, 0777);
-    $this->sync($rpath);
-    sleep(1);
-  }
-
-
-  public function _existing_files(){
-    if($this->use_format == "ajax"){
-      $this->use_format = "html";
-      $this->model = new $this->model_class(Request::param('id'));
-    }
-  }
-  public function _file_list(){
-    $this->exising = $this->files = array();
-	  if($this->dir = Request::param('dir')){
-	    $file = new $this->file_system_model("available");
-	    $this->model = new $this->model_class(Request::param('id'));
-	    foreach($this->model->files as $f) $this->existing[] = $f->rpath.$f->filename;
-	    if(!is_dir(PUBLIC_DIR . $this->dir)) mkdir(PUBLIC_DIR . $this->dir, 0777, true);
-	    $this->files = array_reverse(scandir(PUBLIC_DIR . $this->dir));
-	  }
-  }
-  public function _file_info(){
-	  if($filename = Request::param('file')){
-	    $model = new $this->model_class(Request::param('id'));
-	    $file = new $this->file_system_model("available");
-	    $base = basename($filename);
-	    $path = str_replace($base, "", $filename);
-      $this->file = $file->filter("rpath", $path)->filter("filename", $base)->first();
-      $this->exists= false;
-      foreach($model->files as $f) if($f->primval == $this->file->primval) $this->exists=true;
-	  }
-	}
-
   public function _tree(){
     WaxEvent::run("cms.tree.setup", $this);
     if($this->use_format == "ajax"){
