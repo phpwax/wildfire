@@ -28,9 +28,10 @@ class WildfireDiskFile{
 
   //this will actually render the contents of the image
   public function show($media_item, $size=false){
-    //if its not an image, redirect to a static image
-    if(!strstr($media_item->file_type, "image")) $this->redirect_to("/images/wildfire/icons/red-cross.png");
+    //if its not an image, then spit out the file contents with correct headers
+    if(!strstr($media_item->file_type, "image") || $size == "full") return File::display_asset(PUBLIC_DIR.$media_item->source, $media_item->file_type);
     if(!$size) $size = 100; //default size
+
     $dir = CACHE_DIR."images/".$media_item->hash."/";
     $cache_file = $dir . $size .".".$media_item->ext;    
     if(!is_readable($dir)) mkdir($dir, 0777, true);
