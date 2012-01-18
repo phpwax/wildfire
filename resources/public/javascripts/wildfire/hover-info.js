@@ -40,7 +40,8 @@ jQuery(function(){
     jQuery(this).trigger('mouseover');
 
   });
-  jQuery(".preview-click tbody tr").live("cick", function(){
+  jQuery(".preview-click tbody tr").unbind("click").live("click", function(e){
+    e.preventDefault();
     var str = "", preview_container = jQuery(".media-data"), row = jQuery(this);
     row.find("td").each(function(){
       var html = jQuery(this).html();
@@ -48,6 +49,9 @@ jQuery(function(){
       else str += html;
     });
     preview_container.html(str);
+    jQuery(window).trigger("preview.click", [row, preview_container]);
   });
+
+  
 
 });
