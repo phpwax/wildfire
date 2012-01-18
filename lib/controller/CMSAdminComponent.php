@@ -150,13 +150,14 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
     });
     
-    // WaxEvent::add('cms.file.tag', function(){
-    //   $obj = WaxEvent::data();
-    //   $tags = Request::param('tags');
-    //   foreach((array)$tags as $fileid=>$tag_order){
-    //     if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order'], $tag_order['title']);
-    //   }
-    // });
+    WaxEvent::add('cms.file.tag', function(){
+      $obj = WaxEvent::data();
+      $tags = Request::param('media');
+      
+      foreach((array)$tags as $fileid=>$tag_order){
+        if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order'], $tag_order['title']);
+      }
+    });
     WaxEvent::add("cms.file.upload", function(){
       list($filename, $file_type, $data, $media_class) = WaxEvent::data();
       if($filename && $data){
