@@ -31,7 +31,7 @@ $cols = count($scaffold_columns);
       >
       <?foreach($scaffold_columns as $col=>$info):?>
       <?$value = ((method_exists($row, "humanize"))?$row->humanize($col):$row->$col());?>
-      <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/" class='<?=$col?>_link'><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>
+      <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/" class='<?=$col?>_link link'><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>
       <?endforeach?>
       <td class='operations'>
         <?foreach($permissions as $action=>$i):?>   
