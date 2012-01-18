@@ -1,5 +1,11 @@
-function filter_list(form){
-  var form = jQuery(form), data={}, dest = form.find("fieldset#filters_container").attr('data-action');
+var filter_listener = false, inline_filter_listener = false;
+
+function filter_list(form, replace){
+  var form = jQuery(form), 
+      data={}, 
+      dest = form.find("fieldset.filters_container").attr('data-action'),
+      r = form.find("fieldset.filters_container").attr('data-replace')
+      ;
   form.addClass('loading').find("fieldset.filters_container input[type='text'], fieldset.filters_container select").each(function(){
     var field = jQuery(this), nm = field.attr('name'), pl = field.attr('placeholder'), val = field.val();
     if(val != pl) data[nm] = val;
@@ -10,11 +16,15 @@ function filter_list(form){
     data:data,
     type:"post",
     success:function(res){
-      form.removeClass('loading');
-      jQuery(form.find("fieldset#filters_container").attr('data-replace')).replaceWith(res);
+      form.removeClass("loading");
+      if(typeof replace != "undefined") jQuery(replace).replaceWith(res);
+      else form.find(r).replaceWith(res);
+      jQuery(window).trigger("filter.trigger");
       jQuery(window).trigger("join.files.highlight");
     },
-    error:function(){}
+    error:function(){
+      jQuery(window).trigger("filter.trigger");
+    }
   });
 }
 
@@ -47,11 +57,14 @@ function inline_filter(form_input){
   });
 }
 
-jQuery(document).ready(function(){
-  var filter_listener = inline_filter_listener = false;
+jQuery(document).ready(function(){  
+  jQuery(window).bind("filter.bind", function(e, obj, parent_form, replace){
+    obj.unbind("change keyup").bind("change keyup", function(){ clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form, replace);}, 500);});
+  });
   jQuery('form fieldset.filters_container').find("input[type='text'],select").each(function(){
     var obj = jQuery(this), parent_form = obj.parents("form");
-    obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form);}, 500);});
+    if(parent_form.find(".data_table").length) jQuery(window).trigger("filter.bind", [obj, parent_form ]);
+    else jQuery(window).trigger("filter.bind", [obj, parent_form, "#data-listing .data_table" ]);
   });
   jQuery(".inline-filter").each(function(){
     var obj = jQuery(this);
