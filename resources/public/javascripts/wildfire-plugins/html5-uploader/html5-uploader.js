@@ -24,7 +24,9 @@ jQuery(document).ready(function(){
 		//loaded event
 		xhr.addEventListener("load", function () {
 			file_div.removeClass("fu-in-progress").addClass('fu-completed').fadeOut(5000, function(){ jQuery(this).remove(); });
-			/** TRIGGER REFRESH OF LISTING **/
+			//refresh the listing
+			list_area.parents(".upload_block").siblings(".index_container").find("form.filters input[type='text']").trigger("change");
+
 		}, false);
 
 		xhr.open("post", dest, true);
