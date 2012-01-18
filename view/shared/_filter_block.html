@@ -1,0 +1,4 @@
+<?$show_form = $set_show_form;?>
+<?if($filter_partial && $current_user->allowed($module_name, $filter_partial)):?>
+  <?=partial(trim($controller,"/")."/".$filter_partial, array('show_form'=>$show_form, 'current_user'=>$current_user, 'module_name'=>$module_name, 'filter_fields'=>$filter_fields, 'data'=>Request::param('filters'), 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
+<?endif?>
