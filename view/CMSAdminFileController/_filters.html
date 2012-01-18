@@ -1,5 +1,0 @@
-<form action="/admin/<?=$module_name?>/" method="post" id="filters" class='clearfix filters filters-<?=$module_name?> filters_<?=count($filter_fields)?>' data-replace=".data_result_table" data-action="/admin/<?=$module_name?>/_search.ajax?show_cols=1">
-  <?foreach($filter_fields as $name=>$field):?>    
-  <?=partial($field['partial'], array('module_name'=>$module_name, 'field'=>$field, 'name'=>$name, 'data'=>$data, 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
-  <?endforeach?>
-</form>
