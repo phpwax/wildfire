@@ -2,6 +2,7 @@
 class CMSAdminMediaController extends AdminComponent{
   public $uploads = true;
   public $dashboard = false;
+  public $per_page = false;
   public $preview_hover = true;
   public $module_name = "media";
   public $model_class="WildfireMedia";
