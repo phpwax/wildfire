@@ -3,18 +3,18 @@
 
 <?foreach($model->media->scope("live")->all() as $i=>$media):?>
   <?
-  $info = $model->file_meta_get($file->primval);
+  $info = $model->file_meta_get($media->primval);
   ?>
 <div class='joined-file clearfix f<?=$media->primval?>'>
   <div class="image_wrap">
-    <?=$media->render()?>
+    
+    <?=$media->render(200)?>
   </div>
   
   <p><a href="<?=$media->permalink(false)?>"><?=$media->title?></a></p>
 
-  <input type="checkbox" name="joins[media][<?=$media->primval?>][id]" value="<?=$media->primval?>" id="join_file_<?=$media->primval?>" class="checkbox_field joined_field" checked="checked">
+  <input type="hidden" name="joins[media][<?=$media->primval?>][id]" value="<?=$media->primval?>" id="join_file_<?=$media->primval?>" class="hidden joined_field" checked="checked">
   
-  <label for="join_file_<?=$media->primval?>"><?=$media->title?></label>
 
   <div class='tag_options clearfix t_<?#=$info->tag?> o_<?#=$info->join_order?>'>
     <input type="hidden" name="media[<?=$media->primval?>][join_order]" value="<?=$i?>" class='join-order-field'>
