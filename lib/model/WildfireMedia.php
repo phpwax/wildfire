@@ -5,7 +5,8 @@ class WildfireMedia extends WaxModel{
   public function setup(){
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextField"); //description
-    $this->define("file_type", "CharField", array('scaffold'=>true));
+
+    $this->define("file_type", "CharField", array('scaffold'=>true)); //thats the mime type
     $this->define("ext", "CharField");
     /**
      * the source is used as where media sits
