@@ -38,7 +38,7 @@ jQuery(document).ready(function(){
 	});
 	//not allowed - end point (possibly add in extra info about why etc later on)
 	jQuery(window).bind("file.upload.not_allowed", function(e, i, file, drop_area, list_area){
-		list_area.find(".fu-"+i).addClass('fu-error').fadeOut(5000, function(){ jQuery(this).remove(); });
+		list_area.find(".fu-"+i).addClass('fu-error').fadeOut(50000, function(){ jQuery(this).remove(); });
 	});
 	//check if the file is allowed to be uploaded
 	jQuery(window).bind("file.upload.allowed", function(e, i, file, drop_area, list_area){
@@ -61,15 +61,15 @@ jQuery(document).ready(function(){
 
 	});
 	//add in to the file list a preview of the file and its status
-	jQuery(window).bind("file.upload.list_add", function(e, i, file, drop_area){
+	jQuery(window).bind("file.upload.list_add", function(e, i, file, drop_area, list_area){
 		//find the listing block
-		var list_area = drop_area.siblings(".drop-list"),
-				img = document.createElement("img"),
+		var img = document.createElement("img"),
 				//create a new entry for it
 				entry = document.createElement("div");
 				;
+		list_area.addClass("fu-uploading-active");
 		jQuery(img).attr('width', 40);
-		jQuery(entry).addClass("fu-"+i+" file-details clearfix fu-uploading").html("<strong class='file-name'>"+file.name+"</strong>").prepend(img);
+		jQuery(entry).addClass("fu-"+i+" file-summary clearfix fu-uploading").html("<strong class='file-name'>"+file.name+"</strong>").prepend(img);
 		if (typeof FileReader !== "undefined" && (/image/i).test(file.type)){
 			reader = new FileReader();
 			reader.onload = (function (theImg) {
@@ -86,10 +86,10 @@ jQuery(document).ready(function(){
 		jQuery(window).trigger("file.upload.allowed", [i, file, drop_area, list_area])
 	});
 	//main upload function calling other events
-	jQuery(window).bind("file.upload.all", function(e, files, drop_area){
+	jQuery(window).bind("file.upload.all", function(e, files, drop_area, list_area){
 		if(typeof files != "undefined"){
-			for(var i=0; i<files.length; i++) jQuery(window).trigger("file.upload.list_add", [i, files[i], drop_area]);
-		}else drop_area.addClass('upload-failed');
+			for(var i=0; i<files.length; i++) jQuery(window).trigger("file.upload.list_add", [i, files[i], drop_area, list_area]);			
+		}else drop_area.addClass('fu-failed');
 	});
 
 	file_upload.bind("change", function(e){
@@ -109,13 +109,15 @@ jQuery(document).ready(function(){
 	}).bind("dragover", function(e){
 		e.preventDefault();
 		e.stopPropagation();
-		jQuery(this).addClass("dragover");
+		jQuery(this).addClass("fu-dragover").removeClass("fu-failed fu-completed");
 	}).bind("drop", function(e){
 		e.preventDefault();
 		e.stopPropagation();
-		jQuery(this).addClass("fu-dropped");
-		var t = document.getElementById(jQuery(this).attr('id'));
-		jQuery(window).trigger("file.upload.all", [e.dataTransfer.files, jQuery(this)]);
+		jQuery(this).addClass("fu-drop").removeClass("fu-dragover fu-dragenter");
+		var t = document.getElementById(jQuery(this).attr('id')),
+				list_area = jQuery(this).siblings(".drop-list")
+				;
+		jQuery(window).trigger("file.upload.all", [e.dataTransfer.files, jQuery(this), list_area]);
 	});
 
 });
