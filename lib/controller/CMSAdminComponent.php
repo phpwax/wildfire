@@ -174,7 +174,7 @@ class CMSAdminComponent extends CMSBaseComponent {
           $model = new $media_class;
           $vars = array('title'=>basename($filename, ".".$ext), 
                         'file_type'=>$file_type,
-                        'status'=>-1,
+                        'status'=>0,
                         'uploaded_location'=>str_replace(PUBLIC_DIR, "", $path.$filename),
                         'hash'=>hash_hmac('sha1', $data, md5($data)),
                         'ext'=>$ext

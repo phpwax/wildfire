@@ -2,7 +2,7 @@
 class WildfireMedia extends WaxModel{
   
   public static $allowed = array();
-  public static $status_options = array('-1'=>'processing', '0'=>'pending', 1=>'processed');
+  public static $status_options = array('0'=>'pending', 1=>'processed');
   public function setup(){
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextField"); //description
