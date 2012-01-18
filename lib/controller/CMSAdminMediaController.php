@@ -9,7 +9,7 @@ class CMSAdminMediaController extends AdminComponent{
   public $display_name = "Media";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title', 'content'), 'partial'=>'_filters_text', 'fuzzy'=>true),
-                          'media' => array('columns'=>array('media_type'), 'partial'=>'_filters_grouped_column')
+                          'media_type' => array('columns'=>array('media_type'), 'partial'=>'_filters_grouped_column')
                         );
                 
   public $operation_actions = array('edit', 'download');
