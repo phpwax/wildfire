@@ -37,7 +37,10 @@ class WildfireDiskFile{
     if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
     File::display_image($cache_file);    
   }
-
+  //generates the tag to be displayed
+  public function render(){
+    
+  }
   /**
    * a sync option will be added to the cms via event
    * that page will let you pick what sync types are allowed (ie a drop down of classes -> self::$name)
