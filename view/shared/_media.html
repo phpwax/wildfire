@@ -9,10 +9,10 @@
     <div class='clearfix filters_pagination filters'>      
       <?=partial("admin/media/_filter_block", array('set_show_form'=>false));?>
     </div>
-    <div class='listing' id="data-listing"><table class='data_table'></table></div>
+    <div class='listing preview-click' id="data-listing"><table class='data_table'></table></div>
   </div>
   <!-- END FILTERS -->
 </div>
-<div class='existing-files existing-files clearfix'>
+<div class='existing-files clearfix' id="existing-files">
   <?=partial("_existing_media",array('model'=>$model))?>
 </div>
