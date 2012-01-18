@@ -44,7 +44,7 @@ jQuery(document).ready(function(){
     jQuery(".joined-to-model").removeClass("joined-to-model");
     jQuery(".joined-file").each(function(){
       var primval = jQuery(this).data("primval");
-      jQuery(".media-listing #row_"+primval).addClass("joined-to-model");
+      jQuery(".file-listing #row_"+primval).addClass("joined-to-model");
     });
   });
 
@@ -54,10 +54,11 @@ jQuery(document).ready(function(){
         checkbox = jQuery(".default_value_to_unset_join").clone(),
         button = (jQuery(".f"+primval).length) ? "<a href='#' class='button js-added remove-button' data-primval='"+primval+"'>REMOVE</a>" : "<a href='#' class='button js-added add-button' data-primval='"+primval+"'>ADD</a>"
         ;
-    if(jQuery(".media-listing").length){
-      checkbox.attr("name", checkbox.attr("name").replace("[0]", "["+primval+"][id]")).attr("type", "checkbox").attr("checked", false).val(primval).hide();
-
-      preview_container.html(preview_container.html()+button).append(checkbox);
+    if(row.parents(".file-listing").length){
+      if(jQuery(".media-listing").length){
+        checkbox.attr("name", checkbox.attr("name").replace("[0]", "["+primval+"][id]")).attr("type", "checkbox").attr("checked", false).val(primval).hide();
+        preview_container.html(preview_container.html()+button).append(checkbox);
+      }
     }
   });
   //on click we will now copy that

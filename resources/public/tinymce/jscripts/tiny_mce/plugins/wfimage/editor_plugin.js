@@ -22,11 +22,11 @@
 					inline : 1,
 					button_actions:{
 					  'Insert':function(){
-					    var img = jQuery(".file-info .file_thumb"),
+					    var img = jQuery("#wildfire-image-dialog .preview_link img"),
 					        sz = jQuery("#wf_img_size").val(),
 					        cl = jQuery("#wf_img_pos").val(),
 					        alt = jQuery("#wf_img_cap").val(),
-					        imgstr = "<img src='"+img.attr('src').replace("150", sz)+"' class='"+cl+"' alt='"+alt+"'>"
+					        imgstr = "<img src='"+img.attr('src').replace("200", sz)+"' class='"+cl+"' alt='"+alt+"'>"
 					        ;					        
 					    tinymce.execCommand('mceInsertContent',false,imgstr);
 					    jQuery(this).dialog("close");

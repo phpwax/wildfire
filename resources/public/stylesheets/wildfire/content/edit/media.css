@@ -62,4 +62,23 @@
 
 .clone_tags, .clone_tag{display:none;}
 
-.joined-to-model td{background:#f9fab4 !important;}
+.file-listing .joined-to-model td{background:#f9fab4 !important;}
+
+#wildfire-image-dialog{
+  overflow: hidden;
+}
+#wildfire-image-dialog .filters label{display:none;}
+#wildfire-image-dialog .media-listing #data-listing{
+  height:300px;
+}
+
+#v2-cms #wildfire-image-dialog .index_container{
+  padding:2px;
+  margin:0;
+}
+#v2-cms #wildfire-image-dialog .media-data img{
+  width:100px;
+}
+.image-info-container{
+  padding:5px;
+}

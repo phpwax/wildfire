@@ -54,12 +54,24 @@ jQuery(document).ready(function(){
   //source code view
   jQuery('#wildfire-source-code').hide();
   //inline image picker
-  var cloned_files = jQuery("#media .file-listing").clone();
+  var cloned_files = jQuery("#media .file-listing").clone(),
+      info_box = jQuery(document.createElement("div"))
+      ;
+  //replace with the info
+  info_box.addClass("image-info-container").hide().append("<div class='image-info'><label for='wf_img_size'>Size</label><input type='text' name='wf_img_size' value='120' id='wf_img_size'><label for='wf_img_pos'>Align</label><select name='wf_img_pos' id='wf_img_pos'><option value='inline_image align_left'>Left</option><option value='inline_image align_right'>Right</option><option value='inline_image align_center'>Center</option></select><label for='wf_img_cap'>Description</label><input type='text' name='wf_img_cap' value='' id='wf_img_cap'></div>");
+  cloned_files.find(".uploading_container").replaceWith(info_box);
   /** 
    * NEED TO FIX THIS!
+   * - fix styling first
+   * - filter triggers
+   * - replacement bindings etc
    */
-  jQuery("#wildfire-image-dialog").html(jQuery(cloned_files).html()).hide().ajaxSuccess(function(){
+  jQuery("#wildfire-image-dialog").addClass("media-listing").html(jQuery(cloned_files).html()).hide().ajaxSuccess(function(){
     
+  });
+  jQuery("#wildfire-image-dialog tbody tr").live("click", function(e){
+    e.preventDefault();
+    jQuery("#wildfire-image-dialog .image-info-container").show();
   });
 
   //table insert
