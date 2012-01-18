@@ -21,25 +21,6 @@ class WildfireCategory extends WaxModel {
     $this->url = Inflections::to_url($this->title);
 	}
 	
-	public function file_meta_set($fileid, $tag, $order=0){
-    $model = new WaxModel;
-    $model->table = $this->table."_wildfire_file";
-    $col = $this->table."_".$this->primary_key;
-    if(!$order) $order = 0;
-    foreach($model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->all() as $r){
-      $sql = "UPDATE `".$model->table."` SET `join_order`=$order, `tag`='$tag' WHERE `id`=$r->primval";
-      $model->query($sql);
-    }
-  }
-  public function file_meta_get($fileid=false, $tag=false){
-    $model = new WaxModel;
-    $model->table = $this->table."_wildfire_file";
-    $col = $this->table."_".$this->primary_key;
-    if($fileid) return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->order('join_order ASC')->first();
-    elseif($tag) return $model->filter($col, $this->primval)->filter("tag", $tag)->order('join_order ASC')->all();
-    else return false;
-  }
-	
 	public function scope_multipleselect(){
 	  return $this->order("title ASC");
 	}
