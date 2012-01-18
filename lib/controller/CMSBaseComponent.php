@@ -48,6 +48,7 @@ class CMSBaseComponent extends WaxController {
   public $use_cache = false;
 
   public $messages = array();
+  public $file_system_model = "WildfireMedia";
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
