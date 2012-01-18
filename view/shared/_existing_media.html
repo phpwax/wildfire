@@ -1,0 +1,34 @@
+<input type="hidden" name="joins[media][0]" value="0">
+<?foreach($model->media->scope("live")->all() as $i=>$media):?>
+  <?
+  //$info = $model->file_meta_get($file->primval);
+  ?>
+<div class='joined-file clearfix f<?=$media->primval?>'>
+  <div class="image_wrap">
+    <?=$media->render()?>
+  </div>
+  
+  <p><a href="<?=$media->permalink(false)?>"><?=$media->title?></a></p>
+
+  <input type="checkbox" name="joins[media][<?=$media->primval?>][id]" value="<?=$media->primval?>" id="join_file_<?=$media->primval?>" class="checkbox_field joined_field" checked="checked">
+  
+  <label for="join_file_<?=$media->primval?>"><?=$media->title?></label>
+
+  <div class='tag_options clearfix t_<?#=$info->tag?> o_<?#=$info->join_order?>'>
+    <input type="hidden" name="media[<?=$media->primval?>][join_order]" value="<?=$i?>" class='join-order-field'>
+    <?foreach($file_tags as $i=>$tag):?>
+    <div class='clearfix tag_<?=$i?>'>
+      <input type="radio" name="media[<?=$media->primval?>][tag]" value="<?=$tag?>" id="tf_<?=$media->primval?>_<?=$i?>" class="radio_field" >
+      <label for="tf_<?=$media->primval?>_<?=$i?>"><?=$tag?></label>
+    </div>
+    <?endforeach?>
+    <div class='join_title'>
+      <input type='text' name='media[<?=$media->primval?>][title]' value='' placeholder='caption'>
+    </div>
+  </div>
+</div>
+<?endforeach?>
+
+<script type="text/javascript" charset="utf-8">
+var file_tags = <?=json_encode($file_tags);?>;
+</script>
