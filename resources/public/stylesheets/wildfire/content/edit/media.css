@@ -1,0 +1,44 @@
+.media-listing .upload_block{
+  float:right;
+  width:38%;
+  margin-right:1%;
+  background:#BCCFDB;   
+}
+  #v2-cms .media-listing .upload_block .index_container,
+  #v2-cms .media-listing .data_info{
+    background:none;
+    border-radius:0;
+    -webkit-border-radius:0;    
+    -moz-border-radius:0;
+  }
+  #v2-cms .media-listing .index_container h3{
+    color:#323231;
+    text-shadow:none;
+  }
+
+  .media-listing .uploading_container{
+    border-top:1px solid #323231;
+  }
+
+#v2-cms .media-listing .filter-block-and-listing{
+  float:left;
+  width:58%;
+  padding:0;
+  margin:0 0 10px 1%;
+  border-radius:0;
+  -webkit-border-radius:0;    
+  -moz-border-radius:0;
+  background:#BCCFDB;
+}
+  #v2-cms .media-listing .filter-block-and-listing .filters_pagination{
+    width:96%;
+    padding:5px 2%;
+  }
+  #v2-cms .media-listing .filter-block-and-listing fieldset.filters{
+    width:100%;
+    padding:0;
+  }
+  #v2-cms .media-listing .filter-block-and-listing .filters_container div,
+  #v2-cms .media-listing .filter-block-and-listing .filters_container .text_field{
+    width:31%;
+  }
