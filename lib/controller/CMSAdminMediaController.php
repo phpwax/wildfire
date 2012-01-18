@@ -9,5 +9,12 @@ class CMSAdminMediaController extends AdminComponent{
                           'text' => array('columns'=>array('title', 'content'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'media' => array('columns'=>array('media_type'), 'partial'=>'_filters_grouped_column')
                         );
+  public function events(){
+    WaxEvent::add("cms.model.columns", function(){
+      $obj = WaxEvent::data();
+      $obj->scaffold_columns['preview'] = true;
+    });
+    parent::events();
+  }
 }
 ?>
