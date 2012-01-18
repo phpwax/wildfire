@@ -9,12 +9,12 @@
   </select>
   <h3>Files</h3>
   <?
-  $file = new $file_system_model("available");
+  $file = new $file_system_model("files");
   ?>
   <select name="internal" id="wf_ld_internal">
     <option value="">-- Select --</option>
-    <?foreach($file->filter("`type` NOT LIKE 'image%' AND `type` NOT LIKE '%x-shockwave-flash%'")->order('filename ASC')->all() as $f):?>
-    <option value="/<?=($f->rpath.$f->filename)?>"><?=$f->filename?></option>
+    <?foreach($file->all() as $f):?>
+    <option value="<?=($f->permalink(false))?>"><?=$f->filename?></option>
     <?endforeach?>
   </select>
 
