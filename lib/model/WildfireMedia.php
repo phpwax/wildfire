@@ -21,6 +21,12 @@ class WildfireMedia extends WaxModel{
     $this->define("media_class", "CharField");
     $this->define("media_type", "CharField"); //friendly name of the media class - Local storage / youtube etc
     $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser', 'editable'=>false));
+    //categories join
+    if(!defined("CATEGORY_MODEL")){
+      $con = new ApplicationController(false, false);
+      define("CATEGORY_MODEL", $con->cms_category_class);
+    }
+    $this->define("categories", "ManyToManyField", array('taget_model'=>CATEGORY_MODEL, 'group'=>'relationships', 'scaffold'=>true));
 
     $this->define("date_created", "DateTimeField");
     $this->define("date_modified", "DateTimeField");
