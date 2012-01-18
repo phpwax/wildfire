@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 	//allowed, so handle the upload
 	jQuery(window).bind("file.upload.run", function(e, i, file, drop_area, list_area){
 		var file_div = list_area.find(".fu-"+i).addClass("fu-in-progress").append(" <span class='percentage'><span>0</span>% uploaded</span>"),
-				dest = list_area.closest("form").data("html5-action"),
+				dest = drop_area.data("html5-action"),
 				progress_bar = file_div.find("span.percentage"),
 				xhr = new XMLHttpRequest()
 				;
@@ -25,7 +25,7 @@ jQuery(document).ready(function(){
 		xhr.addEventListener("load", function () {
 			file_div.removeClass("fu-in-progress").addClass('fu-completed').fadeOut(5000, function(){ jQuery(this).remove(); });
 			//refresh the listing
-			list_area.parents(".upload_block").siblings(".index_container").find("form.filters input[type='text']").trigger("change");
+			list_area.parents(".upload_block").siblings(".index_container").find("fieldset.filters_container input[type='text']").trigger("change");
 
 		}, false);
 

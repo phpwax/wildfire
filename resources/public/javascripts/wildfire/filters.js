@@ -1,6 +1,6 @@
 function filter_list(form){
-  var form = jQuery(form), data={}, dest = form.attr('data-action');
-  form.addClass('loading').find("input[type='text'],select").each(function(){
+  var form = jQuery(form), data={}, dest = form.find("fieldset#filters_container").attr('data-action');
+  form.addClass('loading').find("fieldset.filters_container input[type='text'], fieldset.filters_container select").each(function(){
     var field = jQuery(this), nm = field.attr('name'), pl = field.attr('placeholder'), val = field.val();
     if(val != pl) data[nm] = val;
     else data[nm]='';
@@ -11,7 +11,7 @@ function filter_list(form){
     type:"post",
     success:function(res){
       form.removeClass('loading');
-      jQuery(form.attr('data-replace')).replaceWith(res);
+      jQuery(form.find("fieldset#filters_container").attr('data-replace')).replaceWith(res);
     },
     error:function(){}
   });
@@ -48,7 +48,7 @@ function inline_filter(form_input){
 
 jQuery(document).ready(function(){
   var filter_listener = inline_filter_listener = false;
-  jQuery('form.filters').find("input[type='text'],select").each(function(){
+  jQuery('form fieldset.filters_container').find("input[type='text'],select").each(function(){
     var obj = jQuery(this), parent_form = obj.parents("form");
     obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form);}, 500);});
   });
@@ -56,4 +56,7 @@ jQuery(document).ready(function(){
     var obj = jQuery(this);
     obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(inline_filter_listener); inline_filter_listener = setTimeout(function(){inline_filter(obj);}, 500);});
   });
+  if(jQuery("form .media-listing") && jQuery("form .media-listing").length){
+    jQuery('form fieldset.filters_container').find("input[type='text']").trigger("change");
+  }
 });
