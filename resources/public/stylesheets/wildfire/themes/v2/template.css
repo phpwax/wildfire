@@ -339,3 +339,70 @@ html {
   display:block;
   cursor:move;
 }
+/**
+ * new media & upload stuff
+ */
+#v2-cms .cms-uploads-1 .index_container{
+  width:59%;
+  float:left;
+}
+#v2-cms .cms-uploads-1 .upload_block{
+  width:34%;
+  margin-left:2%;
+  float:left;
+}
+#v2-cms .cms-uploads-1 .upload_block .index_container{
+  width:94%;
+  padding:10px;
+}
+/**
+ * drag and drop css for file uploads
+ */
+.drop-area{
+  height:60px;
+  margin:8px;
+  border:1px dashed black;
+}
+  .drop-area p{
+    margin-top:23px;
+    text-align:center;
+  }
+.fu-failed{
+  background:#ff4b58;
+}
+.fu-drop{
+  background:#BCCFDB; /*DAFFEC*/
+}
+.fu-dragover, .fu-drop{
+  height:70px;
+}
+.fu-dragover{
+  background:white;
+}
+  .fu-dragover p, .fu-drop p{margin-top:28px;}
+
+/* upload list */
+.fu-uploading-active{
+  margin:8px;
+  display:block;
+  height:170px;
+  overflow:auto;
+}
+
+.file-summary{
+  padding:5px;
+  background:#BCCFDB;
+  border-bottom:1px solid #36424A;
+}
+  .file-summary img{
+    float:left;
+  }
+.fu-error{
+  background:#ff4b58;
+}
+.fu-in-progress{
+  background:#effff7;
+}
+.fu-completed{
+  background:#DAFFEC;
+}
