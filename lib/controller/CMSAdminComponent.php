@@ -157,24 +157,23 @@ class CMSAdminComponent extends CMSBaseComponent {
     //     if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order'], $tag_order['title']);
     //   }
     // });
-
     WaxEvent::add("cms.file.upload", function(){
-      
-      if($filename = $_SERVER['HTTP_X_FILE_NAME']){
+      list($filename, $file_type, $data, $media_class) = WaxEvent::data();
+      if($filename && $data){
         //from the file name find the extension    
         $ext = strtolower(substr(strrchr($filename,'.'),1));
         //find the class associated with that file
         $setup = WildfireMedia::$allowed;
-        if($setup && ($class= $setup[$ext]) && ($data = file_get_contents("php://input")) ){
+        if($setup && ($class= $setup[$ext])){
           //save the file somewhere
           $path = PUBLIC_DIR. "files/".date("Y-m")."/";
           if(!is_dir($path)) mkdir($path, 0777, true);
           $filename = File::safe_file_save($path, $filename);
           file_put_contents($path.$filename, $data);      
           //now we make a new media item
-          $model = new WildfireMedia;
+          $model = new $media_class;
           $vars = array('title'=>basename($filename, ".".$ext), 
-                        'file_type'=>$_SERVER['HTTP_X_FILE_TYPE'],
+                        'file_type'=>$file_type,
                         'status'=>-1,
                         'uploaded_location'=>str_replace(PUBLIC_DIR, "", $path.$filename),
                         'hash'=>hash_hmac('sha1', $data, md5($data)),
@@ -185,9 +184,17 @@ class CMSAdminComponent extends CMSBaseComponent {
             $obj->set($saved);
           }
         }
-        $data = file_get_contents("php://input");
+      }
+    });
+
+    WaxEvent::add("cms.xhr.upload", function(){
+      $obj = WaxEvent::data();
+      if($filename = $_SERVER['HTTP_X_FILE_NAME']){        
+        $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model);
+        WaxEvent::run("cms.file.upload", $data);
       }  
     });
+    
 
     /**
      * view setups
@@ -226,16 +233,16 @@ class CMSAdminComponent extends CMSBaseComponent {
 	  });
 
 
-	  WaxEvent::add('cms.file.old_upload', function(){
-      $obj = WaxEvent::data();
-      if(($up = $_FILES['upload']) && ($up['name']) && ($dir=Request::param('path'))){
-        $path = PUBLIC_DIR.$dir;
-        $safe_name = File::safe_file_save($path, $up['name']);
-        move_uploaded_file($up['tmp_name'], $path.$safe_name);
-        exec("chmod -Rf 0777 ".$path.$safe_name);
-        $obj->sync($dir);
-      }
-    });
+	 // WaxEvent::add('cms.file.old_upload', function(){
+   //    $obj = WaxEvent::data();
+   //    if(($up = $_FILES['upload']) && ($up['name']) && ($dir=Request::param('path'))){
+   //      $path = PUBLIC_DIR.$dir;
+   //      $safe_name = File::safe_file_save($path, $up['name']);
+   //      move_uploaded_file($up['tmp_name'], $path.$safe_name);
+   //      exec("chmod -Rf 0777 ".$path.$safe_name);
+   //      $obj->sync($dir);
+   //    }
+   //  });
 
 	  WaxEvent::add("cms.tree.setup", function(){
       $controller = WaxEvent::data();
@@ -397,6 +404,22 @@ class CMSAdminComponent extends CMSBaseComponent {
     //run the save event
 	  WaxEvent::run("cms.save", $this);
 	}
+
+  public function upload(){
+    WaxEvent::run("cms.xhr.upload", $this);
+  }
+
+  public function file_check(){
+    $this->use_view = $this->use_layout = false;
+    if($filename = Request::param('filename')){
+      $ext = substr(strrchr($filename,'.'),1);
+      $setup = WildfireMedia::$allowed;
+      if($setup && $setup[$ext]) echo json_encode(array("status"=>200, 'error'=>''));
+      else echo json_encode(array('error'=>'No support for this file type', 'status'=>500));
+    }else{
+      echo json_encode(array('error'=>'No file', 'status'=>500));
+    }
+  }
 
   public function copy(){
     $this->use_layout = $this->use_view = false;
