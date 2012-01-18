@@ -38,8 +38,9 @@ class WildfireDiskFile{
     File::display_image($cache_file);    
   }
   //generates the tag to be displayed
-  public function render(){
-    
+  public function render($media_item, $size){
+    if(!strstr($media_item->file_type, "image")) return "";
+    else return "<img src='".$this->get($media_item, $size)."' alt='preview'>";
   }
   /**
    * a sync option will be added to the cms via event
