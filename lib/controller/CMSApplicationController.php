@@ -20,6 +20,7 @@ class CMSApplicationController extends WaxController{
 	public $cms_live_scope = "live";
 	public $cms_preview_scope = "preview";
 	public $cms_content_class = "WildfireContent";
+  public $cms_category_class ="WildfireCategory";
 
 	public $raw_stack = array(); //stack from waxurl
 	public $cms_stack = array(); //stack of the url
