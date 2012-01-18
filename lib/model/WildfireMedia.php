@@ -16,7 +16,7 @@ class WildfireMedia extends WaxModel{
      */
     $this->define("source", "CharField", array('editable'=>false)); 
     $this->define("uploaded_location", "CharField", array('editable'=>false));
-    $this->define("status", "IntegerField", array('widget'=>'SelectInput', 'scaffold'=>true, 'choices'=>self::$status_options));
+    $this->define("status", "IntegerField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
     $this->define("hash", "CharField", array('editable'=>false)); //md5 hash of file contents
 
     $this->define("media_class", "CharField", array('editable'=>false));
