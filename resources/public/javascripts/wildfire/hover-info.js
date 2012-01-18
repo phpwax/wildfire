@@ -27,7 +27,7 @@ jQuery(function(){
   });
 
 
-  jQuery(".preview-rows tbody tr").live("mouseover", function(){
+  jQuery(".preview-hover tbody tr").live("mouseover", function(){
     var str = "", preview_container = jQuery(".media-data"), row = jQuery(this);
     jQuery(this).hoverIntent({over:function(){
       row.find("td").each(function(){
@@ -39,6 +39,15 @@ jQuery(function(){
     }, timeout:400});
     jQuery(this).trigger('mouseover');
 
+  });
+  jQuery(".preview-click tbody tr").live("cick", function(){
+    var str = "", preview_container = jQuery(".media-data"), row = jQuery(this);
+    row.find("td").each(function(){
+      var html = jQuery(this).html();
+      if(html.indexOf("<img")) str += html.replace("/40.", "/200.");
+      else str += html;
+    });
+    preview_container.html(str);
   });
 
 });

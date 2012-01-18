@@ -36,6 +36,8 @@ class CMSBaseComponent extends WaxController {
   public $quick_links = array();
 
   public $uploads = false;
+  public $preview_hover = false;
+  public $preview_click = false;  
   public $dashboard = false;
   public $sort_scope = "";
   public $export_scope = "";

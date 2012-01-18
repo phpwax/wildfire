@@ -6,7 +6,7 @@ $permissions = $current_user->permissions($operation_actions, $module_name);
 <table class='data_table empty_data_table' data-action="/<?=trim($controller,"/")?>/_list">
 </table>
 <?elseif($cms_content && $scaffold_columns):?>
-<table class='data_table<?if($uploads):?> preview-rows<?endif?>' data-action="/<?=trim($controller,"/")?>/_list">
+<table class='data_table<?if($uploads && $preview_hover):?> preview-hover <?elseif($uploads && $preview_click):?> preview-click <?endif?>' data-action="/<?=trim($controller,"/")?>/_list">
   <thead>
     <tr>
     <?foreach($scaffold_columns as $col=>$info):?>
