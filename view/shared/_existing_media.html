@@ -1,4 +1,6 @@
-<input type="hidden" name="joins[media][0]" value="0">
+<input type="hidden" name="joins[media][0]" value="0" class='default_value_to_unset_join'>
+
+
 <?foreach($model->media->scope("live")->all() as $i=>$media):?>
   <?
   //$info = $model->file_meta_get($file->primval);
@@ -24,6 +26,9 @@
     <?endforeach?>
     <div class='join_title'>
       <input type='text' name='media[<?=$media->primval?>][title]' value='' placeholder='caption'>
+    </div>
+    <div class='tag_options clearfix'>
+      <a href='#' data-primval='<?=$media->primval?>' class='button js-added remove-button'>REMOVE</a>
     </div>
   </div>
 </div>
