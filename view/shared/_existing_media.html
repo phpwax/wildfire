@@ -5,7 +5,7 @@
   <?
   $info = $model->file_meta_get($media->primval);
   ?>
-<div class='joined-file clearfix f<?=$media->primval?>'>
+<div class='joined-file clearfix f<?=$media->primval?>' data-primval="<?=$media->primval?>">
   <div class="image_wrap">
     
     <?=$media->render(200)?>
