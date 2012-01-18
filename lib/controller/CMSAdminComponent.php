@@ -209,7 +209,8 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       $index_model = clone $obj->model;
       if($index_model->columns["date_modified"]) $index_model->order("date_modified DESC");
-      $obj->cms_content = $index_model->page($obj->this_page, $obj->per_page);
+      if($obj->per_page !== false) $obj->cms_content = $index_model->page($obj->this_page, $obj->per_page);
+      else $obj->cms_content = $index_model->all();
     });
 
     WaxEvent::add("cms.save.before", function(){});
