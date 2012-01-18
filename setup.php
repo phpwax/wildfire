@@ -9,6 +9,7 @@ define("CMS_DIR", dirname(__FILE__));
 CMSApplication::register_module("home", array("display_name"=>"Dashboard", "link"=>"/admin/home/"));
 CMSApplication::register_module("categories", array("display_name"=>"Categories", "link"=>"/admin/categories/"));
 CMSApplication::register_module("content", array("display_name"=>"Content", "link"=>"/admin/content/"));
+CMSApplication::register_module("media", array("display_name"=>"Media", "link"=>"/admin/media/"));
 CMSApplication::register_module("users", array("display_name"=>"CMS Users", "link"=>"/admin/users/", 'split'=>true));
 
 Autoloader::include_from_registry('CMSHelper');
