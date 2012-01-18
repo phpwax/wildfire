@@ -396,6 +396,7 @@ html {
 }
   .file-summary img{
     float:left;
+    margin-right:5px;
   }
 .fu-error{
   background:#ff4b58;
