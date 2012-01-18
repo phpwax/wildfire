@@ -355,6 +355,10 @@ html {
   width:94%;
   padding:10px;
 }
+  #v2-cms .cms-uploads-1 tbody td.title{
+    max-width:100px;
+    overflow:hidden;
+  }
 /**
  * drag and drop css for file uploads
  */
@@ -416,6 +420,6 @@ html {
   display:block;
   margin:auto;
 }
-#v2-cms .data_table tr.row_status0 td{
+#v2-cms .cms-uploads-1 .data_table tr.row_status0 td{
   background:#ffe8e8;
 }

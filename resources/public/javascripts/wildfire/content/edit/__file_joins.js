@@ -40,6 +40,15 @@ function convert_to_media_join(obj){
 
 jQuery(document).ready(function(){
   
+  jQuery(window).bind("join.files.highlight", function(){
+    jQuery(".joined-to-model").removeClass("joined-to-model");
+    jQuery(".joined-file").each(function(){
+      var primval = jQuery(this).data("primval");
+      console.log(jQuery("#row_"+primval));
+      jQuery("#row_"+primval).addClass("joined-to-model");
+    });
+  });
+
   //this inserts the ability to join media to the content
   jQuery(window).bind("preview.click", function(e, row, preview_container){
     var primval = row.data("parent-value"),
@@ -59,12 +68,14 @@ jQuery(document).ready(function(){
         base = jQuery(this).closest(".media-data").clone(),
         insert = convert_to_media_join(base);
     jQuery("a[data-primval='"+primval+"']").addClass("remove-button").removeClass("add-button").text("REMOVE");
+    jQuery(window).trigger("join.files.highlight");
   });
   jQuery(".button.remove-button").live("click", function(e){
     e.preventDefault();
     var primval = jQuery(this).data("primval");
     jQuery("a[data-primval='"+primval+"']").addClass("add-button").removeClass("remove-button").text("ADD");
     jQuery(".f"+primval).remove();
-
+    jQuery(window).trigger("join.files.highlight");
   });
+
 });

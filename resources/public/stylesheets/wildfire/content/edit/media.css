@@ -47,7 +47,7 @@
   .media-listing #data-listing{
     float:left;
     width:100%;
-    height:340px;
+    height:440px;
     overflow: auto;
   }
   .media-listing .data_table{
@@ -61,3 +61,5 @@
 }
 
 .clone_tags, .clone_tag{display:none;}
+
+.joined-to-model td{background:#f9fab4 !important;}

@@ -12,6 +12,7 @@ function filter_list(form){
     success:function(res){
       form.removeClass('loading');
       jQuery(form.find("fieldset#filters_container").attr('data-replace')).replaceWith(res);
+      jQuery(window).trigger("join.files.highlight");
     },
     error:function(){}
   });
