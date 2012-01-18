@@ -1,0 +1,3 @@
+<?
+class AdminMediaController extends CMSAdminMediaController{} 
+?>
