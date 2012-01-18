@@ -97,7 +97,7 @@ jQuery(document).ready(function(){
     e.preventDefault();
   });
   
-  jQuery('.preview').live("click", function(e){
+  jQuery('.button.preview').live("click", function(e){
     var preview_button = jQuery(this);
     preview_button.addClass('loading');
     auto_save_form(auto_span,auto_saver,auto_image, preview_button);
