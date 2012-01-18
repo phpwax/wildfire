@@ -11,7 +11,7 @@ function convert_to_media_join(obj){
       caption_input =jQuery(document.createElement("input")),
       options = jQuery(document.createElement("div"))
       ;  
-  order.attr("type", "hidden").attr("name", "media["+primval+"][join_order]").val(i); 
+  order.attr("type", "hidden").attr("name", "media["+primval+"][join_order]").val(i).addClass("join-order-field"); 
   file_join.addClass("joined-file clearfix f"+primval);
   file_join.append("<div class='image_wrap'>"+img+"</div>").append(title).append(order);
 
