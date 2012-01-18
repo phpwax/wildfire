@@ -155,6 +155,35 @@ class CMSAdminComponent extends CMSBaseComponent {
       foreach((array)$tags as $fileid=>$tag_order){
         if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order'], $tag_order['title']);
       }
+    WaxEvent::add("cms.file.upload", function(){
+      
+      if($filename = $_SERVER['HTTP_X_FILE_NAME']){
+        //from the file name find the extension    
+        $ext = strtolower(substr(strrchr($filename,'.'),1));
+        //find the class associated with that file
+        $setup = WildfireMedia::$allowed;
+        if($setup && ($class= $setup[$ext]) && ($data = file_get_contents("php://input")) ){
+          //save the file somewhere
+          $path = PUBLIC_DIR. "files/".date("Y-m")."/";
+          if(!is_dir($path)) mkdir($path, 0777, true);
+          $filename = File::safe_file_save($path, $filename);
+          file_put_contents($path.$filename, $data);      
+          //now we make a new media item
+          $model = new WildfireMedia;
+          $vars = array('title'=>basename($filename, ".".$ext), 
+                        'file_type'=>$_SERVER['HTTP_X_FILE_TYPE'],
+                        'status'=>-1,
+                        'uploaded_location'=>str_replace(PUBLIC_DIR, "", $path.$filename),
+                        'hash'=>hash_hmac('sha1', $data, md5($data)),
+                        'ext'=>$ext
+                        );
+          if($saved = $model->update_attributes($vars)){
+            $obj = new $class;
+            $obj->set($saved);
+          }
+        }
+        $data = file_get_contents("php://input");
+      }  
     });
 
     /**
