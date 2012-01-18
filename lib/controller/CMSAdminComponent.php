@@ -195,6 +195,11 @@ class CMSAdminComponent extends CMSBaseComponent {
       }  
     });
     
+    WaxEvent::add("cms.file.download", function(){
+      $obj = WaxEvent::data();
+      $obj->model = new $obj->model_class(Request::get("id"));
+      $obj->redirect_to($obj->model->permalink());
+    });
 
     /**
      * view setups
@@ -400,13 +405,16 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function edit(){
 	  WaxEvent::run("cms.form.setup", $this);
 	  WaxEvent::run("cms.edit.init", $this);
-	  WaxEvent::run('cms.file.old_upload', $this);
+	  //WaxEvent::run('cms.file.old_upload', $this);
     //run the save event
 	  WaxEvent::run("cms.save", $this);
 	}
 
   public function upload(){
     WaxEvent::run("cms.xhr.upload", $this);
+  }
+  public function download(){
+    WaxEvent::run("cms.file.download", $this);
   }
 
   public function file_check(){
