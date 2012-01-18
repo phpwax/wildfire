@@ -407,3 +407,15 @@ html {
 .fu-completed{
   background:#DAFFEC;
 }
+.media-data a.link{
+  display:block;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+.media-data a img{
+  display:block;
+  margin:auto;
+}
+#v2-cms .data_table tr.row_status-1 td{
+  background:#ffe8e8;
+}
