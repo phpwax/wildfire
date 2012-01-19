@@ -27,7 +27,7 @@ jQuery(function(){
   });
 
 
-  jQuery(".preview-hover tbody tr").live("mouseover", function(){
+  jQuery(".preview-hover tbody tr, .cms-uploads-1 tbody tr").live("mouseover", function(){
     var str = "", preview_container = jQuery(".media-data"), row = jQuery(this);
     jQuery(this).hoverIntent({over:function(){
       row.find("td").each(function(){
