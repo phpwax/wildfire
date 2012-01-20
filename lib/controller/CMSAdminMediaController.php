@@ -56,6 +56,7 @@ class CMSAdminMediaController extends AdminComponent{
         $class = new $obj->sync_class;
         $obj->use_layout = false;
         $obj->use_view = "_media_sync_progress";
+        $obj->sync_partial = "";
         $obj->synced = $class->sync($location);
       }
     });

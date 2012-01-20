@@ -73,7 +73,6 @@ class WildfireDiskFile{
       $path = $file->getPathName();
       $source = str_replace(PUBLIC_DIR, "", $path);
       $ext = strtolower(substr(strrchr($path,'.'),1));
-      echo $source."<br>";
       if($found = $media->filter("source", $source)->first()){
         $found = $found->update_attributes(array('status'=>1));
       }else{
@@ -83,7 +82,7 @@ class WildfireDiskFile{
                                                   'media_class'=>$class,
                                                   'media_type'=>self::$name,
                                                   'ext'=>$ext,
-                                                  'file_type'=>$file->getType(),
+                                                  'file_type'=>mime_content_type($path),
                                                   'title'=>basename($path),
                                                   'hash'=> hash_hmac('sha1', $data, md5(file_get_contents($path)) )
                                                   ));

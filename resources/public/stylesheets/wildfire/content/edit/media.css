@@ -3,13 +3,13 @@
   width:38%;
   margin-right:1%;
   background:#BCCFDB;
-  height:500px;   
+  height:500px;
 }
   #v2-cms .media-listing .upload_block .index_container,
   #v2-cms .media-listing .data_info{
     background:none;
     border-radius:0;
-    -webkit-border-radius:0;    
+    -webkit-border-radius:0;
     -moz-border-radius:0;
   }
   #v2-cms .media-listing .index_container h3{
@@ -27,8 +27,8 @@
   padding:0;
   margin:0 0 10px 1%;
   border-radius:0;
-  -webkit-border-radius:0;    
-  -moz-border-radius:0;  
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
   background:none;
 }
   #v2-cms .media-listing .filter-block-and-listing .filters_pagination{
@@ -81,4 +81,17 @@
 }
 .image-info-container{
   padding:5px;
+}
+
+.sync_results{
+  max-height:200px;
+  overflow: auto;
+  background:white;
+  padding:10px;
+}
+.sync_location{
+  padding:0 5px;
+}
+.sync_location p{
+  padding:5px 0;
 }
