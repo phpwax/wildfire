@@ -19,6 +19,7 @@ WildfireMedia::$classes[] = 'WildfireDiskFile';
 //set the default media types for uploads
 WildfireMedia::$allowed  = array(
                             'jpg'=>'WildfireDiskFile',
+                            'jpeg'=>'WildfireDiskFile',
                             'png'=>'WildfireDiskFile',
                             'gif'=>'WildfireDiskFile',
                             'txt'=>'WildfireDiskFile',
