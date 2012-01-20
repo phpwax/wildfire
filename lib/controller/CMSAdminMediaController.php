@@ -6,7 +6,7 @@ class CMSAdminMediaController extends AdminComponent{
   public $preview_hover = true;
   public $module_name = "media";
   public $model_class="WildfireMedia";
-  public $model_scope = "live";
+  public $model_scope = "admin";
   public $display_name = "Media";
 
   public $sync_partial = "_media_class_list";

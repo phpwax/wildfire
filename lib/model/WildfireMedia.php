@@ -63,6 +63,9 @@ class WildfireMedia extends WaxModel{
   public function scope_live(){
     return $this;
   }
+  public function scope_admin(){
+    return $this->filter("status", "-1", "!=");
+  }
 
 }
 ?>
