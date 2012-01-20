@@ -1,7 +1,8 @@
 <?
 class WildfireMedia extends WaxModel{
-  
-  public static $allowed = array();
+
+  public static $allowed = array(); //file types allowed ('jpg'=>'ClassName') - upstream;
+  public static $classes = array();
   public static $status_options = array('0'=>'pending', 1=>'processed');
   public function setup(){
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
@@ -14,7 +15,7 @@ class WildfireMedia extends WaxModel{
      * - file it would be the path relative from public_dir
      * - flickr it would be the image id etc
      */
-    $this->define("source", "CharField", array('editable'=>false)); 
+    $this->define("source", "CharField", array('editable'=>false));
     $this->define("uploaded_location", "CharField", array('editable'=>false));
     $this->define("status", "IntegerField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
     $this->define("hash", "CharField", array('editable'=>false)); //md5 hash of file contents
@@ -22,7 +23,7 @@ class WildfireMedia extends WaxModel{
     $this->define("media_class", "CharField", array('editable'=>false));
     $this->define("media_type", "CharField", array('editable'=>false)); //friendly name of the media class - Local storage / youtube etc
     $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser', 'editable'=>false));
-    
+
     $this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>true, 'group'=>'relationships', 'info_preview'=>1));
 
     $this->define("date_created", "DateTimeField", array('editable'=>false));
