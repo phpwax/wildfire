@@ -50,6 +50,16 @@ class CMSAdminMediaController extends AdminComponent{
       }
     });
 
+    WaxEvent::add("cms.sync.run", function(){
+      $obj = WaxEvent::data();
+      if($location = Request::param('sync_location')){
+        $class = new $obj->sync_class;
+        $obj->use_layout = false;
+        $obj->use_view = "_media_sync_progress";
+        $obj->synced = $class->sync($location);
+      }
+    });
+
   }
 
   //file system sync tool

@@ -61,7 +61,36 @@ class WildfireDiskFile{
    * the confirmed sync will then run this
    */
   public function sync($location){
-
+    $info = array();
+    $folder = PUBLIC_DIR ."/".$location;
+    $exts = array();
+    $class = get_class($this);
+    foreach(WildfireMedia::$allowed as $e=>$c) if($c == $class) $exts[] = $e;
+    $extstr = "(".implode("|", $exts).")";
+    $dir = new RecursiveIteratorIterator(new RecursiveRegexIterator(new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::FOLLOW_SYMLINKS), '#(?<!/)\.'.$extstr.'$|^[^\.]*$#i'), true);
+    foreach($dir as $file){
+      $media = new WildfireMedia;
+      $path = $file->getPathName();
+      $source = str_replace(PUBLIC_DIR, "", $path);
+      $ext = strtolower(substr(strrchr($path,'.'),1));
+      echo $source."<br>";
+      if($found = $media->filter("source", $source)->first()){
+        $found = $found->update_attributes(array('status'=>1));
+      }else{
+        $found = $media->update_attributes(array('source'=>$source,
+                                                  'uploaded_location'=>$source,
+                                                  'status'=>1,
+                                                  'media_class'=>$class,
+                                                  'media_type'=>self::$name,
+                                                  'ext'=>$ext,
+                                                  'file_type'=>$file->getType(),
+                                                  'title'=>basename($path),
+                                                  'hash'=> hash_hmac('sha1', $data, md5(file_get_contents($path)) )
+                                                  ));
+      }
+      $info[] = $found;
+    }
+    return $info;
   }
 
 
