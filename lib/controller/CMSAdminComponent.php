@@ -149,11 +149,11 @@ class CMSAdminComponent extends CMSBaseComponent {
         }
       }
     });
-    
+
     WaxEvent::add('cms.file.tag', function(){
       $obj = WaxEvent::data();
       $tags = Request::param('media');
-      
+
       foreach((array)$tags as $fileid=>$tag_order){
         if($tag_order['tag'] && isset($tag_order['join_order'])) $obj->model->file_meta_set($fileid, $tag_order['tag'], $tag_order['join_order'], $tag_order['title']);
       }
@@ -161,7 +161,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.file.upload", function(){
       list($filename, $file_type, $data, $media_class) = WaxEvent::data();
       if($filename && $data){
-        //from the file name find the extension    
+        //from the file name find the extension
         $ext = strtolower(substr(strrchr($filename,'.'),1));
         //find the class associated with that file
         $setup = WildfireMedia::$allowed;
@@ -170,10 +170,10 @@ class CMSAdminComponent extends CMSBaseComponent {
           $path = PUBLIC_DIR. "files/".date("Y-m-W")."/";
           if(!is_dir($path)) mkdir($path, 0777, true);
           $filename = File::safe_file_save($path, $filename);
-          file_put_contents($path.$filename, $data);      
+          file_put_contents($path.$filename, $data);
           //now we make a new media item
           $model = new $media_class;
-          $vars = array('title'=>basename($filename, ".".$ext), 
+          $vars = array('title'=>basename($filename, ".".$ext),
                         'file_type'=>$file_type,
                         'status'=>0,
                         'uploaded_location'=>str_replace(PUBLIC_DIR, "", $path.$filename),
@@ -190,12 +190,12 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     WaxEvent::add("cms.xhr.upload", function(){
       $obj = WaxEvent::data();
-      if($filename = $_SERVER['HTTP_X_FILE_NAME']){        
+      if($filename = $_SERVER['HTTP_X_FILE_NAME']){
         $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model);
         WaxEvent::run("cms.file.upload", $data);
-      }  
+      }
     });
-    
+
     WaxEvent::add("cms.file.download", function(){
       $obj = WaxEvent::data();
       $obj->model = new $obj->model_class(Request::get("id"));
@@ -293,25 +293,25 @@ class CMSAdminComponent extends CMSBaseComponent {
           $model = new $model_class($controller->export_scope);
           $model = $model->filter($controller->export_group, $g);
           $res = partial("shared/_export", array('model'=>$model, 'cols'=>$controller->cols), "csv");
-          $file = $folder .$hash. "/".Inflections::to_url($g).".csv";        
-          file_put_contents($file, $res);          
+          $file = $folder .$hash. "/".Inflections::to_url($g).".csv";
+          file_put_contents($file, $res);
         }
         //afterwards, create zip
         $cmd = "cd ".$folder." && zip -j ".$hash.".zip $hash/*";
-        exec($cmd);      
+        exec($cmd);
         $content = "";
         if(is_file($folder.$hash.".zip") && ($content = file_get_contents($folder.$hash.".zip"))){
           $name = str_replace("/", "-", $controller->controller). "-".date("Ymdh").".zip";
   	      header("Content-type: application/zip");
           header("Content-Disposition: attachment; filename=".$name);
           header("Pragma: no-cache");
-          header("Expires: 0");          
+          header("Expires: 0");
         }
         //tidy up
         unlink($folder.$hash.".zip");
         foreach(glob($folder.$hash."/*") as $f) unlink($f);
         rmdir($folder.$hash);
-        
+
         echo $content;
         exit;
       }
@@ -352,7 +352,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     if(!$this->search_class) $this->search_class = Request::param('search_model');
     if(!$this->search_model && $this->search_class) $this->search_model = new $this->search_class($this->filter_type);
-    
+
 
     if(!$this->origin_class) $this->origin_class = Request::param('origin_model');
     if(!$this->origin_primval) $this->origin_primval = Request::param('origin_primval');
