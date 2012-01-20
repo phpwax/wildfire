@@ -1,8 +1,8 @@
 var filter_listener = false, inline_filter_listener = false;
 
 function filter_list(form, replace){
-  var form = jQuery(form), 
-      data={}, 
+  var form = jQuery(form),
+      data={},
       dest = form.find("fieldset.filters_container").attr('data-action'),
       r = form.find("fieldset.filters_container").attr('data-replace')
       ;
@@ -18,7 +18,7 @@ function filter_list(form, replace){
     success:function(res){
       form.removeClass("loading");
       if(typeof replace != "undefined") jQuery(replace).replaceWith(res);
-      else form.find(r).replaceWith(res);
+      else form.find(".filter-block-and-listing").find(r).replaceWith(res);
       jQuery(window).trigger("filter.trigger");
       jQuery(window).trigger("join.files.highlight");
     },
@@ -41,7 +41,7 @@ function inline_filter(form_input){
   data['name'] = form_input.attr('data-name');
   data['type'] = form_input.parents(".join").attr('data-type');
   form_input.addClass('loading');
-  
+
   if(val != pl) data[nm] = val;
   else data[nm]='';
 
@@ -57,7 +57,7 @@ function inline_filter(form_input){
   });
 }
 
-jQuery(document).ready(function(){  
+jQuery(document).ready(function(){
   jQuery(window).bind("filter.bind", function(e, obj, parent_form, replace){
     obj.unbind("change keyup").bind("change keyup", function(){ clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(parent_form, replace);}, 500);});
   });

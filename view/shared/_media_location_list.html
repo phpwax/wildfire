@@ -1,0 +1,11 @@
+<?$media = new $sync_class;;?>
+<input type="hidden" name="sync_class" value="<?=$sync_class?>">
+<label>Select location:</label>
+<ul class='join multipleselect'>
+<?foreach($media->sync_locations() as $i=>$location):?>
+<li class='clearfix join-option join-no'>
+  <input type='checkbox' id="<?=$sync_class."_".$i?>" name='sync_locations[<?=$i?>]' value="<?=$location['value']?>">
+  <label for="<?=$sync_class."_".$i?>"><?=$location['label']?></label>
+</li>
+<?endforeach?>
+</ul>

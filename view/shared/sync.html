@@ -1,0 +1,26 @@
+<div class='cms-wrapper clearfix'>
+<?if($current_user->allowed($module_name, "sync")):?>
+  <?$mods = CMSApplication::get_modules()?>
+  <div class='index_container'>
+    
+    
+    <div class='listing' id="data-listing">
+      <h3>Media sync</h3>      
+      <form action="?" method="post" class='clearfix'>
+        <fieldset class='tab-contents data_info clearfix'>
+          <div class='field clearfix'>
+            <?=partial($sync_partial, $this);?>
+          </div>
+        </fieldset>
+        <fieldset class=' clearfix'>
+          <div class='form-submit'>
+            <input type="submit" name='live' value='Sync' class='submit_field input_field live <?=get_class($model)?>-live'>
+          </div>
+        </fieldset>
+      </form>
+      
+    </div>
+    
+  </div>
+<?endif?>
+</div>

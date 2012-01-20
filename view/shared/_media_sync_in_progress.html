@@ -1,0 +1,16 @@
+<script type="text/javascript">
+var sync_locations = <?=json_encode($sync_locations);?>
+</script>
+<input type="hidden" name="sync_class" value="<?=$sync_class?>">
+
+
+<label>Syncing....</label>
+<?foreach($sync_locations as $i=>$location):?>
+
+<div class='sync_location clearfix sync_status_0'>
+  <input type='hidden' name='sync_locations[<?=$i?>]' value="<?=$location['value']?>">
+  <p><strong><?=$location['label']?></strong> <span>(<?=$sync_class::$name?>)</span></p>
+</div>
+
+<?endforeach?>
+

@@ -1,0 +1,5 @@
+<label>Select a media to sync</label>
+<select name="sync_class" id="sync_class" class="input_field select_field">
+  <option value="">-- Select --</option>
+  <?foreach(WildfireMedia::$classes as $class):?><option value="<?=$class?>"><?=$class::$name?></option><?endforeach?>
+</select>
