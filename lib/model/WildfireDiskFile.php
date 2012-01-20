@@ -60,7 +60,7 @@ class WildfireDiskFile{
    * the called event (cms.$model.sync.$x) will return set of options to sync with (file system would be folder, flickr would be sets etc)
    * the confirmed sync will then run this
    */
-  public function sync(){
+  public function sync($location){
 
   }
 
