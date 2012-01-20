@@ -63,6 +63,7 @@ class WildfireDiskFile{
    */
   public function sync($location){
     $info = array();
+    $ids = array();
     $folder = PUBLIC_DIR ."/".$location;
     $exts = array();
     $class = get_class($this);
@@ -88,8 +89,15 @@ class WildfireDiskFile{
                                                   'hash'=> hash_hmac('sha1', $data, md5(file_get_contents($path)) )
                                                   ));
       }
+      $ids[] = $found->primval;
       $info[] = $found;
     }
+
+    //now look at the db for ones that might be missing
+    $media = new WildfireMedia;
+    foreach($ids as $i) $media->filter("id", $i, "!=");
+    foreach($media->filter("status", 1)->filter("media_class", $class)->all() as $r) if(!is_readable(PUBLID_DIR.$r->source)) $r->update_attributes(array('status',-1));
+
     return $info;
   }
 
