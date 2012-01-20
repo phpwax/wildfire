@@ -167,7 +167,7 @@ class CMSAdminComponent extends CMSBaseComponent {
         $setup = WildfireMedia::$allowed;
         if($setup && ($class= $setup[$ext])){
           //save the file somewhere
-          $path = PUBLIC_DIR. "files/".date("Y-m")."/";
+          $path = PUBLIC_DIR. "files/".date("Y-m-W")."/";
           if(!is_dir($path)) mkdir($path, 0777, true);
           $filename = File::safe_file_save($path, $filename);
           file_put_contents($path.$filename, $data);      
