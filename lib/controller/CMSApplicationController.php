@@ -45,7 +45,7 @@ class CMSApplicationController extends WaxController{
   public $top_level = false;
 	//default action
 	public function cms_page() {}
-    
+
   protected function cms_stacks(){
     if($this->cms_content && ($path = $this->cms_content->path_to_root())){
       $this->body_class = "";
@@ -197,8 +197,8 @@ class CMSApplicationController extends WaxController{
 	    $accumulated .= $item."_";
 	    $views[] = str_replace("%s%", $item."_", $base);
 	    $views[] = str_replace($this->controller."/", "shared/", str_replace("%s%", $item."_", $base));
-      $views[] = str_replace("%s%", $accumulated, $base); 
-      
+      $views[] = str_replace("%s%", $accumulated, $base);
+
       foreach((array)Autoloader::view_paths("plugin") as $path){
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", "", $base)), 'plugin'=>true);
   	    $views[] = array('path'=>str_replace(PLUGIN_DIR, "", $path).str_replace($this->controller."/","shared/", str_replace("%s%", $item."_", $base)), 'plugin'=>true);
@@ -253,7 +253,7 @@ class CMSApplicationController extends WaxController{
 	   * - otherwise check the stack for a part that matches a languages url
 	   * - all else fails, return the first language in the language array
 	   */
-	  if($request_lang && $languages[$request_lang]) return array($request_lang, $stack);
+	  if($request_lang && $languages[$request_lang]) return $request_lang;
 	  elseif(is_string($request_lang) ){
 	    foreach($languages as $lang_id => $info) if($info['url'] == $request_lang) return $lang_id;
 	  }else{
