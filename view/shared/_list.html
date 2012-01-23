@@ -17,7 +17,7 @@ $permissions = $current_user->permissions($operation_actions, $module_name);
   </thead>
   <tbody>
   <?foreach($cms_content as $i=>$row):?>
-  <tr class='row <?if($row->columns['status']):?>row_status<?=$row->status?><?endif?> row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?>' id="row_<?=$row->primval?>" data-model-id="<?=$row->primval?>" data-sort-url="/<?=trim($controller,"/")?>/sort/<?=$node->parent_id?>" data-add-child-url="/<?=trim($controller,"/")?>/create/?<?=$row->table?>[parent_id]=<?=$row->revision?$row->find_master()->primval:$row->primval?>"
+  <tr data-media="<?if($row->columns['media_class']):?><?=strtolower($row->media_class)?><?endif?>" class='row <?if($row->columns['status']):?>row_status<?=$row->status?><?endif?> row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?>' id="row_<?=$row->primval?>" data-model-id="<?=$row->primval?>" data-sort-url="/<?=trim($controller,"/")?>/sort/<?=$node->parent_id?>" data-add-child-url="/<?=trim($controller,"/")?>/create/?<?=$row->table?>[parent_id]=<?=$row->revision?$row->find_master()->primval:$row->primval?>"
     <?foreach($row->columns as $col_name => $col):?>
       <?if($col[1]['info_preview']):?>
         <?$value = ((method_exists($row, "humanize"))?$row->humanize($col_name):$row->$col_name());?>

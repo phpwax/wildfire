@@ -1,8 +1,20 @@
 jQuery(function(){
+
+  jQuery(window).bind("media.generic.preview", function(e, row, preview_container){
+    var str = "";
+    row.find("td").each(function(){
+      var html = jQuery(this).html();
+      if(html.indexOf("<img")) str += html.replace("/40.", "/200.");
+      else str += html;
+    });
+    preview_container.html(str);
+  });
+
+
   jQuery(".hover_update").each(function(){
     var update = jQuery(this),
         els = update.find(".hover_el");
-    
+
     var delay;
     jQuery(update.attr("data-hover-selector")).live('mouseover', function(){
       if(!jQuery(this).data('init')){
@@ -11,7 +23,7 @@ jQuery(function(){
           var hover_target = jQuery(this);
           jQuery(update.attr("data-hover-selector")).removeClass("active");
           hover_target.addClass("active");
-          
+
           els.each(function(){
             var el = jQuery(this);
             var data_hover_fetch = el.attr("data-hover-fetch");
@@ -23,35 +35,33 @@ jQuery(function(){
         jQuery(this).trigger('mouseover');
       }
     });
-    
+
   });
 
 
-  jQuery(".preview-hover tbody tr, .cms-uploads-1 tbody tr").live("mouseover", function(){
-    var str = "", preview_container = jQuery(".media-data"), row = jQuery(this);
+  jQuery(".preview-hover tbody tr, .cms-uploads-1 tbody tr").live("mouseover", function(e){
+    var str = "",
+        preview_container = jQuery(".media-data"),
+        row = jQuery(this),
+        trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
+        ;
     jQuery(this).hoverIntent({over:function(){
-      row.find("td").each(function(){
-        var html = jQuery(this).html();
-        if(html.indexOf("<img")) str += html.replace("/40.", "/200.");
-        else str += html;
-      });
-      preview_container.html(str);
+      jQuery(window).trigger("media."+trigger_type+".preview", [row, preview_container]);
     }, timeout:400});
     jQuery(this).trigger('mouseover');
-
   });
+
   jQuery(".preview-click tbody tr").unbind("click").live("click", function(e){
     e.preventDefault();
-    var str = "", preview_container = jQuery(".media-data"), row = jQuery(this);
-    row.find("td").each(function(){
-      var html = jQuery(this).html();
-      if(html.indexOf("<img")) str += html.replace("/40.", "/200.");
-      else str += html;
-    });
-    preview_container.html(str);
+    var str = "",
+        preview_container = jQuery(".media-data"),
+        row = jQuery(this),
+        trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
+        ;
+    jQuery(window).trigger("media."+trigger_type+".preview", [row, preview_container]);
     jQuery(window).trigger("preview.click", [row, preview_container]);
   });
 
-  
+
 
 });

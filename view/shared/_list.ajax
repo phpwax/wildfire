@@ -21,7 +21,7 @@ $cols = count($scaffold_columns);
   <?endif?>
   <tbody>
   <?foreach($cms_content as $i=>$row):?>
-    <tr class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>" data-child-of="<?=$row->parent_id?>" data-parent-param="filters[parent]" data-parent-value="<?=$row->primval?>" data-sort-url="/<?=trim($controller,"/")?>/sort/<?=$node->parent_id?>" data-add-child-url="/<?=trim($controller,"/")?>/create/?<?=$row->table?>[parent_id]=<?=$row->revision?$row->find_master()->primval:$row->primval?>"
+    <tr data-media="<?if($row->columns['media_class']):?><?=strtolower($row->media_class)?><?endif?>" class='row row_<?=($i%2)?> <?=(($primval && $row->primval == $primval)?"active":"")?> tree-<?=($row instanceOf WaxTreeModel)?> <?=(($row instanceOf WaxTreeModel && ($kids=$row->{$row->children_column}) && $kids->count())?"tree-children":"")?>' id="row_<?=$row->primval?>" data-child-of="<?=$row->parent_id?>" data-parent-param="filters[parent]" data-parent-value="<?=$row->primval?>" data-sort-url="/<?=trim($controller,"/")?>/sort/<?=$node->parent_id?>" data-add-child-url="/<?=trim($controller,"/")?>/create/?<?=$row->table?>[parent_id]=<?=$row->revision?$row->find_master()->primval:$row->primval?>"
       <?foreach($row->columns as $col_name => $col):?>
         <?if($col[1]['info_preview']):?>
           <?$value = ((method_exists($row, "humanize"))?$row->humanize($col_name):$row->$col_name());?>
@@ -34,7 +34,7 @@ $cols = count($scaffold_columns);
       <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/" class='<?=$col?>_link link'><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>
       <?endforeach?>
       <td class='operations'>
-        <?foreach($permissions as $action=>$i):?>   
+        <?foreach($permissions as $action=>$i):?>
         <a href="/<?=trim($controller,"/")?>/<?=$action?>/<?=$row->primval?>/" class='button operation operation_<?=$action?>'><?=Inflections::humanize($action)?></a>
         <?endforeach?>
       </td>
