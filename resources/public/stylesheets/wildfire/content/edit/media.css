@@ -95,3 +95,7 @@
 .sync_location p{
   padding:5px 0;
 }
+.media-data object{
+  display:block;
+  margin:auto;
+}
