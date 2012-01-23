@@ -28,7 +28,7 @@ class WildfireMedia extends WaxModel{
 
     $this->define("date_created", "DateTimeField", array('editable'=>false));
     $this->define("date_modified", "DateTimeField", array('editable'=>false));
-
+    $this->define("sync_location", "CharField");
     parent::setup();
   }
 

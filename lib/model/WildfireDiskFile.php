@@ -81,6 +81,7 @@ class WildfireDiskFile{
         $found = $media->update_attributes(array('source'=>$source,
                                                   'uploaded_location'=>$source,
                                                   'status'=>1,
+                                                  'sync_location'=>$location,
                                                   'media_class'=>$class,
                                                   'media_type'=>self::$name,
                                                   'ext'=>$ext,
@@ -96,7 +97,7 @@ class WildfireDiskFile{
     //now look at the db for ones that might be missing
     $media = new WildfireMedia;
     foreach($ids as $i) $media->filter("id", $i, "!=");
-    foreach($media->filter("status", 1)->filter("media_class", $class)->all() as $r) if(!is_readable(PUBLID_DIR.$r->source)) $r->update_attributes(array('status',-1));
+    foreach($media->filter("status", 1)->filter("media_class", $class)->filter("sync_location", $location)->all() as $r) if(!is_readable(PUBLID_DIR.$r->source)) $r->update_attributes(array('status',-1));
 
     return $info;
   }
