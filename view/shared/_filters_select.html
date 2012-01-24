@@ -2,7 +2,7 @@
 $class = $model->columns[$name][1]['target_model'];
 $col = new $class;
 ?>
-<div class='status_filter'>
+<div class='status_filter parent_filter'>
   <label for="filters_<?=$name?>"><?=$name?>:</label>
   <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
     <option value="">-- Any <?=ucwords($name)?> --</option>
