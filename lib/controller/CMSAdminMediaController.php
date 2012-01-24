@@ -2,7 +2,7 @@
 class CMSAdminMediaController extends AdminComponent{
   public $uploads = true;
   public $dashboard = false;
-  public $per_page = false;
+  public $per_page = 30;
   public $preview_hover = true;
   public $module_name = "media";
   public $model_class="WildfireMedia";
@@ -16,7 +16,7 @@ class CMSAdminMediaController extends AdminComponent{
   public $filter_fields=array(
                           'text' => array('columns'=>array('title', 'content'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'media_type' => array('columns'=>array('media_type'), 'partial'=>'_filters_grouped_column'),
-                          'categories' => array('columns'=>array('categories'), 'partial'=>'_filters_select')
+                          'categories' => array('columns'=>array('categories'), 'partial'=>'_filters_select', 'opposite_join_column'=>'media')
                         );
 
   public $operation_actions = array('edit', 'download');
