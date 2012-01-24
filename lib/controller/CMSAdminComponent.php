@@ -86,7 +86,14 @@ class CMSAdminComponent extends CMSBaseComponent {
         $col_filter = "";
         if(strlen($value) && $filter = $obj->filter_fields[$name]){
           foreach($filter['columns'] as $col){
-            if($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".($value)."%' OR";
+            if($opp = $filter['opposite_join_column']){
+              $target = $obj->model->columns[$col][1]['target_model'];
+              $join = new $target($value);
+              $ids = array();
+              foreach($join->$opp as $opposite) $ids[] = $opposite->primval;
+              $col_filter .= "(`".$obj->model->primary_key."` IN(".implode(",",$ids).")) OR";
+            }
+            elseif($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".($value)."%' OR";
             elseif($filter['fuzzy_right']) $col_filter .= "`$col` LIKE '".($value)."%' OR";
             elseif($filter['fuzzy_left']) $col_filter .= "`$col` LIKE '%".($value)."' OR";
             else $col_filter .= "`$col`='".($value)."' OR";
@@ -94,6 +101,7 @@ class CMSAdminComponent extends CMSBaseComponent {
           $filterstring .= "(".trim($col_filter, " OR").") AND ";
         }
       }
+
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
 
