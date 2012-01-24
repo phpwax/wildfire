@@ -2,7 +2,7 @@
 <?if($current_user->allowed($module_name, "index")):?>
   <?$mods = CMSApplication::get_modules()?>
   <div class='index_container'>
-    <div class='clearfix filters_pagination <?if($tree_layout && $cms_content->total_without_limits() > $per_page):?> pagination_used<?endif?>'>
+    <div class='clearfix filters_pagination <?if(!$tree_layout && $cms_content->total_without_limits() > $per_page):?> pagination_used<?endif?>'>
       <?if(!$tree_layout):?>
       <div class='pagination pagination_top'>
         <?=paginate_links($cms_content, "2")?>
