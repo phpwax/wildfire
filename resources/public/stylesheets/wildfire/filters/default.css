@@ -4,11 +4,12 @@
 
 .filters{
   padding:0 0 0 10px;
-  width:56%;
+  width:96%;
   float:left;
 }
+.pagination_used .filters{width:56%;}
 
-  
+
   .filters .small_filter{
     float:left;
     display:block;
