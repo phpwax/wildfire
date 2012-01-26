@@ -4,7 +4,7 @@ jQuery(document).ready(function(){
 			file_upload = jQuery(".file-upload")
 			;
 
-	
+
 
 
 	/**
@@ -90,7 +90,7 @@ jQuery(document).ready(function(){
 	//main upload function calling other events
 	jQuery(window).bind("file.upload.all", function(e, files, drop_area, list_area){
 		if(typeof files != "undefined"){
-			for(var i=0; i<files.length; i++) jQuery(window).trigger("file.upload.list_add", [i, files[i], drop_area, list_area]);			
+			for(var i=0; i<files.length; i++) jQuery(window).trigger("file.upload.list_add", [i, files[i], drop_area, list_area]);
 		}else drop_area.addClass('fu-failed');
 	});
 
