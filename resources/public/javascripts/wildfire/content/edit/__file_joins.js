@@ -10,8 +10,8 @@ function convert_to_media_join(obj){
       caption = jQuery(document.createElement("div")),
       caption_input =jQuery(document.createElement("input")),
       options = jQuery(document.createElement("div"))
-      ;  
-  order.attr("type", "hidden").attr("name", "media["+primval+"][join_order]").val(i).addClass("join-order-field"); 
+      ;
+  order.attr("type", "hidden").attr("name", "media["+primval+"][join_order]").val(i).addClass("join-order-field");
   file_join.addClass("joined-file clearfix f"+primval);
   file_join.append("<div class='image_wrap'>"+img+"</div>").append(title).append(order);
 
@@ -50,7 +50,7 @@ jQuery(document).ready(function(){
 
   //this inserts the ability to join media to the content
   jQuery(window).bind("preview.click", function(e, row, preview_container){
-    var primval = row.data("parent-value"),
+    var primval = row.data("model-id"),
         checkbox = jQuery(".default_value_to_unset_join").clone(),
         button = (jQuery(".f"+primval).length) ? "<a href='#' class='button js-added remove-button' data-primval='"+primval+"'>REMOVE</a>" : "<a href='#' class='button js-added add-button' data-primval='"+primval+"'>ADD</a>"
         ;
