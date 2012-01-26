@@ -144,7 +144,6 @@ class CMSBaseComponent extends WaxController {
           $ts = time() - rand(3600, 9000);
 
           touch($file, $ts);
-          exec('touch -t '+date("YmdHis",$ts)+' '+$file);
 
           clearstatcache();
           $stats = stat($file);
