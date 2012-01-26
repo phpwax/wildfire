@@ -19,7 +19,7 @@ jQuery(document).ready(function(){
 				;
 		// Update progress bar
 		xhr.upload.addEventListener("progress", function (evt) {
-			if (evt.lengthComputable) progress_bar.find("span").html((evt.loaded / evt.total) * 100);
+			if (evt.lengthComputable) progress_bar.find("span").html(Math.round((evt.loaded / evt.total) * 100));
 		}, false);
 		//loaded event
 		xhr.addEventListener("load", function () {
