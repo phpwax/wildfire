@@ -55,7 +55,6 @@ jQuery(document).ready(function(){
   jQuery('#wildfire-source-code').hide();
   //inline image picker
   jQuery(window).bind("filter.trigger", function(){    
-    console.log("load inline images");
     var cloned_files = jQuery("#media .file-listing").clone(),
         info_box = jQuery(document.createElement("div"))
         ;
