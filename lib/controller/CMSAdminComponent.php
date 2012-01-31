@@ -247,7 +247,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    $obj = WaxEvent::data();
 	    $destination_model = $obj->source_model->copy();
       if($changes = Request::param('change')) $destination_model->update_attributes($changes);
-      $this->redirect_to("/".trim($this->controller,"/")."/edit/".$destination_model->primval."/");
+      $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
 
 
