@@ -382,7 +382,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     //apply filters if needed
     if($this->inline_filters){
-      $filter = "{$this->search_model->identifier} LIKE '".array_shift($this->inline_filters)."%'";
+      $filter = "{$this->search_model->identifier} LIKE '%".array_shift($this->inline_filters)."%'";
       if($this->existing)
         $this->search_model->filter("($filter OR {$this->search_model->primary_key} IN(".implode(",", array_fill(0, count($this->existing), "?"))."))", array_keys($this->existing))->all();
       else $this->search_model->filter($filter);
