@@ -238,7 +238,7 @@ class CMSApplicationController extends WaxController{
 	 * unset key elements from the stack (controller etc)
 	 */
 	public function cms_stack($stack){
-	  foreach($stack as $k=>$v) if(!is_numeric($k)) unset($stack[$k]);
+	  foreach($stack as $k=>$v) if(!is_numeric($k) || $v == $this->use_format) unset($stack[$k]);
 	  unset($stack[0]);
 		return $stack;
 	}
