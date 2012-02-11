@@ -29,7 +29,10 @@ if(!$model_tree && $base){
     <?foreach($tree as $i=>$branch):?>
       <?if($branch->master()):?>
         <?if($branch->primval == $model->parent_id){$parent = true;}else{$parent = false;}?>
-        <?$kids=$branch->{$branch->children_column};?>
+        <?
+        $kids=$branch->{$branch->children_column};
+        if($kids && $kids->count()) $kids = $kids->scope("parent_list")->all();
+        ?>
       <li class='branch branch-depth-<?=$depth?><?=(($parent)?" parent":"")?>' data-primval="<?=$branch->primval?>">
         <div class='field clearfix<?=(($parent)?" active":"")?><?=(($branch->primval == $base->primval)?" self":"")?>'>          
           <?if($branch->primval != $base->primval && !in_array($branch->primval, $model_tree)):?>
