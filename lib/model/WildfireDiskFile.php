@@ -21,7 +21,7 @@ class WildfireDiskFile{
     if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
     else $hash = $media_item->hash;
     //if its not an image, return the normal url anyway
-    if($size === false || !strstr($media_item->file_type, "image")) return "/".$media_item->source;
+    if($size === false || !strstr($media_item->file_type, "image")) return "/".trim($media_item->source, "/");
     //we'll make a new controller called M (for media) which will simply map things smartly
     else return "/m/".$hash."/".$size.".".$media_item->ext;
   }
