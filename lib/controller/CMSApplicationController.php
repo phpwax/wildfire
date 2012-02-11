@@ -48,8 +48,9 @@ class CMSApplicationController extends WaxController{
 
   protected function cms_stacks(){
     if($parent = $this->cms_content){
-    	while($parent = $parent->parent) $path[] = $parent;
     	$path[] = $this->cms_content;
+    	while($parent = $parent->parent) $path[] = $parent;
+    	
       $this->body_class = "";
 		  foreach($path as $obj){
 		    $content_object_stack[] = $obj;
