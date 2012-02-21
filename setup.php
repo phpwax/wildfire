@@ -20,12 +20,14 @@ WildfireMedia::$classes[] = 'WildfireDiskFile';
 WildfireMedia::$allowed  = array(
                             'jpg'=>'WildfireDiskFile',
                             'jpeg'=>'WildfireDiskFile',
+                            'JPG'=>'WildfireDiskFile',
                             'png'=>'WildfireDiskFile',
                             'gif'=>'WildfireDiskFile',
                             'txt'=>'WildfireDiskFile',
                             'doc'=>'WildfireDiskFile',
                             'xsl'=>'WildfireDiskFile',
-                            'zip'=>'WildfireDiskFile'
+                            'zip'=>'WildfireDiskFile',
+                            'pdf'=>'WildfireDiskFile'
                           );
 
 ?>
