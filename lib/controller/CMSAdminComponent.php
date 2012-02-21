@@ -170,10 +170,11 @@ class CMSAdminComponent extends CMSBaseComponent {
       list($filename, $file_type, $data, $media_class, $category) = WaxEvent::data();
       if($filename && $data){
         //from the file name find the extension
-        $ext = strtolower(substr(strrchr($filename,'.'),1));
+        $ext = (substr(strrchr($filename,'.'),1));
+        $check = strtolower($ext);
         //find the class associated with that file
         $setup = WildfireMedia::$allowed;
-        if($setup && ($class= $setup[$ext])){
+        if($setup && ($class= $setup[$check])){
           //save the file somewhere
           $path = PUBLIC_DIR. "files/".date("Y-m-W")."/";
           if(!is_dir($path)) mkdir($path, 0777, true);
