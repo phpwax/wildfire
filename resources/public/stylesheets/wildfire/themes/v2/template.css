@@ -123,8 +123,8 @@ html {
   width:98%;
 }
 
-#v2-cms #client-analytics-graph, 
-#v2-cms #client-sources-graph, 
+#v2-cms #client-analytics-graph,
+#v2-cms #client-sources-graph,
 #v2-cms #traffic-keywords,
 #v2-cms .file-tree-container,
 #v2-cms .files_content .info {
@@ -221,7 +221,7 @@ html {
 	border-left: 1px solid #FFF;
 	border-top: 1px solid #FFF;
 	border-bottom: 1px solid #e4e4e4;
-	border-right: 1px solid #e4e4e4;	
+	border-right: 1px solid #e4e4e4;
 }
   #v2-cms .ui-datepicker td a.ui-state-active{
     background:#373737;
@@ -250,7 +250,7 @@ html {
 	text-transform:none;
 }
 #v2-cms .ui-slider-horizontal {
-	border-color:#c6dade;	
+	border-color:#c6dade;
 }
 
 #v2-cms .ui-dialog {
@@ -427,4 +427,18 @@ html {
 }
 #v2-cms .cms-uploads-1 .data_table tr.row_status0 td{
   background:#ffe8e8;
+}
+
+.category_tagging{
+  margin:10px 0;
+  width:92%;
+  padding:5px 3%;
+  font-size:108%;
+  border:1px solid #c6dade;
+  -moz-border-radius:     5px;
+  -webkit-border-radius:  5px;
+  -khtml-border-radius:   5px;
+  border-radius:          5px;
+  color:#437182;
+  text-transform:none;
 }
