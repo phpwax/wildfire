@@ -35,6 +35,7 @@ jQuery(document).ready(function(){
 		xhr.setRequestHeader("X-File-Name", file.name);
 		xhr.setRequestHeader("X-File-Size", file.size);
 		xhr.setRequestHeader("X-File-Type", file.type);
+		xhr.setRequestHeader("X-File-Categories", drop_area.siblings(".category_tagging").val());
 		// Send the file (doh)
 		xhr.send(file);
 	});

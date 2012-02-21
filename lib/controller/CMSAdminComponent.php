@@ -167,7 +167,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
     });
     WaxEvent::add("cms.file.upload", function(){
-      list($filename, $file_type, $data, $media_class) = WaxEvent::data();
+      list($filename, $file_type, $data, $media_class, $category) = WaxEvent::data();
       if($filename && $data){
         //from the file name find the extension
         $ext = strtolower(substr(strrchr($filename,'.'),1));
@@ -192,6 +192,15 @@ class CMSAdminComponent extends CMSBaseComponent {
           if($saved = $model->update_attributes($vars)){
             $obj = new $class;
             $obj->set($saved);
+            if($category && $model->columns['categories']){
+              $cat_class = $model->columns['categories'][1]['target_model'];
+              $cat_model = new $cat_class;
+              foreach(explode(",", $category) as $title){
+                $title = trim($title);
+                if($cat = $cat_model->clear()->filter("title", $title)->first()) $saved->categories = $cat;
+                else $saved->categories = $cat_model->update_attributes(array("title"=> $title));
+              }
+            }
           }
         }
       }
@@ -200,7 +209,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.xhr.upload", function(){
       $obj = WaxEvent::data();
       if($filename = $_SERVER['HTTP_X_FILE_NAME']){
-        $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model);
+        $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model, $_SERVER['HTTP_X_FILE_CATEGORIES']);
         WaxEvent::run("cms.file.upload", $data);
       }
     });
@@ -424,6 +433,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	}
 
   public function upload(){
+    $this->use_layout = $this->use_view = false;
     WaxEvent::run("cms.xhr.upload", $this);
   }
   public function download(){
