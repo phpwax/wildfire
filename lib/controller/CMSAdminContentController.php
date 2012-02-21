@@ -198,6 +198,7 @@ class CMSAdminContentController extends AdminComponent {
     $model = new $this->model_class;
     echo strtoupper($this->model_class).":<br>";
     echo "draft:<br>";
+    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
     foreach($model->filter("status", 0)->all() as $remove){
       echo "[$remove->primval] $remove->title: $remove->permalink<br>\n";
       //find all mappings related to this model
