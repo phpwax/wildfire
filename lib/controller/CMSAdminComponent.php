@@ -443,7 +443,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function file_check(){
     $this->use_view = $this->use_layout = false;
     if($filename = Request::param('filename')){
-      $ext = substr(strrchr($filename,'.'),1);
+      $ext = strtolower(substr(strrchr($filename,'.'),1));
       $setup = WildfireMedia::$allowed;
       if($setup && $setup[$ext]) echo json_encode(array("status"=>200, 'error'=>''));
       else echo json_encode(array('error'=>'No support for this file type', 'status'=>500));
