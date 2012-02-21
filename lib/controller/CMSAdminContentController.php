@@ -224,15 +224,19 @@ class CMSAdminContentController extends AdminComponent {
       echo "<hr>\n\n";
     }    
     echo "live:<br>";
+    $model = $model->clear();
+    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
     //go over the live ones and call url mapping on them
-    foreach($model->clear()->scope("live")->all() as $live){
+    foreach($model->scope("live")->all() as $live){
       echo "[$live->primval] $live->title: $live->permalink<br>\n";
       $live->generate_permalink()->map_live()->children_move()->show()->save();
     }
     
     echo "children:<br>";
+    $model = $model->clear();
+    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
     //go over everything that has a child and make sure its in the right place..
-    foreach($model->clear()->filter("parent_id > 0")->all() as $row){
+    foreach($model->filter("parent_id > 0")->all() as $row){
       echo "[$row->primval] $row->title: $row->permalink : $row->parent_id<br>\n";
       $tmp = new $this->model_class($row->parent_id);
       if($tmp->primval == $row->parent_id) echo "ok";
