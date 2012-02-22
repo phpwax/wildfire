@@ -1,47 +1,3 @@
-function convert_to_media_join(obj){
-  var i = jQuery(".joined-file:visible").length,
-      field = obj.closest(".media-listing, .existing-files").attr("data-field"),
-      obj = obj.clone(),
-      primval = obj.find("input[type='checkbox']").val(),
-      img = obj.find(".preview_link span").html(),
-      p = jQuery(document.createElement("p")),
-      title = p.append(obj.find(".title_link").text()),
-      file_types = jQuery(document.createElement("div")),
-      file_join = jQuery(document.createElement("div")),
-      id_input = jQuery(document.createElement("input")),
-      order = jQuery(document.createElement("input")),
-      caption = jQuery(document.createElement("div")),
-      caption_input =jQuery(document.createElement("input")),
-      options = jQuery(document.createElement("div"))
-      ;
-  id_input.attr("type", "hidden").attr("name", "joins["+field+"]["+primval+"][id]").val(primval);
-  order.attr("type", "hidden").attr("name", "joins["+field+"]["+primval+"][extra_fields][join_order]").val(i).addClass("join-order-field");
-  file_join.addClass("joined-file clearfix f_"+field+"_"+primval);
-  file_join.append("<div class='image_wrap'>"+img+"</div>").append(title).append(id_input).append(order);
-
-
-  for(var i=0; i<file_tags.length; i++){
-    var tag = jQuery(document.createElement("div")),
-        label = jQuery(document.createElement("label")),
-        radio = jQuery(document.createElement("input")),
-        id = "tf_"+primval+"_"+i
-        ;
-    label.attr("for", id).html(file_tags[i]);
-    radio.attr("id", id).attr("type", "radio").attr("name", 'joins['+field+']['+primval+'][extra_fields][tag]').val(file_tags[i]).addClass("radio_field");
-    if(i == 0) radio.attr("checked", true);
-    tag.addClass("clearfix tag_"+i);
-    tag.append(radio).append(label);
-    file_join.append(tag);
-  }
-  caption_input.attr("type", "text").attr("name", "joins["+field+"]["+primval+"][extra_fields][title]").val("").attr("placeholder", "caption");
-  caption.addClass("join_title").append(caption_input);
-  options.addClass("tag_options clearfix").append("<a href='#' data-primval='"+primval+"' class='button js-added remove-button'>REMOVE</a>");
-
-  file_join.append(caption).append(options);
-
-  jQuery(".existing-files:visible").append(file_join);
-}
-
 jQuery(document).ready(function(){
   
   jQuery(window).bind("join.files.highlight", function(){
@@ -69,11 +25,26 @@ jQuery(document).ready(function(){
   //on click we will now copy that
   jQuery(".button.add-button").live("click", function(e){
     e.preventDefault();
-    var primval = jQuery(this).data("primval"), 
-        base = jQuery(this).closest(".media-data"),
-        insert = convert_to_media_join(base);
-    jQuery("a[data-primval='"+primval+"']").addClass("remove-button").removeClass("add-button").text("REMOVE");
-    jQuery(window).trigger("join.files.highlight");
+
+    var target = jQuery(this),
+        primval = target.data("primval"),
+        holder = target.closest(".media-listing, .existing-files"),
+        field = holder.attr("data-field"),
+        url = holder.attr("data-new-join-url");
+
+    jQuery.ajax({
+      "url":url,
+      "data":{
+        "target_id":primval,
+        "field":field
+      },
+      "success":function(result){
+        var fieldset = target.closest("fieldset");
+        fieldset.find(".existing-files").append(result);
+        fieldset.find("a[data-primval='"+primval+"']").addClass("remove-button").removeClass("add-button").text("REMOVE");
+        jQuery(window).trigger("join.files.highlight");
+      }
+    });
   });
   jQuery(".button.remove-button").live("click", function(e){
     e.preventDefault();

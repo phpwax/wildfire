@@ -3,7 +3,7 @@
   $field_data = reset($fields);
   $field = key($fields);
 ?>
-<div class='files file-listing media-listing clearfix' data-field="<?=$field?>">
+<div class='files file-listing media-listing clearfix' data-field="<?=$field?>" data-new-join-url="/<?=$controller?>/_existing_media">
   
   <div class='upload_block'>
     <?=partial("_media_preview");?>
