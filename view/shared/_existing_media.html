@@ -12,6 +12,9 @@
   
   <div class='tag_options clearfix t_<?=$media->tag?> o_<?=$media->join_order?>'>
     <?=partial($field_data->extra_fields_view?$field_data->extra_fields_view:"_media_extra_fields", array("field"=>$field, "media"=>$media))?>
+    <div class='tag_options clearfix'>
+      <a href='#' data-primval='<?=$media->primval?>' class='button js-added remove-button'>REMOVE</a>
+    </div>
   </div>
 </div>
 <?endforeach?>
