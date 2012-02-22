@@ -1,5 +1,3 @@
-<input type="hidden" name="joins[<?=$field?>][0]" value="0" class='default_value_to_unset_join'>
-<?foreach($model->$field as $i=>$media):?>
 <div class='joined-file clearfix f_<?=$field?>_<?=$media->primval?>' data-primval="<?=$media->primval?>">
   <div class="image_wrap">
     
@@ -11,14 +9,9 @@
   <input type="hidden" name="joins[<?=$field?>][<?=$media->primval?>][id]" value="<?=$media->primval?>" id="join_file_<?=$media->primval?>" class="hidden joined_field" checked="checked">
   
   <div class='tag_options clearfix t_<?=$media->tag?> o_<?=$media->join_order?>'>
-    <?=partial($field_data->extra_fields_view?$field_data->extra_fields_view:"_media_extra_fields", array("field"=>$field, "media"=>$media))?>
+    <?=partial($extra_fields_view?$extra_fields_view:"_media_extra_fields", array("field"=>$field, "media"=>$media))?>
     <div class='tag_options clearfix'>
       <a href='#' data-primval='<?=$media->primval?>' class='button js-added remove-button'>REMOVE</a>
     </div>
   </div>
 </div>
-<?endforeach?>
-
-<script type="text/javascript" charset="utf-8">
-var file_tags = <?=json_encode($file_tags);?>;
-</script>

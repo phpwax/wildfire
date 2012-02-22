@@ -19,5 +19,17 @@
   <!-- END FILTERS -->
 </div>
 <div class='existing-files clearfix' data-field="<?=$field?>">
-  <?=partial("_existing_media",array('model'=>$model, 'field'=>$field, 'field_data'=>$field_data))?>
+
+
+  <input type="hidden" name="joins[<?=$field?>][0]" value="0" class='default_value_to_unset_join'>
+  <?foreach($model->$field as $i=>$media):?>
+    <?=partial("_existing_media",array('media'=>$media, 'field'=>$field, 'extra_fields_view'=>$field_data->extra_fields_view))?>
+  <?endforeach?>
+
+  <script type="text/javascript" charset="utf-8">
+  var file_tags = <?=json_encode($file_tags);?>;
+  </script>
+
+
+  
 </div>
