@@ -33,7 +33,7 @@
 	position:relative;
 	overflow:hidden;
 }
-#v2-cms #existing-files {
+#v2-cms .existing-files {
 	border-color:#9CAFBC;
 	border-bottom:0;
 }

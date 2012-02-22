@@ -27,16 +27,18 @@ function file_tree_refresh(fileroot, selector){
 }
 
 function joined_files_refresh(){
-  var ef = jQuery('#existing-files'), dest=ef.attr('data-dest')+".ajax";
-  if(ef && ef.length && dest){
-    jQuery.ajax({
-      url:dest,
-      type:'post',
-      success:function(res){
-        ef.html(res);
-      }
-    });
-  }
+  jQuery('.existing-files').each(function(){
+    var ef = jQuery(this), dest=ef.attr('data-dest')+".ajax";
+    if(ef && ef.length && dest){
+      jQuery.ajax({
+        url:dest,
+        type:'post',
+        success:function(res){
+          ef.html(res);
+        }
+      });
+    }
+  })
 }
 
 jQuery(document).ready(function(){
