@@ -46,7 +46,7 @@ jQuery(document).ready(function(){
     jQuery(".joined-to-model").removeClass("joined-to-model");
     jQuery(".joined-file").each(function(){
       var primval = jQuery(this).data("primval");
-      jQuery(".file-listing #row_"+primval).addClass("joined-to-model");
+      jQuery(this).closest("fieldset").find(".file-listing #row_"+primval).addClass("joined-to-model");
     });
   });
 
