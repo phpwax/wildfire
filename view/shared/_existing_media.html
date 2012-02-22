@@ -1,7 +1,6 @@
 <input type="hidden" name="joins[media][0]" value="0" class='default_value_to_unset_join'>
 
-
-<?foreach($model->$field->scope("live")->all() as $i=>$media):?>
+<?foreach($model->$field as $i=>$media):?>
   <?
   $info = $model->file_meta_get($media->primval);
   ?>
