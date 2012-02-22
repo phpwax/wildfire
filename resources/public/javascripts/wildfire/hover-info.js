@@ -41,8 +41,8 @@ jQuery(function(){
 
   jQuery(".preview-hover tbody tr, .cms-uploads-1 tbody tr").live("mouseover", function(e){
     var str = "",
-        preview_container = jQuery(".media-data"),
         row = jQuery(this),
+        preview_container = row.closest("fieldset").find(".media-data"),
         trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
         ;
     jQuery(this).hoverIntent({over:function(){
@@ -54,8 +54,8 @@ jQuery(function(){
   jQuery(".preview-click tbody tr").unbind("click").live("click", function(e){
     e.preventDefault();
     var str = "",
-        preview_container = jQuery(".media-data"),
         row = jQuery(this),
+        preview_container = row.closest("fieldset").find(".media-data"),
         trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
         ;
     jQuery(window).trigger("media."+trigger_type+".preview", [row, preview_container]);
