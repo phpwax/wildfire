@@ -15,8 +15,8 @@
     <input type="hidden" name="joins[<?=$field?>][<?=$media->primval?>][extra_fields][join_order]" value="<?=$i?>" class='join-order-field'>
     <?foreach($file_tags as $i=>$tag):?>
     <div class='clearfix tag_<?=$i?>'>
-      <input type="radio" name="joins[<?=$field?>][<?=$media->primval?>][extra_fields][tag]" value="<?=$tag?>" id="tf_<?=$media->primval?>_<?=$i?>" class="radio_field" <?if((!$media->tag && $i==0) || ($tag == $media->tag)):?> checked="checked"<?endif?>>
-      <label for="tf_<?=$media->primval?>_<?=$i?>"><?=$tag?></label>
+      <input type="radio" name="joins[<?=$field?>][<?=$media->primval?>][extra_fields][tag]" value="<?=$tag?>" id="tf_<?=$field?>_<?=$media->primval?>_<?=$i?>" class="radio_field" <?if((!$media->tag && $i==0) || ($tag == $media->tag)):?> checked="checked"<?endif?>>
+      <label for="tf_<?=$field?>_<?=$media->primval?>_<?=$i?>"><?=$tag?></label>
     </div>
     <?endforeach?>
     <div class='join_title'>
