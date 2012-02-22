@@ -14,8 +14,8 @@ function convert_to_media_join(obj){
       caption_input =jQuery(document.createElement("input")),
       options = jQuery(document.createElement("div"))
       ;
-  id_input.attr("type", "hidden").attr("name", "joins[media]["+primval+"][id]").val(primval);
-  order.attr("type", "hidden").attr("name", "joins[media]["+primval+"][extra_fields][join_order]").val(i).addClass("join-order-field");
+  id_input.attr("type", "hidden").attr("name", "joins["+field+"]["+primval+"][id]").val(primval);
+  order.attr("type", "hidden").attr("name", "joins["+field+"]["+primval+"][extra_fields][join_order]").val(i).addClass("join-order-field");
   file_join.addClass("joined-file clearfix f_"+field+"_"+primval);
   file_join.append("<div class='image_wrap'>"+img+"</div>").append(title).append(id_input).append(order);
 
@@ -27,13 +27,13 @@ function convert_to_media_join(obj){
         id = "tf_"+primval+"_"+i
         ;
     label.attr("for", id).html(file_tags[i]);
-    radio.attr("id", id).attr("type", "radio").attr("name", 'joins[media]['+primval+'][extra_fields][tag]').val(file_tags[i]).addClass("radio_field");
+    radio.attr("id", id).attr("type", "radio").attr("name", 'joins['+field+']['+primval+'][extra_fields][tag]').val(file_tags[i]).addClass("radio_field");
     if(i == 0) radio.attr("checked", true);
     tag.addClass("clearfix tag_"+i);
     tag.append(radio).append(label);
     file_join.append(tag);
   }
-  caption_input.attr("type", "text").attr("name", "joins[media]["+primval+"][extra_fields][title]").val("").attr("placeholder", "caption");
+  caption_input.attr("type", "text").attr("name", "joins["+field+"]["+primval+"][extra_fields][title]").val("").attr("placeholder", "caption");
   caption.addClass("join_title").append(caption_input);
   options.addClass("tag_options clearfix").append("<a href='#' data-primval='"+primval+"' class='button js-added remove-button'>REMOVE</a>");
 
