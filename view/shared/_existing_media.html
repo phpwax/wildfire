@@ -1,4 +1,4 @@
-<input type="hidden" name="joins[media][0]" value="0" class='default_value_to_unset_join'>
+<input type="hidden" name="joins[<?=$field?>][0]" value="0" class='default_value_to_unset_join'>
 
 <?foreach($model->$field as $i=>$media):?>
   <?
@@ -12,19 +12,19 @@
   
   <p><a href="<?=$media->permalink(false)?>"><?=$media->title?></a></p>
 
-  <input type="hidden" name="joins[media][<?=$media->primval?>][id]" value="<?=$media->primval?>" id="join_file_<?=$media->primval?>" class="hidden joined_field" checked="checked">
+  <input type="hidden" name="joins[<?=$field?>][<?=$media->primval?>][id]" value="<?=$media->primval?>" id="join_file_<?=$media->primval?>" class="hidden joined_field" checked="checked">
   
 
   <div class='tag_options clearfix t_<?#=$info->tag?> o_<?#=$info->join_order?>'>
-    <input type="hidden" name="joins[media][<?=$media->primval?>][extra_fields][join_order]" value="<?=$i?>" class='join-order-field'>
+    <input type="hidden" name="joins[<?=$field?>][<?=$media->primval?>][extra_fields][join_order]" value="<?=$i?>" class='join-order-field'>
     <?foreach($file_tags as $i=>$tag):?>
     <div class='clearfix tag_<?=$i?>'>
-      <input type="radio" name="joins[media][<?=$media->primval?>][extra_fields][tag]" value="<?=$tag?>" id="tf_<?=$media->primval?>_<?=$i?>" class="radio_field" <?if((!$info->tag && $i==0) || ($tag == $info->tag)):?> checked="checked"<?endif?>>
+      <input type="radio" name="joins[<?=$field?>][<?=$media->primval?>][extra_fields][tag]" value="<?=$tag?>" id="tf_<?=$media->primval?>_<?=$i?>" class="radio_field" <?if((!$info->tag && $i==0) || ($tag == $info->tag)):?> checked="checked"<?endif?>>
       <label for="tf_<?=$media->primval?>_<?=$i?>"><?=$tag?></label>
     </div>
     <?endforeach?>
     <div class='join_title'>
-      <input type='text' name='joins[media][<?=$media->primval?>][extra_fields][title]' value='<?=$info->title?>' placeholder='caption'>
+      <input type='text' name='joins[<?=$field?>][<?=$media->primval?>][extra_fields][title]' value='<?=$info->title?>' placeholder='caption'>
     </div>
     <div class='tag_options clearfix'>
       <a href='#' data-primval='<?=$media->primval?>' class='button js-added remove-button'>REMOVE</a>
