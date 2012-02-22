@@ -5,7 +5,7 @@
 	<?=partial("_cf")?>
   <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
   <?foreach(Autoloader::$plugin_array as $plugin):?>
-    <?=($plugin['name'] != "cms")?css_bundle($plugin['name'], array(), $plugin['name']):''?>
+    <?=($plugin['name'] != "cms" && $plugin['include_in_cms'])?css_bundle($plugin['name'], array(), $plugin['name']):''?>
   <?endforeach?>
   <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
   
@@ -71,7 +71,7 @@
 <?=js_bundle("wildfire-plugins", array(), "cms")?>
 <?=js_bundle("wildfire", array(), "cms")?>
 <?foreach(Autoloader::$plugin_array as $plugin):?>
-  <?=($plugin['name'] != "cms")?js_bundle($plugin['name'], array(), $plugin['name']):''?>
+  <?=($plugin['name'] != "cms" && $plugin['include_in_cms'])?js_bundle($plugin['name'], array(), $plugin['name']):''?>
 <?endforeach?>
 <?=js_bundle("wildfire-overwrites", array())?>
 
