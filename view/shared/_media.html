@@ -3,7 +3,7 @@
   $field_data = reset($fields);
   $field = key($fields);
 ?>
-<div class='files file-listing media-listing clearfix'>
+<div class='files file-listing media-listing clearfix' data-field="<?=$field?>">
   
   <div class='upload_block'>
     <?=partial("_media_preview");?>
@@ -18,6 +18,6 @@
   </div>
   <!-- END FILTERS -->
 </div>
-<div class='existing-files clearfix'>
+<div class='existing-files clearfix' data-field="<?=$field?>">
   <?=partial("_existing_media",array('model'=>$model, 'field'=>$field))?>
 </div>

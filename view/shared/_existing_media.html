@@ -1,10 +1,9 @@
 <input type="hidden" name="joins[<?=$field?>][0]" value="0" class='default_value_to_unset_join'>
-
 <?foreach($model->$field as $i=>$media):?>
   <?
   $info = $model->file_meta_get($media->primval);
   ?>
-<div class='joined-file clearfix f<?=$media->primval?>' data-primval="<?=$media->primval?>">
+<div class='joined-file clearfix f_<?=$field?>_<?=$media->primval?>' data-primval="<?=$media->primval?>">
   <div class="image_wrap">
     
     <?=$media->render(200)?>

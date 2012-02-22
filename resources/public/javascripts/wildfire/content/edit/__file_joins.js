@@ -1,5 +1,7 @@
 function convert_to_media_join(obj){
   var i = jQuery(".joined-file:visible").length,
+      field = obj.closest(".media-listing, .existing-files").attr("data-field"),
+      obj = obj.clone(),
       primval = obj.find("input[type='checkbox']").val(),
       img = obj.find(".preview_link span").html(),
       p = jQuery(document.createElement("p")),
@@ -14,7 +16,7 @@ function convert_to_media_join(obj){
       ;
   id_input.attr("type", "hidden").attr("name", "joins[media]["+primval+"][id]").val(primval);
   order.attr("type", "hidden").attr("name", "joins[media]["+primval+"][extra_fields][join_order]").val(i).addClass("join-order-field");
-  file_join.addClass("joined-file clearfix f"+primval);
+  file_join.addClass("joined-file clearfix f_"+field+"_"+primval);
   file_join.append("<div class='image_wrap'>"+img+"</div>").append(title).append(id_input).append(order);
 
 
@@ -54,10 +56,11 @@ jQuery(document).ready(function(){
   jQuery(window).bind("preview.click", function(e, row, preview_container){
     var primval = row.data("model-id"),
         checkbox = jQuery(".default_value_to_unset_join").clone(),
-        button = (jQuery(".f"+primval).length) ? "<a href='#' class='button js-added remove-button' data-primval='"+primval+"'>REMOVE</a>" : "<a href='#' class='button js-added add-button' data-primval='"+primval+"'>ADD</a>"
+        field = row.closest(".media-listing, .existing-files").attr("data-field"),
+        button = (jQuery(".f_"+field+"_"+primval).length) ? "<a href='#' class='button js-added remove-button' data-primval='"+primval+"'>REMOVE</a>" : "<a href='#' class='button js-added add-button' data-primval='"+primval+"'>ADD</a>"
         ;
     if(row.parents(".file-listing").length){
-      if(jQuery(".media-listing").length){
+      if(jQuery(".media-listing, .existing-files").length){
         checkbox.attr("name", checkbox.attr("name").replace("[0]", "["+primval+"][id]")).attr("type", "checkbox").attr("checked", false).val(primval).hide();
         preview_container.html(preview_container.html()+button).append(checkbox);
       }
@@ -67,16 +70,17 @@ jQuery(document).ready(function(){
   jQuery(".button.add-button").live("click", function(e){
     e.preventDefault();
     var primval = jQuery(this).data("primval"), 
-        base = jQuery(this).closest(".media-data").clone(),
+        base = jQuery(this).closest(".media-data"),
         insert = convert_to_media_join(base);
     jQuery("a[data-primval='"+primval+"']").addClass("remove-button").removeClass("add-button").text("REMOVE");
     jQuery(window).trigger("join.files.highlight");
   });
   jQuery(".button.remove-button").live("click", function(e){
     e.preventDefault();
-    var primval = jQuery(this).data("primval");
+    var primval = jQuery(this).data("primval"),
+        field = jQuery(this).closest(".media-listing, .existing-files").attr("data-field");
     jQuery("a[data-primval='"+primval+"']").addClass("add-button").removeClass("remove-button").text("ADD");
-    jQuery(".f"+primval).remove();
+    jQuery(".f_"+field+"_"+primval).remove();
     jQuery(window).trigger("join.files.highlight");
   });
 
