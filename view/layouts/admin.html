@@ -78,7 +78,13 @@
 <?=js_bundle("wildfire-plugins", array(), "cms")?>
 <?=js_bundle("wildfire", array(), "cms")?>
 <?foreach(Autoloader::$plugin_array as $plugin):?>
-  <?=($plugin['name'] != "cms" && $plugin['include_in_cms'])?js_bundle($plugin['name'], array(), $plugin['name']):''?>
+  <?
+  $use = false;
+  foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
+  if($plugin['name'] != "cms" && $use && $use['assets_for_cms']){      
+    echo js_bundle($plugin['name'], array(), $plugin['name']);
+  } 
+  ?>
 <?endforeach?>
 <?=js_bundle("wildfire-overwrites", array())?>
 
