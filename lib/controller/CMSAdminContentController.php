@@ -199,6 +199,7 @@ class CMSAdminContentController extends AdminComponent {
     echo strtoupper($this->model_class).":<br>";
     echo "draft:<br>";
     if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
+    if(($page=Request::param("page"))) $model = $model->page($page,100);
     foreach($model->filter("status", 0)->all() as $remove){
       echo "[$remove->primval] $remove->title: $remove->permalink<br>\n";
       //find all mappings related to this model
@@ -226,6 +227,7 @@ class CMSAdminContentController extends AdminComponent {
     echo "live:<br>";
     $model = $model->clear();
     if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
+    if(($page=Request::param("page"))) $model = $model->page($page,100);
     //go over the live ones and call url mapping on them
     foreach($model->scope("live")->all() as $live){
       echo "[$live->primval] $live->title: $live->permalink<br>\n";
@@ -235,6 +237,7 @@ class CMSAdminContentController extends AdminComponent {
     echo "children:<br>";
     $model = $model->clear();
     if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
+    if(($page=Request::param("page"))) $model = $model->page($page,100);
     //go over everything that has a child and make sure its in the right place..
     foreach($model->filter("parent_id > 0")->all() as $row){
       echo "[$row->primval] $row->title: $row->permalink : $row->parent_id<br>\n";
