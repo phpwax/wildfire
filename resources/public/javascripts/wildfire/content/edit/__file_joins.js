@@ -43,6 +43,7 @@ jQuery(document).ready(function(){
         fieldset.find(".existing-files").append(result);
         fieldset.find("a[data-primval='"+primval+"']").addClass("remove-button").removeClass("add-button").text("REMOVE");
         jQuery(window).trigger("join.files.highlight");
+        jQuery(window).trigger("join.added");
       }
     });
   });
@@ -53,6 +54,7 @@ jQuery(document).ready(function(){
     jQuery("a[data-primval='"+primval+"']").addClass("add-button").removeClass("remove-button").text("ADD");
     jQuery(".f_"+field+"_"+primval).remove();
     jQuery(window).trigger("join.files.highlight");
+    jQuery(window).trigger("join.removed");
   });
 
 });
