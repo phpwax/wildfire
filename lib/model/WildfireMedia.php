@@ -59,7 +59,7 @@ class WildfireMedia extends WaxModel{
   }
 
   public function scope_files(){
-    return $this;
+    return $this->filter("media_type", "Local storage")->filter("file_type NOT LIKE 'image%'");
   }
   public function scope_live(){
     return $this;
