@@ -3,13 +3,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<?=partial("_cf")?>
-  <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
   <?$mods = CMSApplication::get_modules();?>
   <?foreach(Autoloader::$plugin_array as $plugin):?>
     <?
     $use = false;
     foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
-    if($plugin['name'] != "cms" && $use && $use['assets_for_cms']){      
+    if($use && $use['assets_for_cms']){      
       echo css_bundle($plugin['name'], array(), $plugin['name']);
     } 
     ?>
