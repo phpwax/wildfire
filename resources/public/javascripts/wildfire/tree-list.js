@@ -1,22 +1,24 @@
 jQuery(document).ready(function(){
-  
+
   jQuery('.tree_list .view_children_link').live("click", function(e){
     var link = jQuery(this),
         row = jQuery(link.closest("li")),
         table = jQuery(link.closest("ul")),
-        id = row.attr("data-row-id");
-    
+        id = row.attr("data-row-id"),
+        language = row.attr("data-row-language")
+        ;
+
     if(link.hasClass("ajax_tree_load")){
       row.addClass('loading');
       jQuery.ajax({
         url:table.attr("data-action")+".ajax",
-        data:{"filters[parent]":id},
+        data:{"filters[parent]":id, "filters[language]":language},
         type:"post",
         success:function(res){
           link
             .toggleClass("ajax_tree_load open ui-icon-circle-triangle-e ui-icon-circle-triangle-s")
             .addClass("open");
-          
+
           jQuery(res)
             .wrap("<li>")
             .parent()
@@ -36,5 +38,5 @@ jQuery(document).ready(function(){
     }
     e.preventDefault();
   });
-  
+
 });
