@@ -198,7 +198,8 @@ class CMSAdminContentController extends AdminComponent {
     $model = new $this->model_class;
     echo strtoupper($this->model_class).":<br>";
     echo "draft:<br>";
-    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
+    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v['v'], $v['op']);
+    if(($page=Request::param("page"))) $model = $model->page($page,100);
     foreach($model->filter("status", 0)->all() as $remove){
       echo "[$remove->primval] $remove->title: $remove->permalink<br>\n";
       //find all mappings related to this model
@@ -225,30 +226,33 @@ class CMSAdminContentController extends AdminComponent {
     }    
     echo "live:<br>";
     $model = $model->clear();
-    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
+    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v['v'], $v['op']);
+    if(($page=Request::param("page"))) $model = $model->page($page,100);
     //go over the live ones and call url mapping on them
     foreach($model->scope("live")->all() as $live){
       echo "[$live->primval] $live->title: $live->permalink<br>\n";
       $live->generate_permalink()->map_live()->children_move()->show()->save();
     }
-    
-    echo "children:<br>";
-    $model = $model->clear();
-    if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v);
-    //go over everything that has a child and make sure its in the right place..
-    foreach($model->filter("parent_id > 0")->all() as $row){
-      echo "[$row->primval] $row->title: $row->permalink : $row->parent_id<br>\n";
-      $tmp = new $this->model_class($row->parent_id);
-      if($tmp->primval == $row->parent_id) echo "ok";
-      else{
-        //so trim off the last part of the url
-        $sub = substr($row->permalink,0,-1);
-        $parent = substr($sub, 0, strrpos($sub, "/")+1);
-        echo "--> parent:".$parent."<br>";
-        $p = new $this->model_class("live");
-        if($found = $p->filter("permalink", $parent)->first()) $row->update_attributes(array('parent_id'=>$found->primval));
+    if(Request::param("nokids") != 1){
+      echo "children:<br>";
+      $model = $model->clear();
+      if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v['v'], $v['op']);
+      if(($page=Request::param("page"))) $model = $model->page($page,100);
+      //go over everything that has a child and make sure its in the right place..
+      foreach($model->filter("parent_id > 0")->all() as $row){
+        echo "[$row->primval] $row->title: $row->permalink : $row->parent_id<br>\n";
+        $tmp = new $this->model_class($row->parent_id);
+        if($tmp->primval == $row->parent_id) echo "ok";
+        else{
+          //so trim off the last part of the url
+          $sub = substr($row->permalink,0,-1);
+          $parent = substr($sub, 0, strrpos($sub, "/")+1);
+          echo "--> parent:".$parent."<br>";
+          $p = new $this->model_class("live");
+          if($found = $p->filter("permalink", $parent)->first()) $row->update_attributes(array('parent_id'=>$found->primval));
+        }
+        echo "<hr>";
       }
-      echo "<hr>";
     }
     echo "end<hr>";
     $this->use_layout = $this->use_view = false;

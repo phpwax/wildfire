@@ -72,7 +72,7 @@ jQuery(document).ready(function(){
   jQuery(".inline-filter").each(function(){
     var obj = jQuery(this);
     var inline_filter_listener = false;
-    obj.unbind("change keyup").bind("change keyup", function(){clearTimeout(inline_filter_listener); inline_filter_listener = setTimeout(function(){inline_filter(obj);}, 500);});
+    obj.unbind("keydown").bind("keydown", function(){clearTimeout(inline_filter_listener); inline_filter_listener = setTimeout(function(){inline_filter(obj);}, 500);});
   });
   if(jQuery("form .media-listing") && jQuery("form .media-listing").length){
     jQuery('form fieldset.filters_container').find("input[type='text']").trigger("change");

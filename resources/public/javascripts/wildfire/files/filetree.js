@@ -6,10 +6,9 @@ function file_tree_refresh(fileroot, selector){
 	if(typeof selector != "undefined") sel = jQuery(selector);
 
   sel.each(function(){
-    var ftree = jQuery(this), 
-				dest = 	jQuery(".file-tree").attr('data-list')+".ajax", 
+    var ftree = jQuery(this),
+				dest = 	jQuery(".file-tree").attr('data-list')+".ajax",
 				info =	jQuery(".file-tree").attr('data-info')+".ajax";
-
     ftree.fileTree({ root: froot, script: dest }, function(file) {
       jQuery('.info').addClass('loading').removeClass('loaded');
       jQuery.ajax({
@@ -68,13 +67,13 @@ function drags(){
 			jQuery.ajax({
 			  url: "/admin/files/move",
 			  type: "POST",
-			  data: {origin_dir:dir,origin_file:file,destination:dest},			
+			  data: {origin_dir:dir,origin_file:file,destination:dest},
 			  complete: function() {},
 			  success: function() {
 					jQuery(ui.draggable).remove();
 					file_tree_refresh();
 			 	},
-			
+
 			  error: function() {},
 			});
 		}

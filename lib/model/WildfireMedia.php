@@ -37,9 +37,9 @@ class WildfireMedia extends WaxModel{
   public function preview(){
     return $this->render(40);
   }
-  public function render($width=false){
+  public function render($width=false, $title=false){
     $obj = new $this->media_class;
-    return $obj->render($this, $width);
+    return $obj->render($this, $width, $title);
   }
 
   public function permalink($width=false){
@@ -59,7 +59,7 @@ class WildfireMedia extends WaxModel{
   }
 
   public function scope_files(){
-    return $this;
+    return $this->filter("media_type", "Local storage")->filter("file_type NOT LIKE 'image%'");
   }
   public function scope_live(){
     return $this;

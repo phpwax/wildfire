@@ -3,19 +3,18 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<?=partial("_cf")?>
-  <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
   <?$mods = CMSApplication::get_modules();?>
   <?foreach(Autoloader::$plugin_array as $plugin):?>
     <?
     $use = false;
     foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
-    if($plugin['name'] != "cms" && $use && $use['assets_for_cms']){      
+    if($use && $use['assets_for_cms']){
       echo css_bundle($plugin['name'], array(), $plugin['name']);
-    } 
+    }
     ?>
   <?endforeach?>
   <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
-  
+
 	<title>Content Management System</title>
 </head>
 
@@ -28,7 +27,7 @@
     </div>
   </div>
   <div id="page_content" class='clearfix'>
-    
+
     <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
       <?
         //support for session-based messages to pass along between redirects
@@ -54,17 +53,20 @@
   <?$cachelink = Config::get('cacheissue')?>
   <ul id="primary_navigation">
     <?foreach($allowed_modules as $i=>$info):?>
-      <li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
-      <?if($info['split']):?>
-      <li class='group_split'>&nbsp;</li>
+      <?if($info['hidden'] != true):?>
+      	<li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
+      	<?foreach((array)$info['subs'] as $name=>$sublink):?><li class='top subtop'><a href="<?=$sublink?>"><?=$name?></a></li><?endforeach?>
+      	<?if($info['split']):?>
+      	<li class='group_split'>&nbsp;</li>
+      	<?endif?>
       <?endif?>
     <?endforeach?>
     <li class='logout clearfix top'>
       <a href="/admin/logout/"><span>Logout</span></a>
     </li>
   </ul>
-  
-  
+
+
 <script src='//www.google.com/jsapi?'  type='text/javascript'></script>
 <script type='text/javascript'>
   google.load('jquery', '1.5');
@@ -75,15 +77,14 @@
 <script src="/tinymce/jscripts/tiny_mce/jquery.tinymce.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- CMS -->
-<?=js_bundle("wildfire-plugins", array(), "cms")?>
-<?=js_bundle("wildfire", array(), "cms")?>
+
 <?foreach(Autoloader::$plugin_array as $plugin):?>
   <?
   $use = false;
   foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
-  if($plugin['name'] != "cms" && $use && $use['assets_for_cms']){      
+  if($use && $use['assets_for_cms']){
     echo js_bundle($plugin['name'], array(), $plugin['name']);
-  } 
+  }
   ?>
 <?endforeach?>
 <?=js_bundle("wildfire-overwrites", array())?>

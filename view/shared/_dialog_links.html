@@ -11,10 +11,10 @@
   <?
   $file = new $file_system_model("files");
   ?>
-  <select name="internal" id="wf_ld_internal">
+  <select name="internal" id="wf_ld_internal" data-class="<?=$file_system_model?>">
     <option value="">-- Select --</option>
     <?foreach($file->all() as $f):?>
-    <option value="<?=($f->permalink(false))?>"><?=$f->filename?></option>
+    <option value="<?=($f->permalink(false))?>"><?=$f->title?></option>
     <?endforeach?>
   </select>
 

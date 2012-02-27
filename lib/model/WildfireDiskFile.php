@@ -40,7 +40,7 @@ class WildfireDiskFile{
   }
   //generates the tag to be displayed - return generic icon if not an image
   public function render($media_item, $size, $title="preview"){
-    if(!strstr($media_item->file_type, "image")) return "<img src='/images/wildfire/themes/v2/files_document.png' alt=''>";
+    if(!strstr($media_item->file_type, "image")) return "<img src='/images/wildfire/themes/v2/files_document.png' alt='".$title."'>";
     else return "<img src='".$this->get($media_item, $size)."' alt='".$title."'>";
   }
 
