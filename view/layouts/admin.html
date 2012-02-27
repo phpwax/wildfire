@@ -53,10 +53,12 @@
   <?$cachelink = Config::get('cacheissue')?>
   <ul id="primary_navigation">
     <?foreach($allowed_modules as $i=>$info):?>
-      <li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
-      <?foreach((array)$info['subs'] as $name=>$sublink):?><li class='top subtop'><a href="<?=$sublink?>"><?=$name?></a></li><?endforeach?>
-      <?if($info['split']):?>
-      <li class='group_split'>&nbsp;</li>
+      <?if($info['hidden'] != true):?>
+      	<li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
+      	<?foreach((array)$info['subs'] as $name=>$sublink):?><li class='top subtop'><a href="<?=$sublink?>"><?=$name?></a></li><?endforeach?>
+      	<?if($info['split']):?>
+      	<li class='group_split'>&nbsp;</li>
+      	<?endif?>
       <?endif?>
     <?endforeach?>
     <li class='logout clearfix top'>
