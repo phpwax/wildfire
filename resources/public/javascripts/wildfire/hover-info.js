@@ -42,7 +42,7 @@ jQuery(function(){
   jQuery(".preview-hover tbody tr, .cms-uploads-1 tbody tr").live("mouseover", function(e){
     var str = "",
         row = jQuery(this),
-        preview_container = row.closest("fieldset").find(".media-data"),
+        preview_container = (row.closest("fieldset").find(".media-data").length) ? row.closest("fieldset").find(".media-data") : jQuery("#page_content .upload_block .media-data"),
         trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
         ;
     jQuery(this).hoverIntent({over:function(){
