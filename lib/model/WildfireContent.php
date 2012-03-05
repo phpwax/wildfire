@@ -9,8 +9,10 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("title", "CharField", array('maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here") );
 		$this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
 
-		$this->define("date_start", "DateTimeField", array('scaffold'=>true, 'default'=>date("Y-m-d h:i:s"), 'output_format'=>"Y-m-d h:i"));
-		$this->define("date_end", "DateTimeField", array('scaffold'=>true, 'default'=>date("Y-m-d h:i:s",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"Y-m-d h:i" ));
+		$this->define("date_start", "DateTimeField", array('scaffold'=>true, 'default'=>"now", 'output_format'=>"j F Y",'input_format'=> 'j F Y H:i'));
+		$this->define("date_end", "DateTimeField", array('scaffold'=>true, 'default'=>date("Y-m-d",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"Y-m-d h:i"));
+    
+    
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'input_pattern'=>'tags[%s]', 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"id", 'scaffold'=>true, 'group'=>'relationships'));
