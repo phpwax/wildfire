@@ -1,6 +1,6 @@
 <?
 $class = $model->columns[$name][1]['target_model'];
-$col = new $class;
+$col = new $class("filters_select");
 ?>
 <div class='status_filter parent_filter'>
   <label for="filters_<?=$name?>"><?=$name?>:</label>
