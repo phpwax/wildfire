@@ -128,6 +128,7 @@ class CMSAdminComponent extends CMSBaseComponent {
      * this allows for 0 based values to be posted to remove the join
      */
     WaxEvent::add("cms.joins.handle", function(){
+      set_time_limit(0);
       $obj = WaxEvent::data();
 	    $saved = $obj->model;
       if(isset($_REQUEST['joins'])){
@@ -145,6 +146,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
     });
     WaxEvent::add('cms.file.tag', function(){
+      set_time_limit(0);
       $obj = WaxEvent::data();
       $tags = Request::param('tags');
       foreach((array)$tags as $fileid=>$tag_order){
@@ -178,15 +180,15 @@ class CMSAdminComponent extends CMSBaseComponent {
 	    }
 	    WaxEvent::run("cms.save.after", $obj);
 	  });
-	  
+
 	  WaxEvent::add("cms.model.copy", function(){
 	    $obj = WaxEvent::data();
 	    $destination_model = $obj->source_model->copy();
       if($changes = Request::param('change')) $destination_model->update_attributes($changes);
       $this->redirect_to("/".trim($this->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
-	  
-	  
+
+
 	  WaxEvent::add('cms.file.old_upload', function(){
       $obj = WaxEvent::data();
       if(($up = $_FILES['upload']) && ($up['name']) && ($dir=Request::param('path'))){
@@ -197,7 +199,7 @@ class CMSAdminComponent extends CMSBaseComponent {
         $obj->sync($dir);
       }
     });
-	  
+
   }
 	/**
 	 * initialises authentication, default model and menu items
@@ -221,7 +223,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function _list(){
     if($this->use_format == "ajax") $this->index();
   }
-  
+
   public function _filter_inline(){
     $this->results = array();
     if($this->use_format == "ajax" && ($filters = Request::param('inline_filter') ) && ($search_class = Request::param('search_model'))){
@@ -232,7 +234,7 @@ class CMSAdminComponent extends CMSBaseComponent {
       $model_class = Request::param('origin_model');
       $primval = Request::param('origin_primval');
       $this->model = new $model_class($primval);
-      $this->name = Request::param("name");      
+      $this->name = Request::param("name");
     }
   }
 
