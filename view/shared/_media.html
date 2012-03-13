@@ -4,15 +4,15 @@
   $field = key($fields);
 ?>
 <div class='files file-listing media-listing clearfix' data-field="<?=$field?>" data-new-join-url="/<?=$controller?>/_existing_media">
-  
+
   <div class='upload_block'>
     <?=partial("_media_preview");?>
-    <?=partial("_upload_block", array('controller'=>$controller));?>   
+    <?=partial("_upload_block", array('controller'=>$controller));?>
   </div>
   <!-- START FILTERS -->
-  <div class='filter-block-and-listing index_container '>
-    <div class='clearfix filters_pagination filters'>      
-      <?=partial("admin/$field_data->module/_filter_block", array('set_show_form'=>false));?>
+  <div class='filter-block-and-listing index_container ' data-fdm="<?=$field_data->module?>">
+    <div class='clearfix filters_pagination filters'>
+      <?=partial("admin/$field_data->module/_filter_block", array('set_show_form'=>false, 'module_name'=>"media"));?>
     </div>
     <div class='listing preview-click' id="data-listing"><table class='data_table'></table></div>
   </div>
@@ -31,5 +31,5 @@
   </script>
 
 
-  
+
 </div>
