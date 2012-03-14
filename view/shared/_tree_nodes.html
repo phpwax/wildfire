@@ -21,7 +21,7 @@
         <?endif?>
       <?endforeach?>
     >
-      <?if(!$children_operations || ($children_operations && (($kids = $node->children) && $kids->count()) )):?>
+      <?if(!$children_operations || ($children_operations && $node->has_children($tree_scope) )):?>
       <span class="tree_operations">
         <?=partial("_operations", array("permissions"=>$permissions, "controller"=>$controller, "action"=>$action, "row"=>$node, "cachelink"=>$cachelink))?>
       </span>
@@ -32,7 +32,7 @@
           <span class="tree_col tree_col_<?=$col_name?> <?=Inflections::to_url($value)?>"><?=$value?></span>
         <?endif?>
       <?endforeach?>
-      <?if(!$ignore_children && count($node->children(array("revision"=>0)))):?>
+      <?if(!$ignore_children && $node->has_children($tree_scope) ):?>
         <a class="ui-icon ui-icon-circle-triangle-e view_children_link <?=$load_whole_tree?'':'ajax_tree_load'?> " href="#"></a>
       <?else:?>
         <span class="ui-icon ui-icon-empty"></span>
