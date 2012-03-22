@@ -12,7 +12,7 @@
   <!-- START FILTERS -->
   <div class='filter-block-and-listing index_container ' data-fdm="<?=$field_data->module?>">
     <div class='clearfix filters_pagination filters'>
-      <?=partial("admin/$field_data->module/_filter_block", array('set_show_form'=>false, 'module_name'=>"media"));?>
+      <?=partial("admin/$field_data->module/_filter_block", array('set_show_form'=>false, 'module_name'=>(($alt_module) ? $alt_module : "media") ));?>
     </div>
     <div class='listing preview-click' id="data-listing"><table class='data_table'></table></div>
   </div>
