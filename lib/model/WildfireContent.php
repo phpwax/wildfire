@@ -13,8 +13,8 @@ class WildfireContent extends WaxTreeModel {
 
     $this->define("media", "ManyToManyField", array('target_model'=>"WildfireMedia", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'group'=>'media', 'module'=>'media'));
     
-		$this->define("date_start", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d h:i:s"), 'output_format'=>"j F Y",'input_format'=> 'j F Y H:i', 'info_preview'=>1));
-		$this->define("date_end", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d h:i:s",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"j F Y", 'input_format'=> 'j F Y H:i','info_preview'=>1));
+    $this->define("date_start", "DateTimeField", array('export'=>true, 'default'=>"now", 'output_format'=>"j F Y",'input_format'=> 'j F Y H:i', 'info_preview'=>1));
+    $this->define("date_end", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"j F Y", 'input_format'=> 'j F Y H:i','info_preview'=>1));
 
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>false, 'group'=>'relationships', 'info_preview'=>1));
 
