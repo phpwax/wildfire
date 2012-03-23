@@ -30,7 +30,7 @@ $permissions = $current_user->permissions($operation_actions, $module_name);
     <td class='<?=$col?> <?=Inflections::to_url($value)?>'><?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$row->primval?>/<?=(($cachelink)?"?rl=".rand():"")?>" class='link <?=$col?>_link'><?endif?><span><?=$value?></span><?if($permissions['edit']):?></a><?endif?></td>
     <?endforeach?>
     <td class='operations'>
-      <?=partial("_operations", array("permissions"=>$permissions, "controller"=>$controller, "action"=>$action, "row"=>$row, "cachelink"=>$cachelink))?>
+      <?=partial("_operations", array("current_user"=>$current_user,"permissions"=>$permissions, "controller"=>$controller, "action"=>$action, "row"=>$row, "cachelink"=>$cachelink))?>
     </td>
   </tr>
   <?endforeach?>

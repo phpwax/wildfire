@@ -13,7 +13,7 @@ class WildfireUser extends WaxModel {
     $this->define("email", "CharField", array('scaffold'=>true, 'export'=>true));
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password'));
 
-    $this->define("permissions", "HasManyField", array('target_model' => 'WildfirePermissionBlacklist', 'eager_loading' => true, 'group'=>'permissions'));
+    $this->define("user_permissions", "HasManyField", array('editable'=>true,'target_model' => 'WildfirePermissionBlacklist', 'eager_loading' => true, 'group'=>'permissions'));
   }
 
   public function before_save(){
@@ -22,15 +22,15 @@ class WildfireUser extends WaxModel {
 
   public function allowed($classname=false,$action=false){
     if(!$this->primval()) return false;
-    if(!self::$permissions_cache) self::$permissions_cache[get_class($this)][$this->primval()] = $this->permissions;
-    foreach(self::$permissions_cache[get_class($this)][$this->primval()] as $perm) if($perm->class == $classname && $perm->operation = $action) return false;
+    if(!self::$permissions_cache) self::$permissions_cache[get_class($this)][$this->primval()] = $this->user_permissions;
+    foreach(self::$permissions_cache[get_class($this)][$this->primval()] as $perm) if($perm->class == $classname && $perm->operation == $action) return false;
     return true;
   }
 
   public function permissions($operation_actions, $module_name){
     $permissions = array();
-    foreach($operation_actions as $oa) $permissions[$oa] = $this->allowed($module_name, $oa);
+    foreach($operation_actions as $oa) if($this->allowed($module_name, $oa)) $permissions[$oa] = 1;
     return $permissions;
   }
-  
+
 }

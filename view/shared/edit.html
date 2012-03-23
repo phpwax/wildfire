@@ -10,7 +10,7 @@ foreach((array)Autoloader::view_paths("plugin") as $path){
 
 $grouping = array();
 $mods = CMSApplication::get_modules();
-foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "details")) && $ele->editable) $grouping[strtolower($g)][$k] = $ele;
+foreach($form as $k=>$ele) if((($g = $ele->group) || ($g = "details")) && $ele->editable && ($g = strtolower($g)) && ($current_user->allowed($module_name, "tab-".$g)) ) $grouping[$g][$k] = $ele;
 WaxEvent::run('cms.edit.grouping', $grouping);
 if(($show_group = Request::param('group')) && isset($grouping[$show_group])) $grouping = array($show_group => $grouping[$show_group]);
 $counter = 0;
@@ -18,7 +18,7 @@ $counter = 0;
 <?=partial("_form_start", $this)?>
   <?if(count($grouping)):?>
     <?=partial("_intro", array('model'=>$model, 'controller'=>$controller, 'autosave'=>$autosave))?>
-    
+
     <ul class='tabs clearfix'>
       <?$k=0;?>
       <?foreach($grouping as $name=>$info):?>
@@ -27,7 +27,7 @@ $counter = 0;
         <?$k++;?>
       <?endforeach?>
     </ul>
-    
+
     <?foreach($grouping as $name=>$fields):?>
       <?$tabhash = Inflections::to_url($name);
         $partial_name = "_".Inflections::underscore(Inflections::to_url($name));
@@ -40,18 +40,18 @@ $counter = 0;
         }
       ?>
       <fieldset class='tab-contents clearfix <?=$tabhash?>' id="<?=$tabhash?>" >
-      <?if($readable):?>      
+      <?if($readable):?>
         <?=partial($partial_name, array('tabhash'=>$tabhash, 'model'=>$model, 'controller'=>$controller, 'fields'=>$fields, 'partial_paths'=>$partial_paths, 'scaffold_columns'=>$scaffold_columns, 'current_user'=>$current_user, 'operation_actions'=>$operation_actions, 'file_system_base'=>$file_system_base))?>
-      <?else:?>   
-        <?foreach($fields as $n=>$f):?>          
+      <?else:?>
+        <?foreach($fields as $n=>$f):?>
         <?$nm = Inflections::to_url($n)?>
         <?if($f->widget != "HiddenInput"):?><div class='field field-<?=$nm?> field-<?=$tabhash?>-<?=$nm?> <?=$model_class?>-<?=$nm?> clearfix'><?endif?>
         <?=$f->render()?>
         <?if($f->widget != "HiddenInput"):?></div><?endif?>
         <?endforeach?>
-      <?endif?>      
+      <?endif?>
       </fieldset>
-      
+
     <?endforeach?>
     <fieldset class='submit'>
     <?=partial("_submit", array('model'=>$model, 'controller'=>$controller, 'model_class'=>$model_class, 'autosave'=>$autosave))?>

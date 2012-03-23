@@ -13,7 +13,7 @@ class CMSAdminUserController extends AdminComponent {
 	public $filter_fields=array(
                           'text' => array('columns'=>array('username', 'firstname', 'surname'), 'partial'=>'_filters_text', 'fuzzy'=>true)
 	                      );
-	
+
 	protected function events(){
 	  parent::events();
 	  //overwrite existing events - handle the revision change
@@ -21,6 +21,24 @@ class CMSAdminUserController extends AdminComponent {
 	    $obj = WaxEvent::data();
 	    if($pwd = Request::param('new_password')) $obj->model->password = md5($pwd);
     });
+    WaxEvent::add("cms.save.success", function(){
+      $obj = WaxEvent::data();
+      //permissions, wipe and replace
+      $user_id = $obj->model->primval;
+      $perm = new WildfirePermissionBlacklist;
+      foreach($perm->filter($obj->model->table."_id", $user_id)->all() as $p) $p->delete();
+      //standard user permissions
+      if($permissions = Request::param('user_permissions')){
+        foreach($permissions as $controller=>$actions){
+          foreach($actions as $action){
+            $block = new WildfirePermissionBlacklist;
+            $block->update_attributes(array($obj->model->table."_id"=>$user_id, 'class'=>$controller, 'operation'=>$action));
+          }
+        }
+
+      }
+    });
+
   }
 }
 ?>
