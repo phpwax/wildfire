@@ -5,22 +5,23 @@ class WildfireMedia extends WaxModel{
   public static $classes = array();
   public static $status_options = array('0'=>'pending', 1=>'processed');
   public function setup(){
+    $this->define("media_class", "CharField", array('group'=>'filepreview'));
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextField"); //description
 
-    $this->define("file_type", "CharField", array('scaffold'=>true, 'editable'=>false)); //thats the mime type
-    $this->define("ext", "CharField", array('editable'=>false));
+    $this->define("file_type", "CharField", array('scaffold'=>true, 'group'=>'advanced')); //thats the mime type
+    $this->define("ext", "CharField", array('group'=>'advanced'));
     /**
      * the source is used as where media sits
      * - file it would be the path relative from public_dir
      * - flickr it would be the image id etc
      */
     $this->define("source", "CharField", array('editable'=>false));
-    $this->define("uploaded_location", "CharField", array('editable'=>false));
+    $this->define("uploaded_location", "CharField", array('group'=>'advanced'));
     $this->define("status", "IntegerField", array('widget'=>'SelectInput', 'choices'=>self::$status_options, 'editable'=>false));
-    $this->define("hash", "CharField", array('editable'=>false)); //md5 hash of file contents
+    $this->define("hash", "CharField", array('group'=>'advanced')); //md5 hash of file contents
 
-    $this->define("media_class", "CharField", array('editable'=>false));
+
     $this->define("media_type", "CharField", array('editable'=>false)); //friendly name of the media class - Local storage / youtube etc
     $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser', 'editable'=>false));
 
