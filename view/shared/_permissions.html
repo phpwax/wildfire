@@ -28,7 +28,7 @@
       <h4>Form tabs</h4>
       <ul>
         <?foreach($tabs as $tab):?>
-        <?$id = $class."_tab".$tab?>
+        <?$id = $class."_tab".$tab;?>
         <li class='clearfix join-option<?if(!$current_user->allowed($name, "tab-".$tab)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?="tab-".$tab?>" <?if(!$current_user->allowed($name, "tab-".$tab)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][tab-<?=$tab?>]"><label for="<?=$id?>">Block: <?=$tab?></label></li>
         <?endforeach?>
       </ul>
@@ -45,7 +45,7 @@
     $content_class = $obj->model_class;
     $content_model = new $content_class(($obj->tree_scope) ? $obj->tree_scope : "live");
     ?>
-    <select name="user_sub_tree">
+    <select name="user_sub_tree[<?=$content_class?>][]">
       <option value="">-- Any --</option>
       <?foreach($content_model->all() as $row):?>
       <option value="<?=$row->primval?>"><?=$row->title?> (<?=$row->permalink?>)</option>

@@ -27,6 +27,12 @@ class WildfireUser extends WaxModel {
     return true;
   }
 
+  public function restricted_tree($classname){
+    if(!$this->primval()) return false;
+    if(!self::$permissions_cache) self::$permissions_cache[get_class($this)][$this->primval()] = $this->user_permissions;
+    foreach(self::$permissions_cache[get_class($this)][$this->primval()] as $perm) if($perm->class == $classname && $perm->operation == "tree") return $perm->value;
+  }
+
   public function permissions($operation_actions, $module_name){
     $permissions = array();
     foreach($operation_actions as $oa) if($this->allowed($module_name, $oa)) $permissions[$oa] = 1;
