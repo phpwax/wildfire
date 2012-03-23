@@ -44,11 +44,12 @@
     $obj = new AdminContentController(false, false);
     $content_class = $obj->model_class;
     $content_model = new $content_class(($obj->tree_scope) ? $obj->tree_scope : "live");
+    $restricted = $current_user->restricted_tree($content_class);
     ?>
     <select name="user_sub_tree[<?=$content_class?>][]">
       <option value="">-- Any --</option>
       <?foreach($content_model->all() as $row):?>
-      <option value="<?=$row->primval?>"><?=$row->title?> (<?=$row->permalink?>)</option>
+      <option value="<?=$row->primval?>" <?if($row->permalink == $restricted):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
       <?endforeach?>
     </select>
   </div>
