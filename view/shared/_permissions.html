@@ -1,3 +1,5 @@
+<?
+?>
 <div class='user-permissions clearfix'>
   <div class='field module-access'>
     <h2>Module Access</h3>
@@ -15,7 +17,7 @@
       <ul>
         <?foreach($operations as $op):?>
         <?$id = $class."_".$op?>
-        <li class='clearfix join-option<?if(!$current_user->allowed($name, $op)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?=$op?>" <?if(!$current_user->allowed($name, $op)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][<?=$op?>]"><label for="<?=$id?>">Block: <?=$op?></label></li>
+        <li class='clearfix join-option<?if(!$model->allowed($name, $op)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?=$op?>" <?if(!$model->allowed($name, $op)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][<?=$op?>]"><label for="<?=$id?>">Block: <?=$op?></label></li>
         <?endforeach?>
       </ul>
       <?
@@ -29,7 +31,7 @@
       <ul>
         <?foreach($tabs as $tab):?>
         <?$id = $class."_tab".$tab;?>
-        <li class='clearfix join-option<?if(!$current_user->allowed($name, "tab-".$tab)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?="tab-".$tab?>" <?if(!$current_user->allowed($name, "tab-".$tab)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][tab-<?=$tab?>]"><label for="<?=$id?>">Block: <?=$tab?></label></li>
+        <li class='clearfix join-option<?if(!$model->allowed($name, "tab-".$tab)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?="tab-".$tab?>" <?if(!$model->allowed($name, "tab-".$tab)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][tab-<?=$tab?>]"><label for="<?=$id?>">Block: <?=$tab?></label></li>
         <?endforeach?>
       </ul>
 
@@ -44,7 +46,7 @@
     $obj = new AdminContentController(false, false);
     $content_class = $obj->model_class;
     $content_model = new $content_class(($obj->tree_scope) ? $obj->tree_scope : "live");
-    $restricted = $current_user->restricted_tree($content_class);
+    $restricted = $model->restricted_tree($content_class);
     ?>
     <select name="user_sub_tree[<?=$content_class?>][]">
       <option value="">-- Any --</option>
