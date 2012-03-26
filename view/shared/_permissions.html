@@ -5,37 +5,41 @@
     <h2>Module Access</h3>
     <div class='scroller'>
     <?foreach(CMSApplication::get_modules() as $name=>$info):?>
+    <?
+    $class = "Admin".Inflections::camelize($name,true)."Controller";
+    ?>
+    <?if(class_exists($class)):?>
     <div class='field clearfix join multipleselect'>
-      <?
-      $class = "Admin".Inflections::camelize($name,true)."Controller";
-      $obj = new $class(false, false);
-      $operations = array_merge($obj->operation_actions, array('index'));
-      $section_class = $obj->model_class;
-      $section_model = new $section_class;
-      ?>
-      <h3><?=$name?> <small>(<?=$class?>)</small></h3>
-      <ul>
-        <?foreach($operations as $op):?>
-        <?$id = $class."_".$op?>
-        <li class='clearfix join-option<?if(!$model->allowed($name, $op)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?=$op?>" <?if(!$model->allowed($name, $op)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][<?=$op?>]"><label for="<?=$id?>">Block: <?=$op?></label></li>
-        <?endforeach?>
-      </ul>
-      <?
-      //find all possible tabs for the model
-      $tabs = array('details');
-      foreach($section_model->columns as $col=>$info) if($info[1]['group']) $tabs[] = strtolower($info[1]['group']);
-      $tabs = array_unique($tabs);
 
-      ?>
-      <h4>Form tabs</h4>
-      <ul>
-        <?foreach($tabs as $tab):?>
-        <?$id = $class."_tab".$tab;?>
-        <li class='clearfix join-option<?if(!$model->allowed($name, "tab-".$tab)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?="tab-".$tab?>" <?if(!$model->allowed($name, "tab-".$tab)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][tab-<?=$tab?>]"><label for="<?=$id?>">Block: <?=$tab?></label></li>
-        <?endforeach?>
-      </ul>
+        <?
+        $obj = new $class(false, false);
+        $operations = array_merge($obj->operation_actions, array('index'));
+        $section_class = $obj->model_class;
+        $section_model = new $section_class;
+        ?>
+        <h3><?=$name?> <small>(<?=$class?>)</small></h3>
+        <ul>
+          <?foreach($operations as $op):?>
+          <?$id = $class."_".$op?>
+          <li class='clearfix join-option<?if(!$model->allowed($name, $op)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?=$op?>" <?if(!$model->allowed($name, $op)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][<?=$op?>]"><label for="<?=$id?>">Block: <?=$op?></label></li>
+          <?endforeach?>
+        </ul>
+        <?
+        //find all possible tabs for the model
+        $tabs = array('details');
+        foreach($section_model->columns as $col=>$info) if($info[1]['group']) $tabs[] = strtolower($info[1]['group']);
+        $tabs = array_unique($tabs);
 
-    </div>
+        ?>
+        <h4>Form tabs</h4>
+        <ul>
+          <?foreach($tabs as $tab):?>
+          <?$id = $class."_tab".$tab;?>
+          <li class='clearfix join-option<?if(!$model->allowed($name, "tab-".$tab)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?="tab-".$tab?>" <?if(!$model->allowed($name, "tab-".$tab)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][tab-<?=$tab?>]"><label for="<?=$id?>">Block: <?=$tab?></label></li>
+          <?endforeach?>
+        </ul>
+      </div>
+    <?endif?>
     <?endforeach?>
     </div>
   </div>
