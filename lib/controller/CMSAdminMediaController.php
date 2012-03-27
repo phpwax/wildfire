@@ -14,7 +14,7 @@ class CMSAdminMediaController extends AdminComponent{
   public $sync_locations = array();
 
   public $filter_fields=array(
-                          'text' => array('columns'=>array('title', 'content'), 'partial'=>'_filters_text', 'fuzzy'=>true),
+                          'text' => array('columns'=>array('hash', 'title', 'content'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'media_type' => array('columns'=>array('media_type'), 'partial'=>'_filters_grouped_column'),
                           'categories' => array('columns'=>array('categories'), 'partial'=>'_filters_select', 'opposite_join_column'=>'media')
                         );
