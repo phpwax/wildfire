@@ -8,7 +8,7 @@
     <?
     $class = "Admin".Inflections::camelize($name,true)."Controller";
     ?>
-    <?if(class_exists($class)):?>
+    <?if(!$info["hidden"]):?>
     <div class='field clearfix join multipleselect'>
 
         <?
@@ -38,7 +38,7 @@
           <li class='clearfix join-option<?if(!$model->allowed($name, "tab-".$tab)):?> join-yes<?else:?> join-no<?endif?> '><input type="checkbox" value="<?="tab-".$tab?>" <?if(!$model->allowed($name, "tab-".$tab)):?>checked="checked" <?endif?>id="<?=$id?>" name="user_permissions[<?=$name?>][tab-<?=$tab?>]"><label for="<?=$id?>">Block: <?=$tab?></label></li>
           <?endforeach?>
         </ul>
-      </div>
+    </div>
     <?endif?>
     <?endforeach?>
     </div>
