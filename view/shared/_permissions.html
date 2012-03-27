@@ -55,7 +55,7 @@
     <select name="user_sub_tree[<?=$content_class?>][]">
       <option value="">-- Any --</option>
       <?foreach($content_model->all() as $row):?>
-      <option value="<?=$row->primval?>" <?if($row->permalink == $restricted):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
+      <option value="<?=$row->primval?>" <?if($row->primval == $restricted):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
       <?endforeach?>
     </select>
   </div>
