@@ -1,5 +1,4 @@
 <?if(!$tree):?>
-<?foreach($fields as $field):?><?=$field->render()?><?endforeach?>
 <?
 if($master = $model->revision()) $base = new $model_class($master);
 else $base = $model->clear();
