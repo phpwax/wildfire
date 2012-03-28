@@ -5,7 +5,7 @@ class WildfireMedia extends WaxModel{
   public static $classes = array();
   public static $status_options = array('0'=>'pending', 1=>'processed');
   public function setup(){
-    $this->define("media_class", "CharField", array('group'=>'filepreview'));
+    $this->define("media_class", "CharField", array('group'=>'filepreview','widget'=>"HiddenInput"));
     $this->define("title", "CharField", array('required'=>true, 'scaffold'=>true));
     $this->define("content", "TextField"); //description
 
