@@ -8,7 +8,7 @@ var tinymce_config = {
       height:300,
       //
       plugins: 'directionality,jqueryinlinepopups,paste,wflink,wfimage,wfhtml,wftable,wftemplate',
-      theme_advanced_blockformats: "p,h2,h3,h4,blockquote",
+      theme_advanced_blockformats: "p,h2,h3,h4,blockquote,h6",
       content_css: "/stylesheets/build/wildfire-templates_combined.css",
       // Theme options
     	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,image,|,hr,|,code,|,table,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col",
