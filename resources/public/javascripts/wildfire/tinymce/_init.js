@@ -74,6 +74,7 @@ jQuery(document).ready(function(){
       trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
       ;
 
+      jQuery(window).trigger("media."+trigger_type+".preview", [row, preview_container]);
       jQuery("#wildfire-image-dialog .image-info-container").show();
     });
     jQuery(window).unbind("filter.trigger");
