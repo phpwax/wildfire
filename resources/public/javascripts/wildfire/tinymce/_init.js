@@ -68,6 +68,12 @@ jQuery(document).ready(function(){
     });
     jQuery("#wildfire-image-dialog tbody tr").live("click", function(e){
       e.preventDefault();
+
+      var row = jQuery(this),
+      preview_container = (row.closest(".media-listing").find(".media-data").length) ? row.closest(".media-listing").find(".media-data") : jQuery("#wildfire-image-dialog .upload_block .media-data"),
+      trigger_type = (jQuery(this).data("media") ? jQuery(this).data("media") : "generic")
+      ;
+
       jQuery("#wildfire-image-dialog .image-info-container").show();
     });
     jQuery(window).unbind("filter.trigger");
