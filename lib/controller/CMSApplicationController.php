@@ -35,7 +35,7 @@ class CMSApplicationController extends WaxController{
 	public $cms_default_view = "cms_view";
 	public $cms_layout = "";
 	public $cms_default_layout = "application";
-  public $use_layout = false;
+  public $use_layout = "application";
 
 	public $cms_action = "cms_page";
 
@@ -113,7 +113,6 @@ class CMSApplicationController extends WaxController{
 	  if($this->cms_throw_missing_content) throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
 	  WaxEvent::run("cms.content.set", $this);
 	  WaxEvent::run("cms.cms_content_set", $this);
-
     /**
      * find a matching view for the page, otherwise throw an error
      */
@@ -163,8 +162,8 @@ class CMSApplicationController extends WaxController{
 
 	  WaxEvent::add("cms.view.set", function(){
 	    $obj = WaxEvent::data();
-	    if(!$obj->use_layout && $obj->cms_layout = $obj->cms_content->layout) $obj->use_layout = $obj->cms_layout;
-      else if(!$obj->use_layout && $obj->cms_layout = $obj->cms_layout($obj->cms_stack, $obj->cms_language_id)) $obj->use_layout = $obj->cms_layout;
+	    if((!$obj->use_layout || $obj->use_layout == $obj->cms_default_layout) && $obj->cms_layout = $obj->cms_content->layout) $obj->use_layout = $obj->cms_layout;
+      else if((!$obj->use_layout || $obj->use_layout == $obj->cms_default_layout) && $obj->cms_layout = $obj->cms_layout($obj->cms_stack, $obj->cms_language_id)) $obj->use_layout = $obj->cms_layout;
 	  });
 
 	}
