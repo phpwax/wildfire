@@ -26,11 +26,12 @@ class WildfireMedia extends WaxModel{
     $this->define("user", "ForeignKey", array('target_model'=>'WildfireUser', 'editable'=>false));
 
     $this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>true, 'group'=>'relationships', 'info_preview'=>1));
-    $this->define("pages", "ManyToManyField", array('target_model'=>"WildfireContent","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>false, 'group'=>'relationships', 'info_preview'=>1));
+    $this->define("pages", "ManyToManyField", array('target_model'=>"WildfireContent","eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'scaffold'=>false, 'group'=>'relationships', 'info_preview'=>1));
 
     $this->define("date_created", "DateTimeField", array('editable'=>false));
     $this->define("date_modified", "DateTimeField", array('editable'=>false));
     $this->define("sync_location", "CharField", array('editable'=>false));
+    $this->define("migration_id", "IntegerField", array('editable'=>false));
     parent::setup();
   }
 
