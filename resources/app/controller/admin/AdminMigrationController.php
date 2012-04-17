@@ -65,19 +65,14 @@ class AdminMigrationController extends AdminComponent {
   }
 
   public function inline_files_to_media(){
-    set_time_limit(0);
-
-    $c = WildfireContent::find("all");
     $m = WildfireMedia::find("all", array("filter"=>array("migration_id IS NOT NULL AND status = 1")));
-    
-    $mapping = array();
-    foreach($m as $media) $mapping[$media->migration_id] = substr($media->hash, 0, WildfireDiskFile::$hash_length);
 
-    foreach($c as $content){
-      foreach($mapping as $source => $dest) $content->content = str_replace("/show_image/$source/", "/m/$dest/", $content->content);
-      $content->save();
-      echo "<p><a href='$content->permalink'>$content->title</p>";
-      flush();
+    $mapping = array();
+    foreach($m as $media){
+      $content_update = new WaxModel;
+      $sql = "update wildfire_content set content = replace(content, '/show_image/$media->migration_id/','/m/".substr($media->hash, 0, WildfireDiskFile::$hash_length)."/')";
+      $content_update->query($sql);
+      echo $sql."<br>";
     }
     exit;
   }
