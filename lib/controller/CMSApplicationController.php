@@ -221,10 +221,11 @@ class CMSApplicationController extends WaxController{
 	/**
 	 * use the cms_url_map to find a url that matches
    */
-	public function content($stack, $model_class, $model_scope, $language_id){
-	  if(!$stack) $stack = array(); //if it doesnt, add in empty one
+
+  public function content($stack, $model_class, $model_scope, $language_id){
+    if(!$stack) $stack = array(); //if it doesnt, add in empty one
 	  $permalink = "/".trim(implode("/", $stack), "/"). (count($stack)?"/":""); //keep the url consistant - start & end with a / - IT SHOULD CONTAIN LANGUAGE
-	  $model = new $model_class();
+    $model = new $model_class();
 	  $model = $model->scope($model_scope);
 	  $found = $model->filter("origin_url", $permalink)->filter("language", $language_id)->first();
 
@@ -245,6 +246,9 @@ class CMSApplicationController extends WaxController{
 	public function cms_stack($stack){
 	  foreach($stack as $k=>$v) if(!is_numeric($k) || $v == $this->use_format) unset($stack[$k]);
 	  unset($stack[0]);
+    foreach($stack as $k=>$v){
+      if(($split = explode("/", $v)) && count($split) > 1 && ($stack[$k] = array_shift($split)) ) foreach($split as $n) if($n) $stack[] = $n;
+    }
 		return $stack;
 	}
 	/**
