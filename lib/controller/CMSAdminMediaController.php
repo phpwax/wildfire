@@ -84,8 +84,9 @@ class CMSAdminMediaController extends AdminComponent{
         if(is_readable($file)) unlink($file);
         echo "rendering $media->title @ $size ($file)<br>\r\n";
         echo $media->render($size) ."<hr>\r\n";
-        if(is_readable($file)) $media->update_attributes(array('pre_rendered'=>1));
         sleep(5);
+        if(is_readable($file)) $media->update_attributes(array('pre_rendered'=>1));
+
       }
     }
     exit;
