@@ -75,7 +75,7 @@ class CMSAdminMediaController extends AdminComponent{
     set_time_limit(0);
     ini_set('memory_limit','512M');
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
-    $model = new $model_class;
+    $model = new $this->model_class;
     foreach($model->filter("pre_rendered",0)->limit(5)->order("date_created DESC")->all() as $media){
       foreach($sizes as $size){
         echo "rendering $media->title @ $size<br>\r\n";
