@@ -32,6 +32,8 @@ class WildfireMedia extends WaxModel{
     $this->define("date_modified", "DateTimeField", array('editable'=>false));
     $this->define("sync_location", "CharField", array('editable'=>false));
     $this->define("migration_id", "IntegerField", array('editable'=>false));
+
+    $this->define("pre_rendered", "BooleanField", array('editable'=>false));
     parent::setup();
   }
 

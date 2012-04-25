@@ -76,12 +76,14 @@ class CMSAdminMediaController extends AdminComponent{
     ini_set('memory_limit','512M');
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
     $model = new $model_class;
-    foreach($model->limit(5)->order("date_created DESC")->all() as $media){
+    foreach($model->filter("pre_rendered",0)->limit(5)->order("date_created DESC")->all() as $media){
       foreach($sizes as $size){
-        echo $media->render($size) ."<hr>";
+        echo "rendering $media->title @ $size<br>\r\n";
+        echo $media->render($size) ."<hr>\r\n";
         ob_flush();
         flush();
         ob_end_flush();
+        $media->update_attributes(array('pre_rendered'=>1));
         sleep(5);
       }
     }
