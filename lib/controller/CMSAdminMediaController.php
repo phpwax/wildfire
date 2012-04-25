@@ -77,7 +77,9 @@ class CMSAdminMediaController extends AdminComponent{
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
     $model = new $this->model_class;
     foreach($model->filter("file_type LIKE '%image%'")->filter("pre_rendered",0)->limit(1)->order("date_created ASC")->all() as $media){
+      if(!$media->ext) $media->update_attributes(array('ext'=>end(explode('.', $media->source))));
       foreach($sizes as $size){
+
         $file = CACHE_DIR."images/".$media->hash."/".$size.".".$media->ext;
         if(is_readable($file)) unlink($file);
         echo "rendering $media->title @ $size ($file)<br>\r\n";
