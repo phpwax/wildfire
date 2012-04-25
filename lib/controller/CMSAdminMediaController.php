@@ -78,6 +78,7 @@ class CMSAdminMediaController extends AdminComponent{
     $model = new $this->model_class;
     foreach($model->filter("file_type LIKE '%image%'")->filter("pre_rendered",0)->limit(1)->order("date_created DESC")->all() as $media){
       foreach($sizes as $size){
+        if(is_readable(CACHE_DIR."images/".$media->hash."/".$size.".".$media->ext)) unlink(CACHE_DIR."images/".$media->hash."/".$size.".".$media->ext);
         echo "rendering $media->title @ $size<br>\r\n";
         echo $media->render($size) ."<hr>\r\n";
         if(is_readable(CACHE_DIR."images/".$media->hash."/".$size.".".$media->ext)) $media->update_attributes(array('pre_rendered'=>1));
