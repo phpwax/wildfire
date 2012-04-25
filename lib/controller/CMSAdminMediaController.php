@@ -70,6 +70,18 @@ class CMSAdminMediaController extends AdminComponent{
     WaxEvent::run("cms.sync.location", $this);
     WaxEvent::run("cms.sync.run", $this);
   }
+  //to loop over all media records and run a render on them, 1 every 5 seconds on the sizes set in config
+  public function pre_render(){
+    $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
+    $model = new $model_class;
+    foreach($model->limit(5)->all() as $media){
+      foreach($sizes as $size){
+        echo $media->render($size) ."<hr>";
+        sleep(5);
+      }
+    }
+    exit;
+  }
 
 }
 ?>
