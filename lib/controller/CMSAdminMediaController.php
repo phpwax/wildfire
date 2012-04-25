@@ -74,7 +74,7 @@ class CMSAdminMediaController extends AdminComponent{
   public function pre_render(){
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
     $model = new $model_class;
-    foreach($model->limit(5)->all() as $media){
+    foreach($model->limit(5)->order("date_created DESC")->all() as $media){
       foreach($sizes as $size){
         echo $media->render($size) ."<hr>";
         sleep(5);
