@@ -23,7 +23,7 @@ class MController extends WaxController{
     set_time_limit(0);
     ini_set('memory_limit','512M');
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
-    $model = new $this->model_class;
+    $model = new WildfireMedia;
     foreach($model->filter("file_type LIKE '%image%'")->filter("pre_rendered",0)->limit(1)->order("date_created ASC")->all() as $media){
       if(!$media->ext) $media->update_attributes(array('ext'=>end(explode('.', $media->source))));
       foreach($sizes as $size){
