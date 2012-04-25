@@ -72,11 +72,16 @@ class CMSAdminMediaController extends AdminComponent{
   }
   //to loop over all media records and run a render on them, 1 every 5 seconds on the sizes set in config
   public function pre_render(){
+    set_time_limit(0);
+    ini_set('memory_limit','512M');
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
     $model = new $model_class;
     foreach($model->limit(5)->order("date_created DESC")->all() as $media){
       foreach($sizes as $size){
         echo $media->render($size) ."<hr>";
+        ob_flush();
+        flush();
+        ob_end_flush();
         sleep(5);
       }
     }
