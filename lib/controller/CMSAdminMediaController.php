@@ -76,7 +76,7 @@ class CMSAdminMediaController extends AdminComponent{
     ini_set('memory_limit','512M');
     $sizes = array_merge(array(40,200), (array) Config::get("media_sizes"));
     $model = new $this->model_class;
-    foreach($model->filter("file_type LIKE '%image%'")->filter("pre_rendered",0)->limit(1)->order("date_created DESC")->all() as $media){
+    foreach($model->filter("file_type LIKE '%image%'")->filter("pre_rendered",0)->limit(1)->order("date_created ASC")->all() as $media){
       foreach($sizes as $size){
         $file = CACHE_DIR."images/".$media->hash."/".$size.".".$media->ext;
         if(is_readable($file)) unlink($file);
