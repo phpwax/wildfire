@@ -3,9 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<?=partial("_cf")?>
-  <?=css_bundle("wildfire", array('media'=>'all'), "cms")?>
   <?foreach(Autoloader::$plugin_array as $plugin):?>
-    <?=($plugin['name'] != "cms")?css_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
+    <?=css_bundle("wildfire-".$plugin['name'], array(), $plugin['name'])?>
   <?endforeach?>
   <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
   <!--[if lte IE 8]> <link href="/stylesheets/wildfire/ie/compat.css" type="text/css" rel="stylesheet" /><![endif]-->
@@ -68,10 +67,8 @@
 <script src="/tinymce/jscripts/tiny_mce/jquery.tinymce.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- CMS -->
-<?=js_bundle("wildfire-plugins", array(), "cms")?>
-<?=js_bundle("wildfire", array(), "cms")?>
 <?foreach(Autoloader::$plugin_array as $plugin):?>
-  <?=($plugin['name'] != "cms")?js_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
+  <?=js_bundle("wildfire-".$plugin['name'], array(), $plugin['name'])?>
 <?endforeach?>
 <?=js_bundle("wildfire-overwrites", array())?>
 
