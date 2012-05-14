@@ -6,7 +6,7 @@ class WildfirePermissionBlacklist extends WaxModel{
     $this->define("user", "ForeignKey", array('target_model' => 'WildfireUser'));
     $this->define("class", "CharField");
     $this->define("operation", "CharField");
-    $this->define("value", "IntegerField");
+    $this->define("value", "CharField");
 	}
 }
 

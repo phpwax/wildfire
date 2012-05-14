@@ -1,6 +1,12 @@
 <?
 $cachelink = Config::get('cacheissue');
 $permissions = $current_user->permissions($operation_actions, $module_name);
+if(($tc = get_class($model)) && ($pid = $current_user->restricted_tree($tc))){
+  if($comp != $pid[1]) $comp = "id";
+  $pid = $pid[0];
+  $cc = new $tc($tree_scope);
+  $cms_content = $cms_content->filter($comp, $pid)->all();
+}
 ?>
 <?if(!$show_unfiltered_results && $tree_layout):?>
 <table class='data_table empty_data_table' data-action="/<?=trim($controller,"/")?>/_list">

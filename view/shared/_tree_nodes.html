@@ -7,8 +7,10 @@
   else if($scoped) $nodes = $tree_model->scope($scoped)->all();
   else{
     if(($tc = get_class($tree_model)) && ($pid = $current_user->restricted_tree($tc))){
+      if($comp != $pid[1]) $comp = "id";
+      $pid = $pid[0];
       $cc = new $tc($tree_scope);
-      $nodes = $cc->filter("id", $pid)->all();
+      $nodes = $cc->filter($comp, $pid)->all();
     }else $nodes = $tree_model->roots();
 
   }

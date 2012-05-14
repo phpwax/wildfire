@@ -39,9 +39,9 @@ class CMSAdminUserController extends AdminComponent {
       //look for sub tree permissions, use the same system
       if($tree = Request::param('user_sub_tree')){
         foreach($tree as $model=>$sections){
-          foreach($sections as $primval){
+          foreach($sections as $val){
             $block = new WildfirePermissionBlacklist;
-            $block->update_attributes(array($obj->model->table."_id"=>$user_id, 'class'=>$model, 'operation'=>"tree", "value"=>$primval));
+            $block->update_attributes(array($obj->model->table."_id"=>$user_id, 'class'=>$model, 'operation'=>"tree", "value"=>$val));
           }
         }
       }
