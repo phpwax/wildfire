@@ -17,14 +17,14 @@ class CMSAdminContentController extends AdminComponent {
                           'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),
                           'author' => array('columns'=>array('wildfire_user_id'), 'partial'=>"_filters_author"),
                           'date_start' => array('columns'=>array('date_start', 'date_modified'), 'partial'=>"_filters_date", 'fuzzy_right'=>true),
-                          'language' => array('columns'=>array('language'), 'partial'=>"_filters_language")                          
+                          'language' => array('columns'=>array('language'), 'partial'=>"_filters_language")
 	                      );
   public $autosave = true;
-  
+  public static $restricted_tree = true;
 
 	protected function events(){
 	  parent::events();
-    
+
 	  WaxEvent::add("cms.url.delete", function(){
 	    if(($id = Request::param('map_remove')) && ($check = new WildfireUrlMap($id)) && $check->primval){
 	      WaxEvent::data()->session->add_message($check->origin_url.' has been deleted.');
@@ -132,41 +132,41 @@ class CMSAdminContentController extends AdminComponent {
 	      $class = get_class($source);
 	      $model = new $class("live");
 	      if($alt_parent = $model->filter("permalink", $source->parent->permalink)->filter("language", $changes['language'])->first()) $changes['parent_id'] = $alt_parent->primval;
-	      
+
 	    }
       if($changes) $destination_model->update_attributes($changes);
       if($destination_model) $destination_model->map_revision();
       $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
 	  });
-    
+
     WaxEvent::add("cms.edit.init", function(){
       $controller = WaxEvent::data();
       $model = $controller->model;
-      
+
       $message = array();
-      
+
       //warn user if they are editing a revision of a live piece of content
       if(($master = $model->find_master()) && $master->is_live()){
         $message[] = "This is a revision of a live page. <a href=\"/".trim($controller->controller,"/")."/edit/$master->id/\">Edit the live version instead.</a>";
       }
-      
+
       //warn user if there's a more recent version of the content, with a link to that version
       if($model->is_live() && ($r = $model->has_revisions()) && $r->count() && ($first_r = $r->order('date_modified DESC')->first()) && strtotime($first_r->date_modified) > strtotime($model->date_modified)){
         $message[] = "This is the live version of this content. <a href=\"/".trim($controller->controller,"/")."/edit/$first_r/\">Edit the latest version instead.</a>";
       }
-      
+
       //warn user if they're editing an alternative language version, with a link to the main lang ver
       if($model->alt_language()){
         $message[] = "You are editing an alternative language (" . ucwords(CMSApplication::$languages[$model->language]['name']) . ") version of <a href=\"/".trim($controller->controller,"/")."/edit/<?=$controller->lang?>/\">another page</a>.";
       }
-      
+
       if($message) $controller->messages[] = array("message"=>implode(" ", $message), "class"=>"warning");
-      
+
       //warn user if they could remove some urls by putting something live
       if(($master_id = $model->revision()) && ($master = new $controller->model_class($master_id)) && ($url_changes = $model->url_compare($master)) && count($url_changes) && count($url_changes['remove'])){
         $controller->messages[] = array("message"=>"Putting this page live <strong>would remove</strong> some urls: ".implode(" ", $url_changes['remove']), "class"=>"error");
       }
-      
+
       //warn user that they could modify the site structure
       if(($master_id = $model->revision()) && ($master = new $controller->model_class($master_id)) && $master->parent_id != $model->parent_id){
         $controller->messages[] = array("message"=>"Putting this page live will change the structure of the site.", "class"=>"error");
@@ -223,7 +223,7 @@ class CMSAdminContentController extends AdminComponent {
       }
       $remove->delete();
       echo "<hr>\n\n";
-    }    
+    }
     echo "live:<br>";
     $model = $model->clear();
     if($filters = Request::param('filters')) foreach($filters as $col=>$v) $model->filter($col, $v['v'], $v['op']);

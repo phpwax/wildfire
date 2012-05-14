@@ -1,4 +1,5 @@
 <?
+$restricted_trees = array();
 ?>
 <div class='user-permissions clearfix'>
   <div class='field module-access'>
@@ -7,6 +8,7 @@
     <?foreach(CMSApplication::get_modules() as $name=>$info):?>
     <?
     $class = "Admin".Inflections::camelize($name,true)."Controller";
+    if($class::$restricted_tree) $restricted_trees[] = $class;
     ?>
     <?if(!$info["hidden"]):?>
     <div class='field clearfix join multipleselect'>
@@ -45,19 +47,22 @@
   </div>
 
   <div class='field module-access sub-tree'>
-    <h2>Restrict content tree</h2>
-    <?
-    $obj = new AdminContentController(false, false);
-    $content_class = $obj->model_class;
-    $content_model = new $content_class(($obj->tree_scope) ? $obj->tree_scope : "live");
-    $restricted = $model->restricted_tree($content_class);
-    ?>
-    <select name="user_sub_tree[<?=$content_class?>][]">
-      <option value="">-- Any --</option>
-      <?foreach($content_model->all() as $row):?>
-      <option value="<?=$row->primval?>" <?if($row->primval == $restricted):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
-      <?endforeach?>
-    </select>
+    <h2>Restrict trees</h2>
+    <?foreach($restricted_trees as $class):?>
+      <h4><?=$class?></h4>
+      <?
+      $obj = new $class(false, false);
+      $content_class = $obj->model_class;
+      $content_model = new $content_class(($obj->tree_scope) ? $obj->tree_scope : "live");
+      $restricted = $model->restricted_tree($content_class);
+      ?>
+      <select name="user_sub_tree[<?=$content_class?>][]">
+        <option value="">-- Any --</option>
+        <?foreach($content_model->all() as $row):?>
+        <option value="<?=$row->primval?>" <?if($row->primval == $restricted):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
+        <?endforeach?>
+      </select>
+    <?endforeach?>
   </div>
 
 </div>

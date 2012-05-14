@@ -12,7 +12,7 @@ class CMSBaseComponent extends WaxController {
 	public $model = false;	//the actuall database model to use
 	public $model_class; //the class name - ie WildfireContent
 	public $model_scope = false;
-	public $tree_scope = false;	
+	public $tree_scope = false;
 	public $user_model_class = "WildfireUser";
 	public $redirects = array('unauthorised'=> "/admin/login",
 	                          'authorised' => "/admin/home/",
@@ -37,7 +37,7 @@ class CMSBaseComponent extends WaxController {
 
   public $uploads = false;
   public $preview_hover = false;
-  public $preview_click = false;  
+  public $preview_click = false;
   public $dashboard = false;
   public $sort_scope = "";
   public $export_scope = "";
@@ -51,6 +51,7 @@ class CMSBaseComponent extends WaxController {
 
   public $messages = array();
   public $file_system_model = "WildfireMedia";
+  public static $restricted_tree = false;
 
 	function __construct($application = false, $init=true) {
 	  parent::__construct($application);
