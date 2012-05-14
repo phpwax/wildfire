@@ -1,6 +1,6 @@
 <?foreach($cols as $i=>$col):?><?if($i > 0):?>,<?endif?>"<?=$col?>"<?endforeach?>
 
 <?foreach($model->all() as $row):?>
-<?foreach($cols as $i=>$col):?><?if($i > 0):?>,<?endif?>"<?=addslashes($row->humanize($col))?>"<?endforeach?>
+<?foreach($cols as $i=>$col):?><?if($i > 0):?>,<?endif?>"<?=str_replace('"', "'", $row->humanize($col))?>"<?endforeach?>
 
 <?endforeach?>
