@@ -20,7 +20,7 @@ class WildfireUser extends WaxModel {
     if(!$this->primval) $this->password = md5($this->password);
   }
 
-  public function allowed($classname=false,$action=false, $debug){
+  public function allowed($classname=false,$action=false){
     if(!$this->primval) return false;
     if(!self::$permissions_cache){
       foreach($this->user_permissions as $perm) self::$permissions_cache[get_class($this)][$this->primval][] = $perm;
