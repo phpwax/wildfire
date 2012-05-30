@@ -10,7 +10,8 @@
       if($comp != $pid[1]) $comp = "id";
       $pid = $pid[0];
       $cc = new $tc($tree_scope);
-      $nodes = $cc->filter($comp, $pid)->all();
+      if($pid) $nodes = $cc->filter($comp, $pid)->all();
+      else $nodes = $tree_model->roots();
     }else $nodes = $tree_model->roots();
 
   }
