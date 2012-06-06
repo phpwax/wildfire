@@ -22,6 +22,11 @@ jQuery(document).ready(function(){
       }
     }
   });
+
+  jQuery(".media-listing").closest("fieldset").bind("add-media", function(e, result){
+    jQuery(this).find(".existing-files").append(result);
+  });
+
   //on click we will now copy that
   jQuery(".button.add-button").live("click", function(e){
     e.preventDefault();
@@ -40,7 +45,7 @@ jQuery(document).ready(function(){
       },
       "success":function(result){
         var fieldset = target.closest("fieldset");
-        fieldset.find(".existing-files").append(result);
+        fieldset.trigger("add-media", result);
         fieldset.find("a[data-primval='"+primval+"']").addClass("remove-button").removeClass("add-button").text("REMOVE");
         jQuery(window).trigger("join.files.highlight");
         jQuery(window).trigger("join.added");
