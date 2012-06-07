@@ -339,3 +339,6 @@ html {
   display:block;
   cursor:move;
 }
+#v2-cms .field-dateend + div {
+  clear:both;
+}
