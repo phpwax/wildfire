@@ -442,3 +442,6 @@ html {
   color:#437182;
   text-transform:none;
 }
+#v2-cms .field-dateend + div {
+  clear:both;
+}
