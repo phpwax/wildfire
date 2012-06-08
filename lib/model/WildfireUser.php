@@ -14,6 +14,7 @@ class WildfireUser extends WaxModel {
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password'));
 
     $this->define("user_permissions", "HasManyField", array('editable'=>true,'target_model' => 'WildfirePermissionBlacklist', 'eager_loading' => true, 'group'=>'permissions'));
+    parent::setup();
   }
 
   public function before_save(){
