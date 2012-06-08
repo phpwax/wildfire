@@ -6,11 +6,11 @@ $restricted_trees = array();
     <h2>Module Access</h3>
     <div class='scroller'>
     <?foreach(CMSApplication::get_modules() as $name=>$info):?>
+    <?if(!$info["hidden"]):?>
     <?
     $class = "Admin".Inflections::camelize($name,true)."Controller";
-    if(class_exists($class,false) && $class::$restricted_tree) $restricted_trees[] = $class;
+    if($class::$restricted_tree) $restricted_trees[] = $class;
     ?>
-    <?if(!$info["hidden"]):?>
     <div class='field clearfix join multipleselect'>
 
         <?
