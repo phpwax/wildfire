@@ -3,10 +3,9 @@ $permissions = array();
 foreach($operation_actions as $oa) $permissions[$oa] = $current_user->allowed($module_name, $oa);
 $cols = count($scaffold_columns);
 if(($tc = get_class($model)) && ($pid = $current_user->restricted_tree($tc))){
-  if($comp != $pid[1]) $comp = "id";
-  $pid = $pid[0];
-  $cc = new $tc($tree_scope);
-  $cms_content = $cms_content->filter($comp, $pid)->all();
+  if(!$pid[1]) $pid[1] = "id";
+  if($pid[0]) $cms_content->filter($pid[1], $pid[0]);
+  $cms_content = $cms_content->all();
 }
 ?>
 <?foreach($model_filters as $filter) if($filter) $actual_filters = 1?>
