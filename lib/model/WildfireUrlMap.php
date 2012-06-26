@@ -16,7 +16,7 @@ class WildfireUrlMap extends WaxModel{
     //for multilingual sites
     $this->define("language", "IntegerField", array("maxlength"=>3, 'default'=>0, 'editable'=>false));
     //allo for custom header status codes
-    $this->define("header_status", "IntegerField", array('default'=>302, 'maxlength'=>5));
+    $this->define("header_status", "IntegerField", array('default'=>302, 'maxlength'=>5, 'widget'=>'SelectInput', 'choices'=>array('302'=>'Temp', '301'=>'Perm')));
     $this->define("utm_campaign", "CharField");
     $this->define("utm_medium", "CharField");
 
