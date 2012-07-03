@@ -1,29 +1,51 @@
 <h3>Overall Site Traffic</h3>
-<div id="client-analytics-graph"></div>
-<table class='traffic-data' id="traffic-data">  
-  <?foreach($visit_data as $d=>$info):?>
-    <?foreach($info as $day=>$data):?>
-    <tr class='<?=$day?>'>
-      <th><?=date("d M", strtotime($day))?></th>
-      <td><?=array_shift($data)?></td>
-    </tr>
+<div class='graph_wrapper'>
+  <div class='chart' id="overall-traffic-data-graph"></div>
+  <table class='traffic-data graph' id="traffic-data" data-type="ColumnChart">  
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Visits</th>
+      </tr>
+    </thead>
+    <tbody>
+    <?foreach($visit_data as $d=>$info):?>
+      <?foreach($info as $day=>$data):?>
+      <tr class='<?=$day?>'>
+        <th><?=date("jS M", strtotime($day))?></th>
+        <td><?=array_shift($data)?></td>
+      </tr>
+      <?endforeach?>
     <?endforeach?>
-  <?endforeach?>
-</table>
+    </tbody>
+  </table>
+</div>
+
+
 
 <h3>Traffic Sources</h3>
-<div id="client-sources-graph"></div>
+<div class='graph_wrapper'>
+  <div class='chart' id="overall-traffic-sources-graph"></div>
 
-<table class='traffic-sources' id="traffic-sources">  
-  <?foreach($sources_data as $source=>$info):?>
-    <tr>
-      <th><?=$source?></th>
-      <?$total=0;?>
-      <?foreach($info as $page=>$amount):?><?$total+=($amount['ga:visits'])?><?endforeach?>
-      <td><?=$total?></td>
-    </tr>
-  <?endforeach?>
-</table>
+  <table class='traffic-sources graph' id="traffic-sources" data-type="ColumnChart">  
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Vists</th>
+      </tr>
+    </thead>
+    <tbody>
+    <?foreach($sources_data as $source=>$info):?>
+      <tr>
+        <th><?=$source?></th>
+        <?$total=0;?>
+        <?foreach($info as $page=>$amount):?><?$total+=($amount['ga:visits'])?><?endforeach?>
+        <td><?=$total?></td>
+      </tr>
+    <?endforeach?>
+    </tbody>
+  </table>
+</div>
 
 <h3>Search Keywords</h3>
 
