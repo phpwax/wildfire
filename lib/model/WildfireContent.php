@@ -301,6 +301,9 @@ class WildfireContent extends WaxTreeModel {
     return parent::humanize($column);
   }
 
+  public function css_selector(){
+    return str_replace("/", "-", trim($this->permalink, "/"));
+  }
 
   //ignore the language, as we are grouping by this field
   public function generate_permalink(){
