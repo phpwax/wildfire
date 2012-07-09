@@ -4,14 +4,14 @@ jQuery(document).ready(function(){
     jQuery(".graph").each(function(){
       var table = jQuery(this),
           config = table.data(),
-          chart_div = table.siblings(".chart"),          
+          chart_div = table.siblings(".chart"),
           data = [],
           chart=false,
           chart_type = config.type
           ;
 
-      
-      table.find("tr:not(.totals)").each(function(){       
+
+      table.find("tr:not(.totals)").each(function(){
         var row = jQuery(this),
             tmp = [];
         row.find("td,th").each(function(){
@@ -22,8 +22,9 @@ jQuery(document).ready(function(){
       });
 
       if(data && data.length > 1){
+        chart_div.html("");
         chart = new google.visualization[chart_type](document.getElementById(chart_div.attr("id")));
-        chart.draw(google.visualization.arrayToDataTable(data), {isStacked:true});
+        chart.draw(google.visualization.arrayToDataTable(data), {isStacked:false});
       }
       table.hide();
     });
@@ -44,7 +45,7 @@ jQuery(document).ready(function(){
       url:analytics_container.attr('data-dest'),
       type:"post",
       success:function(res){
-        analytics_container.html(res).removeClass('loading');        
+        analytics_container.html(res).removeClass('loading');
       }
     });
   }
