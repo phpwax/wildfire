@@ -12,6 +12,7 @@ class CMSAdminContentController extends AdminComponent {
 	public $display_name = "Content";
   public $sortable = false;
   public $per_page = 5; //lower per page since there's a tree underneath
+  public $limit_revisions = 20; //limit revisions as it may cause problems
 	public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'parent' => array('columns'=>array('parent_id'), 'partial'=>'_filters_parent'),

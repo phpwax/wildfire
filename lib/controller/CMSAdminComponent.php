@@ -352,6 +352,10 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function index(){
     WaxEvent::run("cms.index.setup", $this);
 	}
+  public function _dashboard(){
+    $this->per_page = 5;
+    WaxEvent::run("cms.index.setup", $this);
+  }
 
   public function _list(){
     if($this->use_format == "ajax") $this->index();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="cms-<?=Inflections::underscore($display_name)?>" class="clearfix">
+<html lang="en" id="cms-<?=Inflections::underscore($display_name)?>" class="clearfix <?if(Request::param('print')):?>print-view-of-page<?endif?>">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<?=partial("_cf")?>
@@ -71,6 +71,7 @@
 <script type='text/javascript'>
   google.load('jquery', '1.5');
   google.load('jqueryui', '1.8');
+  google.load("visualization", "1", {packages:["corechart"]});
 </script>
 
 <!-- EDITOR -->

@@ -79,6 +79,8 @@ class CMSBaseComponent extends WaxController {
 	}
 
   public function user_from_session($session_name="wf_v6_user"){
+    //echo "<a href='/admin/home/?".$this->session->name."=".$this->session->id."'>login</a>";
+    //exit;
     if($id = $this->session->get($session_name)){
       if(self::$logged_in_user) return self::$logged_in_user;
       if(($model = new $this->user_model_class($id)) && $model->primval == $id) return self::$logged_in_user = $model;

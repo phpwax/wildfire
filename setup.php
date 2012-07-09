@@ -11,6 +11,7 @@ CMSApplication::register_module("categories", array("display_name"=>"Categories"
 CMSApplication::register_module("content", array("display_name"=>"Content", "link"=>"/admin/content/"));
 CMSApplication::register_module("media", array("display_name"=>"Media", "link"=>"/admin/media/"));
 CMSApplication::register_module("users", array("display_name"=>"CMS Users", "link"=>"/admin/users/", 'split'=>true));
+CMSApplication::register_module("redirect", array("display_name"=>"Redirects", "link"=>"/admin/redirect/", 'split'=>true));
 
 Autoloader::include_from_registry('CMSHelper');
 Autoloader::register_helpers();

@@ -1,6 +1,6 @@
 tinyMCEPopup.requireLangPack();
 
-var detail = 50, strhex = "0123456789ABCDEF", i, isMouseDown = false, isMouseOver = false;
+var detail = 50, strhex = "0123456789abcdef", i, isMouseDown = false, isMouseOver = false;
 
 var colors = [
 	"#000000","#000033","#000066","#000099","#0000cc","#0000ff","#330000","#330033",
@@ -58,8 +58,10 @@ var named = {
 	'#F5DEB3':'Wheat','#FFFFFF':'White','#F5F5F5':'White Smoke','#FFFF00':'Yellow','#9ACD32':'Yellow Green'
 };
 
+var namedLookup = {};
+
 function init() {
-	var inputColor = convertRGBToHex(tinyMCEPopup.getWindowArg('input_color'));
+	var inputColor = convertRGBToHex(tinyMCEPopup.getWindowArg('input_color')), key, value;
 
 	tinyMCEPopup.resizeToInnerSize();
 
@@ -75,17 +77,72 @@ function init() {
 		if (col)
 			updateLight(col.r, col.g, col.b);
 	}
+
+	for (key in named) {
+		value = named[key];
+		namedLookup[value.replace(/\s+/, '').toLowerCase()] = key.replace(/#/, '').toLowerCase();
+	}
+}
+
+function toHexColor(color) {
+	var matches, red, green, blue, toInt = parseInt;
+
+	function hex(value) {
+		value = parseInt(value).toString(16);
+
+		return value.length > 1 ? value : '0' + value; // Padd with leading zero
+	};
+
+	color = tinymce.trim(color);
+	color = color.replace(/^[#]/, '').toLowerCase();  // remove leading '#'
+	color = namedLookup[color] || color;
+
+	matches = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/.exec(color);
+
+	if (matches) {
+		red   = toInt(matches[1]);
+		green = toInt(matches[2]);
+		blue  = toInt(matches[3]);
+	} else {
+		matches = /^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/.exec(color);
+
+		if (matches) {
+			red   = toInt(matches[1], 16);
+			green = toInt(matches[2], 16);
+			blue  = toInt(matches[3], 16);
+		} else {
+			matches = /^([0-9a-f])([0-9a-f])([0-9a-f])$/.exec(color);
+
+			if (matches) {
+				red   = toInt(matches[1] + matches[1], 16);
+				green = toInt(matches[2] + matches[2], 16);
+				blue  = toInt(matches[3] + matches[3], 16);
+			} else {
+				return '';
+			}
+		}
+	}
+
+	return '#' + hex(red) + hex(green) + hex(blue);
 }
 
 function insertAction() {
 	var color = document.getElementById("color").value, f = tinyMCEPopup.getWindowArg('func');
 
-	tinyMCEPopup.restoreSelection();
+	var hexColor = toHexColor(color);
 
-	if (f)
-		f(color);
+	if (hexColor === '') {
+		var text = tinyMCEPopup.editor.getLang('advanced_dlg.invalid_color_value');
+		tinyMCEPopup.alert(text + ': ' + color);
+	}
+	else {
+		tinyMCEPopup.restoreSelection();
 
-	tinyMCEPopup.close();
+		if (f)
+			f(hexColor);
+
+		tinyMCEPopup.close();
+	}
 }
 
 function showColor(color, name) {
@@ -225,10 +282,10 @@ function dechex(n) {
 }
 
 function computeColor(e) {
-	var x, y, partWidth, partDetail, imHeight, r, g, b, coef, i, finalCoef, finalR, finalG, finalB;
+	var x, y, partWidth, partDetail, imHeight, r, g, b, coef, i, finalCoef, finalR, finalG, finalB, pos = tinyMCEPopup.dom.getPos(e.target);
 
-	x = e.offsetX ? e.offsetX : (e.target ? e.clientX - e.target.x : 0);
-	y = e.offsetY ? e.offsetY : (e.target ? e.clientY - e.target.y : 0);
+	x = e.offsetX ? e.offsetX : (e.target ? e.clientX - pos.x : 0);
+	y = e.offsetY ? e.offsetY : (e.target ? e.clientY - pos.y : 0);
 
 	partWidth = document.getElementById('colors').width / 6;
 	partDetail = detail / 2;

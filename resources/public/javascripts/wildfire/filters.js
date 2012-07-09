@@ -17,7 +17,7 @@ function filter_list(trigger_element, replace){
     type:"post",
     success:function(res){
       form.removeClass("loading");
-      if(typeof replace != "undefined") jQuery(replace).replaceWith(res);
+      if(typeof replace != "undefined") jQuery(r).replaceWith(res);
       else fieldset.closest(".filter-block-and-listing").find(r).replaceWith(res);
       jQuery(window).trigger("filter.trigger");
       jQuery(window).trigger("join.files.highlight");
@@ -58,7 +58,7 @@ function inline_filter(form_input){
 }
 
 jQuery(document).ready(function(){
-  
+
   jQuery(window).bind("filter.bind", function(e, obj, parent_form, replace){
     var filter_listener = false;
     obj.unbind("change keyup").bind("change keyup", function(){ clearTimeout(filter_listener); filter_listener = setTimeout(function(){filter_list(obj, replace);}, 500);});

@@ -32,10 +32,18 @@ class WildfireDiskFile{
     if(!strstr($media_item->file_type, "image") || $size == "full") return File::display_asset(PUBLIC_DIR.$media_item->source, $media_item->file_type);
     if(!$size) $size = 100; //default size
 
-    $dir = CACHE_DIR."images/".$media_item->hash."/";
+    if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
+    else $hash = $media_item->hash;
+
+    $dir = CACHE_DIR."images/".$hash."/";
+    $apache_dir = PUBLIC_DIR."m/".$hash."/";
     $cache_file = $dir . $size .".".$media_item->ext;
+    $apache_file = $apache_dir . $size .".".$media_item->ext;
     if(!is_readable($dir)) mkdir($dir, 0777, true);
+    if(!is_readable($apache_dir)) mkdir($apache_dir, 0777, true);
+    if(!is_readable($apache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $apache_file, $size, false, "nocrop");
     if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
+    
     File::display_image($cache_file);
   }
   //generates the tag to be displayed - return generic icon if not an image
