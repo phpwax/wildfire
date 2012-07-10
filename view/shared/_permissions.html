@@ -55,7 +55,7 @@ $restricted_trees = array();
       $content_class = $obj->model_class;
       $content_model = new $content_class(($obj->tree_scope) ? $obj->tree_scope : "live");
       $restricted = $model->restricted_tree($content_class);
-      if($comp != $restricted[1]) $comp = "id";
+      $comp = $restricted[1]?$restricted[1]:"id";
       $restricted = $restricted[0];
       ?>
       <select name="user_sub_tree[<?=$content_class?>][]">
