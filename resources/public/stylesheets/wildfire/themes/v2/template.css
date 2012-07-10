@@ -172,11 +172,7 @@ html {
   font-size:93%;
   padding:7px 9px;
 }
-#v2-cms .field-datestart,#v2-cms .field-dateend {
-	width:22%;
-	float:left;
-	margin-right:3%;
-}
+
 #v2-cms .ui-state-default {
 	background:#9ec5d5;
 	border:0;
@@ -441,7 +437,4 @@ html {
   border-radius:          5px;
   color:#437182;
   text-transform:none;
-}
-#v2-cms .field-dateend + div {
-  clear:both;
 }
