@@ -43,13 +43,13 @@ class WildfireDiskFile{
     if(!is_readable($apache_dir)) mkdir($apache_dir, 0777, true);
     if(!is_readable($apache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $apache_file, $size, false, "nocrop");
     if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
-    
+
     File::display_image($cache_file);
   }
   //generates the tag to be displayed - return generic icon if not an image
-  public function render($media_item, $size, $title="preview"){
-    if(!strstr($media_item->file_type, "image")) return "<img src='/images/wildfire/themes/v2/files_document.png' alt='".$title."'>";
-    else return "<img src='".$this->get($media_item, $size)."' alt='".$title."'>";
+  public function render($media_item, $size, $title="preview", $class=""){
+    if(!strstr($media_item->file_type, "image")) return "<img src='/images/wildfire/themes/v2/files_document.png' alt='".$title."' class='".$class."'>";
+    else return "<img src='".$this->get($media_item, $size)."' alt='".$title."' class='".$class."'>";
   }
 
   //find the folders on the file system to sync with
