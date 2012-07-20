@@ -58,16 +58,20 @@ class WildfireContent extends WaxTreeModel {
 	}
 
 	public function scope_admin(){
+    WaxEvent::run(get_class($this).".scope.admin", $this);
 	  return $this->order("sort ASC, date_modified DESC");
 	}
 
 	public function scope_live(){
+    WaxEvent::run(get_class($this).".scope.live", $this);
     return $this->filter("status", 1)->filter("TIMESTAMPDIFF(SECOND, `date_start`, NOW()) >= 0")->filter("(`date_end` <= `date_start` OR (`date_end` >= `date_start` AND `date_end` >= NOW()) )")->order("sort ASC, date_start DESC");
   }
   public function scope_preview(){
+    WaxEvent::run(get_class($this).".scope.preview", $this);
     return $this->filter("status", 0);
   }
   public function scope_multipleselect(){
+    WaxEvent::run(get_class($this).".scope.multipleselect", $this);
     return $this->scope_live()->filter("id", $this->primval, "!=")->order("date_modified DESC");
   }
 
@@ -333,4 +337,14 @@ class WildfireContent extends WaxTreeModel {
     return $lang_url.$this->generate_permalink()->permalink;
   }
 
+  /**
+   * cms scope functions
+   */
+  public function filters_select(){
+    parent::filters_select();
+    WaxEvent::run(get_class($this).".filters_select", $this);
+  }
+
 }
+
+?>
