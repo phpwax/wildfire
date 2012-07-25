@@ -56,6 +56,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.permissions.logged_in_user", function() {
       $obj = WaxEvent::data();
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_var_name)) $obj->redirect_to($obj->redirects['unauthorised']);
+
     });
 	  WaxEvent::add("cms.permissions.all_modules", function(){
 	    $obj = WaxEvent::data();
@@ -305,6 +306,7 @@ class CMSAdminComponent extends CMSBaseComponent {
         foreach($groups as $g){
           $model = new $model_class($controller->export_scope);
           $model = $model->filter($controller->export_group, $g);
+          WaxEvent::run("cms.model.groupfilters", $model);
           $res = partial("shared/_export", array('model'=>$model, 'cols'=>$controller->cols), "csv");
           $file = $folder .$hash. "/".Inflections::to_url($g).".csv";
           file_put_contents($file, $res);
