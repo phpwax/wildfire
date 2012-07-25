@@ -340,9 +340,10 @@ class WildfireContent extends WaxTreeModel {
   /**
    * cms scope functions
    */
-  public function filters_select(){
+  public function scope_filters_select(){
     parent::filters_select();
     WaxEvent::run(get_class($this).".filters_select", $this);
+    return $this;
   }
 
 }
