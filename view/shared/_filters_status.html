@@ -1,6 +1,7 @@
+<?$tmp = new $model_class;?>
 <div class='status_filter small_filter'>
   <label for="filters_<?=$name?>">Status:</label>
   <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
-    <?foreach(array_reverse($model->columns[$name][1]['choices'],true) as $id=>$value):?><option value='<?=$id?>'  <?if($model_filters[$name] == $id):?> selected="selected"<?endif?>><?=$value?></option><?endforeach?>
+    <?foreach(array_reverse($tmp->columns[$name][1]['choices'],true) as $id=>$value):?><option value='<?=$id?>'  <?if($model_filters[$name] == $id):?> selected="selected"<?endif?>><?=$value?></option><?endforeach?>
   </select>
 </div>

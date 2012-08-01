@@ -1,5 +1,6 @@
 <?
-$class = $model->columns[$name][1]['target_model'];
+$tmp = new $model_class;
+$class = $tmp->columns[$name][1]['target_model'];
 $col = new $class("filters_select");
 ?>
 <div class='status_filter parent_filter'>
