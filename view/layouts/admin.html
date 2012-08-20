@@ -9,7 +9,7 @@
     $use = false;
     foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
     if($use && $use['assets_for_cms']){
-      echo css_bundle($plugin['name'], array(), $plugin['name']);
+      echo css_bundle($plugin['name'], array('media'=>'all'), $plugin['name']);
     }
     ?>
   <?endforeach?>
