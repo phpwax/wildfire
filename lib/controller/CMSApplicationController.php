@@ -237,7 +237,7 @@ class CMSApplicationController extends WaxController{
 	 */
 	public function map_to_content($map){
 		if($map->destination_url && !$map->track_url) $this->redirect_to($map->destination_url);
-	  elseif($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->title."&utm_medium=Web Redirect", "http://", $map->header_status);
+	  elseif($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->utm_campaign."&utm_medium=".(($map->utm_medium)? $map->utm_medium : "Web Redirect"), "http://", $map->header_status);
 	  elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
 	}
 	/**
