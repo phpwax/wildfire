@@ -113,8 +113,7 @@ class GoogleAnalytics {
 	public function load_accounts() {
 	//---------------------------------------------------------------------------------------------
 
-		$xml = $this->call('https://www.google.com/analytics/feeds/accounts/default');
-		
+		$xml = $this->call('https://www.googleapis.com/analytics/v2.4/management/accounts');
 		$dom = new DOMDocument();
 		$dom->loadXML($xml);
 		
@@ -174,12 +173,12 @@ class GoogleAnalytics {
 	 *   a value for each metric.
 	 */
 	//---------------------------------------------------------------------------------------------
-	public function data($id, $dimension, $metric, $sort = false, $start = false, $end = false, $max_results = 10, $start_index = 1, $segment=false, $version=2) {
+	public function data($id, $dimension, $metric, $sort = false, $start = false, $end = false, $max_results = 10, $start_index = 1) {
 	//---------------------------------------------------------------------------------------------
 		if(!$sort) $sort = "-$metric";
 		if(!$start) $start = date('Y-m-d', strtotime('1 month ago'));
 		if(!$end) $end = date('Y-m-d', strtotime('yesterday'));
-		$string = "https://www.google.com/analytics/feeds/data?ids=".urlencode($id)."&dimensions=".urlencode($dimension)."&metrics=".urlencode($metric)."&".($segment?"segment=".urlencode($segment)."&":"")."sort=".urlencode($sort)."&start-date=$start&end-date=$end&start-index=$start_index&max-results=$max_results&v=".$version;
+		$string = "https://www.googleapis.com/analytics/v2.4/data?ids=ga:$id&dimensions=$dimension&metrics=$metric&sort=$sort&start-date=$start&end-date=$end&max-results=$max_results&start-index=$start_index";
 		$xml = $this->call($string);
 		if(!$xml) {
 			return false;
