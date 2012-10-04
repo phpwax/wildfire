@@ -3,6 +3,11 @@
   <div class='data_info'>
       <p><small>Enter a comma separated list of values to tag the files.</small></p>
       <input type="text" name="category" value="" placeholder="category" class='category_tagging'>
+      <div class="old_file_upoad_holder">
+        <label for="old_file_upload">Choose a file</label>
+        <input type="file" multiple id="old_file_upload" name="upload">
+        <input type="submit" value="Upload">
+      </div>
       <div data-allowed-check="/<?=trim($controller, "/")?>/file_check" data-html5-action='/<?=trim($controller,"/")?>/upload/' class='drop-area clearfix'>
         <p><strong>DRAG &amp; DROP HERE TO UPLOAD</strong></p>
       </div>
