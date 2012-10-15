@@ -51,6 +51,21 @@ class WildfireContent extends WaxTreeModel {
 
 	}
 
+  public function page_type_data(){
+    $page_type = false;
+    $set_by = $p = $this;
+
+    if(!$page_type = $p->page_type){
+      while(($p = $p->parent) && !$page_type){
+        if(($has_type = $p->page_type) ){
+          $page_type = $has_type;
+          $set_by = $p;
+        }
+      }
+    }
+    return array('set_by'=>$set_by, 'page_type'=>$page_type);
+  }
+
   public static function page_types(){
     $pattern = VIEW_DIR."page/__*.html";
     $options = array(""=>"-- select --");
