@@ -45,9 +45,18 @@ class WildfireContent extends WaxTreeModel {
 	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Not Live",1=>"Live"), 'scaffold'=>true, 'editable'=>false, 'label'=>"Live", 'info_preview'=>1, "tree_scaffold"=>1));
 
     $this->define("old_id", "IntegerField", array('editable'=>false));
+
+    $this->define("page_type", "CharField", array('group'=>'advanced', 'widget'=>'SelectInput', 'choices'=>self::page_types() ));
     parent::setup();
 
 	}
+
+  public static function page_types(){
+    $pattern = VIEW_DIR."page/__*.html";
+    $options = array(""=>"-- select --");
+    foreach(glob($pattern) as $file) $options[ltrim(str_replace(".html", "", str_replace(VIEW_DIR."page", "", $file)),"/")] = ucwords(str_replace("_", " ", str_replace("/", "", basename($file, ".html"))));
+    return $options;
+  }
 
 	public function tree_setup(){
 	  if(!$this->parent_column) $this->parent_column = "parent";

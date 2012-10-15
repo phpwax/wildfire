@@ -23,7 +23,7 @@
   <?if($uploads):?>
   <div class='upload_block'>
     <?=partial("_media_preview");?>
-    <form action="?" method="post" enctype="multipart/form-data" class='clearfix'>
+    <form action="upload" method="post" enctype="multipart/form-data" class='clearfix'>
     <?=partial("_upload_block", array('controller'=>$controller));?>
     </form>
   </div>
