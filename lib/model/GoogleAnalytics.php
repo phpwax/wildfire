@@ -45,7 +45,7 @@ class GoogleAnalytics {
 		curl_setopt($ch, CURLOPT_POST, true);
 		
 		$data = array(
-			'accountType' => 'GOOGLE',
+			'accountType' => 'HOSTED_OR_GOOGLE',
 			'Email' => $email,
 			'Passwd' => $password,
 			'service' => 'analytics',
@@ -64,7 +64,6 @@ class GoogleAnalytics {
 				$this->auth = $matches[1];
 			}
 		}
-		
 		return $this->auth != '';
 	
 	}
@@ -113,7 +112,7 @@ class GoogleAnalytics {
 	public function load_accounts() {
 	//---------------------------------------------------------------------------------------------
 
-		$xml = $this->call('https://www.google.com/analytics/feeds/accounts/default');
+		$xml = $this->call('https://www.googleapis.com/analytics/v2.4/management/accounts');
 		
 		$dom = new DOMDocument();
 		$dom->loadXML($xml);
@@ -179,7 +178,7 @@ class GoogleAnalytics {
 		if(!$sort) $sort = "-$metric";
 		if(!$start) $start = date('Y-m-d', strtotime('1 month ago'));
 		if(!$end) $end = date('Y-m-d', strtotime('yesterday'));
-		$string = "https://www.google.com/analytics/feeds/data?ids=ga:$id&dimensions=$dimension&metrics=$metric&sort=$sort&start-date=$start&end-date=$end&max-results=$max_results&start-index=$start_index";
+		$string = "https://www.googleapis.com/analytics/v2.4/data?ids=ga:$id&dimensions=$dimension&metrics=$metric&sort=$sort&start-date=$start&end-date=$end&max-results=$max_results&start-index=$start_index";
 		$xml = $this->call($string);
 		if(!$xml) {
 			return false;
