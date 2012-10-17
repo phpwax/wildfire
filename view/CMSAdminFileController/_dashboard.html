@@ -7,6 +7,7 @@ $files = $model->order($model->primary_key." DESC")->limit(5)->all();
   <h3>Latest Files Uploaded</h3>
   <div class='data_grid clearfix'>
     <?foreach($files as $f):?>
+    <?if(!is_readable($f->local_path().$f->filename)) continue;?>
     <div class="dashboard_file">
       <img src='<?=$f->permalink(100)?>' alt="<?=$f->filename?>">
       <?=$f->filename?>
