@@ -204,8 +204,10 @@ class CMSAdminComponent extends CMSBaseComponent {
       $obj = WaxEvent::data();
       if($filename = $_SERVER['HTTP_X_FILE_NAME']){
         $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model, $_SERVER['HTTP_X_FILE_CATEGORIES']);
-        WaxEvent::run("cms.file.upload", $data);
+      }elseif(($up = $_FILES['upload']) && ($up['name'])){
+        $data = array($up['name'], $up['type'], file_get_contents($up['tmp_name']), $obj->file_system_model, param("category"));
       }
+      if($data) WaxEvent::run("cms.file.upload", $data);
     });
 
     WaxEvent::add("cms.file.download", function(){
@@ -426,6 +428,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 	public function edit(){
 	  WaxEvent::run("cms.form.setup", $this);
 	  WaxEvent::run("cms.edit.init", $this);
+    WaxEvent::run("cms.xhr.upload", $this);
 	  //WaxEvent::run('cms.file.old_upload', $this);
     //run the save event
 	  WaxEvent::run("cms.save", $this);
@@ -434,6 +437,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function upload(){
     $this->use_layout = $this->use_view = false;
     WaxEvent::run("cms.xhr.upload", $this);
+    if($_FILES) $this->redirect_to($this->referrer); //redirect back to the page for old style form uploads
   }
   public function download(){
     WaxEvent::run("cms.file.download", $this);
