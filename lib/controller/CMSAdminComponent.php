@@ -359,6 +359,13 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function _dashboard(){
     $this->per_page = 5;
     WaxEvent::run("cms.index.setup", $this);
+    if($this->tree_layout && ($parent = $this->current_user->restricted_tree($this->model_class))){
+      if(!$pid[1]) $pid[1] = "id";
+      if($pid[0]) $this->cms_content = $this->cms_content->filter($pid[1], $pid[0]);
+      if($this->per_page !== false) $this->cms_content = $this->cms_content->page($this->this_page, $this->per_page);
+      else $this->cms_content = $this->cms_content->all();
+    }
+
   }
 
   public function _list(){
