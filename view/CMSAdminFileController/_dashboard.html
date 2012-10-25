@@ -1,12 +1,18 @@
 <?if($dashboard):?>
 <?
 $model =  new $model_class($model_scope);
-$files = $model->order($model->primary_key." DESC")->limit(5)->all();
+$files = $model->filter("status", "found")->order($model->primary_key." DESC")->limit(50)->all();
 ?>
 <div class='dashboard dashboard-<?=Inflections::to_url($controller)?> clearfix'>
   <h3>Latest Files Uploaded</h3>
   <div class='data_grid clearfix'>
+    <?$c = 0?>
     <?foreach($files as $f):?>
+    <?
+      if(!is_readable($f->local_path().$f->filename)) continue;
+      if($c > 5) break;
+      $c++;
+    ?>
     <div class="dashboard_file">
       <img src='<?=$f->permalink(100)?>' alt="<?=$f->filename?>">
       <?=$f->filename?>
