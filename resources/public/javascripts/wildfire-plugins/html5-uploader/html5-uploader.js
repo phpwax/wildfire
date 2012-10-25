@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-	if(FileReader && !window.externalHost){
+	if(typeof FileReader != "undefined" && !window.externalHost){
 		$(".old_file_upoad_holder").hide();
 		jQuery.event.props.push("dataTransfer");
 		var drop_area = jQuery(".drop-area"),
