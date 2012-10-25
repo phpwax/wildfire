@@ -4,15 +4,15 @@ class WildfireContent extends WaxTreeModel {
   public $identifier = "title";
   public static $view_listing_cache = array();
   public static $layout_listing_cache = array();
-  
+
 
 	public function setup(){
-    
+
 		$this->define("title", "CharField", array('export'=>true, 'maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
 		$this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
 
-    $this->define("date_start", "DateTimeField", array('export'=>true, 'default'=>"now", 'output_format'=>"j F Y",'input_format'=> 'j F Y H:i', 'info_preview'=>1));
-    $this->define("date_end", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"j F Y", 'input_format'=> 'j F Y H:i','info_preview'=>1));
+    $this->define("date_start", "DateTimeField", array('export'=>true, 'default'=>"now", 'output_format'=>"j F Y H:i",'input_format'=> 'j F Y H:i', 'info_preview'=>1));
+    $this->define("date_end", "DateTimeField", array('export'=>true, 'default'=>date("Y-m-d",mktime(0,0,0, date("m"), date("j"), date("y")-10 )), 'output_format'=>"j F Y H:i", 'input_format'=> 'j F Y H:i','info_preview'=>1));
 
 		$this->define("files", "ManyToManyField", array('target_model'=>"WildfireFile", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'input_pattern'=>'tags[%s]', 'group'=>'files'));
 		$this->define("categories", "ManyToManyField", array('target_model'=>"WildfireCategory","eager_loading"=>true, "join_model_class"=>"WaxModelOrderedJoin", "join_order"=>"join_order", 'scaffold'=>false, 'group'=>'relationships', 'info_preview'=>1));
@@ -42,10 +42,10 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("layout", "CharField", array('widget'=>'SelectInput', 'choices'=>$this->cms_layouts(),'group'=>'advanced'));
 
 	  $this->define("status", "IntegerField", array('default'=>0, 'maxlength'=>2, "widget"=>"SelectInput", "choices"=>array(0=>"Not Live",1=>"Live"), 'scaffold'=>true, 'editable'=>false, 'label'=>"Live", 'info_preview'=>1, "tree_scaffold"=>1));
-    
+
     $this->define("old_id", "IntegerField", array('editable'=>false));
     parent::setup();
-    
+
 	}
 
 	public function tree_setup(){
@@ -75,9 +75,9 @@ class WildfireContent extends WaxTreeModel {
     if($this->columns['date_start'] && !$this->date_start) $this->date_start = date("Y-m-d H:i:s");
     if($this->columns['date_created'] && !$this->date_created) $this->date_created = date("Y-m-d H:i:s");
     if(!$this->{$this->parent_column."_".$this->primary_key}) $this->{$this->parent_column."_".$this->primary_key} = 0;
-    if($this->columns['language'] && !$this->language) $this->language = 0;    
+    if($this->columns['language'] && !$this->language) $this->language = 0;
     if($this->columns['status'] && !$this->status) $this->status = 0;
-    if($this->columns['revision'] && !$this->revision) $this->revision = 0;    
+    if($this->columns['revision'] && !$this->revision) $this->revision = 0;
     if($this->columns['date_modified']) $this->date_modified = date("Y-m-d H:i:s");
     if($this->columns['content']) $this->content =  CmsTextFilter::filter("before_save", $this->content);
   }
@@ -142,7 +142,7 @@ class WildfireContent extends WaxTreeModel {
         $permalink = $this->language_permalink($this->language);
         $m = new WildfireUrlMap;
         $m->map_to($permalink, $this, $this->primval, 1, $this->language);
-      }      
+      }
     }elseif($this->revision == 0){
       $mod = new $class;
       //for all revisions of this content copy the url maps over for them with status of 0
@@ -219,7 +219,7 @@ class WildfireContent extends WaxTreeModel {
 
 
   public function url(){
-    
+
     if($this->title != $this->columns['title'][1]['default']) return Inflections::to_url($this->title);
     else return false;
   }
@@ -228,7 +228,7 @@ class WildfireContent extends WaxTreeModel {
    */
   public function cms_views(){
     if(count(WildfireContent::$view_listing_cache)) return WildfireContent::$view_listing_cache;
-    
+
     $dir = VIEW_DIR."page/";
     $return = array(''=>'-- Select View --');
     if(is_dir($dir) && ($files = glob($dir."cms_*.html"))){
@@ -262,7 +262,7 @@ class WildfireContent extends WaxTreeModel {
     $model = new WaxModel;
     if($this->table < "wildfire_file") $model->table = $this->table."_wildfire_file";
     else $model->table = "wildfire_file_".$this->table;
-    
+
     $col = $this->table."_".$this->primary_key;
     if(!$order) $order = 0;
     if(($found = $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->all()) && $found->count()){
@@ -281,7 +281,7 @@ class WildfireContent extends WaxTreeModel {
     else $model->table = "wildfire_file_".$this->table;
     $col = $this->table."_".$this->primary_key;
     if($fileid) return $model->filter($col, $this->primval)->filter("wildfire_file_id", $fileid)->order('join_order ASC')->first();
-    elseif($tag=="all") return $model->filter($col, $this->primval)->order('join_order ASC')->all();    
+    elseif($tag=="all") return $model->filter($col, $this->primval)->order('join_order ASC')->all();
     elseif($tag) return $model->filter($col, $this->primval)->filter("tag", $tag)->order('join_order ASC')->all();
     else return false;
   }
@@ -290,7 +290,7 @@ class WildfireContent extends WaxTreeModel {
     return CmsTextFilter::filter("before_output", $this->content);
   }
 
-	
+
   public function humanize($column=false){
     if($column == "date_end" ) {
       $start = strtotime($this->date_start);
@@ -299,19 +299,19 @@ class WildfireContent extends WaxTreeModel {
     }
     return parent::humanize($column);
   }
-	
-  
+
+
   //ignore the language, as we are grouping by this field
   public function generate_permalink(){
     $class = get_class($this);
     if($this->permalink) return $this;
     else if($this->parent_id){
       $p = new $class($this->parent_id);
-      $this->permalink = $p->permalink.$this->url()."/";      
+      $this->permalink = $p->permalink.$this->url()."/";
     }else if($url = $this->url()) $this->permalink = "/".$url."/";
-    
+
     if($this->permalink){
-      
+
       $test = $base = $this->permalink;
       $class = get_class($this);
       $model = new $class;
