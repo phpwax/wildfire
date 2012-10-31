@@ -3,7 +3,10 @@ $cachelink = Config::get('cacheissue');
 $permissions = $current_user->permissions($operation_actions, $module_name);
 if(($tc = get_class($model)) && ($pid = $current_user->restricted_tree($tc))){
   if(!$pid[1]) $pid[1] = "parent_id";
-  if($pid[0]) $cms_content->filter($pid[1], $pid[0]);
+  if($pid[0]){
+    $ids = explode(",", $pid[0]);
+    $cms_content->filter($pid[1], $ids);
+  }
   $cms_content = $cms_content->all();
 }
 ?>

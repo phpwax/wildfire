@@ -57,11 +57,12 @@ $restricted_trees = array();
       $restricted = $model->restricted_tree($content_class);
       $comp = $restricted[1]?$restricted[1]:"id";
       $restricted = $restricted[0];
+      $restricted_ids = explode(",", $restricted);
       ?>
-      <select name="user_sub_tree[<?=$content_class?>][]">
+      <select name="user_sub_tree[<?=$content_class?>][]" multiple="multiple">
         <option value="">-- Any --</option>
         <?foreach($content_model->all() as $row):?>
-        <option value="<?=$row->primval?>:<?=$comp?>" <?if($row->$comp == $restricted):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
+        <option value="<?=$row->primval?>" <?if(in_array($row->$comp, $restricted_ids)):?> selected="selected"<?endif?>><?=$row->title?> (<?=$row->permalink?>)</option>
         <?endforeach?>
       </select>
     <?endforeach?>

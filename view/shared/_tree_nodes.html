@@ -9,7 +9,10 @@
     if(($tc = get_class($tree_model)) && ($pid = $current_user->restricted_tree($tc))){
       if(!$pid[1]) $pid[1] = "id";
       $cc = new $tc($tree_scope);
-      if($pid[0]) $nodes = $cc->filter($pid[1], $pid[0])->all();
+      if($pid[0]){
+        $ids = explode(",", $pid[0]);
+        $nodes = $cc->filter($pid[1], $ids)->all();
+      }
       else $nodes = $tree_model->roots();
     }else $nodes = $tree_model->roots();
 
