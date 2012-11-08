@@ -24,7 +24,8 @@ jQuery(document).ready(function(){
   });
 
   jQuery(".media-listing").closest("fieldset").bind("add-media", function(e, result){
-    jQuery(this).find(".existing-files").append(result);
+    var existing = jQuery(this).find(".existing-files").append(result);
+    existing.find(".joined-file:last .join-order-field").val(existing.find(".joined-file").length);
   });
 
   //on click we will now copy that
