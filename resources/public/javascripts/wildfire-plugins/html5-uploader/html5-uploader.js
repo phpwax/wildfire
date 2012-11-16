@@ -123,6 +123,6 @@ jQuery(document).ready(function($){
 		});
 	}else{
 		//old school html forms file uploads
-		$(".drop-area").hide();
+		//$(".drop-area").hide();
 	}
 });
