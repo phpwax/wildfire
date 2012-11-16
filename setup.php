@@ -28,7 +28,8 @@ WildfireMedia::$allowed  = array(
                             'doc'=>'WildfireDiskFile',
                             'xsl'=>'WildfireDiskFile',
                             'zip'=>'WildfireDiskFile',
-                            'pdf'=>'WildfireDiskFile'
+                            'pdf'=>'WildfireDiskFile',
+			    'webp'=>'WildfireDiskFile'
                           );
 
 ?>
