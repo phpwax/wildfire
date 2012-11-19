@@ -49,7 +49,7 @@ class AdminMigrationController extends AdminComponent {
         $content_joins->left_join("wildfire_content_wildfire_file");
         $content_joins->join_condition("wildfire_content_wildfire_file.wildfire_content_id = wildfire_content.id");
         $content_joins->filter("wildfire_content_wildfire_file.wildfire_file_id", $media->migration_id);
-        $content_joins->select_columns = array("wildfire_content.id, wildfire_content_wildfire_file.*");
+        $content_joins->select_columns = array("wildfire_content_wildfire_file.*,wildfire_content.id");
         $content_joins = $content_joins->all();
         foreach($content_joins as $content){
           $media->pages->unlink($content);
