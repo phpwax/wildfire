@@ -80,6 +80,12 @@ html {
   padding-top:3px;
   padding-bottom:3px;
 }
+#v2-cms .data_tree .tree_node a {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width:70%;
+}
+
 #v2-cms .data_table tr td, #v2-cms .data_table tr th, #v2-cms .data_tree li{
 	border-bottom:1px solid #9cafbc;
 }
