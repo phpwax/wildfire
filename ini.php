@@ -3,6 +3,6 @@
  * The first file loaded in for each plugin, should do very little and only manipulate simple values.
  * DO NOT DO ANYTHING COMPLICATED HERE!
  */
-Autoloader::add_asset_type("help", "help");
-Autoloader::add_asset_type('tinymce', 'tinymce');
+AutoLoader::add_asset_type("help", "help");
+AutoLoader::add_asset_type('tinymce', 'tinymce');
 ?>
