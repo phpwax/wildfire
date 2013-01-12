@@ -14,7 +14,7 @@ CMSApplication::register_module("users", array("display_name"=>"CMS Users", "lin
 CMSApplication::register_module("redirect", array("display_name"=>"Redirects", "link"=>"/admin/redirect/", 'split'=>true));
 
 Autoloader::include_from_registry('CMSHelper');
-Autoloader::register_helpers();
+Autoloader::register_helpers(array('CMSHelper'));
 
 WildfireMedia::$classes[] = 'WildfireDiskFile';
 //set the default media types for uploads
