@@ -18,6 +18,11 @@
             "email": "sheldon@oneblackbear.com"
         }
     ],
-    "license": "MIT"
+    "license": "MIT",
+    "autoload": {
+      "classmap": [
+        "lib/", "resources/", "view/"
+      ]
+    }
     
 }
