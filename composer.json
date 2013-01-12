@@ -22,7 +22,8 @@
     "autoload": {
       "classmap": [
         "lib/", "resources/", "view/"
-      ]
+      ],
+      "files": ["ini.php","setup.php"]
     }
     
 }
