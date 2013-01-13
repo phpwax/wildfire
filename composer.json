@@ -3,7 +3,6 @@
     "description": "Wildfire CMS Framework",
     "require": {
         "php": ">=5.3",
-        "composer/installers": "*"
     },
     "authors": [
         {
