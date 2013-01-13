@@ -5,4 +5,6 @@
  */
 AutoLoader::add_asset_type("help", "help");
 AutoLoader::add_asset_type('tinymce', 'tinymce');
+AutoLoader::register_view_path("plugin", __DIR__."/view/");
+
 ?>
