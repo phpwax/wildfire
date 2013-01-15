@@ -52,10 +52,9 @@
 <script src="/tinymce/jscripts/tiny_mce/jquery.tinymce.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- CMS -->
-<?=js_bundle("wildfire-plugins", array(), "cms")?>
 <?=js_bundle("wildfire", array(), "cms")?>
 <?foreach(Autoloader::$plugin_array as $plugin):?>
-  <?=($plugin['name'] != "cms")?js_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):''?>
+  <?=($plugin['name'] != "cms")?js_bundle("wildfire-".$plugin['name'], array(), $plugin['name']):""?>
 <?endforeach?>
 <?=js_bundle("wildfire-overwrites", array())?>
 
