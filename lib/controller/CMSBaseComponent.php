@@ -106,9 +106,9 @@ class CMSBaseComponent extends WaxController {
         $fileid = $stats[9];
         $check = new $this->file_system_model($fileid);
         while((($found = $model->clear()->filter("id", $fileid)->filter("filename", basename($file), "!=")->all()) && $found->count() > 0 )){
-          $ts = date("YMdHis") - rand(3600, 9000);
+          clearstatcache();
+          $ts = time() - rand(3600, 9000);
           touch($file, $ts);
-          exec('touch -t '+$ts+ ' '+$file);
           $stats = stat($file);
           $fileid = $stats[9];
         }
