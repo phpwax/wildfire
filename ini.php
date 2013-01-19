@@ -8,3 +8,4 @@ AutoLoader::add_asset_type('tinymce', 'tinymce');
 AutoLoader::register_view_path("plugin", __DIR__."/view/");
 AutoLoader::register_controller_path("plugin", __DIR__."/lib/controller/");
 AutoLoader::register_controller_path("plugin", __DIR__."/resources/app/controller/");
+Autoloader::register_assets("cms",__DIR__."/resources/public/stylesheets/wildfire/");
