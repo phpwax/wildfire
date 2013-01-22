@@ -14,5 +14,5 @@
  AutoLoader::register_assets("wildfire",__DIR__."/resources/public/javascripts/wildfire/", "javascripts");
  AutoLoader::register_assets("wildfire",__DIR__."/resources/public/images/wildfire/", "images");
  AutoLoader::$plugin_array[] = array("name"=>"wildfire","dir"=>__DIR__);
- AutoLoader::register_assets("wildfire",__DIR__."/resources/public/tinymce/", "tinymce");
+ AutoLoader::register_assets("tinymce",__DIR__."/resources/public/tinymce/");
  
