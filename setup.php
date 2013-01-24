@@ -23,7 +23,6 @@ AutoLoader::register_assets("tinymce",__DIR__."/resources/public/tinymce/");
 AutoLoader::$plugin_array[] = array("name"=>"wildfire","dir"=>__DIR__);
  
 
-AutoLoader::include_from_registry('CMSHelper');
 AutoLoader::register_helpers(array('CMSHelper'));
 
 WildfireMedia::$classes[] = 'WildfireDiskFile';
