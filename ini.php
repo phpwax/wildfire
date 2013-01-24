@@ -1,7 +1,0 @@
-<?
-/**
- * The first file loaded in for each plugin, should do very little and only manipulate simple values.
- *  
- */
- 
- 
