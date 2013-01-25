@@ -3,8 +3,7 @@
 	 any required setup.
 */
 
-define("CMS_VERSION", "v7");
-define("CMS_DIR", dirname(__FILE__));
+
 
 CMSApplication::register_module("home", array("display_name"=>"Dashboard", "link"=>"/admin/home/", 'plugin_name'=>'wildfire', 'assets_for_cms'=>true));
 CMSApplication::register_module("categories", array("display_name"=>"Categories", "link"=>"/admin/categories/"));

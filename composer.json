@@ -23,7 +23,7 @@
       "classmap": [
         "lib/", "resources/", "view/"
       ],
-      "files": ["setup.php"]
+      "files": ["ini.php"]
     }
     
 }
