@@ -7,7 +7,17 @@
   </script>
   <?=partial("_cf")?>
   <link href='//fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-  <?=css_bundle("cms", array('media'=>'all'), "cms")?>
+  <?$mods = CMSApplication::get_modules();?>
+  <?foreach(Autoloader::$plugin_array as $plugin):?>
+    <?
+    $use = false;
+    foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
+    if($use && $use['assets_for_cms']){
+      echo css_bundle($plugin['name'], array('media'=>'all'), $plugin['name']);
+    }
+    ?>
+  <?endforeach?>
+
   
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
