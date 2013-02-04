@@ -77,6 +77,9 @@ class CMSBaseComponent extends WaxController {
 	                          ));
 
 	}
+  public function __destruct(){
+    WaxEvent::run("cms.destruct", $this);
+  }
 
   public function user_from_session($session_name="wf_v6_user"){
     //echo "<a href='/admin/home/?".$this->session->name."=".$this->session->id."'>login</a>";
