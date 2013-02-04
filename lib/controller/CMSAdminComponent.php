@@ -12,12 +12,12 @@ Autoloader::register_helpers();
 
 class CMSAdminComponent extends CMSBaseComponent {
   public $tree_layout = false;
-	public $current_user=false; //the currently logged in
-	//filter details
-	public $filter_partial="_filters";
-	public $filter_fields=array(
+  public $current_user=false; //the currently logged in
+  //filter details
+  public $filter_partial="_filters";
+  public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
-	                      );
+                        );
   public $dashboard = true;
   //used to tag images on joins
   public $file_tags = array('image', 'document');
@@ -36,7 +36,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::data();
-  	  $obj->use_layout = "admin";
+      $obj->use_layout = "admin";
     });
     WaxEvent::add("cms.layout.sublinks", function(){
       $obj = WaxEvent::data();
@@ -58,12 +58,12 @@ class CMSAdminComponent extends CMSBaseComponent {
       if(!$obj->current_user = $obj->user_from_session($obj->user_session_var_name)) $obj->redirect_to($obj->redirects['unauthorised']);
 
     });
-	  WaxEvent::add("cms.permissions.all_modules", function(){
-	    $obj = WaxEvent::data();
-	    foreach(CMSApplication::get_modules() as $name=>$info){
-	      $class = "CMSAdmin".Inflections::camelize($name,true)."Controller";
-	      if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
-	    }
+    WaxEvent::add("cms.permissions.all_modules", function(){
+      $obj = WaxEvent::data();
+      foreach(CMSApplication::get_modules() as $name=>$info){
+        $class = "CMSAdmin".Inflections::camelize($name,true)."Controller";
+        if($obj->current_user->allowed($name, "index")) $obj->allowed_modules[$name] = $info;
+      }
     });
     /**
      * models
@@ -74,9 +74,9 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
     WaxEvent::add("cms.pagination", function(){
       $obj = WaxEvent::data();
-	    if($pg = Request::param('page')) $obj->this_page = $pg;
+      if($pg = Request::param('page')) $obj->this_page = $pg;
       if($pp = Request::param('per_page')) $obj->per_page = $pp;
-	  });
+    });
 
     WaxEvent::add("cms.model.filters", function(){
       $obj = WaxEvent::data();
@@ -106,31 +106,31 @@ class CMSAdminComponent extends CMSBaseComponent {
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
 
-	  WaxEvent::add("cms.model.columns", function(){
-	    $obj = WaxEvent::data();
+    WaxEvent::add("cms.model.columns", function(){
+      $obj = WaxEvent::data();
       $model = new $obj->model_class;
       foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
-	  });
+    });
 
-	  WaxEvent::add("cms.model.setup", function(){
-	    $obj = WaxEvent::data();
-	    WaxEvent::run("cms.model.init", $obj);
-	    WaxEvent::run("cms.pagination", $obj);
-	    WaxEvent::run("cms.model.columns", $obj);
-	    WaxEvent::run("cms.model.filters", $obj);
-	  });
-	  /**
-	   * forms
-	   */
-	  WaxEvent::add("cms.form.setup", function(){
-	    $obj = WaxEvent::data();
-	    $obj->model = new $obj->model_class(Request::get("id"));
-  	  $obj->form = new WaxForm($obj->model);
-  	  //check for join to users
-  	  if($obj->model->columns['author']) $obj->form->author->value = $obj->current_user->primval;
-	  });
+    WaxEvent::add("cms.model.setup", function(){
+      $obj = WaxEvent::data();
+      WaxEvent::run("cms.model.init", $obj);
+      WaxEvent::run("cms.pagination", $obj);
+      WaxEvent::run("cms.model.columns", $obj);
+      WaxEvent::run("cms.model.filters", $obj);
+    });
+    /**
+     * forms
+     */
+    WaxEvent::add("cms.form.setup", function(){
+      $obj = WaxEvent::data();
+      $obj->model = new $obj->model_class(Request::get("id"));
+      $obj->form = new WaxForm($obj->model);
+      //check for join to users
+      if($obj->model->columns['author']) $obj->form->author->value = $obj->current_user->primval;
+    });
 
-	  /**
+    /**
      * joins such as categories are handled by this function
      * - the join post array is key value where the key is the join name (ie categories) and
      *   the value is an array of data
@@ -140,7 +140,7 @@ class CMSAdminComponent extends CMSBaseComponent {
      */
     WaxEvent::add("cms.joins.handle", function(){
       $obj = WaxEvent::data();
-	    $saved = $obj->model;
+      $saved = $obj->model;
       if(isset($_REQUEST['joins'])){
 
         foreach($_REQUEST['joins'] as $join=>$values){
@@ -238,25 +238,25 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
 
     WaxEvent::add("cms.save", function(){
-	    $obj = WaxEvent::data();
-	    WaxEvent::run("cms.save.before", $obj);
-	    if($obj->saved = $obj->form->save()){
-	      if($obj->use_layout) $obj->add_message("Saved.", "confirm");
-	      $obj->model = $obj->saved;
-	      WaxEvent::run("cms.save.success", $obj);
-	    }
-	    WaxEvent::run("cms.save.after", $obj);
-	  });
+      $obj = WaxEvent::data();
+      WaxEvent::run("cms.save.before", $obj);
+      if($obj->saved = $obj->form->save()){
+        if($obj->use_layout) $obj->add_message("Saved.", "confirm");
+        $obj->model = $obj->saved;
+        WaxEvent::run("cms.save.success", $obj);
+      }
+      WaxEvent::run("cms.save.after", $obj);
+    });
 
-	  WaxEvent::add("cms.model.copy", function(){
-	    $obj = WaxEvent::data();
-	    $destination_model = $obj->source_model->copy();
+    WaxEvent::add("cms.model.copy", function(){
+      $obj = WaxEvent::data();
+      $destination_model = $obj->source_model->copy();
       if($changes = Request::param('change')) $destination_model->update_attributes($changes);
       $obj->redirect_to("/".trim($obj->controller,"/")."/edit/".$destination_model->primval."/");
-	  });
+    });
 
 
-	 // WaxEvent::add('cms.file.old_upload', function(){
+   // WaxEvent::add('cms.file.old_upload', function(){
    //    $obj = WaxEvent::data();
    //    if(($up = $_FILES['upload']) && ($up['name']) && ($dir=Request::param('path'))){
    //      $path = PUBLIC_DIR.$dir;
@@ -267,7 +267,7 @@ class CMSAdminComponent extends CMSBaseComponent {
    //    }
    //  });
 
-	  WaxEvent::add("cms.tree.setup", function(){
+    WaxEvent::add("cms.tree.setup", function(){
       $controller = WaxEvent::data();
       $controller->tree_model = clone $controller->model;
       if($controller->model_filters['parent']){
@@ -294,7 +294,7 @@ class CMSAdminComponent extends CMSBaseComponent {
 
       if($controller->exportable && !$controller->export_group){
         $controller->model = new $model_class($controller->export_scope);
-  	    WaxEvent::run("cms.model.filters", $controller);
+        WaxEvent::run("cms.model.filters", $controller);
       }elseif($controller->export_group){
         //if its an export group, then we find each instance of the column
         $model = new $model_class($controller->export_scope);
@@ -319,7 +319,7 @@ class CMSAdminComponent extends CMSBaseComponent {
         $content = "";
         if(is_file($folder.$hash.".zip") && ($content = file_get_contents($folder.$hash.".zip"))){
           $name = str_replace("/", "-", $controller->controller). "-".date("Ymdh").".zip";
-  	      header("Content-type: application/zip");
+          header("Content-type: application/zip");
           header("Content-Disposition: attachment; filename=".$name);
           header("Pragma: no-cache");
           header("Expires: 0");
@@ -334,28 +334,28 @@ class CMSAdminComponent extends CMSBaseComponent {
       }
     });
   }
-	/**
-	 * initialises authentication, default model and menu items
-	 **/
-	protected function initialise(){
+  /**
+   * initialises authentication, default model and menu items
+   **/
+  protected function initialise(){
     parent::initialise();
     WaxEvent::run("cms.permissions.logged_in_user", $this);
-	  WaxEvent::run("cms.permissions.all_modules", $this);
+    WaxEvent::run("cms.permissions.all_modules", $this);
     WaxEvent::run("cms.model.setup", $this);
     WaxEvent::run("cms.format.set",$this);
-	}
+  }
 
   public function sort(){
     WaxEvent::run("cms.form.setup", $this);
-	  WaxEvent::run("cms.edit.init", $this);
-	  WaxEvent::run("cms.sort.all", $this);
+    WaxEvent::run("cms.edit.init", $this);
+    WaxEvent::run("cms.sort.all", $this);
   }
-	/**
-	* Default view - lists all model items - has shared view cms/view/shared/list.html
-	*/
-	public function index(){
+  /**
+  * Default view - lists all model items - has shared view cms/view/shared/list.html
+  */
+  public function index(){
     WaxEvent::run("cms.index.setup", $this);
-	}
+  }
   public function _dashboard(){
     $this->per_page = 5;
     WaxEvent::run("cms.index.setup", $this);
@@ -424,22 +424,22 @@ class CMSAdminComponent extends CMSBaseComponent {
 
   }
 
-	public function create(){
-	  $model = new $this->model_class();
-	  $cachelink = Config::get('cacheissue');
-	  $model->validation_groups = array("skip_validation"); //put this in to be able to create "empty" cms models
-	  if($data = Request::param($model->table)) $model->set_attributes($data);
-	  if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/".(($cachelink)?"?r=".rand():""));
-	}
+  public function create(){
+    $model = new $this->model_class();
+    $cachelink = Config::get('cacheissue');
+    $model->validation_groups = array("skip_validation"); //put this in to be able to create "empty" cms models
+    if($data = Request::param($model->table)) $model->set_attributes($data);
+    if($model->save()) $this->redirect_to("/".trim($this->controller,"/")."/edit/".$model->primval."/".(($cachelink)?"?r=".rand():""));
+  }
 
-	public function edit(){
-	  WaxEvent::run("cms.form.setup", $this);
-	  WaxEvent::run("cms.edit.init", $this);
+  public function edit(){
+    WaxEvent::run("cms.form.setup", $this);
+    WaxEvent::run("cms.edit.init", $this);
     WaxEvent::run("cms.xhr.upload", $this);
-	  //WaxEvent::run('cms.file.old_upload', $this);
+    //WaxEvent::run('cms.file.old_upload', $this);
     //run the save event
-	  WaxEvent::run("cms.save", $this);
-	}
+    WaxEvent::run("cms.save", $this);
+  }
 
   public function upload(){
     $this->use_layout = $this->use_view = false;
@@ -479,8 +479,8 @@ class CMSAdminComponent extends CMSBaseComponent {
 
   public function export(){
     WaxEvent::run("cms.form.setup", $this);
-	  WaxEvent::run("cms.edit.init", $this);
-	  WaxEvent::run("cms.export.init", $this);
+    WaxEvent::run("cms.edit.init", $this);
+    WaxEvent::run("cms.export.init", $this);
   }
   public function _export(){$this->use_view = "export";}
 
