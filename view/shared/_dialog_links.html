@@ -1,21 +1,10 @@
 <div id="wildfire-link-dialog" class='clearfix' data-server="http://<?=$_SERVER['HTTP_HOST']?>">
-  <h3>External Site</h3>
   <label for="wf_ld_url">Url</label>
   <input type='text' class='input_field text_field' name='href' id="wf_ld_url">
   <label for="wf_ld_tar">Open in</label>
   <select name="target_list" id="wf_ld_tar">
     <option value="">Same window</option>
     <option value="_blank">new window</option>
-  </select>
-  <h3>Files</h3>
-  <?
-  $file = new $file_system_model("files");
-  ?>
-  <select name="internal" id="wf_ld_internal" data-class="<?=$file_system_model?>">
-    <option value="">-- Select --</option>
-    <?foreach($file->all() as $f):?>
-    <option value="<?=($f->permalink(false))?>"><?=$f->title?></option>
-    <?endforeach?>
   </select>
 
 </div>

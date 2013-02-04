@@ -20,14 +20,7 @@
     </div>
     <?endif?>
   </div>
-  <?if($uploads):?>
-  <div class='upload_block'>
-    <?=partial("_media_preview");?>
-    <form action="upload" method="post" enctype="multipart/form-data" class='clearfix'>
-    <?=partial("_upload_block", array('controller'=>$controller));?>
-    </form>
-  </div>
-  <?endif?>
+
   <?if($tree_layout && ($tree_view = partial("_tree", array('cms_content'=>$cms_content, 'scaffold_columns'=>$scaffold_columns, 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name, 'full_tree'=>$full_tree, 'mods'=>$mods, 'sortable'=>$sortable)))):?>
     <div class='tree clearfix' id="data-tree">
       <?=$tree_view?>
