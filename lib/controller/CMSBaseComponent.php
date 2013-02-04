@@ -7,23 +7,23 @@
 
 class CMSBaseComponent extends WaxController {
 
-	public $allowed_modules = array(); //all available modules for this user (ie this is just top level name)
-	public $module_name = null;	//the name of this module
-	public $model = false;	//the actuall database model to use
-	public $model_class; //the class name - ie WildfireContent
-	public $model_scope = false;
-	public $tree_scope = false;
-	public $user_model_class = "WildfireUser";
-	public $redirects = array('unauthorised'=> "/admin/login",
-	                          'authorised' => "/admin/home/",
-	                          'install'=> "/admin/install/",
-	                          'logout'=>"/admin/logout"
-	                          );
+  public $allowed_modules = array(); //all available modules for this user (ie this is just top level name)
+  public $module_name = null; //the name of this module
+  public $model = false;  //the actuall database model to use
+  public $model_class; //the class name - ie WildfireContent
+  public $model_scope = false;
+  public $tree_scope = false;
+  public $user_model_class = "WildfireUser";
+  public $redirects = array('unauthorised'=> "/admin/login",
+                            'authorised' => "/admin/home/",
+                            'install'=> "/admin/install/",
+                            'logout'=>"/admin/logout"
+                            );
   public $use_plugin = "cms";
-	public $display_name = 'CMS'; //display name of the module
+  public $display_name = 'CMS'; //display name of the module
   public $use_layout = "admin"; //the default layout to use
-	public $per_page = 20; //the limit to use in lists
-	public $this_page = 1;
+  public $per_page = 20; //the limit to use in lists
+  public $this_page = 1;
 
   public $session; //session object
   public $user_session_name = "wf_v6_user";
@@ -53,30 +53,19 @@ class CMSBaseComponent extends WaxController {
   public $file_system_model = "WildfireMedia";
   public static $restricted_tree = false;
 
-	function __construct($application = false, $init=true) {
-	  parent::__construct($application);
-	  if($application) $this->events();
+  function __construct($application = false, $init=true) {
+    parent::__construct($application);
+    if($application) $this->events();
     WaxEvent::run("cms.session.setup", $this);
-	  if($init) $this->initialise();
-	}
+    if($init) $this->initialise();
+  }
 
-	public function controller_global(){
-	  parent::controller_global();
-	  WaxEvent::run("cms.layout.set", $this);
-	  WaxEvent::run("cms.format.set", $this);
-	}
+  public function controller_global(){
+    parent::controller_global();
+    WaxEvent::run("cms.layout.set", $this);
+    WaxEvent::run("cms.format.set", $this);
+  }
 
-	public function __destruct(){
-	  $log = new WildfireLog;
-	  $log->update_attributes(array('controller'=>$this->controller,
-	                          'action'=>$this->action,
-	                          'page'=>Request::get("id"),
-	                          'param_string'=>serialize($_REQUEST),
-	                          'language'=>Request::param('lang'),
-	                          'wildfire_user_id'=>($this->current_user)?$this->current_user->primval:""
-	                          ));
-
-	}
   public function __destruct(){
     WaxEvent::run("cms.destruct", $this);
   }
@@ -103,34 +92,34 @@ class CMSBaseComponent extends WaxController {
     });
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::data();
-  	  $obj->use_layout = "login";
+      $obj->use_layout = "login";
     });
     WaxEvent::add("cms.format.set", function(){
       $obj = WaxEvent::data();
-  	  if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
-  	  elseif($obj->use_format == "nochrome"){
-  	    $obj->use_format = "html";
-  	    $obj->use_layout = "nochrome";
-	    }elseif($obj->use_format == "nolayout"){
-	      $obj->use_format = "html";
-  	    $obj->use_layout = "nolayout";
-	    }elseif($obj->use_format == "csv"){
-	      $name = str_replace("/", "-", $obj->controller). "-".date("Ymdh").".csv";
-	      header("Content-type: application/csv");
+      if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
+      elseif($obj->use_format == "nochrome"){
+        $obj->use_format = "html";
+        $obj->use_layout = "nochrome";
+      }elseif($obj->use_format == "nolayout"){
+        $obj->use_format = "html";
+        $obj->use_layout = "nolayout";
+      }elseif($obj->use_format == "csv"){
+        $name = str_replace("/", "-", $obj->controller). "-".date("Ymdh").".csv";
+        header("Content-type: application/csv");
         header("Content-Disposition: attachment; filename=".$name);
         header("Pragma: no-cache");
         header("Expires: 0");
-	    }elseif($obj->use_format == "zip"){
-	      $obj->use_view = $obj->use_layout = false;
-	    }
+      }elseif($obj->use_format == "zip"){
+        $obj->use_view = $obj->use_layout = false;
+      }
     });
     WaxEvent::add("cms.layout.sublinks", function(){});
     WaxEvent::add('cms.search.'.$this->module_name, function(){});
   }
-	/**
-	 * initialises authentication, default model and menu items
-	 **/
-	protected function initialise(){}
+  /**
+   * initialises authentication, default model and menu items
+   **/
+  protected function initialise(){}
 
   public function sync($path, $filename=""){}
 
