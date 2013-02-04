@@ -2,7 +2,8 @@
     "name": "phpwax/wildfire",
     "description": "Wildfire CMS Framework",
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+        "phpwax/wildfire.cms_users": "7.1.*"
     },
     "authors": [
         {
@@ -25,5 +26,5 @@
       ],
       "files": ["ini.php"]
     }
-    
+
 }
