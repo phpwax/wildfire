@@ -58,6 +58,7 @@ class CMSBaseComponent extends WaxController {
     if($application) $this->events();
     WaxEvent::run("cms.session.setup", $this);
     if($init) $this->initialise();
+
   }
 
   public function controller_global(){
@@ -96,6 +97,7 @@ class CMSBaseComponent extends WaxController {
     });
     WaxEvent::add("cms.format.set", function(){
       $obj = WaxEvent::data();
+      $obj->use_format = "json";
       if($obj->use_format == "ajax" || $obj->use_format == "json") $obj->use_layout = false;
       elseif($obj->use_format == "nochrome"){
         $obj->use_format = "html";
