@@ -3,6 +3,7 @@
 $meta = array(
               'controller'=>$controller,
               'action'=>$action,
+              'model_class'=>$model_class,
               'model_scope'=> $model_scope,
               'tree_scope'=> $tree_scope,
               'per_page'=> $per_page,
