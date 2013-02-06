@@ -2,12 +2,17 @@
 $tmp = new $model_class;
 //meta information about where we are
 $meta = array(
+              'display_name'=>$display_name,
+              'module_name'=>$module_name,
               'controller'=> $controller,
+              'autosave'=>$autosave
               'action'=> $action,
               'redirects'=> $redirects,
               'model' => array(
                                   'scope'=> $model_scope,
                                   'tree_scope' => $tree_scope,
+                                  'exportable'=>$exportable,
+                                  'export_scope'=>$export_scope,
                                   'class' => $model_class,
                                   'columns' => $tmp->columns,
                                   'sortable'=>$sortable,
