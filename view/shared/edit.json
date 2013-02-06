@@ -1,0 +1,25 @@
+<?
+//meta information about where we are
+$meta = array(
+              'controller'=>$controller,
+              'action'=>$action,
+              'model_scope'=> $model_scope,
+              'tree_scope'=> $tree_scope,
+              'per_page'=> false,
+              'this_page'=> false,
+              'total_pages'=> false,
+              'total_items'=> false
+              );
+$user = array(
+                'class'=> get_class($current_user)
+                'primval'=> $current_user->primval
+              );
+
+$tmp = new $model_class;
+$skel = $model->columns;
+
+
+$output = array('meta'=>$meta, 'user'=>$user, 'skel'=>$skel, 'filters'=>$filters, 'model'=>$model, 'cms_content'=>false);
+
+?>
+<?=json_encode($output)?>
