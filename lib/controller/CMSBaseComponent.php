@@ -48,10 +48,12 @@ class CMSBaseComponent extends WaxController {
 
   public $search_results = array();
   public $use_cache = false;
+  public $use_format = false;
 
   public $messages = array();
   public $file_system_model = "WildfireMedia";
   public static $restricted_tree = false;
+  public static $default_format = "json";
 
   function __construct($application = false, $init=true) {
     parent::__construct($application);
@@ -97,8 +99,7 @@ class CMSBaseComponent extends WaxController {
     });
     WaxEvent::add("cms.format.set", function(){
       $obj = WaxEvent::data();
-      $obj->use_format = "json";
-
+      if(!$obj->use_format) $obj->use_format = CMSBaseComponent::$default_format;
     });
     WaxEvent::add("cms.layout.sublinks", function(){});
     WaxEvent::add('cms.search.'.$this->module_name, function(){});
