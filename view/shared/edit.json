@@ -21,10 +21,10 @@ $meta = array(
                                   'sort_scope' => $sort_scope,
                                   'file_tags'=>$file_tags
                                 ),
-              'per_page'=> $per_page,
-              'this_page'=> $this_page,
-              'total_pages'=> $cms_content->total_pages,
-              'total_items'=> $cms_content->total_without_limits(),
+              'per_page'=> false,
+              'this_page'=> false,
+              'total_pages'=> false,
+              'total_items'=> false,
               'filter_fields'=>$filter_fields,
               'user'=> array(
                                 'class'=> get_class($current_user),
