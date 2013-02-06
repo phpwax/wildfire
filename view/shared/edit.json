@@ -11,7 +11,7 @@ $meta = array(
               'total_items'=> false
               );
 $user = array(
-                'class'=> get_class($current_user)
+                'class'=> get_class($current_user),
                 'primval'=> $current_user->primval
               );
 
