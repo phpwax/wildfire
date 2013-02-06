@@ -1,9 +1,0 @@
-#search_form{
-  width:35%;
-  float:right;
-}
-  #search_form label, #search_form .input_field{
-    display:block;
-    width:95%;
-    padding:6px 6px;
-  }

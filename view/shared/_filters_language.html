@@ -1,8 +1,0 @@
-<?if(count($model->columns[$name][1]['choices']) > 1):?>
-<div class='language_filter small_filter'>
-  <label for="filters_<?=$name?>">Language:</label>
-  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
-    <?foreach(($model->columns[$name][1]['choices']) as $id=>$value):?><option value='<?=$id?>'  <?if($model_filters[$name] == $id):?> selected="selected"<?endif?>><?=ucwords($value)?></option><?endforeach?>
-  </select>
-</div>
-<?endif?>

@@ -1,6 +1,0 @@
-#v2-cms .content_parent .has-children a{
-  background-image: url("/images/wildfire/jqueryui/ui-icons_323231_256x240.png");
-}
-  #v2-cms .content_parent .has-children a.open{
-    background-position: -16px -192px;
-  }

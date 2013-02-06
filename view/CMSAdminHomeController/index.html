@@ -1,6 +1,0 @@
-<?foreach(CMSApplication::get_modules() as $name=>$info):?>
-<?if($info['hidden'] != true):?>
-  <?$link = substr($info['link'],1);?>
-<?=partial($link."_dashboard", array('origin'=>'home'))?>
-<?endif?>
-<?endforeach?>
