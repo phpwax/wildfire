@@ -1,26 +1,31 @@
 <?
+$tmp = new $model_class;
 //meta information about where we are
 $meta = array(
-              'controller'=>$controller,
-              'action'=>$action,
-              'model_class'=>$model_class,
-              'model_scope'=> $model_scope,
-              'tree_scope'=> $tree_scope,
-              'per_page'=> false,
-              'this_page'=> false,
-              'total_pages'=> false,
-              'total_items'=> false
+              'controller'=> $controller,
+              'action'=> $action,
+              'redirects'=> $redirects,
+              'model' => array(
+                                  'scope'=> $model_scope,
+                                  'tree_scope' => $tree_scope,
+                                  'class' => $model_class,
+                                  'columns' => $tmp->columns,
+                                  'sortable'=>$sortable,
+                                  'sort_scope' => $sort_scope,
+                                  'file_tags'=>$file_tags
+                                ),
+              'per_page'=> $per_page,
+              'this_page'=> $this_page,
+              'total_pages'=> $cms_content->total_pages,
+              'total_items'=> $cms_content->total_without_limits(),
+              'filter_fields'=>$filter_fields,
+              'user'=> array(
+                                'class'=> get_class($current_user),
+                                'primval'=> $current_user->primval
+                            )
               );
-$user = array(
-                'class'=> get_class($current_user),
-                'primval'=> $current_user->primval
-              );
 
-$tmp = new $model_class;
-$skel = $model->columns;
-
-
-$output = array('meta'=>$meta, 'user'=>$user, 'skel'=>$skel, 'filters'=>$filters, 'model'=>$model, 'cms_content'=>false);
+$output = array('meta'=>$meta,  'model'=>$model, 'cms_content'=>false);
 
 ?>
 <?=json_encode($output)?>
