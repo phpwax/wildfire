@@ -1,6 +1,0 @@
-<?if($dashboard):?>
-<div class='dashboard dashboard-<?=Inflections::to_url($controller)?> clearfix'>
-<h3>Latest Content</h3>
-<?=partial("_list", array('no_filter'=>true, 'model'=>new $model_class,'cms_content'=>$cms_content, 'scaffold_columns'=>array('title'=>1, 'date_modified'=>1, 'author'=>1,'status'=>1), 'controller'=>$controller, 'operation_actions'=>$operation_actions, 'current_user'=>$current_user, 'module_name'=>$module_name, 'primval'=>'dont_show_active_row', 'show_unfiltered_results'=>true))?>
-</div>
-<?endif?>

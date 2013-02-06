@@ -1,8 +1,0 @@
-<?
-//doing revision only after we put it live
-if($model->status == 1) $endpoint = "/".trim($controller,"/")."/edit/".$model->primval.".json?revision=1";
-//otherwise we dont need revisions and post to the same id
-else $endpoint = "/".trim($controller,"/")."/edit/".$model->primval.".json";
-?>
-
-<?if($autosave):?><a id="auto-save" title="Autosave Enabled" class="button orange enabled"><img src="/images/wildfire/icons/autosave-on.png" alt="Autosave Enabled" data-saving="/images/wildfire/icons/autosaving.gif" data-off="/images/wildfire/icons/autosave-off.png"><span data-save-point="<?=$endpoint?>" data-controller="/<?=trim($controller,"/")?>/">Auto Save Enabled</span></a><?endif?>
