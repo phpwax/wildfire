@@ -1,0 +1,49 @@
+{
+    "hash": "2ff5427700b6e3dff9245bbcd24dd9e3",
+    "packages": [
+        {
+            "name": "phpwax/wildfire.cms_users",
+            "version": "7.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpwax/wildfire.cms_users",
+                "reference": "5d247b8f41546041f31185d852223d9a784c3c70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpwax/wildfire.cms_users/zipball/5d247b8f41546041f31185d852223d9a784c3c70",
+                "reference": "5d247b8f41546041f31185d852223d9a784c3c70",
+                "shasum": ""
+            },
+            "time": "2013-02-04 21:56:09",
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/",
+                    "resources/"
+                ],
+                "files": [
+                    "ini.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Charles Marshall",
+                    "email": "charles@oneblackbear.com"
+                }
+            ]
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "phpwax/wildfire.cms_users": 20
+    }
+}
