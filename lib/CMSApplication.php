@@ -14,6 +14,8 @@ class CMSApplication {
 	static public $modules = array();
 	static public $enable_permissions = true;
 	/**
+  //static array to attach handlers for certain functions to..
+  static public $handlers = array();
    * language in use gets set in session value - wildfire_language_id
    * can be triggered by alternative url such as /en/xx /es/xx
    * or by params - ?language=en / ?language=es / ?language=0
