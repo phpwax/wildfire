@@ -17,6 +17,8 @@ class CMSApplication {
   static public $handlers = array();
   //static array to register any extras global partials to be included in to the navigation
   static public $global_partials = array();
+  //an array to set what groups go in the the top tabs
+  static public $form_primary_tabs = array('content', 'media', 'design');
   /**
    * language in use gets set in session value - wildfire_language_id
    * can be triggered by alternative url such as /en/xx /es/xx
@@ -74,6 +76,7 @@ class CMSApplication {
   static public function configure_modules() {
 
   }
+
 
 
 }
