@@ -53,7 +53,7 @@ class CMSApplication {
     return self::$modules[$name];
   }
 
-  static public function register_asset($group, $name, $type){
+  static public function register_asset($group, $type, $name){
     self::$registered_assets[$group][$type][] = $name;
   }
 
