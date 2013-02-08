@@ -12,6 +12,7 @@
 class CMSApplication {
 
   static public $modules = array();
+  static public $default_module_order = array();
   static public $enable_permissions = true;
   //static array to attach handlers for certain functions to..
   static public $handlers = array();
@@ -38,19 +39,10 @@ class CMSApplication {
    * @param array $module
    **/
 
-  static public function register_module($name, $values, $follow, $parent) {
+  static public function register_module($name, $values, $parent) {
 		$level = &self::$modules;
 		if($parent) $level = $level[$parent]["subs"];
-
-  	if($follow){
-  		$module_names = array_keys($level);
-  		$position = array_search($follow, $module_names);
-  		if($position === false) return self::register_module($name, $values);
-  		$level =
-  			array_slice($level, 0, $position + 1) +
-	  		array($name => $values) +
-	  		array_slice($level, $position + 1);
-  	}else $level[$name] = $values;
+  	$level[$name] = $values;
   }
 
   static public function get_modules($for_display=false) {
