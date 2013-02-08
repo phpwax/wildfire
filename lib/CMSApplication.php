@@ -20,6 +20,8 @@ class CMSApplication {
   static public $global_partials = array();
   //an array to set what groups go in the the top tabs
   static public $form_primary_tabs = array('content', 'media', 'design');
+
+  static public $registered_assets = array();
   /**
    * language in use gets set in session value - wildfire_language_id
    * can be triggered by alternative url such as /en/xx /es/xx
@@ -40,9 +42,9 @@ class CMSApplication {
    **/
 
   static public function register_module($name, $values, $parent) {
-		$level = &self::$modules;
-		if($parent) $level = $level[$parent]["subs"];
-  	$level[$name] = $values;
+    $level = &self::$modules;
+    if($parent) $level = $level[$parent]["subs"];
+    $level[$name] = $values;
   }
 
   static public function get_modules($for_display=false) {
@@ -51,6 +53,14 @@ class CMSApplication {
 
   static public function get_module($name) {
     return self::$modules[$name];
+  }
+
+  static public function register_asset($group, $type, $name){
+    self::$registered_assets[$group][$type][] = $name;
+  }
+
+  static public function get_registered_assets($group, $type){
+    return self::$registered_assets[$group][$type];
   }
 
   static public function unregister_module($name){

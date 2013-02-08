@@ -13,6 +13,7 @@ $meta = array(
               'allowed_modules' => $allowed_modules,
               'redirects'=> $redirects,
               'model' => array(
+                                  'primval' => false,
                                   'scope'=> $model_scope,
                                   'tree_scope' => $tree_scope,
                                   'exportable'=>$exportable,
