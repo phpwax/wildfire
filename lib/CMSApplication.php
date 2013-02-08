@@ -16,6 +16,8 @@ class CMSApplication {
   static public $enable_permissions = true;
   //static array to attach handlers for certain functions to..
   static public $handlers = array();
+  //static array to register any extras global partials to be included in to the navigation
+  static public $global_partials = array();
   /**
    * language in use gets set in session value - wildfire_language_id
    * can be triggered by alternative url such as /en/xx /es/xx
