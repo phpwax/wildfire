@@ -125,7 +125,7 @@ class CMSBaseComponent extends WaxController {
     $partial_name = "_".Inflections::underscore(Inflections::to_url($name));
     $readable = false;
     foreach($partial_paths as $possible){
-      if(($path = str_replace("%s%", $partial_name, $possible)) && is_readable($path)) return str_replace(".html", "", $path);
+      if(($path = str_replace("%s%", $partial_name, $possible)) && is_readable($path)) return basename($path);
     }
     return false;
   }
