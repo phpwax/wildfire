@@ -20,6 +20,8 @@ class CMSApplication {
   static public $global_partials = array();
   //an array to set what groups go in the the top tabs
   static public $form_primary_tabs = array('content', 'media', 'design');
+
+  static public $registered_assets = array();
   /**
    * language in use gets set in session value - wildfire_language_id
    * can be triggered by alternative url such as /en/xx /es/xx
