@@ -120,11 +120,11 @@ class CMSBaseComponent extends WaxController {
   }
 
 
-  static function form_group_partial_check($name){
+  static function form_group_partial_check($partial_paths, $name){
     $tabhash = Inflections::to_url($name);
     $partial_name = "_".Inflections::underscore(Inflections::to_url($name));
     $readable = false;
-    foreach($this->partial_paths as $possible){
+    foreach($partial_paths as $possible){
       if(($path = str_replace("%s%", $partial_name, $possible)) && is_readable($path)) return $path;
     }
     return false;
