@@ -160,7 +160,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
 
     WaxEvent::add("cms.file.upload", function(){
-      list($filename, $file_type, $data, $media_class, $category) = WaxEvent::data();
+      list($filename, $file_type, $data, $media_class, $event_timestamp) = WaxEvent::data();
       if($filename && $data){
         //from the file name find the extension
         $ext = (substr(strrchr($filename,'.'),1));
@@ -181,20 +181,12 @@ class CMSAdminComponent extends CMSBaseComponent {
                         'media_class'=>$class,
                         'uploaded_location'=>str_replace(PUBLIC_DIR, "", $path.$filename),
                         'hash'=>hash_hmac('sha1', $data, md5($data)),
-                        'ext'=>$ext
+                        'ext'=>$ext,
+                        'event_timestamp'=>$event_timestamp
                         );
           if($saved = $model->update_attributes($vars)){
             $obj = new $class;
             $obj->set($saved);
-            if($category && $model->columns['categories']){
-              $cat_class = $model->columns['categories'][1]['target_model'];
-              $cat_model = new $cat_class;
-              foreach(explode(",", $category) as $title){
-                $title = trim($title);
-                if($cat = $cat_model->clear()->filter("title", $title)->first()) $saved->categories = $cat;
-                else $saved->categories = $cat_model->update_attributes(array("title"=> $title));
-              }
-            }
           }
         }
       }
@@ -203,7 +195,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.xhr.upload", function(){
       $obj = WaxEvent::data();
       if($filename = $_SERVER['HTTP_X_FILE_NAME']){
-        $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model, $_SERVER['HTTP_X_FILE_CATEGORIES']);
+        $data = array($filename, $_SERVER['HTTP_X_FILE_TYPE'], file_get_contents("php://input"), $obj->file_system_model, $_SERVER['HTTP_X_FILE_EVENTTIMESTAMP']);
       }elseif(($up = $_FILES['upload']) && ($up['name'])){
         $data = array($up['name'], $up['type'], file_get_contents($up['tmp_name']), $obj->file_system_model, param("category"));
       }
