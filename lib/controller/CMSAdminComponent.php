@@ -457,7 +457,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   public function media_name() {
     $this->use_view = $this->use_layout = false;
     $media = new WildfireMedia;
-    $media->name_event(post("timestamp"), post("name"));
+    $media->name_event(post("timestamp"), post("event_name"));
   }
   
 
