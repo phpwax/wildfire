@@ -453,6 +453,13 @@ class CMSAdminComponent extends CMSBaseComponent {
       echo json_encode(array('error'=>'No file', 'status'=>500));
     }
   }
+  
+  public function media_name() {
+    $this->use_view = $this->use_layout = false;
+    $media = new WildfireMedia;
+    $media->name_event(post("timestamp"), post("name"));
+  }
+  
 
   public function copy(){
     $this->use_layout = $this->use_view = false;
