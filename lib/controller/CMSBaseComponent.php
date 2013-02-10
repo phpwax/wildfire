@@ -32,7 +32,9 @@ class CMSBaseComponent extends WaxController {
   public $filter_fields=array();
   public $model_filters=array();
 
-  public $operation_actions = array('edit');
+  public $operation_actions = array(
+                                                  array('action'=>'edit', 'name'=>'<b>✎</b>Edit %s')
+                                                );
   public $quick_links = array();
 
   public $uploads = false;
