@@ -44,6 +44,7 @@ class CMSAdminHomeController extends AdminComponent {
       $this->sources_data = $api->data($analytics['id'], 'ga:source,ga:referralPath', 'ga:visits', false,false,false,($analytics['days'])?$analytics['days']:30);
       $this->search_data = $api->data($analytics['id'], 'ga:keyword', 'ga:visits', false,false,false,($analytics['days'])?$analytics['days']:30);
       $this->browser_data = $api->data($analytics['id'], 'ga:browser', 'ga:visits', false,false,false,($analytics['days'])?$analytics['days']:30);
+      $this->mobile_data = $api->data($analytics['id'], 'ga:isMobile', 'ga:visits', false,false,false,($analytics['days'])?$analytics['days']:30);
       array_shift($this->search_data);
     }
   }
