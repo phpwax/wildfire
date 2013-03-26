@@ -50,9 +50,9 @@ class WildfireMedia extends WaxModel{
     $obj = new $this->media_class;
     return $obj->get($this, $width);
   }
-  public function show($width=false){
+  public function show($width, $height){
     $obj = new $this->media_class;
-    return $obj->show($this, $width);
+    return $obj->show($this, $width, $height);
   }
 
   public function before_save(){

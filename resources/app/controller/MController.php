@@ -5,8 +5,7 @@ class MController extends WaxController{
   //should accept either all or part of the hash column to show the file, this is what show will be used for
   public function method_missing(){
     $options = WaxUrl::$params;
-    if($s = $options['id']) $size = $s;
-    else $size = false;
+    if(($s = $options['id']) && !$options['width']) $options['width'] = $s;
     $hash = $options['action'];
     $length = strlen($hash);
     $model = new WildfireMedia("live");
@@ -14,7 +13,7 @@ class MController extends WaxController{
     elseif($length >= 6) $model->filter("hash LIKE '$hash%'");
     else $model->filter("1=2");
     $found = $model->first();
-    if($found) $found->show($size);
+    if($found) $found->show($options['width'], $options['height']);
     exit;
   }
 
