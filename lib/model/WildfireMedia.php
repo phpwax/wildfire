@@ -46,9 +46,9 @@ class WildfireMedia extends WaxModel{
     return $obj->render($this, $width, $title, $class, $height);
   }
 
-  public function permalink($width=false){
+  public function permalink($width=false, $height){
     $obj = new $this->media_class;
-    return $obj->get($this, $width);
+    return $obj->get($this, $width, $height);
   }
   public function show($width, $height){
     $obj = new $this->media_class;
