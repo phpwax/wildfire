@@ -203,10 +203,11 @@ class CMSAdminComponent extends CMSBaseComponent {
     });
 
     WaxEvent::add("cms.file.download", function(){
+
       $obj = WaxEvent::data();
       $obj->model = new $obj->model_class(Request::get("id"));
 
-      $obj->redirect_to($obj->model->permalink(false));
+      File::stream_file(PUBLIC_DIR.$obj->model->source);
 
     });
 
