@@ -18,8 +18,6 @@ class CMSApplication {
   static public $handlers = array();
   //static array to register any extras global partials to be included in to the navigation
   static public $global_partials = array();
-  //an array to set what groups go in the the top tabs
-  static public $form_primary_tabs = array('content', 'media', 'design');
 
   static public $registered_assets = array();
   /**
