@@ -347,6 +347,11 @@ class CMSAdminComponent extends CMSBaseComponent {
   * Default view - lists all model items - has shared view cms/view/shared/list.html
   */
   public function index(){
+    if(Request::param("use_view") && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+      $this->use_layout = false;
+      $this->use_format = "ajax";
+      $this->use_view = Request::param("use_view");
+    }
     WaxEvent::run("cms.index.setup", $this);
   }
   public function _dashboard(){
@@ -359,10 +364,6 @@ class CMSAdminComponent extends CMSBaseComponent {
       else $this->cms_content = $this->cms_content->all();
     }
 
-  }
-
-  public function _list(){
-    if($this->use_format == "ajax") $this->index();
   }
 
   public function _filter_inline(){
