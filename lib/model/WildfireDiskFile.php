@@ -23,7 +23,7 @@ class WildfireDiskFile{
     //if its not an image, return the normal url anyway
     if($width === false || !strstr($media_item->file_type, "image")) return "/".trim($media_item->source, "/");
     //we'll make a new controller called M (for media) which will simply map things smartly
-    else return "/m/".$hash."/".$width.".".$media_item->ext.($height?"?height=$height":'');
+    else return "/m/".$hash."/".$width.($height?"x$height":'').".".$media_item->ext;
   }
 
   //this will actually render the contents of the image
