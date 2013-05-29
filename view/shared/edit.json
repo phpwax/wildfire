@@ -8,6 +8,7 @@ $meta = array(
               'autosave'=>$autosave,
               'action'=> $action,
               'messages'=>$messages,
+              'message_render'=>partial("_wildfire_messages",array("session"=>$session,"messages"=>$messages)),
               'allowed_modules' => $allowed_modules,
               'redirects'=> $redirects,
               'model' => array(
