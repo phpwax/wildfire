@@ -17,39 +17,40 @@ class WildfireDiskFile{
     return false;
   }
   //should return a url to display the image
-  public function get($media_item, $size=false){
+  public function get($media_item, $width, $height){
     if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
     else $hash = $media_item->hash;
     //if its not an image, return the normal url anyway
-    if($size === false || !strstr($media_item->file_type, "image")) return "/".trim($media_item->source, "/");
+    if($width === false || !strstr($media_item->file_type, "image")) return "/".trim($media_item->source, "/");
     //we'll make a new controller called M (for media) which will simply map things smartly
-    else return "/m/".$hash."/".$size.".".$media_item->ext;
+    else return "/m/".$hash."/".$width.".".$media_item->ext.($height?"?height=$height":'');
   }
 
   //this will actually render the contents of the image
-  public function show($media_item, $size=false){
+  public function show($media_item, $width, $height){
     //if its not an image, then spit out the file contents with correct headers
-    if(!strstr($media_item->file_type, "image") || $size == "full") return File::display_asset(PUBLIC_DIR.$media_item->source, $media_item->file_type);
-    if(!$size) $size = 100; //default size
+    if(!strstr($media_item->file_type, "image") || $width == "full") return File::display_asset(PUBLIC_DIR.$media_item->source, $media_item->file_type);
+    if(!$width) $width = 100; //default width
 
     if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
     else $hash = $media_item->hash;
 
     $dir = CACHE_DIR."images/".$hash."/";
     $apache_dir = PUBLIC_DIR."m/".$hash."/";
-    $cache_file = $dir . $size .".".$media_item->ext;
-    $apache_file = $apache_dir . $size .".".$media_item->ext;
+    $filename = $width . ($height?"x$height":'') . "." . $media_item->ext;
+    $cache_file = $dir . $filename;
+    $apache_file = $apache_dir . $filename;
     if(!is_readable($dir)) mkdir($dir, 0777, true);
     if(!is_readable($apache_dir)) mkdir($apache_dir, 0777, true);
-    if(!is_readable($apache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $apache_file, $size, false, "nocrop");
-    if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $size, false, "nocrop");
+    if(!is_readable($apache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $apache_file, $width, $height);
+    if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $width, $height);
 
     File::display_image($cache_file);
   }
   //generates the tag to be displayed - return generic icon if not an image
-  public function render($media_item, $size, $title="preview", $class=""){
+  public function render($media_item, $size, $title="preview", $class="", $height){
     if(!strstr($media_item->file_type, "image")) return "<img src='/images/wildfire/themes/v2/files_document.png' alt='".$title."' class='".$class."'>";
-    else return "<img src='".$this->get($media_item, $size)."' alt='".$title."' class='".$class."'>";
+    else return "<img src='".$this->get($media_item, $size, $height)."' alt='".$title."' class='".$class."'>";
   }
 
   //find the folders on the file system to sync with
