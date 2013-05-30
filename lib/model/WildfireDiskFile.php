@@ -21,7 +21,7 @@ class WildfireDiskFile{
     if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
     else $hash = $media_item->hash;
     //if its not an image, return the normal url anyway
-    if($width === false || !strstr($media_item->file_type, "image")) return "/".trim($media_item->source, "/");
+    if((!$width && !$height) || !strstr($media_item->file_type, "image")) return "/".trim($media_item->source, "/");
     //we'll make a new controller called M (for media) which will simply map things smartly
     else return "/m/".$hash."/".$width.".".$media_item->ext.($height?"?height=$height":'');
   }
@@ -30,7 +30,7 @@ class WildfireDiskFile{
   public function show($media_item, $width, $height){
     //if its not an image, then spit out the file contents with correct headers
     if(!strstr($media_item->file_type, "image") || $width == "full") return File::display_asset(PUBLIC_DIR.$media_item->source, $media_item->file_type);
-    if(!$width) $width = 100; //default width
+    if(!$width && !$height) $width = 100; //default width
 
     if(WildfireDiskFile::$hash_length) $hash = substr($media_item->hash, 0, WildfireDiskFile::$hash_length);
     else $hash = $media_item->hash;
