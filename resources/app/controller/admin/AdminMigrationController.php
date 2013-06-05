@@ -27,7 +27,7 @@ class AdminMigrationController extends AdminComponent {
       $media->migration_id = $file->id;
       $media->media_class = "WildfireDiskFile";
       $media->title = $pathinfo['filename'];
-      $media->ext = $fileinfo['extension'];
+      $media->ext = $pathinfo['extension'];
       $media->source = $disk_relative_path;
       $media->uploaded_location = $disk_relative_path;
       if($data = file_get_contents(PUBLIC_DIR.$disk_relative_path)) $media->hash = hash_hmac('sha1', $data, md5($data));
