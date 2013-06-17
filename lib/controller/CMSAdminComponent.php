@@ -457,6 +457,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     if($_FILES) $this->redirect_to($this->referrer); //redirect back to the page for old style form uploads
   }
   public function download(){
+    $this->use_view = false;
     WaxEvent::run("cms.file.download", $this);
   }
 
