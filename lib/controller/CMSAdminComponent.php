@@ -531,5 +531,15 @@ class CMSAdminComponent extends CMSBaseComponent {
 
   }
 
+  public function status_toggle(){
+    $this->use_view = "edit";
+    $class = $this->model_class;
+    $model = new $class(Request::param("id"));
+    if($model->columns['status']){
+      if($model->status) $model->update_attributes(array('status'=>0));
+      else $model->update_attributes(array('status'=>1));
+    }else throw new Exception("No status to change");
+  }
+
 }
 ?>
