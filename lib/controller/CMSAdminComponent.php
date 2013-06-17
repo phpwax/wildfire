@@ -19,6 +19,7 @@ class CMSAdminComponent extends CMSBaseComponent {
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
                         );
   public $dashboard = true;
+  public $model_search_scope = false;
   //used to tag images on joins
   public $file_tags = array('image', 'document');
 
@@ -45,6 +46,17 @@ class CMSAdminComponent extends CMSBaseComponent {
       if($obj->sortable) $obj->quick_links["sort"] = '/admin/'.$obj->module_name."/sort/";
       if($obj->exportable) $obj->quick_links["export"] = '/admin/'.$obj->module_name."/export.".(($obj->export_group) ? "zip" : "csv");
     });
+
+
+    WaxEvent::add("cms.search", function(){
+      $obj = WaxEvent::data();
+      if($search = Request::param('term')){
+        $obj->search_term = $search;
+        $model = new $obj->model_class;
+        $obj->search_results = $model->scope($obj->model_search_scope)->filter("title LIKE '%$search%'")->limit(5)->all();
+      }
+    });
+
     /**
      * permissions
      */
@@ -455,13 +467,13 @@ class CMSAdminComponent extends CMSBaseComponent {
       echo json_encode(array('error'=>'No file', 'status'=>500));
     }
   }
-  
+
   public function media_name() {
     $this->use_view = $this->use_layout = false;
     $media = new WildfireMedia;
     $media->name_event(post("timestamp"), post("event_name"));
   }
-  
+
 
   public function copy(){
     $this->use_layout = $this->use_view = false;
@@ -484,6 +496,10 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.export.init", $this);
   }
   public function _export(){$this->use_view = "export";}
+
+  public function search(){
+    WaxEvent::run("cms.search", $this);
+  }
 
 }
 ?>

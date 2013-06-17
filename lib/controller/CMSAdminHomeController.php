@@ -11,6 +11,7 @@ class CMSAdminHomeController extends AdminComponent {
   public $model_class = "WildfireContent";
   public $display_name = "Dashboard";
   public $model_scope = "live";
+  public $model_search_scope = "live";
 
   public $visit_data = array();
   public $sources_data = array();
@@ -19,17 +20,6 @@ class CMSAdminHomeController extends AdminComponent {
   public function events(){
     parent::events();
     WaxEvent::clear("cms.layout.sublinks");
-
-    WaxEvent::add("cms.search.".$this->module_name, function(){
-      $obj = WaxEvent::data();
-      if($search = Request::param('term')){
-        $obj->search_term = $search;
-        $model = new $obj->model_class;
-        $obj->search_results = $model->scope($obj->model_scope)->filter("title LIKE '%$search%'")->limit(5)->all();
-
-      }
-
-    });
   }
 
 
@@ -47,9 +37,10 @@ class CMSAdminHomeController extends AdminComponent {
     }
   }
 
-  public function search(){
-    WaxEvent::run("cms.search.".$this->module_name, $this);
+  public function edit(){
+    $this->redirect_to("/admin/content/edit/".Request::param("id")."/");
   }
+
 
 }
 ?>
