@@ -9,8 +9,8 @@ class CMSAdminHomeController extends AdminComponent {
   public $model;
   public $model_name = "wildfire_content";
   public $model_class = "WildfireContent";
-  public $search_class = "WildfireContent";
   public $display_name = "Dashboard";
+  public $model_scope = "live";
 
   public $visit_data = array();
   public $sources_data = array();
