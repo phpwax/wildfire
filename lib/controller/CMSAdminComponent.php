@@ -501,5 +501,29 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.search", $this);
   }
 
+
+  public function duplicate(){
+    $class = $this->model_class;
+    $model = new $class(Request::param("id"));
+    $new_version = new $class;
+    $columns = $model->columns;
+    unset($columns['id'], $columns['revision'], $columns['status'], $columns['parent'], $columns['navigation_items']);
+    $new_version->status = $new_version->revision = 0;
+    foreach($columns as $col=>$setup) {
+      $field = $model->get_col($col);
+      if(!$field->is_association) $new_version->$col = $model->$col;
+      elseif($setup[0] != "HasManyField") $associations[]=$col;
+    }
+    if($saved = $new_version->hide()->save()){
+      foreach($associations as $col) $new_version->$col = $model->$col;
+      $this->session->add_message('Item has been duplicated, you can edit it below.');
+      $this->redirect_to("/".$this->controller."/edit/".$new_version->primval);
+    }
+
+    $this->session->add_error('Item duplication failed.');
+    $this->redirect_to("/".$this->controller."/");
+
+  }
+
 }
 ?>
