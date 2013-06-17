@@ -33,6 +33,10 @@ class CMSAdminComponent extends CMSBaseComponent {
 
   protected function events(){
     parent::events();
+    WaxEvent::add("cms.duplicate.unsets", function(){
+      $columns = WaxEvent::data();
+      unset($columns['id']);
+    });
     WaxEvent::clear("cms.layout.set");
 
     WaxEvent::add("cms.layout.set", function(){
@@ -507,7 +511,9 @@ class CMSAdminComponent extends CMSBaseComponent {
     $model = new $class(Request::param("id"));
     $new_version = new $class;
     $columns = $model->columns;
-    unset($columns['id'], $columns['revision'], $columns['status'], $columns['parent'], $columns['navigation_items']);
+
+    WaxEvent::run("cms.duplicate.unsets", $columns);
+
     $new_version->status = $new_version->revision = 0;
     foreach($columns as $col=>$setup) {
       $field = $model->get_col($col);
