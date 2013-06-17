@@ -27,8 +27,9 @@ class CMSAdminHomeController extends AdminComponent {
       $obj = WaxEvent::data();
       if($search = Request::param('term')){
         $obj->search_term = $search;
-        $model = new $obj->search_class;
-        $obj->search_results = $model->filter("title LIKE '$search%'")->limit(5)->all();
+        $model = new $obj->model_class;
+        $obj->search_results = $model->scope($obj->model_scope)->filter("title LIKE '%$search%'")->limit(5)->all();
+
       }
 
     });
