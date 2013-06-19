@@ -495,6 +495,11 @@ class CMSAdminComponent extends CMSBaseComponent {
     }
   }
 
+  public function _tree_nodes(){
+    if($this->run_setup) WaxEvent::run("cms.tree.setup.children", $this);
+
+  }
+
   public function export(){
     WaxEvent::run("cms.form.setup", $this);
     WaxEvent::run("cms.edit.init", $this);
