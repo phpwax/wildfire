@@ -34,8 +34,8 @@ class CMSAdminComponent extends CMSBaseComponent {
   protected function events(){
     parent::events();
     WaxEvent::add("cms.duplicate.unsets", function(){
-      $columns = WaxEvent::data();
-      unset($columns['id']);
+      $controller = WaxEvent::data();
+      unset($controller->columns['id']);
     });
     WaxEvent::clear("cms.layout.set");
 
@@ -516,16 +516,16 @@ class CMSAdminComponent extends CMSBaseComponent {
     $class = $this->model_class;
     $model = new $class(Request::param("id"));
     $new_version = new $class;
-    $columns = $model->columns;
-
-    WaxEvent::run("cms.duplicate.unsets", $columns);
+    $this->columns = $model->columns;
+    WaxEvent::run("cms.duplicate.unsets", $this);
 
     $new_version->status = $new_version->revision = 0;
-    foreach($columns as $col=>$setup) {
+    foreach($this->columns as $col=>$setup) {
       $field = $model->get_col($col);
       if(!$field->is_association) $new_version->$col = $model->$col;
       elseif($setup[0] != "HasManyField") $associations[]=$col;
     }
+
     if($saved = $new_version->hide()->save()){
       foreach($associations as $col) $new_version->$col = $model->$col;
       $this->session->add_message('Item has been duplicated, you can edit it below.');
