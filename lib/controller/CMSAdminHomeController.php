@@ -16,6 +16,7 @@ class CMSAdminHomeController extends AdminComponent {
   public $visit_data = array();
   public $sources_data = array();
   public $search_data = array();
+  public $has_help = array('index');
 
   public function events(){
     parent::events();
