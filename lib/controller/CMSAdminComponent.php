@@ -43,6 +43,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.layout.set", function(){
       $obj = WaxEvent::data();
       $obj->use_layout = "admin";
+
     });
     WaxEvent::add("cms.layout.sublinks", function(){
       $obj = WaxEvent::data();
@@ -283,10 +284,12 @@ class CMSAdminComponent extends CMSBaseComponent {
       if($controller->model_filters['parent']){
         $controller->load_whole_tree = false;
       }
+      $controller->tree_model->enable_has_child_query();
     });
 
     WaxEvent::add("cms.sort.all", function(){
       $controller = WaxEvent::data();
+      if($controller->tree_layout) $controller->model->enable_has_child_query();
       if($sort = Request::param('sort')){
         foreach($sort as $id=>$pos){
           $model = new $controller->model_class($id);
@@ -352,7 +355,6 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::run("cms.permissions.logged_in_user", $this);
     WaxEvent::run("cms.permissions.all_modules", $this);
     WaxEvent::run("cms.model.setup", $this);
-    WaxEvent::run("cms.format.set",$this);
   }
 
   public function sort(){
