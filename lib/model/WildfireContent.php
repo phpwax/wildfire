@@ -4,6 +4,7 @@ class WildfireContent extends WaxTreeModel {
   public $identifier = "title";
   public static $view_listing_cache = array();
   public static $layout_listing_cache = array();
+  public static $page_types_cache;
 
 
 	public function setup(){
@@ -67,10 +68,11 @@ class WildfireContent extends WaxTreeModel {
   }
 
   public static function page_types(){
+    if(self::$page_types_cache) return self::$page_types_cache;
     $pattern = VIEW_DIR."page/__*.html";
     $options = array(""=>"-- select --");
     foreach(glob($pattern) as $file) $options[ltrim(str_replace(".html", "", str_replace(VIEW_DIR."page", "", $file)),"/")] = ucwords(str_replace("_", " ", str_replace("/", "", basename($file, ".html"))));
-    return $options;
+    return self::$page_types_cache = $options;
   }
 
 	public function tree_setup(){
