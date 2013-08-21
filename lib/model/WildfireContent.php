@@ -29,6 +29,7 @@ class WildfireContent extends WaxTreeModel {
 		$this->define("excerpt", "TextField", array('group'=>'others', 'editable'=>false));
 		$this->define("meta_description", "TextField", array('group'=>'others', 'editable'=>false));
 		$this->define("meta_keywords", "TextField", array('group'=>'others', 'editable'=>false));
+		$this->define("meta_title", "CharField", array('group'=>'others', 'editable'=>false));
 
 		//hidden extras
 		$this->define("author", "ForeignKey", array('export'=>true, 'target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
