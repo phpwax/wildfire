@@ -23,21 +23,24 @@ class WildfireUser extends WaxModel {
     if(!$this->auth_token) $this->auth_token = hash_hmac("sha1", $this->username, WildfireUser::$salt);
   }
 
+  protected function set_permissions_cache(){
+    if(!WildfireUser::$permissions_cache[get_class($this)][$this->primval]){
+      WildfireUser::$permissions_cache[get_class($this)][$this->primval] = array('true'=>true); //set to true, empty array triggers false
+      foreach($this->user_permissions as $perm) WildfireUser::$permissions_cache[get_class($this)][$this->primval][$perm->class][$perm->operation] = ($perm->value === NULL) ? 1 : $perm->value;
+    }
+  }
+
   public function allowed($classname=false,$action=false){
     if(!$this->primval) return false;
-    if(!self::$permissions_cache[get_class($this)][$this->primval]){
-      foreach($this->user_permissions as $perm) self::$permissions_cache[get_class($this)][$this->primval][] = $perm;
-    }
-    foreach((array)self::$permissions_cache[get_class($this)][$this->primval] as $perm){
-      if($perm->class == $classname && $perm->operation == $action) return false;
-    }
+    $this->set_permissions_cache();
+    if(WildfireUser::$permissions_cache[get_class($this)][$this->primval][$classname][$action]) return false;
     return true;
   }
 
   public function restricted_tree($classname){
     if(!$this->primval()) return false;
-    if(!self::$permissions_cache[get_class($this)][$this->primval]) self::$permissions_cache[get_class($this)][$this->primval()] = $this->user_permissions;
-    foreach(self::$permissions_cache[get_class($this)][$this->primval()] as $perm) if($perm->class == $classname && $perm->operation == "tree") return explode(":",$perm->value);
+    $this->set_permissions_cache();
+    if($val = WildfireUser::$permissions_cache[get_class($this)][$this->primval()][$classname]["tree"]) return explode(":", $val);
   }
 
   public function permissions($operation_actions, $module_name){
