@@ -26,6 +26,8 @@ class CMSAdminComponent extends CMSBaseComponent {
   public $autosave = false;
   //helper array to check what has help files made for it.
   public $has_help = array();
+  public $multipleselect_scope = "multipleselect";
+
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
