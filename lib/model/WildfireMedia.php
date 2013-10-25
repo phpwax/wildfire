@@ -43,6 +43,7 @@ class WildfireMedia extends WaxModel{
   }
   public function render($width=false, $title=false, $class="attached_media", $height){
     $obj = new $this->media_class;
+    if( ($width == 200 || $width == 40 )&& $this->media_class == "WildfireYoutubeFile") return "<img src='".$obj->thumbnail($this)."' width='".$width."'>";
     return $obj->render($this, $width, $title, $class, $height);
   }
 
