@@ -207,7 +207,7 @@ class CMSAdminComponent extends CMSBaseComponent {
           if($saved = $model->update_attributes($vars)){
             $obj = new $class;
             $obj->set($saved);
-            WaxEvent::data()->result = $obj->row;
+            WaxEvent::run("cms.file.uploaded", $saved);
           }
         }
       }
