@@ -39,7 +39,7 @@ class CMSApplication {
    * @param array $module
    **/
 
-  static public function register_module($name, $values, $parent) {
+  static public function register_module($name, $values, $parent = false) {
     $level = &self::$modules;
     if($parent) $level = $level[$parent]["subs"];
     $level[$name] = $values;
