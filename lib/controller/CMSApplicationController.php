@@ -44,6 +44,8 @@ class CMSApplicationController extends WaxController{
   public $content_object_stack = array();
   public $content_id_stack = array();
   public $top_level = false;
+
+  public static $dynamic_link_components = array();
   //default action
   public function cms_page() {}
 
