@@ -42,7 +42,7 @@ class CMSApplication {
   static public function register_module($name, $values, $parent = false) {
     $level = &self::$modules;
     if($parent) $level = $level[$parent]["subs"];
-    $level[$name] = $values;
+    if(!isset($level[$name]) ) $level[$name] = $values;
   }
 
   static public function get_modules($for_display=false) {
