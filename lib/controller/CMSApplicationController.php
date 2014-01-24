@@ -245,8 +245,12 @@ class CMSApplicationController extends WaxController{
    * split out what to do for a map object
    */
   public function map_to_content($map){
-    if($map->destination_url && !$map->track_url) $this->redirect_to($map->destination_url);
-    elseif($map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->utm_campaign."&utm_medium=".(($map->utm_medium)? $map->utm_medium : "Web Redirect") . $map->hash, "http://", $map->header_status);
+    $destination_domain = $origin_domain = $current_domain = $_SERVER['HTTP_HOST'];
+    if($map->origin_domain) $origin_domain = $map->origin_domain;
+    if($map->destination_domain) $destination_domain = $map->destination_domain;
+
+    if($origin_domain == $current_domain && $map->destination_url && !$map->track_url) $this->redirect_to($map->destination_url, false, 302, $destination_domain);
+    elseif($origin_domain == $current_domain && $map->destination_url) $this->redirect_to($map->destination_url."?utm_source=".$map->origin_url."&utm_campaign=".$map->utm_campaign."&utm_medium=".(($map->utm_medium)? $map->utm_medium : "Web Redirect") . $map->hash, "http://", $map->header_status, $destination_domain);
     elseif(($model = $map->destination_model) && ($model_id = $map->destination_id) ) return new $model($model_id);
   }
   /**
