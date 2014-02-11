@@ -27,7 +27,7 @@ class CMSAdminComponent extends CMSBaseComponent {
   //helper array to check what has help files made for it.
   public $has_help = array();
   public $multipleselect_scope = "multipleselect";
-
+  public $show_analytics = false;
   //check user is allowed to do this!
   public function controller_global(){
     parent::controller_global();
