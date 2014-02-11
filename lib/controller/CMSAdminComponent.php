@@ -91,6 +91,7 @@ class CMSAdminComponent extends CMSBaseComponent {
     WaxEvent::add("cms.model.init", function(){
       $obj = WaxEvent::data();
       $obj->model = new $obj->model_class($obj->model_scope);
+      if($obj->model->columns['author'] && ($col = $obj->model->columns['author'][1]['col_name'])) $obj->model->$col = $obj->current_user->primval;
     });
     WaxEvent::add("cms.pagination", function(){
       $obj = WaxEvent::data();
