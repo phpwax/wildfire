@@ -18,6 +18,7 @@ class CMSAdminHomeController extends AdminComponent {
   public $search_data = array();
   public $has_help = array('index');
   public static $dashboards = array();
+
   public $show_analytics = true;
 
   public function events(){
