@@ -52,6 +52,7 @@ class CMSApplicationController extends WaxController{
     *                      );
     */
   public static $dynamic_link_components = array();
+  public static $dynamic_link_classes = array();
 
   //default action
   public function cms_page() {}
