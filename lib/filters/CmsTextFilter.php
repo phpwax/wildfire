@@ -6,17 +6,17 @@
  * @package default
  **/
 class CmsTextFilter  {
-  
-  
+
+
   static public $filters = array(
-    "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images"),
+    "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images", "media_links"),
     "before_output"=> array("strip_slashes","empty_paragraphs", "first_para_hook")
   );
-  
+
   static public function add_filter($trigger, $method) {
     self::$filters[$trigger][]=$method;
   }
-  
+
   static public function remove_filter($trigger, $method) {
     unset(self::$filters[$trigger][array_search($method, self::$filters[$trigger])]);
   }
@@ -31,61 +31,61 @@ class CmsTextFilter  {
     }
     return $text;
   }
-  
+
   static public function utf($text) {
     return utf8_encode($text);
   }
-  
+
   static public function htmlentities($text) {
     return htmlentities($text);
   }
-  
+
   static public function correct_entities($text) {
 		$modified = str_replace("£", "&pound;", $text);
 		$modified = str_replace("€", "&euro;", $modified);
     return $modified;
   }
-  
+
   static public function strip_slashes($text) {
     return stripslashes($text);
   }
-  
+
   static public function strip_attributes($text) {
 		$text = preg_replace("/<(table|td|tr|tbody|thead|tfoot|p)\s+([^>]*)(border|bgcolor|background|style)+([^>]*)>/i", "<$1 $2 $3\>", $text);
     return preg_replace("/<(p|h1|h2|h3|h4|h5|h6|ul|ol|li|span|font)\s+([^>]*)( class=\".*?\")([^>]*)>/i", "<$1$3>", $text);
   }
-  
-  
+
+
   static public function first_para_hook($text) {
     return preg_replace("/<p>/", "<p class='first_para'>", $text, 1);
   }
-  
+
   static public function dots_to_hr($text) {
     return preg_replace("/\.{4,}/", "<hr />", $text);
   }
   static public function empty_paragraphs($text){
     return str_ireplace("<p>&nbsp;</p>", "",str_ireplace("<p></p>", "", $text));
   }
-  
+
   static public function no_widows($text) {
     $widont_finder = "/(\s+)                    # the space to replace
       ([^<>\s]+                                 # must be followed by non-tag non-space characters
-      \s*                                       # optional white space! 
+      \s*                                       # optional white space!
       (<\/(a|em|span|strong|i|b)[^>]*>\s*)*     # optional closing inline tags with optional white space after each
       (<\/(p|h[1-6]|li)|$))                     # end with a closing p, h1-6, li or the end of the string
       /xu";
     return preg_replace($widont_finder, '&nbsp;\\2', $text);
   }
-  
+
   static public function ampersand_hook($text) {
     $amp_finder = "/(\s|&nbsp;)(&|&amp;|&\#38;)(\s|&nbsp;)/";
     return preg_replace($amp_finder, '\\1&amp;\\3', $text);
   }
-  
+
   static public function nice_quotes($text) {
     return preg_replace("/(\s{1})\\\"([^<>\\\"]*)\\\"/", "$1<span class='leftquote'>&ldquo;</span>$2<span class='rightquote'>&rdquo;</span>",$text);
   }
-  
+
 	static public function videos($text){
 		/*standard youtube*/
 		$youtube = '<object width="$2" height="$3">
@@ -94,7 +94,7 @@ class CmsTextFilter  {
 		</object>';
 
 		$text = preg_replace("/<a href=\"([^\"]*)\" rel=\"([0-9]*px):([0-9]*px)\">([^<]*)youtube([^<]*)\?v=([a-zA-Z\-0-9_]*)&?[^<]*<\/a>/", $youtube, $text);
-		
+
 		/*extra youtube - no rel bits*/
 		$youtube2 = '<object width="{%WIDTH%}" height="{%HEIGHT%}">
 		  <param name="movie" value="http://www.youtube.com/v/{%VIDEO%}" />
@@ -117,12 +117,12 @@ class CmsTextFilter  {
 							</embed>
 						</object>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_*)([&]*)(.*)<\/a>/", $vimeo, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)vimeo(.*)\/([a-zA-Z\-0-9_*)([&]*)(.*)<\/a>/", $vimeo, $text);
 
 		/*GOOGLE*/
 		$google = '<embed id="VideoPlayback" src="http://video.google.com/googleplayer.swf?docid=$6&hl=en&fs=true" width="$2" height="$3" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"> </embed>';
 
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $google, $text);						
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">(.*)google(.*)\?docid=([a-zA-Z\-0-9_]*)([&]*)(.*)<\/a>/", $google, $text);
 
 		/*LOCAL*/
 		$local ='<object width="$2" height="$3">
@@ -132,12 +132,12 @@ class CmsTextFilter  {
 							<embed src="$4" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$2" height="$3">
 							</embed>
 						</object>';
-		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);						
-		
-		
+		$text = preg_replace("/<a href=\"(.*)\" rel=\"([0-9]*px):([0-9]*px)\">LOCAL:(.*)<\/a>/", $local, $text);
+
+
 		return $text;
 	}
-  
+
   static public function yt_video($text) {
     $replace = '<object width="425" height="350">
       <param name="movie" value="http://www.youtube.com/v/$1"></param>
@@ -147,13 +147,13 @@ class CmsTextFilter  {
     $text = preg_replace("/<a href=\"#\" rel=\"youtube\">([a-zA-Z\-0-9_]*)<\/a>/", $replace, $text);
     return $text;
   }
-  
+
   static public function inline_audio($text) {
     $google_audio = '<embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3523697345-audio-player.swf?audioUrl=$1" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded&audioUrl=$1" />';
     $text = preg_replace("/<a class=\"wildfire_audio\" href=\"(.*)\">.*<\/a>/", $google_audio, $text);
-    return $text;		
+    return $text;
   }
-  
+
   static public function csv_table($text) {
     preg_match_all("/<a class=\"wildfire_csv_table\" href=\"(.*?)\".*?<\/a>/", $text, $matches, PREG_OFFSET_CAPTURE);
     foreach($matches[1] as $table_index => $table){
@@ -181,7 +181,7 @@ class CmsTextFilter  {
     }
     return $text;
   }
-  
+
   static public function flash_object($text) {
     $replace = '<object type="application/x-shockwave-flash" data="$1" {dimensions}>
       <param name="movie" value="$1"></param>
@@ -192,10 +192,10 @@ class CmsTextFilter  {
     $url = $matches[1];
     if(strpos($url,"http://")===false) $url = PUBLIC_DIR.$url;
     $info = getimagesize($url);
-    return str_replace("{dimensions}",$info[3], $text);    
+    return str_replace("{dimensions}",$info[3], $text);
   }
 
-  
+
   public function convert_chars($content, $flag = 'obsolete') {
   	// Translation of invalid Unicode references range to valid range
   	$wp_htmltranswinuni = array(
@@ -246,16 +246,16 @@ class CmsTextFilter  {
 
   	return $content;
   }
-  
+
   static public function inline_images($text) {
     $matches=array();
     preg_match_all("/<img([^>]*class=\"inline_image[^>]*)>/", $text, $matches, PREG_SET_ORDER);
-    foreach($matches as $match) {      
+    foreach($matches as $match) {
       if(!preg_match("/width=\"([0-9]*)\"/i", $match[0], $width)) {
         preg_match("/WIDTH:\s*([0-9]*)/i", $match[0], $width);
-      }        
+      }
       $width = $width[1];
-      
+
       if($width) {
         $new_img = preg_replace("/(.*show_image\/[0-9]*\/)([0-9]*)(.*)/", "\${1}$width\\3", $match[0]);
         $new_img = preg_replace("/width=\"[0-9]*\"/", "", $new_img);
@@ -263,8 +263,27 @@ class CmsTextFilter  {
         $new_img = preg_replace("/(style=\"[0-9A-Za-z\s:;]*)\"/", "", $new_img);
         $text = str_replace($match[0], $new_img, $text);
       }
-    }    
+    }
     return $text;
   }
-  
-} 
+
+  static public function media_links($text) {
+    $doc = new DOMDocument();
+    @$doc->loadHTML($text);
+    $tags = $doc->getElementsByTagName('img');
+    foreach ($tags as $tag) {
+      if(substr($tag->getAttribute("src"),0,3) == "/m/") {
+        if($wid = $tag->getAttribute("width")) {
+          $path_parts = pathinfo($tag->getAttribute("src"));
+          $tag->setAttribute("src", $path_parts["dirname"]."/".$wid.".".$path_parts["extension"]);
+          $tag->removeAttribute("width");
+          $tag->removeAttribute("height");
+          $text = preg_replace('~<(?:!DOCTYPE|/?(?:html|body))[^>]*>\s*~i', '', $doc->saveHTML());;
+        }
+      }
+    }
+    return $text;
+  }
+
+
+}
