@@ -9,7 +9,7 @@ class CmsTextFilter  {
 
 
   static public $filters = array(
-    "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "inline_images", "media_links"),
+    "before_save"=>array("convert_chars", "strip_attributes", "strip_slashes", "media_links", "inline_images"),
     "before_output"=> array("strip_slashes","empty_paragraphs", "first_para_hook")
   );
 
