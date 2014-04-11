@@ -48,7 +48,7 @@ jQuery(function(){
     jQuery(this).hoverIntent({over:function(){
       jQuery(window).trigger("media."+trigger_type+".preview", [row, preview_container]);
     }, timeout:400});
-    jQuery(this).trigger('mouseover');
+    
   });
 
   jQuery(".preview-click tbody tr").unbind("click").live("click", function(e){
