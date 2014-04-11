@@ -73,7 +73,7 @@ class CMSBaseComponent extends WaxController {
 	                          'page'=>Request::get("id"),
 	                          'param_string'=>serialize($_REQUEST),
 	                          'language'=>Request::param('lang'),
-	                          'wildfire_user_id'=>($this->current_user)?$this->current_user->primval:""
+	                          'wildfire_user_id'=>($this->current_user)?$this->current_user->primval:null
 	                          ));
 
 	}
