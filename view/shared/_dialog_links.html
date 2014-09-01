@@ -1,3 +1,7 @@
+<?
+  
+  if(!($link_classes = Config::get("link_classes"))) $link_classes = array(''=>'Normal', 'button'=>'Button');
+?>
 <div id="wildfire-link-dialog" class='clearfix' data-server="http://<?=$_SERVER['HTTP_HOST']?>">
   <h3>External Site</h3>
   <label for="wf_ld_url">Url</label>
@@ -7,7 +11,13 @@
     <option value="">Same window</option>
     <option value="_blank">new window</option>
   </select>
-  <h3>Files</h3>
+  <label for="wf_ld_class">Class</label>
+  <select name="cl_list" id="wf_ld_class">
+    <?foreach($link_classes as $class=>$text):?>
+    <option value="<?=$class?>"><?=$text?></option>
+    <?endforeach?>
+  </select>
+  <label for="wf_ld_internal">Files</label>
   <?
   $file = new $file_system_model("files");
   ?>

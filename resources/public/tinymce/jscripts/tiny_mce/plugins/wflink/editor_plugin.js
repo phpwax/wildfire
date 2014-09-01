@@ -31,7 +31,8 @@
                   linkd=jQuery('#wildfire-link-dialog'),
                   siteaddress = linkd.attr("data-server");
                   href=(jQuery('#wf_ld_internal') && jQuery('#wf_ld_internal').val())?jQuery('#wf_ld_internal').val(): jQuery('#wf_ld_url').val(),
-                  href_target=(jQuery('#wf_ld_tar').val())
+                  href_target=(jQuery('#wf_ld_tar').val()),
+                  href_class = jQuery('#wf_ld_class').val()
                   ;
               if(href.charAt(0) == "/") href = siteaddress+href;
               else if(href.substring(0,7) == "mailto:") href=href;
@@ -46,14 +47,16 @@
                                         
                     ed.dom.setAttribs(e, {
                      href : href,
-                     target : href_target
+                     target : href_target,
+                     class : href_class
                     });
           				}
           			});
           		} else {
           			ed.dom.setAttribs(e, {
           				href : href,
-          				target : href_target
+          				target : href_target,
+                  class : href_class
           			});
           		}
           		jQuery(this).dialog("close");
