@@ -44,8 +44,7 @@ class WildfireDiskFile{
     if(!is_readable($apache_dir)) mkdir($apache_dir, 0777, true);
     if(!is_readable($apache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $apache_file, $width, $height);
     if(!is_readable($cache_file)) File::smart_resize_image(PUBLIC_DIR.$media_item->source, $cache_file, $width, $height);
-
-    File::display_image($cache_file);
+    if(!File::display_image($cache_file)) throw new WXRoutingException('File you are looking for is not generated', "File not found");
   }
   //generates the tag to be displayed - return generic icon if not an image
   public function render($media_item, $size, $title="preview", $class="", $height){
