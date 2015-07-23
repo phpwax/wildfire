@@ -50,7 +50,7 @@
       <?endif?>
       <?if($permissions['edit']):?><a href="/<?=trim($controller,"/")?>/edit/<?=$node->primval?>/<?=(($cachelink)?"?rl=".rand():"")?>" class='<?=$col_name?>_link'><?endif?>
       <span class="ui-icon ui-icon-document"></span>
-      <?=truncate(ucwords(strtolower($node->{$node->identifier})),50)?>
+      <?=truncate(ucwords(strtolower(strip_tags($node->{$node->identifier}))),50)?>
       <?if($permissions['edit']):?></a><?endif?>
     </li>
   <?endforeach?>
