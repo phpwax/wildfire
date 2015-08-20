@@ -33,7 +33,7 @@ class CMSApplicationController extends WaxController{
 	 */
 	protected function cms(){
 		//check if this is paginated
-		if($page = Request::get('page')) $this->this_page = $page;
+		if($page = Request::get('page')) $this->this_page = (int)$page;
 		//add preview bar to output
 		if(Request::get("preview"))
 		  WaxTemplate::add_response_filter("layout", "cms-preview-bar", array("model"=>"CMSApplicationController","method"=>"add_preview_bar"));
