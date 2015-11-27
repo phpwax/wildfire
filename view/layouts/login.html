@@ -7,9 +7,21 @@
   </script>
   <?=partial("_cf")?>
   <link href='//fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-  <?=css_bundle("cms", array('media'=>'all'), "cms")?>
+  <?$mods = CMSApplication::get_modules();?>
+  <?foreach(Autoloader::$plugin_array as $plugin):?>
+    <?
+    $use = false;
+    foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
+    if($use && $use['assets_for_cms']){
+      echo css_bundle($plugin['name'], array('media'=>'all'), $plugin['name']);
+    }
+    ?>
+  <?endforeach?>
+  <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
   
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <meta name="robots" content="noindex" />
 
   <title>Wildfire Web Content Manager Login</title>
 </head>
@@ -21,6 +33,15 @@
     <div id="footer"><a href="#wf_logo">Wildfire CMS MMXI</a>&nbsp;&nbsp;|&nbsp;&nbsp;</div>
   </div>
   
+  <?foreach(Autoloader::$plugin_array as $plugin):?>
+    <?
+    $use = false;
+    foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
+    if($use && $use['assets_for_cms']){
+      echo js_bundle($plugin['name'], array(), $plugin['name']);
+    }
+    ?>
+  <?endforeach?>
   <?=js_bundle("wildfire-overwrites", array())?>
 </body>
 </html>
