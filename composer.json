@@ -1,0 +1,29 @@
+{
+    "name": "phpwax/wildfire",
+    "description": "Wildfire CMS Framework",
+    "require": {
+        "php": ">=5.3"
+    },
+    "authors": [
+        {
+            "name": "Ross Riley",
+            "email": "riley.ross@gmail.com"
+        },
+        {
+            "name": "Charles Marshall",
+            "email": "charles@oneblackbear.com"
+        },
+        {
+            "name": "Sheldon Els",
+            "email": "sheldon@oneblackbear.com"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+      "classmap": [
+        "lib/", "resources/", "view/"
+      ],
+      "files": ["ini.php"]
+    }
+
+}
