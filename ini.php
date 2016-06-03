@@ -15,3 +15,5 @@ AutoLoader::register_assets("tinymce",__DIR__."/resources/public/tinymce/");
 AutoLoader::register_view_path("plugin", __DIR__."/view/");
 AutoLoader::register_controller_path("plugin", __DIR__."/lib/controller/");
 AutoLoader::register_controller_path("plugin", __DIR__."/resources/app/controller/");
+
+AutoLoader::add_plugin_setup_script(__DIR__."/setup.php");
