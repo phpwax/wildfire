@@ -226,7 +226,7 @@ class CmsFilesystem {
 				. '", "id": "'
 				. $files['id']
 				. '", "flags": "'
-				. $files['flags'] ? $files['flags'] : ''
+				. isset($files['flags']) ? $files['flags'] : ''
 					. '"');
 			}
 			$output .= $this->jsonReturn('getFolder');
