@@ -142,7 +142,6 @@ class CmsFilesystem {
   	$dateFormat = $this->dateFormat;
   	$defaultFileStore = $this->defaultFileStore;
   	$this->jsonStart();
-  	$terms = mysql_escape_string($terms);	
   	$query = "SELECT *,date_format(`date`,\"$dateFormat\") as `dateformatted` 
   	  FROM wildfire_file 
   	  WHERE  
@@ -226,7 +225,6 @@ class CmsFilesystem {
 
   function getFolderMeta($path){
     $this->jsonStart();
-    $path = mysql_escape_string($path);
     $fullpath = $this->defaultFileStore.$path;
     $size = $this->filesize_format($this->get_size($fullpath));
     $name = basename($fullpath);
@@ -253,9 +251,6 @@ class CmsFilesystem {
   }
 
   function setMeta($fileid,$filename,$description){
-    $fileid = mysql_escape_string($fileid);
-    $filename = mysql_escape_string($filename);
-    $description = mysql_escape_string($description);
     $fileinfo = $this->getFileInfo($fileid);
     if($filename != $fileinfo['filename']){
   	  $this->fileRename($fileid,$filename);
@@ -274,8 +269,6 @@ class CmsFilesystem {
     if($file->primval){
       $path = $file->path."/".$file->filename;
       if(!$this->is_link($path)){
-        $fileid = mysql_escape_string($fileid);
-        $filename = mysql_escape_string($filename);
         $filename = str_replace("\\","",$filename);
         $filename = str_replace("/","",$filename);
         $fileinfo = $this->getFileInfo($fileid);
@@ -298,7 +291,6 @@ class CmsFilesystem {
   }
   
   function fileDelete($fileid){
-    $fileid = mysql_escape_string($fileid);
 		$model = new WildfireFile($fileid);
 		$fileinfo = $this->getFileInfo($fileid);
 		if(!$this->is_link($fileinfo['path'].'/'.$fileinfo['filename'])){
@@ -315,10 +307,8 @@ class CmsFilesystem {
     if($file->primval()){
       $f_move_to_path = $this->defaultFileStore.$move_to_path;
       if(!$this->is_link($move_to_path)){  
-  	    $fileid = mysql_escape_string($fileid);	
   	    $f_move_to_path = str_replace("//","/",$f_move_to_path);
       	$f_move_to_path = str_replace("..","",$f_move_to_path);
-      	$f_move_to_path = mysql_escape_string($f_move_to_path);
         $fileinfo = $this->getFileInfo($fileid);
       	if(is_dir($f_move_to_path)){
       	  if(!self::$copy_on_move) {
@@ -339,9 +329,7 @@ class CmsFilesystem {
 
   function folderRename($path,$name,$newname){
 
-    $newname = mysql_escape_string(str_replace(" ", '-',$newname));
-    $name = mysql_escape_string($name);
-    $path = mysql_escape_string($path);
+    $newname = str_replace(" ", '-',$newname);
 
     $currentPath = $this->defaultFileStore.$path.'/'.$name;
     $newPath = $this->defaultFileStore.$path.'/'.$newname;
@@ -361,13 +349,9 @@ class CmsFilesystem {
 
   function folderMove($name,$path,$newpath){
   	$defaultFileStore = $this->defaultFileStore;
-      
-  	$name = mysql_escape_string($name);
-  	$path = mysql_escape_string($path);
 
   	$newpath = str_replace("..","",$newpath);
-   	$newpath = mysql_escape_string($newpath);     
-      
+
     $userPath = $this->defaultFileStore.$path.'/'.$name;
   	$userNewPath = $this->defaultFileStore.$newpath.'/'.$name;
       
@@ -385,8 +369,7 @@ class CmsFilesystem {
 
 
   function folderDelete($folder){
-    $folder = mysql_escape_string($folder);
-    $deleteDir = $this->defaultFileStore.$folder;	
+    $deleteDir = $this->defaultFileStore.$folder;
     if(!$this->is_link($deleteDir)){  	  
   		if($this->deleteDir($deleteDir)){
   			$query = "DELETE from wildfire_file where path like \"$deleteDir\%\"";
@@ -398,8 +381,7 @@ class CmsFilesystem {
 
   function newFolder($name,$path){
   	$defaultFileStore = $this->defaultFileStore;
-  	$name = mysql_escape_string(str_replace(" ", "-", $name));
-  	$path = mysql_escape_string($path);
+  	$name = (str_replace(" ", "-", $name));
   	$fullpath = $this->defaultFileStore.$path.'/'.$name;
   	$i = 1;
   	$append = "";
@@ -419,7 +401,6 @@ class CmsFilesystem {
 
   function getFileInfo($fileid){
 	
-  	$fileid=mysql_escape_string($fileid);
   	$query = "SELECT * from wildfire_file where id=$fileid";
   	$result = $this->find($query);
   	if(count($result) == 0){
@@ -444,7 +425,7 @@ class CmsFilesystem {
   }
 
   function getUserPath($folderPath){
-  	return mysql_escape_string($this->defaultFileStore.$folderPath);	
+  	return ($this->defaultFileStore.$folderPath);
   }
 
 
@@ -465,7 +446,7 @@ class CmsFilesystem {
     }
     
     // get files from database
-    $query = "SELECT * from wildfire_file where path=\"".mysql_escape_string($folderpath)."\" and status=\"found\"";
+    $query = "SELECT * from wildfire_file where path=\"".$folderpath."\" and status=\"found\"";
     $result = $this->find($query);
     foreach($result as $dirinfo) {
       $filename = $dirinfo['filename'];
@@ -550,7 +531,7 @@ class CmsFilesystem {
   	while(!$this->checkId($fileid, $realitivePath, $filename)){
   		$fileid++;
   	}
-  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".mysql_escape_string($filename)."','$folderpath','$realitivePath','$type','$size','found')";
+  	$query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'".($filename)."','$folderpath','$realitivePath','$type','$size','found')";
     WaxLog::log("info", "[DB] ".$query);
     try {
       $res = $this->query($query);
@@ -597,7 +578,7 @@ class CmsFilesystem {
 
   function checkThumb($fileid){
     return false;
-  	$query = "SELECT id from wildfire_file where id=\"".mysql_escape_string($fileid)."\" and thumb !=''";
+  	$query = "SELECT id from wildfire_file where id=\"".($fileid)."\" and thumb !=''";
   	$result = $this->find($query);
   	if(count($result) == 0)
   		return false;
@@ -607,7 +588,6 @@ class CmsFilesystem {
 
   function thumbnail($fileid){
   	$thumbsize = 192;
-  	$fileid=mysql_escape_string($fileid);
   	$fileinfo = $this->getFileInfo($fileid);
   	if(preg_match("$this->imageTypes",$fileinfo['type']) ){
     		$deletefile = '';
@@ -681,7 +661,6 @@ class CmsFilesystem {
 
   function uploadAuth($path){
     $uploadDir = $this->uploadDir;
-  	$path = mysql_escape_string($path);
   	$this->jsonStart();
   	$userpath = $this->defaultFileStore.$path;
   	if(is_dir($userpath)){
