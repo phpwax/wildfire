@@ -180,50 +180,64 @@ class CmsFilesystem {
   }
 
 
+	function getFolder($path)
+	{
+		$output = '';
+		$this->jsonStart();
+		$path = urldecode($path);
+		if ($path == '' || $path == '/') {
+			$this->jsonAdd("\"displayname\":\"$defaultDisplay\",\"scheme\":\"Filestore\",\"type\": \"directory\", \"name\": \"{$this->defaultDisplay}\", \"path\": \"{$this->relativepath}\",\"virtual\":\"true\"");
+			$output .= $this->jsonReturn('getFolder');
+		} else {
+			$fullpath = $this->defaultFileStore . $path;
 
-  function getFolder($path){
-  	$output = '';
-  	$this->jsonStart();
-  	$path = urldecode($path);
-    if($path == '' || $path == '/'){
-  		$this->jsonAdd("\"displayname\":\"$defaultDisplay\",\"scheme\":\"Filestore\",\"type\": \"directory\", \"name\": \"{$this->defaultDisplay}\", \"path\": \"{$this->relativepath}\",\"virtual\":\"true\"");
-  		$output .= $this->jsonReturn('getFolder');
-  	} else {
-    	$fullpath = $this->defaultFileStore.$path;
-	    
-    	$this->databaseSync($fullpath,$path);
-    	if (is_dir($fullpath)) {
-    	  if ($dh = opendir($fullpath)) {
+			$this->databaseSync($fullpath, $path);
+			if (is_dir($fullpath)) {
+				if ($dh = opendir($fullpath)) {
 					$files = array();
-    		  while (($file = readdir($dh)) !== false) $files[]  = $file;
-					if(count($files)) natcasesort($files);
-					
-					foreach($files as $file){
-            $typ = filetype($fullpath . '/' . $file);
-    			  if($file != '.' && $file != '..' &&  ($typ == 'dir' || $typ == "link")){    			    
-    			    $this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
-    				}
-    			}
-    		  closedir($dh);
-  		  }
-    	} else $this->error("directory doesnt exist $fullpath");
-      
-    	$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by LOWER(`filename`) ASC";
-    	WaxLog::log("info", "[DB] ".$query);
-    	$result = $this->find($query);
+					while (($file = readdir($dh)) !== false) {
+						$files[] = $file;
+					}
+					if (count($files)) {
+						natcasesort($files);
+					}
+
+					foreach ($files as $file) {
+						$typ = filetype($fullpath . '/' . $file);
+						if ($file != '.' && $file != '..' && ($typ == 'dir' || $typ == "link")) {
+							$this->jsonAdd("\"type\": \"directory\", \"name\": \"$file\", \"path\": \"$path/$file\"");
+						}
+					}
+					closedir($dh);
+				}
+			} else {
+				$this->error("directory doesnt exist $fullpath");
+			}
+
+			$query = "SELECT *,date_format(`date`,\"{$this->dateFormat}\") as `dateformatted` from wildfire_file where path=\"$fullpath\" and status=\"found\" order by LOWER(`filename`) ASC";
+			WaxLog::log("info", "[DB] " . $query);
+			$result = $this->find($query);
 			$dbfiles = array();
-      foreach($result as $files){
-        $this->jsonAdd("\"type\": \"file\", \"name\": \"$files[filename]\",\"date\":\"$files[dateformatted]\", \"id\": \"$files[id]\",\"flags\": \"$files[flags]\"");
-      }
-    	$output .= $this->jsonReturn('getFolder');
-  	
-    }
-    echo $output;
-    exit;
-  }
+			foreach ($result as $files) {
+				$this->jsonAdd('"type": "file", "name": "'
+				. $files['filename']
+				. '", "date": "'
+				. $files['dateformatted']
+				. '", "id": "'
+				. $files['id']
+				. '", "flags": "'
+				. $files[flags] ? $files[flags] : ''
+					. '"');
+			}
+			$output .= $this->jsonReturn('getFolder');
+
+		}
+		echo $output;
+		exit;
+	}
 
 
-  function getFolderMeta($path){
+	function getFolderMeta($path){
     $this->jsonStart();
     $fullpath = $this->defaultFileStore.$path;
     $size = $this->filesize_format($this->get_size($fullpath));
