@@ -589,7 +589,6 @@ class CmsFilesystem
 
     function databaseAdd($folderpath, $filename, $realitivePath)
     {
-        $folderpath = realpath($folderpath);
         if (function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
             $type = finfo_file($finfo, "$folderpath/$filename");
