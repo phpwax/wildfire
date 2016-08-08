@@ -613,7 +613,7 @@ class CmsFilesystem
         while (!$this->checkId($fileid, $realitivePath, $filename)) {
             $fileid++;
         }
-        $query = "INSERT INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'" . ($filename) . "','$folderpath','$realitivePath','$type','$size','found')";
+        $query = "REPLACE INTO wildfire_file (id,filename,path,rpath,type,size,status) VALUES ($fileid,'" . ($filename) . "','$folderpath','$realitivePath','$type','$size','found')";
         WaxLog::log("info", "[DB] " . $query);
         try {
             $res = $this->query($query);
