@@ -179,20 +179,31 @@ class CMSAdminFileController extends AdminComponent {
 	public function file_options(){
 		$this->browse_images(true);
 	}
-	
-	public function browse_images($all = false) {
-	  $this->use_layout = false;
-	  $model = new WildfireFile("available");
-	  $model->order("filename");
-		
-		if($mime_type = Request::param('mime_type')) $model->filter("type", "%$mime_type%", "LIKE");
-		if($filter = Request::param('filter')) $model->filter('(id LIKE ? OR filename LIKE ? OR description LIKE ?)', array("%".$filter."%","%".$filter."%","%".$filter."%"));
-    if($folder = Request::param('filterfolder')) $model->filter("rpath", "$folder%", "LIKE");
-    elseif(!$all) if(!$filter || (!$folder && !$filter) || (!$filter && !$mime_type)) $model->filter("rpath", "files");
-  	$this->all_images = $model->all();
+
+	public function browse_images($all = false)
+	{
+		$this->use_layout = false;
+		$model = new WildfireFile("available");
+		$model->order("filename");
+
+		if ($mime_type = Request::param('mime_type')) {
+			$model->filter("type", "%$mime_type%", "LIKE");
+		}
+		if ($filter = Request::param('filter')) {
+			$model->filter('(id LIKE ? OR filename LIKE ? OR description LIKE ?)',
+				array("%" . $filter . "%", "%" . $filter . "%", "%" . $filter . "%"));
+		}
+		if (($folder = Request::param('filterfolder')) && $folder !== 'files') {
+			$model->filter("rpath", "$folder%", "LIKE");
+		} elseif (!$all) {
+			if (!$filter || (!$folder && !$filter) || (!$filter && !$mime_type)) {
+				$model->filter("rpath", "files");
+			}
+		}
+		$this->all_images = $model->all();
 	}
-	
-  public function preview() {
+
+	public function preview() {
     $this->image = new $this->model_class(url('id'));
   }
   
