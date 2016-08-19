@@ -276,8 +276,8 @@ class CMSAdminContentController extends AdminComponent {
 	    $content->update_attributes(post("cms_content"));
 	    echo date("H:i:s");
 	  }
-	  exit;
-	}	
+	  $this->response->execute();
+	}
 	
 	public function status(){
 		if($id = Request::get('id')){
