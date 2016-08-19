@@ -276,6 +276,8 @@ class CMSAdminContentController extends AdminComponent {
 	    $content->update_attributes(post("cms_content"));
 	    echo date("H:i:s");
 	  }
+	  $this->use_layout = false;
+		$this->use_view = false;
 	  $this->response->execute();
 	}
 	
