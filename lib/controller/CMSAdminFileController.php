@@ -70,12 +70,14 @@ class CMSAdminFileController extends AdminComponent {
 	/** AJAX IMAGE EDITING **/
 	public function rotate(){
 		$this->use_layout=false;
-		if(Request::get('id') && Request::get('angle')){
+		if($id = Request::get('id') && Request::get('angle')){
 			$this->model = new WildfireFile(Request::get('id'));
 			$location = PUBLIC_DIR. $this->model->url();
 			File::rotate_image($location, $location, Request::get('angle') );	
 			$this->clear_image_cache($id);
-		}else exit;
+		}else {
+			$this->response->execute();
+		}
 	}
 	/** AJAX IMAGE EDITING **/	
 	public function crop(){
@@ -87,7 +89,9 @@ class CMSAdminFileController extends AdminComponent {
 				File::crop_image($location, $location, $data['x1'], $data['y1'], $data['w'], $data['h']);
 				$this->clear_image_cache($id);
 			}
-		}else exit;
+		}else {
+			$this->response->execute();
+		}
 	}
 	
 	public function clear_image_cache($id) {
@@ -106,7 +110,9 @@ class CMSAdminFileController extends AdminComponent {
 				File::resize_image_extra($location, $location, $data);
 				$this->clear_image_cache($id);				
 			}
-		}else exit;
+		}else {
+			$this->response->execute();
+		}
 	}
 	
 
@@ -147,7 +153,9 @@ class CMSAdminFileController extends AdminComponent {
   	  $this->sub_links = array("copy"=>"Work on a copy");
 			$this->model = new $this->model_class($id);
 			
-		}else exit;
+		}else {
+			$this->response->execute();
+		}
 	}
 	
 	public function copy() {

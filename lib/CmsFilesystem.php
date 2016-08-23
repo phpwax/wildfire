@@ -197,7 +197,6 @@ class CmsFilesystem
         header("Content-length: " . filesize($filepath));
         header("Content-disposition: attachment; filename=\"" . basename($filepath) . "\"");
         readfile("$filepath");
-        exit;
     }
 
 
@@ -254,7 +253,6 @@ class CmsFilesystem
 
         }
         echo $output;
-        exit;
     }
 
 
@@ -268,7 +266,6 @@ class CmsFilesystem
         $created = '';
         $this->jsonAdd("\"name\": \"$name\", \"size\": \"$size\"");
         echo $this->jsonReturn('getFolderMeta');
-        exit;
     }
 
     function getMeta($fileid)
@@ -287,7 +284,6 @@ class CmsFilesystem
         }
         $this->jsonAdd($meta);
         echo $this->jsonReturn('getMeta');
-        exit;
     }
 
     function setMeta($fileid, $filename, $description)
@@ -301,7 +297,6 @@ class CmsFilesystem
         $query = "UPDATE wildfire_file set description=\"$description\" where id=$fileid";
         $result = $this->query($query);
         echo "done";
-        exit;
     }
 
     function fileRename($fileid, $filename)
@@ -348,7 +343,6 @@ class CmsFilesystem
             }
         }
         echo "File successfully deleted";
-        exit;
     }
 
     function fileMove($fileid, $move_to_path)
@@ -653,7 +647,6 @@ class CmsFilesystem
     function error($message)
     {
         echo "{\"bindings\": [ {'error': \"$message\"} ]}";
-        exit;
     }
 
     /*
@@ -707,7 +700,6 @@ class CmsFilesystem
             if ($deletefile > '') {
                 unlink($deletefile);
             }
-            exit;
         }
     }
 
@@ -790,7 +782,7 @@ class CmsFilesystem
             $this->jsonStart();
             $this->jsonAdd("\"percent\": 0, \"percentSec\": 0, \"speed\": \"0\", \"secondsLeft\": \"0\", \"done\": \"false\"");
             echo $this->jsonReturn("bindings");
-            exit();
+            return;
         }
 
 
