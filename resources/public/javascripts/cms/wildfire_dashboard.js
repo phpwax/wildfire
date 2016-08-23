@@ -1,6 +1,5 @@
 jQuery(document).ready(function() {
   jQuery("#dashboard #sub-navigation-container #quick_search").remove();
-  jQuery("#quick_search form input, #quick_create form input, #filter_form #filter_field").hint();
   jQuery("#live_search_field").keyup(function() {
     if(typeof(t) != "undefined" ) clearTimeout(t);
     t = setTimeout(function(){live_search(jQuery("#live_search_field").val());}, 400);
