@@ -23,10 +23,10 @@ var content_permalink="<?=$model->permalink?>";
   <div id="content_window" class="clearfix">
     <div id="content_editor" class="clearfix">
       <div id="section-1" class="tabs-container">
-        <div id="quicksave">
+        <div id="quicksaver">
           <!-- <a href="#" id="autosave_disable"><img src="/images/cms/autosave_disable.gif" title="Disable AutoSave" /></a>
                     <a href="#" id="autosave"><img src="/images/cms/cms_quick_save.gif" title="Quick Save" /></a> -->
-          <span id="autosave_status">Autosave Running</span>
+          <span id="autosave_status" style="display:none">Autosave Running</span>
         </div>
         <fieldset class="main_options">
           <div class="medium"><?=text_field($model, "title", array())?></div>
