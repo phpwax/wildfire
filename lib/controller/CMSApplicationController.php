@@ -602,7 +602,7 @@ class CMSApplicationController extends WaxController
         }
         $this->use_view = "cms_" . $type;
         //if languages exist check for generics with language attached
-        if ($has_language = (count($this->langauges > 1)) && ($lang_id = Session::get("wildfire_language_id")) && $this->languages[$lang_id]) {
+        if ($has_language = (count($this->langauges) > 1) && ($lang_id = Session::get("wildfire_language_id")) && isset($this->languages[$lang_id])) {
             $language_suffix = "_" . $this->languages[$lang_id];
             if (!$this->use_format && $this->is_viewable($this->use_view . $language_suffix)) {
                 $this->use_view .= $language_suffix;
