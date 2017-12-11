@@ -186,9 +186,11 @@ class CmsTextFilter  {
     </object>';
     $source = preg_match("/<a class=\"wildfire_flash\" href=\"(.*?)\">.*?<\/a>/", $text, $matches);
     $text = preg_replace("/<a class=\"wildfire_flash\" href=\"(.*?)\">(.*?)<\/a>/", $replace, $text);
-    $url = $matches[1];
-    if(strpos($url,"http://")===false) $url = PUBLIC_DIR.$url;
-    $info = getimagesize($url);
+    $url = isset($matches[1]) ? $matches[1] : '';
+      if (strpos($url, "http://") === false) {
+          $url = PUBLIC_DIR . $url;
+      }
+      $info = @getimagesize($url);
     return str_replace("{dimensions}",$info[3], $text);    
   }
 
