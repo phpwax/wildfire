@@ -405,14 +405,15 @@ function reload_images(){
       initialise_images(); 
     }
   );
-	jQuery.get("../../attached_images/"+content_page_id,
-    function(response) { 
-      jQuery("#drop_zones").html(response); 
-      initialise_images(); 
-    }
-  );
-	
-
+  // dont do this if there is no page ie we are on /admin/files
+  if(typeof content_page_id !== 'undefined'){
+      jQuery.get("../../attached_images/"+content_page_id,
+        function(response) { 
+          jQuery("#drop_zones").html(response); 
+          initialise_images(); 
+        }
+      );
+  }
 }
 
 /***********  Content editor helpers to add functionality ***************/
