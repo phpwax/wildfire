@@ -252,56 +252,58 @@ jQuery(document).ready(function(event) {
     jQuery("#image_list").html(response);
     initialise_images();
   });
-  jQuery('.jqwysi').wymeditor({
-    skinPath: "/stylesheets/wymeditor/wildfire/",
-    skin: 'wildfire',
-    containersItems: wildfire_containersItems,
-    stylesheet: '/stylesheets/wymeditor/wysiwyg_styles.css',
-    
-    toolsHtml: "<ul class='wym_tools wym_section'>" + WYMeditor.TOOLS_ITEMS + WYMeditor.CLASSES + "</ul>",
-    toolsItemHtml:
-      "<li class='" + WYMeditor.TOOL_CLASS + "'>"
-      + "<a href='#' name='" + WYMeditor.TOOL_NAME + "' title='" + WYMeditor.TOOL_TITLE + "'>"  + WYMeditor.TOOL_TITLE  + "</a>"
-      + "</li>", 
+  if(jQuery('.jqwysi').length){
+    jQuery('.jqwysi').wymeditor({
+      skinPath: "/stylesheets/wymeditor/wildfire/",
+      skin: 'wildfire',
+      containersItems: wildfire_containersItems,
+      stylesheet: '/stylesheets/wymeditor/wysiwyg_styles.css',
       
-  
-    classesHtml: "<li class='wym_tools_class subnav'><a href='#' name='css' title='css' class='dd'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
-    classesItemHtml: "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "' class='issub'>"+ WYMeditor.CLASS_TITLE+ "</a></li>", 
-    classesItemHtmlMultiple: "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>", 
-    containersHtml: "<ul class='wym_containers wym_section'>" + WYMeditor.CONTAINERS_ITEMS + "</ul>", 
-    containersItemHtml:
-      "<li class='" + WYMeditor.CONTAINER_CLASS + "'>"
-        + "<a href='#' name='" + WYMeditor.CONTAINER_NAME + "' title='" + WYMeditor.CONTAINER_TITLE + "'></a>"
-      + "</li>", 
-    boxHtml:
-      "<div class='wym_box'>"
-      + "<div class='wym_area_top'>"
-			+ WYMeditor.CONTAINERS
-      + WYMeditor.TOOLS
-      + "</div>"
-      + "<div class='wym_area_main'>"
-      + WYMeditor.HTML
-      + WYMeditor.IFRAME
-      + WYMeditor.STATUS
-      + "</div>"
-      + "</div>",
-   
+      toolsHtml: "<ul class='wym_tools wym_section'>" + WYMeditor.TOOLS_ITEMS + WYMeditor.CLASSES + "</ul>",
+      toolsItemHtml:
+        "<li class='" + WYMeditor.TOOL_CLASS + "'>"
+        + "<a href='#' name='" + WYMeditor.TOOL_NAME + "' title='" + WYMeditor.TOOL_TITLE + "'>"  + WYMeditor.TOOL_TITLE  + "</a>"
+        + "</li>", 
+        
     
-    postInit: function(wym) {
-      wym.wildfire(wym);
-      wym_editors.push(wym);
-      jQuery(".wym_containers").removeClass("wym_dropdown");
-      jQuery(".wym_iframe, iframe").css("height","100%");
-      jQuery(window).resize(calc_wym_height);
-      calc_wym_height();
+      classesHtml: "<li class='wym_tools_class subnav'><a href='#' name='css' title='css' class='dd'></a><ul class='wym_classes wym_classes_hidden'>" + WYMeditor.CLASSES_ITEMS + "</ul></li>", 
+      classesItemHtml: "<li><a href='#' name='"+ WYMeditor.CLASS_NAME + "' class='issub'>"+ WYMeditor.CLASS_TITLE+ "</a></li>", 
+      classesItemHtmlMultiple: "<li class='wym_tools_class_multiple_rules'><span>" + WYMeditor.CLASS_TITLE + "</span><ul>{classesItemHtml}</ul></li>", 
+      containersHtml: "<ul class='wym_containers wym_section'>" + WYMeditor.CONTAINERS_ITEMS + "</ul>", 
+      containersItemHtml:
+        "<li class='" + WYMeditor.CONTAINER_CLASS + "'>"
+          + "<a href='#' name='" + WYMeditor.CONTAINER_NAME + "' title='" + WYMeditor.CONTAINER_TITLE + "'></a>"
+        + "</li>", 
+      boxHtml:
+        "<div class='wym_box'>"
+        + "<div class='wym_area_top'>"
+        + WYMeditor.CONTAINERS
+        + WYMeditor.TOOLS
+        + "</div>"
+        + "<div class='wym_area_main'>"
+        + WYMeditor.HTML
+        + WYMeditor.IFRAME
+        + WYMeditor.STATUS
+        + "</div>"
+        + "</div>",
+     
+      
+      postInit: function(wym) {
+        wym.wildfire(wym);
+        wym_editors.push(wym);
+        jQuery(".wym_containers").removeClass("wym_dropdown");
+        jQuery(".wym_iframe, iframe").css("height","100%");
+        jQuery(window).resize(calc_wym_height);
+        calc_wym_height();
+      }
+    });              
+    
+    if(jQuery('#quicksave').length){
+      autosaver = setInterval(function(){autosave_content(wym_editors);},40000);
+      jQuery("#autosave").click(function(){autosave_content(wym_editors);});
     }
-  });              
-  
-  if(jQuery('#quicksave').length){
-		autosaver = setInterval(function(){autosave_content(wym_editors);},40000);
-  	jQuery("#autosave").click(function(){autosave_content(wym_editors);});
-	}
-	$("#show_advanced").click(function(){$("#advanced_options").slideToggle(100);});
+    $("#show_advanced").click(function(){$("#advanced_options").slideToggle(100);});
+  }
 });
 
 function calc_wym_height(){
