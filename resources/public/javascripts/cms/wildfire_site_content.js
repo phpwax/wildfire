@@ -574,7 +574,7 @@ jQuery(document).ready(function() {
 	// Ajax activity indicator bound 
 	// to ajax start/stop document events
 	jQuery(document).ajaxStart(function(ajaxevent){ 
-	  if(jQuery('#ajaxBusy') && jQuery('#ajaxBusy').length)	jQuery('#ajaxBusy').show().centerScreen(); 
+	  if(jQuery('#ajaxBusy') && jQuery('#ajaxBusy').length)	jQuery('#ajaxBusy').show(); //.centerScreen(); this doesnt work on /admin/files
 	});
 	jQuery(document).ajaxStop(function(){
 		if(jQuery('#ajaxBusy') && jQuery('#ajaxBusy').length) jQuery('#ajaxBusy').hide();
