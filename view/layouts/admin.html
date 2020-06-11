@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" id="cms-<?=Inflections::underscore($display_name)?>" class="clearfix <?if(Request::param('print')):?>print-view-of-page<?endif?>">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<?=partial("_cf")?>
-  <?$mods = CMSApplication::get_modules();?>
-  <?foreach(Autoloader::$plugin_array as $plugin):?>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <?=partial("_cf")?>
+    <?$mods = CMSApplication::get_modules();?>
+    <?foreach(Autoloader::$plugin_array as $plugin):?>
     <?
     $use = false;
     foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
@@ -12,83 +12,79 @@
       echo css_bundle($plugin['name'], array('media'=>'all'), $plugin['name']);
     }
     ?>
-  <?endforeach?>
-  <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
+    <?endforeach?>
+    <?=css_bundle("wildfire-overwrites", array('media'=>'all'))?>
 
-	<title>Content Management System</title>
+    <title>Content Management System</title>
 </head>
 
 <body id="v2-cms" class='wildfire'>
-	<div id="header">
-    <div class="brand" id="logo"><img src="/images/wildfire/logos/v2_small.png" alt="wildfire"></div>
-    <div class='clearfix full buttons_and_search'>
-    <?WaxEvent::run("cms.layout.sublinks", $this);?>
-    <?=partial("_buttons_and_search", array('current_user'=>$current_user, 'quick_links'=>$this->quick_links))?>
+    <div id="header">
+        <div class="brand" id="logo"><img src="/images/wildfire/logos/v2_small.png" alt="wildfire"></div>
+        <div class='clearfix full buttons_and_search'>
+            <?WaxEvent::run("cms.layout.sublinks", $this);?>
+            <?=partial("_buttons_and_search", array('current_user'=>$current_user, 'quick_links'=>$this->quick_links))?>
+        </div>
     </div>
-  </div>
-  <div id="page_content" class='clearfix'>
+    <div id="page_content" class='clearfix'>
 
-    <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
-      <?
-        //support for session-based messages to pass along between redirects
-        foreach($session->get("user_errors") as $error) $messages[] = array("message"=>$error, "class"=>"error");
-        $session->unset_var("user_errors");
-        foreach($session->get("user_messages") as $message) $messages[] = $message;
-        $session->unset_var("user_messages");
-        foreach($session->get("messages") as $message) $messages[] = $message;
-        $session->unset_var("messages");
-      ?>
-      <ul class="messages">
-        <?foreach($messages as $message):?>
-          <?if(is_array($message)){
-            $class = $message['class'];
-            $message = $message['message'];
-          }else $class = false?>
-          <li class="clearfix <?=$class?>"><a class="close_button" href="#"></a><span class="icon"></span><span class="message"><?=$message?></span></li>
+        <div class='clearfix full content <?=Inflections::underscore($display_name)?>_content <?=Inflections::underscore($display_name)?>_<?=Inflections::underscore($action)?>' id="content">
+            <?
+            //support for session-based messages to pass along between redirects
+            foreach($session->get("user_errors") as $error) $messages[] = array("message"=>$error, "class"=>"error");
+            $session->unset_var("user_errors");
+            foreach($session->get("user_messages") as $message) $messages[] = $message;
+            $session->unset_var("user_messages");
+            foreach($session->get("messages") as $message) $messages[] = $message;
+            $session->unset_var("messages");
+            ?>
+            <ul class="messages">
+                <?foreach($messages as $message):?>
+                <?if(is_array($message)){
+                $class = $message['class'];
+                $message = $message['message'];
+              }else $class = false?>
+                <li class="clearfix <?=$class?>"><a class="close_button" href="#"></a><span class="icon"></span><span class="message"><?=$message?></span></li>
+                <?endforeach?>
+            </ul>
+            <?=$content_for_layout?>
+        </div>
+    </div>
+    <?$cachelink = Config::get('cacheissue')?>
+    <ul id="primary_navigation">
+        <?foreach($allowed_modules as $i=>$info):?>
+        <?if($info['hidden'] != true):?>
+        <li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
+        <?foreach((array)$info['subs'] as $name=>$sublink):?><li class='top subtop'><a href="<?=$sublink?>"><?=$name?></a></li><?endforeach?>
+        <?if($info['split']):?>
+        <li class='group_split'>&nbsp;</li>
+        <?endif?>
+        <?endif?>
         <?endforeach?>
-      </ul>
-      <?=$content_for_layout?>
-    </div>
-  </div>
-  <?$cachelink = Config::get('cacheissue')?>
-  <ul id="primary_navigation">
-    <?foreach($allowed_modules as $i=>$info):?>
-      <?if($info['hidden'] != true):?>
-      	<li class='top <?=$i?>'><a href="<?=$info['link']?><?=(($cachelink)?"?rand=".rand():"")?>" class='<?=$i?>-link <?if($i == $module_name):?> active<?endif?>'><?=$info['display_name']?></a></li>
-      	<?foreach((array)$info['subs'] as $name=>$sublink):?><li class='top subtop'><a href="<?=$sublink?>"><?=$name?></a></li><?endforeach?>
-      	<?if($info['split']):?>
-      	<li class='group_split'>&nbsp;</li>
-      	<?endif?>
-      <?endif?>
+        <li class='logout clearfix top'>
+            <a href="/admin/logout/"><span>Logout <small>(of <?=$current_user->username?>)</small></span></a>
+        </li>
+    </ul>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"></script>
+
+    <!-- EDITOR -->
+    <script src="/tinymce/jscripts/tiny_mce/jquery.tinymce.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- CMS -->
+
+    <?foreach(Autoloader::$plugin_array as $plugin):?>
+    <?
+          $use = false;
+          foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
+          if($use && $use['assets_for_cms']){
+            echo js_bundle($plugin['name'], array(), $plugin['name']);
+          }
+          ?>
     <?endforeach?>
-    <li class='logout clearfix top'>
-      <a href="/admin/logout/"><span>Logout <small>(of <?=$current_user->username?>)</small></span></a>
-    </li>
-  </ul>
-
-
-<script src='//www.google.com/jsapi?'  type='text/javascript'></script>
-<script type='text/javascript'>
-  google.load('jquery', '1.5');
-  google.load('jqueryui', '1.8');
-  google.load("visualization", "1", {packages:["corechart"]});
-</script>
-
-<!-- EDITOR -->
-<script src="/tinymce/jscripts/tiny_mce/jquery.tinymce.js" type="text/javascript" charset="utf-8"></script>
-
-<!-- CMS -->
-
-<?foreach(Autoloader::$plugin_array as $plugin):?>
-  <?
-  $use = false;
-  foreach($mods as $mod) if($mod['plugin_name'] == $plugin['name']) $use = $mod;
-  if($use && $use['assets_for_cms']){
-    echo js_bundle($plugin['name'], array(), $plugin['name']);
-  }
-  ?>
-<?endforeach?>
-<?=js_bundle("wildfire-overwrites", array())?>
+    <?=js_bundle("wildfire-overwrites", array())?>
 
 </body>
 </html>
