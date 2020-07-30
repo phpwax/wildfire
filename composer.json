@@ -3,9 +3,9 @@
     "description": "Wildfire CMS Framework",
     "require": {
         "php": ">=5.3",
-        "phpwax/wildfire.content": "7.1.*",
-        "phpwax/wildfire.media":"7.1.*",
-        "phpwax/wildfire.cms_users": "7.1.*@dev"
+        "phpwax/wildfire.content": "^7.1",
+        "phpwax/wildfire.media":"^7.1",
+        "phpwax/wildfire.cms_users": "^7.1"
     },
     "authors": [
         {
