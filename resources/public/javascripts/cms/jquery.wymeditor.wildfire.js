@@ -72,7 +72,7 @@ WYMeditor.editor.prototype.wildfire = function() {
     "samp", "script", "select", "small", "span", "strong", "style",
     "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th",
     "thead", "title", "tr", "tt", "ul", "var", "extends"];
-  wym.parser._Listener.inline_tags = ["br", "hr", "img", "input", "embed", "param"];
+  wym.parser._Listener.inline_tags = ["br", "hr", "img", "input", "embed", "param", "iframe"];
 
   /*******************************************/
   
