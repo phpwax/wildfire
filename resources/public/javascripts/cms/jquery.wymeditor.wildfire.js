@@ -62,6 +62,17 @@ WYMeditor.editor.prototype.wildfire = function() {
     "name"
     ]
   };
+  wym.parser._Listener._tags.iframe = {
+    "attributes": [
+      "allowfullscreen",
+      "width",
+      "height",
+      "src",
+      "title",
+      "frameborder",
+      "allow"
+    ]
+  };
   wym.parser._Listener.block_tags = ["a", "abbr", "acronym", "address", "area", "b",
     "base", "bdo", "big", "blockquote", "body", "button",
     "caption", "cite", "code", "col", "colgroup", "dd", "del", "div",
