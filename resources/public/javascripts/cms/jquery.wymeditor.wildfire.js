@@ -62,7 +62,7 @@ WYMeditor.editor.prototype.wildfire = function() {
     "name"
     ]
   };
-  wym.parser._Listener._tags.iframe = {
+  wym.parser._Listener.validator._tags.iframe = {
     "attributes": [
       "allowfullscreen",
       "width",
